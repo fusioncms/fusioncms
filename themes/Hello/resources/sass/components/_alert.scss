@@ -1,0 +1,7 @@
+.alert {
+    @apply flex items-center bg-gray-900 text-white text-sm px-4 py-3 mb-6 rounded tracking-wider;
+
+    &--success {
+        @apply bg-green-600 text-green-100;
+    }
+}

@@ -1,0 +1,18 @@
+.header {
+    @apply .bg-white .px-6 .h-55px .flex .flex-row-reverse .items-center .justify-between .border-b .border-grey-light .flex-no-shrink .pin-t .fixed .z-10 .w-full;
+
+  &__account .dropdown__options {
+    margin-top: 0;
+  }
+}
+
+.page-title {
+    @apply .uppercase .font-semibold .text-sm .m-0 .p-0 .leading-tight;
+}
+
+.actions {
+    @apply .flex;
+
+    transform: scale(0.9);
+    transform-origin: right;
+}

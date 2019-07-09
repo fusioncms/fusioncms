@@ -1,0 +1,90 @@
+.sidebar {
+    @apply .hidden .fixed .bg-white .text-grey .h-full;
+
+    background-position: right -100px bottom -75px;
+    background-image: url('/img/logo-light.svg');
+    background-repeat: no-repeat;
+    background-size: 400px;
+
+    @screen lg {
+        @apply .flex .flex-col;
+    }
+
+    &--opened {
+        @screen lg {
+            @apply .w-250px;
+        }
+    }
+
+    &--closed {
+        @screen lg {
+            @apply .w-90px;
+        }
+    }
+
+    .router-link-active {
+        @apply .border-l-2 .border-primary .bg-grey-lightest;
+    }
+
+    &__logo {
+        @apply h-100px flex-no-shrink flex items-center justify-center uppercase;
+
+        &.router-link-active {
+            @apply bg-white border-none;
+        }
+
+        img {
+            @apply mr-3 h-10;
+        }
+
+        h1 {
+            @apply .leading-none .m-0 .p-0 .text-grey-darkest .text-2xl;
+        }
+    }
+
+    &__container {
+        @apply .flex .flex-col .flex-1;
+    }
+
+    &__nav {
+        @apply .flex .flex-col .overflow-y-auto .h-full;
+    }
+
+    &__menu {
+        @apply .list-reset;
+    }
+
+    &__menu-link {
+        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold;
+
+        &:hover {
+            @apply .bg-grey-lightest .text-grey-darkest .cursor-pointer;
+        }
+    }
+
+    &__menu-icon {
+        @apply .w-75px .py-4 .flex .items-center .justify-center .text-indigo-700;
+    }
+
+    &__menu-text {
+        @apply .flex .py-4 .items-center .text-sm .leading-none .tracking-wide .font-serif;
+    }
+
+    &__menu-toggle {
+        @apply .flex .items-center .px-4 .text-xs;
+    }
+
+    &__menu-link-children {
+        @apply .list-reset;
+
+        > li {
+            a {
+                padding-left: 75px;
+            }
+
+            .sidebar__menu-text {
+                @apply .text-xs;
+            }
+        }
+    }
+}

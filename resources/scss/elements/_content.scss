@@ -1,0 +1,31 @@
+h1, h2, h3, h4, h5, h6 {
+    @apply .mb-3 .text-black .font-bold .font-serif;
+
+    &:not(:first-child) {
+        @apply .mt-2;
+    }
+}
+
+p {
+    @apply .mb-6 .text-grey-darkest;
+
+    &:last-child {
+        @apply .mb-0;
+    }
+}
+
+a {
+    @apply .no-underline .text-secondary-dark;
+
+    &:hover {
+        @apply .text-secondary-darker;
+    }
+}
+
+hr {
+    @apply .border-b-2 .border-grey-light .border-dashed;
+}
+
+code {
+    @apply .bg-grey-lighter .text-sm .px-2 .py-1 .rounded;
+}

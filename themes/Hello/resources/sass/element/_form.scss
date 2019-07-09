@@ -1,0 +1,19 @@
+.form-number {
+    @apply flex flex-auto;
+
+    .button {
+        @apply text-xs outline-none;
+    }
+
+    > form > .decrease-button {
+        @apply rounded-r-none;
+    }
+
+    > form > .increase-button {
+        @apply rounded-l-none;
+    }
+
+    .form-input {
+        @apply rounded-none outline-none h-auto w-10 text-xs p-1 text-center;
+    }
+}

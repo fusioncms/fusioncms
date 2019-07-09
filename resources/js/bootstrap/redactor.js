@@ -1,0 +1,1 @@
+// require('../../vendor/redactor/redactor.js')

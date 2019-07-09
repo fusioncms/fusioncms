@@ -1,0 +1,269 @@
+<?php
+
+/*
+ * This file is part of the FusionCMS application.
+ *
+ * (c) efelle creative <appdev@efelle.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace App\Fieldtypes;
+
+// use Fusion\Modules\Fields\Models\Field;
+// use Fusion\Modules\Fields\Concerns\CastsAttributes;
+// use Fusion\Modules\Fields\Renderers\FieldtypeRenderer;
+
+abstract class Fieldtype
+{
+    // use CastsAttributes,
+    // FieldtypeRenderer;
+
+    /**
+     * @var array
+     */
+    public $exclude = [];
+
+    /**
+     * @var array
+     */
+    public $settings = [];
+
+    /**
+     * @var array
+     */
+    public $data = [];
+
+    /**
+     * How the fieldtype should be cast as a native type.
+     *
+     * @var string
+     */
+    public $cast = '';
+
+    /**
+     * @var array
+     */
+    public $rules = [];
+
+    /**
+     * @var array
+     */
+    public $messages = [];
+
+    /**
+     * @var mixed
+     */
+    protected $default = null;
+
+    /**
+     * @var bool
+     */
+    protected $eagerLoad = false;
+
+    /**
+     * @var Field
+     */
+    public $field;
+
+    /**
+     * Get the fieldtype name property.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the fieldtype handle based off the name property.
+     *
+     * @return string
+     */
+    public function getHandle()
+    {
+        return str_handle($this->getName());
+    }
+
+    /**
+     * Get the fieldtype description property.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the fieldtype field.
+     *
+     * @param  object  $field
+     * @return self
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    /**
+     * Get the fieldtype column property.
+     *
+     * @return string
+     */
+    public function getColumn($key = null)
+    {
+        if (is_null($key)) {
+            return $this->column;
+        }
+
+        return (isset($this->column[$key])) ? $this->column[$key] : null;
+    }
+
+    /**
+     * Get the fieldtype exclude property.
+     *
+     * @return string
+     */
+    public function getExclude()
+    {
+        return $this->exclude;
+    }
+
+    /**
+     * Get the fieldtype settings property.
+     *
+     * @return string
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
+     * Get either all or a specific value from the data property.
+     *
+     * @param  string|null  $handle
+     * @return mixed|null
+     */
+    public function getData($handle = null)
+    {
+        if (is_null($handle)) {
+            return $this->data;
+        }
+
+        if (isset($this->data[$handle])) {
+            return $this->data[$handle];
+        }
+
+        return null;
+    }
+
+    public function getDefault(Field $field)
+    {
+        return $this->default;
+    }
+
+    /**
+     * Determine if the fieldtype has any registered settings.
+     *
+     * @return bool
+     */
+    public function hasSettings()
+    {
+        return count($this->settings) > 0;
+    }
+
+    /**
+     * Set custom rules for form request validator.
+     *
+     * @param  mixed  $value
+     * @param  $field
+     * @return array
+     */
+    public function rules($value = null, $field = null)
+    {
+        if (is_null($field)) {
+            return [];
+        }
+
+        $validation = $field->validation;
+        $validation = validationRules($validation);
+        $validation = implode('|', $validation);
+
+        return [$field->handle => $validation];
+    }
+
+    /**
+     * Set custom attributes for validator errors.
+     *
+     * @param  mixed  $value
+     * @param  $field
+     *
+     * @return array
+     */
+    public function attributes($value = null, $field = null)
+    {
+        return [];
+    }
+
+    /**
+     * Perform an action before the given fieldtype has saved data.
+     *
+     * @param  mixed  $value
+     * @param  Field  $field
+     * @return mixed
+     */
+    public function onBeforeSave($value, Field $field)
+    {
+        return $value;
+    }
+
+    /**
+     * Perform an action after the given fieldtype has saved data.
+     *
+     * @param  mixed  $value
+     * @param  Field  $field
+     * @return mixed
+     */
+    public function onAfterSave($value, Field $field)
+    {
+        return $value;
+    }
+
+    /**
+     * Cast the variable to the appropriate data type.
+     *
+     * @param  mixed  $value
+     * @param  Field  $field
+     * @return mixed
+     */
+    public function cast($value, Field $field)
+    {
+        return $this->castAttribute($value, $field);
+    }
+
+    /**
+     * Get the type of cast for the fieldtype.
+     *
+     * @return string
+     */
+    public function getCast($field)
+    {
+        return $this->cast;
+    }
+
+    /**
+     * Returns if the fieldtype be eagerloaded.
+     *
+     * @return bool
+     */
+    public function shouldEagerLoad()
+    {
+        return $this->eagerLoad;
+    }
+}

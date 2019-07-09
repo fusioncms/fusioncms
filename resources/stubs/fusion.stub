@@ -1,0 +1,31 @@
+<?php
+
+return [
+
+	/*
+	|--------------------------------------------------------------------------
+	| FusionCMS Version
+	|--------------------------------------------------------------------------
+	|
+	| Defines the currently installed version of FusionCMS. This is used to
+	| determine when a new version is released, and if the Heartbeat module
+	| should handle any automatic updates.
+	|
+	*/
+
+	'version' => 'v5.0-RC.1',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Installation Status
+	|--------------------------------------------------------------------------
+	|
+	| Sets if FusionCMS has been installed or not. This is useful in cases
+	| where you need to verify that FusionCMS has been installed properly
+	| before running database transactions at boot up.
+	|
+	*/
+
+	'installed' => ##installed##,
+
+];

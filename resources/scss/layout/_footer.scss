@@ -1,0 +1,7 @@
+.page-footer {
+    @apply .p-6 .text-xs .text-grey-dark .border-t .border-grey-light .border-dashed .flex .flex-col  .items-center .justify-between .leading-loose .bg-white;
+
+    @screen md {
+        @apply .flex-row .leading-none;
+    }
+}

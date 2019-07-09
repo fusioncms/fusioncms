@@ -1,0 +1,17 @@
+{
+    "fixturesFolder": "tests/Cypress/fixtures",
+    "integrationFolder": "tests/Cypress/integration",
+    "pluginsFile": "tests/Cypress/plugins/index.js",
+    "screenshotsFolder": "tests/Cypress/screenshots",
+    "supportFile": "tests/Cypress/support/index.js",
+    "videosFolder": "tests/Cypress/videos",
+    "viewportWidth": 1920,
+    "viewportHeight": 1080,
+    
+    "baseUrl": "https://fusioncms.test",
+
+    "env": {
+        "email": "admin@example.com",
+        "password": "secret"
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "name": "fusioncms",
+    "private": true,
+    "scripts": {
+        "dev": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "test": "NODE_ENV=testing cypress open"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+        "@efelle/proton": "^1.0.0-beta.13",
+        "@fortawesome/fontawesome-free": "^5.9.0",
+        "@fortawesome/fontawesome-pro": "^5.9.0",
+        "@fortawesome/fontawesome-svg-core": "^1.2.0",
+        "@fortawesome/free-brands-svg-icons": "^5.9.0",
+        "@fortawesome/pro-regular-svg-icons": "^5.9.0",
+        "@fortawesome/pro-solid-svg-icons": "^5.9.0",
+        "@fortawesome/vue-fontawesome": "^0.1.0",
+        "axios": "^0.18.0",
+        "cypress": "^3.3.0",
+        "laravel-mix": "^4.0.14",
+        "lodash": "^4.17.11",
+        "moment": "^2.22.2",
+        "nprogress": "^0.2.0",
+        "portal-vue": "^1.5.1",
+        "sass": "^1.16.0",
+        "sass-loader": "7.*",
+        "tailwindcss": "^0.7.3",
+        "vue": "^2.5.22",
+        "vue-router": "^3.0.1",
+        "vue-template-compiler": "^2.5.22",
+        "vuex": "^3.0.1"
+    },
+    "dependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@fortawesome/pro-light-svg-icons": "^5.8.2",
+        "form-data": "^2.3.3",
+        "js-cookie": "^2.2.0",
+        "marked": "^0.6.1",
+        "moment-timezone": "^0.5.25",
+        "node-sass": "^4.11.0"
+    }
+}

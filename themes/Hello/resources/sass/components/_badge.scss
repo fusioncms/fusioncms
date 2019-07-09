@@ -1,0 +1,24 @@
+[data-badge]::after {
+    min-width: 1rem;
+    min-height: 1rem;
+    font-size: .75rem;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    transform: translate(50%, -50%);
+
+    display: inline-block;
+    position: absolute;
+    margin: 0;
+    padding: .1rem .25rem;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1;
+    background: red;
+    background-clip: padding-box;
+    border-radius: 0;
+    color: #fff;
+    content: attr(data-badge);
+    z-index: 99;
+}

@@ -1,0 +1,20 @@
+.draggable-source--is-dragging {
+    opacity: .4
+}
+
+.draggable-mirror {
+    @apply .absolute .p-2 .bg-white .z-10 .cursor-move; 
+    opacity: 1;
+}
+
+.sortable-list-item {
+    :focus {
+        @apply .outline-none;
+    }
+}
+
+.sortable-list-handle {
+    :hover {
+        @apply .cursor-move;
+    }
+}

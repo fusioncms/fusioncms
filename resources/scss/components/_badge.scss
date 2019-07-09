@@ -1,0 +1,19 @@
+.badge {
+    @apply .flex-initial .items-center .justify-center .rounded-full .bg-black .text-grey-lightest .uppercase .px-3 .py-1 .text-xs .font-bold;
+
+    &--success {
+        @apply .bg-success-light .text-success-darkest;
+    }
+
+    &--danger {
+        @apply .bg-danger-light .text-danger-darkest;
+    }
+
+    &--info {
+        @apply .bg-info-light .text-info-darkest;
+    }
+
+    &--warning {
+        @apply .bg-warning-light .text-warning-darkest;
+    }
+}

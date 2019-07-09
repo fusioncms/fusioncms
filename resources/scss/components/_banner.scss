@@ -1,0 +1,75 @@
+.banner {
+    @apply .flex .flex-col .justify-center .bg-white .text-sm .font-semibold .px-4 .py-3 .shadow .border-l-4 .border-grey-light .mb-3;
+
+    &__header {
+        @apply .flex .justify-between .items-center;
+
+        &--title {
+            @apply .text-lg .font-bold;
+        }
+
+        &--close-button {
+            @apply .text-xl .font-bold .text-grey-darkest;
+
+            &:hover {
+                @apply .text-black;
+            }
+        }
+    }
+
+    &--primary {
+        @apply .bg-primary-lighter .border-primary;
+
+        > p, span, a {
+            @apply .text-primary-darkest;
+        }
+    }
+
+    &--secondary {
+        @apply .bg-secondary-lighter .border-secondary;
+
+        > p, span, a {
+            @apply .text-secondary-darkest;
+        }
+    }
+
+    &--success {
+        @apply .bg-success-lighter .border-success;
+
+        > p, span, a {
+            @apply .text-success-darkest;
+        }
+    }
+
+    &--info {
+        @apply .bg-info-lighter .border-info;
+
+        > p, span, a {
+            @apply .text-info-darkest;
+        }
+    }
+
+    &--danger {
+        @apply .bg-danger-lighter .border-danger;
+
+        > p, span, a {
+            @apply .text-danger-darkest;
+        }
+    }
+
+    &--warning {
+        @apply .bg-warning-lighter .border-warning;
+
+        > p, span, a {
+            @apply .text-warning-darkest;
+        }
+    }
+
+    &--dark {
+        @apply .bg-black .border-grey-darkest;
+
+        > p, span, a {
+            @apply .text-white;
+        }
+    }
+}

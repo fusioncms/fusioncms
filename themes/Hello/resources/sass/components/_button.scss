@@ -1,0 +1,33 @@
+.button {
+    @apply text-sm px-3 py-2 bg-gray-800 text-gray-200 tracking-wide rounded;
+
+    &:hover {
+        @apply bg-black;
+    }
+
+    &--danger {
+        @apply bg-red-500 text-red-100;
+
+        &:hover {
+            @apply bg-red-700;
+        }
+    }
+
+    &--success {
+        @apply bg-green-500 text-green-100;
+
+        &:hover {
+            @apply bg-green-700;
+        }
+    }
+
+    &--large {
+        @apply text-xl;
+    }
+}
+
+a.button {
+    &:hover {
+        @apply text-gray-200;
+    }
+}

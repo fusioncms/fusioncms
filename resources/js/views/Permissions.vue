@@ -1,0 +1,31 @@
+<template>
+    <div>
+        <portal to="title">
+            <app-title icon="key">Permissions</app-title>
+        </portal>
+
+        <div class="row">
+            <div class="content-container">
+                <p-datatable name="permissions" :endpoint="endpoint" sort-by="slug" :per-page="10" no-actions>
+                    <template slot="slug" slot-scope="table">
+                        <code>{{ table.record.slug }}</code>
+                    </template>
+
+                    <template slot="description" slot-scope="table">
+                        <span class="text-grey-darker text-sm">{{ table.record.description }}</span>
+                    </template>
+                </p-datatable>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                endpoint: '/datatable/permissions',
+            }
+        }
+    }
+</script>
