@@ -15,7 +15,7 @@ if (! function_exists('fieldtypes')) {
     /**
      * Returns the fieldtype registry instance from the container.
      *
-     * @return \App\Foundation\Fields\Fieldtypes\FieldtypeRegistry
+     * @return \App\Fieldtypes\Registry
      */
     function fieldtypes()
     {

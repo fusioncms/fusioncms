@@ -11,8 +11,8 @@
 
 namespace App\Models;
 
-use App\Foundation\Concerns\CachesQueries;
-use App\Foundation\Database\Eloquent\Model;
+use App\Concerns\CachesQueries;
+use App\Database\Eloquent\Model;
 
 class Seo extends Model
 {

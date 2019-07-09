@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use App\Foundation\Database\Migration;
-use App\Foundation\Database\Schema\Blueprint;
+use App\Database\Migration;
+use App\Database\Schema\Blueprint;
 
 class CreateDirectoriesTable extends Migration
 {

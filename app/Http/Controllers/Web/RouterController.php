@@ -13,8 +13,8 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Foundation\Routers\HomepageRouter;
-use App\Foundation\Routers\MatrixPageRouter;
+use App\Services\Routers\HomepageRouter;
+use App\Services\Routers\MatrixPageRouter;
 
 class RouterController extends Controller
 {

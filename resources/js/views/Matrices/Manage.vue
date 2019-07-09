@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="atom-alt">Manage {{ matrix.name }}</app-title>
+            <app-title icon="chart-network">Manage {{ matrix.name }}</app-title>
         </portal>
 
         <portal to="subtitle"><span class="uppercase">{{ matrix.type }}</span></portal>
@@ -14,8 +14,7 @@
 
         <div class="row">
             <div class="col w-full">
-                <!-- <section-builder v-if="! isCollection" v-model="matrix.sections"></section-builder> -->
-                <section-builder v-if="! isCollection" v-model="matrix.sections"></section-builder>
+                <section-builder v-model="matrix.sections"></section-builder>
             </div>
         </div>
     </div>

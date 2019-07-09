@@ -43,8 +43,6 @@ class MatrixResource extends JsonResource
             'creditable'       => $this->creditable,
             'publishable'      => $this->publishable,
 
-            'seoable'          => $this->seoable,
-
             'status'           => $this->status,
 
             'sections'         => SectionResource::collection($this->sections),

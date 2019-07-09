@@ -11,8 +11,8 @@
 
 namespace App\Models;
 
-use App\Foundation\Concerns\HasAuthor;
-use App\Foundation\Database\Eloquent\Model;
+use App\Concerns\HasAuthor;
+use App\Database\Eloquent\Model;
 
 class Directory extends Model
 {

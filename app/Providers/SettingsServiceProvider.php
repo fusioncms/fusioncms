@@ -12,7 +12,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\File;
-use App\Foundation\Settings\Repository;
+use App\Services\Settings\Repository;
 use Illuminate\Support\ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider

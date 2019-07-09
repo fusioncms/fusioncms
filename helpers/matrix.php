@@ -13,9 +13,9 @@
  * retrieve an instance of the matrix model builder.
  *
  * @param  string  $matrix
- * @return \App\Foundation\Builders\Matrix
+ * @return \App\Services\Builders\Matrix
  */
 function matrix_page($matrix)
 {
-    return new \App\Foundation\Builders\Page($matrix);
+    return new \App\Services\Builders\Page($matrix);
 }

@@ -11,7 +11,7 @@
 
 namespace App\Models;
 
-use App\Foundation\Database\Eloquent\Model;
+use App\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Concerns\HasPermissions;
 use Caffeinated\Shinobi\Contracts\Role as RoleContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

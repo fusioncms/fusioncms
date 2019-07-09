@@ -12,20 +12,20 @@
 namespace App\Observers;
 
 use App\Models\Matrix;
-use App\Foundation\Database\Migration;
-use App\Foundation\Database\Schema\Blueprint;
+use App\Database\Migration;
+use App\Database\Schema\Blueprint;
 
 class MatrixObserver
 {
     /**
-     * @var \App\Foundation\Database\Migration
+     * @var \App\Database\Migration
      */
     protected $migration;
 
     /**
      * Create a new MatrixObserver instance.
      *
-     * @param  \App\Foundation\Database\Migration  $migration
+     * @param  \App\Database\Migration  $migration
      */
     public function __construct(Migration $migration)
     {
@@ -40,13 +40,16 @@ class MatrixObserver
      */
     public function created(Matrix $matrix)
     {
-        if ($matrix->type === 'page') {
-            $this->migration->schema->create($matrix->table, function (Blueprint $table) {
-                $table->integer('matrix_id')->unsigned();
-                $table->boolean('status')->default(true);
-                $table->timestamps();
-            });
-        }
+        $this->migration->schema->create($matrix->table, function (Blueprint $table) use ($matrix) {
+            if ($matrix->type === 'collection') {
+                $table->increments('id');
+            }
+
+            $table->integer('matrix_id')->unsigned();
+            $table->boolean('status')->default(true);
+            $table->unsignedInteger('parent_id')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -57,27 +60,26 @@ class MatrixObserver
      */
     public function updating(Matrix $matrix)
     {
+        // Fetch our "old" matrix instance
         $old = Matrix::find($matrix->id);
 
-        if ($matrix->type === 'collection' and $old->type === 'page') {
-            $this->dropTable($old);
+        // Rename the tables if changed
+        if ($old->table !== $matrix->table) {
+            $this->migration->schema->rename($old->table, $matrix->table);
         }
 
-        if ($matrix->type === 'page') {
-            if ($old->table !== $matrix->table) {
-                $this->migration->schema->rename($old->table, $matrix->table);
-            }
+        // Create the ID column if converting from a page to a collection type
+        if ($old->type === 'page' and $matrix->type === 'collection') {
+            $this->migration->schema->table($matrix->table, function (Blueprint $table) {
+                $table->increments('id')->first();
+            });
         }
 
-        if ($matrix->type === 'collection') {
-            foreach ($matrix->types as $type) {
-                $oldTable = $old->table . '_' . $type->handle;
-                $newTable = $matrix->table . '_' . $type->handle;
-
-                if ($oldTable !== $newTable) {
-                    $this->migration->schema->rename($oldTable, $newTable);
-                }
-            }
+        // Drop the ID column if converting from a collection to a page type
+        if ($old->type === 'collection' and $matrix->type === 'page') {
+            $this->migration->schema->table($matrix->table, function (Blueprint $table) {
+                $table->dropColumn('id');
+            });
         }
     }
 
@@ -89,9 +91,7 @@ class MatrixObserver
      */
     public function deleted(Matrix $matrix)
     {
-        if ($matrix->type === 'page') {
-            $this->dropTable($matrix);
-        }
+        $this->dropTable($matrix);
     }
 
     /**

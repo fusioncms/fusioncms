@@ -25,6 +25,7 @@ Route::get('/users', 'UserController@index');
 Route::get('/users/{role}', 'UserController@index');
 Route::get('/roles', 'RoleController@index');
 Route::get('/permissions', 'PermissionController@index');
+Route::get('/fieldsets', 'FieldsetController@index');
 
 // Matrix
 Route::get('/matrices', 'MatrixController@index');

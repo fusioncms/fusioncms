@@ -13,7 +13,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
 use Illuminate\Http\Request;
-use App\Foundation\Builders\Page;
+use App\Services\Builders\Page;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixPageResource;
 

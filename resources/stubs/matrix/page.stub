@@ -13,7 +13,7 @@ namespace App\Models\Matrix;
 
 use App\Models\Field;
 use App\Models\Matrix;
-use App\Foundation\Database\Eloquent\Model;
+use App\Database\Eloquent\Model;
 
 class {class} extends Model
 {

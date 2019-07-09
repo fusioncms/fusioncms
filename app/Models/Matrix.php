@@ -12,13 +12,14 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
-use App\Foundation\Concerns\HasSections;
-use App\Foundation\Concerns\CachesQueries;
-use App\Foundation\Database\Eloquent\Model;
+use App\Concerns\HasFieldset;
+use App\Concerns\HasSections;
+use App\Concerns\CachesQueries;
+use App\Database\Eloquent\Model;
 
 class Matrix extends Model
 {
-    use CachesQueries, HasSections;
+    use CachesQueries, HasSections, HasFieldset;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -58,20 +59,6 @@ class Matrix extends Model
         'seoable'          => 'boolean',
         'status'           => 'boolean',
     ];
-
-    /**
-     * A type belongs to a matrix.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
-     */
-    public function types()
-    {
-        if ($this->type === 'collection') {
-            return $this->hasMany(Type::class);
-        }
-
-        return null;
-    }
 
     public function getAdminPathAttribute()
     {

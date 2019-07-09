@@ -22,7 +22,7 @@ class DeleteInstallationLock
      */
     public function handle()
     {
-        $path = base_path('.installed');
+        $path = storage_path('.installed');
 
         File::delete($path);
     }

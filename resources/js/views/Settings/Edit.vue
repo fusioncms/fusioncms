@@ -31,13 +31,6 @@
                                         v-model="setting.value"
                                     ></p-select>
 
-                                    <!-- <input
-                                        v-if="setting.type === 'file'"
-                                        type="file"
-                                        :name="setting.handle"
-                                        :ref="setting.handle"
-                                    > -->
-
                                     <p-upload
                                         v-if="setting.type === 'file'"
                                         :name="setting.handle"

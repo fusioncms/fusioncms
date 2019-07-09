@@ -101,21 +101,6 @@ class MenuServiceProvider extends ServiceProvider
 
             $menu->add('System')->divide();
 
-            $menu->add('Matrix')->data([
-                'to'   => '/matrices',
-                'icon' => 'atom-alt',
-            ]);
-
-            $menu->add('Settings')->data([
-                'to'   => '/settings',
-                'icon' => 'cog',
-            ]);
-
-            $menu->add('Themes')->data([
-                'to'   => '/themes',
-                'icon' => 'paint-roller',
-            ]);
-
             $menu->add('Users', '#')->data([
                 'icon'  => 'users',
             ]);
@@ -130,6 +115,26 @@ class MenuServiceProvider extends ServiceProvider
 
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
+            ]);
+
+            $menu->add('Matrix')->data([
+                'to'   => '/matrices',
+                'icon' => 'chart-network',
+            ]);
+
+            $menu->add('Fieldsets')->data([
+                'to'   => '/fieldsets',
+                'icon' => 'ballot',
+            ]);
+
+            $menu->add('Themes')->data([
+                'to'   => '/themes',
+                'icon' => 'paint-roller',
+            ]);
+
+            $menu->add('Settings')->data([
+                'to'   => '/settings',
+                'icon' => 'cog',
             ]);
         });
     }

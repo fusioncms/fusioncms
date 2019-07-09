@@ -17,6 +17,6 @@ if (! function_exists('settings_path')) {
      */
     function settings_path()
     {
-        return base_path('settings.json');
+        return storage_path('settings.json');
     }
 }

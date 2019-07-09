@@ -12,8 +12,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Exceptions\SuspendedModeException;
 use Illuminate\Contracts\Foundation\Application;
-use App\Foundation\Exceptions\SuspendedModeException;
 
 class CheckForSuspendedMode
 {
@@ -42,7 +42,7 @@ class CheckForSuspendedMode
      * @param  \Closure  $next
      * @return mixed
      *
-     * @throws \App\Foundation\Exceptions\SuspendedModeException
+     * @throws \App\Exceptions\SuspendedModeException
      */
     public function handle($request, Closure $next)
     {

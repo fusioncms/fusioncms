@@ -42,7 +42,7 @@
             </div>
 
             <div class="row">
-                <div class="col w-1/2 mx-auto">
+                <div class="col w-full">
                     <field-builder v-model="section.fields" @input="reorder(section.fields)"></field-builder>
                 </div>
             </div>
@@ -66,7 +66,16 @@
                         fields: [],
                     },
                 ],
-                sections: [],
+                sections: [
+                    {
+                        name: 'General',
+                        handle: 'general',
+                        description: '',
+                        placement: 'body',
+                        order: 0,
+                        fields: [],
+                    },
+                ],
             }
         },
 
@@ -82,6 +91,10 @@
             },
 
             value(value) {
+                console.log(value)
+                console.log(value.length)
+                console.log('sections')
+
                 if (! value.length) {
                     this.sections = this.default
                 } else {

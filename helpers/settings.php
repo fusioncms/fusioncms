@@ -14,7 +14,7 @@
  *
  * @param null $key
  * @param null $default
- * @return \App\Foundation\Settings\Repository|mixed
+ * @return \App\Services\Settings\Repository|mixed
  */
 function setting($key = null, $default = null)
 {

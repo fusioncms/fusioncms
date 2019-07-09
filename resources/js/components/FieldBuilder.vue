@@ -1,7 +1,5 @@
 <template>
     <div>
-        <hr>
-
         <div class="row">
             <div class="col w-full">
                 <h3>Fields</h3>

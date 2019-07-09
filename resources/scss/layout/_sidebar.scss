@@ -23,7 +23,7 @@
     }
 
     .router-link-active {
-        @apply .border-l-2 .border-primary .bg-grey-lightest;
+        @apply border-primary text-grey-lightest bg-black;
     }
 
     &__logo {
@@ -55,19 +55,19 @@
     }
 
     &__menu-link {
-        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold;
+        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold border-l-2 border-transparent;
 
         &:hover {
-            @apply .bg-grey-lightest .text-grey-darkest .cursor-pointer;
+            @apply .text-grey-lightest bg-black .cursor-pointer;
         }
     }
 
     &__menu-icon {
-        @apply .w-75px .py-4 .flex .items-center .justify-center .text-indigo-700;
+        @apply .w-75px .py-3 .flex .items-center .justify-center;
     }
 
     &__menu-text {
-        @apply .flex .py-4 .items-center .text-sm .leading-none .tracking-wide .font-serif;
+        @apply .flex .py-3 .items-center .text-sm .leading-none .tracking-wide .font-serif;
     }
 
     &__menu-toggle {

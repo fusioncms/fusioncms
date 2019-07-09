@@ -19,7 +19,7 @@ if (! function_exists('blade')) {
      */
     function blade($content, array $data = [])
     {
-        $blade   = app()->make(App\Foundation\Themes\Parsers\Blade::class);
+        $blade   = app()->make(App\Services\Themes\Parsers\Blade::class);
         $content = $blade->html($content)
             ->data($data)
             ->render();

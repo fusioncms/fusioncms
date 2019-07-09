@@ -11,7 +11,7 @@
 
 namespace App\Models;
 
-use App\Foundation\Database\Eloquent\Model;
+use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Caffeinated\Shinobi\Contracts\Permission as PermissionContract;
 

@@ -36,10 +36,8 @@ $factory->define(App\Models\Matrix::class, function (Faker $faker) {
         'route'            => 'test/{slug}',
         'template'         => 'test.' . str_handle($name),
         'revision_control' => $faker->boolean(50),
-        'categorizable'    => $faker->boolean(50),
         'creditable'       => $faker->boolean(50),
         'publishable'      => $faker->boolean(50),
-        'seoable'          => $faker->boolean(50),
         'status'           => $faker->boolean(50),
     ];
 });

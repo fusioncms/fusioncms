@@ -12,20 +12,20 @@
 namespace App\Observers;
 
 use App\Models\Field;
-use App\Foundation\Database\Migration;
+use App\Database\Migration;
 use Illuminate\Support\Facades\Schema;
 
 class FieldObserver
 {
     /**
-     * @var \App\Foundation\Database\Migration
+     * @var \App\Database\Migration
      */
     protected $migration;
 
     /**
      * Create a new FieldObserver instance.
      *
-     * @param  \App\Foundation\Database\Migration  $migration
+     * @param  \App\Database\Migration  $migration
      */
     public function __construct(Migration $migration)
     {

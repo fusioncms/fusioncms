@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-$app = new App\Foundation\Application(
+$app = new App\Application(
     realpath(__DIR__ . '/../')
 );
 

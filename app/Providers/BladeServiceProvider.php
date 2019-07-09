@@ -40,11 +40,11 @@ class BladeServiceProvider extends ServiceProvider
     protected function cacheDirectives()
     {
         Blade::directive('cache', function ($expression) {
-            return "<?php if (! app()->make(\App\Foundation\Cache\Matryoshka\Parser::class)->setUp($expression)) { ?>";
+            return "<?php if (! app()->make(\App\Services\Cache\Matryoshka\Parser::class)->setUp($expression)) { ?>";
         });
 
         Blade::directive('endcache', function () {
-            return "<?php } echo app()->make(\App\Foundation\Cache\Matryoshka\Parser::class)->tearDown(); ?>";
+            return "<?php } echo app()->make(\App\Services\Cache\Matryoshka\Parser::class)->tearDown(); ?>";
         });
     }
 

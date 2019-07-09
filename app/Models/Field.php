@@ -11,7 +11,7 @@
 
 namespace App\Models;
 
-use App\Foundation\Database\Eloquent\Model;
+use App\Database\Eloquent\Model;
 
 class Field extends Model
 {

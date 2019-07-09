@@ -37,11 +37,8 @@ class CreateMatricesTable extends Migration
             $table->string('template')->nullable();
 
             $table->boolean('revision_control')->default(true);
-            $table->boolean('categorizable')->default(true);
             $table->boolean('creditable')->default(true);
             $table->boolean('publishable')->default(true);
-
-            $table->boolean('seoable')->default(true);
 
             $table->boolean('status')->default(true);
             $table->timestamps();

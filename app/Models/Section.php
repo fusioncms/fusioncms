@@ -11,8 +11,8 @@
 
 namespace App\Models;
 
+use App\Concerns\CachesQueries;
 use Illuminate\Database\Eloquent\Model;
-use App\Foundation\Concerns\CachesQueries;
 
 class Section extends Model
 {

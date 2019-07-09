@@ -28,6 +28,6 @@ class UpdateInstallationLock
 
         $contents = pathinfo(end($versions), PATHINFO_FILENAME);
 
-        File::put(base_path('.installed'), $contents);
+        File::put(storage_path('.installed'), $contents);
     }
 }

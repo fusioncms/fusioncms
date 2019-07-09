@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="atom-alt">Matrix</app-title>
+            <app-title icon="chart-network">Matrix</app-title>
         </portal>
 
         <portal to="actions">

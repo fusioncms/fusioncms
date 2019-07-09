@@ -12,9 +12,9 @@
 namespace App\Models;
 
 use Storage;
-use App\Foundation\Concerns\HasAuthor;
-use App\Foundation\Concerns\CachesQueries;
-use App\Foundation\Database\Eloquent\Model;
+use App\Concerns\HasAuthor;
+use App\Concerns\CachesQueries;
+use App\Database\Eloquent\Model;
 
 class Asset extends Model
 {

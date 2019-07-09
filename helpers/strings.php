@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use App\Foundation\Parsers\ParsedownExtra;
+use App\Services\Parsers\ParsedownExtra;
 
 function render_markdown($content)
 {

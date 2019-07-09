@@ -40,6 +40,33 @@ const router = new Router({
         },
 
         {
+            path: '/fieldsets',
+            component: () => import('../views/Fieldsets/Index'),
+            name: 'fieldsets',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/fieldsets/create',
+            component: () => import('../views/Fieldsets/Create'),
+            name: 'fieldsets.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/fieldsets/edit/:matrix',
+            component: () => import('../views/Fieldsets/Edit'),
+            name: 'fieldsets.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',

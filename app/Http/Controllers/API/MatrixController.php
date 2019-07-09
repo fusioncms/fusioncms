@@ -38,11 +38,8 @@ class MatrixController extends Controller
         'template'         => 'sometimes',
 
         'revision_control' => 'required|boolean',
-        'categorizable'    => 'required|boolean',
         'creditable'       => 'required|boolean',
         'publishable'      => 'required|boolean',
-
-        'seoable'          => 'required|boolean',
     ];
 
     /**

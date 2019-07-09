@@ -13,7 +13,6 @@ namespace App\Providers;
 
 use Bonsai;
 use Illuminate\Support\ServiceProvider;
-use App\Foundation\Upkeep\UpkeepRegistry;
 use Laravel\Telescope\TelescopeServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -40,8 +39,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerHelpers();
 
         $this->app->register(RouteServiceProvider::class);
-
-        $this->app->singleton(UpkeepRegistry::class);
 
         if ($this->app->isLocal()) {
             $this->app->register(TelescopeServiceProvider::class);

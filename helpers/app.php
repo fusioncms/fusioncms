@@ -11,13 +11,13 @@
 
 function app_installed()
 {
-    return File::exists(base_path('.installed'));
+    return File::exists(storage_path('.installed'));
 }
 
 function app_version()
 {
     if (app_installed()) {
-        $version = File::get(base_path('.installed'));
+        $version = File::get(storage_path('.installed'));
 
         return trim($version);
     }
@@ -73,5 +73,5 @@ function running_in_console()
 
 function fusion()
 {
-    return app()->make(App\Foundation\Http\Dispatcher::class);
+    return app()->make(App\Http\Dispatcher::class);
 }
