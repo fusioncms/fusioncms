@@ -40,11 +40,6 @@ class Section extends Model
     protected $table = 'sections';
 
     /**
-     * @var bool
-     */
-    protected $searchable = false;
-
-    /**
      * Get the fields for the given section.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -54,8 +49,13 @@ class Section extends Model
         return $this->hasMany(Field::class)->orderBy('order');
     }
 
-    public function container()
+    /**
+     * A section belongs to a fieldset.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fieldset()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Fieldset::class);
     }
 }

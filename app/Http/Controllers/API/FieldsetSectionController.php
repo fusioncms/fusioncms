@@ -11,47 +11,47 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Matrix;
+use App\Models\Fieldset;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\MatrixResource;
+use App\Http\Resources\FieldsetResource;
 
-class MatrixSectionController extends Controller
+class FieldsetSectionController extends Controller
 {
-    public function store(Request $request, $matrix)
+    public function store(Request $request, $fieldset)
     {
-        $matrix   = Matrix::findOrFail($matrix);
+        $fieldset = Fieldset::findOrFail($fieldset);
         $sections = collect($request->sections);
 
-        $attached = $this->getAttachedSections($matrix, $sections);
-        $updated  = $this->getUpdatedSections($matrix, $sections);
-        $detached = $this->getDetachedSections($matrix, $sections);
+        $attached = $this->getAttachedSections($fieldset, $sections);
+        $updated  = $this->getUpdatedSections($fieldset, $sections);
+        $detached = $this->getDetachedSections($fieldset, $sections);
 
-        $matrix = $this->createSections($matrix, $attached);
-        $matrix = $this->updateSections($matrix, $updated);
-        $matrix = $this->deleteSections($matrix, $detached);
+        $fieldset = $this->createSections($fieldset, $attached);
+        $fieldset = $this->updateSections($fieldset, $updated);
+        $fieldset = $this->deleteSections($fieldset, $detached);
 
-        return new MatrixResource($matrix);
+        return new FieldsetResource($fieldset);
     }
 
-    protected function getAttachedSections($matrix, $sections)
+    protected function getAttachedSections($fieldset, $sections)
     {
         return $sections->filter(function ($section) {
             return ! isset($section['id']);
         });
     }
 
-    protected function getUpdatedSections($matrix, $sections)
+    protected function getUpdatedSections($fieldset, $sections)
     {
         return $sections->reject(function ($section) {
             return ! isset($section['id']);
         });
     }
 
-    protected function getDetachedSections($matrix, $sections)
+    protected function getDetachedSections($fieldset, $sections)
     {
-        $existing = $matrix->sections->pluck('id');
-        $saving   = $this->getUpdatedSections($matrix, $sections)->pluck('id');
+        $existing = $fieldset->sections->pluck('id');
+        $saving   = $this->getUpdatedSections($fieldset, $sections)->pluck('id');
 
         return $existing->diff($saving);
     }

@@ -89,18 +89,6 @@
 
                 this.$emit('input', value)
             },
-
-            value(value) {
-                console.log(value)
-                console.log(value.length)
-                console.log('sections')
-
-                if (! value.length) {
-                    this.sections = this.default
-                } else {
-                    this.sections = value
-                }
-            },
         },
 
         methods: {
@@ -155,5 +143,13 @@
                 })
             }
         },
+
+        mounted() {
+            if (! this.value.length) {
+                this.sections = this.default
+            } else {
+                this.sections = this.value
+            }
+        }
     }
 </script>

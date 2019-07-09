@@ -14,7 +14,6 @@
 // });
 
 Route::apiResource('/matrices/{matrix}/fields', 'MatrixFieldController');
-Route::apiResource('/matrices/{matrix}/sections', 'MatrixSectionController');
 Route::apiResource('/matrices', 'MatrixController');
 Route::get('/matrices/slug/{slug}', 'MatrixController@slug');
 

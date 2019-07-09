@@ -43,7 +43,7 @@
                 </div>
             </p-card>
 
-            <section-builder class="mt-6" v-model="form.sections"></section-builder>
+            <section-builder class="mt-6" v-model="sections"></section-builder>
 
             <portal to="actions">
                 <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
@@ -59,10 +59,10 @@
     export default {
         data() {
             return {
+                sections: [],
                 form: new Form({
                     name: '',
                     handle: '',
-                    sections: [],
                 })
             }
         },
@@ -70,9 +70,13 @@
         methods: {
             submit() {
                 this.form.post('/api/fieldsets').then((response) => {
-                    toast('Fieldset successfully created', 'success')
+                    let formData = {}
+                    formData.sections = this.sections
 
-                    this.$router.push('/fieldsets/edit/' + response.data.id)
+                    axios.post(`/api/fieldsets/${response.data.id}/sections`, formData).then((response) => {
+                        toast('Fieldset successfully created', 'success')
+                    })
+                    // this.$router.push('/fieldsets/edit/' + response.data.id)
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 })

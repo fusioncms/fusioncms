@@ -85,9 +85,7 @@ export default class Form {
      * @param {string} requestType
      * @param {string} url
      */
-    submit(requestType, url) {
-        console.log('submitting', this.data())
-        
+    submit(requestType, url) {        
         return new Promise((resolve, reject) => {
             axios[requestType](url, this.data())
                 .then(response => {

@@ -58,7 +58,7 @@ const router = new Router({
             }
         },
         {
-            path: '/fieldsets/edit/:matrix',
+            path: '/fieldsets/edit/:fieldset',
             component: () => import('../views/Fieldsets/Edit'),
             name: 'fieldsets.edit',
             meta: {
