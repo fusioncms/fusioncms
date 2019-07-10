@@ -248,117 +248,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -369,6 +258,7 @@ __webpack_require__.r(__webpack_exports__);
         handle: '',
         description: '',
         type: 'collection',
+        fieldset: '',
         sidebar: '1',
         quicklink: '1',
         icon: '',
@@ -382,14 +272,6 @@ __webpack_require__.r(__webpack_exports__);
         status: '1'
       })
     };
-  },
-  computed: {
-    isCollection: function isCollection() {
-      return this.form.type === 'collection';
-    },
-    hasSEO: function hasSEO() {
-      return this.form.seoable === '1';
-    }
   },
   methods: {
     submit: function submit() {
@@ -405,13 +287,20 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    axios.all([axios.get('/api/matrices/' + to.params.matrix)]).then(axios.spread(function (matrix) {
+    axios.all([axios.get('/api/matrices/' + to.params.matrix), axios.get('/api/fieldsets')]).then(axios.spread(function (matrix, fieldsets) {
       next(function (vm) {
+        vm.fieldsets = _.map(fieldsets.data.data, function (fieldset) {
+          return {
+            'label': fieldset.name,
+            'value': fieldset.id
+          };
+        });
         vm.id = matrix.data.data.id;
         vm.form.name = matrix.data.data.name;
         vm.form.handle = matrix.data.data.handle;
         vm.form.description = matrix.data.data.description;
         vm.form.type = matrix.data.data.type;
+        vm.form.fieldset = matrix.data.data.fieldset;
         vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0';
         vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0';
         vm.form.icon = matrix.data.data.icon;
@@ -581,6 +470,24 @@ var render = function() {
                             _vm.$set(_vm.form, "type", $$v)
                           },
                           expression: "form.type"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("p-select", {
+                        attrs: {
+                          name: "fieldset",
+                          label: "Fieldset",
+                          help: "What fieldset would you like to attach?",
+                          options: _vm.fieldsets,
+                          "has-error": _vm.form.errors.has("fieldset"),
+                          "error-message": _vm.form.errors.get("fieldset")
+                        },
+                        model: {
+                          value: _vm.form.fieldset,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "fieldset", $$v)
+                          },
+                          expression: "form.fieldset"
                         }
                       })
                     ],

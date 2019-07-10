@@ -273,101 +273,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      fieldsets: [],
+      creatingFieldset: false,
       form: new _forms_Form__WEBPACK_IMPORTED_MODULE_0__["default"]({
         name: '',
         handle: '',
         description: '',
         type: 'collection',
+        fieldset: null,
         sidebar: '1',
         quicklink: '1',
         icon: '',
@@ -382,14 +299,6 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
-  computed: {
-    isCollection: function isCollection() {
-      return this.form.type === 'collection';
-    },
-    hasSEO: function hasSEO() {
-      return this.form.seoable === '1';
-    }
-  },
   methods: {
     submit: function submit() {
       var _this = this;
@@ -397,11 +306,23 @@ __webpack_require__.r(__webpack_exports__);
       this.form.post('/api/matrices').then(function (response) {
         toast('Matrix successfully created', 'success');
 
-        _this.$router.push('/matrices/manage/' + response.data.id);
+        _this.$router.push('/matrices');
       })["catch"](function (response) {
         toast(response.message, 'failed');
       });
     }
+  },
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    axios.all([axios.get('/api/fieldsets')]).then(axios.spread(function (fieldsets) {
+      next(function (vm) {
+        vm.fieldsets = _.map(fieldsets.data.data, function (fieldset) {
+          return {
+            'label': fieldset.name,
+            'value': fieldset.id
+          };
+        });
+      });
+    }));
   }
 });
 
@@ -558,7 +479,126 @@ var render = function() {
                           },
                           expression: "form.type"
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "flex" },
+                        [
+                          !_vm.creatingFieldset
+                            ? _c("p-select", {
+                                staticClass: "flex-grow",
+                                attrs: {
+                                  name: "fieldset",
+                                  label: "Fieldset",
+                                  help:
+                                    "What fieldset would you like to attach?",
+                                  options: _vm.fieldsets,
+                                  "has-error": _vm.form.errors.has("fieldset"),
+                                  "error-message": _vm.form.errors.get(
+                                    "fieldset"
+                                  )
+                                },
+                                model: {
+                                  value: _vm.form.fieldset,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "fieldset", $$v)
+                                  },
+                                  expression: "form.fieldset"
+                                }
+                              })
+                            : _c("p-input", {
+                                staticClass: "flex-grow",
+                                attrs: {
+                                  name: "fieldset",
+                                  label: "Fieldset",
+                                  help:
+                                    "What fieldset would you like to create? Don't forget to configure it afterwards.",
+                                  "has-error": _vm.form.errors.has("fieldset"),
+                                  "error-message": _vm.form.errors.get(
+                                    "fieldset"
+                                  )
+                                },
+                                model: {
+                                  value: _vm.form.fieldset,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "fieldset", $$v)
+                                  },
+                                  expression: "form.fieldset"
+                                }
+                              }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form__group ml-2" },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form__label",
+                                  attrs: { for: "create_fieldset" }
+                                },
+                                [_vm._v(" ")]
+                              ),
+                              _vm._v(" "),
+                              !_vm.creatingFieldset
+                                ? _c(
+                                    "p-button",
+                                    {
+                                      staticClass:
+                                        "form__select-button font-mono",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.creatingFieldset = true
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("+")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.creatingFieldset
+                                ? _c(
+                                    "div",
+                                    { staticClass: "flex" },
+                                    [
+                                      _c(
+                                        "p-button",
+                                        {
+                                          staticClass:
+                                            "form__select-button mr-1",
+                                          attrs: { theme: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Create")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "p-button",
+                                        {
+                                          staticClass: "form__select-button",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.creatingFieldset = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

@@ -13,9 +13,24 @@ namespace App\Concerns;
 
 use App\Models\Fieldset;
 
-trait HasFieldset
+trait HasFieldsets
 {
+    public function attachFieldset($fieldset)
+    {
+        return $this->fieldsets()->sync($fieldset);
+    }
+
+    public function detachFieldset()
+    {
+        return $this->fieldsets()->detach();
+    }
+
     public function fieldset()
+    {
+        return $this->fieldsets()->first() ?? null;
+    }
+
+    public function fieldsets()
     {
         return $this->morphToMany(Fieldset::class, 'fieldsetable');
     }

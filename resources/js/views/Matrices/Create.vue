@@ -71,6 +71,41 @@
                                     :error-message="form.errors.get('type')"
                                     v-model="form.type">
                                 </p-select>
+
+                                <div class="flex">
+                                    <p-select
+                                        v-if="! creatingFieldset"
+                                        class="flex-grow"
+                                        name="fieldset"
+                                        label="Fieldset"
+                                        help="What fieldset would you like to attach?"
+                                        :options="fieldsets"
+                                        :has-error="form.errors.has('fieldset')"
+                                        :error-message="form.errors.get('fieldset')"
+                                        v-model="form.fieldset">
+                                    </p-select>
+
+                                    <p-input
+                                        v-else
+                                        class="flex-grow"
+                                        name="fieldset"
+                                        label="Fieldset"
+                                        help="What fieldset would you like to create? Don't forget to configure it afterwards."
+                                        :has-error="form.errors.has('fieldset')"
+                                        :error-message="form.errors.get('fieldset')"
+                                        v-model="form.fieldset">
+                                    </p-input>
+
+                                    <div class="form__group ml-2">
+                                        <label for="create_fieldset" class="form__label">&nbsp;</label>
+                                        <p-button class="form__select-button font-mono" @click="creatingFieldset = true" v-if="! creatingFieldset">+</p-button>
+
+                                        <div v-if="creatingFieldset" class="flex">
+                                            <p-button class="form__select-button mr-1" theme="primary" @click.prevent>Create</p-button>
+                                            <p-button class="form__select-button" @click="creatingFieldset = false">Cancel</p-button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -188,127 +223,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <hr>
-
-                        <div class="row">
-                            <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
-                                    <h3>Features</h3>
-                                    <p class="text-sm">Matrices support a variety of features to control and manage your content.</p>
-                                </div>
-                            </div>
-
-                            <div class="col w-full xxl:w-2/3">
-                                <div class="row">
-                                    <div class="col w-full xxl:w-1/2">
-                                        <p-select
-                                            name="revision_control"
-                                            label="Revision Control"
-                                            help="Enable revision control to track and view all changes made to the matrix's content."
-                                            :options="[
-                                                {
-                                                    'label': 'Enabled',
-                                                    'value': '1',
-                                                },
-                                                {
-                                                    'label': 'Disabled',
-                                                    'value': '0',
-                                                },
-                                            ]"
-                                            v-model="form.revision_control">
-                                        </p-select>
-                                    </div>
-
-                                    <div class="col w-full xxl:w-1/2" v-if="isCollection">
-                                        <p-select
-                                            name="categorizable"
-                                            label="Categorizable"
-                                            help="Entries under the matrix may be categorized."
-                                            :options="[
-                                                {
-                                                    'label': 'Enabled',
-                                                    'value': '1',
-                                                },
-                                                {
-                                                    'label': 'Disabled',
-                                                    'value': '0',
-                                                },
-                                            ]"
-                                            v-model="form.categorizable">
-                                        </p-select>
-                                    </div>
-
-                                    <div class="col w-full xxl:w-1/2" v-if="isCollection">
-                                        <p-select
-                                            name="creditable"
-                                            label="Creditable"
-                                            help="Entries will be creditable to an author and any number of contributing user accounts."
-                                            :options="[
-                                                {
-                                                    'label': 'Enabled',
-                                                    'value': '1',
-                                                },
-                                                {
-                                                    'label': 'Disabled',
-                                                    'value': '0',
-                                                },
-                                            ]"
-                                            v-model="form.creditable">
-                                        </p-select>
-                                    </div>
-
-                                    <div class="col w-full xxl:w-1/2" v-if="isCollection">
-                                        <p-select
-                                            name="publishable"
-                                            label="Publishable"
-                                            help="Entries that are publishable will have both a publish and expiration date timestamp field."
-                                            :options="[
-                                                {
-                                                    'label': 'Enabled',
-                                                    'value': '1',
-                                                },
-                                                {
-                                                    'label': 'Disabled',
-                                                    'value': '0',
-                                                },
-                                            ]"
-                                            v-model="form.publishable">
-                                        </p-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
-                                    <h3>SEO</h3>
-                                    <p class="text-sm">If your matrix is accessible from the frontend, SEO is essential in making sure that your content can be found by both search engines and your target audience.</p>
-                                </div>
-                            </div>
-
-                            <div class="col w-full xxl:w-2/3">
-                                <p-select
-                                    name="seoable"
-                                    label="Search Engine Optimization"
-                                    help="Enable search engine optimization (SEO) to aid in content being found and featured by search engines."
-                                    :options="[
-                                        {
-                                            'label': 'Enabled',
-                                            'value': '1',
-                                        },
-                                        {
-                                            'label': 'Disabled',
-                                            'value': '0',
-                                        },
-                                    ]"
-                                    v-model="form.seoable">
-                                </p-select>
-                            </div>
-                        </div> -->
                     </p-card>
                 </form>
             </div>
@@ -353,11 +267,14 @@
     export default {
         data() {
             return {
+                fieldsets: [],
+                creatingFieldset: false,
                 form: new Form({
                     name: '',
                     handle: '',
                     description: '',
                     type: 'collection',
+                    fieldset: null,
 
                     sidebar: '1',
                     quicklink: '1',
@@ -378,26 +295,31 @@
             }
         },
 
-        computed: {
-            isCollection() {
-                return this.form.type === 'collection'
-            },
-
-            hasSEO() {
-                return this.form.seoable === '1'
-            }
-        },
-
         methods: {
             submit() {
                 this.form.post('/api/matrices').then((response) => {
                     toast('Matrix successfully created', 'success')
 
-                    this.$router.push('/matrices/manage/' + response.data.id)
+                    this.$router.push('/matrices')
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 })
             },
         },
+
+        beforeRouteEnter(to, from, next) {
+            axios.all([
+                axios.get('/api/fieldsets'),
+            ]).then(axios.spread(function (fieldsets) {
+                next(function(vm) {
+                    vm.fieldsets = _.map(fieldsets.data.data, function(fieldset) {
+                        return {
+                            'label': fieldset.name,
+                            'value': fieldset.id
+                        }
+                    })
+                })
+            }))
+        }
     }
 </script>
