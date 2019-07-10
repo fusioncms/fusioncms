@@ -85,7 +85,9 @@ __webpack_require__.r(__webpack_exports__);
         formData.sections = _this.sections;
         axios.post("/api/fieldsets/".concat(response.data.id, "/sections"), formData).then(function (response) {
           toast('Fieldset successfully created', 'success');
-        }); // this.$router.push('/fieldsets/edit/' + response.data.id)
+        });
+
+        _this.$router.push('/fieldsets/edit/' + response.data.id);
       })["catch"](function (response) {
         toast(response.message, 'failed');
       });

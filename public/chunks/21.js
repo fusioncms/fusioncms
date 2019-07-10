@@ -81,10 +81,14 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      this.form.patch('/api/matrices/' + this.id).then(function (response) {
-        toast('Matrix successfully updated', 'success');
+      this.form.patch('/api/fieldsets/' + this.id).then(function (response) {
+        var formData = {};
+        formData.sections = _this.sections;
+        axios.post("/api/fieldsets/".concat(_this.id, "/sections"), formData).then(function (response) {
+          toast('Fieldset successfully updated', 'success');
 
-        _this.$router.push('/matrices');
+          _this.$router.push('/fieldsets');
+        });
       })["catch"](function (response) {
         toast(response.response.data.message, 'failed');
       });
@@ -135,14 +139,6 @@ var render = function() {
       _vm._v(" "),
       _c(
         "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
-            }
-          }
-        },
         [
           _c("p-card", [
             _c("div", { staticClass: "row" }, [

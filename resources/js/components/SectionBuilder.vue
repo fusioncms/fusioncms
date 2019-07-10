@@ -89,6 +89,14 @@
 
                 this.$emit('input', value)
             },
+
+            value(value) {
+                if (! value.length) {
+                    this.sections = this.default
+                } else {
+                    this.sections = value
+                }
+            },
         },
 
         methods: {
@@ -145,10 +153,8 @@
         },
 
         mounted() {
-            if (! this.value.length) {
+            if (! this.sections.length) {
                 this.sections = this.default
-            } else {
-                this.sections = this.value
             }
         }
     }

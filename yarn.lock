@@ -570,9 +570,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@efelle/proton@^1.0.0-beta.13":
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@efelle/proton/-/proton-1.0.0-beta.13.tgz#885cea13bbead125fe4479fc7a300f7bdafe8c70"
+"@efelle/proton@^1.0.0-beta.14":
+  version "1.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/@efelle/proton/-/proton-1.0.0-beta.14.tgz#6749e5078fb29c16c9522eb08e082a50c4127178"
+  integrity sha512-qKofxiHL1R8ZBQQ6cdYGZJBza4bHcgJTz8YiLb1DJAXusKc2H5VFGeo38dxtS4ng/tJyyCHTl3Vzo+YPSX4oAg==
 
 "@fortawesome/fontawesome-common-types@^0.2.18":
   version "0.2.18"

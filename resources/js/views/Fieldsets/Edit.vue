@@ -4,7 +4,7 @@
             <app-title icon="ballot">Edit Fieldset</app-title>
         </portal>
 
-        <form @submit.prevent="submit">
+        <form>
             <p-card>
                 <div class="row">
                     <div class="col xxl:text-right w-full xxl:w-1/3 xxxl:w-1/4">
@@ -70,10 +70,15 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/matrices/' + this.id).then((response) => {
-                    toast('Matrix successfully updated', 'success')
+                this.form.patch('/api/fieldsets/' + this.id).then((response) => {
+                    let formData = {}
+                    formData.sections = this.sections
 
-                    this.$router.push('/matrices')
+                    axios.post(`/api/fieldsets/${this.id}/sections`, formData).then((response) => {
+                        toast('Fieldset successfully updated', 'success')
+
+                        this.$router.push('/fieldsets')
+                    })
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

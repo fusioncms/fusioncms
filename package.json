@@ -11,7 +11,7 @@
     "devDependencies": {
         "@babel/core": "^7.2.2",
         "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-        "@efelle/proton": "^1.0.0-beta.13",
+        "@efelle/proton": "^1.0.0-beta.14",
         "@fortawesome/fontawesome-free": "^5.9.0",
         "@fortawesome/fontawesome-pro": "^5.9.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.0",
