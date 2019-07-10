@@ -78,7 +78,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $section)
     {
-        $settingsFilePath = base_path('settings.json');
+        $settingsFilePath = base_path('storage/settings.json');
         $settings         = json_decode(File::get($settingsFilePath), true);
 
         foreach ($settings[$section] as $handle => $setting) {
@@ -95,7 +95,7 @@ class SettingsController extends Controller
             }
         }
 
-        File::put(base_path('settings.json'), json_encode($settings, JSON_PRETTY_PRINT));
+        File::put(base_path('storage/settings.json'), json_encode($settings, JSON_PRETTY_PRINT));
 
         activity()
             ->withProperties([
