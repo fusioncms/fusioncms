@@ -9,6 +9,7 @@ Vue.component('app-title', require('../components/Title').default)
 Vue.component('redactor', require('../components/Redactor').default)
 Vue.component('section-builder', require('../components/SectionBuilder').default)
 Vue.component('field-builder', require('../components/FieldBuilder').default)
+Vue.component('field-editor', require('../components/FieldEditor').default)
 Vue.component('analytics-overview', require('../components/AnalyticsOverview').default)
 
 Vue.component('tos-modal', require('../components/Modals/TOSModal').default)
