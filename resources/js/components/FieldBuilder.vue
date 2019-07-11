@@ -60,11 +60,24 @@
         <p-modal name="edit-field" title="Edit Field" extra-large>
             <div class="row">
                 <div class="col w-1/2">
-                    <p-input name="field-name" label="Name" v-model="field.name"></p-input>
+                    <p-input 
+                        name="field-name" 
+                        label="Name"
+                        required
+                        v-model="field.name">
+                    </p-input>
                 </div>
 
                 <div class="col w-1/2">
-                    <p-input name="field-handle" label="Handle" v-model="field.handle" monospaced></p-input>
+                    <p-slug
+                        name="handle"
+                        label="Handle"
+                        autocomplete="off"
+                        required
+                        delimiter="_"
+                        :watch="field.name"
+                        v-model="field.handle">
+                    </p-slug>
                 </div>
             </div>
 
