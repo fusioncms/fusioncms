@@ -253,12 +253,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       id: null,
+      fieldsets: [],
       form: new _forms_Form__WEBPACK_IMPORTED_MODULE_0__["default"]({
         name: '',
         handle: '',
         description: '',
         type: 'collection',
-        fieldset: '',
+        fieldset: null,
         sidebar: '1',
         quicklink: '1',
         icon: '',
@@ -275,12 +276,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
-      var _this = this;
-
       this.form.patch('/api/matrices/' + this.id).then(function (response) {
         toast('Matrix successfully updated', 'success');
-
-        _this.$router.push('/matrices');
       })["catch"](function (response) {
         toast(response.response.data.message, 'failed');
       });
@@ -300,7 +297,7 @@ __webpack_require__.r(__webpack_exports__);
         vm.form.handle = matrix.data.data.handle;
         vm.form.description = matrix.data.data.description;
         vm.form.type = matrix.data.data.type;
-        vm.form.fieldset = matrix.data.data.fieldset;
+        vm.form.fieldset = matrix.data.data.fieldset.id || null;
         vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0';
         vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0';
         vm.form.icon = matrix.data.data.icon;

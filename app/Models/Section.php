@@ -23,7 +23,7 @@ class Section extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle', 'description', 'placement', 'order'];
+    protected $fillable = ['fieldset_id', 'name', 'handle', 'description', 'placement', 'order'];
 
     /**
      * The attributes that should be casted to native types.

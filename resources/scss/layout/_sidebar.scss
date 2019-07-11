@@ -23,7 +23,7 @@
     }
 
     .router-link-active {
-        @apply border-primary text-grey-lightest bg-black;
+        @apply text-grey-lightest bg-black;
     }
 
     &__logo {
@@ -55,7 +55,7 @@
     }
 
     &__menu-link {
-        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold border-l-2 border-transparent;
+        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold;
 
         &:hover {
             @apply .text-grey-lightest bg-black .cursor-pointer;

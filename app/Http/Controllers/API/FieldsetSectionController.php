@@ -56,11 +56,11 @@ class FieldsetSectionController extends Controller
         return $existing->diff($saving);
     }
 
-    protected function createSections($resource, $sections)
+    protected function createSections($fieldset, $sections)
     {
         if ($sections->count()) {
-            $sections->each(function ($data) use ($resource) {
-                $section = $resource->sections()->create([
+            $sections->each(function ($data) use ($fieldset) {
+                $section = $fieldset->sections()->create([
                     'name'        => $data['name'],
                     'handle'      => $data['handle'],
                     'description' => $data['description'],
@@ -74,22 +74,22 @@ class FieldsetSectionController extends Controller
             });
         }
 
-        return $resource;
+        return $fieldset;
     }
 
-    protected function updateSections($resource, $sections)
+    protected function updateSections($fieldset, $sections)
     {
         if ($sections->count()) {
-            $sections->each(function ($section) use ($resource) {
+            $sections->each(function ($section) use ($fieldset) {
                 $id     = $section['id'];
                 $fields = collect($section['fields']);
 
                 unset($section['id']);
                 unset($section['fields']);
 
-                $resource->sections()->find($id)->update($section);
+                $fieldset->sections()->find($id)->update($section);
 
-                $section = $resource->sections()->findOrFail($id);
+                $section = $fieldset->sections()->findOrFail($id);
 
                 $attached = $this->getAttachedFields($section, $fields);
                 $updated  = $this->getUpdatedFields($section, $fields);
@@ -101,53 +101,53 @@ class FieldsetSectionController extends Controller
             });
         }
 
-        return $resource;
+        return $fieldset;
     }
 
-    protected function deleteSections($resource, $ids)
+    protected function deleteSections($fieldset, $ids)
     {
         if ($ids->count()) {
-            $sections = $resource->sections()->whereIn('id', $ids)->get();
+            $sections = $fieldset->sections()->whereIn('id', $ids)->get();
 
             $sections->each(function ($section) {
                 $section->delete();
             });
         }
 
-        return $resource;
+        return $fieldset;
     }
 
-    protected function getAttachedFields($resource, $fields)
+    protected function getAttachedFields($fieldset, $fields)
     {
         return $fields->filter(function ($field) {
             return ! isset($field['id']);
         });
     }
 
-    protected function getUpdatedFields($resource, $fields)
+    protected function getUpdatedFields($fieldset, $fields)
     {
         return $fields->reject(function ($field) {
             return ! isset($field['id']);
         });
     }
 
-    protected function getDetachedFields($resource, $fields)
+    protected function getDetachedFields($fieldset, $fields)
     {
-        if (! $resource->fields) {
+        if (! $fieldset->fields) {
             return collect();
         }
 
-        $existing = $resource->fields->pluck('id');
-        $saving   = $this->getUpdatedFields($resource, $fields)->pluck('id');
+        $existing = $fieldset->fields->pluck('id');
+        $saving   = $this->getUpdatedFields($fieldset, $fields)->pluck('id');
 
         return $existing->diff($saving);
     }
 
-    protected function createFields($resource, $fields)
+    protected function createFields($fieldset, $fields)
     {
         if (count($fields)) {
             foreach ($fields as $field) {
-                $resource->fields()->create([
+                $fieldset->fields()->create([
                     'name'    => $field['name'],
                     'handle'  => $field['handle'],
                     'help'    => $field['help'],
@@ -157,37 +157,37 @@ class FieldsetSectionController extends Controller
             }
         }
 
-        return $resource;
+        return $fieldset;
     }
 
-    protected function updateFields($resource, $fields)
+    protected function updateFields($fieldset, $fields)
     {
         if ($fields->count()) {
-            $fields->each(function ($field) use ($resource) {
+            $fields->each(function ($field) use ($fieldset) {
                 $id            = $field['id'];
                 $field['type'] = $field['type']['handle'];
 
                 unset($field['id']);
 
-                $resource->fields()
+                $fieldset->fields()
                     ->find($id)
                     ->update($field);
             });
         }
 
-        return $resource;
+        return $fieldset;
     }
 
-    protected function deleteFields($resource, $ids)
+    protected function deleteFields($fieldset, $ids)
     {
         if ($ids->count()) {
-            $fields = $resource->fields()->whereIn('id', $ids)->get();
+            $fields = $fieldset->fields()->whereIn('id', $ids)->get();
 
             $fields->each(function ($field) {
                 $field->delete();
             });
         }
 
-        return $resource;
+        return $fieldset;
     }
 }

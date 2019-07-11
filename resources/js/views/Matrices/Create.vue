@@ -76,13 +76,13 @@
                                     <p-select
                                         v-if="! creatingFieldset"
                                         class="flex-grow"
-                                        name="fieldset"
+                                        name="fieldset_id"
                                         label="Fieldset"
                                         help="What fieldset would you like to attach?"
                                         :options="fieldsets"
-                                        :has-error="form.errors.has('fieldset')"
-                                        :error-message="form.errors.get('fieldset')"
-                                        v-model="form.fieldset">
+                                        :has-error="form.errors.has('fieldset_id')"
+                                        :error-message="form.errors.get('fieldset_id')"
+                                        v-model="form.fieldset_id">
                                     </p-select>
 
                                     <p-input
@@ -274,7 +274,7 @@
                     handle: '',
                     description: '',
                     type: 'collection',
-                    fieldset: null,
+                    fieldset_id: null,
 
                     sidebar: '1',
                     quicklink: '1',

@@ -8004,7 +8004,6 @@ table td::before {
 }
 
 .sidebar .router-link-active {
-  border-color: #ff5722;
   color: #f8fafc;
   background-color: #000;
 }
@@ -8062,8 +8061,6 @@ table td::before {
   justify-content: space-between;
   font-size: .875rem;
   font-weight: 600;
-  border-left-width: 2px;
-  border-color: transparent;
 }
 
 .sidebar__menu-link:hover {

@@ -13,13 +13,12 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Concerns\HasFieldset;
-use App\Concerns\HasSections;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 
 class Matrix extends Model
 {
-    use CachesQueries, HasSections, HasFieldset;
+    use CachesQueries, HasFieldset;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -31,6 +30,7 @@ class Matrix extends Model
         'handle',
         'description',
         'type',
+        'fieldset_id',
         'sidebar',
         'quicklink',
         'icon',

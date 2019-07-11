@@ -76,15 +76,6 @@ const router = new Router({
             }
         },
         {
-            path: '/matrices/manage/:matrix',
-            component: () => import('../views/Matrices/Manage'),
-            name: 'matrices.manage',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin'
-            }
-        },
-        {
             path: '/matrices/create',
             component: () => import('../views/Matrices/Create'),
             name: 'matrices.create',

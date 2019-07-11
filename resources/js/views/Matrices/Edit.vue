@@ -243,12 +243,13 @@
         data() {
             return {
                 id: null,
+                fieldsets: [],
                 form: new Form({
                     name: '',
                     handle: '',
                     description: '',
                     type: 'collection',
-                    fieldset: '',
+                    fieldset: null,
 
                     sidebar: '1',
                     quicklink: '1',
@@ -273,8 +274,6 @@
             submit() {
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
                     toast('Matrix successfully updated', 'success')
-
-                    this.$router.push('/matrices')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
@@ -300,7 +299,7 @@
                     vm.form.handle = matrix.data.data.handle
                     vm.form.description = matrix.data.data.description
                     vm.form.type = matrix.data.data.type
-                    vm.form.fieldset = matrix.data.data.fieldset
+                    vm.form.fieldset = matrix.data.data.fieldset.id || null
 
                     vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0'
                     vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0'

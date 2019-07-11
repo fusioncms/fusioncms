@@ -13,7 +13,7 @@ namespace App\Concerns;
 
 use App\Models\Fieldset;
 
-trait HasFieldsets
+trait HasFieldset
 {
     public function attachFieldset($fieldset)
     {
@@ -25,13 +25,22 @@ trait HasFieldsets
         return $this->fieldsets()->detach();
     }
 
-    public function fieldset()
+    public function getFieldsetAttribute()
     {
-        return $this->fieldsets()->first() ?? null;
+        return $this->fieldsets->count() ? $this->fieldsets()->first() : null;
     }
 
     public function fieldsets()
     {
-        return $this->morphToMany(Fieldset::class, 'fieldsetable');
+        return $this->morphToMany(Fieldset::class, 'fieldsettable');
+    }
+
+    public function setAppends(array $appends)
+    {
+        $appends = parent::getAppends();
+
+        $appends[] = 'fieldset';
+
+        return $appends;
     }
 }

@@ -12,6 +12,7 @@
 namespace Tests\Feature\API;
 
 use App\Models\Matrix;
+use App\Models\Fieldset;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -28,7 +29,10 @@ class MatrixTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
-        $matrix = factory(Matrix::class)->make()->toArray();
+        $matrix   = factory(Matrix::class)->make()->toArray();
+        $fieldset = factory(Fieldset::class)->create();
+
+        $matrix['fieldset'] = $fieldset->id;
 
         $response = $this->json('POST', '/api/matrices', $matrix);
 

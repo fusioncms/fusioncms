@@ -28,6 +28,8 @@ class MatrixCollectionTest extends TestCase
      */
     public function a_user_with_permissions_can_create_a_collection()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAs($this->admin, 'api');
 
         $collection = factory(Matrix::class)->make([

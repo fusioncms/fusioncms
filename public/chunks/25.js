@@ -76,7 +76,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -163,7 +162,7 @@ var render = function() {
                         {
                           attrs: {
                             to: {
-                              name: "matrices.manage",
+                              name: "matrices.edit",
                               params: { matrix: table.record.id }
                             }
                           }
@@ -227,24 +226,6 @@ var render = function() {
                             "template",
                             { slot: "options" },
                             [
-                              _c(
-                                "p-dropdown-item",
-                                {
-                                  attrs: {
-                                    to: {
-                                      name: "matrices.manage",
-                                      params: { matrix: table.record.id }
-                                    }
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                    }
-                                  }
-                                },
-                                [_vm._v("Manage")]
-                              ),
-                              _vm._v(" "),
                               _c(
                                 "p-dropdown-item",
                                 {

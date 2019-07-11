@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFieldsetableTable extends Migration
+class CreateFieldsettablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,9 +22,9 @@ class CreateFieldsetableTable extends Migration
      */
     public function up()
     {
-        Schema::create('fieldsetables', function (Blueprint $table) {
+        Schema::create('fieldsettables', function (Blueprint $table) {
             $table->unsignedInteger('fieldset_id');
-            $table->morphs('fieldsetable');
+            $table->morphs('fieldsettable');
 
             $table->timestamps();
         });
@@ -37,6 +37,6 @@ class CreateFieldsetableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fieldsetabe');
+        Schema::dropIfExists('fieldsettables');
     }
 }
