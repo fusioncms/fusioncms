@@ -60,8 +60,8 @@
         <p-modal name="edit-field" title="Edit Field" extra-large>
             <field-editor v-model="tempField" :fieldHandles="fieldHandles"></field-editor>
             <template slot="footer">
-                <p-button v-modal:edit-field>Cancel</p-button>
-                <p-button v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
+                <p-button class="ml-2" v-modal:edit-field>Cancel</p-button>
+                <p-button class="button--primary" v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
             </template>
         </p-modal>
     </div>
