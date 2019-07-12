@@ -58,7 +58,11 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="field"></field-editor>
+            <field-editor v-model="temp_field"></field-editor>
+            <template slot="footer">
+                <p-button v-modal:edit-field>Cancel</p-button>
+                <p-button @click.prevent="save()" v-modal:edit-field>Save</p-button>
+            </template>
         </p-modal>
     </div>
 </template>
@@ -75,20 +79,26 @@
                 active: null,
                 fields: [],
                 total: 0,
+                temp_field: {}
             }
         },
 
         computed: {
-            field() {
-                let field = _.find(this.fields, (field) => {
-                    return field.id == this.active
-                })
+            field: {
+                get: function() {
+                    let field = _.find(this.fields, (field) => {
+                        return field.handle == this.active
+                    })
 
-                if (typeof field !== 'undefined') {
-                    return field
-                }
+                    if (typeof field !== 'undefined') {
+                        return field
+                    }
 
-                return {}
+                    return {}
+                },
+                set: function(value) {
+                    return value
+                }      
             },
         },
 
@@ -118,7 +128,9 @@
                 }
 
                 this.fields.push(field)
-                this.active = field.id
+                this.active = field.handle
+
+                this.temp_field = _.clone(this.field, true)
             },
 
             remove(index) {
@@ -126,7 +138,16 @@
             },
 
             edit(index) {
-                this.active = this.fields[index].id
+                this.active = this.fields[index].handle
+
+                this.temp_field = _.clone(this.field, true)
+            },
+
+            save() {
+                let index = _.findIndex(this.fields, (old_field) => {
+                    return old_field.handle == this.field.handle
+                })
+                this.fields.splice(index, 1, this.temp_field)
             }
         },
 

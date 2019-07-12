@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col w-1/2">
                 <p-input 
-                    name="field-name" 
+                    name="value-name" 
                     label="Name"
                     required
                     v-model="value.name">
@@ -41,18 +41,13 @@
 
         props: ['value'],
 
+
         computed: {
             loaded() {
                 if(this.value.name) {
                     return true
                 }
                 return false
-            }
-        },
-
-        methods: {
-            save() {
-                this.$emit('input', this.value)
             }
         }
     }
