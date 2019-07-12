@@ -51,8 +51,10 @@ class FieldObserver
         array_unshift($options, $field->handle);
 
         if (! is_null($column)) {
-            Schema::table($container->table, function ($table) use ($column, $options) {
-                call_user_func_array([$table, $column], $options)->after('matrix_id')->nullable();
+            $containers->each(function($container) use ($column, $options) {
+                Schema::table($container->getTable(), function ($table) use ($column, $options) {
+                    call_user_func_array([$table, $column], $options)->nullable();
+                });
             });
         }
     }
