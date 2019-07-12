@@ -6,7 +6,7 @@
                     name="field-name" 
                     label="Name"
                     required
-                    v-model="field.name">
+                    v-model="value.name">
                 </p-input>
             </div>
 
@@ -17,21 +17,21 @@
                     autocomplete="off"
                     required
                     delimiter="_"
-                    :watch="field.name"
-                    v-model="field.handle">
+                    :watch="value.name"
+                    v-model="value.handle">
                 </p-slug>
             </div>
         </div>
 
         <div class="row">
             <div class="col w-full">
-                <redactor name="field-help" label="Help Instructions" v-model="field.help"></redactor>
+                <redactor name="field-help" label="Help Instructions" v-model="value.help"></redactor>
             </div>
         </div>
 
         <hr>
 
-        <component v-if="field.type" :is="field.type.handle + '-fieldtype-options'" v-model="field.options"></component>
+        <component v-if="value.type" :is="value.type.handle + '-fieldtype-options'" v-model="value.options"></component>
     </div>
 </template>
 
@@ -39,23 +39,21 @@
     export default {
         name: 'field-editor',
 
-        props: ['field'],
+        props: ['value'],
 
         computed: {
             loaded() {
-                if(this.field.name) {
+                if(this.value.name) {
                     return true
                 }
                 return false
             }
         },
 
-        data() {
-            return {}
-        },
-
-        mounted() {
-            console.log(this.field)
+        methods: {
+            save() {
+                this.$emit('input', this.value)
+            }
         }
     }
 </script>

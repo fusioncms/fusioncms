@@ -58,7 +58,7 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor :field="field"></field-editor>
+            <field-editor v-model="field"></field-editor>
         </p-modal>
     </div>
 </template>
