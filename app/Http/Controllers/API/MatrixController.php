@@ -29,6 +29,7 @@ class MatrixController extends Controller
         'handle'           => 'required',
         'description'      => 'sometimes',
         'type'             => 'required',
+        'fieldset'         => 'required',
 
         'sidebar'          => 'required|boolean',
         'quicklink'        => 'required|boolean',
@@ -97,13 +98,15 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.create');
 
-        $attributes = $request->validate($this->rules);
-        $matrix     = Matrix::create($attributes);
+        $attributes = collect($request->validate($this->rules));
+        $matrix     = Matrix::create($attributes->except('fieldset')->all());
+
+        $matrix->attachFieldset($attributes->get('fieldset'));
 
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'atom-alt',
+                'icon' => 'chart-network',
                 'link' => 'matrices/edit/' . $matrix->id,
             ])
             ->log('Created matrix (:subject.name)');
@@ -122,14 +125,18 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.update');
 
-        $attributes = $request->validate($this->rules);
+        $attributes = collect($request->validate($this->rules));
 
-        $matrix->update($attributes);
+        $matrix->update($attributes->except('fieldset')->all());
+
+        if ($matrix->fieldset->id !== $attributes->get('fieldset')) {
+            $matrix->attachFieldset($attributes->get('fieldset'));
+        }
 
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'atom-alt',
+                'icon' => 'chart-network',
                 'link' => 'matrices/edit/' . $matrix->id,
             ])
             ->log('Updated matrix (:subject.name)');
@@ -150,7 +157,7 @@ class MatrixController extends Controller
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'atom-alt',
+                'icon' => 'chart-network',
             ])
             ->log('Deleted matrix (:subject.name)');
 

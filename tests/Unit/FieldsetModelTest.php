@@ -11,10 +11,11 @@
 
 namespace Tests\Unit;
 
+use App\Models\Section;
 use App\Models\Fieldset;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FieldsetModelTest extends TestCase
 {
@@ -24,7 +25,12 @@ class FieldsetModelTest extends TestCase
     public function a_fieldset_has_sections()
     {
         $fieldset = factory(Fieldset::class)->create();
+        
+        factory(Section::class, 3)->create([
+            'fieldset_id' => $fieldset->id
+        ]);
 
-        $this->assertInstanceOf(MorphMany::class, $fieldset->sections());
+        $this->assertInstanceOf(HasMany::class, $fieldset->sections());
+        $this->assertCount(3, $fieldset->sections);
     }
 }

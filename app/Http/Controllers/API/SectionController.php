@@ -40,25 +40,25 @@ class SectionController extends Controller
         // $this->authorize('fields.show');
 
         if (is_null($container)) {
-            $fields = Section::orderBy('name')->paginate(25);
+            $section = Section::orderBy('name')->paginate(25);
         } else {
-            $fields = Section::where('container_type', $container)->orderBy('name');
+            $section = Section::where('container_type', $container)->orderBy('name');
         }
 
-        return SectionResource::collection($fields);
+        return SectionResource::collection($section);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Section  $field
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function show(Section $field)
+    public function show(Section $section)
     {
-        // $this->authorize('fields.show');
+        $this->authorize('sections.show');
 
-        return new SectionResource($field);
+        return new SectionResource($section);
     }
 
     /**

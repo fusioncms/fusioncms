@@ -12,7 +12,7 @@
             <div class="content-container">
                 <p-datatable :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle">
                     <template slot="name" slot-scope="table">
-                        <router-link :to="{ name: 'matrices.manage', params: { matrix: table.record.id } }">{{ table.record.name }}</router-link>
+                        <router-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
 
                     <template slot="handle" slot-scope="table">
@@ -37,7 +37,6 @@
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'matrices.manage', params: { matrix: table.record.id } }">Manage</p-dropdown-item>
                                 <p-dropdown-item @click.prevent :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">Edit</p-dropdown-item>
 
                                 <p-dropdown-item

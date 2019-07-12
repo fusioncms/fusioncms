@@ -24,11 +24,10 @@ class FieldsetResource extends JsonResource
     public function toArray($request)
     {
         $resource = [
-            'id'               => $this->id,
-            'name'             => $this->name,
-            'handle'           => $this->handle,
-
-            'sections'         => SectionResource::collection($this->sections),
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'handle'   => $this->handle,
+            'sections' => SectionResource::collection($this->sections),
         ];
 
         return $resource;

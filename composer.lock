@@ -3025,16 +3025,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "f846725591203098246276b2e7b9e8b7814c4965"
+                "reference": "92927e26d7fc3f271efe1f55bdbb073fbb2f0722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/f846725591203098246276b2e7b9e8b7814c4965",
-                "reference": "f846725591203098246276b2e7b9e8b7814c4965",
+                "url": "https://api.github.com/repos/opis/closure/zipball/92927e26d7fc3f271efe1f55bdbb073fbb2f0722",
+                "reference": "92927e26d7fc3f271efe1f55bdbb073fbb2f0722",
                 "shasum": ""
             },
             "require": {
@@ -3082,7 +3082,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2019-05-31T20:04:32+00:00"
+            "time": "2019-07-09T21:58:11+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5829,16 +5829,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1"
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/37bf68b428850ee26ed7c3be6c26236dd95a95f1",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
                 "shasum": ""
             },
             "require": {
@@ -5891,7 +5891,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-04-29T21:11:00+00:00"
+            "time": "2019-07-10T16:13:25+00:00"
         }
     ],
     "packages-dev": [

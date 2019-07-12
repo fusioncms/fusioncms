@@ -162,5 +162,11 @@
                 })
             }
         },
+
+        mounted() {
+            if (! this.sections.length) {
+                this.sections = this.default
+            }
+        }
     }
 </script>

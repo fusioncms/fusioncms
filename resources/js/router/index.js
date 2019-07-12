@@ -58,7 +58,7 @@ const router = new Router({
             }
         },
         {
-            path: '/fieldsets/edit/:matrix',
+            path: '/fieldsets/edit/:fieldset',
             component: () => import('../views/Fieldsets/Edit'),
             name: 'fieldsets.edit',
             meta: {
@@ -70,15 +70,6 @@ const router = new Router({
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin'
-            }
-        },
-        {
-            path: '/matrices/manage/:matrix',
-            component: () => import('../views/Matrices/Manage'),
-            name: 'matrices.manage',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -115,6 +106,24 @@ const router = new Router({
             path: '/collections/:collection',
             component: () => import('../views/Collections/Index'),
             name: 'collections.index',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/collections/:collection/create',
+            component: () => import('../views/Collections/Create'),
+            name: 'collections.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/collections/:collection/edit/:id',
+            component: () => import('../views/Collections/Edit'),
+            name: 'collections.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

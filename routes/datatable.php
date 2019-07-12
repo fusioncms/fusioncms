@@ -30,3 +30,4 @@ Route::get('/fieldsets', 'FieldsetController@index');
 // Matrix
 Route::get('/matrices', 'MatrixController@index');
 Route::get('/matrices/{matrix}/fields', 'MatrixFieldController@index');
+Route::get('/collections/{collection}', 'CollectionController@index');
