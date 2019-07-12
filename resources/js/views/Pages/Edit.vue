@@ -113,13 +113,18 @@
 
         computed: {
             sections() {
-                let body = _.filter(this.matrix.sections, function(section) {
-                    return section.placement == 'body'
-                })
+                let body = []
+                let sidebar = []
 
-                let sidebar = _.filter(this.matrix.sections, function(section) {
-                    return section.placement == 'sidebar'
-                })
+                if (this.matrix.fieldset) {
+                    body = _.filter(this.matrix.fieldset.sections, function(section) {
+                        return section.placement == 'body'
+                    })
+
+                    sidebar = _.filter(this.matrix.fieldset.sections, function(section) {
+                        return section.placement == 'sidebar'
+                    })
+                }
 
                 return {
                     body: body,
@@ -153,8 +158,6 @@
             submit() {
                 this.form.patch('/api/pages/' + this.matrix.id).then((response) => {
                     toast('Page saved successfully', 'success')
-
-                    this.$router.push('/')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

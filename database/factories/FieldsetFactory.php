@@ -26,7 +26,7 @@ $factory->define(App\Models\Fieldset::class, function (Faker $faker) {
     $name = $faker->word();
 
     return [
-        'name'   => $name,
-        'handle' => str_handle($name),
+        'name'     => $name,
+        'handle'   => str_handle($name),
     ];
 });

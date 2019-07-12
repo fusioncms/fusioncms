@@ -75,7 +75,7 @@ class MatrixPageController extends Controller
         $matrix = Matrix::findOrFail($matrix);
         $page   = new Page($matrix->handle);
         $rules  = ['status' => 'required|boolean'];
-        $fields = $matrix->fields->reject(function ($field) {
+        $fields = $matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
 
             return is_null($fieldtype->column);

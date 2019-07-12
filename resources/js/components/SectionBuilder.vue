@@ -91,10 +91,6 @@
             },
 
             value(value) {
-                console.log(value)
-                console.log(value.length)
-                console.log('sections')
-
                 if (! value.length) {
                     this.sections = this.default
                 } else {
@@ -155,5 +151,11 @@
                 })
             }
         },
+
+        mounted() {
+            if (! this.sections.length) {
+                this.sections = this.default
+            }
+        }
     }
 </script>

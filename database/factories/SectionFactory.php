@@ -31,5 +31,6 @@ $factory->define(App\Models\Section::class, function (Faker $faker) {
         'description'      => $faker->sentence,
         'placement'        => $faker->randomElement(['body', 'sidebar']),
         'order'            => 99,
+        'fieldset_id'      => factory(App\Models\Fieldset::class),
     ];
 });

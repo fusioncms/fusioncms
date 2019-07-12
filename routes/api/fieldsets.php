@@ -10,6 +10,7 @@
  */
 
 Route::apiResource('/fieldsets', 'FieldsetController');
+Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController');
 
 Route::patch('/fields/reorder', 'FieldController@reorder');
 Route::apiResource('fields', 'FieldController');
