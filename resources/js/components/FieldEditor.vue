@@ -20,7 +20,7 @@
                     :watch="value.name"
                     v-model="value.handle">
                 </p-slug>
-                <div v-if="errors.handle_error">
+                <div v-if="errors.duplicate_handle">
                     The handle field must be unique
                 </div>
             </div>
@@ -47,7 +47,8 @@
         data() {
             return {
                 errors: {
-                    'handle_error': false
+                    'duplicate_handle': false,
+                    'empty_handle': false
                 }
             }
         },
@@ -56,10 +57,18 @@
             value: {
                 deep: true,
                 handler() {
+
+                    console.log(this.value.handle)
                     if(this.field_handles.includes(this.value.handle)) {
-                        this.errors.handle_error = true
+                        this.errors.duplicate_handle = true
                     } else {
-                        this.errors.handle_error = false
+                        this.errors.duplicate_handle = false
+                    }
+
+                    if(this.value.handle == '' || !this.value.handle) {
+                        this.errors.empty_handle = true
+                    } else {
+                        this.errors.empty_handle = false
                     }
                 }
             },
