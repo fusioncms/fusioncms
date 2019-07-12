@@ -58,10 +58,10 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="temp_field"></field-editor>
+            <field-editor v-model="temp_field" :field_handles="field_handles"></field-editor>
             <template slot="footer">
                 <p-button v-modal:edit-field>Cancel</p-button>
-                <p-button @click.prevent="save()" v-modal:edit-field>Save</p-button>
+                <p-button v-if="!temp_field.error" @click.prevent="save()" v-modal:edit-field>Save</p-button>
             </template>
         </p-modal>
     </div>
@@ -87,6 +87,7 @@
             field: {
                 get: function() {
                     let field = _.find(this.fields, (field) => {
+                        field.error = null
                         return field.handle == this.active
                     })
 
@@ -100,6 +101,16 @@
                     return value
                 }      
             },
+            field_handles() {
+                let vm = this
+                let handles = _.map(this.fields, function(field){
+                    if(field.handle != vm.field.handle) {
+                        return field.handle
+                    }
+                    return ''
+                })
+                return handles
+            }
         },
 
         watch: {

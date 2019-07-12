@@ -20,6 +20,9 @@
                     :watch="value.name"
                     v-model="value.handle">
                 </p-slug>
+                <div v-if="handle_error">
+                    The handle field must be unique
+                </div>
             </div>
         </div>
 
@@ -39,7 +42,13 @@
     export default {
         name: 'field-editor',
 
-        props: ['value'],
+        props: ['value', 'field_handles'],
+
+        data() {
+            return {
+                handle_error: false
+            }
+        },
 
 
         computed: {
@@ -48,6 +57,21 @@
                     return true
                 }
                 return false
+            }
+        },
+
+        watch: {
+            value: {
+                deep: true,
+                handler() {
+                    if(this.field_handles.includes(this.value.handle)) {
+                        this.handle_error = true
+                        this.value.error = true
+                    } else {
+                        this.handle_error = false
+                        this.value.error = false
+                    }
+                }
             }
         }
     }
