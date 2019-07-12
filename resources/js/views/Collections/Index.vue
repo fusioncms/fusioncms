@@ -5,12 +5,12 @@
         </portal>
 
         <portal to="actions">
-            <router-link :to="{ name: 'users.create' }" class="button">Create {{ singular }}</router-link>
+            <router-link :to="{ name: 'collections.create', params: {collection: collection.id} }" class="button">Create {{ singular }}</router-link>
         </portal>
 
-        <div class="row">
+        <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="permissions" :endpoint="endpoint" sort-by="slug" :per-page="10" no-actions>
+                <p-datatable name="permissions" :endpoint="endpoint" sort-by="name" :per-page="10" no-actions>
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -31,13 +31,25 @@
         data() {
             return {
                 collection: {},
-                endpoint: '/datatable/permissions',
             }
         },
 
         computed: {
+            endpoint() {
+                if (this.collection.id) {
+                    return '/datatable/collections/' + this.collection.id
+                }
+
+                return null
+            },
+
             singular() {
-                return pluralize.singular(this.collection.name)
+                if (this.collection) {
+                    return this.collection.name
+                    // return pluralize.singular(this.collection.name)
+                }
+
+                return ''
             },
         },
 

@@ -112,6 +112,24 @@ const router = new Router({
             },
         },
         {
+            path: '/collections/:collection/create',
+            component: () => import('../views/Collections/Create'),
+            name: 'collections.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/collections/:collection/edit/:id',
+            component: () => import('../views/Collections/Edit'),
+            name: 'collections.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
             path: '/users',
             component: () => import('../views/Users/Index'),
             name: 'users',

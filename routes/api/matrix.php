@@ -19,3 +19,5 @@ Route::get('/matrices/slug/{slug}', 'MatrixController@slug');
 
 Route::apiResource('/pages', 'MatrixPageController');
 Route::get('/pages/handle/{handle}', 'MatrixPageController@handle');
+
+Route::apiResource('/collections', 'CollectionController');
