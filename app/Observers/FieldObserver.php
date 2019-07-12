@@ -113,6 +113,9 @@ class FieldObserver
     }
 
     /**
+     * Pure witchcraft. Fetches the related fieldsettables and resolves their
+     * proper Eloquent models.
+     * 
      * https://media.giphy.com/media/zIwIWQx12YNEI/giphy.gif
      * 
      * @param  Fieldset  $fieldset
