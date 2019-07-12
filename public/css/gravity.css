@@ -8123,7 +8123,10 @@ table td::before {
   opacity: 1;
 }
 
-.sortable-list-item :focus {
+.sortable-list-item :focus,
+.sortable-list-item:focus,
+.sortable-list :focus,
+.sortable-list:focus {
   outline: 0;
 }
 
@@ -44486,3 +44489,5 @@ table td::before {
     z-index: auto;
   }
 }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIvY3NzL2dyYXZpdHkuY3NzIiwic291cmNlUm9vdCI6IiJ9*/
