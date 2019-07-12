@@ -8,7 +8,7 @@
         </div>
 
         <div class="row" v-if="fields.length > 0">
-            <p-sortable-list v-model="fields">
+            <p-sortable-list v-model="fields" class="sortable-list">
                 <div class="col w-full">
                     <p-sortable-item v-for="(field, index) in fields" :key="field.handle" class="mb-3 w-full">
                         <div class="section__field">
@@ -58,25 +58,11 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <div class="row">
-                <div class="col w-1/2">
-                    <p-input name="field-name" label="Name" v-model="field.name"></p-input>
-                </div>
-
-                <div class="col w-1/2">
-                    <p-input name="field-handle" label="Handle" v-model="field.handle" monospaced></p-input>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col w-full">
-                    <redactor name="field-help" label="Help Instructions" v-model="field.help"></redactor>
-                </div>
-            </div>
-
-            <hr>
-
-            <component v-if="field.type" :is="field.type.handle + '-fieldtype-options'" v-model="field.options"></component>
+            <field-editor v-model="tempField" :fieldHandles="fieldHandles"></field-editor>
+            <template slot="footer">
+                <p-button v-modal:edit-field>Cancel</p-button>
+                <p-button v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
+            </template>
         </p-modal>
     </div>
 </template>
@@ -93,21 +79,38 @@
                 active: null,
                 fields: [],
                 total: 0,
+                tempField: {}
             }
         },
 
         computed: {
-            field() {
-                let field = _.find(this.fields, (field) => {
-                    return field.id == this.active
-                })
+            field: {
+                get: function() {
+                    let field = _.find(this.fields, (field) => {
+                        field.has_errors = false
+                        return field.handle == this.active
+                    })
 
-                if (typeof field !== 'undefined') {
-                    return field
-                }
+                    if (typeof field !== 'undefined') {
+                        return field
+                    }
 
-                return {}
+                    return {}
+                },
+                set: function(value) {
+                    return value
+                }      
             },
+            fieldHandles() {
+                let vm = this
+                let handles = _.map(this.fields, function(field){
+                    if(field.handle != vm.field.handle) {
+                        return field.handle
+                    }
+                    return ''
+                })
+                return handles
+            }
         },
 
         watch: {
@@ -129,14 +132,16 @@
                 let field = {
                     type: fieldtype,
                     name: 'Field ' + this.total,
-                    handle: 'field_' + this.total,
+                    handle: this.getUniqueHandle('field_' + this.total),
                     help: '',
                     options: {},
                     order: 99,
                 }
 
                 this.fields.push(field)
-                this.active = field.id
+                this.active = field.handle
+
+                this.tempField = _.clone(this.field, true)
             },
 
             remove(index) {
@@ -144,7 +149,22 @@
             },
 
             edit(index) {
-                this.active = this.fields[index].id
+                this.active = this.fields[index].handle
+
+                this.tempField = _.clone(this.field, true)
+            },
+
+            save() {
+                let index = _.findIndex(this.fields, (old_field) => {
+                    return old_field.handle == this.field.handle})
+                this.fields.splice(index, 1, this.tempField)
+            },
+
+            getUniqueHandle(handle) {
+                while(this.fieldHandles.includes(handle)) {
+                    handle = handle + '-1'
+                }
+                return handle
             }
         },
 
