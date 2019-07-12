@@ -58,10 +58,10 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="temp_field" :field_handles="field_handles"></field-editor>
+            <field-editor v-model="tempField" :fieldHandles="fieldHandles"></field-editor>
             <template slot="footer">
                 <p-button v-modal:edit-field>Cancel</p-button>
-                <p-button v-if="!temp_field.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
+                <p-button v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
             </template>
         </p-modal>
     </div>
@@ -79,7 +79,7 @@
                 active: null,
                 fields: [],
                 total: 0,
-                temp_field: {}
+                tempField: {}
             }
         },
 
@@ -101,7 +101,7 @@
                     return value
                 }      
             },
-            field_handles() {
+            fieldHandles() {
                 let vm = this
                 let handles = _.map(this.fields, function(field){
                     if(field.handle != vm.field.handle) {
@@ -132,7 +132,7 @@
                 let field = {
                     type: fieldtype,
                     name: 'Field ' + this.total,
-                    handle: this.uniqueHandle('field_' + this.total),
+                    handle: this.getUniqueHandle('field_' + this.total),
                     help: '',
                     options: {},
                     order: 99,
@@ -141,7 +141,7 @@
                 this.fields.push(field)
                 this.active = field.handle
 
-                this.temp_field = _.clone(this.field, true)
+                this.tempField = _.clone(this.field, true)
             },
 
             remove(index) {
@@ -151,21 +151,19 @@
             edit(index) {
                 this.active = this.fields[index].handle
 
-                this.temp_field = _.clone(this.field, true)
+                this.tempField = _.clone(this.field, true)
             },
 
             save() {
                 let index = _.findIndex(this.fields, (old_field) => {
-                    return old_field.handle == this.field.handle
-                })
-                this.fields.splice(index, 1, this.temp_field)
+                    return old_field.handle == this.field.handle})
+                this.fields.splice(index, 1, this.tempField)
             },
 
-            uniqueHandle(handle) {
-                while(this.field_handles.includes(handle)) {
+            getUniqueHandle(handle) {
+                while(this.fieldHandles.includes(handle)) {
                     handle = handle + '-1'
                 }
-
                 return handle
             }
         },

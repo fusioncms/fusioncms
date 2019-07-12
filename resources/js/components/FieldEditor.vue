@@ -19,7 +19,7 @@
                     delimiter="_"
                     :watch="value.name"
                     v-model="value.handle"
-                    :errorMessage="handle_error">
+                    :errorMessage="handleError">
                 </p-slug>
             </div>
         </div>
@@ -40,26 +40,25 @@
     export default {
         name: 'field-editor',
 
-        props: ['value', 'field_handles'],
+        props: ['value', 'fieldHandles'],
 
         data() {
             return {
                 errors: {
-                    'duplicate_handle': false,
-                    'empty_handle': false
+                    'duplicateHandleError': false,
+                    'emptyHandleError': false
                 }
             }
         },
 
         computed: {
-            handle_error() {
-                 if (this.errors.duplicate_handle) {
+            handleError() {
+                if (this.errors.duplicateHandleError) {
                     return 'The handle field must be unique'
-                 } else if (this.errors.empty_handle) {
+                } else if (this.errors.emptyHandleError) {
                     return 'The handle field cannot be empty'
-                 }
-
-                 return ''
+                }
+                return ''
             }
         },
 
@@ -67,10 +66,8 @@
             value: {
                 deep: true,
                 handler() {
-
-                    this.errors.duplicate_handle = this.field_handles.includes(this.value.handle)
-
-                    this.errors.empty_handle = (this.value.handle == '' || !this.value.handle)
+                    this.errors.duplicateHandleError = this.fieldHandles.includes(this.value.handle)
+                    this.errors.emptyHandleError = (this.value.handle == '' || !this.value.handle)
                 }
             },
             errors: {
