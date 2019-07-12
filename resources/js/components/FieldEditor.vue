@@ -18,11 +18,9 @@
                     required
                     delimiter="_"
                     :watch="value.name"
-                    v-model="value.handle">
+                    v-model="value.handle"
+                    :errorMessage="handle_error">
                 </p-slug>
-                <div v-if="errors.duplicate_handle">
-                    The handle field must be unique
-                </div>
             </div>
         </div>
 
@@ -53,23 +51,26 @@
             }
         },
 
+        computed: {
+            handle_error() {
+                 if (this.errors.duplicate_handle) {
+                    return 'The handle field must be unique'
+                 } else if (this.errors.empty_handle) {
+                    return 'The handle field cannot be empty'
+                 }
+
+                 return ''
+            }
+        },
+
         watch: {
             value: {
                 deep: true,
                 handler() {
 
-                    console.log(this.value.handle)
-                    if(this.field_handles.includes(this.value.handle)) {
-                        this.errors.duplicate_handle = true
-                    } else {
-                        this.errors.duplicate_handle = false
-                    }
+                    this.errors.duplicate_handle = this.field_handles.includes(this.value.handle)
 
-                    if(this.value.handle == '' || !this.value.handle) {
-                        this.errors.empty_handle = true
-                    } else {
-                        this.errors.empty_handle = false
-                    }
+                    this.errors.empty_handle = (this.value.handle == '' || !this.value.handle)
                 }
             },
             errors: {
