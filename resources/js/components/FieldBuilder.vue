@@ -8,7 +8,7 @@
         </div>
 
         <div class="row" v-if="fields.length > 0">
-            <p-sortable-list v-model="fields">
+            <p-sortable-list v-model="fields" class="sortable-list">
                 <div class="col w-full">
                     <p-sortable-item v-for="(field, index) in fields" :key="field.handle" class="mb-3 w-full">
                         <div class="section__field">

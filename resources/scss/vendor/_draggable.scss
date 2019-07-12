@@ -7,8 +7,8 @@
     opacity: 1;
 }
 
-.sortable-list-item {
-    :focus {
+.sortable-list-item, .sortable-list {
+    :focus, &:focus {
         @apply .outline-none;
     }
 }
