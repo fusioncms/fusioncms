@@ -40,7 +40,13 @@
     export default {
         name: 'field-editor',
 
-        props: ['value', 'fieldHandles'],
+        props: {
+            value: Object,
+            fieldHandles: {
+                type: Array,
+                default: function() { return [] }
+            }
+        },
 
         data() {
             return {
