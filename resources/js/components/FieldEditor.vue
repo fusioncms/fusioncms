@@ -20,7 +20,7 @@
                     :watch="value.name"
                     v-model="value.handle">
                 </p-slug>
-                <div v-if="handle_error">
+                <div v-if="errors.handle_error">
                     The handle field must be unique
                 </div>
             </div>
@@ -46,7 +46,9 @@
 
         data() {
             return {
-                handle_error: false
+                errors: {
+                    'handle_error': false
+                }
             }
         },
 
@@ -55,12 +57,16 @@
                 deep: true,
                 handler() {
                     if(this.field_handles.includes(this.value.handle)) {
-                        this.handle_error = true
-                        this.value.error = true
+                        this.errors.handle_error = true
                     } else {
-                        this.handle_error = false
-                        this.value.error = false
+                        this.errors.handle_error = false
                     }
+                }
+            },
+            errors: {
+                deep: true,
+                handler(val) {
+                    this.value.has_errors = _.includes(this.errors, true)
                 }
             }
         }
