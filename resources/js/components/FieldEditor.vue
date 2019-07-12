@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded">
+    <div>
         <div class="row">
             <div class="col w-1/2">
                 <p-input 
@@ -47,16 +47,6 @@
         data() {
             return {
                 handle_error: false
-            }
-        },
-
-
-        computed: {
-            loaded() {
-                if(this.value.name) {
-                    return true
-                }
-                return false
             }
         },
 
