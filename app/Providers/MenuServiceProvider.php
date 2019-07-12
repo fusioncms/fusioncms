@@ -95,7 +95,7 @@ class MenuServiceProvider extends ServiceProvider
                 'icon'  => 'chart-bar',
             ]);
 
-            $menu->seo->add('A/B Tests')->data([
+            $menu->seo->add('Experiments')->data([
                 'to'    => '/insight',
             ]);
 

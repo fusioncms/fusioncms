@@ -51,8 +51,8 @@ class Page extends Builder implements BuilderContract
         $traits    = [];
         $fillable  = ['matrix_id', 'status'];
 
-        if ($this->matrix->fields) {
-            $fields    = $this->matrix->fields->reject(function ($field) {
+        if ($this->matrix->fieldset->fields) {
+            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
                 return is_null($fieldtype->column);
@@ -108,7 +108,7 @@ class Page extends Builder implements BuilderContract
         $page                    = $this->get();
         $attributes['matrix_id'] = $this->matrix->id;
 
-        $fields = $this->matrix->fields->reject(function ($field) {
+        $fields = $this->matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
 
             return is_null($fieldtype->column);

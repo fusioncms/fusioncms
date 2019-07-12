@@ -28,17 +28,23 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Verified' => [
             'App\Listeners\LogVerifiedUser',
         ],
+        
         /*
          * User registered.
          */
         'Illuminate\Auth\Events\Registered' => [
             'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
         ],
+        
         /*
          * User logged in.
          */
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogActivityWhenUserLogsIn',
+        ],
+
+        'App\Events\FieldsetAttached' => [
+            'App\Listeners\WhenFieldsetIsAttached',
         ],
     ];
 

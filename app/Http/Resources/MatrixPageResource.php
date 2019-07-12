@@ -27,7 +27,7 @@ class MatrixPageResource extends JsonResource
             'matrix' => new MatrixResource($this->resource['matrix']),
         ];
 
-        $fields = $this->resource['matrix']->fields;
+        $fields = $this->resource['matrix']->fieldset->fields;
 
         if ($fields) {
             foreach ($fields as $field) {

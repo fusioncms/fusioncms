@@ -12,7 +12,6 @@
 namespace App\Observers;
 
 use App\Models\Field;
-use App\Database\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
