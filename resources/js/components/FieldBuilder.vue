@@ -132,7 +132,7 @@
                 let field = {
                     type: fieldtype,
                     name: 'Field ' + this.total,
-                    handle: 'field_' + this.total,
+                    handle: this.uniqueHandle('field_' + this.total),
                     help: '',
                     options: {},
                     order: 99,
@@ -159,6 +159,14 @@
                     return old_field.handle == this.field.handle
                 })
                 this.fields.splice(index, 1, this.temp_field)
+            },
+
+            uniqueHandle(handle) {
+                while(this.field_handles.includes(handle)) {
+                    handle = handle + '-1'
+                }
+
+                return handle
             }
         },
 
