@@ -13,6 +13,7 @@ namespace App\Observers;
 
 use App\Models\Field;
 use App\Database\Migration;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class FieldObserver
@@ -40,7 +41,9 @@ class FieldObserver
      */
     public function created(Field $field)
     {
-        $container = $field->section->container;
+        $fieldset   = $field->section->fieldset;
+        $containers = $this->getFieldsettables($fieldset);
+        
         $fieldtype = fieldtypes()->get($field->type);
         $column    = $fieldtype->getColumn('type');
         $options   = $fieldtype->getColumn('options') ?? [];
@@ -105,12 +108,32 @@ class FieldObserver
      */
     public function deleted(Field $field)
     {
-        $container = $field->section->container;
+        // $container = $field->section->container;
 
-        if (Schema::hasColumn($container->table, $field->handle)) {
-            Schema::table($container->table, function ($table) use ($field) {
-                $table->dropColumn($field->handle);
-            });
-        }
+        // if (Schema::hasColumn($container->table, $field->handle)) {
+        //     Schema::table($container->table, function ($table) use ($field) {
+        //         $table->dropColumn($field->handle);
+        //     });
+        // }
+    }
+
+    /**
+     * https://media.giphy.com/media/zIwIWQx12YNEI/giphy.gif
+     * 
+     * @param  Fieldset  $fieldset
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getFieldsettables($fieldset)
+    {
+        return DB::table('fieldsettables')->where('fieldset_id', $fieldset->id)->get()->map(function($morph) {
+            $model = app()->make($morph->fieldsettable_type);
+            $model = $model->find($morph->fieldsettable_id);
+
+            return $model;
+        })->reject(function($model) {
+            return is_null($model);
+        })->map(function($model) {
+            return $model->getBuilder();
+        });
     }
 }

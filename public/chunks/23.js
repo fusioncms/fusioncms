@@ -284,7 +284,7 @@ __webpack_require__.r(__webpack_exports__);
         handle: '',
         description: '',
         type: 'collection',
-        fieldset_id: null,
+        fieldset: null,
         sidebar: '1',
         quicklink: '1',
         icon: '',
@@ -489,24 +489,22 @@ var render = function() {
                             ? _c("p-select", {
                                 staticClass: "flex-grow",
                                 attrs: {
-                                  name: "fieldset_id",
+                                  name: "fieldset",
                                   label: "Fieldset",
                                   help:
                                     "What fieldset would you like to attach?",
                                   options: _vm.fieldsets,
-                                  "has-error": _vm.form.errors.has(
-                                    "fieldset_id"
-                                  ),
+                                  "has-error": _vm.form.errors.has("fieldset"),
                                   "error-message": _vm.form.errors.get(
-                                    "fieldset_id"
+                                    "fieldset"
                                   )
                                 },
                                 model: {
-                                  value: _vm.form.fieldset_id,
+                                  value: _vm.form.fieldset,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.form, "fieldset_id", $$v)
+                                    _vm.$set(_vm.form, "fieldset", $$v)
                                   },
-                                  expression: "form.fieldset_id"
+                                  expression: "form.fieldset"
                                 }
                               })
                             : _c("p-input", {

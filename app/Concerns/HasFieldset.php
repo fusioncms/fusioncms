@@ -15,32 +15,20 @@ use App\Models\Fieldset;
 
 trait HasFieldset
 {
+    abstract public function getBuilder();
+
     public function attachFieldset($fieldset)
     {
-        return $this->fieldsets()->sync($fieldset);
+        return $this->fieldset()->sync($fieldset);
     }
 
     public function detachFieldset()
     {
-        return $this->fieldsets()->detach();
+        return $this->fieldset()->detach();
     }
 
-    public function getFieldsetAttribute()
+    public function fieldset()
     {
-        return $this->fieldsets->count() ? $this->fieldsets()->first() : null;
-    }
-
-    public function fieldsets()
-    {
-        return $this->morphToMany(Fieldset::class, 'fieldsettable');
-    }
-
-    public function setAppends(array $appends)
-    {
-        $appends = parent::getAppends();
-
-        $appends[] = 'fieldset';
-
-        return $appends;
+        return $this->morphOne(Fieldset::class, 'fieldsettable');
     }
 }

@@ -60,6 +60,13 @@ class Matrix extends Model
         'status'           => 'boolean',
     ];
 
+    public function getBuilder()
+    {
+        $builder = new \App\Services\Builders\Page($this->handle);
+
+        return $builder->make();
+    }
+
     public function getAdminPathAttribute()
     {
         if ($this->type === 'page') {
