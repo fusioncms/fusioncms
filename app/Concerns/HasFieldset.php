@@ -19,16 +19,26 @@ trait HasFieldset
 
     public function attachFieldset($fieldset)
     {
-        return $this->fieldset()->sync($fieldset);
+        return $this->fieldsets()->sync($fieldset);
     }
 
     public function detachFieldset()
     {
-        return $this->fieldset()->detach();
+        return $this->fieldsets()->detach();
     }
 
     public function fieldset()
     {
-        return $this->morphOne(Fieldset::class, 'fieldsettable');
+        return $this->fieldsets()->first();
+    }
+        
+    public function getFieldsetAttribute()
+    {
+        return $this->fieldset();
+    }
+
+    public function fieldsets()
+    {
+        return $this->morphToMany(Fieldset::class, 'fieldsettable');
     }
 }
