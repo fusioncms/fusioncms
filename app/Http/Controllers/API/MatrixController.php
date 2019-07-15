@@ -129,7 +129,7 @@ class MatrixController extends Controller
 
         $matrix->update($attributes->except('fieldset')->all());
 
-        if ($matrix->fieldset->id !== $attributes->get('fieldset')) {
+        if (!isset($matrix->fieldset) || ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
             $matrix->attachFieldset($attributes->get('fieldset'));
         }
 
