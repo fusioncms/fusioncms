@@ -29,7 +29,7 @@ class MatrixController extends Controller
         'handle'           => 'required',
         'description'      => 'sometimes',
         'type'             => 'required',
-        'fieldset'         => 'required',
+        'fieldset'         => 'sometimes',
 
         'sidebar'          => 'required|boolean',
         'quicklink'        => 'required|boolean',
@@ -101,7 +101,9 @@ class MatrixController extends Controller
         $attributes = collect($request->validate($this->rules));
         $matrix     = Matrix::create($attributes->except('fieldset')->all());
 
-        $matrix->attachFieldset($attributes->get('fieldset'));
+        if (isset($matrix->fieldset->id) && ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
+            $matrix->attachFieldset($attributes->get('fieldset'));
+        }
 
         activity()
             ->performedOn($matrix)
@@ -129,7 +131,7 @@ class MatrixController extends Controller
 
         $matrix->update($attributes->except('fieldset')->all());
 
-        if (!isset($matrix->fieldset) || ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
+        if (isset($matrix->fieldset->id) && ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
             $matrix->attachFieldset($attributes->get('fieldset'));
         }
 
