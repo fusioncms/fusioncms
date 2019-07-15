@@ -292,6 +292,10 @@
                             'value': fieldset.id
                         }
                     })
+                    vm.fieldsets.unshift({
+                        'label': 'None',
+                        'value': null
+                    })
 
                     vm.id = matrix.data.data.id
 
@@ -299,7 +303,7 @@
                     vm.form.handle = matrix.data.data.handle
                     vm.form.description = matrix.data.data.description
                     vm.form.type = matrix.data.data.type
-                    vm.form.fieldset = matrix.data.data.fieldset.id || null
+                    vm.form.fieldset = matrix.data.data.fieldset && matrix.data.data.fieldset.id ? matrix.data.data.fieldset.id : null
 
                     vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0'
                     vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0'

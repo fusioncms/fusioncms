@@ -43,7 +43,7 @@
 
             <div class="row">
                 <div class="col w-full">
-                    <field-builder v-model="section.fields" @input="reorder(section.fields)"></field-builder>
+                    <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles"></field-builder>
                 </div>
             </div>
         </div>
@@ -76,6 +76,17 @@
                         fields: [],
                     },
                 ],
+            }
+        },
+
+        computed: {
+            fieldHandles() {
+                let vm = this
+                let fields = _.map(this.sections, 'fields')
+                fields = _.flatten(fields)
+                fields = _.concat(fields)
+                let handles = _.map(fields, 'handle')
+                return handles
             }
         },
 

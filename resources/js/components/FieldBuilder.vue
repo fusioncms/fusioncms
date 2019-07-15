@@ -58,10 +58,10 @@
         </p-modal>
 
         <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="tempField" :fieldHandles="fieldHandles"></field-editor>
+            <field-editor v-model="tempField" :fieldHandles="sectionFieldHandles"></field-editor>
             <template slot="footer">
-                <p-button v-modal:edit-field>Cancel</p-button>
-                <p-button v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
+                <p-button class="ml-2" v-modal:edit-field>Cancel</p-button>
+                <p-button class="button--primary" v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
             </template>
         </p-modal>
     </div>
@@ -71,7 +71,7 @@
     export default {
         name: 'field-builder',
 
-        props: ['value'],
+        props: ['value', 'fieldHandles'],
 
         data() {
             return {
@@ -100,16 +100,13 @@
                 set: function(value) {
                     return value
                 }      
-            },
-            fieldHandles() {
-                let vm = this
-                let handles = _.map(this.fields, function(field){
-                    if(field.handle != vm.field.handle) {
-                        return field.handle
-                    }
-                    return ''
-                })
-                return handles
+            }, 
+            sectionFieldHandles() {
+                if(this.field.handle) {
+                    let handles = _.pull(this.fieldHandles, this.field.handle)
+                    return handles
+                }
+                return this.fieldHandles
             }
         },
 
