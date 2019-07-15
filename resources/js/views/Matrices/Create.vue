@@ -318,6 +318,11 @@
                             'value': fieldset.id
                         }
                     })
+
+                    vm.fieldsets.unshift({
+                        'label': 'None',
+                        'value': null
+                    })
                 })
             }))
         }

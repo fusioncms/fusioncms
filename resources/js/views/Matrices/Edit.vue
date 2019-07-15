@@ -292,6 +292,10 @@
                             'value': fieldset.id
                         }
                     })
+                    vm.fieldsets.unshift({
+                        'label': 'None',
+                        'value': null
+                    })
 
                     vm.id = matrix.data.data.id
 

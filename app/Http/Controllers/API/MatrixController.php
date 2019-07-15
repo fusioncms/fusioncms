@@ -101,7 +101,7 @@ class MatrixController extends Controller
         $attributes = collect($request->validate($this->rules));
         $matrix     = Matrix::create($attributes->except('fieldset')->all());
 
-        if (isset($matrix->fieldset->id) && ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
+        if ($attributes->get('fieldset')) {
             $matrix->attachFieldset($attributes->get('fieldset'));
         }
 
@@ -130,9 +130,10 @@ class MatrixController extends Controller
         $attributes = collect($request->validate($this->rules));
 
         $matrix->update($attributes->except('fieldset')->all());
-
-        if (isset($matrix->fieldset->id) && ($matrix->fieldset->id !== $attributes->get('fieldset'))) {
+        if ($attributes->get('fieldset') && (!isset($matrix->fieldset) || ($matrix->fieldset->id !== $attributes->get('fieldset')))) {
             $matrix->attachFieldset($attributes->get('fieldset'));
+        } else if (!$attributes->get('fieldset')) {
+            $matrix->detachFieldset();
         }
 
         activity()
