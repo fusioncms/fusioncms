@@ -140,6 +140,10 @@ class MenuServiceProvider extends ServiceProvider
                 'to'   => '/settings',
                 'icon' => 'cog',
             ]);
+
+            $menu->settings->add('Logs')->data([
+                'to'   => '/logs'
+            ]);
         });
     }
 }
