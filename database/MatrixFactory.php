@@ -22,6 +22,11 @@ class MatrixFactory implements Factory
     protected $asCollection = false;
 
     /**
+     * @var \App\Models\Fieldset
+     */
+    protected $fieldset;
+
+    /**
      * Create a new Matrix factory.
      * 
      * @return \App\Models\Matrix
@@ -43,10 +48,13 @@ class MatrixFactory implements Factory
             $overrides['type'] = 'page';
         }
 
-        $fieldset = factory(Fieldset::class)->create();
-        $matrix   = factory(Matrix::class)->create($overrides);
+        if (! $this->fieldset) {
+            $this->fieldset = factory(Fieldset::class)->create();
+        }
 
-        $matrix->attachFieldset($fieldset);
+        $matrix = factory(Matrix::class)->create($overrides);
+
+        $matrix->attachFieldset($this->fieldset);
 
         return $matrix;
     }
@@ -84,6 +92,19 @@ class MatrixFactory implements Factory
     public function asPage()
     {
         $this->asPage = true;
+
+        return $this;
+    }
+
+    /**
+     * Create a matrix with the given fieldset.
+     * 
+     * @param  \App\Models\Fieldset  $fieldset
+     * @return \MatrixFactory
+     */
+    public function withFieldset(Fieldset $fieldset)
+    {
+        $this->fieldset = $fieldset;
 
         return $this;
     }

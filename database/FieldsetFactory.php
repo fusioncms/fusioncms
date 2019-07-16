@@ -3,9 +3,12 @@
 use App\Models\Section;
 use App\Models\Fieldset;
 use App\Contracts\Factory;
+use Facades\SectionFactory;
 
 class FieldsetFactory implements Factory
 {
+    protected $sections;
+
     /**
      * Create a new Fieldset factory.
      * 
@@ -14,10 +17,26 @@ class FieldsetFactory implements Factory
     public function create()
     {
         $fieldset = factory(Fieldset::class)->create();
-        $sections = factory(Section::class, 3)->create();
 
-        $fieldset->sections()->saveMany($sections);
+        if (! $this->sections) {
+            $this->sections = SectionFactory::times(3)->create();
+        }
+
+        $fieldset->sections()->saveMany($this->sections);
 
         return $fieldset;
+    }
+
+    /**
+     * Create a fieldset with the given sections.
+     * 
+     * @param  array|\Illuminate\Support\Collection  $sections
+     * @return \FieldsetFactory
+     */
+    public function withSections($sections)
+    {
+        $this->sections = $sections;
+
+        return $this;
     }
 }

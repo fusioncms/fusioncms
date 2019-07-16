@@ -33,39 +33,4 @@ class FieldsetModelTest extends TestCase
         $this->assertInstanceOf(HasMany::class, $fieldset->sections());
         $this->assertCount(3, $fieldset->sections);
     }
-
-    /** @test */
-    public function when_attached_all_fields_should_generate_database_columns()
-    {
-        // 
-    }
-
-    /** @test */
-    public function when_detached_all_fields_should_drop_database_columns()
-    {
-        // 
-    }
-
-    /** @test */
-    public function when_replaced_database_columns_should_merge_if_compatible()
-    {
-        // 
-    }
-
-    /** @test */
-    public function when_replaced_database_columns_should_drop_if_irrelevant()
-    {
-        // 
-    }
-
-    /** @test */
-    public function when_a_field_is_added_a_database_column_should_be_generated_on_all_attached_tables()
-    {
-
-    }
-
-    public function when_a_field_is_removed_the_associated_database_column_should_be_removed_from_all_tables()
-    {
-        
-    }
 }
