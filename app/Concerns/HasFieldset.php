@@ -13,6 +13,8 @@ namespace App\Concerns;
 
 use App\Models\Fieldset;
 use App\Events\FieldsetAttached;
+use App\Events\FieldsetDetached;
+use App\Events\FieldsetReplaced;
 use Illuminate\Support\Facades\DB;
 
 trait HasFieldset
@@ -27,9 +29,24 @@ trait HasFieldset
      */
     public function attachFieldset($fieldset)
     {
+        $previous = $this->fieldset();
+        
         $this->fieldsets()->sync($fieldset);
-
+        
         event(new FieldsetAttached($this));
+        
+        if (! is_null($previous)) {
+            $table    = $this->getBuilder()->getTable();
+            $current = $fieldset->fields->map(function($field) {
+                return $field->handle;
+            });
+
+            $previous = $previous->fields->map(function($field) {
+                return $field->handle;
+            });
+
+            event(new FieldsetReplaced($table, $current, $previous));
+        }
     }
 
     /**
@@ -39,6 +56,8 @@ trait HasFieldset
      */
     public function detachFieldset()
     {
+        event(new FieldsetDetached($this));
+
         return $this->fieldsets()->detach();
     }
 

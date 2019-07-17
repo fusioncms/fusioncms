@@ -105,7 +105,7 @@ class FieldObserver
             $table = $container->getTable();
 
             if (Schema::hasColumn($table, $field->handle)) {
-                Schema::table($container->table, function ($table) use ($field) {
+                Schema::table($table, function ($table) use ($field) {
                     $table->dropColumn($field->handle);
                 });
             }
