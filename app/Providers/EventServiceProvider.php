@@ -46,6 +46,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FieldsetAttached' => [
             'App\Listeners\WhenFieldsetIsAttached',
         ],
+
+        'App\Events\FieldsetDetached' => [
+            'App\Listeners\WhenFieldsetIsDetached',
+        ],
     ];
 
     /**

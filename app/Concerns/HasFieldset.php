@@ -13,6 +13,7 @@ namespace App\Concerns;
 
 use App\Models\Fieldset;
 use App\Events\FieldsetAttached;
+use App\Events\FieldsetDetached;
 use Illuminate\Support\Facades\DB;
 
 trait HasFieldset
@@ -39,6 +40,8 @@ trait HasFieldset
      */
     public function detachFieldset()
     {
+        event(new FieldsetDetached($this));
+
         return $this->fieldsets()->detach();
     }
 
