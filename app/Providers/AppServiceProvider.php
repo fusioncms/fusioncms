@@ -13,6 +13,7 @@ namespace App\Providers;
 
 use Bonsai;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
 use Laravel\Telescope\TelescopeServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerEloquentFactoriesFrom(base_path('database/definitions'));
+
         $this->bootRelationships();
         $this->bootBonsai();
     }
@@ -79,5 +82,15 @@ class AppServiceProvider extends ServiceProvider
     protected function bootRelationships()
     {
         Relation::morphMap(config('fusioncms.relationships', []));
+    }
+
+    /**
+     * Load Eloquent factories from a custom path.
+     * 
+     * @param  string  $path
+     * @return void
+     */
+    protected function registerEloquentFactoriesFrom($path) {
+        $this->app->make(Factory::class)->load($path);
     }
 }

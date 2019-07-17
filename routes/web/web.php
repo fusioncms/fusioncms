@@ -41,24 +41,6 @@ Route::group(['prefix' => config('fusioncms.path')], function () {
     ])->where('any', '.*');
 });
 
-Route::get('/asdf', function() {
-    $fieldset = App\Models\Fieldset::first();
-
-    // https://media.giphy.com/media/zIwIWQx12YNEI/giphy.gif
-    $morphs = DB::table('fieldsettables')->where('fieldset_id', $fieldset->id)->get()->map(function($morph) {
-        $model = app()->make($morph->fieldsettable_type);
-        $model = $model->find($morph->fieldsettable_id);
-
-        return $model;
-    })->reject(function($model) {
-        return is_null($model);
-    })->map(function($model) {
-        return $model->getBuilder();
-    });
-
-    return $morphs;
-});
-
 Route::fallback([
     'as'   => 'routes.handle',
     'uses' => 'RouterController@handle',
