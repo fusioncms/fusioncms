@@ -163,7 +163,7 @@ class FieldsetTest extends TestCase
         $newsTable   = $newsMatrix->getBuilder()->getTable();
         
         $fieldset->sections()->first()->fields()->save($field);
-        $fieldset->sections()->first()->fields()->where('id', $field->id)->delete();
+        $fieldset->sections()->first()->fields()->find($field->id)->delete();
 
         $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
         $this->assertDatabaseTableDoesNotHaveColumn($newsTable, $field->handle);
