@@ -1,0 +1,36 @@
+.logs {
+  &__sidebar {
+    max-width: 30%;
+  }
+
+  &__sidebar .router-link-exact-active {
+    @apply text-grey-lightest bg-black;
+  }
+
+  &__main {
+    max-width: 70%;
+  }
+
+  &__row {
+    padding-left: 0;
+    transition: all .15s ease;
+  }
+
+  &__row:nth-child(even) {
+    background-color: rgba(0,0,0,.025);
+  }
+
+  &__row:hover {
+    padding-left: 7px;
+    cursor: pointer;
+    background-color: rgba(0,0,0,.075);
+  }
+
+  &__stack-row {
+    word-break: break-word;
+  }
+
+  &__stack-row:nth-child(even) {
+    background-color: rgba(0,0,0,.1);
+  }
+}

@@ -1,54 +1,89 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="chart-network">Error Logs</app-title>
+            <app-title icon="bug">Error Logs</app-title>
         </portal>
 
         <div class="row">
-            <div class="side-container">
+            <div class="logs__sidebar side-container">
                 <div class="card">
                     <div class="card-body">
-                        <router-link v-for="(file, index) in files" :to="{ path: 'logs?', query: {file: file} }" :key="index">{{file}}</router-link>
+                        <router-link 
+                            v-for="(file, index) in files" 
+                            :to="{ path: 'logs?', query: {file: file} }" 
+                            :key="index"
+                            class="block px-3 py-2 text-grey-darkest">
+                            {{file}}
+                        </router-link>
                     </div>
                 </div>
             </div>
-            <div class="content-container">
+            <div class="logs__main content-container">
                 <div class="card">
-                    <div class="card-header">
-                        Log Entries
+                    <div class="card-header px-4 py-2">
+                        <h2 class="mb-0">Log Entries</h2>
+                        <h5>Click an entry to view full error and stack trace</h5>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Level</th>
-                                    <th>Date</th>
-                                    <th>Header</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr v-for="log in logs">
-                                    <td>
-                                        <span :class="'badge badge-' + log.level.status">
-                                            <i :class="'fa-fw fal fa-' + log.level.icon"></i>
-                                            {{ log.level.name }}
-                                        </span>
-                                    </td>
-                                    <td>{{ log.date }}</td>
-                                    <td>
-                                        <b>{{ log.text }}</b>
-                                        <div v-if="log.inFile">
-                                            {{log.inFile}}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="container">
+                        <div v-for="log in logs" class="logs__row flex flex-no-wrap" @click="changeCurrentError(log)" v-modal:error-view>
+                            <div class="px-2 py-1 flex-no-shrink">
+                                <div :class="'d-flex badge badge--' + log.level.status">
+                                    <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
+                                    <span>
+                                        {{ log.level.name }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-3 py-1 flex-no-shrink">{{ log.date }}</div>
+                            <div class="col px-3 py-1 leading-tight overflow-hidden">
+                                <b>{{ log.text }}</b>
+                                <div v-if="log.inFile" class="truncate pt-2">
+                                    {{log.inFile}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <p-modal name="error-view" title="Error Details" extra-large>
+            <div v-if="currentError.date">
+                <div class="flex leading-tight">
+                    <div class="col flex pr-2">
+                        <div class="pr-2 whitespace-no-wrap">
+                            <strong>Timestamp:</strong>
+                        </div>
+                        <div class="whitespace-no-wrap">
+                            {{currentError.date}}
+                        </div>
+                    </div>
+                    <div class="col flex px-2">
+                        <div class="pr-2 whitespace-no-wrap">
+                            <strong>Log Level:</strong>
+                        </div>
+                        <div>
+                            {{currentError.level.name}}
+                        </div>
+                    </div>
+                    <div class="col flex pl-2">
+                        <div class="pr-2 whitespace-no-wrap">
+                            <strong>Error Text:</strong>
+                        </div>
+                        <div>
+                            {{currentError.text}}
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <h3>Stack Trace:</h3>
+                    <div class="logs__stack-trace">
+                        <div v-for="row in currentError.stackTrace" class="logs__stack-row px-2 py-2 leading-normal">
+                            {{row}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-modal>
     </div>
 </template>
 
@@ -59,7 +94,8 @@
                 endpoint: '/datatable/matrices',
                 currentFile: '',
                 files: [],
-                logs: []
+                logs: [],
+                currentError: {}
             }
         },
 
@@ -90,6 +126,10 @@
                     vm.files = response.data.files
                     vm.logs = response.data.logs
                 })
+            },
+
+            changeCurrentError(log) {
+                this.currentError = log
             }
         }
     }

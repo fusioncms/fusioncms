@@ -81,7 +81,7 @@ class LogRepository
             // preg_match('/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\].*?\.' . $levelKey . ': (.*?)( in .*?:[0-9]+)?$/', $heading, $current);
             $timestampPattern = '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]';
             $logLevelPattern = '(^' . implode('|', array_keys($logLevels)) . '$): ';
-            $textPattern = '(.*?)\{';
+            $textPattern = '(.*?)\{"exception"';
             $filePattern = '.*?(at .*?)';
             $stackTracePattern = '\[stacktrace\]\n(.*?)"\} ';
 
@@ -94,11 +94,11 @@ class LogRepository
             }
 
             $log[] = [
-                'level'      => $current[2],
+                'level'      => $logLevels[$current[2]],
                 'date'       => $current[1],
-                'text'       => $current[3],
+                'text'       => ucfirst($current[3]),
                 'inFile'     => isset($current[4]) ? $current[4] : null,
-                'stackTrace' => $current[5] ?? null
+                'stackTrace' => $current[5] ? explode(PHP_EOL, $current[5]) : null
             ];
         }
 
