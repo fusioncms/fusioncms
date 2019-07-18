@@ -77,8 +77,6 @@ class LogRepository
             array_shift($logData);
         }
         foreach ($headings[0] as $heading) {
-            //  /(\{"exception.*?\} \n)/s
-            // preg_match('/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\].*?\.' . $levelKey . ': (.*?)( in .*?:[0-9]+)?$/', $heading, $current);
             $timestampPattern = '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]';
             $logLevelPattern = '(^' . implode('|', array_keys($logLevels)) . '$): ';
             $textPattern = '(.*?)\{"exception"';
