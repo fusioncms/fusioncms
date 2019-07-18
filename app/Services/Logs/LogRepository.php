@@ -37,7 +37,7 @@ class LogRepository
         $log       = [];
         $logLevels = $this->getLogLevels();
 
-        $pattern   = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
+        $pattern   = '/(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*?\} \n)/s';
 
         if (! $this->file) {
             $logFile = $this->getFiles();
@@ -76,26 +76,30 @@ class LogRepository
         if ($logData[0] < 1) {
             array_shift($logData);
         }
+        foreach ($headings[0] as $heading) {
+            //  /(\{"exception.*?\} \n)/s
+            // preg_match('/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\].*?\.' . $levelKey . ': (.*?)( in .*?:[0-9]+)?$/', $heading, $current);
+            $timestampPattern = '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]';
+            $logLevelPattern = '(^' . implode('|', array_keys($logLevels)) . '$): ';
+            $textPattern = '(.*?)\{';
+            $filePattern = '.*?(at .*?)';
+            $stackTracePattern = '\[stacktrace\]\n(.*?)"\} ';
 
-        foreach ($headings as $heading) {
-            for ($i = 0, $j = count($heading); $i < $j; $i++) {
-                foreach ($logLevels as $levelKey => $levelValue) {
-                    if (strpos(strtolower($heading[$i]), '.' . $levelValue['slug'])) {
-                        preg_match('/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\].*?\.' . $levelKey . ': (.*?)( in .*?:[0-9]+)?$/', $heading[$i], $current);
 
-                        if (! isset($current[2])) {
-                            continue;
-                        }
+            $regexPattern = '/' . $timestampPattern . '.*?\.' . $logLevelPattern .  $textPattern .  $filePattern . $stackTracePattern . '/s';
+            preg_match($regexPattern, $heading, $current);
 
-                        $log[] = [
-                            'level'  => $levelValue,
-                            'date'   => $current[1],
-                            'text'   => $current[2],
-                            'inFile' => isset($current[3]) ? $current[3] : null,
-                        ];
-                    }
-                }
+            if (! isset($current[2])) {
+                continue;
             }
+
+            $log[] = [
+                'level'      => $current[2],
+                'date'       => $current[1],
+                'text'       => $current[3],
+                'inFile'     => isset($current[4]) ? $current[4] : null,
+                'stackTrace' => $current[5] ?? null
+            ];
         }
 
         return array_reverse($log);
