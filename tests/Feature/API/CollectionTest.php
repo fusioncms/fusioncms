@@ -17,7 +17,7 @@ use Tests\Foundation\TestCase;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MatrixCollectionTest extends TestCase
+class CollectionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -28,8 +28,6 @@ class MatrixCollectionTest extends TestCase
      */
     public function a_user_with_permissions_can_create_a_collection()
     {
-        $this->withoutExceptionHandling();
-
         $this->actingAs($this->admin, 'api');
 
         $fieldset   = factory(Fieldset::class)->create();
@@ -40,33 +38,11 @@ class MatrixCollectionTest extends TestCase
         ])->toArray();
 
         $collection['fieldset'] = $fieldset->id;
-
-        try {
-            $response = $this->json('POST', '/api/matrices', $collection);
-        } catch (ValidationException $e) {
-            dd($e->validator->errors());
-        }
+        
+        $response = $this->json('POST', '/api/matrices', $collection);
 
         $response->assertStatus(201);
 
         $this->assertDatabaseHasTable('mx_blog');
-    }
-
-    /** @test */
-    public function the_database_table_is_renamed_when_renaming_a_collection()
-    {
-        // $this->actingAs($this->admin, 'api');
-
-        // 
-    }
-
-    /**
-     * @test
-     * @group fusioncms
-     * @group matrix
-     */
-    public function a_column_is_created_when_adding_a_field()
-    {
-        // $this->actingAs($this->admin, 'api');
     }
 }

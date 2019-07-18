@@ -42,4 +42,13 @@ trait DatabaseAssertions
 
         return $this;
     }
+
+    protected function assertDatabaseTableColumnHasType($table, $column, $type)
+    {
+        $columnType = Schema::getColumnType($table, $column);
+
+        $this->assertEquals($columnType, $type);
+
+        return $this;
+    }
 }

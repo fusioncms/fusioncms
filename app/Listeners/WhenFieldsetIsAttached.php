@@ -34,14 +34,36 @@ class WhenFieldsetIsAttached
             $fieldtype = fieldtypes()->get($field->type);
             $column    = $fieldtype->getColumn('type');
             $options   = $fieldtype->getColumn('options') ?? [];
+            $table     = $event->model->getTable();
 
             array_unshift($options, $field->handle);
 
-            if (! is_null($column)) {
-                Schema::table($event->model->getTable(), function ($table) use ($column, $options) {
-                    call_user_func_array([$table, $column], $options)->nullable();
+            if ($this->shouldCreateTableColumn($table, $column, $options)) {
+                Schema::table($table, function ($blueprint) use ($column, $options) {
+                    call_user_func_array([$blueprint, $column], $options)->nullable();
                 });
             }
         }
+    }
+
+    /**
+     * Determine if the column should be created or not.
+     * 
+     * @param 
+     * @return boolean
+     */
+    protected function shouldCreateTableColumn($table, $column, $options)
+    {
+        $name = $options[0];
+
+        if (is_null($column)) {
+            return false;
+        }
+
+        if (Schema::hasColumn($table, $name)) {
+            return false;
+        }
+
+        return true;
     }
 }

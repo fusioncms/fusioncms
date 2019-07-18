@@ -1,21 +1,13 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Tests\Feature\API;
 
 use App\Models\Fieldset;
+use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class FieldsetSectionTest extends TestCase
+class FieldsetTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -27,6 +19,8 @@ class FieldsetSectionTest extends TestCase
     public function a_fieldset_can_have_a_section()
     {
         $this->actingAs($this->admin, 'api');
+
+        $fieldset = FieldsetFactory::create();
 
         $fieldset = factory(Fieldset::class)->create();
 
