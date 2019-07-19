@@ -7,6 +7,10 @@
         <div class="row">
             <div class="logs__sidebar side-container">
                 <div class="card">
+                    <div class="card-header px-3 pt-2">
+                        <h4 class="mb-0">Available Logs</h4>
+                    </div>
+                    <hr>
                     <div class="card-body">
                         <router-link 
                             v-for="(file, index) in files" 
@@ -15,6 +19,9 @@
                             class="block px-3 py-2 text-grey-darkest">
                             {{file}}
                         </router-link>
+                        <div v-if="files.length == 0" class="block px-3 py-2">
+                            No logs found
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,7 +33,7 @@
                     </div>
                     <div class="container">
                         <div v-for="log in logs" class="logs__row flex flex-no-wrap" @click="changeCurrentError(log)" v-modal:error-view>
-                            <div class="px-2 py-1 flex-no-shrink">
+                            <div class="px-2 py-1 flex-no-shrink flex items-center">
                                 <div :class="'d-flex badge badge--' + log.level.status">
                                     <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
                                     <span>
@@ -34,7 +41,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="px-3 py-1 flex-no-shrink">{{ log.date }}</div>
+                            <div class="px-3 py-1 flex-no-shrink flex items-center">{{ log.date }}</div>
                             <div class="col px-3 py-1 leading-tight overflow-hidden">
                                 <b>{{ log.text }}</b>
                                 <div v-if="log.inFile" class="truncate pt-2">
@@ -48,8 +55,8 @@
         </div>
         <p-modal name="error-view" title="Error Details" extra-large>
             <div v-if="currentError.date">
-                <div class="flex leading-tight">
-                    <div class="col flex pr-2">
+                <div class="flex leading-tight mb-3">
+                    <div class="flex pr-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Timestamp:</strong>
                         </div>
@@ -57,7 +64,7 @@
                             {{currentError.date}}
                         </div>
                     </div>
-                    <div class="col flex px-2">
+                    <div class="flex px-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Log Level:</strong>
                         </div>
@@ -65,7 +72,7 @@
                             {{currentError.level.name}}
                         </div>
                     </div>
-                    <div class="col flex pl-2">
+                    <div class="flex pl-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Error Text:</strong>
                         </div>
@@ -77,7 +84,7 @@
                 <div class="">
                     <h3>Stack Trace:</h3>
                     <div class="logs__stack-trace">
-                        <div v-for="row in currentError.stackTrace" class="logs__stack-row px-2 py-2 leading-normal">
+                        <div v-for="row in currentError.stackTrace" class="logs__stack-row px-2 py-2 leading-normal" v-if="row.length">
                             {{row}}
                         </div>
                     </div>

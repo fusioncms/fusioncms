@@ -32,9 +32,10 @@ class LogsController extends Controller
     }
 
     /**
-     * Display a listing of all themes.
-     *
-     * @return Theme
+     * Return a JSON object of available log files
+     * and error information in current log file
+     * 
+     * @return String
      */
     public function index()
     {
