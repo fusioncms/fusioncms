@@ -1,25 +1,28 @@
 <template>
     <div>
         <p-select
-            name="options.type"
-            label="Type"
-            help="What type of input should this be?"
+            name="options.transparency"
+            label="Transparency"
+            help="Should this field allow transparency?"
             autocomplete="off"
-            v-model="type"
+            v-model="transparency"
             :options="[
                 {
-                    label: 'Text',
-                    value: 'text',
+                    label: 'Yes',
+                    value: true
+                },
+                {
+                    label: 'No',
+                    value: false
                 }
             ]"
         >
         </p-select>
 
         <p-input
-            name="options.placeholder"
-            label="Placeholder"
-            help="Text that will appear inside the input element's content area when empty."
-            autocomplete="off"
+            name="options.default"
+            label="Default"
+            help="Default color value for this field."
             v-model="value.placeholder"
             >
         </p-input>
@@ -34,13 +37,17 @@
 
         data() {
             return {
-                type: this.value.type || 'text',
+                transparency: this.value.transparency || true,
             }
         },
 
         watch: {
-            value() {
-                console.log('value changed', this.value)
+            value: {
+                deep: true,
+                handler(newValue) {
+                    console.log(newValue)
+                    console.log('value changed', this.value)
+                }
             },
         },
 
