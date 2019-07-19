@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-wrapper">
+    <div class="flex-wrapper max-w-full">
         <sidebar>
             <slot name="sidebar"></slot>
         </sidebar>
