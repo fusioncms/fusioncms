@@ -5,7 +5,7 @@
             label="Transparency"
             help="Should this field allow transparency?"
             autocomplete="off"
-            v-model="transparency"
+            v-model="value.transparency"
             :options="[
                 {
                     label: 'Yes',
@@ -35,20 +35,26 @@
     export default {
         name: 'color_picker-fieldtype-options',
 
+        props: {
+            value: Object
+        },
+
         data() {
             return {
                 transparency: this.value.transparency || true,
+                default: this.value.default || ''
             }
         },
 
-        watch: {
-            value: {
-                deep: true,
-                handler(newValue) {
-                    console.log(newValue)
-                    console.log('value changed', this.value)
-                }
-            },
+        mounted() {
+            let vm = this
+            console.log(vm.value)
+            if(!vm.value.settings) {
+                vm.value.settings = {}
+            }
+            Object.keys(this.$data).forEach((handle) => {
+                vm.value.settings[handle] = vm[handle]
+            })
         },
 
         mixins: [fieldtype],

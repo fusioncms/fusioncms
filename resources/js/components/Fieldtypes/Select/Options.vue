@@ -18,6 +18,10 @@
         components: {
             'option-builder': OptionBuilder,
         },
+
+        mounted() {
+            console.log(this.value)
+        }
     }
 </script>
 
