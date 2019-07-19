@@ -28,7 +28,6 @@ class LogsController extends Controller
     public function index(Request $request)
     {
         $log     = new Repository;
-        $request = $request;
 
         if ($request->input('l')) {
             $log->setFile($request->input('l'));
