@@ -22,6 +22,23 @@ class CollectionTest extends TestCase
     use RefreshDatabase;
 
     /**
+     * Called before each test is run...
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->fields[] = FieldFactory::withName('Excerpt')->create();
+        $this->fields[] = FieldFactory::withName('Content')->create();
+        $this->fieldset = FiledsetFactory::withName('Posts')->withFields($this->fields)->create();
+        $this->posts    = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
+
+        dd($this->posts);
+    }
+
+    /**
      * @test
      * @group fusioncms
      * @group matrix
