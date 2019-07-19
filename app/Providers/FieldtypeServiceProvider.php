@@ -32,6 +32,7 @@ class FieldtypeServiceProvider extends ServiceProvider
         fieldtypes()->register(\App\Fieldtypes\RedactorFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\SelectFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\TextareaFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\ColorPickerFieldtype::class);
     }
 
     /**
