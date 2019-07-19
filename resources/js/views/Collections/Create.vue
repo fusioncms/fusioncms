@@ -1,10 +1,10 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="matrix.icon">{{ matrix.name }}</app-title>
+            <app-title :icon="collection.icon">Create {{ singular }}</app-title>
         </portal>
         
-        <portal to="subtitle">{{ matrix.description }}</portal>
+        <portal to="subtitle">{{ collection.description }}</portal>
 
         <div class="row">
             <div class="content-container">
@@ -41,7 +41,7 @@
                     <p-card v-else class="text-center">
                         <p>You should configure your Matrix Page with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
 
-                        <router-link class="button items-center" :to="'/matrices/manage/' + matrix.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
+                        <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
                     </p-card>
                 </form>
             </div>
@@ -71,7 +71,7 @@
                         </div>
 
                         <portal to="actions">
-                            <router-link :to="{ name: 'dashboard' }" class="button mr-3">Go Back</router-link>
+                            <router-link :to="{ name: 'collections.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
 
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>
@@ -100,12 +100,12 @@
 </template>
 
 <script>
+    import pluralize from 'pluralize'
     import Form from '../../forms/Form'
 
     export default {
         data() {
             return {
-                matrix: {},
                 collection: {},
                 form: {},
             }
@@ -116,12 +116,12 @@
                 let body = []
                 let sidebar = []
 
-                if (this.matrix.fieldset) {
-                    body = _.filter(this.matrix.fieldset.sections, function(section) {
+                if (this.collection.fieldset) {
+                    body = _.filter(this.collection.fieldset.sections, function(section) {
                         return section.placement == 'body'
                     })
 
-                    sidebar = _.filter(this.matrix.fieldset.sections, function(section) {
+                    sidebar = _.filter(this.collection.fieldset.sections, function(section) {
                         return section.placement == 'sidebar'
                     })
                 }
@@ -131,50 +131,38 @@
                     sidebar: sidebar
                 }
             },
-        },
 
-        watch: {
-            '$route' (to, from) {
-                let vm = this
+            singular() {
+                if (this.collection) {
+                    return pluralize.singular(this.collection.name)
+                }
 
-                axios.get('/api/pages/handle/' + to.params.page).then((response) => {    
-                        vm.matrix  = response.data.data.matrix
-                        vm.page = response.data.data.page
-
-                        let fields = {}
-
-                        _.forEach(vm.matrix.fields, function(field) {
-                            Vue.set(fields, field.handle, vm.page[field.handle])
-                        })
-
-                        Vue.set(fields, 'status', vm.matrix.status ? '1' : '0')
-
-                        vm.form = new Form(fields)
-                })
+                return ''
             },
         },
 
         methods: {
             submit() {
-                this.form.post('/api/collections/' + this.matrix.id + '/entries').then((response) => {
-                    toast('Entry saved successfully', 'success')
-                }).catch((response) => {
-                    toast(response.response.data.message, 'failed')
-                })
+                console.log('submit')
+
+                // this.form.post('/api/collections/' + this.collection.id + '/entries').then((response) => {
+                //     toast('Entry saved successfully', 'success')
+                // }).catch((response) => {
+                //     toast(response.response.data.message, 'failed')
+                // })
             },
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.get('/api/collections/' + to.params.collection).then((response) => {
+            axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 next(function(vm) {
-                    vm.matrix  = response.data.data.matrix
-                    vm.collection = response.data.data.collection
+                    vm.collection = response.data.data
 
                     let fields = {
-                        status: vm.collection.status,
+                        status: 1,
                     }
 
-                    _.forEach(vm.matrix.fields, function(value, handle) {
+                    _.forEach(vm.collection.fields, function(value, handle) {
                         Vue.set(fields, handle, vm.collection[handle])
                     })
 

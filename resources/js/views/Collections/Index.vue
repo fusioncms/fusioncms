@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <router-link :to="{ name: 'collections.create', params: {collection: collection.id} }" class="button">Create {{ singular }}</router-link>
+            <router-link :to="{ name: 'collections.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">
@@ -45,8 +45,7 @@
 
             singular() {
                 if (this.collection) {
-                    return this.collection.name
-                    // return pluralize.singular(this.collection.name)
+                    return pluralize.singular(this.collection.name)
                 }
 
                 return ''
