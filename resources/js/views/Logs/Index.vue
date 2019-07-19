@@ -19,7 +19,10 @@
                             class="block px-3 py-2 text-grey-darkest">
                             {{file}}
                         </router-link>
-                        <div v-if="files.length == 0" class="block px-3 py-2">
+                        <div v-if="!loaded && files.length == 0" class="block px-3 py-2">
+                            Loading log files <fa-icon icon="cog" class="fa-spin ml-2"></fa-icon>
+                        </div>
+                        <div v-if="loaded && files.length == 0" class="block px-3 py-2">
                             No logs found
                         </div>
                     </div>
@@ -32,7 +35,7 @@
                         <h5>Click an entry to view full error and stack trace</h5>
                     </div>
                     <div class="container">
-                        <div v-for="log in logs" class="logs__row flex flex-no-wrap" @click="changeCurrentError(log)" v-modal:error-view>
+                        <div v-if="loaded" v-for="log in logs" class="logs__row flex flex-no-wrap" @click="changeCurrentError(log)" v-modal:error-view>
                             <div class="px-2 py-1 flex-no-shrink flex items-center">
                                 <div :class="'d-flex badge badge--' + log.level.status">
                                     <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
@@ -48,6 +51,9 @@
                                     {{log.inFile}}
                                 </div>
                             </div>
+                        </div>
+                        <div v-if="!loaded" class="block px-3 py-4">
+                            Loading file: <code>{{file}}</code> <fa-icon icon="cog" class="fa-spin ml-3"></fa-icon>
                         </div>
                     </div>
                 </div>
@@ -84,9 +90,9 @@
                 <div class="">
                     <h3>Stack Trace:</h3>
                     <div class="logs__stack-trace">
-                        <div v-for="row in currentError.stackTrace" class="logs__stack-row px-2 py-2 leading-normal" v-if="row.length">
+                        <code v-for="row in currentError.stackTrace" class="logs__stack-row block rounded-none px-2 py-2 leading-normal" v-if="row.length">
                             {{row}}
-                        </div>
+                        </code>
                     </div>
                 </div>
             </div>
@@ -102,14 +108,15 @@
                 currentFile: '',
                 files: [],
                 logs: [],
-                currentError: {}
+                currentError: {},
+                loaded: false
             }
         },
 
         computed: {
             file() {
                 let filename = this.$route.query ? this.$route.query : ''
-                return filename
+                return filename.file
             }
         },
 
@@ -127,11 +134,13 @@
         methods: {
             getFile(filename) {
                 let vm = this
+                vm.loaded = false
                 let query = filename ? '?l=' + filename : ''
                 axios.get('/api/logs' + query).then((response) => {
                     vm.currentFile = response.data.currentFile
                     vm.files = response.data.files
                     vm.logs = response.data.logs
+                    vm.loaded = true
                 })
             },
 
