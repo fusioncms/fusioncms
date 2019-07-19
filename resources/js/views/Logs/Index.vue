@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="bug">Error Logs</app-title>
+            <app-title icon="bug">Logs</app-title>
         </portal>
 
         <div class="row">
@@ -53,7 +53,10 @@
                             </div>
                         </div>
                         <div v-if="!loaded" class="block px-3 py-4">
-                            Loading file: <code>{{file}}</code> <fa-icon icon="cog" class="fa-spin ml-3"></fa-icon>
+                            Loading file <code v-if="file">{{file}}</code> <fa-icon icon="cog" class="fa-spin ml-3"></fa-icon>
+                        </div>
+                        <div v-if="loaded && logs.length == 0" class="block px-3 py-4">
+                            Log file empty
                         </div>
                     </div>
                 </div>

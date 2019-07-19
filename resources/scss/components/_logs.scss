@@ -12,8 +12,7 @@
   }
 
   &__row {
-    padding-left: 0;
-    transition: all .15s ease;
+    transition: background-color .15s ease;
   }
 
   &__row:nth-child(even) {
@@ -21,7 +20,6 @@
   }
 
   &__row:hover {
-    padding-left: 7px;
     cursor: pointer;
     background-color: rgba(0,0,0,.075);
   }

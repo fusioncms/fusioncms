@@ -14,22 +14,10 @@ namespace App\Http\Controllers\API;
 use Theme;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\Logs\LogRepository;
+use App\Services\Logs\Repository;
 
 class LogsController extends Controller
 {
-    /**
-     * @var LogRepositoryInterface
-     */
-    protected $log;
-
-    public function __construct(LogRepository $log, Request $request)
-    {
-        parent::__construct();
-
-        $this->log     = $log;
-        $this->request = $request;
-    }
 
     /**
      * Return a JSON object of available log files
@@ -37,15 +25,18 @@ class LogsController extends Controller
      * 
      * @return String
      */
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->input('l')) {
-            $this->log->setFile($this->request->input('l'));
+        $log     = new Repository;
+        $request = $request;
+
+        if ($request->input('l')) {
+            $log->setFile($request->input('l'));
         }
 
-        $logs        = $this->log->getAll();
-        $files       = $this->log->getFiles(true);
-        $currentFile = $this->log->getFileName();
+        $logs        = $log->all();
+        $files       = $log->getFiles(true);
+        $currentFile = $log->getFileName();
 
         return json_encode(['logs' => $logs, 'files' => $files, 'currentFile' => $currentFile]);
     }

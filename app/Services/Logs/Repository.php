@@ -15,7 +15,7 @@ use File;
 use ReflectionClass;
 use Psr\Log\LogLevel;
 
-class LogRepository
+class Repository
 {
     /**
      * @var string
@@ -25,14 +25,18 @@ class LogRepository
     /**
      * @var int
      */
-    protected $maxFileSize = 52428800;
+    protected $maxFileSize;
+
+    public function __construct() {
+        $this->maxFileSize = env('LOG_MAX_SIZE', 52428800);
+    }
 
     /**
      * Get all logs.
      *
      * @return array
      */
-    public function getAll()
+    public function all()
     {
         $log       = [];
         $logLevels = $this->getLogLevels();
