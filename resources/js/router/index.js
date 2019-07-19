@@ -247,6 +247,15 @@ const router = new Router({
             }
         },
         {
+            path: '/logs',
+            component: () => import('../views/Logs/Index'),
+            name: 'logs.index',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
             path: '/category-groups',
             component: require('../views/CategoryGroups').default,
             name: 'category-groups.index',
