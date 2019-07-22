@@ -21,3 +21,5 @@ Vue.component('select-fieldtype-settings', () => import('../components/Fieldtype
 Vue.component('textarea-fieldtype', () => import('../components/Fieldtypes/Textarea/Field'))
 Vue.component('textarea-fieldtype-settings', () => import('../components/Fieldtypes/Textarea/Settings'))
 
+Vue.component('checkbox-fieldtype', () => import('../components/Fieldtypes/Checkbox/Field'))
+Vue.component('checkbox-fieldtype-settings', () => import('../components/Fieldtypes/Checkbox/Settings'))
