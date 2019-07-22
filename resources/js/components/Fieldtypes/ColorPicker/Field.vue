@@ -1,14 +1,19 @@
 <template>
-    <div class="d-flex">
-        <div :class="pickrClass"></div>
-        <p-input
-            :name="field.handle"
-            :label="field.name"
-            :help="field.help"
-            :placeholder="field.options.placeholder"
-            :value="value"
-            @input="$emit('input', $event)"
-        ></p-input>
+    <div>
+        <div class="form__group">
+            <label :for="field.handle">{{field.name}}</label>
+            <div class="flex">
+                <div class="mr-2">
+                    <div :class="pickrClass"></div>
+                </div>
+                
+                <input id="field.handle" 
+                    name="field.handle"
+                    type="text" 
+                    class="form__control" 
+                    v-model="value">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -46,6 +51,7 @@
             const pickr = Pickr.create({
                 el: '.' + this.pickrClass,
                 theme: 'monolith',
+                default: vm.value != '' ? vm.value : 'rgba(255,87,34,1)',
                 swatches: null,
                 comparison: false,
                 defaultRepresentation: 'RGBA',
