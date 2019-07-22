@@ -11,7 +11,7 @@
     import OptionBuilder from '../../OptionBuilder'
 
     export default {
-        name: 'select-fieldtype-options',
+        name: 'select-fieldtype-settings',
 
         mixins: [fieldtype],
 

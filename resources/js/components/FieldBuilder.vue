@@ -131,7 +131,7 @@
                     name: 'Field ' + this.total,
                     handle: this.getUniqueHandle('field_' + this.total),
                     help: '',
-                    options: {},
+                    settings: {},
                     order: 99,
                 }
 

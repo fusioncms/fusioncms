@@ -8,7 +8,7 @@
     import fieldtype from '../../../mixins/fieldtype'
 
     export default {
-        name: 'divider-fieldtype-options',
+        name: 'divider-fieldtype-settings',
 
         mixins: [fieldtype],
     }

@@ -1,9 +1,9 @@
 <template>
     <div>
         <p-input
-            name="options.placeholder"
+            name="settings.placeholder"
             label="Placeholder"
-            help="Text that will appear inside the WYSIWYG element's content area when empty."
+            help="Text that will appear inside the textarea element's content area when empty."
             autocomplete="off"
             v-model="value.placeholder"
             >
@@ -15,7 +15,7 @@
     import fieldtype from '../../../mixins/fieldtype'
 
     export default {
-        name: 'redactor-fieldtype-options',
+        name: 'textarea-fieldtype-settings',
 
         mixins: [fieldtype],
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <p-select
-            name="options.type"
+            name="settings.type"
             label="Type"
             help="What type of input should this be?"
             autocomplete="off"
@@ -40,7 +40,7 @@
         </p-select>
 
         <p-input
-            name="options.placeholder"
+            name="settings.placeholder"
             label="Placeholder"
             help="Text that will appear inside the input element's content area when empty."
             autocomplete="off"
@@ -54,7 +54,7 @@
     import fieldtype from '../../../mixins/fieldtype'
 
     export default {
-        name: 'input-fieldtype-options',
+        name: 'input-fieldtype-settings',
 
         data() {
             return {

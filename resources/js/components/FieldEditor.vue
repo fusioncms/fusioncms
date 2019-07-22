@@ -32,7 +32,7 @@
 
         <hr>
 
-        <component v-if="value.type" :is="value.type.handle + '-fieldtype-options'" v-model="value.options"></component>
+        <component v-if="value.type" :is="value.type.handle + '-fieldtype-settings'" v-model="value.settings"></component>
     </div>
 </template>
 

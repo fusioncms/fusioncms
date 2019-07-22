@@ -2,7 +2,7 @@
     <div>
         <p-input
             type="number"
-            name="options.decimals"
+            name="settings.decimals"
             label="Decimal Places"
             help="The number of decimal places this number will accept."
             autocomplete="off"
@@ -16,7 +16,7 @@
     import fieldtype from '../../../mixins/fieldtype'
 
     export default {
-        name: 'number-fieldtype-options',
+        name: 'number-fieldtype-settings',
 
         mixins: [fieldtype],
     }

@@ -8,7 +8,7 @@
     import fieldtype from '../../../mixins/fieldtype'
 
     export default {
-        name: 'information-fieldtype-options',
+        name: 'information-fieldtype-settings',
 
         mixins: [fieldtype],
     }

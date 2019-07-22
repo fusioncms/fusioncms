@@ -6,7 +6,7 @@
             :help="field.help"
             :value="value"
             @input="$emit('input', $event)"
-            :options="options"
+            :settings="options"
         ></p-select>
     </div>
 </template>
@@ -29,7 +29,7 @@
 
         computed: {
             options() {
-                return this.field.options.options
+                return this.field.settings.options
             },
         },
 
