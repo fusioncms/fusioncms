@@ -36,6 +36,7 @@
     "dependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@fortawesome/pro-light-svg-icons": "^5.8.2",
+        "@simonwep/pickr": "^1.2.3",
         "form-data": "^2.3.3",
         "js-cookie": "^2.2.0",
         "marked": "^0.6.1",
