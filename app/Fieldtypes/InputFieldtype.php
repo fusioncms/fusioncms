@@ -37,8 +37,8 @@ class InputFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        'type' => 'hidden',
-        'placeholder' => 'PLACEHOLDER'
+        'type' => 'text',
+        'placeholder' => ''
     ];
 
     /**
