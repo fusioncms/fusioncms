@@ -5,7 +5,7 @@
             label="Type"
             help="What type of input should this be?"
             autocomplete="off"
-            v-model="type"
+            v-model="value.type"
             :options="[
                 {
                     label: 'Text',
@@ -59,16 +59,11 @@
         data() {
             return {
                 type: this.value.type || 'text',
+                placeholder: this.value.placeholder || ''
             }
         },
 
-        watch: {
-            value() {
-                console.log('value changed', this.value)
-            },
-        },
-
-        mixins: [fieldtype],
+        mixins: [fieldtype]
     }
 </script>
 

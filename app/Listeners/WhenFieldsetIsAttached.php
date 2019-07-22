@@ -39,7 +39,7 @@ class WhenFieldsetIsAttached
             array_unshift($settings, $field->handle);
 
             if ($this->shouldCreateTableColumn($table, $column, $settings)) {
-                Schema::table($table, function ($blueprint) use ($column, $options) {
+                Schema::table($table, function ($blueprint) use ($column, $settings) {
                     call_user_func_array([$blueprint, $column], $settings)->nullable();
                 });
             }

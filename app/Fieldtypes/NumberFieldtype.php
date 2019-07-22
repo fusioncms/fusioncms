@@ -36,6 +36,13 @@ class NumberFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $settings = [
+        'decimals' => 0
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type'    => 'float',
         'options' => [24, 12],

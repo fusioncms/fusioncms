@@ -74,6 +74,10 @@
                 handler() {
                     this.errors.duplicateHandleError = this.fieldHandles.includes(this.value.handle)
                     this.errors.emptyHandleError = (this.value.handle == '' || !this.value.handle)
+
+                    if(Array.isArray(this.value.settings)) {
+                        this.value.settings = {}
+                    }
                 }
             },
             errors: {

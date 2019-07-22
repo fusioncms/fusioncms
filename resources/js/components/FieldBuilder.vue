@@ -125,13 +125,12 @@
         methods: {
             add(fieldtype) {
                 this.total++
-
                 let field = {
                     type: fieldtype,
                     name: 'Field ' + this.total,
                     handle: this.getUniqueHandle('field_' + this.total),
                     help: '',
-                    settings: {},
+                    settings: _.clone(fieldtype.settings, true),
                     order: 99,
                 }
 
