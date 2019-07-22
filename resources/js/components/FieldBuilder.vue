@@ -78,7 +78,6 @@
                 fieldtypes: {},
                 active: null,
                 fields: [],
-                total: 0,
                 tempField: {}
             }
         },
@@ -107,6 +106,9 @@
                     return handles
                 }
                 return this.fieldHandles
+            },
+            total() {
+                return (this.fields.length + 1)
             }
         },
 
@@ -124,7 +126,6 @@
 
         methods: {
             add(fieldtype) {
-                this.total++
                 let field = {
                     type: fieldtype,
                     name: 'Field ' + this.total,
@@ -166,7 +167,6 @@
 
         mounted() {
             this.fields = this.value || []
-            this.total = this.value.length || 0
 
             axios.all([
                 axios.get('/api/fieldtypes'),
