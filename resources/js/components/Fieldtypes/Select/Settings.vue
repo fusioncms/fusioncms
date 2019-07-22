@@ -1,5 +1,23 @@
 <template>
     <div>
+        <p-select
+            name="settings.multiple"
+            label="Multi Select"
+            help="Should this field allow multiple options to be selected?"
+            autocomplete="off"
+            v-model="value.multiple"
+            :options="[
+                {
+                    label: 'No',
+                    value: 'no',
+                },
+                {
+                    label: 'Yes',
+                    value: 'yes',
+                }
+            ]"
+        >
+        </p-select>
         <div class="col w-full">
             <option-builder v-model="value.options"></option-builder>
         </div>

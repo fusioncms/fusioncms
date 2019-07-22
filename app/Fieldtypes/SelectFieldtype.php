@@ -36,6 +36,14 @@ class SelectFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $settings = [
+        'multiple' => 'no',
+        'options' => []
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type' => 'string',
     ];
