@@ -6,7 +6,7 @@
             :help="field.help"
             :value="value"
             @input="$emit('input', $event)"
-            :settings="options"
+            :options="options"
         ></p-select>
     </div>
 </template>
