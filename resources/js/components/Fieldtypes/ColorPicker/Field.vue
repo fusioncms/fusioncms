@@ -73,16 +73,16 @@
         methods: {
             pickrChanged(color) {
                 this.color = color
-                this.rgba = this.color.toRGBA().toString(0)
-                this.hex = this.color.toHEXA().toString()
-                this.cmyk = this.color.toCMYK().toString(0)
-                this.$emit('input', color.toRGBA().toString(0))
+                this.rgba = this.color ? this.color.toRGBA().toString(0) : ''
+                this.hex = this.color ? this.color.toHEXA().toString() : ''
+                this.cmyk = this.color ?  this.color.toCMYK().toString(0) : ''
+                this.$emit('input', this.rgba)
             },
             changeColor(colorString) {
                 if(this.pickr.setColor(colorString)) {
                     this.pickr.applyColor()
                 }
-            }
+            },
         },
 
         watch: {
@@ -119,7 +119,7 @@
                         cmyk: true,
                         input: true,
                         cancel: false,
-                        clear: false
+                        clear: true
                     }
                 }
             })
@@ -141,12 +141,9 @@
             vm.pickr.on('change', (color, instance) => {
                 vm.pickrChanged(color)
             })
-
-            vm.pickr.on('hide', instance => {
-                console.log('closed')
+            vm.pickr.on('clear', instance => {
+                vm.pickrChanged(null)
             })
-
-            console.log(vm.pickr.getColor())
         }
     }
 </script>
