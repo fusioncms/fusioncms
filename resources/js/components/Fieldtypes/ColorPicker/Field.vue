@@ -47,7 +47,8 @@
                 rgba: '',
                 hex: '',
                 cmyk: '',
-                updating: false
+                updating: false,
+                transparency: true
             }
         },
 
@@ -110,7 +111,7 @@
                 components: {
                     palette: true,
                     preview: true,
-                    opacity: true,
+                    opacity: vm.transparency,
                     hue: true,
                     interaction: {
                         hex: true,
