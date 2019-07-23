@@ -7,25 +7,25 @@
                     <div :class="pickrClass"></div>
                 </div>
                 <div class="mr-2 flex-grow">
-                    <label :for="pickrClass + '_name'" class="text-xs">RGBA</label>
+                    <label :for="pickrClass + '_rgba'" class="text-xs">RGBA</label>
                     <input :id="pickrClass + '_rgba'"
-                        :name="pickrClass + '_name'"
+                        :name="pickrClass + '_rgba'"
                         type="text" 
                         class="form__control" 
                         v-model="rgba">
                 </div>
                 <div class="mr-2 flex-grow">
-                    <label :for="pickrClass + '_name'" class="text-xs">Hex</label>
-                    <input :id="pickrClass + '_rgba'"
-                        :name="pickrClass + '_name'"
+                    <label :for="pickrClass + '_hex'" class="text-xs">Hex</label>
+                    <input :id="pickrClass + '_hex'"
+                        :name="pickrClass + '_hex'"
                         type="text" 
                         class="form__control" 
                         v-model="hex">
                 </div>
                 <div class="flex-grow">
-                    <label :for="pickrClass + '_name'" class="text-xs">CMYK</label>
-                    <input :id="pickrClass + '_rgba'"
-                        :name="pickrClass + '_name'"
+                    <label :for="pickrClass + '_cmyk'" class="text-xs">CMYK</label>
+                    <input :id="pickrClass + '_cmyk'"
+                        :name="pickrClass + '_cmyk'"
                         type="text" 
                         class="form__control" 
                         v-model="cmyk">
