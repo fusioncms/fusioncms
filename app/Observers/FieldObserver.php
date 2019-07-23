@@ -30,14 +30,14 @@ class FieldObserver
         
         $fieldtype = fieldtypes()->get($field->type);
         $column    = $fieldtype->getColumn('type');
-        $options   = $fieldtype->getColumn('options') ?? [];
+        $settings   = $fieldtype->getColumn('settings') ?? [];
 
-        array_unshift($options, $field->handle);
+        array_unshift($settings, $field->handle);
 
         if (! is_null($column)) {
-            $containers->each(function($container) use ($column, $options) {
-                Schema::table($container->getTable(), function ($table) use ($column, $options) {
-                    call_user_func_array([$table, $column], $options)->nullable();
+            $containers->each(function($container) use ($column, $settings) {
+                Schema::table($container->getTable(), function ($table) use ($column, $settings) {
+                    call_user_func_array([$table, $column], $settings)->nullable();
                 });
             });
         }
@@ -77,13 +77,13 @@ class FieldObserver
             if ($oldFieldtype !== $newFieldtype) {
                 $fieldtype = fieldtypes()->get($new['type']);
                 $column    = $fieldtype->getColumn('type');
-                $options   = $fieldtype->getColumn('options') ?? [];
+                $settings   = $fieldtype->getColumn('settings') ?? [];
 
-                array_unshift($options, $new['handle']);
+                array_unshift($settings, $new['handle']);
 
                 if (! is_null($column)) {
-                    Schema::table($table, function ($table) use ($column, $options) {
-                        call_user_func_array([$table, $column], $options)->change();
+                    Schema::table($table, function ($table) use ($column, $settings) {
+                        call_user_func_array([$table, $column], $settings)->change();
                     });
                 }
             }

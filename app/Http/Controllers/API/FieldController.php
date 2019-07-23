@@ -27,7 +27,7 @@ class FieldController extends Controller
         'type'           => 'required',
         'placement'      => 'required',
         'section'        => 'sometimes',
-        'options'        => 'sometimes',
+        'settings'        => 'required',
         'status'         => 'required',
         'container_type' => 'required',
         'container_id'   => 'required',

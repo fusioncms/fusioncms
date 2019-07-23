@@ -36,6 +36,13 @@ class RedactorFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $settings = [
+        'placeholder' => ''
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type' => 'text',
     ];

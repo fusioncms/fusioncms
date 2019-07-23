@@ -29,7 +29,7 @@
 
         computed: {
             options() {
-                return this.field.options.options
+                return this.field.settings.options
             },
         },
 

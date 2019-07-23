@@ -33,7 +33,7 @@
                     smartypants: true,
                 })
 
-                return marked(this.field.options.information)
+                return marked(this.field.settings.information)
             }
         }
     }
