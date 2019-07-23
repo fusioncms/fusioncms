@@ -80,9 +80,7 @@
             },
             changeColor(colorString) {
                 if(this.pickr.setColor(colorString)) {
-                    this.updating = true
                     this.pickr.applyColor()
-                    this.updating = false
                 }
             }
         },
@@ -101,10 +99,12 @@
 
         mounted() {
             let vm = this
+            let defaultColor = vm.value === null && vm.field.settings.default ? vm.field.settings.default : null
+
             vm.pickr = Pickr.create({
                 el: '.' + this.pickrClass,
                 theme: 'monolith',
-                default: vm.value != '' ? vm.value : 'rgba(255,87,34,1)',
+                default: vm.value && vm.value != '' ? vm.value : defaultColor,
                 swatches: null,
                 comparison: false,
                 defaultRepresentation: 'RGBA',
@@ -125,11 +125,14 @@
             })
 
             if(vm.value) {
-                vm.pickr.setColor(vm.value)
-                vm.pickr.applyColor()
+                vm.changeColor(vm.value)
+                vm.color = vm.pickr.getColor()
+                vm.pickrChanged(vm.color)
+            } else if(defaultColor) {
+                vm.changeColor(defaultColor)
+                vm.color = vm.pickr.getColor()
+                vm.pickrChanged(vm.color)
             }
-            vm.color = vm.pickr.getColor()
-            vm.pickrChanged(vm.color)
 
 
             vm.pickr.on('save', (color, instance) => {
@@ -138,6 +141,12 @@
             vm.pickr.on('change', (color, instance) => {
                 vm.pickrChanged(color)
             })
+
+            vm.pickr.on('hide', instance => {
+                console.log('closed')
+            })
+
+            console.log(vm.pickr.getColor())
         }
     }
 </script>

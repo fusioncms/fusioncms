@@ -1,3 +1,7 @@
+.pcr-app:not(.visible) {
+  pointer-events: none;
+}
+
 .pcr-app[data-theme="monolith"] {
   width: 320px;
   .pcr-selection .pcr-color-palette {

@@ -36,6 +36,14 @@ class ColorPickerFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $settings = [
+        'transparency' => 1,
+        'default' => ''
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type' => 'string',
     ];
