@@ -49,7 +49,7 @@ class Collection extends Builder implements BuilderContract
     {
         $className = studly_case($this->matrix->handle);
         $traits    = [];
-        $fillable  = ['matrix_id', 'status'];
+        $fillable  = ['matrix_id', 'status', 'name', 'slug'];
 
         if ($this->matrix->fields) {
             $fields    = $this->matrix->fields->reject(function ($field) {

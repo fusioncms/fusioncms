@@ -47,6 +47,28 @@ class CollectionController extends Controller
         ]);
     }
 
+    public function store(Request $request, $handle)
+    {
+        $matrix = Matrix::where('handle', $handle)->firstOrFail();
+        $collection = (new Collection($handle))->make();
+        $rules      = ['status' => 'required|boolean', 'name' => 'required', 'slug' => 'required'];
+        $fields     = $matrix->fieldset->fields->reject(function ($field) {
+            $fieldtype = fieldtypes()->get($field->type);
+            
+            return is_null($fieldtype->column);
+        });
+
+        dd($matrix->fieldset);
+
+        foreach ($fields as $field) {
+            $rules[$field->handle] = 'sometimes';
+        }
+
+        $attributes = $request->validate($rules);
+
+        dd($attributes);
+    }
+
     /**
      * Update the specified resource in storage.
      *

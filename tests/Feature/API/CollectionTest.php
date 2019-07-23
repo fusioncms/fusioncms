@@ -13,6 +13,10 @@ namespace Tests\Feature\API;
 
 use App\Models\Matrix;
 use App\Models\Fieldset;
+use Facades\FieldFactory;
+use Facades\MatrixFactory;
+use Facades\SectionFactory;
+use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,12 +34,13 @@ class CollectionTest extends TestCase
     {
         parent::setUp();
 
+        $this->section = SectionFactory::times(1)->withoutFields()->create();
+
         $this->fields[] = FieldFactory::withName('Excerpt')->create();
         $this->fields[] = FieldFactory::withName('Content')->create();
-        $this->fieldset = FiledsetFactory::withName('Posts')->withFields($this->fields)->create();
-        $this->posts    = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
-
-        dd($this->posts);
+        $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
+        
+        $this->posts = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
     }
 
     /**
@@ -61,5 +66,53 @@ class CollectionTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHasTable('mx_blog');
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_create_a_new_entry()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($this->admin, 'api');
+
+        $form['name']    = 'Example';
+        $form['slug']    = 'example';
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $response = $this->json('POST', '/api/collections/posts', $form);
+
+        $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_update_an_existing_entry()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_delete_an_existing_entry()
+    {
+        //
+    }
+
+    /** @test */
+    public function a_user_without_permissions_cannot_create_new_entries()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_without_permissions_cannot_update_existing_entries()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_without_permissions_cannot_delete_existing_entries()
+    {
+        // 
     }
 }
