@@ -6,8 +6,11 @@ export default {
     },
 
     watch: {
-        value(value) {
-            this.$emit('input', value)
+        value: {
+            deep: true,
+            handler(value) {
+                this.$emit('input', value)
+            }
         },
     }
 }

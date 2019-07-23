@@ -151,7 +151,7 @@ class FieldsetSectionController extends Controller
                     'name'    => $field['name'],
                     'handle'  => $field['handle'],
                     'help'    => $field['help'],
-                    'options' => $field['options'],
+                    'settings' => $field['settings'],
                     'type'    => $field['type']['handle'],
                 ]);
             }
