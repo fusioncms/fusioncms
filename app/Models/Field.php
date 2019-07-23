@@ -26,7 +26,7 @@ class Field extends Model
         'help',
         'required',
         'type',
-        'options',
+        'settings',
         'order',
         'section_id',
     ];
@@ -38,7 +38,7 @@ class Field extends Model
      */
     protected $casts = [
         'required' => 'boolean',
-        'options'  => 'collection',
+        'settings'  => 'collection',
         'status'   => 'boolean',
     ];
 

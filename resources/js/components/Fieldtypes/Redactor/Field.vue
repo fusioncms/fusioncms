@@ -3,7 +3,7 @@
             :name="field.handle"
             :label="field.name"
             :help="field.help"
-            :placeholder="field.options.placeholder"
+            :placeholder="field.settings.placeholder"
             :value="value"
             @input="$emit('input', $event)"
         ></redactor>

@@ -33,7 +33,7 @@ class FieldResource extends JsonResource
             'type'      => new FieldtypeResource(fieldtypes()->get($this->type)),
             'placement' => $this->placement,
             'section'   => $this->section ?: 'General',
-            'options'   => $this->options,
+            'settings'   => $this->settings,
 
             'order'     => $this->order,
             'status'    => $this->status,

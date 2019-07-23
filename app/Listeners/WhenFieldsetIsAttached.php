@@ -33,14 +33,14 @@ class WhenFieldsetIsAttached
         foreach ($fields as $field) {
             $fieldtype = fieldtypes()->get($field->type);
             $column    = $fieldtype->getColumn('type');
-            $options   = $fieldtype->getColumn('options') ?? [];
+            $settings   = $fieldtype->getColumn('settings') ?? [];
             $table     = $event->model->getTable();
 
-            array_unshift($options, $field->handle);
+            array_unshift($settings, $field->handle);
 
-            if ($this->shouldCreateTableColumn($table, $column, $options)) {
-                Schema::table($table, function ($blueprint) use ($column, $options) {
-                    call_user_func_array([$blueprint, $column], $options)->nullable();
+            if ($this->shouldCreateTableColumn($table, $column, $settings)) {
+                Schema::table($table, function ($blueprint) use ($column, $settings) {
+                    call_user_func_array([$blueprint, $column], $settings)->nullable();
                 });
             }
         }
@@ -52,9 +52,9 @@ class WhenFieldsetIsAttached
      * @param 
      * @return boolean
      */
-    protected function shouldCreateTableColumn($table, $column, $options)
+    protected function shouldCreateTableColumn($table, $column, $settings)
     {
-        $name = $options[0];
+        $name = $settings[0];
 
         if (is_null($column)) {
             return false;

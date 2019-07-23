@@ -32,7 +32,7 @@
 
         <hr>
 
-        <component v-if="value.type" :is="value.type.handle + '-fieldtype-options'" v-model="value.options"></component>
+        <component v-if="value.type" :is="value.type.handle + '-fieldtype-settings'" v-model="value.settings"></component>
     </div>
 </template>
 
@@ -74,6 +74,10 @@
                 handler() {
                     this.errors.duplicateHandleError = this.fieldHandles.includes(this.value.handle)
                     this.errors.emptyHandleError = (this.value.handle == '' || !this.value.handle)
+
+                    if(Array.isArray(this.value.settings)) {
+                        this.value.settings = {}
+                    }
                 }
             },
             errors: {
