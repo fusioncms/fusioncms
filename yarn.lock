@@ -573,7 +573,6 @@
 "@efelle/proton@^1.0.0-beta.14":
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@efelle/proton/-/proton-1.0.0-beta.14.tgz#6749e5078fb29c16c9522eb08e082a50c4127178"
-  integrity sha512-qKofxiHL1R8ZBQQ6cdYGZJBza4bHcgJTz8YiLb1DJAXusKc2H5VFGeo38dxtS4ng/tJyyCHTl3Vzo+YPSX4oAg==
 
 "@fortawesome/fontawesome-common-types@^0.2.18":
   version "0.2.18"
@@ -635,6 +634,10 @@
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
+
+"@simonwep/pickr@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.2.3.tgz#3ab48fecee33e39d0bba785d27e669ea25177eda"
 
 "@types/events@*":
   version "3.0.0"
@@ -4453,7 +4456,6 @@ pkg-dir@^3.0.0:
 pluralize@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
-  integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
 portal-vue@^1.5.1:
   version "1.5.1"
