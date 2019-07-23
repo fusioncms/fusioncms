@@ -9,11 +9,11 @@
             :options="[
                 {
                     label: 'No',
-                    value: 'no',
+                    value: 0,
                 },
                 {
                     label: 'Yes',
-                    value: 'yes',
+                    value: 1,
                 }
             ]"
         >
