@@ -67,7 +67,9 @@ class CollectionTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseHasTable('mx_blog');
+        $this->assertDatabaseHasTable('mx_blog')
+            ->assertDatabaseTableHasColumn('mx_blog', 'name')
+            ->assertDatabaseTableHasColumn('mx_blog', 'slug');
     }
 
     /** @test */
@@ -75,15 +77,22 @@ class CollectionTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+        ];
+
+        $form = $data;
         $form['status'] = true;
 
         $response = $this->json('POST', '/api/collections/posts', $form);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseTableHasColumn('mx_posts', 'id')
+            ->assertDatabaseHas('mx_posts', $data);
     }
 
     /** @test */
@@ -97,22 +106,53 @@ class CollectionTest extends TestCase
 
         $response = $this->json('POST', '/api/collections/posts', $form);
 
-        $response->assertSessionHasErrors([
-            'name',
-            'slug'
-        ]);
+        $response->assertStatus(422)    
+            ->assertJsonValidationErrors(['name', 'slug']);
     }
 
     /** @test */
     public function a_user_with_permissions_can_update_an_existing_entry()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        $form['name']    = 'Example';
+        $form['slug']    = 'example';
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+
+        $response = $this->json('PATCH', '/api/collections/posts/'.$entry->id, [
+            'name' => 'New Post Title',
+            'slug' => 'new-post-title',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertDatabaseHas('mx_posts', [
+                'name' => 'New Post Title',
+                'slug' => 'new-post-title',
+            ])
+            ->assertDatabaseDoesntHave('mx_posts', [
+                'name' => 'Example',
+                'slug' => 'example',
+            ]);
     }
 
     /** @test */
     public function a_user_with_permissions_can_delete_an_existing_entry()
     {
-        //
+        $this->actingAs($this->admin, 'api');
+
+        $form['name']    = 'Example';
+        $form['slug']    = 'example';
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+
+        $response = $this->json('DELETE', '/api/collections/posts/'.$entry->id);
     }
 
     /** @test */

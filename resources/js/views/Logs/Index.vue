@@ -46,7 +46,7 @@
                             </div>
                             <div class="px-3 py-1 flex-no-shrink flex items-center">{{ log.date }}</div>
                             <div class="col px-3 py-1 leading-tight overflow-hidden">
-                                <b>{{ log.text }}</b>
+                                <b v-html="log.text"></b>
                                 <div v-if="log.inFile" class="truncate pt-2">
                                     {{log.inFile}}
                                 </div>
@@ -64,8 +64,8 @@
         </div>
         <p-modal name="error-view" title="Error Details" extra-large>
             <div v-if="currentError.date">
-                <div class="flex leading-tight mb-3">
-                    <div class="flex pr-2">
+                <div class="flex flex-wrap leading-tight mb-3">
+                    <div class="flex p-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Timestamp:</strong>
                         </div>
@@ -73,7 +73,7 @@
                             {{currentError.date}}
                         </div>
                     </div>
-                    <div class="flex px-2">
+                    <div class="flex p-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Log Level:</strong>
                         </div>
@@ -81,12 +81,14 @@
                             {{currentError.level.name}}
                         </div>
                     </div>
-                    <div class="flex pl-2">
+                    <div class="flex p-2">
                         <div class="pr-2 whitespace-no-wrap">
                             <strong>Error Text:</strong>
                         </div>
-                        <div>
-                            {{currentError.text}}
+                        <div class="logs__full-text">
+                            <code>
+                                {{currentError.textFull}}
+                            </code>
                         </div>
                     </div>
                 </div>

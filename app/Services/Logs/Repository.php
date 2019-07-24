@@ -83,12 +83,13 @@ class Repository
         foreach ($headings[0] as $heading) {
             $timestampPattern = '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]';
             $logLevelPattern = '(^' . implode('|', array_keys($logLevels)) . '$): ';
-            $textPattern = '(.*?)\{"exception"';
+            $textPattern = '(.*?)\{';
             $filePattern = '.*?(at .*?)';
             $stackTracePattern = '\[stacktrace\]\n(.*?)"\} ';
 
 
             $regexPattern = '/' . $timestampPattern . '.*?\.' . $logLevelPattern .  $textPattern .  $filePattern . $stackTracePattern . '/s';
+
             preg_match($regexPattern, $heading, $current);
 
             if (! isset($current[2])) {
@@ -98,7 +99,8 @@ class Repository
             $log[] = [
                 'level'      => $logLevels[$current[2]],
                 'date'       => $current[1],
-                'text'       => ucfirst($current[3]),
+                'text'       => str_limit(ucfirst($current[3]), 200, ' <span class="text-primary">(...)</span>'),
+                'textFull'   => $current[3],
                 'inFile'     => isset($current[4]) ? $current[4] : null,
                 'stackTrace' => $current[5] ? explode(PHP_EOL, $current[5]) : null
             ];

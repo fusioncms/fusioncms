@@ -9,7 +9,7 @@
         <div class="row">
             <div class="content-container">
                 <form @submit.prevent="submit">
-                    <p-card v-if="sections.body.length > 0">
+                    <p-card v-if="sections.body.length > 0" :key="matrix.handle">
                         <!-- Loop through each section -->
                         <div v-for="(section, index) in sections.body" :key="section.handle">
                             <div class="row">
@@ -133,27 +133,6 @@
             },
         },
 
-        watch: {
-            '$route' (to, from) {
-                let vm = this
-
-                axios.get('/api/pages/handle/' + to.params.page).then((response) => {    
-                        vm.matrix  = response.data.data.matrix
-                        vm.page = response.data.data.page
-
-                        let fields = {}
-
-                        _.forEach(vm.matrix.fields, function(field) {
-                            Vue.set(fields, field.handle, vm.page[field.handle])
-                        })
-
-                        Vue.set(fields, 'status', vm.matrix.status ? '1' : '0')
-
-                        vm.form = new Form(fields)
-                })
-            },
-        },
-
         methods: {
             submit() {
                 this.form.patch('/api/pages/' + this.matrix.id).then((response) => {
@@ -162,11 +141,11 @@
                     toast(response.response.data.message, 'failed')
                 })
             },
-        },
 
-        beforeRouteEnter(to, from, next) {
-            axios.get('/api/pages/handle/' + to.params.page).then((response) => {
-                next(function(vm) {
+            getPage(to, from, next) {
+                let vm = this
+
+                axios.get('/api/pages/handle/' + to.params.page).then((response) => {    
                     vm.matrix  = response.data.data.matrix
                     vm.page = response.data.data.page
 
@@ -180,7 +159,18 @@
 
                     vm.form = new Form(fields)
                 })
+            }
+        },
+
+        beforeRouteEnter(to, from, next) {
+            next(vm => {
+                vm.getPage(to, from, next)
             })
         },
+
+        beforeRouteUpdate(to,from,next) {
+            this.getPage(to, from, next)
+            next()
+        }
     }
 </script>

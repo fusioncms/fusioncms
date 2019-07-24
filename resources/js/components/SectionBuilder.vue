@@ -93,12 +93,14 @@
         props: ['value', 'container'],
 
         watch: {
-            sections(value) {
-                if (this.total === 0) {
-                    this.total = value.length
+            sections: {
+                deep: true,
+                handler(value){
+                    if (this.total === 0) {
+                        this.total = value.length
+                    }
+                    this.$emit('input', value)
                 }
-
-                this.$emit('input', value)
             },
 
             value(value) {

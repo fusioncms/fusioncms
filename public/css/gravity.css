@@ -2430,7 +2430,8 @@ table td::before {
   background-color: rgba(0, 0, 0, .075);
 }
 
-.logs__stack-row {
+.logs__stack-row,
+.logs__full-text {
   word-break: break-word;
 }
 
