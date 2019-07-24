@@ -9,7 +9,7 @@
         <div class="row">
             <div class="content-container">
                 <form @submit.prevent="submit">
-                    <p-card v-if="sections.body.length > 0">
+                    <p-card v-if="sections.body.length > 0" :key="matrix.handle">
                         <!-- Loop through each section -->
                         <div v-for="(section, index) in sections.body" :key="section.handle">
                             <div class="row">
