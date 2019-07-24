@@ -34,6 +34,8 @@ class CollectionTest extends TestCase
     {
         parent::setUp();
 
+        $this->handleValidationExceptions();
+
         $this->section = SectionFactory::times(1)->withoutFields()->create();
 
         $this->fields[] = FieldFactory::withName('Excerpt')->create();
@@ -71,8 +73,6 @@ class CollectionTest extends TestCase
     /** @test */
     public function a_user_with_permissions_can_create_a_new_entry()
     {
-        $this->withoutExceptionHandling();
-
         $this->actingAs($this->admin, 'api');
 
         $form['name']    = 'Example';
@@ -84,6 +84,23 @@ class CollectionTest extends TestCase
         $response = $this->json('POST', '/api/collections/posts', $form);
 
         $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function a_name_and_slug_are_required_for_every_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $response = $this->json('POST', '/api/collections/posts', $form);
+
+        $response->assertSessionHasErrors([
+            'name',
+            'slug'
+        ]);
     }
 
     /** @test */

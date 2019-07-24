@@ -32,6 +32,7 @@
 @import "components/treeview";
 @import "components/upload";
 @import "components/logs";
+@import "components/color-picker";
 
 // Utilities
 @tailwind utilities;
@@ -54,3 +55,4 @@
 @import "vendor/nprogress";
 @import "vendor/redactor";
 @import "vendor/vue";
+@import "../../node_modules/@simonwep/pickr/dist/themes/monolith.min.css";

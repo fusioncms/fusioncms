@@ -17,7 +17,7 @@
 
         components: {
             'option-builder': OptionBuilder,
-        },
+        }
     }
 </script>
 

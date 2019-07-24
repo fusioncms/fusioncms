@@ -12,10 +12,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EntryResource;
 use App\Services\Builders\Collection;
-use App\Http\Resources\CollectionResource;
 
 class CollectionController extends Controller
 {
@@ -49,7 +50,7 @@ class CollectionController extends Controller
 
     public function store(Request $request, $handle)
     {
-        $matrix = Matrix::where('handle', $handle)->firstOrFail();
+        $matrix     = Matrix::where('handle', $handle)->firstOrFail();
         $collection = (new Collection($handle))->make();
         $rules      = ['status' => 'required|boolean', 'name' => 'required', 'slug' => 'required'];
         $fields     = $matrix->fieldset->fields->reject(function ($field) {
@@ -58,15 +59,24 @@ class CollectionController extends Controller
             return is_null($fieldtype->column);
         });
 
-        dd($matrix->fieldset);
-
         foreach ($fields as $field) {
             $rules[$field->handle] = 'sometimes';
         }
 
-        $attributes = $request->validate($rules);
+        $attributes              = $request->validate($rules);
+        $attributes['matrix_id'] = $matrix->id;
 
-        dd($attributes);
+        $entry      = $collection->create($attributes);
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+                'link' => 'collections/'.$matrix->handle.'//edit/' . $entry->id,
+            ])
+            ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
+
+        return new EntryResource($entry);
     }
 
     /**
