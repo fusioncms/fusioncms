@@ -95,7 +95,7 @@
                         </div>
 
                         <portal to="actions">
-                            <router-link :to="{ name: 'collections.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
+                            <router-link :to="{ name: 'entries.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
 
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>

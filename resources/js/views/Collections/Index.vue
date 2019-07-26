@@ -5,22 +5,51 @@
         </portal>
 
         <portal to="actions">
-            <router-link :to="{ name: 'collections.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
+            <router-link :to="{ name: 'entries.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="permissions" :endpoint="endpoint" sort-by="name" :per-page="10" no-actions>
+                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10">
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
 
-                    <template slot="description" slot-scope="table">
-                        <span class="text-grey-darker text-sm">{{ table.record.description }}</span>
+                    <template slot="status" slot-scope="table">
+                        <span class="badge badge--success" v-if="table.record.status === 1">Enabled</span>
+                        <span class="badge badge--danger" v-else>Disabled</span>
+                    </template>
+
+                    <template slot="actions" slot-scope="table">
+                        <p-dropdown right>
+                            <fa-icon icon="bars"></fa-icon>
+                            
+                            <template slot="options">
+                                <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.handle, id: table.record.id} }">Edit</p-dropdown-item>
+
+                                <p-dropdown-item
+                                    @click.prevent
+                                    v-modal:delete-entry="table.record"
+                                >
+                                    Delete
+                                </p-dropdown-item>
+                            </template>
+                        </p-dropdown>
                     </template>
                 </p-datatable>
             </div>
         </div>
+
+        <portal to="modals">
+            <p-modal name="delete-entry" title="Delete Entry">
+                <p>Are you sure you want to permenantly delete this entry?</p>
+
+                <template slot="footer" slot-scope="entry">
+                    <p-button v-modal:delete-entry @click="destroy(entry.data.id)" theme="danger" class="ml-3">Delete</p-button>
+                    <p-button v-modal:delete-entry>Cancel</p-button>
+                </template>
+            </p-modal>
+        </portal>
     </div>
 </template>
 
@@ -44,12 +73,22 @@
             },
 
             singular() {
-                if (this.collection) {
+                if (this.collection.name) {
                     return pluralize.singular(this.collection.name)
                 }
 
                 return ''
             },
+        },
+
+        methods: {
+            destroy(id) {
+                axios.delete('/api/collections/' + this.collection.handle + '/' + id).then((response) => {
+                    toast('Entry successfully deleted.', 'success')
+                    
+                    proton().$emit('refresh-datatable-entries')
+                })
+            }
         },
 
         beforeRouteEnter(to, from, next) {
