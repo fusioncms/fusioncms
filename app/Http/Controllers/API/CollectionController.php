@@ -50,6 +50,8 @@ class CollectionController extends Controller
 
     public function store(Request $request, $matrix)
     {
+        $this->authorize('entry.create');
+
         $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
         $collection = (new Collection($matrix->handle))->make();
         
@@ -94,6 +96,8 @@ class CollectionController extends Controller
      */
     public function update(Request $request, $matrix, $id)
     {
+        $this->authorize('entry.update');
+
         $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
         $entry = (new Collection($matrix->handle))->make()->find($id);
         $rules = [
@@ -125,6 +129,8 @@ class CollectionController extends Controller
 
     public function destroy(Request $request, $matrix, $id)
     {
+        $this->authorize('entry.destroy');
+
         $matrix = Matrix::where('handle', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);

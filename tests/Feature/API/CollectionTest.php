@@ -19,6 +19,7 @@ use Facades\SectionFactory;
 use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CollectionTest extends TestCase
@@ -164,18 +165,66 @@ class CollectionTest extends TestCase
     /** @test */
     public function a_user_without_permissions_cannot_create_new_entries()
     {
-        // 
+        $this->expectException(AuthorizationException::class);
+        $this->actingAs($this->user, 'api');
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+        ];
+
+        $form = $data;
+        $form['status'] = true;
+
+        $response = $this->json('POST', '/api/collections/posts', $form)
+            ->assertUnauthorized();
+
+        $this->assertDatabaseMissing('mx_posts', $data);
     }
 
     /** @test */
     public function a_user_without_permissions_cannot_update_existing_entries()
     {
-        // 
+        $this->expectException(AuthorizationException::class);
+        $this->actingAs($this->admin, 'api');
+
+        $form['name']    = 'Example';
+        $form['slug']    = 'example';
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+
+        $this->actingAs($this->user, 'api');
+
+        $response = $this->json('PATCH', '/api/collections/posts/'.$entry->id, [
+            'name'   => 'New Post Title',
+            'status' => true,
+        ])->assertUnauthorized();
     }
 
     /** @test */
     public function a_user_without_permissions_cannot_delete_existing_entries()
     {
-        // 
+        $this->expectException(AuthorizationException::class);
+        $this->actingAs($this->user, 'api');
+
+        $form['name']    = 'Example';
+        $form['slug']    = 'example';
+        $form['excerpt'] = 'This is an excerpt of the blog post.';
+        $form['content'] = 'This is the content of the blog post.';
+        $form['status'] = true;
+
+        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+
+        $response = $this->json('DELETE', '/api/collections/posts/'.$entry->id)
+            ->assertUnauthorized();;
+        
+        $this->assertDatabaseHas('mx_posts', [
+            'id' => $entry->id
+        ]);
     }
 }
