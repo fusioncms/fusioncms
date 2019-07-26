@@ -9,40 +9,64 @@
         <div class="row">
             <div class="content-container">
                 <form @submit.prevent="submit">
-                    <p-card v-if="sections.body.length > 0">
-                        <!-- Loop through each section -->
-                        <div v-for="(section, index) in sections.body" :key="section.handle">
-                            <div class="row">
+                    <p-card>
+                        <div class="row">
                                 <div class="col xxl:text-right w-full xxl:w-1/3">
                                     <div class="xxl:mr-10">
-                                        <h3>{{ section.name }}</h3>
-                                        <p class="text-sm">{{ section.description }}</p>
+                                        <!--  -->
                                     </div>
                                 </div>
 
                                 <div class="col w-full xxl:w-2/3">
-                                    <!-- Loop through each section field -->
-                                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
-                                        <component
-                                            :is="field.type.handle + '-fieldtype'"
-                                            :field="field"
-                                            v-model="form[field.handle]"
-                                        >
-                                        </component>
+                                    <div class="row">
+                                        <div class="col w-1/2">
+                                            <p-input name="name" label="Name" v-model="form.name"></p-input>
+                                        </div>
+
+                                        <div class="col w-1/2">
+                                            <p-slug name="slug" label="Slug" monospaced v-model="form.slug" :watch="form.name"></p-slug>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        
-                            <hr v-if="index !== sections.body.length - 1">
+
+                        <div v-if="sections.body.length > 0">
+                            <!-- Loop through each section -->
+                            <div v-for="(section, index) in sections.body" :key="section.handle">
+                                <div class="row">
+                                    <div class="col xxl:text-right w-full xxl:w-1/3">
+                                        <div class="xxl:mr-10">
+                                            <h3>{{ section.name }}</h3>
+                                            <p class="text-sm">{{ section.description }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col w-full xxl:w-2/3">
+                                        <!-- Loop through each section field -->
+                                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                                            <component
+                                                :is="field.type.handle + '-fieldtype'"
+                                                :field="field"
+                                                v-model="form[field.handle]"
+                                            >
+                                            </component>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr v-if="index !== sections.body.length - 1">
+                            </div>
+                        </div>
+
+                        <div v-else class="text-center">
+                            <p>You should configure your Matrix Collection with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
+
+                            <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your collection</router-link>
                         </div>
 
                     </p-card>
 
-                    <p-card v-else class="text-center">
-                        <p>You should configure your Matrix Page with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
-
-                        <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
-                    </p-card>
+                    
                 </form>
             </div>
 
@@ -133,7 +157,7 @@
             },
 
             singular() {
-                if (this.collection) {
+                if (this.collection.name) {
                     return pluralize.singular(this.collection.name)
                 }
 
@@ -145,11 +169,11 @@
             submit() {
                 console.log('submit')
 
-                // this.form.post('/api/collections/' + this.collection.id + '/entries').then((response) => {
-                //     toast('Entry saved successfully', 'success')
-                // }).catch((response) => {
-                //     toast(response.response.data.message, 'failed')
-                // })
+                this.form.post('/api/collections/' + this.collection.handle).then((response) => {
+                    toast('Entry saved successfully', 'success')
+                }).catch((response) => {
+                    toast(response.response.data.message, 'failed')
+                })
             },
         },
 
@@ -159,6 +183,8 @@
                     vm.collection = response.data.data
 
                     let fields = {
+                        name: '',
+                        slug: '',
                         status: 1,
                     }
 
