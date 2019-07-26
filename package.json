@@ -22,7 +22,6 @@
         "axios": "^0.18.0",
         "laravel-mix": "^4.0.14",
         "lodash": "^4.17.11",
-        "moment": "^2.22.2",
         "nprogress": "^0.2.0",
         "portal-vue": "^1.5.1",
         "sass": "^1.16.0",
@@ -41,7 +40,6 @@
         "form-data": "^2.3.3",
         "js-cookie": "^2.2.0",
         "marked": "^0.6.1",
-        "moment-timezone": "^0.5.25",
         "node-sass": "^4.11.0",
         "pluralize": "^8.0.0"
     }

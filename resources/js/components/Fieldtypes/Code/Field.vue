@@ -1,17 +1,17 @@
 <template>
     <div>
-        <!-- <p-textarea
-            :name="field.handle"
-            :label="field.name"
-            :help="field.help"
-            :placeholder="field.settings.placeholder"
-            :value="value"
-            @input="$emit('input', $event)"
-        ></p-textarea> -->
+        <div class="form__group">
+          <label :for="field.handle" class="form__label">{{field.name}}</label>
 
-        <textarea :ref="braceClass + '_textarea'" :name="field.handle" :id="field.handle" :value="value" v-show="false"></textarea>
+          <textarea :ref="textareaClass" :name="field.handle" :id="field.handle" :value="value" v-show="false"></textarea>
 
-        <div :ref="braceClass" style="width: 100%" :id="braceClass + '_id'"></div>
+          <div :ref="braceClass" :id="braceClass + '_id'" class="border rounded"></div>
+          <div class="form__control--meta" v-if="field.help">
+            <div class="form__help">
+                <span v-if="help" v-html="help"></span>
+            </div>
+          </div> 
+        </div>
     </div>
 </template>
 
@@ -24,12 +24,12 @@
         props: {
             field: {
                 type: Object,
-                required: true,
+                required: true
             },
 
             value: {
                 required: false,
-                default: '',
+                default: ''
             },
         },
 
@@ -42,20 +42,72 @@
         computed: {
           braceClass() {
             return this.field.handle + '-brace'
+          },
+
+          textareaClass() {
+            return this.braceClass + '_textarea'
+          },
+
+          syntax() {
+            return this.field.settings.syntax || 'html'
           }
         },
 
         mounted() {
-          require(`brace/mode/javascript`)
-          require(`brace/theme/dracula`)
+          let vm = this
 
-          this.editor = ace.edit(this.$refs[this.braceClass])
-          this.editor.setOptions({
-                 showPrintMargin: false,
-                 minLines: 5,
-                 maxLines: Infinity
-            })
-          this.editor.setTheme(`ace/theme/dracula`)
+          // require(`brace/mode/${this.syntax}`) TO-DO
+          vm.loadSyntax(vm.syntax)
+
+          require(`brace/theme/chrome`)
+
+          vm.editor = ace.edit(vm.$refs[vm.braceClass])
+          vm.editor.setOptions({
+               showPrintMargin: false,
+               minLines: 5,
+               maxLines: Infinity
+          })
+          vm.editor.setTheme(`ace/theme/chrome`)
+          vm.editor.$blockScrolling = Infinity
+          vm.editor.setValue(vm.value || '', -1)
+          vm.editor.getSession().setUseWrapMode(true)
+          vm.editor.getSession().setMode(`ace/mode/${this.syntax}`)
+
+          vm.editor.getSession().on('change', function() {
+              vm.$refs[vm.textareaClass].value = vm.editor.getSession().getValue()
+              vm.$emit('input', vm.editor.getSession().getValue())
+          })
+        },
+
+        methods: {
+          loadSyntax(syntax) {
+            switch(syntax) {
+              case 'css': 
+                require('brace/mode/css')
+                break;
+              case 'html': 
+                require('brace/mode/html')
+                break;
+              case 'javascript': 
+                require('brace/mode/javascript')
+                break;
+              case 'json': 
+                require('brace/mode/json')
+                break;
+              case 'markdown': 
+                require('brace/mode/markdown')
+                break;
+              case 'python': 
+                require('brace/mode/python')
+                break;
+              case 'xml': 
+                require('brace/mode/xml')
+                break;
+              default: 
+                require('brace/mode/javascript')
+            }
+          }
+
         }
     }
 </script>
