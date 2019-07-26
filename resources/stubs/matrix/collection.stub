@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Models\Matrix;
+namespace App\Models\Collections;
 
 use App\Models\Field;
 use App\Models\Matrix;
@@ -46,7 +46,7 @@ class {class} extends Model
      */
     public function getFieldsAttribute()
     {
-        return $this->matrix->fields;
+        return $this->matrix->fieldset->fields;
     }
 
     public function parent()

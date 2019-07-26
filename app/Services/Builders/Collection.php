@@ -49,10 +49,10 @@ class Collection extends Builder implements BuilderContract
     {
         $className = studly_case($this->matrix->handle);
         $traits    = [];
-        $fillable  = ['matrix_id', 'status', 'name', 'slug'];
+        $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
 
-        if ($this->matrix->fields) {
-            $fields    = $this->matrix->fields->reject(function ($field) {
+        if ($this->matrix->fieldset->fields) {
+            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
                 return is_null($fieldtype->column);
@@ -63,8 +63,9 @@ class Collection extends Builder implements BuilderContract
             }
         }
 
-        $path     = app_path('Models/Matrix/' . $className . '.php');
+        $path     = app_path('Models/Collections/' . $className . '.php');
         $stub     = File::get(resource_path('stubs/matrix/collection.stub'));
+
         $contents = strtr($stub, [
             '{class}'         => $className,
             '{handle}'        => $this->matrix->handle,
@@ -85,41 +86,14 @@ class Collection extends Builder implements BuilderContract
             });
         }
 
-        return app()->make('App\Models\Matrix\\' . $className);
+        return app()->make('App\Models\Collections\\'. $className);
     }
 
     /**
-     * Get the page.
+     * Get the collection.
      */
     public function get()
     {
         return $this->model->where('matrix_id', $this->matrix->id)->firstOrCreate(['matrix_id' => $this->matrix->id]);
-    }
-
-    /**
-     * Update the page in the database.
-     *
-     * @param  array  $attributes
-     * @param  array  $options
-     * @return bool
-     */
-    public function update(array $attributes = [], array $options = [])
-    {
-        $page                    = $this->get();
-        $attributes['matrix_id'] = $this->matrix->id;
-
-        $fields = $this->matrix->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-
-            return is_null($fieldtype->column);
-        });
-
-        foreach ($fields as $field) {
-            $page->{$field->handle} = $attributes[$field->handle];
-        }
-
-        $page->status = $attributes['status'];
-
-        $page->save();
     }
 }

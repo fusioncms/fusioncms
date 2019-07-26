@@ -13,6 +13,7 @@ namespace Tests\Feature\API;
 
 use App\Models\Matrix;
 use App\Models\Fieldset;
+use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -52,5 +53,24 @@ class MatrixTest extends TestCase
         ]);
 
         $response->assertStatus(401);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_with_permissions_can_update_an_existing_matrix()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $matrix   = MatrixFactory::create();
+
+        $data = $matrix->toArray();
+        $data['description'] = 'This is the new matrix description';
+
+        $response = $this->json('PATCH', '/api/matrices/'.$matrix->id, $data);
+
+        $response->assertStatus(200);
     }
 }

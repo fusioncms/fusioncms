@@ -35,14 +35,17 @@ class CollectionTest extends TestCase
         parent::setUp();
 
         $this->handleValidationExceptions();
-
+        
         $this->section = SectionFactory::times(1)->withoutFields()->create();
-
         $this->fields[] = FieldFactory::withName('Excerpt')->create();
         $this->fields[] = FieldFactory::withName('Content')->create();
+
+        foreach ($this->fields as $field) {
+            $this->section->fields()->save($field);
+        }
+
         $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
-        
-        $this->posts = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
+        $this->posts    = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
     }
 
     /**
@@ -91,23 +94,23 @@ class CollectionTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseTableHasColumn('mx_posts', 'id')
-            ->assertDatabaseHas('mx_posts', $data);
+        $data['id'] = '1';
+
+        $this->assertDatabaseHas('mx_posts', $data);
     }
 
     /** @test */
-    public function a_name_and_slug_are_required_for_every_entry()
+    public function a_name_and_status_is_required_for_every_entry()
     {
         $this->actingAs($this->admin, 'api');
 
         $form['excerpt'] = 'This is an excerpt of the blog post.';
         $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
 
         $response = $this->json('POST', '/api/collections/posts', $form);
 
         $response->assertStatus(422)    
-            ->assertJsonValidationErrors(['name', 'slug']);
+            ->assertJsonValidationErrors(['name', 'status']);
     }
 
     /** @test */
@@ -124,19 +127,18 @@ class CollectionTest extends TestCase
         $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
         $response = $this->json('PATCH', '/api/collections/posts/'.$entry->id, [
-            'name' => 'New Post Title',
-            'slug' => 'new-post-title',
+            'name'   => 'New Post Title',
+            'status' => true,
         ]);
 
-        $response->assertStatus(200)
-            ->assertDatabaseHas('mx_posts', [
-                'name' => 'New Post Title',
-                'slug' => 'new-post-title',
-            ])
-            ->assertDatabaseDoesntHave('mx_posts', [
-                'name' => 'Example',
-                'slug' => 'example',
-            ]);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('mx_posts', [
+            'name' => 'New Post Title',
+        ])
+        ->assertDatabaseMissing('mx_posts', [
+            'name' => 'Example',
+        ]);
     }
 
     /** @test */
@@ -153,6 +155,10 @@ class CollectionTest extends TestCase
         $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
         $response = $this->json('DELETE', '/api/collections/posts/'.$entry->id);
+        
+        $this->assertDatabaseMissing('mx_posts', [
+            'id' => $entry->id
+        ]);
     }
 
     /** @test */

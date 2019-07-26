@@ -48,12 +48,18 @@ class CollectionController extends Controller
         ]);
     }
 
-    public function store(Request $request, $handle)
+    public function store(Request $request, $matrix)
     {
-        $matrix     = Matrix::where('handle', $handle)->firstOrFail();
-        $collection = (new Collection($handle))->make();
-        $rules      = ['status' => 'required|boolean', 'name' => 'required', 'slug' => 'required'];
-        $fields     = $matrix->fieldset->fields->reject(function ($field) {
+        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $collection = (new Collection($matrix->handle))->make();
+        
+        $rules = [
+            'name'      => 'required',
+            'slug'      => 'sometimes',
+            'status'    => 'required|boolean',
+        ];
+
+        $fields = $matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
             
             return is_null($fieldtype->column);
@@ -66,7 +72,7 @@ class CollectionController extends Controller
         $attributes              = $request->validate($rules);
         $attributes['matrix_id'] = $matrix->id;
 
-        $entry      = $collection->create($attributes);
+        $entry = $collection->create($attributes);
 
         activity()
             ->performedOn($entry)
@@ -86,12 +92,17 @@ class CollectionController extends Controller
      * @param  string  $matrix
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $matrix)
+    public function update(Request $request, $matrix, $id)
     {
-        $matrix     = Matrix::findOrFail($matrix);
-        $collection = new Collection($matrix->handle);
-        $rules      = ['status' => 'required|boolean'];
-        $fields     = $matrix->fieldset->fields->reject(function ($field) {
+        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $entry = (new Collection($matrix->handle))->make()->find($id);
+        $rules = [
+            'name'      => 'required',
+            'slug'      => 'sometimes',
+            'status'    => 'required|boolean',
+        ];
+
+        $fields = $matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
 
             return is_null($fieldtype->column);
@@ -104,14 +115,27 @@ class CollectionController extends Controller
         $attributes = $request->validate($rules);
 
         foreach ($attributes as $handle => $value) {
-            $collection->{$handle} = $value;
+            $entry->{$handle} = $value;
         }
 
-        $collection->update($attributes);
+        $entry->update($attributes);
 
-        return new CollectionResource([
-            'matrix'     => $matrix,
-            'collection' => $collection->get(),
-        ]);
+        return new EntryResource($entry);
+    }
+
+    public function destroy(Request $request, $matrix, $id)
+    {
+        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $model  = (new Collection($matrix->handle))->make();
+        $entry  = $model->findOrFail($id);
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+            ])
+            ->log('Deleted entry (:subject.name)');
+
+        $entry->delete();
     }
 }

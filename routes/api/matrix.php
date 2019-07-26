@@ -20,5 +20,12 @@ Route::get('/matrices/slug/{slug}', 'MatrixController@slug');
 Route::apiResource('/pages', 'MatrixPageController');
 Route::get('/pages/handle/{handle}', 'MatrixPageController@handle');
 
-Route::apiResource('/collections/{collection}', 'CollectionController');
-// Route::apiResource('/collections', 'CollectionController');
+Route::get('/collections/{slug}', 'CollectionController@index');
+Route::get('/collections/{slug}/{id}', 'CollectionController@show');
+Route::get('/collections/{slug}/create', 'CollectionController@create');
+Route::post('/collections/{slug}', 'CollectionController@store');
+Route::patch('/collections/{slug}/{id}', 'CollectionController@update');
+Route::get('/collections/{slug}/{id}/edit', 'CollectionController@edit');
+Route::delete('/collections/{slug}/{id}', 'CollectionController@destroy');
+
+// Route::apiResource('/collections/{slug}', 'CollectionController');

@@ -23,6 +23,20 @@ class EntryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $matrix = new MatrixResource($this->resource['matrix']);
+        $fields = $matrix->fieldset->fields;
+        
+        $resource['id']     = $this->id;
+        $resource['matrix'] = $matrix;
+
+        if ($fields) {
+            foreach ($fields as $field) {
+                $resource[$field->handle] = $this->{$field->handle};
+            }
+        }
+
+        $resource['status'] = $this->status;
+
+        return $resource;
     }
 }
