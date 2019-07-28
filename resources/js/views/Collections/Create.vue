@@ -167,8 +167,6 @@
 
         methods: {
             submit() {
-                console.log('submit')
-
                 this.form.post('/api/collections/' + this.collection.handle).then((response) => {
                     toast('Entry saved successfully', 'success')
                 }).catch((response) => {

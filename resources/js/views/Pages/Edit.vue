@@ -170,6 +170,7 @@
 
         beforeRouteUpdate(to,from,next) {
             this.getPage(to, from, next)
+            
             next()
         }
     }

@@ -27,6 +27,8 @@ class EntryResource extends JsonResource
         $fields = $matrix->fieldset->fields;
         
         $resource['id']     = $this->id;
+        $resource['name']   = $this->name;
+        $resource['slug']   = $this->slug;
         $resource['matrix'] = $matrix;
 
         if ($fields) {

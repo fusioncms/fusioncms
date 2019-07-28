@@ -11,6 +11,9 @@
         <div class="row" v-if="endpoint">
             <div class="content-container">
                 <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10">
+                    <template slot="name" slot-scope="table">
+                        <router-link :to="{ name: 'entries.edit', params: {collection: collection.handle, id: table.record.id} }">{{ table.record.name }}</router-link>
+                    </template>
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>

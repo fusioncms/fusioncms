@@ -38,14 +38,11 @@ class CollectionController extends Controller
      */
     public function show($matrix, $id)
     {
-        $matrix = Matrix::findOrFail($matrix);
+        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->find($id);
 
-        return new CollectionResource([
-            'matrix' => $matrix,
-            'entry'  => $entry,
-        ]);
+        return new EntryResource($entry);
     }
 
     public function store(Request $request, $matrix)
