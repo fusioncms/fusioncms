@@ -27,6 +27,7 @@ class CollectionController extends DataTableController
     {
         return [
             'name',
+            'slug',
             'status',
         ];
     }
@@ -35,6 +36,7 @@ class CollectionController extends DataTableController
     {
         return [
             'name',
+            'slug',
             'status',
         ];
     }
@@ -43,6 +45,7 @@ class CollectionController extends DataTableController
     {
         return [
             'name',
+            'slug',
             'status',
         ];
     }
@@ -50,8 +53,9 @@ class CollectionController extends DataTableController
     public function getCustomColumnNames()
     {
         return [
-            'name'        => 'Name',
-            'status'      => 'Status',
+            'name'   => 'Name',
+            'slug'   => 'Slug',
+            'status' => 'Status',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <portal to="title">
+        <portal to="title" :key="matrix.handle">
             <app-title :icon="matrix.icon || 'pencil'">{{ matrix.name }}</app-title>
         </portal>
         
@@ -170,6 +170,7 @@
 
         beforeRouteUpdate(to,from,next) {
             this.getPage(to, from, next)
+            
             next()
         }
     }

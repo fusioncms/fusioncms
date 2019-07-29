@@ -12,10 +12,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EntryResource;
 use App\Services\Builders\Collection;
-use App\Http\Resources\CollectionResource;
 
 class CollectionController extends Controller
 {
@@ -37,14 +38,50 @@ class CollectionController extends Controller
      */
     public function show($matrix, $id)
     {
-        $matrix = Matrix::findOrFail($matrix);
+        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->find($id);
 
-        return new CollectionResource([
-            'matrix' => $matrix,
-            'entry'  => $entry,
-        ]);
+        return new EntryResource($entry);
+    }
+
+    public function store(Request $request, $matrix)
+    {
+        $this->authorize('entry.create');
+
+        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $collection = (new Collection($matrix->handle))->make();
+        
+        $rules = [
+            'name'      => 'required',
+            'slug'      => 'sometimes',
+            'status'    => 'required|boolean',
+        ];
+
+        $fields = $matrix->fieldset->fields->reject(function ($field) {
+            $fieldtype = fieldtypes()->get($field->type);
+            
+            return is_null($fieldtype->column);
+        });
+
+        foreach ($fields as $field) {
+            $rules[$field->handle] = 'sometimes';
+        }
+
+        $attributes              = $request->validate($rules);
+        $attributes['matrix_id'] = $matrix->id;
+
+        $entry = $collection->create($attributes);
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+                'link' => 'collections/'.$matrix->handle.'//edit/' . $entry->id,
+            ])
+            ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
+
+        return new EntryResource($entry);
     }
 
     /**
@@ -54,12 +91,19 @@ class CollectionController extends Controller
      * @param  string  $matrix
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $matrix)
+    public function update(Request $request, $matrix, $id)
     {
-        $matrix     = Matrix::findOrFail($matrix);
-        $collection = new Collection($matrix->handle);
-        $rules      = ['status' => 'required|boolean'];
-        $fields     = $matrix->fieldset->fields->reject(function ($field) {
+        $this->authorize('entry.update');
+
+        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $entry = (new Collection($matrix->handle))->make()->find($id);
+        $rules = [
+            'name'      => 'required',
+            'slug'      => 'sometimes',
+            'status'    => 'required|boolean',
+        ];
+
+        $fields = $matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
 
             return is_null($fieldtype->column);
@@ -72,14 +116,29 @@ class CollectionController extends Controller
         $attributes = $request->validate($rules);
 
         foreach ($attributes as $handle => $value) {
-            $collection->{$handle} = $value;
+            $entry->{$handle} = $value;
         }
 
-        $collection->update($attributes);
+        $entry->update($attributes);
 
-        return new CollectionResource([
-            'matrix'     => $matrix,
-            'collection' => $collection->get(),
-        ]);
+        return new EntryResource($entry);
+    }
+
+    public function destroy(Request $request, $matrix, $id)
+    {
+        $this->authorize('entry.destroy');
+
+        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $model  = (new Collection($matrix->handle))->make();
+        $entry  = $model->findOrFail($id);
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+            ])
+            ->log('Deleted entry (:subject.name)');
+
+        $entry->delete();
     }
 }

@@ -88,7 +88,7 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         Shinobi::assign('admin')->to($this->admin);
-        Shinobi::assign('guest')->to($this->user);
+        // Shinobi::assign('user')->to($this->user);
 
         // 6) Empty cache..
         Artisan::call('cache:clear');

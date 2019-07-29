@@ -174,8 +174,7 @@
                                             label="Route"
                                             help="When the URI matches this pattern..."
                                             autocomplete="off"
-                                            autofocus
-                                            required
+                                            monospaced
                                             :has-error="form.errors.has('route')"
                                             :error-message="form.errors.get('route')"
                                             v-model="form.route">
@@ -186,12 +185,11 @@
                                         <p-input
                                             name="template"
                                             label="Template"
-                                            help="Specify the template to be loaded"
+                                            help="Render this template"
                                             autocomplete="off"
                                             :has-error="form.errors.has('template')"
                                             :error-message="form.errors.get('template')"
-                                            autofocus
-                                            required
+                                            monospaced
                                             v-model="form.template">
                                         </p-input>
                                     </div>

@@ -13,8 +13,9 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Routers\PageRouter;
+use App\Services\Routers\EntryRouter;
 use App\Services\Routers\HomepageRouter;
-use App\Services\Routers\MatrixPageRouter;
 
 class RouterController extends Controller
 {
@@ -28,7 +29,8 @@ class RouterController extends Controller
     {
         $routers = [
             HomepageRouter::class,
-            MatrixPageRouter::class,
+            EntryRouter::class,
+            PageRouter::class,
         ];
 
         foreach ($routers as $router) {

@@ -20,6 +20,8 @@ class Matrix extends Model
 {
     use CachesQueries, HasFieldset;
 
+    protected $with = ['fieldsets'];
+
     /**
      * The attributes that are fillable via mass assignment.
      *

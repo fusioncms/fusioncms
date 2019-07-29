@@ -1,47 +1,68 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="matrix.icon">{{ matrix.name }}</app-title>
+            <app-title :icon="collection.icon || 'pencil'">Edit {{ singular }}</app-title>
         </portal>
         
-        <portal to="subtitle">{{ matrix.description }}</portal>
+        <portal to="subtitle">{{ collection.description }}</portal>
 
         <div class="row">
             <div class="content-container">
                 <form @submit.prevent="submit">
-                    <p-card v-if="sections.body.length > 0">
-                        <!-- Loop through each section -->
-                        <div v-for="(section, index) in sections.body" :key="section.handle">
-                            <div class="row">
+                    <p-card>
+                        <div class="row">
                                 <div class="col xxl:text-right w-full xxl:w-1/3">
                                     <div class="xxl:mr-10">
-                                        <h3>{{ section.name }}</h3>
-                                        <p class="text-sm">{{ section.description }}</p>
+                                        <!--  -->
                                     </div>
                                 </div>
 
                                 <div class="col w-full xxl:w-2/3">
-                                    <!-- Loop through each section field -->
-                                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
-                                        <component
-                                            :is="field.type.handle + '-fieldtype'"
-                                            :field="field"
-                                            v-model="form[field.handle]"
-                                        >
-                                        </component>
+                                    <div class="row">
+                                        <div class="col w-1/2">
+                                            <p-input name="name" label="Name" v-model="form.name"></p-input>
+                                        </div>
+
+                                        <div class="col w-1/2">
+                                            <p-slug name="slug" label="Slug" monospaced v-model="form.slug" :watch="form.name"></p-slug>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        
-                            <hr v-if="index !== sections.body.length - 1">
+
+                        <div v-if="sections.body.length > 0" :key="collection.handle">
+                            <!-- Loop through each section -->
+                            <div v-for="(section, index) in sections.body" :key="section.handle">
+                                <div class="row">
+                                    <div class="col xxl:text-right w-full xxl:w-1/3">
+                                        <div class="xxl:mr-10">
+                                            <h3>{{ section.name }}</h3>
+                                            <p class="text-sm">{{ section.description }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col w-full xxl:w-2/3">
+                                        <!-- Loop through each section field -->
+                                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                                            <component
+                                                :is="field.type.handle + '-fieldtype'"
+                                                :field="field"
+                                                v-model="form[field.handle]"
+                                            >
+                                            </component>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr v-if="index !== sections.body.length - 1">
+                            </div>
                         </div>
 
-                    </p-card>
+                        <div v-else class="text-center">
+                            <p>You should configure your Matrix Collection with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
 
-                    <p-card v-else class="text-center">
-                        <p>You should configure your Matrix Page with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
-
-                        <router-link class="button items-center" :to="'/matrices/manage/' + matrix.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
+                            <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your collection</router-link>
+                        </div>
                     </p-card>
                 </form>
             </div>
@@ -71,13 +92,13 @@
                         </div>
 
                         <portal to="actions">
-                            <router-link :to="{ name: 'dashboard' }" class="button mr-3">Go Back</router-link>
+                            <router-link v-if="collection.handle" :to="{ name: 'entries.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
 
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>
                     </p-card>
 
-                    <p-card v-for="(section, index) in sections.sidebar" :key="section.handle" class="mt-6">
+                    <p-card v-for="(section) in sections.sidebar" :key="section.handle" class="mt-6">
                         <h3>{{ section.name }}</h3>
                         <p class="text-sm">{{ section.description }}</p>
 
@@ -100,13 +121,14 @@
 </template>
 
 <script>
+    import pluralize from 'pluralize'
     import Form from '../../forms/Form'
 
     export default {
         data() {
             return {
-                matrix: {},
-                page: {},
+                collection: {},
+                entry: {},
                 form: {},
             }
         },
@@ -116,12 +138,12 @@
                 let body = []
                 let sidebar = []
 
-                if (this.matrix.fieldset) {
-                    body = _.filter(this.matrix.fieldset.sections, function(section) {
+                if (this.collection.fieldset) {
+                    body = _.filter(this.collection.fieldset.sections, function(section) {
                         return section.placement == 'body'
                     })
 
-                    sidebar = _.filter(this.matrix.fieldset.sections, function(section) {
+                    sidebar = _.filter(this.collection.fieldset.sections, function(section) {
                         return section.placement == 'sidebar'
                     })
                 }
@@ -131,56 +153,57 @@
                     sidebar: sidebar
                 }
             },
-        },
 
-        watch: {
-            '$route' (to, from) {
-                let vm = this
+            singular() {
+                if (this.collection.name) {
+                    return pluralize.singular(this.collection.name)
+                }
 
-                axios.get('/api/pages/handle/' + to.params.page).then((response) => {    
-                        vm.matrix  = response.data.data.matrix
-                        vm.page = response.data.data.page
-
-                        let fields = {}
-
-                        _.forEach(vm.matrix.fields, function(field) {
-                            Vue.set(fields, field.handle, vm.page[field.handle])
-                        })
-
-                        Vue.set(fields, 'status', vm.matrix.status ? '1' : '0')
-
-                        vm.form = new Form(fields)
-                })
+                return ''
             },
         },
 
         methods: {
             submit() {
-                this.form.patch('/api/pages/' + this.matrix.id).then((response) => {
-                    toast('Page saved successfully', 'success')
+                this.form.patch('/api/collections/' + this.collection.handle + '/' + this.entry.id).then((response) => {
+                    toast('Entry saved successfully', 'success')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
+                })
+            },
+
+            getEntry(to, from, next) {
+                let vm = this
+
+                axios.get('/api/collections/' + to.params.collection + '/' + to.params.id).then((response) => {    
+                    vm.collection = response.data.data.matrix
+                    vm.entry = response.data.data
+
+                    let fields = {
+                        name: vm.entry.name,
+                        slug: vm.entry.slug,
+                        status: vm.entry.status,
+                    }
+
+                    _.forEach(vm.collection.fields, function(value, handle) {
+                        Vue.set(fields, handle, vm.entry[handle])
+                    })
+
+                    vm.form = new Form(fields)
                 })
             },
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.get('/api/pages/handle/' + to.params.page).then((response) => {
-                next(function(vm) {
-                    vm.matrix  = response.data.data.matrix
-                    vm.page = response.data.data.page
-
-                    let fields = {
-                        status: vm.page.status,
-                    }
-
-                    _.forEach(vm.matrix.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.page[handle])
-                    })
-
-                    vm.form = new Form(fields)
-                })
+            next(vm => {
+                vm.getEntry(to, from, next)
             })
         },
+
+        beforeRouteUpdate(to,from,next) {
+            this.getEntry(to, from, next)
+            
+            next()
+        }
     }
 </script>

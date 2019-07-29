@@ -105,7 +105,7 @@ const router = new Router({
         {
             path: '/collections/:collection',
             component: () => import('../views/Collections/Index'),
-            name: 'collections.index',
+            name: 'entries.index',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
@@ -114,7 +114,7 @@ const router = new Router({
         {
             path: '/collections/:collection/create',
             component: () => import('../views/Collections/Create'),
-            name: 'collections.create',
+            name: 'entries.create',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
@@ -123,7 +123,7 @@ const router = new Router({
         {
             path: '/collections/:collection/edit/:id',
             component: () => import('../views/Collections/Edit'),
-            name: 'collections.edit',
+            name: 'entries.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
