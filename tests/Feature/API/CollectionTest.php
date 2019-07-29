@@ -227,10 +227,4 @@ class CollectionTest extends TestCase
             'id' => $entry->id
         ]);
     }
-
-    /** @test */
-    public function a_collection_has_a_route_and_template()
-    {
-        
-    }
 }
