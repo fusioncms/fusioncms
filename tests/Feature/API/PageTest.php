@@ -39,4 +39,10 @@ class PageTest extends TestCase
         $response = $this->json('PATCH', '/api/pages/' . $page->id, $formData);
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function a_page_has_a_route_and_template()
+    {
+
+    }
 }

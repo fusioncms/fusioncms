@@ -1,11 +1,11 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="collection.icon">{{ collection.name }}</app-title>
+            <app-title :icon="collection.icon || 'pencil'">{{ collection.name }}</app-title>
         </portal>
 
         <portal to="actions">
-            <router-link :to="{ name: 'entries.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
+            <router-link v-if="collection.handle" :to="{ name: 'entries.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">
@@ -101,5 +101,13 @@
                 })
             })
         },
+
+        beforeRouteUpdate(to, from, next) {
+            axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
+                this.collection = response.data.data
+            })
+            
+            next()
+        }
     }
 </script>

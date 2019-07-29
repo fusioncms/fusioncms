@@ -1,6 +1,6 @@
 <template>
     <div>
-        <portal to="title">
+        <portal to="title" :key="matrix.handle">
             <app-title :icon="matrix.icon || 'pencil'">{{ matrix.name }}</app-title>
         </portal>
         

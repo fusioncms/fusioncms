@@ -73,4 +73,10 @@ class MatrixTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function a_matrix_can_be_assigned_children_matrices()
+    {
+        // 
+    }
 }

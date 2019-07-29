@@ -30,7 +30,7 @@
                                 </div>
                             </div>
 
-                        <div v-if="sections.body.length > 0">
+                        <div v-if="sections.body.length > 0" :key="collection.handle">
                             <!-- Loop through each section -->
                             <div v-for="(section, index) in sections.body" :key="section.handle">
                                 <div class="row">
@@ -199,5 +199,11 @@
                 vm.getEntry(to, from, next)
             })
         },
+
+        beforeRouteUpdate(to,from,next) {
+            this.getEntry(to, from, next)
+            
+            next()
+        }
     }
 </script>
