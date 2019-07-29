@@ -1,7 +1,7 @@
 <template>
     <div class="color-picker">
         <div class="form__group">
-            <label :for="field.handle">{{field.name}}</label>
+            <label :for="field.handle" class="form__label">{{field.name}}</label>
             <div class="flex items-center">
                 <div class="mr-2 mt-5">
                     <div :class="pickrClass"></div>
