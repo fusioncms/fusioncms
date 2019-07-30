@@ -294,6 +294,15 @@ const router = new Router({
         },
 
         {
+            path: '/playground',
+            component: () => import('../views/Playground'),
+            name: 'playground',
+            meta: {
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',

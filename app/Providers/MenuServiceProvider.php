@@ -145,6 +145,11 @@ class MenuServiceProvider extends ServiceProvider
                 'to'   => '/logs',
                 'icon' => 'bug'
             ]);
+
+            $menu->add('Playground')->data([
+                'to'   => '/playground',
+                'icon' => 'robot'
+            ]);
         });
     }
 }
