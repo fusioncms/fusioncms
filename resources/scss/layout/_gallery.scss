@@ -1,0 +1,30 @@
+.gallery {
+    @apply flex flex-wrap justify-start;
+
+    &-wrapper {
+        @apply flex-initial m-3 text-center;
+
+        width: 100px;
+        min-width: 100px;
+
+        @screen xxl {
+            width: 175px;
+            min-width: 175px;
+        }
+    }
+
+    &-item {
+        @apply w-full rounded shadow overflow-hidden;
+    }
+
+    &-image {
+        @apply block w-full h-full;
+
+        object-fit: cover;
+        transition: transform 400ms ease-out;
+
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+}

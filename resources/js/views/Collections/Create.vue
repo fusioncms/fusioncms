@@ -11,13 +11,13 @@
                 <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
-                                <div class="col xxl:text-right w-full xxl:w-1/3">
+                                <div class="col form-sidebar">
                                     <div class="xxl:mr-10">
                                         <!--  -->
                                     </div>
                                 </div>
 
-                                <div class="col w-full xxl:w-2/3">
+                                <div class="col form-content">
                                     <div class="row">
                                         <div class="col w-1/2">
                                             <p-input name="name" label="Name" v-model="form.name"></p-input>
@@ -34,14 +34,14 @@
                             <!-- Loop through each section -->
                             <div v-for="(section, index) in sections.body" :key="section.handle">
                                 <div class="row">
-                                    <div class="col xxl:text-right w-full xxl:w-1/3">
+                                    <div class="col form-sidebar">
                                         <div class="xxl:mr-10">
                                             <h3>{{ section.name }}</h3>
                                             <p class="text-sm">{{ section.description }}</p>
                                         </div>
                                     </div>
 
-                                    <div class="col w-full xxl:w-2/3">
+                                    <div class="col form-content">
                                         <!-- Loop through each section field -->
                                         <div v-for="field in section.fields" :key="field.handle" class="form__group">
                                             <component

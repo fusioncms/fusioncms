@@ -1,10 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700);/*! Pickr 1.2.3 MIT | https://github.com/Simonwep/pickr */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700);/*! Pickr 1.2.6 MIT | https://github.com/Simonwep/pickr */
 
 .pickr {
   position: relative;
   overflow: visible;
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  transform: translateY(0);
 }
 
 .pickr * {
@@ -93,7 +92,7 @@
   background: #fff;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .3s, visibility 0s 2s;
+  transition: opacity .3s, visibility 0s .3s;
   left: 0;
   top: 0;
 }
@@ -368,8 +367,7 @@
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-picker,
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity .pcr-picker {
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-slider,
@@ -969,6 +967,7 @@ table {
      -moz-appearance: none;
           appearance: none;
   line-height: 1.25;
+  align-items: center;
 }
 
 .button:hover {
@@ -2099,13 +2098,11 @@ table td::before {
   0%,
   40%,
   100% {
-    -webkit-transform: scaleY(.4);
-            transform: scaleY(.4);
+    transform: scaleY(.4);
   }
 
   20% {
-    -webkit-transform: scaleY(1);
-            transform: scaleY(1);
+    transform: scaleY(1);
   }
 }
 
@@ -2287,11 +2284,8 @@ table td::before {
   border-color: #f8fafc;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08);
   content: "";
-  -webkit-transform: translateX(0);
-          transform: translateX(0);
-  transition: -webkit-transform .2s ease;
+  transform: translateX(0);
   transition: transform .2s ease;
-  transition: transform .2s ease, -webkit-transform .2s ease;
 }
 
 .toggle:checked:before {
@@ -2299,8 +2293,7 @@ table td::before {
 }
 
 .toggle:checked:after {
-  -webkit-transform: translateX(1.5rem);
-          transform: translateX(1.5rem);
+  transform: translateX(1.5rem);
 }
 
 .tooltip {
@@ -2486,6 +2479,7 @@ table td::before {
      -moz-appearance: none;
           appearance: none;
   line-height: 1.25;
+  align-items: center;
   padding: .25rem;
 }
 
@@ -7840,6 +7834,26 @@ table td::before {
   font-size: 3rem;
 }
 
+.text-6xl {
+  font-size: 3.75rem;
+}
+
+.text-7xl {
+  font-size: 4.5rem;
+}
+
+.text-8xl {
+  font-size: 5rem;
+}
+
+.text-9xl {
+  font-size: 5.625rem;
+}
+
+.text-10xl {
+  font-size: 6.25rem;
+}
+
 .italic {
   font-style: italic;
 }
@@ -8166,6 +8180,26 @@ table td::before {
   width: 400px;
 }
 
+.w-xs {
+  width: 320px;
+}
+
+.w-sm {
+  width: 640px;
+}
+
+.w-md {
+  width: 768px;
+}
+
+.w-lg {
+  width: 1024px;
+}
+
+.w-xl {
+  width: 1280px;
+}
+
 .w-auto {
   width: auto;
 }
@@ -8318,7 +8352,28 @@ table td::before {
 
 @media (min-width: 1200px) {
   .side-container {
-    flex-basis: 30%;
+    width: 350px;
+  }
+}
+
+.form-sidebar {
+  width: 100%;
+}
+
+@media (min-width: 1600px) {
+  .form-sidebar {
+    text-align: right;
+    width: 320px;
+  }
+}
+
+.form-content {
+  width: 100%;
+}
+
+@media (min-width: 1600px) {
+  .form-content {
+    flex: 1 1 0%;
   }
 }
 
@@ -8357,6 +8412,47 @@ table td::before {
     flex-direction: row;
     line-height: 1;
   }
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.gallery-wrapper {
+  flex: 0 1 auto;
+  margin: .75rem;
+  text-align: center;
+  width: 100px;
+  min-width: 100px;
+}
+
+@media (min-width: 1600px) {
+  .gallery-wrapper {
+    width: 175px;
+    min-width: 175px;
+  }
+}
+
+.gallery-item {
+  width: 100%;
+  border-radius: .25rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  overflow: hidden;
+}
+
+.gallery-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 400ms ease-out;
+}
+
+.gallery-image:hover {
+  transform: scale(1.15);
 }
 
 .row {
@@ -8409,10 +8505,8 @@ table td::before {
 
 .actions {
   display: flex;
-  -webkit-transform: scale(.9);
-          transform: scale(.9);
-  -webkit-transform-origin: right;
-          transform-origin: right;
+  transform: scale(.9);
+  transform-origin: right;
 }
 
 .navbar {
@@ -8635,8 +8729,7 @@ table td::before {
   height: 100%;
   box-shadow: 0 0 10px #ff5722, 0 0 5px #ff5722;
   opacity: 1;
-  -webkit-transform: rotate(3deg) translate(0px, -4px);
-          transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
 }
 
 @-webkit-keyframes fadeIn {
@@ -15768,6 +15861,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .sm\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .sm\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .sm\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .sm\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .sm\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .sm\:italic {
     font-style: italic;
   }
@@ -16092,6 +16205,26 @@ table td::before {
 
   .sm\:w-400px {
     width: 400px;
+  }
+
+  .sm\:w-xs {
+    width: 320px;
+  }
+
+  .sm\:w-sm {
+    width: 640px;
+  }
+
+  .sm\:w-md {
+    width: 768px;
+  }
+
+  .sm\:w-lg {
+    width: 1024px;
+  }
+
+  .sm\:w-xl {
+    width: 1280px;
   }
 
   .sm\:w-auto {
@@ -21522,6 +21655,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .md\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .md\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .md\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .md\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .md\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .md\:italic {
     font-style: italic;
   }
@@ -21846,6 +21999,26 @@ table td::before {
 
   .md\:w-400px {
     width: 400px;
+  }
+
+  .md\:w-xs {
+    width: 320px;
+  }
+
+  .md\:w-sm {
+    width: 640px;
+  }
+
+  .md\:w-md {
+    width: 768px;
+  }
+
+  .md\:w-lg {
+    width: 1024px;
+  }
+
+  .md\:w-xl {
+    width: 1280px;
   }
 
   .md\:w-auto {
@@ -27276,6 +27449,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .lg\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .lg\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .lg\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .lg\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .lg\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .lg\:italic {
     font-style: italic;
   }
@@ -27600,6 +27793,26 @@ table td::before {
 
   .lg\:w-400px {
     width: 400px;
+  }
+
+  .lg\:w-xs {
+    width: 320px;
+  }
+
+  .lg\:w-sm {
+    width: 640px;
+  }
+
+  .lg\:w-md {
+    width: 768px;
+  }
+
+  .lg\:w-lg {
+    width: 1024px;
+  }
+
+  .lg\:w-xl {
+    width: 1280px;
   }
 
   .lg\:w-auto {
@@ -33030,6 +33243,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .xl\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .xl\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .xl\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .xl\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .xl\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .xl\:italic {
     font-style: italic;
   }
@@ -33354,6 +33587,26 @@ table td::before {
 
   .xl\:w-400px {
     width: 400px;
+  }
+
+  .xl\:w-xs {
+    width: 320px;
+  }
+
+  .xl\:w-sm {
+    width: 640px;
+  }
+
+  .xl\:w-md {
+    width: 768px;
+  }
+
+  .xl\:w-lg {
+    width: 1024px;
+  }
+
+  .xl\:w-xl {
+    width: 1280px;
   }
 
   .xl\:w-auto {
@@ -38784,6 +39037,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .xxl\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .xxl\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .xxl\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .xxl\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .xxl\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .xxl\:italic {
     font-style: italic;
   }
@@ -39108,6 +39381,26 @@ table td::before {
 
   .xxl\:w-400px {
     width: 400px;
+  }
+
+  .xxl\:w-xs {
+    width: 320px;
+  }
+
+  .xxl\:w-sm {
+    width: 640px;
+  }
+
+  .xxl\:w-md {
+    width: 768px;
+  }
+
+  .xxl\:w-lg {
+    width: 1024px;
+  }
+
+  .xxl\:w-xl {
+    width: 1280px;
   }
 
   .xxl\:w-auto {
@@ -44538,6 +44831,26 @@ table td::before {
     font-size: 3rem;
   }
 
+  .xxxl\:text-6xl {
+    font-size: 3.75rem;
+  }
+
+  .xxxl\:text-7xl {
+    font-size: 4.5rem;
+  }
+
+  .xxxl\:text-8xl {
+    font-size: 5rem;
+  }
+
+  .xxxl\:text-9xl {
+    font-size: 5.625rem;
+  }
+
+  .xxxl\:text-10xl {
+    font-size: 6.25rem;
+  }
+
   .xxxl\:italic {
     font-style: italic;
   }
@@ -44862,6 +45175,26 @@ table td::before {
 
   .xxxl\:w-400px {
     width: 400px;
+  }
+
+  .xxxl\:w-xs {
+    width: 320px;
+  }
+
+  .xxxl\:w-sm {
+    width: 640px;
+  }
+
+  .xxxl\:w-md {
+    width: 768px;
+  }
+
+  .xxxl\:w-lg {
+    width: 1024px;
+  }
+
+  .xxxl\:w-xl {
+    width: 1280px;
   }
 
   .xxxl\:w-auto {
