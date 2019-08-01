@@ -5,6 +5,7 @@ Vue.component('admin-layout', require('../layouts/Admin').default)
 Vue.component('default-layout', require('../layouts/Default').default)
 Vue.component('error-layout', require('../layouts/Error').default)
 
+Vue.component('p-upload', require('../components/Upload').default)
 Vue.component('app-title', require('../components/Title').default)
 Vue.component('redactor', require('../components/Redactor').default)
 Vue.component('section-builder', require('../components/SectionBuilder').default)
