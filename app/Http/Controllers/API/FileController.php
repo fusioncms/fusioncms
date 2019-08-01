@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Image;
 use App\Models\File;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
@@ -26,9 +27,6 @@ class FileController extends Controller
      */
     public function store(Request $request, $directory = null)
     {
-        // return $request;
-        // $files = collect();
-
         $request->validate([
             'file'      => 'file',
             // 'directory_id' => [
@@ -42,14 +40,17 @@ class FileController extends Controller
         
         $extension = $upload->clientExtension();
         
-        $uuid = Uuid::uuid4();
-        $name = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+        $uuid     = unique_id();
+        $name     = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+        $slug     = str_slug($uuid.' '.$name);
+        $location = $upload->storeAs('files', "$slug.$extension");
+
         $file = File::create([
             'directory_id' => null,
             'name'         => $name,
-            'slug'         => str_slug($uuid.' '.$name),
+            'slug'         => $slug,
             'uuid'         => $uuid,
-            'location'     => $upload->storeAs('assets', "$uuid.$extension"),
+            'location'     => $location,
             'original'     => $upload->getClientOriginalName(),
             'extension'    => $extension,
             'mimetype'     => $upload->getClientMimeType(),

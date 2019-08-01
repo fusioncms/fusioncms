@@ -11,18 +11,17 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Models\Matrix;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 class TinkerController extends Controller
 {
     public function index()
     {
-        $matrix = Matrix::find(11);
-        dd(
-            $matrix,
-            $matrix->fields()->getQuery(),
-            $matrix->fields
-        );
+        $image = Image::make(file_get_contents('https://images.unsplash.com/photo-1524563533368-5dc20937d23e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9'));
+
+        $image = $image->fit(500);
+
+        return $image->response();
     }
 }
