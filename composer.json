@@ -41,7 +41,9 @@
         "spatie/laravel-activitylog": "3.6.1",
         "spatie/laravel-analytics": "^3.7",
         "intervention/image": "^2.5",
-        "intervention/imagecache": "^2.3"
+        "intervention/imagecache": "^2.3",
+        "league/glide": "^1.5",
+        "league/glide-laravel": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "2.4.0",

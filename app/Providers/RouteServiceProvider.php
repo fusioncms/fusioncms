@@ -56,6 +56,7 @@ class RouteServiceProvider extends ServiceProvider
 
         // Map "web" route files
         $this->mapWebRoutes(base_path('routes/web/web.php'));
+        $this->mapWebRoutes(base_path('routes/web/files.php'));
         $this->mapWebRoutes(base_path('routes/web/users.php'));
 
         // Map "api" route files

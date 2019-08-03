@@ -92,8 +92,7 @@
                         <div class="gallery" v-if="files.length">
                             <div class="gallery-wrapper flex-auto" v-for="file in files" :key="file.uuid">
                                 <div class="gallery-item">
-                                    <img class="gallery-image" :src="file.path" :alt="file.description">
-                                    <!-- <img class="gallery-image" src="https://images.unsplash.com/photo-1506045412240-22980140a405?w=750&h=750&fit=crop" :alt="file.description"> -->
+                                    <img class="gallery-image" :src="file.url + '?w=200&h=200&fit=crop'" :alt="file.description">
                                 </div>
 
                                 <p class="leading-tight mt-2">

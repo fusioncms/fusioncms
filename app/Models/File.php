@@ -35,7 +35,7 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::url($this->location);
+        return '/file/glide/'.$this->uuid.'/'.$this->getAttribute('original');
     }
 
     /**
