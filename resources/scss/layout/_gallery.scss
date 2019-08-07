@@ -14,17 +14,25 @@
     }
 
     &-item {
-        @apply w-full rounded shadow overflow-hidden;
+        @apply w-full rounded overflow-hidden border-4 border-grey-lighter p-2 bg-white;
+
+        &--selected {
+            @apply border-secondary bg-secondary-lighter;
+        }
+
+        &:hover {
+            @apply cursor-pointer;
+        }
     }
 
     &-image {
-        @apply block w-full h-full;
+        @apply block w-full h-full rounded;
 
         object-fit: cover;
-        transition: transform 400ms ease-out;
+        transition: transform 200ms ease-out;
 
         &:hover {
-            transform: scale(1.15);
+            transform: scale(1.05);
         }
     }
 }

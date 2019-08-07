@@ -8438,21 +8438,34 @@ table td::before {
 .gallery-item {
   width: 100%;
   border-radius: .25rem;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   overflow: hidden;
+  border-width: 4px;
+  border-color: #f1f5f8;
+  padding: .5rem;
+  background-color: #fff;
+}
+
+.gallery-item--selected {
+  border-color: #4dd0e1;
+  background-color: #b8ecf3;
+}
+
+.gallery-item:hover {
+  cursor: pointer;
 }
 
 .gallery-image {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: .25rem;
   -o-object-fit: cover;
      object-fit: cover;
-  transition: transform 400ms ease-out;
+  transition: transform 200ms ease-out;
 }
 
 .gallery-image:hover {
-  transform: scale(1.15);
+  transform: scale(1.05);
 }
 
 .row {
