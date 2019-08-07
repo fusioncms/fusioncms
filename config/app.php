@@ -188,7 +188,6 @@ return [
         App\Providers\FieldtypeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
-        App\Providers\MenuServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
         App\Providers\ConfigServiceProvider::class,
 

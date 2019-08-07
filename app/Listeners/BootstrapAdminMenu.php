@@ -9,42 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Providers;
+namespace App\Listeners;
 
 use Menu;
 use App\Models\Matrix;
-use Illuminate\Support\ServiceProvider;
+use App\Events\ServingFusion;
 
-class MenuServiceProvider extends ServiceProvider
+class BootstrapAdminMenu
 {
     /**
-     * Bootstrap services.
+     * Handle the event.
      *
+     * @param  Verified $verified
      * @return void
      */
-    public function boot()
-    {
-        if (app_installed() && config('app.env') !== 'testing') {
-            $this->createAdminNavigation();
-        }
-    }
-
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Register the base admin navigation.
-     *
-     * @return void
-     */
-    protected function createAdminNavigation()
+    public function handle()
     {
         $matrices = Matrix::where('sidebar', true)->orderBy('name')->get();
 
