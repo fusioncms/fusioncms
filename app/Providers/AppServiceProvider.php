@@ -39,8 +39,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerHelpers();
-
         $this->app->register(RouteServiceProvider::class);
 
         if ($this->app->isLocal()) {
@@ -60,18 +58,6 @@ class AppServiceProvider extends ServiceProvider
         // delicate beauty
 
         Bonsai::plant();
-    }
-
-    /**
-     * Load and boot the bundled CMS helper functions.
-     *
-     * @return void
-     */
-    protected function registerHelpers()
-    {
-        foreach (glob(base_path('helpers/*.php')) as $helper) {
-            require_once $helper;
-        }
     }
 
     /**

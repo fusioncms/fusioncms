@@ -64,7 +64,23 @@
         "psr-4": {
             "App\\": "app/",
             "Modules\\": "modules/"
-        }
+        },
+        "files": [
+            "helpers/app.php",
+            "helpers/datetime.php",
+            "helpers/fields.php",
+            "helpers/integers.php",
+            "helpers/matrix.php",
+            "helpers/misc.php",
+            "helpers/paths.php",
+            "helpers/relationships.php",
+            "helpers/seo.php",
+            "helpers/settings.php",
+            "helpers/strings.php",
+            "helpers/themes.php",
+            "helpers/upkeep.php",
+            "helpers/users.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
