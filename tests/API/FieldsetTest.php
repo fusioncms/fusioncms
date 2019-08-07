@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\API;
+namespace Tests\API;
 
 use App\Models\Fieldset;
 use Facades\FieldsetFactory;

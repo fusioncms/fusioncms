@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature\API;
+namespace Tests\API;
 
 use App\Models\Matrix;
 use App\Models\Fieldset;
