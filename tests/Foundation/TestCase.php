@@ -41,6 +41,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected $user;
 
+    protected $guest;
+
     /**
      * Called before each test is run...
      *
@@ -86,6 +88,8 @@ abstract class TestCase extends BaseTestCase
             'email'      => 'guest@example.com',
             'password'   => bcrypt('secret'),
         ]);
+
+        $this->guest = app()->make(\App\Models\User::class);
 
         Shinobi::assign('admin')->to($this->admin);
         // Shinobi::assign('user')->to($this->user);

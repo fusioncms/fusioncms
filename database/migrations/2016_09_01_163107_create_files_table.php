@@ -29,7 +29,6 @@ class CreateFilesTable extends Migration
             $table->string('uuid')->unique();
             $table->text('description')->nullable();
             $table->string('location');
-            $table->string('thumbnail');
             $table->string('original');
             $table->string('extension');
             $table->string('mimetype');

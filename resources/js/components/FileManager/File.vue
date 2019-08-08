@@ -1,7 +1,15 @@
 <template>
     <div class="gallery-wrapper flex-auto">
         <div class="gallery-item" :class="{'gallery-item--selected': selected}" @click.stop="select" @dblclick="preview">
-            <p-img :lazySrc="file.url + '?w=200&h=200&fit=crop'" :width="200" :height="200" :alt="file.description" class="gallery-image"></p-img>
+            <p-img
+                src="/img/file-placeholder.svg"
+                background-color="#ffffff"
+                :lazySrc="file.url + '?w=200&h=200&fit=crop'"
+                :width="200"
+                :height="200"
+                :alt="file.description"
+                class="gallery-image">
+            </p-img>
         </div>
 
         <p class="leading-tight mt-2">

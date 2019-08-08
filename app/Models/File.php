@@ -35,7 +35,7 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return '/file/glide/'.$this->uuid.'/'.$this->getAttribute('original');
+        return '/file/'.$this->uuid.'/'.$this->getAttribute('original');
     }
 
     /**
@@ -60,20 +60,5 @@ class File extends Model
     public function directory()
     {
         return $this->belongsTo(Directory::class);
-    }
-
-    /**
-     * Return the path to the image.
-     */
-    public function path()
-    {
-        return 'path/to/file';
-
-        // return route('assets.asset', $this->slug);
-    }
-
-    public function storagePath()
-    {
-        return storage_path('uploads/' . $this->location);
     }
 }

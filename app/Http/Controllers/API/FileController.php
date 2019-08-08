@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -23,7 +24,10 @@ class FileController extends Controller
     }
 
     /**
+     * Persist a new resource in storage.
      * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer|null  $directory
      */
     public function store(Request $request, $directory = null)
     {
@@ -57,5 +61,21 @@ class FileController extends Controller
         ]);
 
         return new FileResource($file);
+    }
+
+    public function destroy(Request $request, File $file)
+    {
+        $this->authorize('file.destroy');
+
+        activity()
+            ->performedOn($file)
+            ->withProperties([
+                'icon' => 'file-alt',
+            ])
+            ->log('Deleted file (:subject.name)');
+
+        Storage::delete($file->location);
+
+        $file->delete();
     }
 }
