@@ -25,4 +25,4 @@ use League\Glide\Responses\LaravelResponseFactory;
 |
 */
 
-Route::get('file/glide/{uuid}/{filename}', 'TestController');
+Route::get('file/{uuid}/{filename}', 'FileController');

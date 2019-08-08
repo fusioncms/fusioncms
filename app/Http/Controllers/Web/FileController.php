@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\File;
-use Illuminate\Http\Request;
 use League\Glide\ServerFactory;
 use Illuminate\Routing\Controller;
 use League\Glide\Responses\LaravelResponseFactory;
 
-class TestController extends Controller
+class FileController extends Controller
 {
-    public function __invoke(Request $request, $uuid, $filename)
+    public function __invoke($uuid, $filename)
     {
         $file = File::where('uuid', $uuid)->first();
 
@@ -19,18 +18,17 @@ class TestController extends Controller
         }
 
         if ($filename !== $file->original) {
-            return redirect('/file/glide/'.$uuid.'/'.$file->original);
+            return redirect()->to('/file/'.$uuid.'/'.$file->original.'?'.request()->getQueryString());
         }
 
-        $filesystem = app('filesystem');
-        $path = $file->location;
+        $filesystem = app('filesystem')->getDriver();
+        $path       = $file->location;
 
         $server = ServerFactory::create([
             'response'          => new LaravelResponseFactory(app('request')),
-            'source'            => $filesystem->getDriver(),
-            'cache'             => $filesystem->getDriver(),
+            'source'            => $filesystem,
+            'cache'             => $filesystem,
             'cache_path_prefix' => '.cache',
-            'base_url'          => 'file',
         ]);
 
         return $server->getImageResponse($path, request()->all());
