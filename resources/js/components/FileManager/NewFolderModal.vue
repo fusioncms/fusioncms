@@ -1,10 +1,10 @@
 <template>
-    <p-modal name="new-folder" title="New Folder">
-        <p-input name="name" help="What is the name of the folder you'd like to create?" placeholder="Untitled Folder" v-model="name"></p-input>
+    <p-modal name="new-folder" title="Create New Folder">
+        <p-input name="name" label="Name this folder" placeholder="Folder name" v-model="name"></p-input>
 
         <template v-slot:footer>
             <p-button v-modal:new-folder>Close</p-button>
-            <p-button theme="primary" @click="submit" v-modal:new-folder>Save</p-button>
+            <p-button theme="primary" @click="submit" v-modal:new-folder class="mr-1">Save</p-button>
         </template>
     </p-modal>
 </template>
