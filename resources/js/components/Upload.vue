@@ -79,7 +79,7 @@
                         console.log(event.loaded)
                     }
                 }).then((response) => {
-                    console.log('finished')
+                    toast(response.data.data.original + ' uploaded', 'success')
                     // emit finished
                 }, () => {
                     // emit failed
@@ -91,14 +91,6 @@
 
                 return new Promise((resolve, reject) => {
                     resolve(fileObject)
-                    // axios.post('/api/files', {
-                    //     name: file.name,
-                    // }).then((response) => {
-                    //     fileObject.id = response.data.id
-                    //     resolve(fileObject)
-                    // }, () => {
-                    //     reject(fileObject)
-                    // })
                 })
             },
 

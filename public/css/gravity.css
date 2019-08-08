@@ -1127,6 +1127,17 @@ textarea.form__control {
   line-height: 2;
 }
 
+input.form__control--sm,
+select.form__control--sm,
+textarea.form__control--sm {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  padding-left: .25rem;
+  padding-right: .25rem;
+  line-height: 1.25;
+  font-size: .75rem;
+}
+
 input.form__control:focus,
 select.form__control:focus,
 textarea.form__control:focus {

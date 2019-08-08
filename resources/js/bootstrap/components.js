@@ -18,6 +18,8 @@ Vue.component('p-img', require('../components/Image').default)
 Vue.component('p-upload', require('../components/Upload').default)
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)
 Vue.component('new-folder-modal', require('../components/FileManager/NewFolderModal').default)
+Vue.component('file-manager-directory', require('../components/FileManager/Directory').default)
+Vue.component('file-manager-file', require('../components/FileManager/File').default)
 
 // Matrix
 Vue.component('field-editor', require('../components/FieldEditor').default)

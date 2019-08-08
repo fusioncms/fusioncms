@@ -83,29 +83,19 @@
                                 </p>
                             </div>
 
-                            <div class="gallery-wrapper" v-for="directory in filteredDirectories" :key="directory.id">
-                                <div class="gallery-item" @dblclick="preview(directory.name)">
-                                    <p-img lazySrc="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="directory.name" background-color="#ffffff" class="gallery-image"></p-img>
-                                </div>
-
-                                <p class="leading-tight mt-2">
-                                    <span class="block text-sm truncate">{{ directory.name }}</span>
-                                    <span class="text-xs font-mono text-grey-dark">-- items</span>
-                                </p>
-                            </div>
+                            <file-manager-directory
+                                v-for="directory in filteredDirectories"
+                                :key="directory.id"
+                                :name="directory.name">
+                            </file-manager-directory>
                         </div>
 
                         <div class="gallery" v-if="filteredFiles.length">
-                            <div class="gallery-wrapper flex-auto" v-for="file in filteredFiles" :key="file.uuid">
-                                <div class="gallery-item" :class="{'gallery-item--selected': isSelected(file.uuid)}" @click.stop="select(file.uuid)" @dblclick="preview(file.uuid)">
-                                    <p-img :lazySrc="file.url + '?w=200&h=200&fit=crop'" :width="200" :height="200" :alt="file.description" class="gallery-image"></p-img>
-                                </div>
-
-                                <p class="leading-tight mt-2">
-                                    <span class="block text-sm truncate">{{ file.name }}</span>
-                                    <span class="text-xs font-mono text-grey-dark">{{ file.extension }}</span>
-                                </p>
-                            </div>
+                            <file-manager-file
+                                v-for="file in filteredFiles"
+                                :key="file.uuid"
+                                :file="file">
+                            </file-manager-file>
                         </div>
                     </div>
                 </div>
