@@ -63,7 +63,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Modules\\": "modules/"
+            "Modules\\": "modules/",
+            "Themes\\": "themes/"
         },
         "files": [
             "helpers/app.php",
@@ -104,7 +105,9 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "apcu-autoloader": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
