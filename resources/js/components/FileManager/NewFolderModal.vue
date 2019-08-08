@@ -1,5 +1,5 @@
 <template>
-    <p-modal name="new-folder" title="Create New Folder">
+    <p-modal name="new-folder" title="Create New Folder" large>
         <p-input name="name" label="Name this folder" placeholder="Folder name" v-model="name"></p-input>
 
         <template v-slot:footer>

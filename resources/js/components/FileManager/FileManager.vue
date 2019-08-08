@@ -46,9 +46,19 @@
             </div>
 
             <div class="content-container">
-                <p-datatable name="list-view" endpoint="/datatable/users" sort-by="name" :per-page="10" no-filtering v-show="view == 'list'">
-                </p-datatable>
-
+                <p-card no-body v-show="view == 'list'">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Filesize</th>
+                                <th>Last Modified</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </p-card>
+                
                 <div class="card" v-show="view == 'grid'">
                     <div class="border-b border-grey-lighter px-8 py-2 text-grey-darker flex items-center">
                         <span class="mr-2">
