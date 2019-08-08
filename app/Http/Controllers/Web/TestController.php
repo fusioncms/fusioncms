@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Models\File;
 use Illuminate\Http\Request;
 use League\Glide\ServerFactory;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use League\Glide\Responses\LaravelResponseFactory;
 
 class TestController extends Controller

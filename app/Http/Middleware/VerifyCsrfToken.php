@@ -26,5 +26,6 @@ class VerifyCsrfToken extends BaseVerifier
         'bigcommerce/webhooks',
         'api/*/assets/json/*',
         'login',
+        'file/glide/*/*',
     ];
 }
