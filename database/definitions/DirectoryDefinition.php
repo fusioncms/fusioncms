@@ -23,23 +23,9 @@ use Illuminate\Http\UploadedFile;
 |
 */
 
-$factory->define(App\Models\File::class, function (Faker $faker) {
-    // $file     = UploadedFile::fake()->image($filename.'.jpg');
-    $filename  = $faker->word();
-    $extension = 'png';
-    $uuid      = unique_id();
-    $slug      = str_slug($uuid.' '.$filename);
-    $location  = 'files/'.$slug.'.'.$extension;
-    $mimetype  = 'image/png';
-    
+$factory->define(App\Models\Directory::class, function (Faker $faker) {
     return [
-        'directory_id' => null,
-        'name'         => $filename,
-        'slug'         => $slug,
-        'uuid'         => $uuid,
-        'location'     => $location,
-        'original'     => $filename.'.'.$extension,
-        'extension'    => $extension,
-        'mimetype'     => $mimetype,
+        'name'      => $faker->word(),
+        'parent_id' => null,
     ];
 });

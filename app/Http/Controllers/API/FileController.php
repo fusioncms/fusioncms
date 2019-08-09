@@ -16,11 +16,27 @@ class FileController extends Controller
     /**
      * 
      */
-    public function index($directory = null)
+    public function index(Request $request, $directory = null)
     {
-        $files = File::where('directory_id', $directory)->get();
+        $files      = File::where('directory_id', $directory);
+        $directions = ['asc', 'desc'];
+        $sortable   = ['name', 'filesize', 'updated_at'];
 
-        return FileResource::collection($files);
+        if ($request->exists('search')) {
+            $files = $files->whereLike('name', $request->get('search'));
+        }
+
+        if ($request->exists('sort') and in_array($request->get('sort'), $sortable)) {
+            if ($request->exists('direction') and in_array($request->get('direction'), $directions)) {
+                $direction = $request->get('direction');
+            } else {
+                $direction = 'asc';
+            }
+
+            $files = $files->orderBy($request->get('sort'), $direction);
+        }
+
+        return FileResource::collection($files->get());
     }
 
     /**
@@ -33,21 +49,19 @@ class FileController extends Controller
     {
         $request->validate([
             'file'      => 'file',
-            // 'directory_id' => [
-            //     Rule::unique('directories', 'name')->where(function ($query) use ($request) {
-            //         return $query->where('parent_id', $request->parent_id);
-            //     }),
-            // ],
+            'directory_id' => [
+                Rule::unique('directories', 'name')->where(function ($query) use ($request) {
+                    return $query->where('parent_id', $request->parent_id);
+                }),
+            ],
         ]);
 
-        $upload = $request['file'];
-        
+        $upload    = $request['file'];
         $extension = $upload->clientExtension();
-        
-        $uuid     = unique_id();
-        $name     = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
-        $slug     = str_slug($uuid.' '.$name);
-        $location = $upload->storeAs('files', "$slug.$extension");
+        $uuid      = unique_id();
+        $name      = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+        $slug      = str_slug($uuid.' '.$name);
+        $location  = $upload->storeAs('files', "$slug.$extension");
 
         $file = File::create([
             'directory_id' => null,

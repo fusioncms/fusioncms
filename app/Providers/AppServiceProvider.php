@@ -13,6 +13,7 @@ namespace App\Providers;
 
 use Bonsai;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factory;
 use Laravel\Telescope\TelescopeServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->bootRelationships();
         $this->bootBonsai();
+        $this->bootMacros();
     }
 
     /**
@@ -68,6 +70,24 @@ class AppServiceProvider extends ServiceProvider
     protected function bootRelationships()
     {
         Relation::morphMap(config('fusioncms.relationships', []));
+    }
+
+    /**
+     * Register and boot our custom Eloquent macros.
+     * 
+     * @return void
+     */
+    protected function bootMacros()
+    {
+        Builder::macro('whereLike', function($attributes, string $needle) {
+            $this->where(function(Builder $query) use ($attributes, $needle) {
+                foreach (array_wrap($attributes) as $attribute) {
+                    $query->orWhere($attribute, 'LIKE', "%{$needle}%");
+                }
+            });
+
+            return $this;
+        });
     }
 
     /**

@@ -11,6 +11,8 @@
 
 namespace Tests\API;
 
+use App\Models\File;
+use App\Models\Directory;
 use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -29,23 +31,19 @@ class FileTest extends TestCase
     /** @test */
     public function a_guest_can_not_delete_files()
     {
-        // 
+        $file = factory(File::class)->create();
+
+        $this->json('DELETE', 'api/files/'.$file->id)->assertStatus(401);
     }
 
     /** @test */
     public function a_user_without_permissions_can_not_delete_files()
     {
-        $this->actingAs($this->admin, 'api');
-
-        Storage::fake('public');
-
-        $file = $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo.jpg')
-        ])->getData()->data;
-
         $this->actingAs($this->user, 'api');
+        
+        $file = factory(File::class)->create();
 
-        $this->json('DELETE', 'api/files/1')->assertStatus(403);
+        $this->json('DELETE', 'api/files/'.$file->id)->assertStatus(403);
     }
 
     /** @test */
@@ -102,41 +100,150 @@ class FileTest extends TestCase
     /** @test */
     public function a_user_with_permissions_can_edit_file_names()
     {
-        // 
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($this->admin, 'api');
+
+        Storage::fake('public');
+
+        $response = $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo.jpg')
+        ]);
+        
+        $file = $response->getData()->data;
+
+        $response = $this->json('PATCH', '/api/files/'.$file->id, [
+            'name' => 'updated photo name',
+        ]);
+        
+        $response->assertStatus(200);
+        
+        $filename = $file->uuid.'-'.str_slug('updated photo name');
+        $location = 'files/'.$filename.'.jpg';
+
+        Storage::disk('public')->assertExists($location);
+        Storage::disk('public')->assertMissing($file->location);
     }
 
     /** @test */
     public function a_user_with_permissions_can_edit_file_descriptions()
     {
-        // 
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($this->admin, 'api');
+
+        $file        = factory(File::class)->create();
+        $description = 'This is a new file description.';
+
+        $response = $this->json('PATCH', 'api/files/'.$file->id, [
+            'description' => $description,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('files', [
+            'id'          => $file->id,
+            'description' => $description,
+        ]);
     }
 
     /** @test */
     public function a_user_with_permissions_can_replace_existing_files()
     {
-        // 
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($this->admin, 'api');
+
+        Storage::fake('public');
+
+        $response = $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo.jpg')
+        ]);
+        
+        $file = $response->getData()->data;
+
+        $response = $this->json('POST', '/api/files/'.$file->id.'/replace', [
+            'file' => UploadedFile::fake()->image('new_photo.jpg')
+        ]);
+        
+        $replacement = $response->getData()->data;
+        
+        $response->assertStatus(200);
+
+        Storage::disk('public')->assertExists($replacement->location);
+        Storage::disk('public')->assertMissing($file->location);
     }
 
     /** @test */
     public function a_user_with_permissions_can_move_files()
     {
-        // 
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($this->admin, 'api');
+
+        $file      = factory(File::class)->create();
+        $directory = factory(Directory::class)->create();
+
+        $response = $this->json('PATCH', 'api/files/'.$file->id, [
+            'folder_id' => $folder->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('files', [
+            'id'        => $file->id,
+            'folder_id' => $folder->id,
+        ]);
     }
 
     /** @test */
     public function files_can_be_searched_by_name()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        $photo1 = factory(File::class)->create(['name' => 'lorem']);
+        $photo2 = factory(File::class)->create(['name' => 'ipsum']);
+        $photo3 = factory(File::class)->create(['name' => 'dolor']);
+        $photo4 = factory(File::class)->create(['name' => 'sit']);
+        $photo5 = factory(File::class)->create(['name' => 'amet']);
+        $photo5 = factory(File::class)->create(['name' => 'do']);
+
+        $response = $this->json('GET', '/api/files?search=do');
+        $data     = collect($response->getData()->data);
+
+        $this->assertCount(2, $data);
+        $this->assertCount(1, $data->where('name', 'do'));
+        $this->assertCount(1, $data->where('name', 'dolor'));
+
+        $response = $this->json('GET', '/api/files?search=dolor');
+        $data     = collect($response->getData()->data);
+
+        $this->assertCount(1, $data);
+        $this->assertCount(1, $data->where('name', 'dolor'));
     }
 
     /** @test */
     public function files_can_be_sorted_by_name()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        $photo1 = factory(File::class)->create(['name' => 'lorem']);
+        $photo2 = factory(File::class)->create(['name' => 'ipsum']);
+        $photo3 = factory(File::class)->create(['name' => 'dolor']);
+        $photo4 = factory(File::class)->create(['name' => 'sit']);
+        $photo5 = factory(File::class)->create(['name' => 'amet']);
+        $photo5 = factory(File::class)->create(['name' => 'do']);
+
+        $response = $this->json('GET', '/api/files?sort=name');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['amet', 'do', 'dolor', 'ipsum', 'lorem', 'sit'], $data);
     }
 
     /** @test */
-    public function files_can_be_sorted_by_type()
+    public function files_can_be_sorted_by_filesize()
     {
         // 
     }
