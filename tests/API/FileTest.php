@@ -29,6 +29,12 @@ class FileTest extends TestCase
     /** @test */
     public function a_guest_can_not_delete_files()
     {
+        // 
+    }
+
+    /** @test */
+    public function a_user_without_permissions_can_not_delete_files()
+    {
         $this->actingAs($this->admin, 'api');
 
         Storage::fake('public');
@@ -37,7 +43,7 @@ class FileTest extends TestCase
             'file' => UploadedFile::fake()->image('photo.jpg')
         ])->getData()->data;
 
-        $this->actingAs($this->guest, 'api');
+        $this->actingAs($this->user, 'api');
 
         $this->json('DELETE', 'api/files/1')->assertStatus(403);
     }
@@ -91,5 +97,77 @@ class FileTest extends TestCase
         ]);
 
         Storage::disk('public')->assertMissing($file->location);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_edit_file_names()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_edit_file_descriptions()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_replace_existing_files()
+    {
+        // 
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_move_files()
+    {
+        // 
+    }
+
+    /** @test */
+    public function files_can_be_searched_by_name()
+    {
+        // 
+    }
+
+    /** @test */
+    public function files_can_be_sorted_by_name()
+    {
+        // 
+    }
+
+    /** @test */
+    public function files_can_be_sorted_by_type()
+    {
+        // 
+    }
+
+    /** @test */
+    public function files_can_be_sorted_by_last_modified_timestamp()
+    {
+        // 
+    }
+
+    /** @test */
+    public function image_files_can_be_filtered()
+    {
+        // 
+    }
+
+    /** @test */
+    public function video_files_can_be_filtered()
+    {
+        // 
+    }
+
+    /** @test */
+    public function audio_files_can_be_filtered()
+    {
+        // 
+    }
+
+    /** @test */
+    public function document_files_can_be_filtered()
+    {
+        // 
     }
 }
