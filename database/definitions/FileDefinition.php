@@ -41,5 +41,6 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
         'original'     => $filename.'.'.$extension,
         'extension'    => $extension,
         'mimetype'     => $mimetype,
+        'bytes'        => 100,
     ];
 });

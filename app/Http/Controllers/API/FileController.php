@@ -20,7 +20,7 @@ class FileController extends Controller
     {
         $files      = File::where('directory_id', $directory);
         $directions = ['asc', 'desc'];
-        $sortable   = ['name', 'filesize', 'updated_at'];
+        $sortable   = ['name', 'bytes', 'updated_at'];
 
         if ($request->exists('search')) {
             $files = $files->whereLike('name', $request->get('search'));
@@ -62,6 +62,7 @@ class FileController extends Controller
         $name      = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
         $slug      = str_slug($uuid.' '.$name);
         $location  = $upload->storeAs('files', "$slug.$extension");
+        $filesize  = $upload->getSize();
 
         $file = File::create([
             'directory_id' => null,
@@ -72,6 +73,7 @@ class FileController extends Controller
             'original'     => $upload->getClientOriginalName(),
             'extension'    => $extension,
             'mimetype'     => $upload->getClientMimeType(),
+            'bytes'        => $filesize,
         ]);
 
         return new FileResource($file);

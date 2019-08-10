@@ -245,13 +245,52 @@ class FileTest extends TestCase
     /** @test */
     public function files_can_be_sorted_by_filesize()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        Storage::fake('public');
+
+        $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo1.jpg', 500, 500)
+        ]);
+
+        $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo2.jpg', 700, 700)
+        ]);
+
+        $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo3.jpg', 100, 100)
+        ]);
+
+        $this->json('POST', '/api/files', [
+            'file' => UploadedFile::fake()->image('photo4.jpg', 150, 150)
+        ]);
+
+        $response = $this->json('GET', '/api/files?sort=bytes');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['photo3', 'photo4', 'photo1', 'photo2'], $data);
     }
 
     /** @test */
     public function files_can_be_sorted_by_last_modified_timestamp()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        $photo1 = factory(File::class)->create(['name' => 'lorem', 'updated_at' => now()->addDays(1)]);
+        $photo2 = factory(File::class)->create(['name' => 'ipsum', 'updated_at' => now()->addDays(3)]);
+        $photo3 = factory(File::class)->create(['name' => 'dolor', 'updated_at' => now()->addDays(2)]);
+        $photo4 = factory(File::class)->create(['name' => 'sit', 'updated_at' => now()->addDays(6)]);
+        $photo5 = factory(File::class)->create(['name' => 'amet', 'updated_at' => now()->addDays(4)]);
+        $photo5 = factory(File::class)->create(['name' => 'do', 'updated_at' => now()->addDays(5)]);
+
+        $response = $this->json('GET', '/api/files?sort=updated_at');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['lorem', 'dolor', 'ipsum', 'amet', 'do', 'sit'], $data);
     }
 
     /** @test */
