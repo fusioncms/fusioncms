@@ -186,14 +186,14 @@ class FileTest extends TestCase
         $directory = factory(Directory::class)->create();
 
         $response = $this->json('PATCH', 'api/files/'.$file->id, [
-            'folder_id' => $folder->id,
+            'directory_id' => $directory->id,
         ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('files', [
-            'id'        => $file->id,
-            'folder_id' => $folder->id,
+            'id'           => $file->id,
+            'directory_id' => $directory->id,
         ]);
     }
 

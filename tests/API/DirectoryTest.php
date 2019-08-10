@@ -2,6 +2,8 @@
 
 namespace Tests\API;
 
+use App\Models\Directory;
+use Facades\DirectoryFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -58,24 +60,73 @@ class DirectoryTest extends TestCase
     }
 
     /** @test */
-    public function a_user_with_permissions_can_move_directories()
+    public function a_user_with_permissions_can_move_directories_inside_other_directories()
     {
         $this->actingAs($this->admin, 'api');
 
         $this->json('POST', 'api/directories', [
-            'name' => 'Parent Folder',
+            'name' => 'First Folder',
         ]);
 
         $this->json('POST', 'api/directories', [
-            'name' => 'Child Folder',
+            'name' => 'Second Folder',
         ]);
 
-        $response = $this->json('PATCH', 'api/directories/2', [
-            'parent_id' => 1
+        $response = $this->json('POST', 'api/directories/2/move', [
+            'directory_id' => 1
         ]);
         
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('directories', ['name' => 'Child Folder', 'parent_id' => 1]);
+        $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => 1]);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_move_directories_to_the_root()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->json('POST', 'api/directories', [
+            'name' => 'First Folder',
+        ]);
+
+        $this->json('POST', 'api/directories', [
+            'name'      => 'Second Folder',
+            'parent_id' => 1,
+        ]);
+
+        $response = $this->json('POST', 'api/directories/2/move', [
+            'directory_id' => null
+        ]);
+        
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => null]);
+    }
+
+    /** @test */
+    public function directories_can_be_searched_by_name()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        DirectoryFactory::withName('lorem')->create();
+        DirectoryFactory::withName('ipsum')->create();
+        DirectoryFactory::withName('dolor')->create();
+        DirectoryFactory::withName('sit')->create();
+        DirectoryFactory::withName('amet')->create();
+        DirectoryFactory::withName('do')->create();
+
+        $response = $this->json('GET', '/api/directories?search=do');
+        $data     = collect($response->getData()->data);
+
+        $this->assertCount(2, $data);
+        $this->assertCount(1, $data->where('name', 'do'));
+        $this->assertCount(1, $data->where('name', 'dolor'));
+
+        $response = $this->json('GET', '/api/directories?search=dolor');
+        $data     = collect($response->getData()->data);
+
+        $this->assertCount(1, $data);
+        $this->assertCount(1, $data->where('name', 'dolor'));
     }
 }

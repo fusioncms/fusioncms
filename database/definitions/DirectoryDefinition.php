@@ -24,8 +24,11 @@ use Illuminate\Http\UploadedFile;
 */
 
 $factory->define(App\Models\Directory::class, function (Faker $faker) {
+    $name = $faker->word();
+    
     return [
-        'name'      => $faker->word(),
+        'name'      => $name,
+        'slug'      => str_slug($name),
         'parent_id' => null,
     ];
 });
