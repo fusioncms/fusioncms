@@ -57,6 +57,7 @@ class DirectoryController extends Controller
 
         $directory = Directory::create([
             'name'      => $request->name,
+            'slug'      => str_slug($request->name),
             'parent_id' => $request->parent_id,
         ]);
 
@@ -87,7 +88,18 @@ class DirectoryController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        $directory->update($request->only('name'));
+        $data = [
+            'name' => $request->name,
+            'slug' => str_slug($request->name),
+        ];
+
+        if ($request->directory_id) {
+            $data['directory_id'] = $request->directory_id;
+        }
+
+        $directory->update($data);
+
+        return new DirectoryResource($directory);
     }
 
     /**
