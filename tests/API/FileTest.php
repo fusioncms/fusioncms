@@ -12,6 +12,7 @@
 namespace Tests\API;
 
 use App\Models\File;
+use Facades\FileFactory;
 use App\Models\Directory;
 use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;
@@ -296,24 +297,72 @@ class FileTest extends TestCase
     /** @test */
     public function image_files_can_be_filtered()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        FileFactory::withName('image')->asImage()->create();
+        FileFactory::withName('audio')->asAudio()->create();
+        FileFactory::withName('video')->asVideo()->create();
+        FileFactory::withName('document')->asDocument()->create();
+
+        $response = $this->json('GET', '/api/files?filter=images');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['image'], $data);
     }
 
     /** @test */
     public function video_files_can_be_filtered()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        FileFactory::withName('image')->asImage()->create();
+        FileFactory::withName('audio')->asAudio()->create();
+        FileFactory::withName('video')->asVideo()->create();
+        FileFactory::withName('document')->asDocument()->create();
+
+        $response = $this->json('GET', '/api/files?filter=videos');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['video'], $data);
     }
 
     /** @test */
     public function audio_files_can_be_filtered()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        FileFactory::withName('image')->asImage()->create();
+        FileFactory::withName('audio')->asAudio()->create();
+        FileFactory::withName('video')->asVideo()->create();
+        FileFactory::withName('document')->asDocument()->create();
+
+        $response = $this->json('GET', '/api/files?filter=audio');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['audio'], $data);
     }
 
     /** @test */
     public function document_files_can_be_filtered()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        FileFactory::withName('image')->asImage()->create();
+        FileFactory::withName('audio')->asAudio()->create();
+        FileFactory::withName('video')->asVideo()->create();
+        FileFactory::withName('document')->asDocument()->create();
+
+        $response = $this->json('GET', '/api/files?filter=documents');
+        $data     = collect($response->getData()->data)->map(function($item) {
+            return $item->name;
+        })->toArray();
+        
+        $this->assertSame(['document'], $data);
     }
 }
