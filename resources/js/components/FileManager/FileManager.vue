@@ -3,7 +3,7 @@
         <portal to="actions" v-if="! inline">
             <p-button @click.prevent="viewGrid"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-large']"></fa-icon> Grid</p-button>
             <p-button @click.prevent="viewList"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-list']"></fa-icon> List</p-button>
-            <p-button><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
+            <p-button v-modal:delete><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
             <p-button><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
             <p-button v-modal:new-folder><fa-icon class="fa-fw mr-2" :icon="['fas', 'folder']"></fa-icon> New Folder</p-button>
             <p-button v-modal:upload><fa-icon class="fa-fw mr-2" :icon="['fas', 'upload']"></fa-icon> Upload</p-button>
@@ -108,23 +108,26 @@
             </p-modal>
 
             <new-folder-modal></new-folder-modal>
+
+            <delete-files-modal></delete-files-modal>
         </portal>
     </div>
 </template>
 
 <script>
     import _ from 'lodash'
+    import { mapGetters } from 'vuex' 
 
     export default {
         name: 'file-manager',
 
         props: {
-            files: {
-                type: Array,
-                default: () => {
-                    return []
-                },
-            },
+            // files: {
+            //     type: Array,
+            //     default: () => {
+            //         return []
+            //     },
+            // },
 
             directories: {
                 type: Array,
@@ -137,7 +140,7 @@
                 type: Boolean,
                 default: false,
             },
-    },
+        },
 
         data() {
             return {
@@ -149,6 +152,10 @@
         },
 
         computed: {
+            ...mapGetters({
+                files: 'filemanager/getFiles',
+            }),
+            
             filteredFiles() {
                 let vm = this
 
@@ -175,16 +182,16 @@
                 this.view = 'grid'
             },
 
-            select(uuid) {
-                this.selected = _.xor(this.selected, [uuid])
+            select(id) {
+                this.selected = _.xor(this.selected, [id])
             },
 
-            isSelected(uuid) {
-                return _.includes(this.selected, uuid)
+            isSelected(id) {
+                return _.includes(this.selected, id)
             },
 
-            preview(uuid) {
-                console.log('previewing ' + uuid)
+            preview(id) {
+                console.log('previewing ' + id)
             }
         },
     }

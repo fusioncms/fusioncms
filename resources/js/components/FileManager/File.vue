@@ -21,6 +21,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         name: 'file-manager-file',
 
@@ -39,12 +41,18 @@
         },
 
         methods: {
+            ...mapActions({
+                toggleFileSelection: 'filemanager/toggleFileSelection',
+            }),
+
             select() {
                 this.selected = ! this.selected
+
+                this.toggleFileSelection(this.file.id)
             },
 
             preview() {
-                console.log('Preview ' + this.file.uuid)
+                console.log('Preview ' + this.file.id)
             },
 
             edit() {
