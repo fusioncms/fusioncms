@@ -14,8 +14,8 @@ Vue.component('privacy-modal', require('../components/Modals/PrivacyModal').defa
 Vue.component('analytics-overview', require('../components/AnalyticsOverview').default)
 
 // File Manager
-Vue.component('p-img', require('../components/Image').default)
-Vue.component('p-upload', require('../components/Upload').default)
+Vue.component('p-img', require('../components/FileManager/Image').default)
+Vue.component('p-upload', require('../components/FileManager/Upload').default)
 Vue.component('file-manager-file', require('../components/FileManager/File').default)
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)
 Vue.component('new-folder-modal', require('../components/FileManager/NewFolderModal').default)

@@ -8179,6 +8179,10 @@ table td::before {
   width: 90px;
 }
 
+.w-100px {
+  width: 100px;
+}
+
 .w-250px {
   width: 250px;
 }
@@ -8446,14 +8450,24 @@ table td::before {
   }
 }
 
+.gallery-wrapper--small {
+  margin: 0;
+  width: 75px;
+  min-width: 75px;
+}
+
 .gallery-item {
   width: 100%;
-  border-radius: .25rem;
+  border-radius: .5rem;
   overflow: hidden;
   border-width: 4px;
   border-color: #f1f5f8;
   padding: .5rem;
   background-color: #fff;
+}
+
+.gallery-item--small {
+  padding: .25rem;
 }
 
 .gallery-item--selected {
@@ -16219,6 +16233,10 @@ table td::before {
     width: 90px;
   }
 
+  .sm\:w-100px {
+    width: 100px;
+  }
+
   .sm\:w-250px {
     width: 250px;
   }
@@ -22011,6 +22029,10 @@ table td::before {
 
   .md\:w-90px {
     width: 90px;
+  }
+
+  .md\:w-100px {
+    width: 100px;
   }
 
   .md\:w-250px {
@@ -27807,6 +27829,10 @@ table td::before {
     width: 90px;
   }
 
+  .lg\:w-100px {
+    width: 100px;
+  }
+
   .lg\:w-250px {
     width: 250px;
   }
@@ -33599,6 +33625,10 @@ table td::before {
 
   .xl\:w-90px {
     width: 90px;
+  }
+
+  .xl\:w-100px {
+    width: 100px;
   }
 
   .xl\:w-250px {
@@ -39395,6 +39425,10 @@ table td::before {
     width: 90px;
   }
 
+  .xxl\:w-100px {
+    width: 100px;
+  }
+
   .xxl\:w-250px {
     width: 250px;
   }
@@ -45187,6 +45221,10 @@ table td::before {
 
   .xxxl\:w-90px {
     width: 90px;
+  }
+
+  .xxxl\:w-100px {
+    width: 100px;
   }
 
   .xxxl\:w-250px {

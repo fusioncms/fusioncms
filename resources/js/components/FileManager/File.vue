@@ -1,7 +1,8 @@
 <template>
-    <div class="gallery-wrapper flex-auto">
-        <div class="gallery-item" :class="{'gallery-item--selected': selected}" @click.stop="select" @dblclick="preview">
+    <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
+        <div class="gallery-item" :class="{'gallery-item--selected': selected, 'gallery-item--small': small}" @click.stop="select" @dblclick="preview">
             <p-img
+                v-if="! small"
                 src="/img/file-placeholder.svg"
                 background-color="#ffffff"
                 :lazySrc="file.url + '?w=200&h=200&fit=crop'"
@@ -10,9 +11,20 @@
                 :alt="file.description"
                 class="gallery-image">
             </p-img>
+
+            <p-img
+                v-else
+                src="/img/file-placeholder.svg"
+                background-color="#ffffff"
+                :lazySrc="file.url + '?w=75&h=75&fit=crop'"
+                :width="75"
+                :height="75"
+                :alt="file.description"
+                class="gallery-image">
+            </p-img>
         </div>
 
-        <p class="leading-tight mt-2">
+        <p class="leading-tight mt-2" v-if="! small">
             <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ file.name }}</span>
             <input type="text" class="form__control form__control--sm text-center" :value="file.name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
             <span class="text-xs font-mono text-grey-dark">{{ file.extension }}</span>
@@ -34,6 +46,12 @@
         },
 
         props: {
+            small: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+
             file: {
                 type: Object,
                 required: true,

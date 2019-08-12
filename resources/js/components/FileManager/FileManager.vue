@@ -50,12 +50,21 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Filename</th>
-                                <th>Filesize</th>
-                                <th>Last Modified</th>
-                                <th></th>
+                                <th class="text-center w-100px"></th>
+                                <th>Name</th>
+                                <th>File size</th>
+                                <th>Last modified</th>
                             </tr>
                         </thead>
+
+                        <tbody>
+                            <tr v-for="file in filteredFiles" :key="file.uuid">
+                                <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
+                                <td>{{ file.name }}</td>
+                                <td>{{ bytes(file.bytes) }}</td>
+                                <td>{{ lastModified(file.updated_at) }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </p-card>
                 
@@ -115,20 +124,13 @@
 </template>
 
 <script>
-    import _ from 'lodash'
-    import { mapGetters } from 'vuex' 
+    import { mapGetters } from 'vuex'
+    import moment from 'moment-timezone'
 
     export default {
         name: 'file-manager',
 
         props: {
-            // files: {
-            //     type: Array,
-            //     default: () => {
-            //         return []
-            //     },
-            // },
-
             directories: {
                 type: Array,
                 default: () => {
@@ -182,16 +184,30 @@
                 this.view = 'grid'
             },
 
-            select(id) {
-                this.selected = _.xor(this.selected, [id])
-            },
-
-            isSelected(id) {
-                return _.includes(this.selected, id)
-            },
-
             preview(id) {
                 console.log('previewing ' + id)
+            },
+
+            bytes(bytes) {
+                let thresh = 1000
+
+                if (Math.abs(bytes) < thresh) {
+                    return bytes + ' B'
+                }
+
+                let index = -1
+                let units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+                
+                do {
+                    bytes /= thresh
+                    ++index
+                } while (Math.abs(bytes) >= thresh && index < units.length - 1)
+
+                return bytes.toFixed(1) + ' ' + units[index]
+            },
+
+            lastModified(timestamp) {
+                return moment(timestamp).format('MMM Do, YYYY')
             }
         },
     }

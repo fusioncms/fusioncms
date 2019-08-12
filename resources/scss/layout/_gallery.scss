@@ -11,11 +11,22 @@
             width: 175px;
             min-width: 175px;
         }
+
+        &--small {
+            @apply m-0;
+
+            width: 75px;
+            min-width: 75px;
+        }
     }
 
     &-item {
-        @apply w-full rounded overflow-hidden border-4 border-grey-lighter p-2 bg-white;
+        @apply w-full rounded-lg overflow-hidden border-4 border-grey-lighter p-2 bg-white;
 
+        &--small {
+            @apply p-1;
+        }
+        
         &--selected {
             @apply border-secondary bg-secondary-lighter;
         }
