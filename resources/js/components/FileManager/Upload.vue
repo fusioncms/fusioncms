@@ -17,6 +17,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         name: 'p-upload',
 
@@ -28,6 +30,10 @@
         },
 
         methods: {
+            ...mapActions({
+                addFile: 'filemanager/addFile',
+            }),
+
             enter() {
                 this.isDraggedOver = true
             },
@@ -79,6 +85,8 @@
                         console.log(event.loaded)
                     }
                 }).then((response) => {
+                    this.addFile(response.data.data)
+                    
                     toast(response.data.data.original + ' uploaded', 'success')
                     // emit finished
                 }, () => {

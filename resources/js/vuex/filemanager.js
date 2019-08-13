@@ -24,11 +24,21 @@ export default {
         getSelectedFiles(state) {
             return state.selected.files
         },
+
+        hasSelection(state) {
+            console.log(state.selected.files.length + state.selected.directories.length)
+
+            return (state.selected.files.length + state.selected.directories.length) > 0
+        },
     },
 
     mutations: {
         setFiles(state, files) {
             state.files = files
+        },
+
+        addFile(state, file) {
+            state.files.push(file)
         },
 
         toggleFileSelection(state, file) {
@@ -57,6 +67,10 @@ export default {
     actions: {
         setFiles(context, files) {
             context.commit('setFiles', files)
+        },
+
+        addFile(context, file) {
+            context.commit('addFile', file)
         },
 
         toggleFileSelection(context, file) {

@@ -3,10 +3,19 @@
         <portal to="actions" v-if="! inline">
             <p-button @click.prevent="viewGrid"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-large']"></fa-icon> Grid</p-button>
             <p-button @click.prevent="viewList"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-list']"></fa-icon> List</p-button>
-            <p-button v-modal:delete><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
-            <p-button><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+
+            <div class="inline-block" v-if="hasSelection">
+                <p-button v-modal:delete theme="danger"><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
+                <p-button theme="info"><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+            </div>
+
+            <div class="inline-block" v-else>
+                <p-button disabled><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
+                <p-button disabled><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+            </div>
+            
             <p-button v-modal:new-folder><fa-icon class="fa-fw mr-2" :icon="['fas', 'folder']"></fa-icon> New Folder</p-button>
-            <p-button v-modal:upload><fa-icon class="fa-fw mr-2" :icon="['fas', 'upload']"></fa-icon> Upload</p-button>
+            <p-button theme="primary" v-modal:upload><fa-icon class="fa-fw mr-2" :icon="['fas', 'upload']"></fa-icon> Upload</p-button>
         </portal>
 
         <div class="row">
@@ -46,8 +55,18 @@
             </div>
 
             <div class="content-container">
-                <p-card no-body v-show="view == 'list'">
-                    <table class="table">
+                <div class="card">
+                    <div class="border-b border-grey-lighter px-8 py-2 text-grey-darker flex items-center">
+                        <span class="mr-2">
+                            <fa-icon :icon="['fas', 'server']" class="fa-fw"></fa-icon> Local
+                        </span>
+
+                        <!-- <span class="mr-2">
+                            <fa-icon :icon="['fas', 'chevron-right']" class="mr-1"></fa-icon> Folder
+                        </span> -->
+                    </div>
+
+                    <table class="table" v-show="view == 'list'">
                         <thead>
                             <tr>
                                 <th class="text-center w-100px"></th>
@@ -66,20 +85,8 @@
                             </tr>
                         </tbody>
                     </table>
-                </p-card>
-                
-                <div class="card" v-show="view == 'grid'">
-                    <div class="border-b border-grey-lighter px-8 py-2 text-grey-darker flex items-center">
-                        <span class="mr-2">
-                            <fa-icon :icon="['fas', 'server']" class="fa-fw"></fa-icon> Local
-                        </span>
 
-                        <span class="mr-2">
-                            <fa-icon :icon="['fas', 'chevron-right']" class="mr-1"></fa-icon> Folder
-                        </span>
-                    </div>
-
-                    <div class="card__body">
+                    <div class="card__body" v-show="view == 'grid'">
                         <div class="gallery mb-12" v-if="filteredDirectories.length">
                             <div class="gallery-wrapper" v-if="currentDirectory != null">
                                 <div class="gallery-item" @dblclick="preview(directory.name)">
@@ -124,7 +131,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import moment from 'moment-timezone'
 
     export default {
@@ -156,6 +163,7 @@
         computed: {
             ...mapGetters({
                 files: 'filemanager/getFiles',
+                hasSelection: 'filemanager/hasSelection',
             }),
             
             filteredFiles() {
