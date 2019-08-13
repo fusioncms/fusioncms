@@ -4,30 +4,18 @@
             <app-title icon="images">File Manager</app-title>
         </portal>
 
-        <file-manager :directories="directories"></file-manager>
+        <file-manager></file-manager>
     </div>
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex'
+    import { mapActions } from 'vuex'
 
     export default {
-        data() {
-            return {
-                // files: [],
-                directories: [],
-            }
-        },
-
-        computed: {
-            ...mapGetters({
-                files: 'filemanager/getFiles'
-            })
-        },
-
         methods: {
             ...mapActions({
                 setFiles: 'filemanager/setFiles',
+                setDirectories: 'filemanager/setDirectories',
             }),
         },
 
@@ -38,8 +26,7 @@
             ]).then(axios.spread(function (files, directories) {
                 next(function(vm) {
                     vm.setFiles(files.data.data)
-                    // vm.files = files.data.data
-                    vm.directories = directories.data.data
+                    vm.setDirectories(directories.data.data)
                 })
             }))
         },

@@ -36,7 +36,7 @@ class FileController extends Controller
             $files = $files->orderBy($request->get('sort'), $direction);
         }
 
-        return FileResource::collection($files->get());
+        return FileResource::collection($files->paginate(24));
     }
 
     /**

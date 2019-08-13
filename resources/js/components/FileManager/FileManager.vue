@@ -1,17 +1,18 @@
 <template>
     <div>
         <portal to="actions" v-if="! inline">
-            <p-button @click.prevent="viewGrid"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-large']"></fa-icon> Grid</p-button>
-            <p-button @click.prevent="viewList"><fa-icon class="fa-fw mr-2" :icon="['fas', 'th-list']"></fa-icon> List</p-button>
 
-            <div class="inline-block" v-if="hasSelection">
-                <p-button v-modal:delete theme="danger"><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
-                <p-button theme="info"><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+            <div class="inline-block mr-4" v-if="hasSelection">
+                <div class="inline-block mr-4">
+                    <p-button v-modal:delete theme="danger"><fa-icon class="fa-fw mr-4" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
+                </div>
+                
+                <p-button @click.prevent="clearSelection"><fa-icon class="fa-fw mr-2" :icon="['far', 'square']"></fa-icon> Uncheck All</p-button>
+                <p-button><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
             </div>
 
-            <div class="inline-block" v-else>
-                <p-button disabled><fa-icon class="fa-fw mr-2" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
-                <p-button disabled><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+            <div class="inline-block mr-4">
+                <p-button @click.prevent="toggleView"><fa-icon class="fa-fw mr-2" :icon="['fas', (view === 'list' ? 'th-large' : 'th-list')]"></fa-icon> {{ (view === 'list' ? 'Grid' : 'List') }}</p-button>
             </div>
             
             <p-button v-modal:new-folder><fa-icon class="fa-fw mr-2" :icon="['fas', 'folder']"></fa-icon> New Folder</p-button>
@@ -26,17 +27,17 @@
                     <div class="list">
                         <span class="list--separator">Display</span>
                         
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'asterisk']"></fa-icon> Everything</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'images']"></fa-icon> Images</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'video']"></fa-icon> Videos</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'volume-up']"></fa-icon> Audio</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'file-alt']"></fa-icon> Documents</router-link>
+                        <a href="#" @click.prevent="filterBy('everything')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'asterisk']"></fa-icon> Everything</a>
+                        <a href="#" @click.prevent="filterBy('images')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'images']"></fa-icon> Images</a>
+                        <a href="#" @click.prevent="filterBy('videos')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'video']"></fa-icon> Videos</a>
+                        <a href="#" @click.prevent="filterBy('audio')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'volume-up']"></fa-icon> Audio</a>
+                        <a href="#" @click.prevent="filterBy('documents')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'file-alt']"></fa-icon> Documents</a>
 
                         <span class="list--separator">Sort</span>
                         
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'sort-amount-down']"></fa-icon> Name</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'bars']"></fa-icon> Filesize</router-link>
-                        <router-link :to="{ name: 'users' }" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'bars']"></fa-icon> Last Modified</router-link>
+                        <a href="#" @click.prevent="sortBy('name')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('name')]"></fa-icon> Name</a>
+                        <a href="#" @click.prevent="sortBy('bytes')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('bytes')]"></fa-icon> Filesize</a>
+                        <a href="#" @click.prevent="sortBy('updated_at')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('updated_at')]"></fa-icon> Last Modified</a>
 
                         <!-- <div v-if="directories.length">
                             <span class="list--separator">Locations</span>
@@ -77,7 +78,7 @@
                         </thead>
 
                         <tbody>
-                            <tr v-for="file in filteredFiles" :key="file.uuid">
+                            <tr v-for="file in files" :key="file.uuid">
                                 <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
                                 <td>{{ file.name }}</td>
                                 <td>{{ bytes(file.bytes) }}</td>
@@ -87,7 +88,7 @@
                     </table>
 
                     <div class="card__body" v-show="view == 'grid'">
-                        <div class="gallery mb-12" v-if="filteredDirectories.length">
+                        <div class="gallery mb-12" v-if="directories.length">
                             <div class="gallery-wrapper" v-if="currentDirectory != null">
                                 <div class="gallery-item" @dblclick="preview(directory.name)">
                                     <p-img lazySrc="/img/folder.svg" :width="200" :height="200" alt="Go up one directory" background-color="#ffffff" class="gallery-image"></p-img>
@@ -100,15 +101,15 @@
                             </div>
 
                             <file-manager-directory
-                                v-for="directory in filteredDirectories"
+                                v-for="directory in directories"
                                 :key="directory.id"
                                 :name="directory.name">
                             </file-manager-directory>
                         </div>
 
-                        <div class="gallery" v-if="filteredFiles.length">
+                        <div class="gallery" v-if="files.length">
                             <file-manager-file
-                                v-for="file in filteredFiles"
+                                v-for="file in files"
                                 :key="file.uuid"
                                 :file="file">
                             </file-manager-file>
@@ -133,63 +134,76 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import moment from 'moment-timezone'
+    import _ from 'lodash'
 
     export default {
         name: 'file-manager',
 
         props: {
-            directories: {
-                type: Array,
-                default: () => {
-                    return []
-                },
-            },
-
             inline: {
                 type: Boolean,
                 default: false,
             },
         },
 
-        data() {
-            return {
-                view: 'grid',
-                currentDirectory: null,
-                selected: [],
-                search: '',
-            }
-        },
-
         computed: {
             ...mapGetters({
                 files: 'filemanager/getFiles',
+                directories: 'filemanager/getDirectories',
                 hasSelection: 'filemanager/hasSelection',
+                display: 'filemanager/getDisplay',
+                sort: 'filemanager/getSort',
+                direction: 'filemanager/getDirection',
+                currentDirectory: 'filemanager/getCurrentDirectory',
+                view: 'filemanager/getView',
             }),
-            
-            filteredFiles() {
-                let vm = this
 
-                return this.files.filter(function(file) {
-                    return file.name.toLowerCase().startsWith(vm.search.toLowerCase())
-                })
+            search: {
+                get() {
+                    return this.$store.state.filemanager.search
+                },
+
+                set(value) {
+                    this.$store.commit('filemanager/setSearch', value)
+                }
+            }
+        },
+
+        watch: {
+            display(value) {
+                this.fetchFilesAndDirectories()
             },
 
-            filteredDirectories() {
-                let vm = this
+            sort(value) {
+                this.fetchFilesAndDirectories()
+            },
 
-                return this.directories.filter(function(directory) {
-                    return directory.name.toLowerCase().startsWith(vm.search.toLowerCase())
-                })
+            search(value) {
+                this.fetchFilesAndDirectories()
             },
         },
 
         methods: {
-            viewList() {
-                this.view = 'list'
+            ...mapActions({
+                setFiles: 'filemanager/setFiles',
+                setDisplay: 'filemanager/setDisplay',
+                setSort: 'filemanager/setSort',
+                setDirection: 'filemanager/setDirection',
+                clearFileSelection: 'filemanager/clearFileSelection',
+                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+                toggleView: 'filemanager/toggleView',
+            }),
+
+            clearSelection() {
+                this.clearFileSelection()
             },
 
-            viewGrid() {
-                this.view = 'grid'
+            filterBy(filter) {
+                this.setDisplay(filter)
+            },
+
+            sortBy(key) {
+                this.setSort(key)
             },
 
             preview(id) {
@@ -216,7 +230,22 @@
 
             lastModified(timestamp) {
                 return moment(timestamp).format('MMM Do, YYYY')
+            },
+
+            sortingIcon(by) {
+                if (by === this.sort) {
+                    return 'sort-amount-down'
+                }
+
+                return 'bars'
             }
+        },
+
+        mounted() {
+            // Fetch images and directories
+            // if (this.files == null || this.directories == null) {
+
+            // }
         },
     }
 </script>

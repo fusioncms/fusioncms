@@ -1,5 +1,5 @@
 <template>
-    <p-modal name="new-folder" title="Create New Folder" large>
+    <p-modal name="new-folder" title="Create New Folder">
         <p-input name="name" label="Name this folder" placeholder="Folder name" v-model="name"></p-input>
 
         <template v-slot:footer>
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         name: 'new-folder-modal',
 
@@ -28,6 +30,10 @@
         },
 
         methods: {
+            ...mapActions({
+                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+            }),
+
             submit() {
                 let data = {
                     name: this.name,
@@ -36,12 +42,9 @@
 
                 axios.post('/api/directories', data).then((response) => {
                     this.name = ''
+                    this.fetchFilesAndDirectories()
                 })
             },
-
-            close() {
-                this.show = false
-            }
         }
     }
 </script>

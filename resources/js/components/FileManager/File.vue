@@ -24,11 +24,15 @@
             </p-img>
         </div>
 
-        <p class="leading-tight mt-2" v-if="! small">
+        <div class="leading-tight mt-2" v-if="! small">
             <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ file.name }}</span>
-            <input type="text" class="form__control form__control--sm text-center" :value="file.name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
-            <span class="text-xs font-mono text-grey-dark">{{ file.extension }}</span>
-        </p>
+            <input type="text" class="form__control form__control--sm text-center" v-model="file.name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
+            
+            <div class="flex flex-col text-center text-xs font-mono text-grey-dark mt-2">
+                <span>{{ bytes }}</span>
+                <span>{{ file.extension }}</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -40,6 +44,7 @@
 
         data() {
             return {
+                name: this.file.name,
                 isEditing: false,
                 selected: false,
             }
@@ -56,6 +61,27 @@
                 type: Object,
                 required: true,
             }
+        },
+
+        computed: {
+            bytes() {
+                let bytes = this.file.bytes
+                let thresh = 1000
+
+                if (Math.abs(bytes) < thresh) {
+                    return bytes + ' B'
+                }
+
+                let index = -1
+                let units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+                
+                do {
+                    bytes /= thresh
+                    ++index
+                } while (Math.abs(bytes) >= thresh && index < units.length - 1)
+
+                return bytes.toFixed(1) + ' ' + units[index]
+            },
         },
 
         methods: {
@@ -89,10 +115,28 @@
             update() {
                 if (this.isEditing) {
                     this.done()
-    
-                    toast('File name updated (not yet implemented)', 'success')
+
+                    if (this.file.name === '') {
+                        this.file.name = this.name
+
+                        toast('The file\'s name is required', 'warning')
+                    } else {
+                        let form = new FormData()
+
+                        form.append('name', this.file.name)
+
+                        axios.patch('/api/files/' + this.file.id, form).then((response) => {
+                            this.name = this.file.name
+
+                            toast('The file\'s name was successfully updated', 'success')
+                        }).catch((error) => {
+                            this.file.name = this.name
+
+                            toast(error.message, 'danger')
+                        })
+                    }    
                 }
-            }
+            },
         }
     }
 </script>

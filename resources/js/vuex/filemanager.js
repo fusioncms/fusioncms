@@ -10,6 +10,12 @@ export default {
             files: [],
             directories: [],
         },
+        currentDirectory: null,
+        search: '',
+        display: 'everything',
+        sort: 'name',
+        direction: 'asc',
+        view: 'grid',
     },
 
     getters: {
@@ -21,13 +27,35 @@ export default {
             return state.directories
         },
 
+        getView(state) {
+            return state.view
+        },
+
+        getSearch(state) {
+            return state.search
+        },
+
+        getCurrentDirectory(state) {
+            return state.currentDirectory
+        },
+
+        getDisplay(state) {
+            return state.display
+        },
+
+        getSort(state) {
+            return state.sort
+        },
+
+        getDirection(state) {
+            return state.direction
+        },
+
         getSelectedFiles(state) {
             return state.selected.files
         },
 
         hasSelection(state) {
-            console.log(state.selected.files.length + state.selected.directories.length)
-
             return (state.selected.files.length + state.selected.directories.length) > 0
         },
     },
@@ -35,6 +63,30 @@ export default {
     mutations: {
         setFiles(state, files) {
             state.files = files
+        },
+
+        setDirectories(state, directories) {
+            state.directories = directories
+        },
+
+        setView(state, view) {
+            state.view = view
+        },
+
+        setSearch(state, query) {
+            state.search = query
+        },
+
+        setDisplay(state, display) {
+            state.display = display
+        },
+
+        setSort(state, sortBy) {
+            state.sort = sortBy
+        },
+
+        setDirection(state, direction) {
+            state.direction = direction
         },
 
         addFile(state, file) {
@@ -92,5 +144,66 @@ export default {
         clearFileSelection(context) {
             context.commit('clearFileSelection')
         },
+
+        fetchFilesAndDirectories: _.throttle(function(context) {
+            let params = {
+                sort: context.state.sort,
+            }
+            
+            if (context.state.display !== 'everything') {
+                params.filter = context.state.display
+            }
+            
+            if (context.state.search !== '') {
+                params.search = context.state.search
+            }
+            
+            axios.all([
+                axios.get('/api/files', {params: params}),
+                axios.get('/api/directories', {params: params}),
+            ]).then(axios.spread(function (files, directories) {
+                console.log(directories.data.data)
+                
+                context.commit('setFiles', files.data.data)
+                context.commit('setDirectories', directories.data.data)
+            }))
+        }, 350),
+        
+
+        fetchFiles() {
+            // 
+        },
+
+        fetchDirectories() {
+            // 
+        },
+
+        setSearch(context, query) {
+            context.commit('setSearch', query)
+        },
+
+        setDisplay(context, display) {
+            context.commit('setDisplay', display)
+        },
+
+        setSort(context, sortBy) {
+            context.commit('setSort', sortBy)
+        },
+
+        setDirection(context, direction) {
+            context.commit('setDirection', direction)
+        },
+
+        setDirectories(context, directories) {
+            context.commit('setDirectories', directories)
+        },
+
+        toggleView(context) {
+            if (context.state.view === 'grid') {
+                context.commit('setView', 'list')
+            } else {
+                context.commit('setView', 'grid')
+            }
+        }
     }
 }
