@@ -88,7 +88,7 @@
                     </table>
 
                     <div class="card__body" v-show="view == 'grid'">
-                        <div class="gallery mb-12" v-if="directories.length">
+                        <div class="gallery mb-12" v-if="directories.length && search === ''">
                             <div class="gallery-wrapper" v-if="currentDirectory != null">
                                 <div class="gallery-item" @dblclick="preview(directory.name)">
                                     <p-img lazySrc="/img/folder.svg" :width="200" :height="200" alt="Go up one directory" background-color="#ffffff" class="gallery-image"></p-img>

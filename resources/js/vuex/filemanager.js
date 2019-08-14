@@ -167,7 +167,7 @@ export default {
                 context.commit('setFiles', files.data.data)
                 context.commit('setDirectories', directories.data.data)
             }))
-        }, 350),
+        }, 500),
         
 
         fetchFiles() {
