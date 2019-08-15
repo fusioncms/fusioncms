@@ -30,6 +30,8 @@ class File extends Model
         'extension',
         'mimetype',
         'bytes',
+        'width',
+        'height',
     ];
 
     protected $appends = ['url'];

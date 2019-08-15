@@ -1,27 +1,51 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
         <div class="gallery-item" :class="{'gallery-item--selected': selected, 'gallery-item--small': small}" @click.stop="select" @dblclick="preview">
-            <p-img
-                v-if="! small"
-                src="/img/file-placeholder.svg"
-                background-color="#ffffff"
-                :lazySrc="file.url + '?w=200&h=200&fit=crop'"
-                :width="200"
-                :height="200"
-                :alt="file.description"
-                class="gallery-image">
-            </p-img>
+            <div v-if="isImage">
+                <p-img
+                    v-if="! small"
+                    src="/img/file-placeholder.svg"
+                    background-color="#ffffff"
+                    :lazySrc="file.url + '?w=200&h=200&fit=crop'"
+                    :width="200"
+                    :height="200"
+                    :alt="file.description"
+                    class="gallery-image">
+                </p-img>
 
-            <p-img
-                v-else
-                src="/img/file-placeholder.svg"
-                background-color="#ffffff"
-                :lazySrc="file.url + '?w=75&h=75&fit=crop'"
-                :width="75"
-                :height="75"
-                :alt="file.description"
-                class="gallery-image">
-            </p-img>
+                <p-img
+                    v-else
+                    src="/img/file-placeholder.svg"
+                    background-color="#ffffff"
+                    :lazySrc="file.url + '?w=75&h=75&fit=crop'"
+                    :width="75"
+                    :height="75"
+                    :alt="file.description"
+                    class="gallery-image">
+                </p-img>
+            </div>
+
+            <div v-else>
+                <p-img
+                    v-if="! small"
+                    src="/img/file-placeholder.svg"
+                    background-color="#ffffff"
+                    :width="200"
+                    :height="200"
+                    :alt="file.description"
+                    class="gallery-image">
+                </p-img>
+
+                <p-img
+                    v-else
+                    src="/img/file-placeholder.svg"
+                    background-color="#ffffff"
+                    :width="75"
+                    :height="75"
+                    :alt="file.description"
+                    class="gallery-image">
+                </p-img>
+            </div>
         </div>
 
         <div class="leading-tight mt-2" v-if="! small">
@@ -64,6 +88,10 @@
         },
 
         computed: {
+            isImage() {
+                return _.startsWith(this.file.mimetype, 'image')
+            },
+
             bytes() {
                 let bytes = this.file.bytes
                 let thresh = 1000
@@ -96,7 +124,7 @@
             },
 
             preview() {
-                console.log('Preview ' + this.file.id)
+                this.$router.push({ path: '/files/preview/' + this.file.uuid })
             },
 
             edit() {

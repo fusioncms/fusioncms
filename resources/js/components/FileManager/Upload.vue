@@ -87,7 +87,7 @@
                 }).then((response) => {
                     this.addFile(response.data.data)
                     
-                    toast(response.data.data.original + ' uploaded', 'success')
+                    toast(response.data.data.name + ' uploaded', 'success')
                     // emit finished
                 }, () => {
                     // emit failed

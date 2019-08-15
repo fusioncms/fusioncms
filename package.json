@@ -45,6 +45,7 @@
         "marked": "^0.6.1",
         "moment-timezone": "^0.5.25",
         "node-sass": "^4.11.0",
-        "pluralize": "^8.0.0"
+        "pluralize": "^8.0.0",
+        "plyr": "^3.5.6"
     }
 }

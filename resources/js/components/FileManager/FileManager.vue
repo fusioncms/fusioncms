@@ -4,19 +4,19 @@
 
             <div class="inline-block mr-4" v-if="hasSelection">
                 <div class="inline-block mr-4">
-                    <p-button v-modal:delete theme="danger"><fa-icon class="fa-fw mr-4" :icon="['fas', 'trash-alt']"></fa-icon> Delete</p-button>
+                    <p-button v-modal:delete theme="danger">Delete</p-button>
                 </div>
                 
-                <p-button @click.prevent="clearSelection"><fa-icon class="fa-fw mr-2" :icon="['far', 'square']"></fa-icon> Uncheck All</p-button>
-                <p-button><fa-icon class="fa-fw mr-2" :icon="['fas', 'reply-all']"></fa-icon> Move</p-button>
+                <p-button @click.prevent="clearSelection">Uncheck All</p-button>
+                <p-button>Move</p-button>
             </div>
 
             <div class="inline-block mr-4">
-                <p-button @click.prevent="toggleView"><fa-icon class="fa-fw mr-2" :icon="['fas', (view === 'list' ? 'th-large' : 'th-list')]"></fa-icon> {{ (view === 'list' ? 'Grid' : 'List') }}</p-button>
+                <p-button @click.prevent="toggleView"> {{ (view === 'list' ? 'View Grid' : 'View List') }}</p-button>
             </div>
             
-            <p-button v-modal:new-folder><fa-icon class="fa-fw mr-2" :icon="['fas', 'folder']"></fa-icon> New Folder</p-button>
-            <p-button theme="primary" v-modal:upload><fa-icon class="fa-fw mr-2" :icon="['fas', 'upload']"></fa-icon> Upload</p-button>
+            <p-button v-modal:new-folder>New Folder</p-button>
+            <p-button theme="primary" v-modal:upload>Upload</p-button>
         </portal>
 
         <div class="row">
@@ -73,6 +73,7 @@
                                 <th class="text-center w-100px"></th>
                                 <th>Name</th>
                                 <th>File size</th>
+                                <th>Mimetype</th>
                                 <th>Last modified</th>
                             </tr>
                         </thead>
@@ -82,6 +83,7 @@
                                 <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
                                 <td>{{ file.name }}</td>
                                 <td>{{ bytes(file.bytes) }}</td>
+                                <td>{{ file.mimetype }}</td>
                                 <td>{{ lastModified(file.updated_at) }}</td>
                             </tr>
                         </tbody>

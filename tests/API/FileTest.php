@@ -60,6 +60,8 @@ class FileTest extends TestCase
     /** @test */
     public function a_user_with_permissions_can_upload_files()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAs($this->admin, 'api');
 
         Storage::fake('public');
@@ -73,6 +75,44 @@ class FileTest extends TestCase
         Storage::disk('public')->assertExists($file->location);
         
         $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_get_a_file()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $file = factory(File::class)->create(['name' => 'lorem']);
+
+        $response = $this->json('GET', '/api/files/'.$file->uuid)
+            ->assertStatus(200);
+        
+        $payload = $response->getData()->data;
+
+        $this->assertEquals($payload->name, 'lorem');
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_download_files()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $photo = UploadedFile::fake()->image('photo.jpg');
+
+        $file = $this->json('POST', '/api/files', [
+            'file' => $photo,
+        ])->getData()->data;
+
+        Storage::disk('public')->assertExists($file->location);
+        
+        $response = $this->json('GET', '/api/files/'.$file->uuid.'/download')
+            ->assertStatus(200);
+
+        $this->assertTrue($response->headers->get('content-type') === 'image/jpeg');
+        $this->assertTrue($response->headers->get('content-disposition') === 'attachment; filename=photo.jpeg');
+
+        Storage::disk('public')->delete($file->location);
+        Storage::disk('public')->assertMissing($file->location);
     }
 
     /** @test */
@@ -119,8 +159,8 @@ class FileTest extends TestCase
         
         $response->assertStatus(200);
         
-        $filename = $file->uuid.'-'.str_slug('updated photo name');
-        $location = 'files/'.$filename.'.jpg';
+        $filename = str_slug($file->uuid.' '.'updated photo name');
+        $location = 'files/'.$filename.'.'.$file->extension;
 
         Storage::disk('public')->assertExists($location);
         Storage::disk('public')->assertMissing($file->location);

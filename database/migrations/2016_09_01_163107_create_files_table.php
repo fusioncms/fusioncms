@@ -33,6 +33,8 @@ class CreateFilesTable extends Migration
             $table->string('extension');
             $table->string('mimetype');
             $table->integer('bytes');
+            $table->integer('width')->nullable();
+            $table->integer('height')->nullable();
             $table->timestamps();
         });
     }
