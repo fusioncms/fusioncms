@@ -23,6 +23,10 @@ class FileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $resource = parent::toArray($request);
+
+        $resource['url'] = url($resource['url']);
+
+        return $resource;
     }
 }

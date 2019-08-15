@@ -1,16 +1,16 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="image">{{ file.name }}</app-title>
+            <app-title icon="image">{{ loaded ? file.name : '' }}</app-title>
         </portal>
 
-        <div class="row">
+        <div class="row" v-if="loaded">
             <div class="content-container">
                 <p-card>
                     <div class="flex items-center justify-center">
                         <div v-if="isImage">
                             <p-img
-                                src="/img/file-placeholder.svg"
+                                src="/img/placeholder-large.svg"
                                 background-color="#ffffff"
                                 :lazySrc="file.url + '?w=1500&h=1500&fit=max'"
                                 :alt="file.description"
@@ -18,15 +18,15 @@
                             </p-img>
                         </div>
 
-                        <div v-if="isVideo">
-                            <video poster="/img/file-placeholder.svg" id="player" playsinline controls>
+                        <div v-else-if="isVideo" class="w-full">
+                            <video ref="player" playsinline controls>
                                 <source :src="file.url" :type="file.mimetype">
                             </video>
                         </div>
 
                         <div v-else>
                             <p-img
-                                src="/img/file-placeholder.svg"
+                                src="/img/placeholder-large.svg"
                                 background-color="#ffffff"
                                 :alt="file.description"
                                 class="rounded">
@@ -37,6 +37,10 @@
                             </div>
                         </div>
                     </div>
+                </p-card>
+
+                <p-card v-if="isVideo" class="mt-6 text-center text-sm text-grey-darker">
+                    If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
                 </p-card>
             </div>
 
@@ -67,6 +71,16 @@
                             help="Describing your file isn't mandatory but is incredibly useful for accessibility.">
                         </p-textarea>
                     </form>
+                </p-card>
+
+                <p-card class="mb-6">
+                    <p-input
+                        name="share"
+                        readonly
+                        label="Share"
+                        class="text-sm"
+                        :value="file.url">
+                    </p-input>
                 </p-card>
 
                 <p-card class="text-sm" v-if="file">
@@ -101,10 +115,11 @@
     export default {
         data() {
             return {
-                file: null,
+                file: {},
                 name: '',
                 description: '',
-                player: new Plyr('#player')
+                player: null,
+                loaded: false,
             }
         },
 
@@ -145,6 +160,11 @@
                     vm.file = response.data.data
                     vm.name = vm.file.name
                     vm.description = vm.file.description
+                    vm.loaded = true
+
+                    vm.$nextTick(() => {
+                        vm.player = new Plyr(vm.$refs.player)
+                    })
                 })
             },
 

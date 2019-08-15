@@ -4,7 +4,7 @@
             <div v-if="isImage">
                 <p-img
                     v-if="! small"
-                    src="/img/file-placeholder.svg"
+                    src="/img/image-small.svg"
                     background-color="#ffffff"
                     :lazySrc="file.url + '?w=200&h=200&fit=crop'"
                     :width="200"
@@ -15,7 +15,7 @@
 
                 <p-img
                     v-else
-                    src="/img/file-placeholder.svg"
+                    src="/img/image-large.svg"
                     background-color="#ffffff"
                     :lazySrc="file.url + '?w=75&h=75&fit=crop'"
                     :width="75"
@@ -28,7 +28,7 @@
             <div v-else>
                 <p-img
                     v-if="! small"
-                    src="/img/file-placeholder.svg"
+                    :src="'/img/' + type + '-small.svg'"
                     background-color="#ffffff"
                     :width="200"
                     :height="200"
@@ -38,7 +38,7 @@
 
                 <p-img
                     v-else
-                    src="/img/file-placeholder.svg"
+                    :src="'/img/' + type + '-large.svg'"
                     background-color="#ffffff"
                     :width="75"
                     :height="75"
@@ -89,7 +89,45 @@
 
         computed: {
             isImage() {
-                return _.startsWith(this.file.mimetype, 'image')
+                return this.type === 'image'
+            },
+
+            isVideo() {
+                return this.type === 'video'
+            },
+
+            isAudio() {
+                return this.type === 'audio'
+            },
+
+            isDocument() {
+                return this.type === 'document'
+            },
+
+            isMisc() {
+                return this.type === 'misc'
+            },
+
+            type() {
+                let type = (_.split(this.file.mimetype, '/', 1))[0]
+
+                switch(type) {
+                    case 'image':
+                        return 'image'
+                        break
+                    case 'audio':
+                        return 'audio'
+                        break
+                    case 'video':
+                        return 'video'
+                        break
+                    case 'application':
+                    case 'text':
+                        return 'document'
+                        break
+                    default:
+                        return 'misc'
+                }
             },
 
             bytes() {

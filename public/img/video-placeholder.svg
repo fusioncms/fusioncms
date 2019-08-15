@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="43px" height="56px" viewBox="0 0 43 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Video</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-15.000000, -15.000000)">
+            <g id="Video" transform="translate(15.000000, 15.000000)">
+                <g>
+                    <path d="M30.485,0 L1.463,0 C0.655,0 0,0.655 0,1.926 L0,55 C0,55.345 0.655,56 1.463,56 L41.537,56 C42.345,56 43,55.345 43,55 L43,12.978 C43,12.282 42.907,12.058 42.743,11.893 L31.107,0.257 C30.942,0.093 30.718,0 30.485,0" id="Body" fill="#E9E9E0" fill-rule="nonzero"></path>
+                    <g id="Label" transform="translate(0.000000, 39.000000)">
+                        <path d="M1.463,17 C0.655,17 0,16.345 0,15.537 L0,0 L43,0 L43,15.537 C43,16.345 42.345,17 41.537,17 L1.463,17 Z" id="Background" fill="#FF5364" fill-rule="nonzero"></path>
+                        <text id="Video" font-family="Montserrat-Bold, Montserrat" font-size="7" font-weight="bold" fill="#FFFFFF">
+                            <tspan x="11" y="11">Video</tspan>
+                        </text>
+                    </g>
+                    <g id="Icon" transform="translate(7.000000, 5.000000)" fill="#C8BDB8" fill-rule="nonzero">
+                        <path d="M11,23 C10.835,23 10.669,22.959 10.519,22.877 C10.199,22.701 10,22.365 10,22 L10,8 C10,7.635 10.199,7.299 10.519,7.123 C10.839,6.948 11.229,6.961 11.537,7.156 L22.537,14.156 C22.825,14.34 23,14.658 23,15 C23,15.342 22.825,15.66 22.537,15.844 L11.537,22.844 C11.374,22.947 11.187,23 11,23 L11,23 Z M12,9.821 L12,20.179 L20.137,15 L12,9.821 L12,9.821 Z" id="Fill-249"></path>
+                        <path d="M15,30 C6.729,30 0,23.271 0,15 C0,6.729 6.729,0 15,0 C23.271,0 30,6.729 30,15 C30,23.271 23.271,30 15,30 L15,30 Z M15,2 C7.832,2 2,7.832 2,15 C2,22.168 7.832,28 15,28 C22.169,28 28,22.168 28,15 C28,7.832 22.169,2 15,2 L15,2 Z" id="Fill-302"></path>
+                    </g>
+                    <polyline id="Fold" fill="#D9D7CA" fill-rule="nonzero" points="31 0.151 31 12 42.849 12 31 0.151"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

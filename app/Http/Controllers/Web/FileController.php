@@ -29,7 +29,7 @@ class FileController extends Controller
         }
 
         if (Str::startsWith($file->mimetype, 'video')) {
-            return $this->videoResponse($file->location);
+            return $this->videoResponse($file->location, $file->mimetype);
         }
 
         return Storage::drive('public')->response($file->location);
@@ -49,10 +49,10 @@ class FileController extends Controller
         return $server->getImageResponse($path, request()->all());
     }
 
-    protected function videoResponse($path)
+    protected function videoResponse($path, $mimetype)
     {
-        $path = Storage::drive('public')->url($path);
+        $path = storage_path('app/public/'.$path);
 
-        return (new LaravelVideoStreamer($path))->stream();
+        return (new LaravelVideoStreamer($path, $mimetype))->stream();
     }
 }

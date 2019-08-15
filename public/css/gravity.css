@@ -8969,7 +8969,7 @@ table td::before {
 }
 
 .plyr__control.plyr__tab-focus {
-  box-shadow: 0 0 0 5px rgba(0, 179, 255, .5);
+  box-shadow: 0 0 0 5px rgba(255, 87, 34, .5);
   outline: 0;
 }
 
@@ -8992,19 +8992,19 @@ a.plyr__control::before {
 .plyr--audio .plyr__control.plyr__tab-focus,
 .plyr--audio .plyr__control:hover,
 .plyr--audio .plyr__control[aria-expanded='true'] {
-  background: #00b3ff;
+  background: #ff5722;
   color: #fff;
 }
 
 .plyr--video .plyr__control.plyr__tab-focus,
 .plyr--video .plyr__control:hover,
 .plyr--video .plyr__control[aria-expanded='true'] {
-  background: #00b3ff;
+  background: #ff5722;
   color: #fff;
 }
 
 .plyr__control--overlaid {
-  background: rgba(0, 179, 255, .8);
+  background: rgba(255, 87, 34, .8);
   border: 0;
   border-radius: 100%;
   color: #fff;
@@ -9024,7 +9024,7 @@ a.plyr__control::before {
 
 .plyr__control--overlaid:hover,
 .plyr__control--overlaid:focus {
-  background: #00b3ff;
+  background: #ff5722;
 }
 
 .plyr--playing .plyr__control--overlaid {
@@ -9304,7 +9304,7 @@ a.plyr__control::before {
 }
 
 .plyr__menu__container .plyr__control[role='menuitemradio'][aria-checked='true']::before {
-  background: #00b3ff;
+  background: #ff5722;
 }
 
 .plyr__menu__container .plyr__control[role='menuitemradio'][aria-checked='true']::after {
@@ -9333,7 +9333,7 @@ a.plyr__control::before {
   background: transparent;
   border: 0;
   border-radius: 26px;
-  color: #00b3ff;
+  color: #ff5722;
   display: block;
   height: 19px;
   margin: 0;
@@ -9451,17 +9451,17 @@ a.plyr__control::before {
 }
 
 .plyr--full-ui input[type='range'].plyr__tab-focus::-webkit-slider-runnable-track {
-  box-shadow: 0 0 0 5px rgba(0, 179, 255, .5);
+  box-shadow: 0 0 0 5px rgba(255, 87, 34, .5);
   outline: 0;
 }
 
 .plyr--full-ui input[type='range'].plyr__tab-focus::-moz-range-track {
-  box-shadow: 0 0 0 5px rgba(0, 179, 255, .5);
+  box-shadow: 0 0 0 5px rgba(255, 87, 34, .5);
   outline: 0;
 }
 
 .plyr--full-ui input[type='range'].plyr__tab-focus::-ms-track {
-  box-shadow: 0 0 0 5px rgba(0, 179, 255, .5);
+  box-shadow: 0 0 0 5px rgba(255, 87, 34, .5);
   outline: 0;
 }
 
@@ -10305,6 +10305,19 @@ a.plyr__control::before {
 
 .plyr [hidden] {
   display: none !important;
+}
+
+.plyr {
+  border-radius: .25rem;
+}
+
+.plyr .plyr__video-wrapper {
+  height: 720px;
+}
+
+.plyr video {
+  width: 100%;
+  height: 100%;
 }
 
 @-webkit-keyframes fadeIn {
