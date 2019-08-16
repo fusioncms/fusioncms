@@ -22,5 +22,7 @@ class LaravelStreamer
         $response->headers->set('Content-Type', $this->mimetype);
 
         return $response;
+
+        exit;
     }
 }

@@ -128,7 +128,7 @@
 
             <new-folder-modal></new-folder-modal>
 
-            <delete-files-modal></delete-files-modal>
+            <delete-selected-files-modal></delete-selected-files-modal>
         </portal>
     </div>
 </template>

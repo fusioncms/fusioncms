@@ -20,7 +20,8 @@ Vue.component('file-manager-file', require('../components/FileManager/File').def
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)
 Vue.component('new-folder-modal', require('../components/FileManager/NewFolderModal').default)
 Vue.component('file-manager-directory', require('../components/FileManager/Directory').default)
-Vue.component('delete-files-modal', require('../components/FileManager/DeleteFilesModal').default)
+Vue.component('delete-file-modal', require('../components/FileManager/DeleteFileModal').default)
+Vue.component('delete-selected-files-modal', require('../components/FileManager/DeleteSelectedFilesModal').default)
 
 // Matrix
 Vue.component('field-editor', require('../components/FieldEditor').default)

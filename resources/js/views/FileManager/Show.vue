@@ -19,17 +19,18 @@
                         </div>
 
                         <div v-else-if="isVideo" class="w-full">
-                            <video ref="player" playsinline controls>
-                                <source :src="file.url" :type="file.mimetype">
+                            <video ref="player" controls crossorigin>
+                                <source :src="file.url" :type="file.mimetype" size="576">
                             </video>
                         </div>
 
                         <div v-else>
                             <p-img
-                                src="/img/placeholder-large.svg"
+                                :src="'/img/' + type + '-small.svg'"
                                 background-color="#ffffff"
-                                :alt="file.description"
-                                class="rounded">
+                                :width="200"
+                                :height="200"
+                                :alt="file.description">
                             </p-img>
 
                             <div class="text-center px-6 py-3 rounded border border-grey-light bg-grey-lighter text-grey-darker">
@@ -48,7 +49,7 @@
                 <p-card class="mb-6">
                     <form @submit.prevent="submit" enctype="multipart/form-data">
                         <portal to="actions">
-                            <p-button theme="danger" class="mr-4">Delete</p-button>
+                            <p-button theme="danger" class="mr-4" v-modal:delete>Delete</p-button>
 
                             <p-button>Move</p-button>
                             <p-button>Replace</p-button>
@@ -106,6 +107,10 @@
                 </p-card>
             </div>
         </div>
+
+        <portal to="modals">
+            <delete-file-modal :file="file"></delete-file-modal>
+        </portal>
     </div>
 </template>
 
@@ -125,11 +130,45 @@
 
         computed: {
             isImage() {
-                return _.startsWith(this.file.mimetype, 'image')
+                return this.type === 'image'
             },
 
             isVideo() {
-                return _.startsWith(this.file.mimetype, 'video')
+                return this.type === 'video'
+            },
+
+            isAudio() {
+                return this.type === 'audio'
+            },
+
+            isDocument() {
+                return this.type === 'document'
+            },
+
+            isMisc() {
+                return this.type === 'misc'
+            },
+
+            type() {
+                let type = (_.split(this.file.mimetype, '/', 1))[0]
+
+                switch(type) {
+                    case 'image':
+                        return 'image'
+                        break
+                    case 'audio':
+                        return 'audio'
+                        break
+                    case 'video':
+                        return 'video'
+                        break
+                    case 'application':
+                    case 'text':
+                        return 'document'
+                        break
+                    default:
+                        return 'misc'
+                }
             },
 
             bytes() {
@@ -163,7 +202,26 @@
                     vm.loaded = true
 
                     vm.$nextTick(() => {
-                        vm.player = new Plyr(vm.$refs.player)
+                        vm.player = new Plyr(vm.$refs.player, {
+                            title: vm.file.name,
+                            ratio: '16:9',
+                            controls: [
+                                'play-large', // The large play button in the center
+                                'restart', // Restart playback
+                                'play', // Play/pause playback
+                                'progress', // The progress bar and scrubber for playback and buffering
+                                'current-time', // The current time of playback
+                                'duration', // The full duration of the media
+                                'mute', // Toggle mute
+                                'volume', // Volume control
+                                'captions', // Toggle captions
+                                'settings', // Settings menu
+                                'pip', // Picture-in-picture (currently Safari only)
+                                'airplay', // Airplay (currently Safari only)
+                                'fullscreen', // Toggle fullscreen
+                            ],
+                            settings: ['quality', 'loop'],
+                        })
                     })
                 })
             },
