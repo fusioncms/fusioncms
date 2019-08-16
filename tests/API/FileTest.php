@@ -152,18 +152,26 @@ class FileTest extends TestCase
         ]);
         
         $file = $response->getData()->data;
+        $name = 'updated photo name';
 
         $response = $this->json('PATCH', '/api/files/'.$file->id, [
-            'name' => 'updated photo name',
+            'name' => $name,
         ]);
         
         $response->assertStatus(200);
         
-        $filename = str_slug($file->uuid.' '.'updated photo name');
+        $filename = str_slug($file->uuid.' '.$name);
         $location = 'files/'.$filename.'.'.$file->extension;
 
         Storage::disk('public')->assertExists($location);
         Storage::disk('public')->assertMissing($file->location);
+
+        $this->assertDatabaseHas('files', [
+            'id'       => $file->id,
+            'name'     => $name,
+            'slug'     => str_slug($name),
+            'location' => 'files/'.$filename.'.'.$file->extension,
+        ]);
     }
 
     /** @test */

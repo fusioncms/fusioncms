@@ -4,7 +4,7 @@
             <app-title icon="image">{{ loaded ? file.name : '' }}</app-title>
         </portal>
 
-        <div class="row" v-if="loaded">
+        <div class="row" v-if="loaded" :key="file.name">
             <div class="content-container">
                 <p-card>
                     <div class="flex items-center justify-center">
@@ -188,6 +188,36 @@
                 } while (Math.abs(bytes) >= thresh && index < units.length - 1)
 
                 return bytes.toFixed(1) + ' ' + units[index]
+            },
+        },
+
+        watch: {
+            file: {
+                handler(value) {
+                    this.$nextTick(() => {
+                        this.player = new Plyr(this.$refs.player, {
+                            title: this.file.name,
+                            ratio: '16:9',
+                            controls: [
+                                'play-large', // The large play button in the center
+                                'restart', // Restart playback
+                                'play', // Play/pause playback
+                                'progress', // The progress bar and scrubber for playback and buffering
+                                'current-time', // The current time of playback
+                                'duration', // The full duration of the media
+                                'mute', // Toggle mute
+                                'volume', // Volume control
+                                'captions', // Toggle captions
+                                'settings', // Settings menu
+                                'pip', // Picture-in-picture (currently Safari only)
+                                'airplay', // Airplay (currently Safari only)
+                                'fullscreen', // Toggle fullscreen
+                            ],
+                            settings: ['quality', 'loop'],
+                        })
+                    })
+                },
+                deep: true
             },
         },
 

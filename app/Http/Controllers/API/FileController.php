@@ -135,17 +135,27 @@ class FileController extends Controller
             'directory_id' => 'required_without_all:name,description'
         ]);
 
+        $originalName = $file->name;
+        $oldLocation  = $file->location;
+
         $file->update($data);
 
         // Rename the file if name has updated
         if ($request->has('name')) {
-            $name = str_slug($file->uuid.' '.$file->name);
-            $old  = $file->location;
-            $new  = 'files/'.$name.'.'.$file->extension;
+            $name        = str_slug($file->uuid.' '.$file->name);
+            $slug        = str_slug($file->name);
+            $original    = str_replace($originalName, $file->name, $file->original);
+            $newLocation = str_replace(str_slug($originalName), $slug, $file->location);
 
-            if ($old !== $new) {
-                Storage::disk('public')->move($old, $new);
+            if ($oldLocation !== $newLocation) {
+                Storage::disk('public')->move($oldLocation, $newLocation);
             }
+
+            $file->update([
+                'slug'     => str_slug($file->name),
+                'original' => $original,
+                'location' => $newLocation,
+            ]);
         }
 
         return new FileResource($file);

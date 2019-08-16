@@ -187,11 +187,13 @@
 
                         toast('The file\'s name is required', 'warning')
                     } else {
-                        let form = new FormData()
+                        // let form = new FormData()
 
-                        form.append('name', this.file.name)
+                        // form.append('name', this.file.name)
 
-                        axios.patch('/api/files/' + this.file.id, form).then((response) => {
+                        axios.patch('/api/files/' + this.file.id, {
+                            name: this.file.name
+                        }).then((response) => {
                             this.name = this.file.name
 
                             toast('The file\'s name was successfully updated', 'success')
