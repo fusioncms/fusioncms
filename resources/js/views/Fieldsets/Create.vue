@@ -71,13 +71,15 @@
             submit() {
                 this.form.post('/api/fieldsets').then((response) => {
                     let formData = {}
+                    let vm = this
+                    let fieldsetResponse = response
                     formData.sections = this.sections
 
                     axios.post(`/api/fieldsets/${response.data.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully created', 'success')
+                        vm.$router.push('/fieldsets/edit/' + fieldsetResponse.data.id)
                     })
                     
-                    this.$router.push('/fieldsets/edit/' + response.data.id)
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 })
