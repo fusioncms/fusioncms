@@ -20,7 +20,7 @@
     import { mapActions } from 'vuex'
 
     export default {
-        name: 'p-upload',
+        name: 'wat-upload',
 
         data() {
             return {

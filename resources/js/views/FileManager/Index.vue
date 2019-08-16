@@ -14,21 +14,14 @@
     export default {
         methods: {
             ...mapActions({
-                setFiles: 'filemanager/setFiles',
-                setDirectories: 'filemanager/setDirectories',
+                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
             }),
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/files'),
-                axios.get('/api/directories'),
-            ]).then(axios.spread(function (files, directories) {
-                next(function(vm) {
-                    vm.setFiles(files.data.data)
-                    vm.setDirectories(directories.data.data)
-                })
-            }))
+            next(vm => {
+                vm.fetchFilesAndDirectories()
+            })
         },
     }
 </script>

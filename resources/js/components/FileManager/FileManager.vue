@@ -27,17 +27,17 @@
                     <div class="list">
                         <span class="list--separator">Display</span>
                         
-                        <a href="#" @click.prevent="filterBy('everything')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'asterisk']"></fa-icon> Everything</a>
-                        <a href="#" @click.prevent="filterBy('images')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'images']"></fa-icon> Images</a>
-                        <a href="#" @click.prevent="filterBy('videos')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'video']"></fa-icon> Videos</a>
-                        <a href="#" @click.prevent="filterBy('audio')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'volume-up']"></fa-icon> Audio</a>
-                        <a href="#" @click.prevent="filterBy('documents')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', 'file-alt']"></fa-icon> Documents</a>
+                        <a href="#" @click.prevent="filterBy('everything')" class="list--item leading-loose" :class="{'router-link-active': isFilteringBy('everything')}"><fa-icon class="fa-fw mr-2" :icon="['fas', 'asterisk']"></fa-icon> Everything</a>
+                        <a href="#" @click.prevent="filterBy('images')" class="list--item leading-loose" :class="{'router-link-active': isFilteringBy('images')}"><fa-icon class="fa-fw mr-2" :icon="['fas', 'images']"></fa-icon> Images</a>
+                        <a href="#" @click.prevent="filterBy('videos')" class="list--item leading-loose" :class="{'router-link-active': isFilteringBy('videos')}"><fa-icon class="fa-fw mr-2" :icon="['fas', 'video']"></fa-icon> Videos</a>
+                        <a href="#" @click.prevent="filterBy('audio')" class="list--item leading-loose" :class="{'router-link-active': isFilteringBy('audio')}"><fa-icon class="fa-fw mr-2" :icon="['fas', 'volume-up']"></fa-icon> Audio</a>
+                        <a href="#" @click.prevent="filterBy('documents')" class="list--item leading-loose" :class="{'router-link-active': isFilteringBy('documents')}"><fa-icon class="fa-fw mr-2" :icon="['fas', 'file-alt']"></fa-icon> Documents</a>
 
                         <span class="list--separator">Sort</span>
                         
-                        <a href="#" @click.prevent="sortBy('name')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('name')]"></fa-icon> Name</a>
-                        <a href="#" @click.prevent="sortBy('bytes')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('bytes')]"></fa-icon> Filesize</a>
-                        <a href="#" @click.prevent="sortBy('updated_at')" class="list--item leading-loose" exact><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('updated_at')]"></fa-icon> Last Modified</a>
+                        <a href="#" @click.prevent="sortBy('name')" class="list--item leading-loose" :class="{'router-link-active': isSortingBy('name')}"><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('name')]"></fa-icon> Name</a>
+                        <a href="#" @click.prevent="sortBy('bytes')" class="list--item leading-loose" :class="{'router-link-active': isSortingBy('bytes')}"><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('bytes')]"></fa-icon> Filesize</a>
+                        <a href="#" @click.prevent="sortBy('updated_at')" class="list--item leading-loose" :class="{'router-link-active': isSortingBy('updated_at')}"><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('updated_at')]"></fa-icon> Last Modified</a>
 
                         <!-- <div v-if="directories.length">
                             <span class="list--separator">Locations</span>
@@ -123,7 +123,7 @@
 
         <portal to="modals">
             <p-modal name="upload" title="Upload Files" no-footer large>
-                <p-upload></p-upload>
+                <p-upload name="files" multiple v-model="filesToUpload" @input="upload()"></p-upload>
             </p-modal>
 
             <new-folder-modal></new-folder-modal>
@@ -140,6 +140,12 @@
 
     export default {
         name: 'file-manager',
+        
+        data() {
+            return {
+                filesToUpload: [],
+            }
+        },
 
         props: {
             inline: {
@@ -183,6 +189,10 @@
             search(value) {
                 this.fetchFilesAndDirectories()
             },
+
+            direction(value) {
+                this.fetchFilesAndDirectories()
+            },
         },
 
         methods: {
@@ -194,7 +204,40 @@
                 clearFileSelection: 'filemanager/clearFileSelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
                 toggleView: 'filemanager/toggleView',
+                toggleDirection: 'filemanager/toggleDirection',
+                setDirection: 'filemanager/setDirection',
+                addFile: 'filemanager/addFile',
             }),
+
+            isFilteringBy(what) {
+                return what === this.display
+            },
+
+            isSortingBy(what) {
+                return what === this.sort
+            },
+
+            upload() {
+                let vm = this
+                console.log(this.filesToUpload)
+
+                _.each(this.filesToUpload, function(file, index) {
+                    let form = new FormData()
+                    form.append('file', file)
+
+                    axios.post('/api/files', form, {
+                        before: (xhr) => {
+                            file.xhr = xhr
+                        },
+                    }).then((response) => {
+                        vm.addFile(response.data.data)
+
+                        vm.filesToUpload.splice(index, 1)
+
+                        toast(response.data.data.name + ' uploaded', 'success')
+                    })
+                })
+            },
 
             clearSelection() {
                 this.clearFileSelection()
@@ -205,7 +248,12 @@
             },
 
             sortBy(key) {
-                this.setSort(key)
+                if (this.sort === key) {
+                    this.toggleDirection()
+                } else {
+                    this.setSort(key)
+                    this.setDirection('asc')
+                }
             },
 
             preview(id) {
@@ -236,7 +284,11 @@
 
             sortingIcon(by) {
                 if (by === this.sort) {
-                    return 'sort-amount-down'
+                    if (this.direction === 'asc') {
+                        return 'sort-amount-down'
+                    } else {
+                        return 'sort-amount-up'
+                    }
                 }
 
                 return 'bars'

@@ -148,6 +148,7 @@ export default {
         fetchFilesAndDirectories: _.throttle(function(context) {
             let params = {
                 sort: context.state.sort,
+                direction: context.state.direction,
             }
             
             if (context.state.display !== 'everything') {
@@ -162,8 +163,6 @@ export default {
                 axios.get('/api/files', {params: params}),
                 axios.get('/api/directories', {params: params}),
             ]).then(axios.spread(function (files, directories) {
-                console.log(directories.data.data)
-                
                 context.commit('setFiles', files.data.data)
                 context.commit('setDirectories', directories.data.data)
             }))
@@ -204,6 +203,14 @@ export default {
             } else {
                 context.commit('setView', 'grid')
             }
-        }
+        },
+
+        toggleDirection(context) {
+            if (context.state.direction === 'asc') {
+                context.commit('setDirection', 'desc')
+            } else {
+                context.commit('setDirection', 'asc')
+            }
+        },
     }
 }
