@@ -55,7 +55,7 @@ class FileController extends Controller
             });
         }
 
-        return FileResource::collection($files->paginate(24));
+        return FileResource::collection($files->paginate(150));
     }
 
     /**

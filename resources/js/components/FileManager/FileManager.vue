@@ -2,7 +2,7 @@
     <div>
         <portal to="actions" v-if="! inline">
 
-            <div class="inline-block mr-4" v-if="hasSelection">
+            <div class="inline-block mr-4" v-show="hasSelection">
                 <div class="inline-block mr-4">
                     <p-button v-modal:delete theme="danger">Delete</p-button>
                 </div>
@@ -123,7 +123,7 @@
 
         <portal to="modals">
             <p-modal name="upload" title="Upload Files" no-footer large>
-                <p-upload name="files" multiple v-model="filesToUpload" @input="upload()"></p-upload>
+                <p-upload name="files" multiple v-model="filesToUpload" @input="upload"></p-upload>
             </p-modal>
 
             <new-folder-modal></new-folder-modal>
@@ -219,7 +219,6 @@
 
             upload() {
                 let vm = this
-                console.log(this.filesToUpload)
 
                 _.each(this.filesToUpload, function(file, index) {
                     let form = new FormData()
@@ -230,7 +229,7 @@
                             file.xhr = xhr
                         },
                     }).then((response) => {
-                        vm.addFile(response.data.data)
+                        vm.fetchFilesAndDirectories()
 
                         vm.filesToUpload.splice(index, 1)
 
