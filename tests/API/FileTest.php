@@ -255,7 +255,9 @@ class FileTest extends TestCase
         $photo3 = factory(File::class)->create(['name' => 'dolor']);
         $photo4 = factory(File::class)->create(['name' => 'sit']);
         $photo5 = factory(File::class)->create(['name' => 'amet']);
-        $photo5 = factory(File::class)->create(['name' => 'do']);
+        $photo6 = factory(File::class)->create(['name' => 'do']);
+
+        factory(File::class, 100)->create(['name' => 'a dummy file']);
 
         $response = $this->json('GET', '/api/files?search=do');
         $data     = collect($response->getData()->data);

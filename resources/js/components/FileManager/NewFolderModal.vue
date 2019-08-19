@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'new-folder-modal',
@@ -22,11 +22,10 @@
             }
         },
 
-        props: {
-            'directory': {
-                type: Number,
-                default: null,
-            },
+        computed: {
+            ...mapGetters({
+                currentDirectory: 'filemanager/getCurrentDirectory',
+            })
         },
 
         methods: {
@@ -37,7 +36,7 @@
             submit() {
                 let data = {
                     name: this.name,
-                    parent_id: this.directory,
+                    parent_id: this.currentDirectory,
                 }
 
                 axios.post('/api/directories', data).then((response) => {

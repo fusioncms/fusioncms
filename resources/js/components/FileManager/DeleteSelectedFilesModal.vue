@@ -2,14 +2,14 @@
     <p-modal name="delete" title="Delete permanently?">
         <p>
             The selected
-            <span v-if="files.length === 1">file or folder</span>
-            <span v-else>{{ files.length }} files or folders</span>
+            <span v-if="total === 1">file or folder</span>
+            <span v-else>{{ total }} files or folders</span>
             will be permanently deleted. <strong>Be advised this action can not be undone.</strong>
         </p>
 
         <p>
             Any existing links to
-            <span v-if="files.length === 1">this file or folder</span>
+            <span v-if="total === 1">this file or folder</span>
             <span v-else>these files or folders</span>
             (if not removed) may result in errors.
         </p>
@@ -30,28 +30,40 @@
         computed: {
             ...mapGetters({
                 files: 'filemanager/getSelectedFiles',
+                directories: 'filemanager/getSelectedDirectories',
             }),
+
+            total() {
+                this.files.length + this.directories.length
+            }
         },
 
         methods: {
             ...mapActions({
-                removeFiles: 'filemanager/removeFiles',
-                clearFileSelection: 'filemanager/clearFileSelection'
+                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+                clearFileSelection: 'filemanager/clearFileSelection',
+                clearDirectorySelection: 'filemanager/clearDirectorySelection',
             }),
 
             submit() {
                 let vm = this
 
-                _.each(this.files, function(file) {
-                    axios.delete('/api/files/' + file).then(() => {
-                        vm.removeFiles([file])
+                _.each(this.directories, function(directory) {
+                    axios.delete('/api/directories/' + directory).then(() => {
+                        vm.fetchFilesAndDirectories()
                     })
                 })
 
-                if (this.files.length === 1) {
+                _.each(this.files, function(file) {
+                    axios.delete('/api/files/' + file).then(() => {
+                        vm.fetchFilesAndDirectories()
+                    })
+                })
+
+                if (this.total === 1) {
                     toast('The selected file or folder was successfully deleted.', 'success')
                 } else {
-                    toast('The ' + this.files.length + ' selected files or folders were successfully deleted.', 'success')
+                    toast('The ' + this.total + ' selected files or folders were successfully deleted.', 'success')
                 }
 
                 this.clearFileSelection()

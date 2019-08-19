@@ -11,13 +11,10 @@
 
 namespace App\Models;
 
-use App\Concerns\HasAuthor;
 use App\Database\Eloquent\Model;
 
 class Directory extends Model
 {
-    use HasAuthor;
-
     /**
      * Fillable fields for Directory model.
      * @var
@@ -29,6 +26,8 @@ class Directory extends Model
      */
     protected $searchable = false;
 
+    protected $with = ['parent'];
+
     /**
      * The "booting" method of the model.
      *
@@ -39,8 +38,8 @@ class Directory extends Model
         parent::boot();
 
         static::deleting(function ($model) {
-            foreach ($model->assets as $asset) {
-                $asset->delete();
+            foreach ($model->files as $file) {
+                $file->delete();
             }
 
             foreach ($model->children as $child) {
@@ -50,13 +49,13 @@ class Directory extends Model
     }
 
     /**
-     * Relationship to Assets.
+     * A directory has many files.
      *
      * @return Builder
      */
-    public function assets()
+    public function files()
     {
-        return $this->hasMany(Asset::class);
+        return $this->hasMany(File::class);
     }
 
     /**
@@ -79,25 +78,8 @@ class Directory extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    /**
-     * Get permission created for Model.
-     *
-     * @return Collection
-     */
-    public function getPermissionsAttribute()
+    public function scopeRoots()
     {
-        return collect($this->findPermission('list')->handle);
-    }
 
-    /**
-     * Get roles based on permissions.
-     *
-     * @return Collection
-     */
-    public function getRolesAttribute()
-    {
-        return Role::whereHas('permissions', function ($query) {
-            $query->whereIn('handle', $this->permissions);
-        })->get();
     }
 }

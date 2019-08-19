@@ -1,46 +1,92 @@
 <template>
-    <div class="gallery-wrapper">
-        <div class="gallery-item" @dblclick="preview">
+    <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
+        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click.stop="select" @dblclick="open">
             <p-img lazySrc="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="name" background-color="#ffffff" class="gallery-image"></p-img>
         </div>
 
-        <p class="leading-tight mt-2">
+        <div class="leading-tight mt-2" v-if="! small">
             <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ name }}</span>
             <input type="text" class="form__control form__control--sm text-center" :value="name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
-            <span class="text-xs font-mono text-grey-dark">-- items</span>
-        </p>
+
+            <div class="flex flex-col text-center text-xs text-grey-dark mt-2 font-mono">
+                <span>-- items</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import { mapActions, mapGetters } from 'vuex'
+
     export default {
         name: 'file-manager-directory',
 
         data() {
             return {
+                name: this.directory.name,
                 isEditing: false,
             }
         },
 
         props: {
-            name: {
-                type: String,
+            small: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+
+            directory: {
+                type: Object,
                 required: true,
-            }
+            },
+
+            unselectable: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+        },
+
+        computed: {
+            ...mapGetters({
+                selected: 'filemanager/getSelectedDirectories'
+            }),
+
+            isSelected() {
+                return _.includes(this.selected, this.directory.id)
+            },
         },
 
         methods: {
-            preview() {
+            ...mapActions({
+                toggleSelection: 'filemanager/toggleDirectorySelection',
+                setCurrentDirectory: 'filemanager/setCurrentDirectory',
+                setParentDirectory: 'filemanager/setParentDirectory',
+                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+            }),
 
+            select() {
+                if (! this.unselectable) {
+                    this.toggleSelection(this.directory.id)
+                }
+            },
+
+            open() {
+                this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
+                this.setCurrentDirectory(this.directory.id)
+
+                this.fetchFilesAndDirectories()
             },
 
             edit() {
-                this.isEditing = true
-
-                this.$nextTick(() => {
-                    this.$refs.edit.focus()
-                    this.$refs.edit.select()
-                })
+                if (! this.name) {
+                    this.isEditing = true
+    
+                    this.$nextTick(() => {
+                        this.$refs.edit.focus()
+                        this.$refs.edit.select()
+                    })
+                }
             },
 
             done() {

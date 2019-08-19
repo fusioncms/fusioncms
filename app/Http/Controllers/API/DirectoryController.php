@@ -28,8 +28,8 @@ class DirectoryController extends Controller
     {
         if ($request->recursive) {
             $directories = Directory::whereNull('parent_id')->with('children.children')->get();
-        } elseif ($request->directory_id) {
-            $directories = Directory::whereParentId($request->directory_id)->get();
+        } elseif ($request->directory) {
+            $directories = Directory::whereParentId($request->directory)->get();
         } else {
             $directories = Directory::whereNull('parent_id')->get();
         }

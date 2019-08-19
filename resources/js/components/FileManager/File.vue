@@ -1,6 +1,6 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
-        <div class="gallery-item" :class="{'gallery-item--selected': selected, 'gallery-item--small': small}" @click.stop="select" @dblclick="preview">
+        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click.stop="select" @dblclick="preview">
             <div v-if="isImage">
                 <p-img
                     v-if="! small"
@@ -52,7 +52,7 @@
             <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ file.name }}</span>
             <input type="text" class="form__control form__control--sm text-center" v-model="file.name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
             
-            <div class="flex flex-col text-center text-xs font-mono text-grey-dark mt-2">
+            <div class="flex flex-col text-center text-xs text-grey-dark mt-2 font-mono">
                 <span>{{ bytes }}</span>
                 <span>{{ file.extension }}</span>
             </div>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'file-manager-file',
@@ -70,7 +70,6 @@
             return {
                 name: this.file.name,
                 isEditing: false,
-                selected: false,
             }
         },
 
@@ -88,6 +87,14 @@
         },
 
         computed: {
+            ...mapGetters({
+                selected: 'filemanager/getSelectedFiles'
+            }),
+
+            isSelected() {
+                return _.includes(this.selected, this.file.id)
+            },
+
             isImage() {
                 return this.type === 'image'
             },
@@ -152,13 +159,11 @@
 
         methods: {
             ...mapActions({
-                toggleFileSelection: 'filemanager/toggleFileSelection',
+                toggleSelection: 'filemanager/toggleFileSelection',
             }),
 
             select() {
-                this.selected = ! this.selected
-
-                this.toggleFileSelection(this.file.id)
+                this.toggleSelection(this.file.id)
             },
 
             preview() {

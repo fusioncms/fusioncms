@@ -4,6 +4,7 @@ export default {
     namespaced: true,
 
     state: {
+        loading: true,
         files: [],
         directories: [],
         selected: {
@@ -11,14 +12,21 @@ export default {
             directories: [],
         },
         currentDirectory: null,
+        parentDirectory: null,
         search: '',
         display: 'everything',
         sort: 'name',
         direction: 'asc',
         view: 'grid',
+        currentPage: 1,
+        totalPages: 1,
     },
 
     getters: {
+        getLoading(state) {
+            return state.loading
+        },
+
         getFiles(state) {
             return state.files
         },
@@ -38,6 +46,10 @@ export default {
         getCurrentDirectory(state) {
             return state.currentDirectory
         },
+        
+        getParentDirectory(state) {
+            return state.parentDirectory
+        },
 
         getDisplay(state) {
             return state.display
@@ -55,18 +67,42 @@ export default {
             return state.selected.files
         },
 
+        getSelectedDirectories(state) {
+            return state.selected.directories
+        },
+
         hasSelection(state) {
             return (state.selected.files.length + state.selected.directories.length) > 0
+        },
+
+        getCurrentPage(state) {
+            return state.currentPage
+        },
+
+        getTotalPages(state) {
+            return state.totalPages
         },
     },
 
     mutations: {
+        setLoading(state, loading) {
+            state.loading = loading
+        },
+
         setFiles(state, files) {
             state.files = files
         },
 
         setDirectories(state, directories) {
             state.directories = directories
+        },
+
+        setCurrentDirectory(state, directory) {
+            state.currentDirectory = directory
+        },
+
+        setParentDirectory(state, directory) {
+            state.parentDirectory = directory
         },
 
         setView(state, view) {
@@ -101,6 +137,14 @@ export default {
             state.selected.files = []
         },
 
+        toggleDirectorySelection(state, directory) {
+            state.selected.directories = _.xor(state.selected.directories, [directory])
+        },
+
+        clearDirectorySelection(state) {
+            state.selected.directories = []
+        },
+
         removeFiles(state, files) {
             _.each(files, function(id) {
                 let index = _.findIndex(state.files, function(file) {
@@ -114,11 +158,27 @@ export default {
         clearFiles(state) {
             state.files = []
         },
+
+        setCurrentPage(state, page) {
+            state.currentPage = page
+        },
+
+        setTotalPages(state, pages) {
+            state.totalPages = pages
+        },
     },
 
     actions: {
+        setLoading(context, loading) {
+            context.commit('setLoading', loading)
+        },
+
         setFiles(context, files) {
             context.commit('setFiles', files)
+        },
+
+        setDirectory(context, directory) {
+            context.commit('setDirectory', directory)
         },
 
         addFile(context, file) {
@@ -127,6 +187,10 @@ export default {
 
         toggleFileSelection(context, file) {
             context.commit('toggleFileSelection', file)
+        },
+
+        toggleDirectorySelection(context, directory) {
+            context.commit('toggleDirectorySelection', directory)
         },
 
         clearFiles(context) {
@@ -138,7 +202,13 @@ export default {
         },
 
         isFileSelected(context, file) {
-            return _.includes(context.state.files.selected, file)
+            console.log(context.state.selected.files, file)
+            return false
+            return _.includes(context.state.selected.files, file)
+        },
+
+        isDirectorySelect(context, directory) {
+            return _.includes(context.state.selected.directories, directory)
         },
 
         clearFileSelection(context) {
@@ -146,9 +216,16 @@ export default {
         },
 
         fetchFilesAndDirectories: _.throttle(function(context) {
+            context.commit('setLoading', true)
+
             let params = {
                 sort: context.state.sort,
                 direction: context.state.direction,
+                page: context.state.currentPage,
+            }
+
+            if (context.state.currentDirectory !== null) {
+                params.directory = context.state.currentDirectory
             }
             
             if (context.state.display !== 'everything') {
@@ -165,17 +242,11 @@ export default {
             ]).then(axios.spread(function (files, directories) {
                 context.commit('setFiles', files.data.data)
                 context.commit('setDirectories', directories.data.data)
+
+                context.commit('setTotalPages', files.data.meta.last_page)
+                context.commit('setLoading', false)
             }))
         }, 500),
-        
-
-        fetchFiles() {
-            // 
-        },
-
-        fetchDirectories() {
-            // 
-        },
 
         setSearch(context, query) {
             context.commit('setSearch', query)
@@ -195,6 +266,22 @@ export default {
 
         setDirectories(context, directories) {
             context.commit('setDirectories', directories)
+        },
+
+        setCurrentDirectory(context, directory) {
+            context.commit('setCurrentDirectory', directory)
+        },
+
+        setParentDirectory(context, directory) {
+            context.commit('setParentDirectory', directory)
+        },
+
+        setCurrentPage(context, page) {
+            context.commit('setCurrentPage', page)
+        },
+
+        setTotalPages(context, pages) {
+            context.commit('setTotalPages', pages)
         },
 
         toggleView(context) {

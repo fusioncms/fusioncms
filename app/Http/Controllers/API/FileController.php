@@ -28,6 +28,14 @@ class FileController extends Controller
             $files = $files->whereLike('name', $request->get('search'));
         }
 
+        // if ($request->exists('directory')) {
+        //     $files = $files->where('directory_id', $request->get('directory'));
+        // } else {
+        //     $files = $files->whereNull('directory_id');
+        // }
+
+        $files = $files->where('directory_id', 3);
+
         if ($request->exists('sort') and in_array($request->get('sort'), $sortable)) {
             if ($request->exists('direction') and in_array($request->get('direction'), $directions)) {
                 $direction = $request->get('direction');
@@ -55,7 +63,7 @@ class FileController extends Controller
             });
         }
 
-        return FileResource::collection($files->paginate(150));
+        return FileResource::collection($files->paginate(50));
     }
 
     /**
@@ -84,15 +92,11 @@ class FileController extends Controller
     public function store(Request $request, $directory = null)
     {
         $request->validate([
-            'file'      => 'file',
-            'directory_id' => [
-                Rule::unique('directories', 'name')->where(function ($query) use ($request) {
-                    return $query->where('parent_id', $request->parent_id);
-                }),
-            ],
+            'file'         => 'file',
+            'directory_id' => 'sometimes',
         ]);
 
-        $upload    = $request['file'];
+        $upload    = $request->file('file');
         $extension = $upload->extension();
         $uuid      = unique_id();
         $name      = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
@@ -109,7 +113,7 @@ class FileController extends Controller
         }
 
         $file = File::create([
-            'directory_id' => null,
+            'directory_id' => $request->input('directory_id'),
             'name'         => $name,
             'slug'         => $slug,
             'uuid'         => $uuid,

@@ -67,14 +67,14 @@
                         </span> -->
                     </div>
 
-                    <table class="table" v-show="view == 'list'">
+                    <table class="table text-sm" v-show="view == 'list'">
                         <thead>
                             <tr>
                                 <th class="text-center w-100px"></th>
                                 <th>Name</th>
-                                <th>File size</th>
-                                <th>Mimetype</th>
-                                <th>Last modified</th>
+                                <th class="text-right">File size</th>
+                                <th class="text-right">Mimetype</th>
+                                <th class="text-right">Last modified</th>
                             </tr>
                         </thead>
 
@@ -82,30 +82,24 @@
                             <tr v-for="file in files" :key="file.uuid">
                                 <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
                                 <td>{{ file.name }}</td>
-                                <td>{{ bytes(file.bytes) }}</td>
-                                <td>{{ file.mimetype }}</td>
-                                <td>{{ lastModified(file.updated_at) }}</td>
+                                <td class="text-right">{{ bytes(file.bytes) }}</td>
+                                <td class="text-right">{{ file.mimetype }}</td>
+                                <td class="text-right">{{ lastModified(file.updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="card__body" v-show="view == 'grid'">
-                        <div class="gallery mb-12" v-if="directories.length && search === ''">
-                            <div class="gallery-wrapper" v-if="currentDirectory != null">
-                                <div class="gallery-item" @dblclick="preview(directory.name)">
-                                    <p-img lazySrc="/img/folder.svg" :width="200" :height="200" alt="Go up one directory" background-color="#ffffff" class="gallery-image"></p-img>
-                                </div>
-
-                                <p class="leading-tight mt-2">
-                                    <span class="block text-sm truncate">Go up</span>
-                                    <span class="text-xs font-mono text-grey-dark">..</span>
-                                </p>
-                            </div>
+                        <div class="gallery mb-12" v-if="search === ''">
+                            <file-manager-directory
+                                :directory="{id: parentDirectory, name: 'Go up'}"
+                                unselectable>
+                            </file-manager-directory>
 
                             <file-manager-directory
                                 v-for="directory in directories"
                                 :key="directory.id"
-                                :name="directory.name">
+                                :directory="directory">
                             </file-manager-directory>
                         </div>
 
@@ -116,6 +110,16 @@
                                 :file="file">
                             </file-manager-file>
                         </div>
+                    </div>
+
+                    <div class="card__body text-right" v-if="totalPages > 1">
+                        <p-pagination
+                            @input="setCurrentPage($event)"
+                            :total="totalPages"
+                            :value="currentPage"
+                            :max-visible-pages="3"
+                            >
+                        </p-pagination>
                     </div>
                 </div>
             </div>
@@ -156,6 +160,7 @@
 
         computed: {
             ...mapGetters({
+                loading: 'filemanager/getLoading',
                 files: 'filemanager/getFiles',
                 directories: 'filemanager/getDirectories',
                 hasSelection: 'filemanager/hasSelection',
@@ -163,7 +168,10 @@
                 sort: 'filemanager/getSort',
                 direction: 'filemanager/getDirection',
                 currentDirectory: 'filemanager/getCurrentDirectory',
+                parentDirectory: 'filemanager/getParentDirectory',
                 view: 'filemanager/getView',
+                currentPage: 'filemanager/getCurrentPage',
+                totalPages: 'filemanager/getTotalPages',
             }),
 
             search: {
@@ -193,6 +201,10 @@
             direction(value) {
                 this.fetchFilesAndDirectories()
             },
+
+            currentPage(value) {
+                this.fetchFilesAndDirectories()
+            },
         },
 
         methods: {
@@ -201,7 +213,9 @@
                 setDisplay: 'filemanager/setDisplay',
                 setSort: 'filemanager/setSort',
                 setDirection: 'filemanager/setDirection',
+                setCurrentPage: 'filemanager/setCurrentPage',
                 clearFileSelection: 'filemanager/clearFileSelection',
+                clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
                 toggleView: 'filemanager/toggleView',
                 toggleDirection: 'filemanager/toggleDirection',
@@ -221,10 +235,11 @@
                 let vm = this
 
                 _.each(this.filesToUpload, function(file, index) {
-                    let form = new FormData()
-                    form.append('file', file)
+                    let formData = new FormData()
+                    formData.append('file', file)
+                    formData.append('directory_id', vm.currentDirectory)
 
-                    axios.post('/api/files', form, {
+                    axios.post('/api/files', formData, {
                         before: (xhr) => {
                             file.xhr = xhr
                         },
@@ -240,6 +255,7 @@
 
             clearSelection() {
                 this.clearFileSelection()
+                this.clearDirectorySelection()
             },
 
             filterBy(filter) {
