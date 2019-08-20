@@ -94,6 +94,13 @@ class FileController extends Controller
             'directory_id' => 'sometimes',
         ]);
 
+        $directory = $request->input('directory_id', null);
+
+        
+        if ($directory == 0) {
+            $directory = null;
+        }
+
         $upload    = $request->file('file');
         $extension = $upload->extension();
         $uuid      = unique_id();
@@ -111,7 +118,7 @@ class FileController extends Controller
         }
 
         $file = File::create([
-            'directory_id' => $request->input('directory_id'),
+            'directory_id' => $directory,
             'name'         => $name,
             'slug'         => $slug,
             'uuid'         => $uuid,
