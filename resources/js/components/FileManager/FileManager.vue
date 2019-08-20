@@ -39,6 +39,8 @@
                         <a href="#" @click.prevent="sortBy('bytes')" class="list--item leading-loose" :class="{'router-link-active': isSortingBy('bytes')}"><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('bytes')]"></fa-icon> Filesize</a>
                         <a href="#" @click.prevent="sortBy('updated_at')" class="list--item leading-loose" :class="{'router-link-active': isSortingBy('updated_at')}"><fa-icon class="fa-fw mr-2" :icon="['fas', sortingIcon('updated_at')]"></fa-icon> Last Modified</a>
 
+                        <!-- File Tree Explorer -->
+
                         <!-- <div v-if="directories.length">
                             <span class="list--separator">Locations</span>
 
@@ -61,6 +63,8 @@
                         <span class="mr-2">
                             <fa-icon :icon="['fas', 'server']" class="fa-fw"></fa-icon> Local
                         </span>
+
+                        <!-- Folder Root Navigation -->
 
                         <!-- <span class="mr-2">
                             <fa-icon :icon="['fas', 'chevron-right']" class="mr-1"></fa-icon> Folder
@@ -92,14 +96,26 @@
                     <div class="card__body" v-show="view == 'grid'">
                         <div class="gallery mb-12" v-if="search === ''">
                             <file-manager-directory
+                                v-if="currentDirectory"
+                                :key="'directory-' + currentDirectory"
                                 :directory="{id: parentDirectory, name: 'Go up'}"
+                                subtitle=".."
+                                unselectable>
+                            </file-manager-directory>
+
+                            <file-manager-directory
+                                v-if="! currentDirectory"
+                                :key="'directory-' + currentDirectory"
+                                :directory="{id: null, name: ''}"
+                                subtitle="."
                                 unselectable>
                             </file-manager-directory>
 
                             <file-manager-directory
                                 v-for="directory in directories"
                                 :key="directory.id"
-                                :directory="directory">
+                                :directory="directory"
+                                :subtitle="directory.files_count + ' items'">
                             </file-manager-directory>
                         </div>
 
@@ -160,18 +176,18 @@
 
         computed: {
             ...mapGetters({
-                loading: 'filemanager/getLoading',
-                files: 'filemanager/getFiles',
-                directories: 'filemanager/getDirectories',
-                hasSelection: 'filemanager/hasSelection',
-                display: 'filemanager/getDisplay',
-                sort: 'filemanager/getSort',
-                direction: 'filemanager/getDirection',
                 currentDirectory: 'filemanager/getCurrentDirectory',
                 parentDirectory: 'filemanager/getParentDirectory',
-                view: 'filemanager/getView',
                 currentPage: 'filemanager/getCurrentPage',
+                directories: 'filemanager/getDirectories',
+                hasSelection: 'filemanager/hasSelection',
                 totalPages: 'filemanager/getTotalPages',
+                direction: 'filemanager/getDirection',
+                display: 'filemanager/getDisplay',
+                loading: 'filemanager/getLoading',
+                files: 'filemanager/getFiles',
+                sort: 'filemanager/getSort',
+                view: 'filemanager/getView',
             }),
 
             search: {
@@ -209,18 +225,17 @@
 
         methods: {
             ...mapActions({
-                setFiles: 'filemanager/setFiles',
-                setDisplay: 'filemanager/setDisplay',
-                setSort: 'filemanager/setSort',
-                setDirection: 'filemanager/setDirection',
-                setCurrentPage: 'filemanager/setCurrentPage',
-                clearFileSelection: 'filemanager/clearFileSelection',
-                clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-                toggleView: 'filemanager/toggleView',
+                clearDirectorySelection: 'filemanager/clearDirectorySelection',
+                clearFileSelection: 'filemanager/clearFileSelection',
                 toggleDirection: 'filemanager/toggleDirection',
+                setCurrentPage: 'filemanager/setCurrentPage',
                 setDirection: 'filemanager/setDirection',
+                setDisplay: 'filemanager/setDisplay',
+                toggleView: 'filemanager/toggleView',
+                setFiles: 'filemanager/setFiles',
                 addFile: 'filemanager/addFile',
+                setSort: 'filemanager/setSort',
             }),
 
             isFilteringBy(what) {
@@ -308,13 +323,6 @@
 
                 return 'bars'
             }
-        },
-
-        mounted() {
-            // Fetch images and directories
-            // if (this.files == null || this.directories == null) {
-
-            // }
         },
     }
 </script>

@@ -215,6 +215,10 @@ export default {
             context.commit('clearFileSelection')
         },
 
+        clearDirectorySelection(context) {
+            context.commit('clearDirectorySelection')
+        },
+
         fetchFilesAndDirectories: _.throttle(function(context) {
             context.commit('setLoading', true)
 
@@ -244,7 +248,10 @@ export default {
                 context.commit('setDirectories', directories.data.data)
 
                 context.commit('setTotalPages', files.data.meta.last_page)
-                context.commit('setLoading', false)
+
+                setTimeout(() => {
+                    context.commit('setLoading', false)
+                }, 25)
             }))
         }, 500),
 

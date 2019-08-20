@@ -1,7 +1,7 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
         <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click.stop="select" @dblclick="open">
-            <p-img lazySrc="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="name" background-color="#ffffff" class="gallery-image"></p-img>
+            <p-img src="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="name" background-color="#ffffff" class="gallery-image"></p-img>
         </div>
 
         <div class="leading-tight mt-2" v-if="! small">
@@ -9,7 +9,7 @@
             <input type="text" class="form__control form__control--sm text-center" :value="name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
 
             <div class="flex flex-col text-center text-xs text-grey-dark mt-2 font-mono">
-                <span>-- items</span>
+                <span v-html="subtitle"></span>
             </div>
         </div>
     </div>
@@ -45,6 +45,12 @@
                 required: false,
                 default: false,
             },
+
+            subtitle: {
+                type: String,
+                required: false,
+                default: '--'
+            },
         },
 
         computed: {
@@ -62,6 +68,8 @@
                 toggleSelection: 'filemanager/toggleDirectorySelection',
                 setCurrentDirectory: 'filemanager/setCurrentDirectory',
                 setParentDirectory: 'filemanager/setParentDirectory',
+                clearFileSelection: 'filemanager/clearFileSelection',
+                clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
             }),
 
@@ -72,8 +80,11 @@
             },
 
             open() {
-                this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
                 this.setCurrentDirectory(this.directory.id)
+                this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
+                
+                this.clearFileSelection()
+                this.clearDirectorySelection()
 
                 this.fetchFilesAndDirectories()
             },

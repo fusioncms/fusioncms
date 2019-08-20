@@ -17,24 +17,22 @@ class FileController extends Controller
     /**
      * 
      */
-    public function index(Request $request, $directory = null)
+    public function index(Request $request)
     {
-        $files      = File::where('directory_id', $directory);
+        $files      = new File;
         $directions = ['asc', 'desc'];
         $sortable   = ['name', 'bytes', 'updated_at'];
         $filterable = ['images', 'audio', 'videos', 'documents'];
 
         if ($request->exists('search')) {
             $files = $files->whereLike('name', $request->get('search'));
+        } else {
+            if ($request->exists('directory')) {
+                $files = $files->where('directory_id', (int) $request->get('directory'));
+            } else {
+                $files = $files->whereNull('directory_id');
+            }
         }
-
-        // if ($request->exists('directory')) {
-        //     $files = $files->where('directory_id', $request->get('directory'));
-        // } else {
-        //     $files = $files->whereNull('directory_id');
-        // }
-
-        $files = $files->where('directory_id', 3);
 
         if ($request->exists('sort') and in_array($request->get('sort'), $sortable)) {
             if ($request->exists('direction') and in_array($request->get('direction'), $directions)) {

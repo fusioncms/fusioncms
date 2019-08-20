@@ -25,7 +25,8 @@ class FileResource extends JsonResource
     {
         $resource = parent::toArray($request);
 
-        $resource['url'] = url($resource['url']);
+        $resource['url']          = url($resource['url']);
+        $resource['directory_id'] = (int) $resource['directory_id'];
 
         return $resource;
     }
