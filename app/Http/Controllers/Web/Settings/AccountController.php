@@ -19,6 +19,16 @@ use App\Http\Requests\UpdateUserAccount;
 class AccountController extends Controller
 {
     /**
+     * Simple redirect to the edit route.
+     * 
+     * @return Response
+     */
+    public function index()
+    {
+        return redirect('settings/account');
+    }
+
+    /**
      * @param  Request  $request
      * @return mixed
      */

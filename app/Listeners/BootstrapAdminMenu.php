@@ -58,24 +58,20 @@ class BootstrapAdminMenu
                 'icon' => 'images',
             ]);
 
-            $menu->add('Forms', '#')->data([
-                'icon' => 'paper-plane',
-            ]);
+            // $menu->add('Forms', '#')->data([
+            //     'icon' => 'paper-plane',
+            // ]);
 
-            $menu->forms->add('Inbox')->data([
-                'to' => '/',
-            ]);
+            // $menu->forms->add('Inbox')->data([
+            //     'to' => '/',
+            // ]);
 
-            $menu->forms->add('Manage')->data([
-                'to' => '/',
-            ]);
+            // $menu->forms->add('Manage')->data([
+            //     'to' => '/',
+            // ]);
 
             $menu->add('SEO', '#')->data([
                 'icon'  => 'chart-bar',
-            ]);
-
-            $menu->seo->add('Experiments')->data([
-                'to'    => '/insight',
             ]);
 
             $menu->seo->add('Insight')->data([
@@ -125,10 +121,10 @@ class BootstrapAdminMenu
                 'icon' => 'bug'
             ]);
 
-            $menu->add('Playground')->data([
-                'to'   => '/playground',
-                'icon' => 'robot'
-            ]);
+            // $menu->add('Playground')->data([
+            //     'to'   => '/playground',
+            //     'icon' => 'robot'
+            // ]);
         });
     }
 }

@@ -5,29 +5,12 @@
                 <router-view></router-view>
             </component>
         </transition>
-
-        <file-manager-modal></file-manager-modal>
-        <edit-file-modal></edit-file-modal>
-        <edit-directory-modal></edit-directory-modal>
-        <select-directory-modal></select-directory-modal>
     </div>
 </template>
 
 <script>
-    import FileManagerModal from './Modals/FileManagerModal'
-    import EditFileModal from './Modals/EditFileModal'
-    import EditDirectoryModal from './Modals/EditDirectoryModal'
-    import SelectDirectoryModal from './Modals/SelectDirectoryModal'
-
     export default {
         name: 'app',
-
-        components: {
-            FileManagerModal,
-            EditFileModal,
-            EditDirectoryModal,
-            SelectDirectoryModal,
-        },
 
         props: {
             user: {

@@ -25,11 +25,6 @@ Route::pattern('username', '[a-z0-9_-]{3,16}');
 */
 
 Route::group(['prefix' => config('fusioncms.path')], function () {
-    Route::get('/tinker', [
-        'as'   => 'admin.tinker',
-        'uses' => 'Admin\TinkerController@index',
-    ]);
-
     Route::post('/login', [
         'as'   => 'admin.post.login',
         'uses' => 'Admin\LoginController@authenticate',
