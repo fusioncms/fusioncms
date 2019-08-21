@@ -26,12 +26,14 @@ class DirectoryController extends Controller
      */
     public function index(Request $request)
     {
+        $directories = Directory::withCount('files');
+
         if ($request->recursive) {
-            $directories = Directory::whereNull('parent_id')->with('children.children')->get();
-        } elseif ($request->directory_id) {
-            $directories = Directory::whereParentId($request->directory_id)->get();
+            $directories = $directories->whereNull('parent_id')->with('children.children')->get();
+        } elseif ($request->directory) {
+            $directories = $directories->whereParentId($request->directory)->get();
         } else {
-            $directories = Directory::whereNull('parent_id')->get();
+            $directories = $directories->whereNull('parent_id')->get();
         }
 
         return DirectoryResource::collection($directories);
@@ -57,6 +59,7 @@ class DirectoryController extends Controller
 
         $directory = Directory::create([
             'name'      => $request->name,
+            'slug'      => str_slug($request->name),
             'parent_id' => $request->parent_id,
         ]);
 
@@ -87,7 +90,18 @@ class DirectoryController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        $directory->update($request->only('name'));
+        $data = [
+            'name' => $request->name,
+            'slug' => str_slug($request->name),
+        ];
+
+        if ($request->directory_id) {
+            $data['directory_id'] = $request->directory_id;
+        }
+
+        $directory->update($data);
+
+        return new DirectoryResource($directory);
     }
 
     /**

@@ -10,6 +10,22 @@
     @apply .px-3 .mb-6 .w-full;
 
     @screen xl {
-        flex-basis: 30%;
+        width: 350px;
+    }
+}
+
+.form-sidebar {
+    @apply w-full;
+    
+    @screen xxl {
+        @apply text-right w-xs;
+    }
+}
+
+.form-content {
+    @apply w-full;
+    
+    @screen xxl {
+        @apply flex-1;
     }
 }

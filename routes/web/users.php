@@ -17,10 +17,7 @@ Auth::routes([
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::group(['prefix' => 'settings', 'middleware' => ['auth', 'verified']], function () {
-    Route::get('/', function () {
-        // Simply redirect to the account page
-        return redirect('settings/account');
-    });
+    Route::get('/', 'Settings\AccountController@index');
 
     Route::get('account', 'Settings\AccountController@edit');
     Route::post('account', 'Settings\AccountController@update');

@@ -7,14 +7,14 @@
                 </div>
 
                 <ul class="items-center px-4 md:px-0 hidden lg:flex">
-                    @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
+                    {{-- @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
                         <li class="mr-6 my-2 md:my-0">
                             <a href="/store" class="group block py-1 md:py-4 px-2 align-middle text-gray-500 no-underline border-b-2 border-white hover:border-gray-900">
                                 <i class="fas fa-store-alt fa-fw mr-1 group-hover:text-blue-500"></i>
                                 <span class="pb-1 md:pb-0 text-sm group-hover:text-gray-900">Store</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
                 </ul>
             </div>
 
@@ -26,7 +26,7 @@
                 </div>
 
                 <ul class="hidden lg:flex flex-row flex-1 items-center justify-end px-4 md:px-0">
-                    @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
+                    {{-- @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
                         <li class="my-2 md:my-0">
                             <a href="/cart" class="group block py-1 md:py-4 px-2 align-middle text-gray-500 no-underline border-b-2 border-white hover:border-gray-900">
                                 <i class="fas fa-shopping-basket fa-fw mr-3 group-hover:text-blue-500"></i>
@@ -34,7 +34,7 @@
                                 <span class="text-xs border border-gray-200 rounded inline-flex items-center justify-center px-1 py-1 bg-gray-300 group-hover:text-gray-900 text-gray-600 leading-none">{{ $_COOKIE['bigcommerce_cart_count'] ?? 0 }}</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
 
                     @auth
                         <li class="ml-6 my-2 md:my-0">
@@ -67,15 +67,15 @@
         <p-collapse name="mobile-menu">
             <div class="w-full py-4 bg-gray-900 text-gray-100 text-right overflow-y-scroll max-h-screen lg:hidden shadow-lg">
                 <ul class="pb-10 container mx-auto px-6">
-                    @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
+                    {{-- @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
                         <li class="py-px"><a href="/store" class="text-gray-500 hover:text-gray-700">Store</a></li>
-                    @endif
+                    @endif --}}
 
                     <li class="py-px border-b border-gray-800"></li>
 
-                    @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
+                    {{-- @if(Module::exists('bigcommerce') and Module::enabled('bigcommerce'))
                         <li class="py-px"><a href="/cart" class="text-gray-500 hover:text-gray-700">Cart</a></li>
-                    @endif
+                    @endif --}}
 
                     <li class="py-px border-b border-gray-800"></li>
 

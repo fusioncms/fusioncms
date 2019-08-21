@@ -2,6 +2,10 @@ input, select, textarea {
     &.form__control {
         @apply .appearance-none .block .w-full .bg-white .text-grey-darker .border .border-grey-light .rounded .px-3 .py-1 .leading-loose;
 
+        &--sm {
+            @apply py-1 px-1 leading-tight text-xs;
+        }
+
         &:focus {
             @apply .outline-none .shadow;
         }

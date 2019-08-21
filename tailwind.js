@@ -82,13 +82,13 @@ let colors = {
   'secondary-darker': '#2E7D87',
   'secondary-darkest': '#173E44',
 
-  'danger-lightest': '#FEE6EE',
-  'danger-lighter': '#FB99BB',
-  'danger-light': '#F84D89',
-  'danger': '#F50056',
-  'danger-dark': '#DD004D',
-  'danger-darker': '#930034',
-  'danger-darkest': '#4A001A',
+  'danger-lightest': '#FAF5FF',
+  'danger-lighter': '#E9D8FD',
+  'danger-light': '#D6BCFA',
+  'danger': '#9F7AEA',
+  'danger-dark': '#805AD5',
+  'danger-darker': '#6B46C1',
+  'danger-darkest': '#553C9A',
 
   'warning-lightest': '#FFFDEB',
   'warning-lighter': '#FFF7B1',
@@ -259,6 +259,11 @@ module.exports = {
     '3xl': '1.875rem',  // 30px
     '4xl': '2.25rem',   // 36px
     '5xl': '3rem',      // 48px
+    '6xl': '3.75rem',   // 60px
+    '7xl': '4.5rem',    // 72px
+    '8xl': '5rem',      // 80px
+    '9xl': '5.625rem',  // 90px
+    '10xl': '6.25rem',  // 100px
   },
 
 
@@ -473,9 +478,16 @@ module.exports = {
     '60px': '60px',
     '75px': '75px',
     '90px': '90px',
+    '100px': '100px',
     '250px': '250px',
     '300px': '300px',
     '400px': '400px',
+
+    'xs': '320px',
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
     
     'auto': 'auto',
     'px': '1px',

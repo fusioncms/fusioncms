@@ -23,6 +23,13 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         /*
+         *
+         */
+        'App\Events\ServingFusion' => [
+            'App\Listeners\BootstrapAdminMenu',
+        ],
+
+        /*
          * Email verified.
          */
         'Illuminate\Auth\Events\Verified' => [

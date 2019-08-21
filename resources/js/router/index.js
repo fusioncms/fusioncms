@@ -247,6 +247,15 @@ const router = new Router({
             }
         },
         {
+            path: '/files/preview/:uuid',
+            component: () => import('../views/FileManager/Show'),
+            name: 'file-manager.show',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            }
+        },
+        {
             path: '/logs',
             component: () => import('../views/Logs/Index'),
             name: 'logs.index',
@@ -291,6 +300,15 @@ const router = new Router({
                     ]
                 },
             ]
+        },
+
+        {
+            path: '/playground',
+            component: () => import('../views/Playground'),
+            name: 'playground',
+            meta: {
+                layout: 'admin'
+            }
         },
 
         {

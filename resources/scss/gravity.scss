@@ -44,6 +44,7 @@
 @import "layout/containers";
 @import "layout/content";
 @import "layout/footer";
+@import "layout/gallery";
 @import "layout/grid";
 @import "layout/header";
 @import "layout/navbar";
@@ -53,6 +54,7 @@
 // Vendor
 @import "vendor/draggable";
 @import "vendor/nprogress";
+@import "vendor/plyr";
 @import "vendor/redactor";
 @import "vendor/vue";
 @import "../../node_modules/@simonwep/pickr/dist/themes/monolith.min.css";

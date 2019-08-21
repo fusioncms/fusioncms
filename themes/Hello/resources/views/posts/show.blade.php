@@ -7,7 +7,7 @@
         <p class="text-3xl tracking-wide italic text-blue-500">{{ $entry->excerpt }}</p>
     </div>
 
-    <div class="text-2xl font-light leading-loose tracking-wide" v-pre>
+    <div class="leading-loose tracking-wide" v-pre>
         {!! $entry->content !!}
     </div>
 @endsection

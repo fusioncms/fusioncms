@@ -11,4 +11,4 @@
 
 Route::patch('/assets/move', 'MoveAssetsController@move');
 Route::apiResource('assets', 'AssetController');
-Route::apiResource('directories', 'DirectoryController');
+// Route::apiResource('directories', 'DirectoryController');

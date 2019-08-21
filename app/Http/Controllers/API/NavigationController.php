@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\API;
 
 use Menu;
+use App\Events\ServingFusion;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NavigationResource;
 
@@ -24,6 +25,8 @@ class NavigationController extends Controller
      */
     public function index()
     {
+        event(ServingFusion::class);
+
         $roots = Menu::get('admin')->roots();
 
         $links = $this->extractLinks($roots);

@@ -25,11 +25,11 @@ class LocalDevelopment
      */
     public function handle($request, Closure $next)
     {
-        if (app()->isLocal()) {
-            // We're developing locally, so just copy any module
-            // assets we may have to the public directory.
-            Artisan::call('vendor:publish', ['--tag' => 'module', '--force' => true]);
-        }
+        // if (app()->isLocal()) {
+        //     // We're developing locally, so just copy any module
+        //     // assets we may have to the public directory.
+        //     Artisan::call('vendor:publish', ['--tag' => 'module', '--force' => true]);
+        // }
 
         return $next($request);
     }
