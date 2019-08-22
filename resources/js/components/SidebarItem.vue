@@ -1,6 +1,6 @@
 <template>
     <li>
-        <span v-if="divider" class="block text-xs tracking-wider font-bold uppercase my-3 pl-7 text-grey-darker"><slot></slot></span>
+        <span v-if="divider" class="block text-xs tracking-wider font-bold uppercase my-3 pl-8 text-grey-darker"><slot></slot></span>
 
         <router-link
             exact

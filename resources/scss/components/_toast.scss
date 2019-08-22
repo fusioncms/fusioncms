@@ -1,54 +1,54 @@
 .toast {
-    @apply .p-2 .shadow .items-center .leading-none .flex .fixed .rounded-full .bg-white .text-grey-darkest .z-50;
+    @apply .p-2 .shadow .items-center .leading-none .flex .fixed .rounded-full .bg-white .text-gray-800 .z-50;
 
     bottom: 25px;
     left: 25px;
 
     &__badge {
-        @apply .flex .rounded-full .bg-grey-light .uppercase .px-2 .py-1 .text-xs .font-bold .mr-1;
+        @apply .flex .rounded-full .bg-gray-400 .uppercase .px-2 .py-1 .text-xs .font-bold .mr-1;
     }
 
     &__message {
         @apply .mx-2 .text-sm .text-left .flex-auto;
     }
 
-    &--dark {
-        @apply .bg-black .text-grey-lightest;
+    &--600 {
+        @apply .bg-black .text-gray-100;
 
         > .toast__badge {
-            @apply .bg-grey-darkest .text-white;
+            @apply .bg-gray-800 .text-white;
         }
     }
 
     &--info {
-        @apply .bg-info .text-info-darkest;
+        @apply .bg-info-500 .text-info-900;
 
         > .toast__badge {
-            @apply .bg-info-lighter .text-info-darker;
+            @apply .bg-info-200 .text-info-800;
         }
     }
 
     &--success {
-        @apply .bg-success .text-success-darkest;
+        @apply .bg-success-500 .text-success-900;
 
         > .toast__badge {
-            @apply .bg-success-lighter .text-success-darker;
+            @apply .bg-success-200 .text-success-800;
         }
     }
 
     &--warning {
-        @apply .bg-warning .text-warning-darkest;
+        @apply .bg-warning-500 .text-warning-900;
 
         > .toast__badge {
-            @apply .bg-warning-lighter .text-warning-darker;
+            @apply .bg-warning-200 .text-warning-800;
         }
     }
 
     &--danger {
-        @apply .bg-danger-light .text-danger-darkest;
+        @apply .bg-danger-400 .text-danger-900;
 
         > .toast__badge {
-            @apply .bg-danger-lighter .text-danger-darker;
+            @apply .bg-danger-200 .text-danger-800;
         }
     }    
 }

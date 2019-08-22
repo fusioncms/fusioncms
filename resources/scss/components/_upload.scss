@@ -1,10 +1,10 @@
 .upload {
     &__container {
-        @apply .w-full .border-4 .border-grey-light .border-dashed .bg-grey-lightest .relative .rounded .p-3;
+        @apply .w-full .border-4 .border-gray-400 .border-dashed .bg-gray-100 .relative .rounded .p-3;
     }
 
     &__container--dragged {
-        @apply .border-grey;
+        @apply .border-gray-500;
     }
 
     &__control {

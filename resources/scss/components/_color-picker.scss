@@ -12,10 +12,10 @@
       padding: 5px 4px;
     }
     .pcr-type {
-      @apply .bg-white .border .text-grey-darker .border-grey-light .shadow;
+      @apply .bg-white .border .text-gray-700 .border-gray-400 .shadow;
     }
     .pcr-type.active {
-      @apply .bg-primary;
+      @apply .bg-primary-500;
     }
   }
 }

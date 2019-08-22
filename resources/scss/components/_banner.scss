@@ -1,5 +1,5 @@
 .banner {
-    @apply .flex .flex-col .justify-center .bg-white .text-sm .font-semibold .px-4 .py-3 .shadow .border-l-4 .border-grey-light .mb-3;
+    @apply .flex .flex-col .justify-center .bg-white .text-sm .font-semibold .px-4 .py-3 .shadow .border-l-4 .border-gray-400 .mb-3;
 
     &__header {
         @apply .flex .justify-between .items-center;
@@ -9,7 +9,7 @@
         }
 
         &--close-button {
-            @apply .text-xl .font-bold .text-grey-darkest;
+            @apply .text-xl .font-bold .text-gray-800;
 
             &:hover {
                 @apply .text-black;
@@ -18,55 +18,55 @@
     }
 
     &--primary {
-        @apply .bg-primary-lighter .border-primary;
+        @apply .bg-primary-200 .border-primary-500;
 
         > p, span, a {
-            @apply .text-primary-darkest;
+            @apply .text-primary-900;
         }
     }
 
     &--secondary {
-        @apply .bg-secondary-lighter .border-secondary;
+        @apply .bg-secondary-200 .border-secondary-500;
 
         > p, span, a {
-            @apply .text-secondary-darkest;
+            @apply .text-secondary-900;
         }
     }
 
     &--success {
-        @apply .bg-success-lighter .border-success;
+        @apply .bg-success-200 .border-success-500;
 
         > p, span, a {
-            @apply .text-success-darkest;
+            @apply .text-success-900;
         }
     }
 
     &--info {
-        @apply .bg-info-lighter .border-info;
+        @apply .bg-info-200 .border-info-500;
 
         > p, span, a {
-            @apply .text-info-darkest;
+            @apply .text-info-900;
         }
     }
 
     &--danger {
-        @apply .bg-danger-lighter .border-danger;
+        @apply .bg-danger-200 .border-danger-500;
 
         > p, span, a {
-            @apply .text-danger-darkest;
+            @apply .text-danger-900;
         }
     }
 
     &--warning {
-        @apply .bg-warning-lighter .border-warning;
+        @apply .bg-warning-200 .border-warning-500;
 
         > p, span, a {
-            @apply .text-warning-darkest;
+            @apply .text-warning-900;
         }
     }
 
-    &--dark {
-        @apply .bg-black .border-grey-darkest;
+    &--600 {
+        @apply .bg-black .border-gray-800;
 
         > p, span, a {
             @apply .text-white;

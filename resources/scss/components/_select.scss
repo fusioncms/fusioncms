@@ -2,7 +2,7 @@
     @apply .relative .w-full;
 
     &-button {
-        @apply .appearance-none .flex .w-full .bg-white .text-grey-darker .border .border-grey-light .rounded .px-3 .py-1 .leading-loose;
+        @apply .appearance-none .flex .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded .px-3 .py-1 .leading-loose;
 
         &:focus {
             @apply .outline-none .shadow;
@@ -10,11 +10,11 @@
     }
 
     &-dropdown {
-        @apply .my-1 .absolute .pin-r .pin-l .bg-grey-lightest .border .rounded .p-3 .shadow-lg .z-50;
+        @apply .my-1 .absolute .right-0 .left-0 .bg-gray-100 .border .rounded .p-3 .shadow-lg .z-50;
     }
 
     &-search {
-        @apply .flex .w-full .bg-grey-lighter .text-grey-darker .border .border-grey-light .rounded-sm .px-3 .py-1 .leading-loose;
+        @apply .flex .w-full .bg-gray-200 .text-gray-700 .border .border-gray-400 .rounded-sm .px-3 .py-1 .leading-loose;
 
         &:focus {
             @apply .outline-none .shadow .bg-white;
@@ -30,7 +30,7 @@
     }
 
     &-options {
-        @apply .list-reset .p-0 .relative .mt-3 .overflow-y-auto;
+        @apply .p-0 .relative .mt-3 .overflow-y-auto;
 
         max-height: 14rem;
     }
@@ -39,7 +39,7 @@
         @apply .px-2;
 
         &:hover {
-            @apply .cursor-pointer .bg-grey-lighter;
+            @apply .cursor-pointer .bg-gray-200;
         }
 
         &--selected {
@@ -47,13 +47,13 @@
         }
 
         &--highlighted {
-            @apply .bg-grey-lighter;
+            @apply .bg-gray-200;
         }
     }
 
-    &--dark {
+    &--600 {
         .form__select-dropdown {
-            @apply .bg-smoke-darkest .text-white;
+            @apply .bg-smoke-900 .text-white;
         }
 
         .form__select-option:hover {

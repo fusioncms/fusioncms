@@ -7,7 +7,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-    @apply .mb-6 .text-grey-darkest;
+    @apply .mb-6 .text-gray-800;
 
     &:last-child {
         @apply .mb-0;
@@ -15,17 +15,17 @@ p {
 }
 
 a {
-    @apply .no-underline .text-secondary-dark;
+    @apply .no-underline .text-secondary-600;
 
     &:hover {
-        @apply .text-secondary-darker;
+        @apply .text-secondary-800;
     }
 }
 
 hr {
-    @apply .border-b-2 .border-grey-light .border-dashed;
+    @apply .border-b-2 .border-gray-400 .border-dashed;
 }
 
 code {
-    @apply .bg-grey-lighter .text-sm .px-2 .py-1 .rounded;
+    @apply .bg-gray-200 .text-sm .px-2 .py-1 .rounded;
 }

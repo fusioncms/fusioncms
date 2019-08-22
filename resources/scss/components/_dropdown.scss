@@ -3,10 +3,10 @@
 }
 
 .dropdown__button {
-    @apply .inline-block .select-none .cursor-pointer .justify-center .font-semibold .py-2 .px-3 .rounded .shadow .no-underline .text-xs .bg-white .border .border-grey-light .text-black .appearance-none .leading-tight;
+    @apply .inline-block .select-none .cursor-pointer .justify-center .font-semibold .py-2 .px-3 .rounded .shadow .no-underline .text-xs .bg-white .border .border-gray-400 .text-black .appearance-none .leading-tight;
 
     &:hover {
-        @apply .bg-grey-lighter .text-black;
+        @apply .bg-gray-200 .text-black;
     }
 
     &:focus {
@@ -19,9 +19,9 @@
 }
 
 .dropdown__item {
-    @apply .no-underline .block .px-4 .py-2 .text-grey-darkest .bg-white .text-sm .rounded;
+    @apply .no-underline .block .px-4 .py-2 .text-gray-800 .bg-white .text-sm .rounded;
     
     &:hover {
-        @apply .text-black .bg-grey-lightest .cursor-pointer;
+        @apply .text-black .bg-gray-100 .cursor-pointer;
     }
 }

@@ -1,5 +1,5 @@
 .page-footer {
-    @apply .p-6 .text-xs .text-grey-dark .border-t .border-grey-light .border-dashed .flex .flex-col  .items-center .justify-between .leading-loose .bg-white;
+    @apply .p-6 .text-xs .text-gray-600 .border-t .border-gray-400 .border-dashed .flex .flex-col  .items-center .justify-between .leading-loose .bg-white;
 
     @screen md {
         @apply .flex-row .leading-none;

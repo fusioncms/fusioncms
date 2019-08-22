@@ -27,7 +27,7 @@
         "portal-vue": "^1.5.1",
         "sass": "^1.16.0",
         "sass-loader": "7.*",
-        "tailwindcss": "^0.7.3",
+        "tailwindcss": "^1.0",
         "vue": "^2.5.22",
         "vue-router": "^3.0.1",
         "vue-template-compiler": "^2.5.22",

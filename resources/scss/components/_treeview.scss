@@ -1,6 +1,4 @@
 .treeview {
-    @apply .list-reset;
-
     &--node {
         @apply .flex .items-center .align-middle .py-2;
 
@@ -14,7 +12,7 @@
     }
 
     &--icon {
-        @apply .pointer-events-none .inline-flex .items-center .text-grey-darker .leading-tight;
+        @apply .pointer-events-none .inline-flex .items-center .text-gray-700 .leading-tight;
     }
 
     &--label {

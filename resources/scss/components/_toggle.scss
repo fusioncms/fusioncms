@@ -1,19 +1,19 @@
 .toggle {
-    @apply .relative .inline-flex .rounded-full .h-6 .w-12 .cursor-pointer .flex-no-shrink;
+    @apply .relative .inline-flex .rounded-full .h-6 .w-12 .cursor-pointer .flex-shrink-0;
 
     &:focus {
         @apply .shadow-md .outline-none;
     }
 
     &:before {
-        @apply .inline-block .rounded-full .h-full .w-full .shadow .bg-grey-lightest;
+        @apply .inline-block .rounded-full .h-full .w-full .shadow .bg-gray-100;
 
         content: "";
         transition: background-color 0.2s ease;
     }
 
     &:after {
-        @apply .absolute .pin-t .pin-l .rounded-full .h-6 .w-6 .bg-white .border .border-grey-lightest .shadow-md;
+        @apply .absolute .top-0 .left-0 .rounded-full .h-6 .w-6 .bg-white .border .border-gray-100 .shadow-md;
 
         content: "";
         transform: translateX(0);
@@ -21,7 +21,7 @@
     }
 
     &:checked:before {
-        @apply .bg-grey-darkest;
+        @apply .bg-gray-800;
     }
 
     &:checked:after {

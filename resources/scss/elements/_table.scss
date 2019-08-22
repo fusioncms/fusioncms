@@ -16,11 +16,11 @@ table {
     }
 
     tr {
-        @apply border-b-4 border-grey-light block mb-3;
+        @apply border-b-4 border-gray-400 block mb-3;
     }
 
     td {
-        @apply .border-b .border-grey-light .block .text-right;
+        @apply .border-b .border-gray-400 .block .text-right;
     }
 
     td::before {
@@ -48,7 +48,7 @@ table {
         display: table;
 
         thead {
-            @apply .text-left .w-full .h-auto .m-0 .p-0 .relative .border-b-4 .border-grey-lighter;
+            @apply .text-left .w-full .h-auto .m-0 .p-0 .relative .border-b-4 .border-gray-200;
 
             display: table-header-group;
         }
