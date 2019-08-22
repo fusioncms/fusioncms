@@ -33,14 +33,14 @@
                                 :alt="file.description">
                             </p-img>
 
-                            <div class="text-center px-6 py-3 rounded border border-grey-light bg-grey-lighter text-grey-darker">
+                            <div class="text-center px-6 py-3 rounded border border-gray-400 bg-gray-200 text-gray-800">
                                 No preview available
                             </div>
                         </div>
                     </div>
                 </p-card>
 
-                <p-card v-if="isVideo" class="mt-6 text-center text-sm text-grey-darker">
+                <p-card v-if="isVideo" class="mt-6 text-center text-sm text-gray-800">
                     If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
                 </p-card>
             </div>

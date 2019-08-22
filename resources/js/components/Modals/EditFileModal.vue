@@ -1,7 +1,7 @@
 <template>
     <p-modal v-model="open" class="file-edit" name="file-edit" title="Edit File" no-footer>
         <form @submit.prevent="updateAsset" v-if="asset">
-            <div class="p-4 bg-grey-darker text-center mb-4">
+            <div class="p-4 bg-gray-800 text-center mb-4">
                 <img :src="asset.url" alt class="edit-image border" v-if="isImage(asset)">
                 <div v-else class="py-8">
                     <fa-icon icon="file" size="6x"></fa-icon>

@@ -18,7 +18,7 @@
 
                     <div class="flex flex-col">
                         <span class="font-semibold text-lg">{{ section.name }}</span>
-                        <span class="text-xs text-grey-darker">{{ section.description }}</span>
+                        <span class="text-xs text-gray-800">{{ section.description }}</span>
                     </div>
                 </router-link>
             </div>

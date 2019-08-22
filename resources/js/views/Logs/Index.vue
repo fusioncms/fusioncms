@@ -16,7 +16,7 @@
                             v-for="(file, index) in files" 
                             :to="{ path: 'logs?', query: {file: file} }" 
                             :key="index"
-                            class="block px-3 py-2 text-grey-darkest">
+                            class="block px-3 py-2 text-gray-900">
                             {{file}}
                         </router-link>
                         <div v-if="!loaded && files.length == 0" class="block px-3 py-2">

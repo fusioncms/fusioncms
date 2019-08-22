@@ -43,7 +43,7 @@
                             <tbody>
                                 <tr v-for="page in popular" :key="page.url">
                                     <td>
-                                        <a :href="page.url" class="text-grey-darker hover:text-grey-darkest mr-4" target="_blank">
+                                        <a :href="page.url" class="text-gray-800 hover:text-gray-900 mr-4" target="_blank">
                                             <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
                                         </a>
 
@@ -69,7 +69,7 @@
                             <tbody>
                                 <tr v-for="browser in browsers" :key="browser.browser">
                                     <td>
-                                        <span class="text-grey-darker hover:text-grey-darkest mr-4">
+                                        <span class="text-gray-800 hover:text-gray-900 mr-4">
                                             <fa-icon v-if="browser.icon == 'default'" :icon="['far', 'globe']" class="fa-fw"></fa-icon>
                                             <fa-icon v-else :icon="['fab', browser.icon]" class="fa-fw"></fa-icon>
                                         </span>

@@ -52,7 +52,7 @@
                             <tr v-for="activity in activities" :key="activity.id">
                                 <td><router-link :to="{ name: 'users.edit', params: {user: activity.causer.id} }">{{ activity.causer.name }}</router-link></td>
                                 <td class="flex items-center">
-                                    <div class="text-grey-darkest mr-4 flex items-center text-sm w-3">
+                                    <div class="text-gray-900 mr-4 flex items-center text-sm w-3">
                                         <fa-icon v-if="activity.properties.icon" :icon="['fas', activity.properties.icon]"></fa-icon>
                                         <fa-icon v-else class="fa-xs" :icon="['fas', 'circle']"></fa-icon>
                                     </div>
@@ -60,7 +60,7 @@
                                     {{ activity.description }}
                                 </td>
                                 <td>
-                                    <router-link :to="activity.properties.link" v-if="activity.properties.link" class="text-grey-darker hover:text-grey-darkest">
+                                    <router-link :to="activity.properties.link" v-if="activity.properties.link" class="text-gray-800 hover:text-gray-900">
                                         <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
                                     </router-link>
                                 </td>

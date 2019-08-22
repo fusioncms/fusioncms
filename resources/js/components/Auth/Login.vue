@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card__body">
                 <div class="flex flex-col items-center leading-none mb-6">
-                    <span class="mb-3 text-grey-dark text-sm font-bold ">Welcome to</span>
+                    <span class="mb-3 text-gray-600 text-sm font-bold ">Welcome to</span>
                     <span class="font-bold text-xxl">FusionCMS</span>
                 </div>
 

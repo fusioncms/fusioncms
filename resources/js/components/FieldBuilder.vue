@@ -14,7 +14,7 @@
                         <div class="section__field">
                             <div>
                                 <p-sortable-handle class="cursor-move inline-block">
-                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-grey-light mr-3"></fa-icon>
+                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
                                 </p-sortable-handle>
 
                                 <fa-icon :icon="['far', field.type.icon]" class="fa-fw mr-3"></fa-icon>
@@ -48,7 +48,7 @@
         <p-modal name="add-field" title="Add Field" extra-large>
             <div class="row">
                 <div class="col w-1/4" v-for="fieldtype in fieldtypes" :key="fieldtype.handle">
-                    <p-button class="w-full items-center justify-start" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field><fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-grey-dark"></fa-icon> {{ fieldtype.name }}</p-button>
+                    <p-button class="w-full items-center justify-start" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field><fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}</p-button>
                 </div>
             </div>
 
