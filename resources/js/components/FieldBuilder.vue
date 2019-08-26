@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col w-full">
+            <div class="col mb-6 w-full">
                 <h3>Fields</h3>
                 <p v-if="fields.length == 0">Add a field to get started.</p>
             </div>
@@ -9,7 +9,7 @@
 
         <div class="row" v-if="fields.length > 0">
             <p-sortable-list v-model="fields" class="sortable-list">
-                <div class="col w-full">
+                <div class="col mb-6 w-full">
                     <p-sortable-item v-for="(field, index) in fields" :key="field.handle" class="mb-3 w-full">
                         <div class="section__field">
                             <div>

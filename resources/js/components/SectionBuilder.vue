@@ -15,19 +15,19 @@
 
         <div class="tab__panel" v-for="(section, index) in sections" :key="index" v-show="isSelected(index)">
             <div class="row">
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="label" label="Section Label" v-model="section.name"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="handle" label="Section Handle" monospaced v-model="section.handle"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="description" label="Section Description" v-model="section.description"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-select name="placement" label="Section Placement" v-model="section.placement" :options="[
                         {
                             'label': 'Body',
@@ -42,7 +42,7 @@
             </div>
 
             <div class="row">
-                <div class="col w-full">
+                <div class="col mt-6 w-full">
                     <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles"></field-builder>
                 </div>
             </div>

@@ -5,7 +5,7 @@
         </portal>
 
         <div class="row flex-1 flex-wrap" v-if="quicklinks">
-            <div class="col w-full md:w-1/2 xl:w-1/3 xxl:w-1/4 xxxl:w-1/5" v-for="matrix in quicklinks" :key="matrix.handle">
+            <div class="col mb-6 w-full md:w-1/2 xl:w-1/3 xxl:w-1/4 xxxl:w-1/5" v-for="matrix in quicklinks" :key="matrix.handle">
                 <router-link :to="matrix.admin_path" class="no-underline text-black hover:text-black bg-white rounded shadow hover:shadow-md p-3 flex h-full items-center">
                     <span class="fa-layers fa-fw fa-3x mr-2 flex-no-shrink">
                         <fa-icon :icon="['fas', 'circle']" class="fa-fw text-primary-500"></fa-icon>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="row">
-            <div class="col md:w-full">
+            <div class="col mb-6 md:w-full">
                 <analytics-overview></analytics-overview>
             </div>
         </div>
@@ -124,6 +124,8 @@
         },
 
         beforeRouteEnter(to, from, next) {
+            console.warn('Fusion news feed will be implemented at launch. You may safely ignore the following 404 error.')
+
             axios.all([
                 axios.get('/api/matrices'),
                 axios.get('/api/activity'),

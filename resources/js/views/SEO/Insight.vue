@@ -24,7 +24,7 @@
 
         <div v-if="isValid">
             <div class="row">
-                <div class="col md:w-full">
+                <div class="col mb-6 md:w-full">
                     <analytics-overview></analytics-overview>
                 </div>
             </div>

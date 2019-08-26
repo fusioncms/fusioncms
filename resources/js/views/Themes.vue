@@ -5,7 +5,7 @@
         </portal>
 
         <div class="row">
-            <div class="col w-full lg:w-1/2 xxl:w-1/3" v-for="theme in themes" :key="theme.name">
+            <div class="col mb-6 w-full lg:w-1/2 xxl:w-1/3" v-for="theme in themes" :key="theme.name">
                 <p-card no-body>
                     <img class="w-full rounded-t shadow" :src="theme.preview" :alt="theme.name">
 
