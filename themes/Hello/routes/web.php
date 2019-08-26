@@ -10,3 +10,5 @@
  */
 
 Route::get('/test', 'TestController');
+
+Route::get('/feed.json', 'RSSController');

@@ -95,7 +95,7 @@ select {
 }
 
 .form__control--meta {
-    @apply .text-sm .mb-3 .mt-1 .flex .justify-between;
+    @apply .text-sm .mt-1 .flex .justify-between;
 
     span {
         @apply .block;

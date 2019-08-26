@@ -51,7 +51,7 @@ class Collection extends Builder implements BuilderContract
         $traits    = [];
         $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
 
-        if ($this->matrix->fieldset->fields) {
+        if ($this->matrix->fieldset) {
             $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 

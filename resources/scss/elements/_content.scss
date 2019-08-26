@@ -23,7 +23,7 @@ a {
 }
 
 hr {
-    @apply .border-b-2 .border-gray-400 .border-dashed;
+    @apply border-none border-b border-dashed my-6 block;
 }
 
 code {

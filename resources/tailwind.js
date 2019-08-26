@@ -98,12 +98,22 @@ module.exports = {
                 ...spacing,
             },
 
+            width: {
+                ...screens,
+                ...spacing,
+            },
+
             minWidth: {
                 ...screens,
                 ...spacing,
             },
 
-            width: {
+            maxWidth: {
+                ...screens,
+                ...spacing,
+            },
+
+            height: {
                 ...screens,
                 ...spacing,
             },
@@ -113,7 +123,7 @@ module.exports = {
                 ...spacing,
             },
 
-            height: {
+            maxHeight: {
                 ...screens,
                 ...spacing,
             },

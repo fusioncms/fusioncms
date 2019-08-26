@@ -8,7 +8,7 @@
             <div class="col w-full md:w-1/2 xl:w-1/3 xxl:w-1/4 xxxl:w-1/5" v-for="matrix in quicklinks" :key="matrix.handle">
                 <router-link :to="matrix.admin_path" class="no-underline text-black hover:text-black bg-white rounded shadow hover:shadow-md p-3 flex h-full items-center">
                     <span class="fa-layers fa-fw fa-3x mr-2 flex-no-shrink">
-                        <fa-icon :icon="['fas', 'circle']" class="fa-fw text-primary"></fa-icon>
+                        <fa-icon :icon="['fas', 'circle']" class="fa-fw text-primary-500"></fa-icon>
                         <fa-icon :icon="['far', (matrix.icon || 'pencil')]" class="fa-fw fa-inverse" transform="shrink-8"></fa-icon>
                     </span>
 
@@ -78,7 +78,7 @@
                         <h2>Fusion News</h2>
                     </div>
 
-                    <table>
+                    <table v-if="feed.length">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -87,42 +87,16 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>FusionCMS 5.4</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>FusionCMS 5.3.17</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>Updates to FusionCMS' Performance</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>FusionCMS 5.3.16</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>FusionCMS 5.3.15</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>A New Approach to Scaffolding Content</td>
-                                <td><a href="#">Read More</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>Introducing GDPR Compliance</td>
-                                <td><a href="#">Read More</a></td>
+                            <tr v-for="entry in feed" :key="entry.id">
+                                <td>{{ entry.title }}</td>
+                                <td><a :href="entry.url">Read More</a></td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <div v-else class="card__body text-center">
+                        The Fusion news feed will be implemented at launch.
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,6 +109,7 @@
             return {
                 matrices: [],
                 activities: [],
+                feed: [],
             }
         },
 
@@ -152,10 +127,18 @@
             axios.all([
                 axios.get('/api/matrices'),
                 axios.get('/api/activity'),
-            ]).then(axios.spread(function (matrices, activity, insight) {
+                axios.get('//getfusioncms.com/feed.json').catch(function() {
+                    return {
+                        data: {
+                            items: [],
+                        },
+                    }
+                })
+            ]).then(axios.spread(function (matrices, activity, feed) {
                 next(function(vm) {
                     vm.matrices = matrices.data.data
                     vm.activities = activity.data.data
+                    vm.feed = feed.data.items
                 })
             }))
         },
