@@ -63,7 +63,7 @@
             :labels="dates"
             type="axis-mixed"
             :height="350"
-            :colors="['#FF5722', '#4DD0E1']"
+            :colors="['#FF5722', '#4DD0E1', '#000000']"
             :line-options="{
                 dotSize: 6,
                 hideLine: 0,
@@ -81,6 +81,11 @@
                     name: 'Total Page Views',
                     chartType: 'line',
                     values: pageviews
+                },
+                {
+                    name: 'Bounces',
+                    chartType: 'line',
+                    values: bounceRates
                 },
             ]"
             :tooltip-options="{
@@ -113,6 +118,7 @@
                 dates: null,
                 visitors: null,
                 pageviews: null,
+                bounceRates: null,
                 sessionDuration: null,
                 bounceRate: null,
                 totalVisitors: null,
@@ -158,6 +164,7 @@
                         this.totalPageViews = Number(insight.data.data.totalPageViews).toLocaleString()
                         this.visitors = _.map(insight.data.data.daily, 'visitors')
                         this.pageviews = _.map(insight.data.data.daily, 'pageViews')
+                        this.bounceRates = _.map(insight.data.data.daily, 'bounceRate')
                         this.dates = _.map(insight.data.data.daily, function(o) {
                             let date = new Date(o.date)
 
