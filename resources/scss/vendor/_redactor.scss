@@ -20,7 +20,7 @@
 
 .redactor-box {
     &.redactor-styles-on {
-        @apply rounded border border-grey-light;
+        @apply rounded border border-gray-400;
     }
 }
 .redactor-focus,
@@ -32,7 +32,7 @@
 
 .redactor-toolbar,
 .redactor-air {
-    @apply bg-grey-lightest;
+    @apply bg-gray-100;
 }
 
 .redactor-box.redactor-styles-on {

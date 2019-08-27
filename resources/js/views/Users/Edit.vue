@@ -79,15 +79,15 @@
                     <div class="flex justify-between">
                         <label class="form__label">Status</label>
                         
-                        <p v-if="user.status">Enabled <fa-icon icon="circle" size="xs" fixed-width class="text-success-light"></fa-icon></p>
-                        <p v-else>Disabled <fa-icon icon="circle" size="xs" fixed-width class="text-danger-light"></fa-icon></p>
+                        <p v-if="user.status">Enabled <fa-icon icon="circle" size="xs" fixed-width class="text-success-400"></fa-icon></p>
+                        <p v-else>Disabled <fa-icon icon="circle" size="xs" fixed-width class="text-danger-400"></fa-icon></p>
                     </div>
 
                     <div class="flex justify-between">
                         <label class="form__label">Verified</label>
                         
-                        <p v-if="user.verified">Yes <fa-icon icon="circle" size="xs" fixed-width class="text-success-light"></fa-icon></p>
-                        <p v-else>No <fa-icon icon="circle" size="xs" fixed-width class="text-danger-light"></fa-icon></p>
+                        <p v-if="user.verified">Yes <fa-icon icon="circle" size="xs" fixed-width class="text-success-400"></fa-icon></p>
+                        <p v-else>No <fa-icon icon="circle" size="xs" fixed-width class="text-danger-400"></fa-icon></p>
                     </div>
 
                     <div class="flex justify-between">

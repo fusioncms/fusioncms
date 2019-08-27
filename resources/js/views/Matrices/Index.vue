@@ -24,7 +24,7 @@
                     </template>
 
                     <template slot="description" slot-scope="table">
-                        <span class="text-grey-darker text-sm">{{ table.record.description }}</span>
+                        <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
                     <template slot="status" slot-scope="table">

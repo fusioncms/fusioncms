@@ -6,7 +6,7 @@
 
             <p-button class="w-full" @click.prevent="add" type="submit">Add</p-button>
 
-            <p class="mt-6 text-center text-sm text-grey-dark">Add and arrange as many options as you need.</p>
+            <p class="mt-6 text-center text-sm text-gray-600">Add and arrange as many options as you need.</p>
         </form>
 
         <div class="col col--flush w-full lg:w-1/2">
@@ -19,13 +19,13 @@
                                 <input text="text" placeholder="Label" class="flex-1" v-model="editing.label" ref="edit">
                                 <input text="text" placeholder="Value" class="flex-1" v-model="editing.value">
 
-                                <button class="p-2 text-grey-light focus:outline-none" @click.prevent="resetEditing"><fa-icon icon="times"></fa-icon></button>
-                                <button class="p-2 text-grey-light focus:outline-none" @click.prevent="update" type="submit"><fa-icon icon="check"></fa-icon></button>
+                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="resetEditing"><fa-icon icon="times"></fa-icon></button>
+                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="update" type="submit"><fa-icon icon="check"></fa-icon></button>
                             </form>
 
                             <div v-else class="flex flex-1 items-center">
                                 <p-sortable-handle class="cursor-move inline-block">
-                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-grey-light mr-3"></fa-icon>
+                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
                                 </p-sortable-handle>
 
                                 <div class="mr-3 flex-1">
@@ -37,11 +37,11 @@
                                         :disabled="metLimit(option)"
                                     >
 
-                                    <b>{{ option.label }}</b> <span class="ml-3 text-xs text-grey-dark bg-grey-lighter px-2 py-1">{{ option.value }}</span>
+                                    <b>{{ option.label }}</b> <span class="ml-3 text-xs text-gray-600 bg-gray-200 px-2 py-1">{{ option.value }}</span>
                                 </div>
 
-                                <button class="p-2 text-grey-light focus:outline-none" @click.prevent="edit(index)"><fa-icon icon="pencil"></fa-icon></button>
-                                <button class="p-2 text-grey-light focus:outline-none" @click.prevent="destroy(index)"><fa-icon icon="trash-alt"></fa-icon></button>
+                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="edit(index)"><fa-icon icon="pencil"></fa-icon></button>
+                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="destroy(index)"><fa-icon icon="trash-alt"></fa-icon></button>
                             </div>
 
                         </div>

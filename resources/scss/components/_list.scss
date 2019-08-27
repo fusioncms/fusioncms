@@ -1,12 +1,12 @@
 .list {
-    @apply .list-reset .flex .flex-col;
+    @apply .flex .flex-col;
 
     &--item {
-        @apply .px-2 .text-grey-darker .rounded .bg-white;
+        @apply .px-2 .text-gray-700 .rounded .bg-white;
     }
 
     &--item:hover {
-        @apply .bg-grey-lightest .text-grey-darkest;
+        @apply .bg-gray-100 .text-gray-800;
     }
 
     &--item:focus {
@@ -14,7 +14,7 @@
     }
 
     &--separator {
-        @apply .uppercase .px-2 .pt-6 .text-grey .text-xs .font-bold;
+        @apply .uppercase .px-2 .pt-6 .text-gray-500 .text-xs .font-bold;
     }
 
     > .router-link-active {

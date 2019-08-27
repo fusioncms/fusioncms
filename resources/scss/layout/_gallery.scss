@@ -21,14 +21,14 @@
     }
 
     &-item {
-        @apply w-full rounded-lg overflow-hidden border-4 border-grey-lighter p-2 bg-white;
+        @apply w-full rounded-lg overflow-hidden border-4 border-gray-200 p-2 bg-white;
 
         &--small {
             @apply p-1;
         }
         
         &--selected {
-            @apply border-secondary bg-secondary-lighter;
+            @apply border-secondary-500 bg-secondary-200;
         }
 
         &:hover {

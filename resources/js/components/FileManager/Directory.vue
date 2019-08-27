@@ -8,7 +8,7 @@
             <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ name }}</span>
             <input type="text" class="form__control form__control--sm text-center" :value="name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
 
-            <div class="flex flex-col text-center text-xs text-grey-dark mt-2 font-mono">
+            <div class="flex flex-col text-center text-xs text-gray-600 mt-2 font-mono">
                 <span v-html="subtitle"></span>
             </div>
         </div>

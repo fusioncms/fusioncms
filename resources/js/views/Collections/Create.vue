@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col form-content">
+                                <div class="col mb-6 form-content">
                                     <div class="row">
                                         <div class="col w-1/2">
                                             <p-input name="name" label="Name" v-model="form.name"></p-input>

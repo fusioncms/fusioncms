@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col w-full">
+            <div class="col mb-6 w-full">
                 <h3>Fields</h3>
                 <p v-if="fields.length == 0">Add a field to get started.</p>
             </div>
@@ -9,12 +9,12 @@
 
         <div class="row" v-if="fields.length > 0">
             <p-sortable-list v-model="fields" class="sortable-list">
-                <div class="col w-full">
+                <div class="col mb-6 w-full">
                     <p-sortable-item v-for="(field, index) in fields" :key="field.handle" class="mb-3 w-full">
                         <div class="section__field">
                             <div>
                                 <p-sortable-handle class="cursor-move inline-block">
-                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-grey-light mr-3"></fa-icon>
+                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
                                 </p-sortable-handle>
 
                                 <fa-icon :icon="['far', field.type.icon]" class="fa-fw mr-3"></fa-icon>
@@ -48,7 +48,7 @@
         <p-modal name="add-field" title="Add Field" extra-large>
             <div class="row">
                 <div class="col w-1/4" v-for="fieldtype in fieldtypes" :key="fieldtype.handle">
-                    <p-button class="w-full items-center justify-start" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field><fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-grey-dark"></fa-icon> {{ fieldtype.name }}</p-button>
+                    <p-button class="w-full items-center justify-start" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field><fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}</p-button>
                 </div>
             </div>
 

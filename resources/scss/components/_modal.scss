@@ -10,26 +10,26 @@
     }
 
     &--overlay {
-        @apply .fixed .pin .overflow-auto .bg-smoke-light .flex .py-20 .px-6;
+        @apply .fixed .inset-0 .overflow-auto .bg-smoke-400 .flex .py-20 .px-6;
     }
 
-    &--dark {
+    &--600 {
         @apply .bg-black;
 
         p, li {
-            @apply .text-grey;
+            @apply .text-gray-500;
         }
 
         .modal__header--title, h1, h2, h3, h4, h5, h6 {
-            @apply .text-grey-light;
+            @apply .text-gray-400;
         }
 
         .modal__header {
-            @apply .border-grey-darkest;
+            @apply .border-gray-800;
         }
 
         .modal__footer {
-            @apply .border-grey-darkest;
+            @apply .border-gray-800;
         }
     }
 
@@ -42,14 +42,14 @@
     }
 
     &__header {
-        @apply .flex .justify-between .items-center .p-6 .border-b .border-grey-lighter;
+        @apply .flex .justify-between .items-center .p-6 .border-b .border-gray-200;
 
         &--title {
             @apply .text-xl .font-bold;
         }
 
         &--close-button {
-            @apply .text-3xl .font-bold .text-grey-darkest;
+            @apply .text-3xl .font-bold .text-gray-800;
 
             &:hover {
                 @apply .text-black;
@@ -58,6 +58,6 @@
     }
 
     &__footer {
-        @apply .flex .flex-row-reverse .items-center .p-6 .border-t .border-grey-lighter;
+        @apply .flex .flex-row-reverse .items-center .p-6 .border-t .border-gray-200;
     }
 }

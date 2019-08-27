@@ -13,7 +13,7 @@
         <div class="flex -mx-4" v-if="categoryGroups.data && categoryGroups.data.length">
             <div class="w-full sm:w-1/4 md:w-1/5 px-4">
                 <div class="bg-white shadow rounded overflow-hidden">
-                    <router-link :to="`/category-groups/${categoryGroup.id}/categories`" :class="`block py-2 px-4 ${$route.params.category_group_id === (categoryGroup.id + '') ? 'text-white bg-black hover:bg-grey-darkest hover:text-white' : 'text-black hover:text-black hover:bg-grey-lighter'}`"
+                    <router-link :to="`/category-groups/${categoryGroup.id}/categories`" :class="`block py-2 px-4 ${$route.params.category_group_id === (categoryGroup.id + '') ? 'text-white bg-black hover:bg-gray-900 hover:text-white' : 'text-black hover:text-black hover:bg-gray-200'}`"
                                  v-for="categoryGroup in categoryGroups.data"
                                  :key="categoryGroup.id">
                         {{ categoryGroup.name }}

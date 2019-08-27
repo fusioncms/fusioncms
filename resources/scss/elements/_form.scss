@@ -1,6 +1,6 @@
 input, select, textarea {
     &.form__control {
-        @apply .appearance-none .block .w-full .bg-white .text-grey-darker .border .border-grey-light .rounded .px-3 .py-1 .leading-loose;
+        @apply .appearance-none .block .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded .px-3 .py-1 .leading-loose;
 
         &--sm {
             @apply py-1 px-1 leading-tight text-xs;
@@ -11,7 +11,7 @@ input, select, textarea {
         }
 
         &.form__error {
-            @apply .border-danger-lighter .border-2;
+            @apply .border-danger-200 .border-2;
         }
 
         &.font-mono {
@@ -21,7 +21,7 @@ input, select, textarea {
         }
 
         &:read-only, &:disabled {
-            @apply .bg-grey-lighter;
+            @apply .bg-gray-200;
 
             &:focus {
                 @apply .shadow-none;
@@ -38,7 +38,7 @@ select {
 
 .form__select {
     &-button.form__error {
-        @apply .border-danger-lighter .border-2;
+        @apply .border-danger-200 .border-2;
     }
 }
 
@@ -73,12 +73,12 @@ select {
         }
 
         &:after {
-            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-grey-light .bg-white .shadow;
+            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-gray-400 .bg-white .shadow;
             content: '';
        }
 
         &:checked::after {
-            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-grey-darkest .bg-black .shadow;
+            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-gray-800 .bg-black .shadow;
             content: '';
        }
     }
@@ -91,22 +91,22 @@ select {
 }
 
 .form__label {
-    @apply .block .uppercase .tracking-wide .text-grey-darker .text-xs .font-bold .mb-2;
+    @apply .block .uppercase .tracking-wide .text-gray-700 .text-xs .font-bold .mb-2;
 }
 
 .form__control--meta {
-    @apply .text-sm .mb-3 .mt-1 .flex .justify-between;
+    @apply .text-sm .mt-1 .flex .justify-between;
 
     span {
         @apply .block;
     }
 
     .form__error--message {
-        @apply .text-danger;
+        @apply .text-danger-500;
     }
 
     > .form__help {
-        @apply .text-grey-darker .italic;
+        @apply .text-gray-700 .italic;
     }
 
     > .form__password {
@@ -138,7 +138,7 @@ select {
     @apply .flex .-mr-px;
 
     > .button {
-        @apply .flex .items-center .rounded .rounded-l-none .whitespace-no-wrap .shadow-none .bg-white .text-grey-darker;
+        @apply .flex .items-center .rounded .rounded-l-none .whitespace-no-wrap .shadow-none .bg-white .text-gray-700;
 
         &:focus {
             @apply .outline-none .shadow;

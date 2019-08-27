@@ -1,5 +1,5 @@
 .navbar {
-    @apply .flex .items-center .list-reset .w-full .justify-center;
+    @apply .flex .items-center .w-full .justify-center;
 
     &__icon {
         @apply .mr-1;
@@ -22,7 +22,7 @@
     }
 
     &__link {
-        @apply .text-grey-light .no-underline .text-xs .mr-6;
+        @apply .text-gray-400 .no-underline .text-xs .mr-6;
 
         &:hover {
             @apply .text-white;

@@ -1,7 +1,7 @@
 <template>
     <div class="tabs">
         <ul class="tab__list">
-            <li v-for="(section, index) in sections" :key="index" class="tab flex-1 border-r border-grey-lighter" :class="{ 'tab--active': index == active }">
+            <li v-for="(section, index) in sections" :key="index" class="tab flex-1 border-r border-gray-200" :class="{ 'tab--active': index == active }">
                 <a href="#" class="tab__link flex justify-between items-center" @click.prevent="select(index, true)">
                     <span>{{ section.name }} <span class="text-xs">({{ section.placement }}, {{ fieldCount(section.fields.length) }})</span></span>
                     <span @click.prevent="remove(index)" v-if="sections.length > 1" class="flex items-center justify-center w-6 h-6 rounded hover:bg-black hover:text-white"><fa-icon icon="times" class="fa-xs"></fa-icon></span>
@@ -15,19 +15,19 @@
 
         <div class="tab__panel" v-for="(section, index) in sections" :key="index" v-show="isSelected(index)">
             <div class="row">
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="label" label="Section Label" v-model="section.name"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="handle" label="Section Handle" monospaced v-model="section.handle"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-input name="description" label="Section Description" v-model="section.description"></p-input>
                 </div>
 
-                <div class="col w-full lg:w-1/2">
+                <div class="col mb-6 w-full lg:w-1/2">
                     <p-select name="placement" label="Section Placement" v-model="section.placement" :options="[
                         {
                             'label': 'Body',
@@ -42,7 +42,7 @@
             </div>
 
             <div class="row">
-                <div class="col w-full">
+                <div class="col mt-6 w-full">
                     <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles"></field-builder>
                 </div>
             </div>

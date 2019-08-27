@@ -1,19 +1,19 @@
 .badge {
-    @apply .flex-initial .items-center .justify-center .rounded-full .bg-black .text-grey-lightest .uppercase .px-3 .py-1 .text-xs .font-bold;
+    @apply .flex-initial .items-center .justify-center .rounded-full .bg-black .text-gray-100 .uppercase .px-3 .py-1 .text-xs .font-bold;
 
     &--success {
-        @apply .bg-success-light .text-success-darkest;
+        @apply .bg-success-400 .text-success-900;
     }
 
     &--danger {
-        @apply .bg-danger-light .text-danger-darkest;
+        @apply .bg-danger-400 .text-danger-900;
     }
 
     &--info {
-        @apply .bg-info-light .text-info-darkest;
+        @apply .bg-info-400 .text-info-900;
     }
 
     &--warning {
-        @apply .bg-warning-light .text-warning-darkest;
+        @apply .bg-warning-400 .text-warning-900;
     }
 }

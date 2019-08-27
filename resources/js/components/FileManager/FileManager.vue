@@ -59,7 +59,7 @@
 
             <div class="content-container">
                 <div class="card">
-                    <div class="border-b border-grey-lighter px-8 py-2 text-grey-darker flex items-center">
+                    <div class="border-b border-gray-200 px-8 py-2 text-gray-800 flex items-center">
                         <span class="mr-2">
                             <fa-icon :icon="['fas', 'server']" class="fa-fw"></fa-icon> Local
                         </span>

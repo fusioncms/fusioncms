@@ -1,7 +1,7 @@
 <template>
     <p-modal v-model="open" class="directory-edit" name="directory-edit" title="Edit Directory" no-footer>
         <form @submit.prevent="updateDirectory" v-if="directory">
-            <div class="p-4 bg-grey-darker text-center mb-4">
+            <div class="p-4 bg-gray-800 text-center mb-4">
                 <div class="py-8">
                     <fa-icon icon="folder" size="6x"></fa-icon>
                 </div>

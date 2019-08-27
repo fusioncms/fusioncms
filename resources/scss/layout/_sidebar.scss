@@ -1,5 +1,5 @@
 .sidebar {
-    @apply .hidden .fixed .bg-white .text-grey .h-full;
+    @apply .hidden .fixed .bg-white .text-gray-500 .h-full;
 
     background-position: right -100px bottom -75px;
     background-image: url('/img/logo-light.svg');
@@ -12,22 +12,24 @@
 
     &--opened {
         @screen lg {
-            @apply .w-250px;
+            width: 250px !important;
         }
     }
 
     &--closed {
         @screen lg {
-            @apply .w-90px;
+            width: 90px !important;
         }
     }
 
     .router-link-active {
-        @apply text-grey-lightest bg-black;
+        @apply text-gray-100 bg-black;
     }
 
     &__logo {
-        @apply h-100px flex-no-shrink flex items-center justify-center uppercase;
+        @apply flex-shrink-0 flex items-center justify-center uppercase;
+
+        height: 100px;
 
         &.router-link-active {
             @apply bg-white border-none;
@@ -38,7 +40,7 @@
         }
 
         h1 {
-            @apply .leading-none .m-0 .p-0 .text-grey-darkest .text-2xl;
+            @apply .leading-none .m-0 .p-0 .text-gray-800 .text-2xl;
         }
     }
 
@@ -50,20 +52,22 @@
         @apply .flex .flex-col .overflow-y-auto .h-full;
     }
 
-    &__menu {
-        @apply .list-reset;
-    }
+    // &__menu {
+    //     // 
+    // }
 
     &__menu-link {
-        @apply .flex .flex-1 .no-underline .text-grey-darkest .justify-between .text-sm .font-semibold;
+        @apply .flex .flex-1 .no-underline .text-gray-800 .justify-between .text-sm .font-semibold;
 
         &:hover {
-            @apply .text-grey-lightest bg-black .cursor-pointer;
+            @apply .text-gray-100 bg-black .cursor-pointer;
         }
     }
 
     &__menu-icon {
-        @apply .w-75px .py-3 .flex .items-center .justify-center;
+        @apply .py-3 .flex .items-center .justify-center;
+
+        width: 75px;
     }
 
     &__menu-text {
@@ -75,8 +79,6 @@
     }
 
     &__menu-link-children {
-        @apply .list-reset;
-
         > li {
             a {
                 padding-left: 75px;

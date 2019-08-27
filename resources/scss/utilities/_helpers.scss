@@ -10,7 +10,7 @@ $show_media_queries: false;
   font-family: monospace;
   font-size: 1.125em;
 
-  @apply .rounded-tr .shadow .bg-black .text-secondary .leading-loose;
+  @apply .rounded-tr .shadow .bg-black .text-secondary-500 .leading-loose;
 }
 
 @if $show_media_queries == true {

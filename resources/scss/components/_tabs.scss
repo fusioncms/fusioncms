@@ -6,15 +6,15 @@
     @apply .flex-none;
 
     &__list {
-        @apply .flex .border-b .border-grey-lighter .p-0 .m-0 .list-reset .overflow-x-auto;
+        @apply .flex .border-b .border-gray-200 .p-0 .m-0 .overflow-x-auto;
     }
 
     &__link {
-        @apply .block .px-6 .py-2 .text-grey-dark .font-normal .border-t-4 .border-transparent;
+        @apply .block .px-6 .py-2 .text-gray-600 .font-normal .border-t-4 .border-transparent;
     }
 
     &__link:hover, &--hovering {
-        @apply .bg-grey-lightest .text-grey-darkest;
+        @apply .bg-gray-100 .text-gray-800;
     }
 
     &__link:focus {
@@ -27,7 +27,7 @@
 
     &--active {
         a {
-            @apply .text-black .border-t-4 .border-primary-light;
+            @apply .text-black .border-t-4 .border-primary-400;
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <li>
-        <span v-if="divider" class="block text-xs tracking-wider font-bold uppercase my-3 pl-7 text-grey-darker"><slot></slot></span>
+        <span v-if="divider" class="block text-xs tracking-wider font-bold uppercase my-3 pl-8 text-gray-800"><slot></slot></span>
 
         <router-link
             exact
@@ -40,7 +40,7 @@
                     class="sidebar__menu-link"
                 >
                     <div class="flex items-center">
-                        <fa-icon icon="chevron-double-right" class="fa-xs mr-2 text-grey-dark" style="font-size: .5rem;"></fa-icon>
+                        <fa-icon icon="chevron-double-right" class="fa-xs mr-2 text-gray-600" style="font-size: .5rem;"></fa-icon>
                         <span class="sidebar__menu-text" v-if="isSidebarOpen">{{ child.title }}</span>
                     </div>
                 </router-link>

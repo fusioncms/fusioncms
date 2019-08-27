@@ -1,5 +1,7 @@
 .header {
-    @apply .bg-white .px-6 .h-55px .flex .flex-row-reverse .items-center .justify-between .border-b .border-grey-light .flex-no-shrink .pin-t .fixed .z-10 .w-full;
+    @apply .bg-white .px-6 .flex .flex-row-reverse .items-center .justify-between .border-b .border-gray-400 .flex-shrink-0 .top-0 .fixed .z-10 .w-full;
+
+    height: 55px;
 
   &__account .dropdown__options {
     margin-top: 0;

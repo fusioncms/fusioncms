@@ -16,7 +16,7 @@
                 >
                     <div class="header__account">
                         <p-dropdown right>
-                            <fa-icon icon="circle" class="fa-xs mr-1 text-success"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
+                            <fa-icon icon="circle" class="fa-xs mr-1 text-success-500"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
 
                             <template slot="options">
                                 <!-- <div class="flex justify-center p-6 mb-4">
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Local Environment Warning -->
-            <div class="w-full bg-warning-lightest flex flex-col items-center justify-between text-grey-darkest shadow border-l text-center" v-if="environment == 'local'">
+            <div class="w-full bg-warning-100 flex flex-col items-center justify-between text-gray-900 shadow border-l text-center" v-if="environment == 'local'">
                 <span class="text-sm font-bold py-2 px-6">Your website is currently in the local development environment.</span>
             
                 <div class="w-full" style="height: 4px; background: repeating-linear-gradient(-45deg, #F2D024, #F2D024 12px, #22292F 10px, #22292F 23px);"></div>
@@ -39,13 +39,13 @@
 
             <!-- Content -->
             <main class="page-content">
-                <div class="flex justify-between border-b border-grey-light border-dashed mb-6 pb-2">
+                <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
                     <div class="flex items-end flex-wrap">
                         <h1 class="leading-tight m-0 p-0">                            
                             <portal-target name="title" slim></portal-target>
                         </h1>
 
-                        <span class="text-sm ml-3 text-grey-dark">
+                        <span class="text-sm ml-3 text-gray-600">
                             <portal-target name="subtitle" slim></portal-target>
                         </span>
                     </div>
@@ -61,7 +61,7 @@
             <!-- Footer -->
             <footer class="page-footer">
                 <div>v6.0.0</div>
-                <div>Built with <fa-icon :icon="['fas', 'heart']" class="text-danger"></fa-icon> & <fa-icon :icon="['fas', 'coffee']" class="text-grey-darkest"></fa-icon> by the efelle team</div>
+                <div>Built with <fa-icon :icon="['fas', 'heart']" class="text-primary-500"></fa-icon> & <fa-icon :icon="['fas', 'coffee']" class="text-gray-900"></fa-icon> by the efelle team</div>
                 <div>
                     <a href="#" @click.prevent v-modal:privacy-policy class="mr-3">Privacy Policy</a>
                     <a href="#" @click.prevent v-modal:tos>Terms of Service</a>

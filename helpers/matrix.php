@@ -19,3 +19,9 @@ function matrix_page($matrix)
 {
     return new \App\Services\Builders\Page($matrix);
 }
+
+
+function matrix_entries($matrix)
+{
+    return (new \App\Services\Builders\Collection($matrix))->make();
+}
