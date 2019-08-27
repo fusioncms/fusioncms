@@ -16,7 +16,6 @@
                     <span class="block text-5xl font-bold">{{ totalVisitors }}</span>
                 </div>
                 
-
                 <div>
                     <p-tooltip>
                         <template>
