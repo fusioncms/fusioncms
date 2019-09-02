@@ -46,7 +46,8 @@
         "phpunit/phpunit": "^8.0",
         "symfony/css-selector": "^4.3",
         "symfony/dom-crawler": "^4.3",
-        "laravel/telescope": "^2.0"
+        "laravel/telescope": "^2.0",
+        "facade/ignition": "^1.0"
     },
     "autoload": {
         "classmap": [

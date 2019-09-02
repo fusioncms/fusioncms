@@ -3,5 +3,14 @@
     "slug": "hello",
     "description": "Say hello to your new CMS.",
     "author": "efelle creative",
-    "version": "1.0.0"
+    "version": "1.0.0",
+
+    "settings": {
+        "foo": {
+            "fieldtype": "string",
+            "default": "bar",
+            "description": "This is an example of a theme setting.",
+            "required": false
+        }
+    }
 }

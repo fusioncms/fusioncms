@@ -1,28 +1,28 @@
 <template>
-        <aside
-            class="sidebar"
-            :class="{
-                'sidebar--opened': this.isOpen,
-                'sidebar--closed': !this.isOpen
-            }"
-        >
-            <router-link to="/" class="sidebar__logo">
-                <img src="/img/logo.svg" alt="logo">
-                
-                <h1 v-if="this.isOpen">Fusion</h1>
-                <h1 v-else>FU</h1>
-            </router-link>
+    <aside
+        class="sidebar"
+        :class="{
+            'sidebar--opened': this.isOpen,
+            'sidebar--closed': !this.isOpen
+        }"
+    >
+        <router-link to="/" class="sidebar__logo">
+            <img src="/img/logo.svg" alt="logo">
+            
+            <h1 v-if="this.isOpen">Fusion</h1>
+            <h1 v-else>FU</h1>
+        </router-link>
 
-            <div class="sidebar__container">
-                <nav class="sidebar__nav">
-                    <ul class="sidebar__menu">
-                        <sidebar-item v-for="(item, id) in navigation" :key="id" :to="item.to" :icon="item.icon" :children="item.children" :divider="item.divider || false">
-                            {{ item.title }}
-                        </sidebar-item>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+        <div class="sidebar__container">
+            <nav class="sidebar__nav">
+                <ul class="sidebar__menu">
+                    <sidebar-item v-for="(item, id) in navigation" :key="id" :to="item.to" :icon="item.icon" :children="item.children" :divider="item.divider || false">
+                        {{ item.title }}
+                    </sidebar-item>
+                </ul>
+            </nav>
+        </div>
+    </aside>
 </template>
 
 <script>
