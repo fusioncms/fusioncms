@@ -256,13 +256,9 @@ const router = new Router({
             }
         },
         {
-            path: '/logs',
-            component: () => import('../views/Logs/Index'),
-            name: 'logs.index',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin'
-            }
+            path: '/telescope',
+            name: 'telescope',
+            beforeEnter() { location.href = '/telescope/exceptions' },
         },
         {
             path: '/category-groups',

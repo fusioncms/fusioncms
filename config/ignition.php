@@ -12,7 +12,7 @@ return [
     | Possible values are 'phpstorm', 'vscode', 'sublime' and 'atom'.
     */
 
-    'editor' => 'phpstorm',
+    'editor' => 'vscode',
 
     /*
     |--------------------------------------------------------------------------

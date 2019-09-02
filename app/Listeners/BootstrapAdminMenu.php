@@ -116,10 +116,13 @@ class BootstrapAdminMenu
                 'icon' => 'cog',
             ]);
 
-            $menu->add('Logs')->data([
-                'to'   => '/logs',
-                'icon' => 'bug'
-            ]);
+            if (app()->isLocal()) {
+                $menu->add('Telescope')->data([
+                    'to' => '/telescope',
+                    'target' => '_blank',
+                    'icon' => 'moon-stars'
+                ]);
+            }            
 
             // $menu->add('Playground')->data([
             //     'to'   => '/playground',
