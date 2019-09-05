@@ -8,29 +8,44 @@
     "license": "MIT",
     "type": "project",
     "repositories": {
-        "local": {
+        "themes": {
             "type": "path",
-            "url": "../../Caffeinated/shinobi",
+            "url": "../../Caffeinated/themes",
+            "options": {
+                "symlink": true
+            }
+        },
+        "menus": {
+            "type": "path",
+            "url": "../../Caffeinated/menus",
+            "options": {
+                "symlink": true
+            }
+        },
+        "modules": {
+            "type": "path",
+            "url": "../../Caffeinated/modules",
             "options": {
                 "symlink": true
             }
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2",
+        "fideloper/proxy": "^4.0",
         "caffeinated/bonsai": "^4.1",
         "caffeinated/flash": "^3.0",
-        "caffeinated/menus": "dev-master",
-        "caffeinated/modules": "^5.1",
+        "caffeinated/menus": "^4.0",
+        "caffeinated/modules": "^6.0",
         "caffeinated/shinobi": "^4.1",
-        "caffeinated/themes": "^6.0",
+        "caffeinated/themes": "^7.0",
         "composer/semver": "^1.5",
         "doctrine/dbal": "^2.9",
-        "laravel/framework": "^5.8",
+        "laravel/framework": "^6.0",
+        "laravel/tinker": "^1.0",
         "laravel/passport": "^7.3",
         "laravel/scout": "^7.1",
         "symfony/yaml": "^4.3",
-        "teamtnt/laravel-scout-tntsearch-driver": "^7.1",
         "wikimedia/composer-merge-plugin": "^1.4",
         "predis/predis": "^1.1",
         "barryvdh/laravel-cors": "^0.11",
@@ -40,14 +55,13 @@
         "league/glide-laravel": "^1.0"
     },
     "require-dev": {
-        "filp/whoops": "^2.4",
+        "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.7",
-        "mockery/mockery": "^1.2",
+        "laravel/telescope": "^2.0",
+        "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^8.0",
         "symfony/css-selector": "^4.3",
-        "symfony/dom-crawler": "^4.3",
-        "laravel/telescope": "^2.0",
-        "facade/ignition": "^1.0"
+        "symfony/dom-crawler": "^4.3"
     },
     "autoload": {
         "classmap": [
@@ -81,19 +95,15 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
         "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "@php artisan package:discover"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan package:discover"
+            "@php artisan key:generate --ansi"
         ]
     },
     "config": {

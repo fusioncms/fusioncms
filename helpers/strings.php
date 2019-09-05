@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use App\Services\Parsers\ParsedownExtra;
 
 function render_markdown($content)
@@ -20,5 +21,5 @@ function render_markdown($content)
 
 function str_handle($string)
 {
-    return str_slug($string, '_');
+    return Str::slug($string, '_');
 }

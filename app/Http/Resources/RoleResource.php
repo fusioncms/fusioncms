@@ -11,6 +11,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RoleResource extends JsonResource
@@ -27,7 +28,7 @@ class RoleResource extends JsonResource
             'id'          => $this->id,
             'name'        => $this->name,
             'slug'        => $this->slug,
-            'handle'      => str_slug($this->slug, '-'),
+            'handle'      => Str::slug($this->slug),
             'description' => $this->description,
             'special'     => $this->special,
             'fields'      => $this->fields,

@@ -12,6 +12,7 @@
 namespace App\Http;
 
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -103,7 +104,7 @@ class Dispatcher
         $routes = Route::getRoutes();
         $route  = $routes->match($request);
 
-        if (starts_with($route->uri(), 'api/')) {
+        if (Str::startsWith($route->uri(), 'api/')) {
             return true;
         }
 

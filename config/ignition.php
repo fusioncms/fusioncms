@@ -23,5 +23,5 @@ return [
     |
     */
 
-    'theme' => 'light',
+    'theme' => 'dark',
 ];
