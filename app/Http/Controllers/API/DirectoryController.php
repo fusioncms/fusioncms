@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Directory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -59,7 +60,7 @@ class DirectoryController extends Controller
 
         $directory = Directory::create([
             'name'      => $request->name,
-            'slug'      => str_slug($request->name),
+            'slug'      => Str::slug($request->name),
             'parent_id' => $request->parent_id,
         ]);
 
@@ -92,7 +93,7 @@ class DirectoryController extends Controller
 
         $data = [
             'name' => $request->name,
-            'slug' => str_slug($request->name),
+            'slug' => Str::slug($request->name),
         ];
 
         if ($request->directory_id) {

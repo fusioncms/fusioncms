@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
+
 if (! function_exists('blade')) {
     /**
      * Compile blade syntax.
@@ -95,7 +97,7 @@ if (! function_exists('theme_mix')) {
 
         $manifest = json_decode(file_get_contents($manifestPath), true);
 
-        if (! starts_with($path, '/')) {
+        if (! Str::startsWith($path, '/')) {
             $path = "/$path";
         }
 

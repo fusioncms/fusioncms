@@ -105,11 +105,11 @@ class FileController extends Controller
         $extension = $upload->extension();
         $uuid      = unique_id();
         $name      = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
-        $slug      = str_slug($uuid.' '.$name);
+        $slug      = Str::slug($uuid.' '.$name);
         $location  = $upload->storeAs('files', "$slug.$extension");
         $filesize  = $upload->getSize();
         $mimetype  = $upload->getClientMimeType();
-        $original  = str_slug($name).'.'.$extension;
+        $original  = Str::slug($name).'.'.$extension;
         $width     = null;
         $height    = null;
         
@@ -151,17 +151,17 @@ class FileController extends Controller
 
         // Rename the file if name has updated
         if ($request->has('name')) {
-            $name        = str_slug($file->uuid.' '.$file->name);
-            $slug        = str_slug($file->name);
+            $name        = Str::slug($file->uuid.' '.$file->name);
+            $slug        = Str::slug($file->name);
             $original    = str_replace($originalName, $file->name, $file->original);
-            $newLocation = str_replace(str_slug($originalName), $slug, $file->location);
+            $newLocation = str_replace(Str::slug($originalName), $slug, $file->location);
 
             if ($oldLocation !== $newLocation) {
                 Storage::disk('public')->move($oldLocation, $newLocation);
             }
 
             $file->update([
-                'slug'     => str_slug($file->name),
+                'slug'     => Str::slug($file->name),
                 'original' => $original,
                 'location' => $newLocation,
             ]);

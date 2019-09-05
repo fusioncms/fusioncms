@@ -57,14 +57,14 @@
         </div>
 
         <p-chart
-             v-if="isValid && isReady"
+            v-if="isValid && isReady"
             name="stats-visitors"
             :labels="dates"
             type="axis-mixed"
             :height="350"
             :colors="['#FF5722', '#4DD0E1', '#000000']"
             :line-options="{
-                dotSize: 6,
+                dotSize: 4,
                 hideLine: 0,
                 hideDots: 0,
                 heatline: 0,
@@ -72,19 +72,19 @@
             }"
             :data-sets="[
                 {
-                    name: 'Unique Visitors',
+                    name: 'Visitors',
                     chartType: 'bar',
                     values: visitors
                 },
                 {
-                    name: 'Total Page Views',
+                    name: 'Views',
                     chartType: 'line',
                     values: pageviews
                 },
                 {
                     name: 'Bounces',
                     chartType: 'line',
-                    values: bounceRates
+                    values: bounceRates,
                 },
             ]"
             :tooltip-options="{
