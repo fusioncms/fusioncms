@@ -52,7 +52,9 @@
         "spatie/laravel-activitylog": "^3.6",
         "spatie/laravel-analytics": "^3.7",
         "league/glide": "^1.5",
-        "league/glide-laravel": "^1.0"
+        "league/glide-laravel": "^1.0",
+        "laravel/vapor-cli": "^1.1",
+        "laravel/vapor-core": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
