@@ -1,7 +1,7 @@
 <h1>FusionCMS</h1>
 
 <p align="center">
-<a href="https://travis-ci.com/efellemedia/fusioncms"><img src="https://img.shields.io/travis/efellemedia/fusioncms/develop.svg?style=flat-square" alt="Build Status"></a>
+<img src="https://app.chipperci.com/projects/d07a29d8-bc76-4be7-8ff4-c77e0ab85dc4/status/master" alt="Build Status">
 <a href="https://discord.gg/bZKyvrc"><img alt="Discord" src="https://img.shields.io/discord/588839859884392487.svg?style=flat-square"></a>
 </p>
 
