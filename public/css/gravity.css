@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700);/*! Pickr 1.4.0 MIT | https://github.com/Simonwep/pickr */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700);/*! Pickr 1.4.1 MIT | https://github.com/Simonwep/pickr */
 
 .pickr{
   position:relative;
@@ -7,7 +7,10 @@
 }
 
 .pickr *{
-  box-sizing:border-box
+  box-sizing:border-box;
+  outline:none;
+  border:none;
+  -webkit-appearance:none
 }
 
 .pickr .pcr-button{
@@ -61,7 +64,8 @@
   cursor:not-allowed
 }
 
-.pcr-app button,.pcr-app input,.pickr button,.pickr input{
+.pcr-app *,.pickr *{
+  box-sizing:border-box;
   outline:none;
   border:none;
   -webkit-appearance:none
@@ -69,6 +73,14 @@
 
 .pcr-app button.pcr-active,.pcr-app button:focus,.pcr-app input.pcr-active,.pcr-app input:focus,.pickr button.pcr-active,.pickr button:focus,.pickr input.pcr-active,.pickr input:focus{
   box-shadow:0 0 0 1px hsla(0,0%,100%,.85),0 0 0 3px currentColor
+}
+
+.pcr-app .pcr-palette,.pcr-app .pcr-slider,.pickr .pcr-palette,.pickr .pcr-slider{
+  transition:box-shadow .3s
+}
+
+.pcr-app .pcr-palette:focus,.pcr-app .pcr-slider:focus,.pickr .pcr-palette:focus,.pickr .pcr-slider:focus{
+  box-shadow:0 0 0 1px hsla(0,0%,100%,.85),0 0 0 3px rgba(0,0,0,.25)
 }
 
 .pcr-app{
