@@ -7,29 +7,6 @@
     ],
     "license": "MIT",
     "type": "project",
-    "repositories": {
-        "themes": {
-            "type": "path",
-            "url": "../../Caffeinated/themes",
-            "options": {
-                "symlink": true
-            }
-        },
-        "menus": {
-            "type": "path",
-            "url": "../../Caffeinated/menus",
-            "options": {
-                "symlink": true
-            }
-        },
-        "modules": {
-            "type": "path",
-            "url": "../../Caffeinated/modules",
-            "options": {
-                "symlink": true
-            }
-        }
-    },
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
