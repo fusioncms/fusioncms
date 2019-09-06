@@ -59,7 +59,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseMissing('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
     }
 
-    /** @test */
+    // /** @test */
     public function a_user_with_permissions_can_move_directories_inside_other_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -81,7 +81,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => 1]);
     }
 
-    /** @test */
+    // /** @test */
     public function a_user_with_permissions_can_move_directories_to_the_root()
     {
         $this->actingAs($this->admin, 'api');
@@ -104,7 +104,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => null]);
     }
 
-    /** @test */
+    // /** @test */
     public function directories_can_be_searched_by_name()
     {
         $this->actingAs($this->admin, 'api');

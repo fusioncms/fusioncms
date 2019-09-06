@@ -87,6 +87,7 @@ abstract class TestCase extends BaseTestCase
             'name'       => 'Ducky Consumer',
             'email'      => 'guest@example.com',
             'password'   => bcrypt('secret'),
+            'email_token' => 'lorem_ipsum',
         ]);
 
         $this->guest = app()->make(\App\Models\User::class);

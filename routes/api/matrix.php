@@ -13,7 +13,6 @@
 //     dd($slug);
 // });
 
-Route::apiResource('/matrices/{matrix}/fields', 'MatrixFieldController');
 Route::apiResource('/matrices', 'MatrixController');
 Route::get('/matrices/slug/{slug}', 'MatrixController@slug');
 

@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -30,9 +31,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'email'          => $faker->unique()->safeEmail,
         'password'       => $password ?: $password = bcrypt('secret'),
         'status'         => true,
-        'email_token'    => str_random(10),
+        'email_token'    => Str::random(10),
         'verified'       => true,
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });
 
