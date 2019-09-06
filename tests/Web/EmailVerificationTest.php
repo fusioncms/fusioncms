@@ -84,7 +84,7 @@ class EmailVerificationTest extends TestCase
 
         // Manually create email verify route for user..
         // Creating for default user..
-        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id]);
+        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]);
 
         $this
             ->get($verifyRoute)
@@ -102,15 +102,13 @@ class EmailVerificationTest extends TestCase
 
         // Manually create email verify route for user..
         // Creating for default user..
-        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id]);
+        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]);
 
-        $this
-            ->actingAs($this->admin)
+        $response = $this->actingAs($this->admin)
             ->get($verifyRoute)
-            ->assertForbidden();
+            ->assertStatus(403);
 
-        $this
-            ->assertFalse($this->user->fresh()->hasVerifiedEmail());
+        $this->assertFalse($this->user->fresh()->hasVerifiedEmail());
     }
 
     /**
@@ -127,9 +125,9 @@ class EmailVerificationTest extends TestCase
 
         // Manually create invalid verification signature..
         // Creating for default user..
-        $invalidSignature = URL::signedRoute('verification.verify', ['id' => $this->user->id]) . '?signature=invalid-signature';
+        $invalidSignature = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email), 'signature' => 'invalid']);
 
-        $this
+        $response = $this
             ->actingAs($this->user)
             ->get($invalidSignature)
             ->assertStatus(403);
@@ -142,9 +140,11 @@ class EmailVerificationTest extends TestCase
      */
     public function a_user_can_verify_themselves()
     {
+        // $this->withExceptionHandling();
+
         // Manually create email verify route for user..
         // Creating for default user..
-        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id]);
+        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]);
 
         $this
             ->actingAs($this->user)
@@ -165,7 +165,7 @@ class EmailVerificationTest extends TestCase
         $this->withExceptionHandling();
 
         $this
-            ->get(route('verification.resend'))
+            ->post(route('verification.resend'))
             ->assertRedirect('/login');
     }
 
@@ -183,7 +183,7 @@ class EmailVerificationTest extends TestCase
 
         $this
             ->actingAs($this->user)
-            ->get(route('verification.resend'))
+            ->post(route('verification.resend'))
             ->assertRedirect('/');
     }
 
@@ -199,7 +199,7 @@ class EmailVerificationTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->from(route('verification.notice'))
-            ->get(route('verification.resend'))
+            ->post(route('verification.resend'))
             ->assertRedirect(route('verification.notice'));
 
         Notification::assertSentTo($this->user, VerifyEmail::class);
