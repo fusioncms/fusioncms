@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Http\UploadedFile;
 
@@ -28,7 +29,7 @@ $factory->define(App\Models\Directory::class, function (Faker $faker) {
     
     return [
         'name'      => $name,
-        'slug'      => str_slug($name),
+        'slug'      => Str::slug($name),
         'parent_id' => null,
     ];
 });

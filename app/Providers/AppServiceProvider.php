@@ -12,6 +12,7 @@
 namespace App\Providers;
 
 use Bonsai;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factory;
@@ -81,7 +82,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Builder::macro('whereLike', function($attributes, string $needle) {
             $this->where(function(Builder $query) use ($attributes, $needle) {
-                foreach (array_wrap($attributes) as $attribute) {
+                foreach (Arr::wrap($attributes) as $attribute) {
                     $query->orWhere($attribute, 'LIKE', "%{$needle}%");
                 }
             });

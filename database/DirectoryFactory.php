@@ -2,6 +2,7 @@
 
 use App\Models\Directory;
 use App\Contracts\Factory;
+use Illuminate\Support\Str;
 
 class DirectoryFactory implements Factory
 {
@@ -21,7 +22,7 @@ class DirectoryFactory implements Factory
 
         if ($this->name) {
             $overrides['name'] = $this->name;
-            $overrides['slug'] = str_slug($this->name);
+            $overrides['slug'] = Str::slug($this->name);
         }
 
         return factory(Directory::class)->create($overrides);

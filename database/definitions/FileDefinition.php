@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Http\UploadedFile;
 
@@ -28,7 +29,7 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
     $filename  = $faker->word();
     $extension = 'png';
     $uuid      = unique_id();
-    $slug      = str_slug($uuid.' '.$filename);
+    $slug      = Str::slug($uuid.' '.$filename);
     $location  = 'files/'.$slug.'.'.$extension;
     $mimetype  = 'image/png';
     

@@ -12,6 +12,7 @@
 namespace App\Services\Builders;
 
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Contracts\Builder as BuilderContract;
 
@@ -47,7 +48,7 @@ class Collection extends Builder implements BuilderContract
      */
     public function make()
     {
-        $className = studly_case($this->matrix->handle);
+        $className = Str::studly($this->matrix->handle);
         $traits    = [];
         $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
 
