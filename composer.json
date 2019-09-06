@@ -14,7 +14,7 @@
         "caffeinated/flash": "^3.0",
         "caffeinated/menus": "^4.0",
         "caffeinated/modules": "^6.0",
-        "caffeinated/shinobi": "^4.1",
+        "caffeinated/shinobi": "^5.0",
         "caffeinated/themes": "^7.0",
         "composer/semver": "^1.5",
         "doctrine/dbal": "^2.9",
