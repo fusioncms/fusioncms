@@ -1,0 +1,26 @@
+.file-manager {
+  &__wrap {
+    /*position: relative;*/
+  }
+  &__dropzone {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: rgba(teal, .8);
+    display: none;
+
+    .vue-dropzone {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      right: 50px;
+      bottom: 50px;
+    }
+  }
+  &__dropzone--visible {
+    display: block;
+  }
+}

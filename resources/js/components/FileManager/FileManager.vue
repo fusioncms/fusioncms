@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <div class="file-manager__wrap" @dragenter="showDZ()">
+        <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']">
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-drag-leave="hideDZ()" @vdropzone-complete="hideDZ()"></vue-dropzone>
+        </div>
+        
         <portal to="actions" v-if="! inline">
 
             <div class="inline-block mr-4" v-show="hasSelection">
@@ -157,13 +161,26 @@
     import { mapGetters, mapActions } from 'vuex'
     import moment from 'moment-timezone'
     import _ from 'lodash'
+    import vue2Dropzone from 'vue2-dropzone'
+    import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
     export default {
         name: 'file-manager',
+
+        components: {
+            vueDropzone: vue2Dropzone
+        },
         
         data() {
             return {
                 filesToUpload: [],
+                dzVisible: false,
+                dropzoneOptions: {
+                  url: '/api/files',
+                  thumbnailWidth: 150,
+                  maxFilesize: 0.5,
+                  headers: { "My-Awesome-Header": "header value" }
+              }
             }
         },
 
@@ -322,7 +339,16 @@
                 }
 
                 return 'bars'
+            },
+
+            showDZ() {
+                console.log('show')
+                this.dzVisible = true
+            },
+            hideDZ() {
+                console.log('hide')
+                this.dzVisible = false
             }
-        },
+        }
     }
 </script>
