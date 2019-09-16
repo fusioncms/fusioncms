@@ -1,7 +1,7 @@
 <template>
     <div class="file-manager__wrap" @dragenter="showDZ()">
         <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']" @click.self="hideDZ()">
-            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-drag-leave="hideDZ()" @vdropzone-complete="hideDZ()"></vue-dropzone>
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-drag-leave="hideDZ" @vdropzone-success="dzUploaded" @vdropzone-queue-complete="dzComplete"></vue-dropzone>
         </div>
         
         <portal to="actions" v-if="! inline">
@@ -180,10 +180,7 @@
                     thumbnailWidth: 150,
                     maxFilesize: 0.5,
                     withCredentials: true,
-                    headers: { 
-                        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-                        'directory_id': this.currentDirectory
-                    }
+                    headers: {}
               }
             }
         },
@@ -219,6 +216,16 @@
                 set(value) {
                     this.$store.commit('filemanager/setSearch', value)
                 }
+            },
+
+            csrf() {
+                let token = document.head.querySelector('meta[name="csrf-token"]')
+                if (token) {
+                    token = token.content
+                } else {
+                    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token')
+                }
+                return token
             }
         },
 
@@ -346,12 +353,25 @@
             },
 
             showDZ() {
+                let dz = this.$refs.myVueDropzone
                 // console.log('show')
                 this.dzVisible = true
+                dz.options.headers['X-CSRF-TOKEN'] = this.csrf
+                dz.options.headers['directory_id'] = this.currentDirectory
             },
             hideDZ() {
                 // console.log('hide')
                 this.dzVisible = false
+            },
+            dzUploaded(response) {
+                console.log('File Uploaded')
+                toast(response.name + ' uploaded', 'success')
+                console.log(response)
+            },
+            dzComplete() {
+                console.log('Queue Complete')
+                this.fetchFilesAndDirectories()
+                this.hideDZ()
             }
         }
     }
