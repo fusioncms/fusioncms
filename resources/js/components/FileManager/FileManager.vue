@@ -1,7 +1,21 @@
 <template>
     <div class="file-manager__wrap" @dragenter="showDZ()">
         <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']" @click.self="hideDZ()">
-            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-drag-leave="hideDZ" @vdropzone-success="dzUploaded" @vdropzone-queue-complete="dzComplete"></vue-dropzone>
+            <vue-dropzone ref="myVueDropzone" id="dropzone" 
+                :options="dropzoneOptions" 
+                @vdropzone-mounted="configureDZ"
+                @vdropzone-drag-leave="hideDZ" 
+                @vdropzone-success="dzUploaded" 
+                @vdropzone-queue-complete="dzComplete"
+                @vdropzone-files-added="startUpload">   
+            </vue-dropzone>
+        </div>
+
+        <div class="file-manager__uploads" :class="[uploadsVisible ? 'file-manager__uploads--visible' : '']">
+            <div>
+                <file-progress v-for="(file, index) in filesToUpload" class="flex" :file="file" :key="'file-' + index" :status="file.status" :progress="file.upload.progress">
+                </file-progress>
+            </div>
         </div>
         
         <portal to="actions" v-if="! inline">
@@ -20,7 +34,7 @@
             </div>
             
             <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" @click="showDZ()">Upload</p-button>
+            <p-button theme="primary" @click="openDZ">Upload</p-button>
         </portal>
 
         <div class="row">
@@ -163,22 +177,25 @@
     import _ from 'lodash'
     import vue2Dropzone from 'vue2-dropzone'
     import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+    import FileProgress from './FileProgress.vue'
 
     export default {
         name: 'file-manager',
 
         components: {
-            vueDropzone: vue2Dropzone
+            vueDropzone: vue2Dropzone,
+            'file-progress': FileProgress 
         },
         
         data() {
             return {
                 filesToUpload: [],
                 dzVisible: false,
+                uploadsVisible: false,
                 dropzoneOptions: {
                     url: '/api/files',
                     thumbnailWidth: 150,
-                    maxFilesize: 0.5,
+                    maxFilesize: 5,
                     withCredentials: true,
                     headers: {}
               }
@@ -352,12 +369,18 @@
                 return 'bars'
             },
 
-            showDZ() {
+            configureDZ() {
                 let dz = this.$refs.myVueDropzone
-                // console.log('show')
-                this.dzVisible = true
                 dz.options.headers['X-CSRF-TOKEN'] = this.csrf
                 dz.options.headers['directory_id'] = this.currentDirectory
+            },
+            openDZ() {
+                let dzInput = document.querySelector('.dz-hidden-input')
+                dzInput.click()
+            },
+            showDZ() {
+                // console.log('show')
+                this.dzVisible = true
             },
             hideDZ() {
                 // console.log('hide')
@@ -366,12 +389,22 @@
             dzUploaded(response) {
                 console.log('File Uploaded')
                 toast(response.name + ' uploaded', 'success')
-                console.log(response)
+                // console.log(response)
             },
             dzComplete() {
                 console.log('Queue Complete')
                 this.fetchFilesAndDirectories()
-                this.hideDZ()
+                // this.hideDZ()
+            },
+            startUpload(files) {
+                let vm = this
+                vm.uploadsVisible = true
+                vm.filesToUpload = vm.filesToUpload.concat(Array.from(files))
+
+                vm.hideDZ()
+                console.log('Files Added')
+                // console.log(files)
+                console.log(vm.filesToUpload)
             }
         }
     }

@@ -1,6 +1,6 @@
 .file-manager {
   &__dropzone {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;
@@ -18,6 +18,23 @@
     }
   }
   &__dropzone--visible {
+    display: block;
+  }
+
+  &__uploads {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    width: 450px;
+    /*height: 300px;*/
+    height: auto;
+    max-height: 450px;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 11;
+    display: none;
+  }
+  &__uploads--visible {
     display: block;
   }
 }
