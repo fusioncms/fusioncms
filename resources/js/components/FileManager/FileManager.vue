@@ -1,6 +1,6 @@
 <template>
     <div class="file-manager__wrap" @dragenter="showDZ()">
-        <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']">
+        <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']" @click.self="hideDZ()">
             <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-drag-leave="hideDZ()" @vdropzone-complete="hideDZ()"></vue-dropzone>
         </div>
         
@@ -20,7 +20,7 @@
             </div>
             
             <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" v-modal:upload>Upload</p-button>
+            <p-button theme="primary" @click="showDZ()">Upload</p-button>
         </portal>
 
         <div class="row">
@@ -342,11 +342,11 @@
             },
 
             showDZ() {
-                console.log('show')
+                // console.log('show')
                 this.dzVisible = true
             },
             hideDZ() {
-                console.log('hide')
+                // console.log('hide')
                 this.dzVisible = false
             }
         }

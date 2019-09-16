@@ -1,7 +1,4 @@
 .file-manager {
-  &__wrap {
-    /*position: relative;*/
-  }
   &__dropzone {
     position: absolute;
     top: 0;
@@ -9,7 +6,7 @@
     left: 0;
     bottom: 0;
     z-index: 10;
-    background-color: rgba(teal, .8);
+    background-color: rgba(black, .6);
     display: none;
 
     .vue-dropzone {
