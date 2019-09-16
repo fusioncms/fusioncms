@@ -176,10 +176,14 @@
                 filesToUpload: [],
                 dzVisible: false,
                 dropzoneOptions: {
-                  url: '/api/files',
-                  thumbnailWidth: 150,
-                  maxFilesize: 0.5,
-                  headers: { "My-Awesome-Header": "header value" }
+                    url: '/api/files',
+                    thumbnailWidth: 150,
+                    maxFilesize: 0.5,
+                    withCredentials: true,
+                    headers: { 
+                        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                        'directory_id': this.currentDirectory
+                    }
               }
             }
         },
