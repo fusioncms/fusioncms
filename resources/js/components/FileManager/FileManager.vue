@@ -9,48 +9,20 @@
                     <h3>Drag files here to upload</h3>
                 </div>
             </div>
-            <vue-dropzone ref="myVueDropzone" id="dropzone" 
+            <vue-dropzone ref="dropzone_element" id="dropzone" 
                 :options="dropzoneOptions" 
                 @vdropzone-mounted="configureDZ"
                 @vdropzone-drag-leave="hideDZ" 
                 @vdropzone-success="dzUploaded" 
                 @vdropzone-queue-complete="dzComplete"
-                @vdropzone-file-added="addFile"
+                @vdropzone-file-added="addFileUpload"
                 @vdropzone-files-added="startUpload"
                 @vdropzone-total-upload-progress="updateProgress"
                 @vdropzone-error="showError">
             </vue-dropzone>
         </div>
 
-        <div class="file-manager__uploads card" :class="[uploadsVisible ? 'file-manager__uploads--visible' : '']">
-            <div class="card__header flex items-center bg-black px-2 py-2">
-                <div class="form__label text-white mb-0">
-                    <span v-if="uploadProgress != 100">
-                        Uploading: {{uploadProgress.toFixed(0)}}%
-                    </span>
-                    <span v-else>
-                        Uploads
-                    </span>
-                </div>
-                <a href="#" @click.prevent="minimizeUploads" class="ml-auto mr-5">
-                    <fa-icon icon="expand" class="text-white" v-if="uploadsMinimized">
-                        <span class="sr-only">Expand</span>
-                    </fa-icon>
-                    <fa-icon icon="minus" class="text-white" v-else>
-                        <span class="sr-only">Minimize</span>
-                    </fa-icon>
-                </a>
-                <a href="#" @click.prevent="hideUploads">
-                    <fa-icon icon="times" class="text-white">
-                        <span class="sr-only">Close</span>
-                    </fa-icon>
-                </a>
-            </div>
-            <div class="file-manager__uploads-body card__body px-4 py-2 overflow-y-auto" :class="[uploadsMinimized ? 'hidden' : '']">
-                <file-progress v-for="(file, index) in fileUploads" :file="file" :key="'file-' + index" :status="file.status" v-if="file.upload">
-                </file-progress>
-            </div>
-        </div>
+        <file-uploader></file-uploader>
         
         <portal to="actions" v-if="! inline">
 
@@ -194,10 +166,6 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="upload" title="Upload Files" no-footer large>
-                <p-upload name="files" multiple v-model="fileUploads" @input="upload"></p-upload>
-            </p-modal>
-
             <new-folder-modal></new-folder-modal>
 
             <delete-selected-files-modal></delete-selected-files-modal>
@@ -211,22 +179,19 @@
     import _ from 'lodash'
     import vue2Dropzone from 'vue2-dropzone'
     import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-    import FileProgress from './FileProgress.vue'
+    import FileUploader from './FileUploader.vue'
 
     export default {
         name: 'file-manager',
 
         components: {
             vueDropzone: vue2Dropzone,
-            'file-progress': FileProgress 
+            'file-uploader': FileUploader
         },
         
         data() {
             return {
-                fileUploads: [],
                 dzVisible: false,
-                uploadsVisible: false,
-                uploadsMinimized: false,
                 dropzoneOptions: {
                     url: '/api/files',
                     thumbnailWidth: 150,
@@ -258,7 +223,7 @@
                 files: 'filemanager/getFiles',
                 sort: 'filemanager/getSort',
                 view: 'filemanager/getView',
-                uploadProgress: 'filemanager/getUploadProgress'
+                fileUploads: 'filemanager/getFileUploads'
             }),
 
             search: {
@@ -317,7 +282,11 @@
                 setFiles: 'filemanager/setFiles',
                 addFile: 'filemanager/addFile',
                 setSort: 'filemanager/setSort',
-                setUploadProgress: 'filemanager/setUploadProgress'
+                setUploadProgress: 'filemanager/setUploadProgress',
+                setUploadsMinimized: 'filemanager/setUploadsMinimized',
+                setUploadsVisible: 'filemanager/setUploadsVisible',
+                setFileUploads: 'filemanager/setFileUploads',
+                addFileUpload: 'filemanager/addFileUpload'
             }),
 
             isFilteringBy(what) {
@@ -326,28 +295,6 @@
 
             isSortingBy(what) {
                 return what === this.sort
-            },
-
-            upload() {
-                let vm = this
-
-                _.each(this.fileUploads, function(file, index) {
-                    let formData = new FormData()
-                    formData.append('file', file)
-                    formData.append('directory_id', vm.currentDirectory)
-
-                    axios.post('/api/files', formData, {
-                        before: (xhr) => {
-                            file.xhr = xhr
-                        },
-                    }).then((response) => {
-                        vm.fetchFilesAndDirectories()
-
-                        vm.fileUploads.splice(index, 1)
-
-                        toast(response.data.data.name + ' uploaded', 'success')
-                    })
-                })
             },
 
             clearSelection() {
@@ -407,7 +354,7 @@
             },
 
             configureDZ() {
-                let dz = this.$refs.myVueDropzone
+                let dz = this.$refs.dropzone_element
                 dz.options.headers['X-CSRF-TOKEN'] = this.csrf
                 dz.options.headers['directory_id'] = this.currentDirectory
             },
@@ -429,26 +376,17 @@
                 this.setUploadProgress(100)
             },
             startUpload(files) {
-                console.log('startUpload')
                 let vm = this
                 vm.configureDZ()
                 vm.showUploads()
-                // vm.fileUploads = vm.fileUploads.concat(Array.from(files))
                 vm.hideDZ()
             },
-            addFile(file) {
-                console.log('addFile')
-                this.fileUploads = this.fileUploads.concat(file)
-            },
-            minimizeUploads() {
-                this.uploadsMinimized = !this.uploadsMinimized
-            },
             showUploads() {
-                this.uploadsVisible = true
-                this.uploadsMinimized = false
+                this.setUploadsVisible(true)
+                this.setUploadsMinimized(false)
             },
             hideUploads() {
-                this.uploadsVisible = false
+                this.setUploadsVisible(false)
             },
             updateProgress() {
                 let uploaded = _.filter(this.fileUploads, function(file){

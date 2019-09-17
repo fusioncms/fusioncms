@@ -20,7 +20,10 @@ export default {
         view: 'grid',
         currentPage: 1,
         totalPages: 1,
-        uploadProgress: 0
+        uploadProgress: 0,
+        uploadsVisible: false,
+        uploadsMinimized: false,
+        fileUploads: []
     },
 
     getters: {
@@ -86,6 +89,18 @@ export default {
 
         getUploadProgress(state) {
             return state.uploadProgress
+        },
+
+        getUploadsVisible(state) {
+            return state.uploadsVisible
+        },
+
+        getUploadsMinimized(state) {
+            return state.uploadsMinimized
+        },
+
+        getFileUploads(state) {
+            return state.fileUploads
         }
     },
 
@@ -174,6 +189,22 @@ export default {
 
         setUploadProgress(state, progress) {
             state.uploadProgress = progress
+        },
+
+        setUploadsMinimized(state, value) {
+            state.uploadsMinimized = value
+        },
+
+        setUploadsVisible(state, value) {
+            state.uploadsVisible = value
+        },
+
+        setFileUploads(state, files) {
+            state.fileUploads  = files
+        },
+
+        addFileUpload(state, file) {
+            state.fileUploads.push(file)
         }
     },
 
@@ -302,6 +333,22 @@ export default {
 
         setUploadProgress(context, progress) {
             context.commit('setUploadProgress', progress)
+        },
+
+        setUploadsVisible(context, value) {
+            context.commit('setUploadsVisible', value)
+        },
+
+        setUploadsMinimized(context, value) {
+            context.commit('setUploadsMinimized', value)
+        },
+
+        setFileUploads(context, files) {
+            context.commit('fileUploads', files)
+        },
+
+        addFileUpload(context, file) {
+            context.commit('addFileUpload', file)
         },
 
         toggleView(context) {
