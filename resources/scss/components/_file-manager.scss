@@ -29,7 +29,6 @@
     /*height: 300px;*/
     height: auto;
     max-height: 450px;
-    overflow-y: scroll;
     background-color: white;
     z-index: 11;
     display: none;
@@ -37,4 +36,8 @@
   &__uploads--visible {
     display: block;
   }
+}
+
+.file-progress {
+  
 }

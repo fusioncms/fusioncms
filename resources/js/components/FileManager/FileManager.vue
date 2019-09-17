@@ -11,9 +11,22 @@
             </vue-dropzone>
         </div>
 
-        <div class="file-manager__uploads" :class="[uploadsVisible ? 'file-manager__uploads--visible' : '']">
-            <div>
-                <file-progress v-for="(file, index) in filesToUpload" class="flex" :file="file" :key="'file-' + index" :status="file.status" :progress="file.upload.progress">
+        <div class="file-manager__uploads card" :class="[uploadsVisible ? 'file-manager__uploads--visible' : '']">
+            <div class="card__header flex items-center bg-black px-4 py-2">
+                <div class="form__label text-white mb-0">Uploads</div>
+                <a href="#" @click.prevent="minimizeUploads" class="ml-auto mr-5">
+                    <fa-icon icon="minus" class="text-white">
+                        <span class="sr-only">Minimize</span>
+                    </fa-icon>
+                </a>
+                <a href="#" @click.prevent="hideUploads">
+                    <fa-icon icon="times" class="text-white">
+                        <span class="sr-only">Close</span>
+                    </fa-icon>
+                </a>
+            </div>
+            <div class="card__body px-4 py-2" :class="[uploadsMinimized ? 'hidden' : '']">
+                <file-progress v-for="(file, index) in filesToUpload" :file="file" :key="'file-' + index" :status="file.status" :progress="file.upload.progress">
                 </file-progress>
             </div>
         </div>
@@ -192,6 +205,7 @@
                 filesToUpload: [],
                 dzVisible: false,
                 uploadsVisible: false,
+                uploadsMinimized: false,
                 dropzoneOptions: {
                     url: '/api/files',
                     thumbnailWidth: 150,
@@ -398,13 +412,23 @@
             },
             startUpload(files) {
                 let vm = this
-                vm.uploadsVisible = true
+                vm.showUploads()
                 vm.filesToUpload = vm.filesToUpload.concat(Array.from(files))
 
                 vm.hideDZ()
                 console.log('Files Added')
                 // console.log(files)
                 console.log(vm.filesToUpload)
+            },
+            minimizeUploads() {
+                this.uploadsMinimized = !this.uploadsMinimized
+            },
+            showUploads() {
+                this.uploadsVisible = true
+                this.uploadsMinimized = false
+            },
+            hideUploads() {
+                this.uploadsVisible = false
             }
         }
     }

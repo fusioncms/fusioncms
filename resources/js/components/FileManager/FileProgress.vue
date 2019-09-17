@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="file-progress flex items-center text-sm">
     <div class="pr-1">
       <p-img
           :src="'/img/' + type + '-large.svg'"
