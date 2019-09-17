@@ -26,12 +26,13 @@
     bottom: 30px;
     right: 20px;
     width: 450px;
-    /*height: 300px;*/
-    height: auto;
-    max-height: 450px;
     background-color: white;
     z-index: 11;
     display: none;
+  }
+  &__uploads-body {
+    height: auto;
+    max-height: 450px;
   }
   &__uploads--visible {
     display: block;
@@ -39,5 +40,13 @@
 }
 
 .file-progress {
-  
+  &__icon {
+    flex: 0 1 25px;
+  }
+  &__bar {
+    flex: 0 1 60px;
+  }
+  &__status {
+    flex: 0 1 15px;
+  }
 }
