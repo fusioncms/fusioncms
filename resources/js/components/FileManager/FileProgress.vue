@@ -10,9 +10,9 @@
       </p-img>
     </div>
     <div class="file-progress__name pl-2 pr-3 truncate flex-1">{{file.name}}</div>
-    <div class="file-progress__bar ml-auto" v-if="progress != 100 && status != 'error'">
+    <div class="file-progress__bar ml-auto" v-if="file.upload.progress != 100 && status != 'error'">
       <div class="shadow w-full bg-grey-light">
-        <div class="bg-success-400 text-xs leading-none py-1" :style="'width: ' + progress + '%'">
+        <div class="bg-success-400 text-xs leading-none py-1" :style="'width: ' + file.upload.progress + '%'">
         </div>
       </div>
     </div>
@@ -47,9 +47,6 @@
       },
       status: {
         type: String
-      },
-      progress: {
-        type: Number
       }
     },
 

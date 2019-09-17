@@ -12,10 +12,10 @@
             <vue-dropzone ref="myVueDropzone" id="dropzone" 
                 :options="dropzoneOptions" 
                 @vdropzone-mounted="configureDZ"
-                @vdropzone-file-added="configureDZ"
                 @vdropzone-drag-leave="hideDZ" 
                 @vdropzone-success="dzUploaded" 
                 @vdropzone-queue-complete="dzComplete"
+                @vdropzone-file-added="addFile"
                 @vdropzone-files-added="startUpload"
                 @vdropzone-total-upload-progress="updateProgress"
                 @vdropzone-error="showError">
@@ -47,7 +47,7 @@
                 </a>
             </div>
             <div class="file-manager__uploads-body card__body px-4 py-2 overflow-y-auto" :class="[uploadsMinimized ? 'hidden' : '']">
-                <file-progress v-for="(file, index) in filesToUpload" :file="file" :key="'file-' + index" :status="file.status" :progress="file.upload.progress">
+                <file-progress v-for="(file, index) in fileUploads" :file="file" :key="'file-' + index" :status="file.status" v-if="file.upload">
                 </file-progress>
             </div>
         </div>
@@ -195,7 +195,7 @@
 
         <portal to="modals">
             <p-modal name="upload" title="Upload Files" no-footer large>
-                <p-upload name="files" multiple v-model="filesToUpload" @input="upload"></p-upload>
+                <p-upload name="files" multiple v-model="fileUploads" @input="upload"></p-upload>
             </p-modal>
 
             <new-folder-modal></new-folder-modal>
@@ -223,7 +223,7 @@
         
         data() {
             return {
-                filesToUpload: [],
+                fileUploads: [],
                 dzVisible: false,
                 uploadsVisible: false,
                 uploadsMinimized: false,
@@ -331,7 +331,7 @@
             upload() {
                 let vm = this
 
-                _.each(this.filesToUpload, function(file, index) {
+                _.each(this.fileUploads, function(file, index) {
                     let formData = new FormData()
                     formData.append('file', file)
                     formData.append('directory_id', vm.currentDirectory)
@@ -343,7 +343,7 @@
                     }).then((response) => {
                         vm.fetchFilesAndDirectories()
 
-                        vm.filesToUpload.splice(index, 1)
+                        vm.fileUploads.splice(index, 1)
 
                         toast(response.data.data.name + ' uploaded', 'success')
                     })
@@ -427,13 +427,18 @@
             dzComplete() {
                 this.fetchFilesAndDirectories()
                 this.setUploadProgress(100)
-                // this.hideDZ()
             },
             startUpload(files) {
+                console.log('startUpload')
                 let vm = this
+                vm.configureDZ()
                 vm.showUploads()
-                vm.filesToUpload = vm.filesToUpload.concat(Array.from(files))
+                // vm.fileUploads = vm.fileUploads.concat(Array.from(files))
                 vm.hideDZ()
+            },
+            addFile(file) {
+                console.log('addFile')
+                this.fileUploads = this.fileUploads.concat(file)
             },
             minimizeUploads() {
                 this.uploadsMinimized = !this.uploadsMinimized
@@ -446,10 +451,10 @@
                 this.uploadsVisible = false
             },
             updateProgress() {
-                let uploaded = _.filter(this.filesToUpload, function(file){
+                let uploaded = _.filter(this.fileUploads, function(file){
                     return file.status == 'success' || file.status == 'error'
                 }).length
-                this.setUploadProgress((uploaded / this.filesToUpload.length) * 100)
+                this.setUploadProgress((uploaded / this.fileUploads.length) * 100)
             },
             showError(file, error, xhr) {
                 if(!xhr) {
