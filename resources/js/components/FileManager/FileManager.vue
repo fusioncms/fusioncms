@@ -13,7 +13,14 @@
 
         <div class="file-manager__uploads card" :class="[uploadsVisible ? 'file-manager__uploads--visible' : '']">
             <div class="card__header flex items-center bg-black px-2 py-2">
-                <div class="form__label text-white mb-0">Uploads</div>
+                <div class="form__label text-white mb-0">
+                    <span v-if="uploadProgress != 100">
+                        Uploading: {{uploadProgress.toFixed(0)}}%
+                    </span>
+                    <span v-else>
+                        Uploads
+                    </span>
+                </div>
                 <a href="#" @click.prevent="minimizeUploads" class="ml-auto mr-5">
                     <fa-icon icon="expand" class="text-white" v-if="uploadsMinimized">
                         <span class="sr-only">Expand</span>
@@ -240,6 +247,7 @@
                 files: 'filemanager/getFiles',
                 sort: 'filemanager/getSort',
                 view: 'filemanager/getView',
+                uploadProgress: 'filemanager/getUploadProgress'
             }),
 
             search: {
@@ -298,6 +306,7 @@
                 setFiles: 'filemanager/setFiles',
                 addFile: 'filemanager/addFile',
                 setSort: 'filemanager/setSort',
+                setUploadProgress: 'filemanager/setUploadProgress'
             }),
 
             isFilteringBy(what) {
@@ -406,6 +415,7 @@
             dzUploaded(response) {
                 console.log('File Uploaded')
                 toast(response.name + ' uploaded', 'success')
+                this.updateProgress()
                 // console.log(response)
             },
             dzComplete() {
@@ -432,6 +442,13 @@
             },
             hideUploads() {
                 this.uploadsVisible = false
+            },
+            updateProgress() {
+                let uploaded = _.filter(this.filesToUpload, function(file){
+                    return file.status == 'success'
+                }).length
+                console.log(uploaded / this.filesToUpload.length)
+                this.setUploadProgress((uploaded / this.filesToUpload.length) * 100)
             }
         }
     }

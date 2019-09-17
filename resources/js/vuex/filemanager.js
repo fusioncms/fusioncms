@@ -20,6 +20,7 @@ export default {
         view: 'grid',
         currentPage: 1,
         totalPages: 1,
+        uploadProgress: 0
     },
 
     getters: {
@@ -82,6 +83,10 @@ export default {
         getTotalPages(state) {
             return state.totalPages
         },
+
+        getUploadProgress(state) {
+            return state.uploadProgress
+        }
     },
 
     mutations: {
@@ -166,6 +171,10 @@ export default {
         setTotalPages(state, pages) {
             state.totalPages = pages
         },
+
+        setUploadProgress(state, progress) {
+            state.uploadProgress = progress
+        }
     },
 
     actions: {
@@ -289,6 +298,10 @@ export default {
 
         setTotalPages(context, pages) {
             context.commit('setTotalPages', pages)
+        },
+
+        setUploadProgress(context, progress) {
+            context.commit('setUploadProgress', progress)
         },
 
         toggleView(context) {
