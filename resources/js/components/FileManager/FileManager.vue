@@ -1,13 +1,24 @@
 <template>
     <div class="file-manager__wrap" @dragenter="showDZ()">
         <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']" @click.self="hideDZ()">
+            <div class="file-manager__prompt">
+                <div class="file-manager__prompt-content">
+                    <fa-icon icon="upload">
+                        <span class="sr-only">Upload</span>
+                    </fa-icon>
+                    <h3>Drag files here to upload</h3>
+                </div>
+            </div>
             <vue-dropzone ref="myVueDropzone" id="dropzone" 
                 :options="dropzoneOptions" 
                 @vdropzone-mounted="configureDZ"
+                @vdropzone-file-added="configureDZ"
                 @vdropzone-drag-leave="hideDZ" 
                 @vdropzone-success="dzUploaded" 
                 @vdropzone-queue-complete="dzComplete"
-                @vdropzone-files-added="startUpload">   
+                @vdropzone-files-added="startUpload"
+                @vdropzone-total-upload-progress="updateProgress"
+                @vdropzone-error="showError">
             </vue-dropzone>
         </div>
 
@@ -219,7 +230,7 @@
                 dropzoneOptions: {
                     url: '/api/files',
                     thumbnailWidth: 150,
-                    maxFilesize: 5,
+                    maxFilesize: 1500,
                     withCredentials: true,
                     headers: {}
               }
@@ -405,33 +416,24 @@
                 dzInput.click()
             },
             showDZ() {
-                // console.log('show')
                 this.dzVisible = true
             },
             hideDZ() {
-                // console.log('hide')
                 this.dzVisible = false
             },
             dzUploaded(response) {
-                console.log('File Uploaded')
                 toast(response.name + ' uploaded', 'success')
-                this.updateProgress()
-                // console.log(response)
             },
             dzComplete() {
-                console.log('Queue Complete')
                 this.fetchFilesAndDirectories()
+                this.setUploadProgress(100)
                 // this.hideDZ()
             },
             startUpload(files) {
                 let vm = this
                 vm.showUploads()
                 vm.filesToUpload = vm.filesToUpload.concat(Array.from(files))
-
                 vm.hideDZ()
-                console.log('Files Added')
-                // console.log(files)
-                console.log(vm.filesToUpload)
             },
             minimizeUploads() {
                 this.uploadsMinimized = !this.uploadsMinimized
@@ -445,10 +447,16 @@
             },
             updateProgress() {
                 let uploaded = _.filter(this.filesToUpload, function(file){
-                    return file.status == 'success'
+                    return file.status == 'success' || file.status == 'error'
                 }).length
-                console.log(uploaded / this.filesToUpload.length)
                 this.setUploadProgress((uploaded / this.filesToUpload.length) * 100)
+            },
+            showError(file, error, xhr) {
+                if(!xhr) {
+                    file.error = error
+                } else if(xhr.status) {
+                    file.error = xhr.statusText
+                }
             }
         }
     }

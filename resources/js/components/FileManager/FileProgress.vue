@@ -10,7 +10,7 @@
       </p-img>
     </div>
     <div class="file-progress__name pl-2 pr-3 truncate flex-1">{{file.name}}</div>
-    <div class="file-progress__bar ml-auto">
+    <div class="file-progress__bar ml-auto" v-if="progress != 100 && status != 'error'">
       <div class="shadow w-full bg-grey-light">
         <div class="bg-success-400 text-xs leading-none py-1" :style="'width: ' + progress + '%'">
         </div>
@@ -20,10 +20,17 @@
       <fa-icon class="text-success-600" :icon="['fas', 'check-circle']" v-if="status == 'success'">
         <span class="sr-only">Success</span>
       </fa-icon>
-      <fa-icon class="text-primary-600" :icon="['fas', 'times-circle']" v-else-if="status == 'error'">
-        <span class="sr-only">Error</span>
-      </fa-icon>
-      <fa-icon :icon="['fas', 'spinner']" v-else spin pulse>
+      <p-tooltip class="cursor-pointer" v-else-if="status == 'error'" placement="left">
+        <template>
+          <fa-icon class="text-primary-600" :icon="['fas', 'times-circle']">
+            <span class="sr-only">Error</span>
+          </fa-icon>
+        </template>
+        <template slot="content">
+          {{file.error}}
+        </template>
+      </p-tooltip>
+      <fa-icon :icon="['fas', 'spinner']" v-else pulse>
         <span class="sr-only">Uploading...</span>
       </fa-icon> 
     </div>
