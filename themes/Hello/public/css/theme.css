@@ -7694,6 +7694,120 @@ a.button:hover {
   opacity: 0;
 }
 
+.origin-top-right {
+  transform-origin: top right;
+}
+
+.transition-all {
+  transition-property: all;
+}
+
+.transition-fastest {
+  transition-duration: 50ms;
+}
+
+.transition-faster {
+  transition-duration: 100ms;
+}
+
+.transition-fast {
+  transition-duration: 150ms;
+}
+
+.transition-medium {
+  transition-duration: 200ms;
+}
+
+.ease-out-quad {
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ease-in-quad {
+  transition-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+
+.scale-70 {
+  transform: scale(0.7);
+}
+
+.scale-100 {
+  transform: scale(1);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown__button {
+  display: inline-block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  justify-content: center;
+  font-weight: 600;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  font-size: 0.75rem;
+  background-color: #fff;
+  border-width: 1px;
+  border-color: #cbd5e0;
+  color: #000;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  line-height: 1.25;
+}
+
+.dropdown__button:hover {
+  background-color: #edf2f7;
+  color: #000;
+}
+
+.dropdown__button:focus {
+  outline: 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dropdown__options {
+  margin-top: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-width: 1px;
+  border-radius: 0.25rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  min-width: 8rem;
+  max-width: 12rem;
+}
+
+.dropdown__item {
+  text-decoration: none;
+  display: block;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #2d3748;
+  background-color: #fff;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+}
+
+.dropdown__item:hover {
+  color: #000;
+  background-color: #f7fafc;
+  cursor: pointer;
+}
+
 @media (min-width: 640px){
   .sm\:appearance-none{
     -webkit-appearance: none;

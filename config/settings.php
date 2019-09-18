@@ -58,6 +58,15 @@ return [
         ],
 
         [
+            'name'        => 'Fieldsets',
+            'handle'      => 'fieldsets',
+            'group'       => 'General',
+            'icon'        => 'icons',
+            'description' => 'Manage fieldsets and where they can be utilized.',
+            'to'          => 'settings.fieldsets',
+        ],
+
+        [
             'name'        => 'License',
             'handle'      => 'license',
             'group'       => 'General',
@@ -777,6 +786,23 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 2,
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fieldset Settings
+        |--------------------------------------------------------------------------
+        */
+
+        [
+            'section'     => 'fieldset',
+            'group'       => 'General',
+            'name'        => 'Enabled Fieldtypes',
+            'handle'      => 'enabled_fieldtypes',
+            'type'        => 'hidden',
+            'required'    => true,
+            'gui'         => false,
+            'order'       => 1,
         ],
 
     ],
