@@ -22,7 +22,7 @@
             </vue-dropzone>
         </div>
 
-        <file-uploader></file-uploader>
+        <file-progress></file-progress>
         
         <portal to="actions" v-if="! inline">
 
@@ -179,14 +179,14 @@
     import _ from 'lodash'
     import vue2Dropzone from 'vue2-dropzone'
     import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-    import FileUploader from './FileUploader.vue'
+    import FileProgress from './FileProgress.vue'
 
     export default {
         name: 'file-manager',
 
         components: {
             vueDropzone: vue2Dropzone,
-            'file-uploader': FileUploader
+            'file-progress': FileProgress
         },
         
         data() {

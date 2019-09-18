@@ -1,61 +1,61 @@
 <template>
-  <div class="file-progress flex items-center text-sm">
-    <div class="file-progress__icon pr-1">
-      <p-img
-          :src="'/img/' + type + '-large.svg'"
-          background-color="#ffffff"
-          :width="25"
-          :height="25"
-          class="gallery-image">
-      </p-img>
-    </div>
-    <div class="file-progress__name pl-2 pr-3 truncate flex-1">{{file.name}}</div>
-    <div class="file-progress__bar ml-auto" v-if="file.upload.progress != 100 && status != 'error'">
-      <div class="shadow w-full bg-grey-light">
-        <div class="bg-success-400 text-xs leading-none py-1" :style="'width: ' + file.upload.progress + '%'">
-        </div>
+  <div class="file-manager__uploads card" :class="[visible ? 'file-manager__uploads--visible' : '']">
+      <div class="card__header flex items-center bg-black px-2 py-2">
+          <div class="form__label text-white mb-0">
+              <span v-if="uploadProgress != 100">
+                  Uploading: {{uploadProgress.toFixed(0)}}%
+              </span>
+              <span v-else>
+                  Uploads
+              </span>
+          </div>
+          <a href="#" @click.prevent="toggleMinimize" class="ml-auto mr-5">
+              <fa-icon icon="expand" class="text-white" v-if="minimized">
+                  <span class="sr-only">Expand</span>
+              </fa-icon>
+              <fa-icon icon="minus" class="text-white" v-else>
+                  <span class="sr-only">Minimize</span>
+              </fa-icon>
+          </a>
+          <a href="#" @click.prevent="hideUploads">
+              <fa-icon icon="times" class="text-white">
+                  <span class="sr-only">Close</span>
+              </fa-icon>
+          </a>
       </div>
-    </div>
-    <div class="file-progress__status ml-2">
-      <fa-icon class="text-success-600" :icon="['fas', 'check-circle']" v-if="status == 'success'">
-        <span class="sr-only">Success</span>
-      </fa-icon>
-      <p-tooltip class="cursor-pointer" v-else-if="status == 'error'" placement="left">
-        <template>
-          <fa-icon class="text-primary-600" :icon="['fas', 'times-circle']">
-            <span class="sr-only">Error</span>
-          </fa-icon>
-        </template>
-        <template slot="content">
-          {{file.error}}
-        </template>
-      </p-tooltip>
-      <fa-icon :icon="['fas', 'spinner']" v-else pulse>
-        <span class="sr-only">Uploading...</span>
-      </fa-icon> 
-    </div>
+      <div class="file-manager__uploads-body card__body px-4 py-2 overflow-y-auto" :class="[minimized ? 'hidden' : '']">
+          <file-progress-row v-for="(file, index) in fileUploads" :file="file" :key="'file-' + index" :status="file.status" v-if="file.upload">
+          </file-progress-row>
+      </div>
   </div>
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+  import FileProgressRow from './FileProgressRow.vue'
   export default {
     name: 'file-progress',
-
-    props: {
-      file: {
-        type: File
-      },
-      status: {
-        type: String
-      }
+    components: {
+      'file-progress-row': FileProgressRow,
+    },
+    
+    computed: {
+       ...mapGetters({
+            uploadProgress: 'filemanager/getUploadProgress',
+            visible: 'filemanager/getUploadsVisible',
+            minimized: 'filemanager/getUploadsMinimized',
+            fileUploads: 'filemanager/getFileUploads'
+        })
     },
 
-    computed: {
-      type() {
-        let ftype = this.file.type.split('/')[0]
-        if (ftype == 'application' || ftype == 'text' || ftype == '') { ftype = 'document'}
-        return ftype
-      }
+    methods: {
+      ...mapActions({
+        'setUploadsMinimized': 'filemanager/setUploadsMinimized'
+      }),
+
+      toggleMinimize() {
+        this.setUploadsMinimized(!this.minimized)
+      },
     }
   }
 </script>
