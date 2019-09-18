@@ -23,7 +23,8 @@ export default {
         uploadProgress: 0,
         uploadsVisible: false,
         uploadsMinimized: false,
-        fileUploads: []
+        fileUploads: [],
+        dropzoneVisibile: false
     },
 
     getters: {
@@ -101,6 +102,10 @@ export default {
 
         getFileUploads(state) {
             return state.fileUploads
+        },
+
+        getDropzoneVisibile(state) {
+            return state.dropzoneVisibile
         }
     },
 
@@ -205,6 +210,10 @@ export default {
 
         addFileUpload(state, file) {
             state.fileUploads.push(file)
+        },
+
+        setDropzoneVisibile(state, value) {
+            state.dropzoneVisibile = value
         }
     },
 
@@ -349,6 +358,10 @@ export default {
 
         addFileUpload(context, file) {
             context.commit('addFileUpload', file)
+        },
+
+        setDropzoneVisibile(context, value) {
+            context.commit('setDropzoneVisibile', value)
         },
 
         toggleView(context) {

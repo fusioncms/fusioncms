@@ -1,28 +1,6 @@
 <template>
-    <div class="file-manager__wrap" @dragenter="showDZ()">
-        <div class="file-manager__dropzone" :class="[dzVisible ? 'file-manager__dropzone--visible' : '']" @click.self="hideDZ()">
-            <div class="file-manager__prompt">
-                <div class="file-manager__prompt-content">
-                    <fa-icon icon="upload">
-                        <span class="sr-only">Upload</span>
-                    </fa-icon>
-                    <h3>Drag files here to upload</h3>
-                </div>
-            </div>
-            <vue-dropzone ref="dropzone_element" id="dropzone" 
-                :options="dropzoneOptions" 
-                @vdropzone-mounted="configureDZ"
-                @vdropzone-drag-leave="hideDZ" 
-                @vdropzone-success="dzUploaded" 
-                @vdropzone-queue-complete="dzComplete"
-                @vdropzone-file-added="addFileUpload"
-                @vdropzone-files-added="startUpload"
-                @vdropzone-total-upload-progress="updateProgress"
-                @vdropzone-error="showError">
-            </vue-dropzone>
-        </div>
-
-        <file-progress></file-progress>
+    <div class="file-manager__wrap" @dragenter="setDropzoneVisibile(true)">
+        <file-uploader></file-uploader>
         
         <portal to="actions" v-if="! inline">
 
@@ -40,7 +18,7 @@
             </div>
             
             <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" @click="openDZ">Upload</p-button>
+            <p-button theme="primary" @click="openDropzone">Upload</p-button>
         </portal>
 
         <div class="row">
@@ -177,29 +155,13 @@
     import { mapGetters, mapActions } from 'vuex'
     import moment from 'moment-timezone'
     import _ from 'lodash'
-    import vue2Dropzone from 'vue2-dropzone'
-    import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-    import FileProgress from './FileProgress.vue'
+    import FileUploader from './FileUploader.vue'
 
     export default {
         name: 'file-manager',
 
         components: {
-            vueDropzone: vue2Dropzone,
-            'file-progress': FileProgress
-        },
-        
-        data() {
-            return {
-                dzVisible: false,
-                dropzoneOptions: {
-                    url: '/api/files',
-                    thumbnailWidth: 150,
-                    maxFilesize: 1500,
-                    withCredentials: true,
-                    headers: {}
-              }
-            }
+            'file-uploader': FileUploader
         },
 
         props: {
@@ -236,15 +198,7 @@
                 }
             },
 
-            csrf() {
-                let token = document.head.querySelector('meta[name="csrf-token"]')
-                if (token) {
-                    token = token.content
-                } else {
-                    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token')
-                }
-                return token
-            }
+            
         },
 
         watch: {
@@ -286,7 +240,8 @@
                 setUploadsMinimized: 'filemanager/setUploadsMinimized',
                 setUploadsVisible: 'filemanager/setUploadsVisible',
                 setFileUploads: 'filemanager/setFileUploads',
-                addFileUpload: 'filemanager/addFileUpload'
+                addFileUpload: 'filemanager/addFileUpload',
+                setDropzoneVisibile: 'filemanager/setDropzoneVisibile'
             }),
 
             isFilteringBy(what) {
@@ -352,55 +307,10 @@
 
                 return 'bars'
             },
-
-            configureDZ() {
-                let dz = this.$refs.dropzone_element
-                dz.options.headers['X-CSRF-TOKEN'] = this.csrf
-                dz.options.headers['directory_id'] = this.currentDirectory
-            },
-            openDZ() {
+            openDropzone() {
                 let dzInput = document.querySelector('.dz-hidden-input')
                 dzInput.click()
             },
-            showDZ() {
-                this.dzVisible = true
-            },
-            hideDZ() {
-                this.dzVisible = false
-            },
-            dzUploaded(response) {
-                toast(response.name + ' uploaded', 'success')
-            },
-            dzComplete() {
-                this.fetchFilesAndDirectories()
-                this.setUploadProgress(100)
-            },
-            startUpload(files) {
-                let vm = this
-                vm.configureDZ()
-                vm.showUploads()
-                vm.hideDZ()
-            },
-            showUploads() {
-                this.setUploadsVisible(true)
-                this.setUploadsMinimized(false)
-            },
-            hideUploads() {
-                this.setUploadsVisible(false)
-            },
-            updateProgress() {
-                let uploaded = _.filter(this.fileUploads, function(file){
-                    return file.status == 'success' || file.status == 'error'
-                }).length
-                this.setUploadProgress((uploaded / this.fileUploads.length) * 100)
-            },
-            showError(file, error, xhr) {
-                if(!xhr) {
-                    file.error = error
-                } else if(xhr.status) {
-                    file.error = xhr.statusText
-                }
-            }
         }
     }
 </script>

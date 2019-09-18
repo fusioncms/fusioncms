@@ -1,6 +1,6 @@
 <template>
   <div class="file-manager__uploads card" :class="[visible ? 'file-manager__uploads--visible' : '']">
-      <div class="card__header flex items-center bg-black px-2 py-2">
+      <div class="card__header flex items-center bg-black px-5 py-2">
           <div class="form__label text-white mb-0">
               <span v-if="uploadProgress != 100">
                   Uploading: {{uploadProgress.toFixed(0)}}%
@@ -17,7 +17,7 @@
                   <span class="sr-only">Minimize</span>
               </fa-icon>
           </a>
-          <a href="#" @click.prevent="hideUploads">
+          <a href="#" @click.prevent="setUploadsVisible(false)">
               <fa-icon icon="times" class="text-white">
                   <span class="sr-only">Close</span>
               </fa-icon>
@@ -50,7 +50,8 @@
 
     methods: {
       ...mapActions({
-        'setUploadsMinimized': 'filemanager/setUploadsMinimized'
+        'setUploadsMinimized': 'filemanager/setUploadsMinimized',
+        'setUploadsVisible': 'filemanager/setUploadsVisible'
       }),
 
       toggleMinimize() {
