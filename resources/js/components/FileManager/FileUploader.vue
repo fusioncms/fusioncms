@@ -44,11 +44,9 @@
     data() {
       return {
           dropzoneOptions: {
-              url: '/api/files',
-              thumbnailWidth: 150,
-              maxFilesize: 1500,
-              withCredentials: true,
-              headers: {}
+            url: '/api/files',
+            maxFilesize: 1500,
+            headers: {}
         }
       }
     },
@@ -56,9 +54,11 @@
     computed: {
       ...mapGetters({
             currentDirectory: 'filemanager/getCurrentDirectory',
+            dropzoneVisibile: 'filemanager/getDropzoneVisibile',
             parentDirectory: 'filemanager/getParentDirectory',
             currentPage: 'filemanager/getCurrentPage',
             directories: 'filemanager/getDirectories',
+            fileUploads: 'filemanager/getFileUploads',
             hasSelection: 'filemanager/hasSelection',
             totalPages: 'filemanager/getTotalPages',
             direction: 'filemanager/getDirection',
@@ -67,8 +67,6 @@
             files: 'filemanager/getFiles',
             sort: 'filemanager/getSort',
             view: 'filemanager/getView',
-            fileUploads: 'filemanager/getFileUploads',
-            dropzoneVisibile: 'filemanager/getDropzoneVisibile'
       }),
       csrf() {
         let token = document.head.querySelector('meta[name="csrf-token"]')
@@ -85,21 +83,21 @@
       ...mapActions({
           fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
           clearDirectorySelection: 'filemanager/clearDirectorySelection',
+          setUploadsMinimized: 'filemanager/setUploadsMinimized',
+          setDropzoneVisibile: 'filemanager/setDropzoneVisibile',
           clearFileSelection: 'filemanager/clearFileSelection',
+          setUploadProgress: 'filemanager/setUploadProgress',
+          setUploadsVisible: 'filemanager/setUploadsVisible',
           toggleDirection: 'filemanager/toggleDirection',
           setCurrentPage: 'filemanager/setCurrentPage',
+          setFileUploads: 'filemanager/setFileUploads',
+          addFileUpload: 'filemanager/addFileUpload',
           setDirection: 'filemanager/setDirection',
           setDisplay: 'filemanager/setDisplay',
           toggleView: 'filemanager/toggleView',
           setFiles: 'filemanager/setFiles',
           addFile: 'filemanager/addFile',
           setSort: 'filemanager/setSort',
-          setUploadProgress: 'filemanager/setUploadProgress',
-          setUploadsMinimized: 'filemanager/setUploadsMinimized',
-          setUploadsVisible: 'filemanager/setUploadsVisible',
-          setFileUploads: 'filemanager/setFileUploads',
-          addFileUpload: 'filemanager/addFileUpload',
-          setDropzoneVisibile: 'filemanager/setDropzoneVisibile'
       }),
       configureDZ() {
         let dz = this.$refs.dropzone_element

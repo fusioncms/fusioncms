@@ -42,9 +42,9 @@
     computed: {
        ...mapGetters({
             uploadProgress: 'filemanager/getUploadProgress',
-            visible: 'filemanager/getUploadsVisible',
             minimized: 'filemanager/getUploadsMinimized',
-            fileUploads: 'filemanager/getFileUploads'
+            fileUploads: 'filemanager/getFileUploads',
+            visible: 'filemanager/getUploadsVisible'
         })
     },
 
