@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="cog">Fieldset Settings</app-title>
+            <app-title icon="cog">Fieldtype Settings</app-title>
         </portal>
 
         <div class="row">
@@ -9,7 +9,9 @@
                 <form @submit.prevent="submit" enctype="multipart/form-data">
                     <div class="col w-full xl:w-2/3 mx-auto">
                         <p-card>
-                            <div v-for="fieldtype in fieldtypes" :key="fieldtype.handle">
+                            {{ fieldtypes }}
+
+                            <div v-for="(fieldtype, index) in fieldtypes" :key="fieldtype.handle">
                                 <div class="flex flex-col lg:flex-row lg:justify-between">
                                     <div class="mb-6 lg:mb-0">
                                         <h3><fa-icon :icon="['far', fieldtype.icon]" class="fa-fw mr-2"></fa-icon> {{ fieldtype.name }}</h3>
@@ -18,10 +20,8 @@
                                     </div>
 
                                     <div>
-                                        <p-checkbox-group label="Enabled Stuctures">
-                                            <p-checkbox name="toppings" id="pepperoni" native-value="pepperoni" v-model="toppings">Matrix</p-checkbox>
-                                            <p-checkbox name="toppings" id="mushrooms" native-value="mushrooms" v-model="toppings">Menus</p-checkbox>
-                                            <p-checkbox name="toppings" id="onions" native-value="onions" v-model="toppings">Users</p-checkbox>
+                                        <p-checkbox-group label="Available Stuctures">
+                                            <p-checkbox v-for="structure in structures" :name="structure.handle" :key="structure.handle" :id="structure.handle" :native-value="structure.handle" v-model="fieldtypes[index].structures">{{ structure.name }}</p-checkbox>
                                         </p-checkbox-group>
                                     </div>
                                 </div>
@@ -45,7 +45,8 @@
         data() {
             return {
                 fieldtypes: [],
-                toppings: [],
+                structures: [],
+                enabled: [],
             }
         },
 
@@ -56,11 +57,15 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.get('/api/fieldtypes').then((response) => {
-                next(vm => {
-                    vm.fieldtypes = response.data.data
+            axios.all([
+                axios.get('/api/fieldtypes'),
+                axios.get('/api/structures'),
+            ]).then(axios.spread(function (fieldtypes, structures) {
+                next(function(vm) {
+                    vm.fieldtypes = fieldtypes.data.data
+                    vm.structures = structures.data.data
                 })
-            })
+            }))
         },
     }
 </script>

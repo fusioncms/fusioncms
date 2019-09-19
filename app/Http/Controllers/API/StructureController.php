@@ -25,7 +25,12 @@ class StructureController extends Controller
      */
     public function index(Request $request)
     {
-        $structures = config('fusioncms.structures');
+        $structures = collect(config('fusioncms.structures'))->map(function($structure, $handle) {
+            return [
+                'name'   => $structure,
+                'handle' => $handle,
+            ];
+        })->sortBy('name')->values();
 
         return StructureResource::collection($structures);
     }
