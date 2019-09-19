@@ -32,8 +32,11 @@
 @import "components/treeview";
 @import "components/upload";
 @import "components/logs";
-@import "components/color-picker";
 @import "components/file-manager";
+
+// Fieldtypes
+@import "components/fieldtypes/color-picker";
+@import "components/fieldtypes/datetime";
 
 // Utilities
 @tailwind utilities;
@@ -54,6 +57,7 @@
 
 // Vendor
 @import "vendor/draggable";
+@import "vendor/flatpickr";
 @import "vendor/fontawesome";
 @import "vendor/nprogress";
 @import "vendor/plyr";
