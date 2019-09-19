@@ -53,7 +53,7 @@ class SettingsServiceProvider extends ServiceProvider
                 $settings = [];
 
                 $items->each(function ($item) use (&$settings) {
-                    $settings[$item['handle']] = $item['default'];
+                    $settings[$item['handle']] = $item['default'] ?? null;
                 });
 
                 return $settings;
