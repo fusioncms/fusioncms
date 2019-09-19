@@ -49,6 +49,7 @@
         "moment-timezone": "^0.5.25",
         "node-sass": "^4.11.0",
         "pluralize": "^8.0.0",
-        "plyr": "^3.5.6"
+        "plyr": "^3.5.6",
+        "vue2-dropzone": "^3.6.0"
     }
 }

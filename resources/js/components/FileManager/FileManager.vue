@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div class="file-manager__wrap" @dragenter="setDropzoneVisibile(true)">
+        <file-uploader></file-uploader>
+        
         <portal to="actions" v-if="! inline">
 
             <div class="inline-block mr-4" v-show="hasSelection">
@@ -16,7 +18,7 @@
             </div>
             
             <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" v-modal:upload>Upload</p-button>
+            <p-button theme="primary" @click="openDropzone">Upload</p-button>
         </portal>
 
         <div class="row">
@@ -142,10 +144,6 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="upload" title="Upload Files" no-footer large>
-                <p-upload name="files" multiple v-model="filesToUpload" @input="upload"></p-upload>
-            </p-modal>
-
             <new-folder-modal></new-folder-modal>
 
             <delete-selected-files-modal></delete-selected-files-modal>
@@ -157,14 +155,13 @@
     import { mapGetters, mapActions } from 'vuex'
     import moment from 'moment-timezone'
     import _ from 'lodash'
+    import FileUploader from './FileUploader.vue'
 
     export default {
         name: 'file-manager',
-        
-        data() {
-            return {
-                filesToUpload: [],
-            }
+
+        components: {
+            'file-uploader': FileUploader
         },
 
         props: {
@@ -180,6 +177,7 @@
                 parentDirectory: 'filemanager/getParentDirectory',
                 currentPage: 'filemanager/getCurrentPage',
                 directories: 'filemanager/getDirectories',
+                fileUploads: 'filemanager/getFileUploads',
                 hasSelection: 'filemanager/hasSelection',
                 totalPages: 'filemanager/getTotalPages',
                 direction: 'filemanager/getDirection',
@@ -188,6 +186,7 @@
                 files: 'filemanager/getFiles',
                 sort: 'filemanager/getSort',
                 view: 'filemanager/getView',
+                
             }),
 
             search: {
@@ -198,7 +197,9 @@
                 set(value) {
                     this.$store.commit('filemanager/setSearch', value)
                 }
-            }
+            },
+
+            
         },
 
         watch: {
@@ -227,15 +228,21 @@
             ...mapActions({
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
                 clearDirectorySelection: 'filemanager/clearDirectorySelection',
+                setUploadsMinimized: 'filemanager/setUploadsMinimized',
+                setDropzoneVisibile: 'filemanager/setDropzoneVisibile',
                 clearFileSelection: 'filemanager/clearFileSelection',
+                setUploadProgress: 'filemanager/setUploadProgress',
+                setUploadsVisible: 'filemanager/setUploadsVisible',
                 toggleDirection: 'filemanager/toggleDirection',
                 setCurrentPage: 'filemanager/setCurrentPage',
+                setFileUploads: 'filemanager/setFileUploads',
+                addFileUpload: 'filemanager/addFileUpload',
                 setDirection: 'filemanager/setDirection',
                 setDisplay: 'filemanager/setDisplay',
                 toggleView: 'filemanager/toggleView',
                 setFiles: 'filemanager/setFiles',
                 addFile: 'filemanager/addFile',
-                setSort: 'filemanager/setSort',
+                setSort: 'filemanager/setSort',                
             }),
 
             isFilteringBy(what) {
@@ -244,28 +251,6 @@
 
             isSortingBy(what) {
                 return what === this.sort
-            },
-
-            upload() {
-                let vm = this
-
-                _.each(this.filesToUpload, function(file, index) {
-                    let formData = new FormData()
-                    formData.append('file', file)
-                    formData.append('directory_id', vm.currentDirectory)
-
-                    axios.post('/api/files', formData, {
-                        before: (xhr) => {
-                            file.xhr = xhr
-                        },
-                    }).then((response) => {
-                        vm.fetchFilesAndDirectories()
-
-                        vm.filesToUpload.splice(index, 1)
-
-                        toast(response.data.data.name + ' uploaded', 'success')
-                    })
-                })
             },
 
             clearSelection() {
@@ -322,7 +307,11 @@
                 }
 
                 return 'bars'
-            }
-        },
+            },
+            openDropzone() {
+                let dzInput = document.querySelector('.dz-hidden-input')
+                dzInput.click()
+            },
+        }
     }
 </script>
