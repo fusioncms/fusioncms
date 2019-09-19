@@ -37,7 +37,8 @@ class DateTimeFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        'format' => 'date'
+        'format' => 'Y-m-d',
+        'time' => false
     ];
 
     /**

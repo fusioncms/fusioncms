@@ -7,11 +7,9 @@
           :help="field.help"
           :placeholder="field.settings.placeholder"
           v-model="datetime"
-          @input="$emit('input', datetime)"
           class="datetime__input form__control mr-2">
       <a href="#" class="datetime__button button button--primary px-4" @click.prevent="flatpickr.open()">
-        <fa-icon :icon="['far', 'clock']" v-if="field.settings.format == 'time'"></fa-icon>
-        <fa-icon icon="calendar-alt" v-else></fa-icon>
+        <fa-icon icon="calendar-alt"></fa-icon>
       </a>
     </div>
     <div class="form__control--meta" v-if="field.help">
@@ -45,15 +43,24 @@
       }
     },
 
+    methods: {
+      emitEvent(selectedDates, dateStr, instance) {
+        this.$emit('input', dateStr)
+      }
+    },
+
     mounted() {
       this.datetime = this.value
       this.flatpickr = flatpickr('#flatpickr_' + this.field.handle, {
-        enableTime: (this.field.settings.format == 'time' || this.field.settings.format == 'datetime'),
-        noCalendar: (this.field.settings.format == 'time'),
+        altInput: true,
+        enableTime: this.field.settings.time,
+        altFormat: this.field.settings.format || 'Y-m-d',
         minuteIncrement: 1,
-        allowInput: true,
+        allowInput: false,
         clickOpens: false,
-        defaultDate: this.value
+        defaultDate: this.value,
+        onChange: this.emitEvent,
+        onValueUpdate: this.inputChanged
       })
     }
   }
