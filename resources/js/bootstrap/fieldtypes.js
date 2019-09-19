@@ -35,3 +35,6 @@ Vue.component('toggle-fieldtype-settings', () => import('../components/Fieldtype
 
 Vue.component('datetime-fieldtype', () => import('../components/Fieldtypes/DateTime/Field'))
 Vue.component('datetime-fieldtype-settings', () => import('../components/Fieldtypes/DateTime/Settings'))
+
+Vue.component('us_state-fieldtype', () => import('../components/Fieldtypes/USState/Field'))
+Vue.component('us_state-fieldtype-settings', () => import('../components/Fieldtypes/USState/Settings'))
