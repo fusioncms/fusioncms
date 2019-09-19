@@ -34,6 +34,7 @@ class FieldtypeServiceProvider extends ServiceProvider
         fieldtypes()->register(\App\Fieldtypes\TextareaFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\ColorPickerFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\CodeFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\ToggleFieldtype::class);
     }
 
     /**
