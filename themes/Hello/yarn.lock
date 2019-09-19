@@ -642,10 +642,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@efelle/proton@^1.0.0-beta.11":
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@efelle/proton/-/proton-1.0.0-beta.12.tgz#a4b9fded6657d5fa104b07208624d6abd1bd78f2"
-  integrity sha512-iCu8fb5I8Hw5aluFfXvJVECF6bj+P/Ysz3vWDTT5FI/cwS6m4AHGKGlTUe8PcUllagcNS6zW6IsnbsTzk6JsxQ==
+"@efelle/proton@^1.0.0-beta.12":
+  version "1.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/@efelle/proton/-/proton-1.0.0-beta.15.tgz#577e8317860e136d89d56def5aa782e16c6d2a4f"
+  integrity sha512-xKoYbEwla1ZB319ztMOHGB4SCSV+oiXfhvH2wQxVvbt4acHuD28RXXnJIAruCp3v6MzupJOUWc5Q5gSN0PUR9w==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

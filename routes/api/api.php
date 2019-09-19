@@ -22,3 +22,4 @@
 
 Route::get('/admin/navigation', 'NavigationController@index');
 Route::get('/fieldtypes', 'FieldtypeController@index');
+Route::get('/structures', 'StructureController@index');

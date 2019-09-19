@@ -220,6 +220,15 @@ const router = new Router({
             }
         },
         {
+            path: '/settings/fieldtypes',
+            component: () => import('../views/Settings/Fieldtypes'),
+            name: 'settings.fieldtypes',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            }
+        },
+        {
             path: '/settings/:section',
             component: () => import('../views/Settings/Edit'),
             name: 'setting.section',

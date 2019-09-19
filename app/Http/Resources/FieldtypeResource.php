@@ -35,6 +35,7 @@ class FieldtypeResource extends JsonResource
             'field'       => $this->field,
             'settings'    => $this->settings,
             'data'        => $this->data,
+            'structures'  => [],
         ];
     }
 }

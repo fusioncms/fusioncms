@@ -22,6 +22,8 @@ window.Proton = require('@efelle/proton')
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('product', require('./components/Product.vue').default);
+Vue.component('demo-button', require('./components/DemoButton.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

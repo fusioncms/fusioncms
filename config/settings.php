@@ -58,6 +58,15 @@ return [
         ],
 
         [
+            'name'        => 'Fieldtypes',
+            'handle'      => 'fieldtypes',
+            'group'       => 'General',
+            'icon'        => 'box-full',
+            'description' => 'Manage fieldtypes and where they can be utilized.',
+            'to'          => 'settings.fieldtypes',
+        ],
+
+        [
             'name'        => 'License',
             'handle'      => 'license',
             'group'       => 'General',
@@ -777,6 +786,23 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 2,
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fieldtype Settings
+        |--------------------------------------------------------------------------
+        */
+
+        [
+            'section'     => 'fieldtypes',
+            'group'       => 'General',
+            'name'        => 'Structures',
+            'handle'      => 'structures',
+            'type'        => 'json',
+            'required'    => true,
+            'gui'         => false,
+            'order'       => 1,
         ],
 
     ],
