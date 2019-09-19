@@ -29,3 +29,6 @@ Vue.component('checkbox-fieldtype-settings', () => import('../components/Fieldty
 
 Vue.component('code-fieldtype', () => import('../components/Fieldtypes/Code/Field'))
 Vue.component('code-fieldtype-settings', () => import('../components/Fieldtypes/Code/Settings'))
+
+Vue.component('toggle-fieldtype', () => import('../components/Fieldtypes/Toggle/Field'))
+Vue.component('toggle-fieldtype-settings', () => import('../components/Fieldtypes/Toggle/Settings'))
