@@ -30,5 +30,11 @@ Vue.component('checkbox-fieldtype-settings', () => import('../components/Fieldty
 Vue.component('code-fieldtype', () => import('../components/Fieldtypes/Code/Field'))
 Vue.component('code-fieldtype-settings', () => import('../components/Fieldtypes/Code/Settings'))
 
+Vue.component('toggle-fieldtype', () => import('../components/Fieldtypes/Toggle/Field'))
+Vue.component('toggle-fieldtype-settings', () => import('../components/Fieldtypes/Toggle/Settings'))
+
 Vue.component('datetime-fieldtype', () => import('../components/Fieldtypes/DateTime/Field'))
 Vue.component('datetime-fieldtype-settings', () => import('../components/Fieldtypes/DateTime/Settings'))
+
+Vue.component('us_state-fieldtype', () => import('../components/Fieldtypes/USState/Field'))
+Vue.component('us_state-fieldtype-settings', () => import('../components/Fieldtypes/USState/Settings'))
