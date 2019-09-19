@@ -220,9 +220,9 @@ const router = new Router({
             }
         },
         {
-            path: '/settings/fieldsets',
-            component: () => import('../views/Settings/Fieldsets'),
-            name: 'settings.fieldsets',
+            path: '/settings/fieldtypes',
+            component: () => import('../views/Settings/Fieldtypes'),
+            name: 'settings.fieldtypes',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

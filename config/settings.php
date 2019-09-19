@@ -58,12 +58,12 @@ return [
         ],
 
         [
-            'name'        => 'Fieldsets',
-            'handle'      => 'fieldsets',
+            'name'        => 'Fieldtypes',
+            'handle'      => 'fieldtypes',
             'group'       => 'General',
-            'icon'        => 'icons',
-            'description' => 'Manage fieldsets and where they can be utilized.',
-            'to'          => 'settings.fieldsets',
+            'icon'        => 'box-full',
+            'description' => 'Manage fieldtypes and where they can be utilized.',
+            'to'          => 'settings.fieldtypes',
         ],
 
         [
@@ -790,16 +790,16 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Fieldset Settings
+        | Fieldtype Settings
         |--------------------------------------------------------------------------
         */
 
         [
-            'section'     => 'fieldset',
+            'section'     => 'fieldtypes',
             'group'       => 'General',
-            'name'        => 'Enabled Fieldtypes',
-            'handle'      => 'enabled_fieldtypes',
-            'type'        => 'hidden',
+            'name'        => 'Structures',
+            'handle'      => 'structures',
+            'type'        => 'json',
             'required'    => true,
             'gui'         => false,
             'order'       => 1,

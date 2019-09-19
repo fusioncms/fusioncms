@@ -23,6 +23,10 @@ class ColorPickerFieldtype extends Fieldtype
      */
     public $icon = 'palette';
 
+    public $exclude = [
+        'forms',
+    ];
+
     /**
      * @var string
      */
