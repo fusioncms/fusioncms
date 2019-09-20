@@ -10,21 +10,28 @@
             "name": "Test",
             "fieldtype": "input",
             "default": "foobar",
-            "description": "This is an example of a theme setting.",
+            "help": "This is an example of a theme setting.",
             "required": false
         },
         "primary_color": {
             "name": "Primary Color",
             "fieldtype": "color_picker",
             "default": "foobar",
-            "description": "This is an example of a theme setting.",
+            "help": "This is an example of a theme setting.",
             "required": false
         },
         "secondary_color": {
             "name": "Secondary Color",
             "fieldtype": "color_picker",
             "default": "foobar",
-            "description": "This is an example of a theme setting.",
+            "help": "This is an example of a theme setting.",
+            "required": false
+        },
+        "enable_masthead": {
+            "name": "Enable Masthead",
+            "fieldtype": "toggle",
+            "default": false,
+            "help": "Should the masthead be enabled on the homepage?",
             "required": false
         }
     }

@@ -27,7 +27,7 @@
                             help: setting.help,
                             settings: {},
                         }"
-                        class="mb-6"
+                        class="mb-8"
                     ></component>
                 </p-card>
             </div>
