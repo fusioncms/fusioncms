@@ -24,6 +24,8 @@ class {class} extends Model
      */
     protected $table = 'mx_{handle}';
 
+    protected $casts = {casts};
+
     /**
      * Mass assignment protection.
      *

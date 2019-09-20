@@ -26,12 +26,12 @@ class CheckboxFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $description = 'FIELDTYPE IN DEVELOPMENT';
+    public $description = 'A set of customizable checkboxes';
 
     /**
      * @var string
      */
-    public $cast = 'string';
+    public $cast = 'array';
 
     /**
      * @var array

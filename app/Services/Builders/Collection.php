@@ -51,6 +51,7 @@ class Collection extends Builder implements BuilderContract
         $className = Str::studly($this->matrix->handle);
         $traits    = [];
         $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
+        $casts     = [];
 
         if ($this->matrix->fieldset) {
             $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
@@ -60,7 +61,9 @@ class Collection extends Builder implements BuilderContract
             });
 
             foreach ($fields as $field) {
+                $fieldtype = fieldtypes()->get($field->type);
                 $fillable[] = $field->handle;
+                $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast ;
             }
         }
 
@@ -71,10 +74,12 @@ class Collection extends Builder implements BuilderContract
             '{class}'         => $className,
             '{handle}'        => $this->matrix->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
+            '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
             '{with}'          => $this->getWith(),
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
             '{matrix_id}'     => $this->matrix->id,
+
         ]);
 
         File::put($path, $contents);
