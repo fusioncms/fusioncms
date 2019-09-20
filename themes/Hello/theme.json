@@ -6,9 +6,10 @@
     "version": "1.0.0",
 
     "settings": {
-        "foo": {
-            "fieldtype": "string",
-            "default": "bar",
+        "test": {
+            "name": "Test",
+            "fieldtype": "input",
+            "default": "foobar",
             "description": "This is an example of a theme setting.",
             "required": false
         }
