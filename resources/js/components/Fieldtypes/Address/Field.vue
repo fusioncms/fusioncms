@@ -41,7 +41,9 @@
             </div>
             <div class="w-1/2">
                 <div class="h-full" :id="mapID">
-                    
+                    <div v-if="mapError" class="p-5" v-html="mapError">
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,6 +86,7 @@
             return {
                 marker: null,
                 data: data,
+                mapError: ''
             }
         },
 
@@ -195,14 +198,19 @@
         },
 
         mounted() {
-            let apiKey = ''
+            let apiKey = this.field.settings.api_key
+            console.log(apiKey)
+            if (!apiKey || apiKey == '') {
+                this.mapError = 'You will need to generate a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a> in order to view the map component and retrieve latitude and longitude coordinates for your address'
+                return
+            }
             if (_.isUndefined(window.google)) {
                 let vm = this
                 window.mapInit = function() {
                     vm.createMap()
                 }
                 let mapScript = document.createElement('script')
-                mapScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=${`apiKey`}&callback=mapInit')
+                mapScript.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=mapInit`)
                 document.head.appendChild(mapScript)
             } else {
                 vm.createMap();
