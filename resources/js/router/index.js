@@ -238,9 +238,9 @@ const router = new Router({
             }
         },
         {
-            path: '/themes',
-            component: () => import('../views/Themes'),
-            name: 'themes',
+            path: '/theme',
+            component: () => import('../views/Theme/Settings'),
+            name: 'theme.settings',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
