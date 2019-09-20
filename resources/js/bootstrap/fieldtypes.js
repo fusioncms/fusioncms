@@ -38,3 +38,6 @@ Vue.component('datetime-fieldtype-settings', () => import('../components/Fieldty
 
 Vue.component('us_state-fieldtype', () => import('../components/Fieldtypes/USState/Field'))
 Vue.component('us_state-fieldtype-settings', () => import('../components/Fieldtypes/USState/Settings'))
+
+Vue.component('address-fieldtype', () => import('../components/Fieldtypes/Address/Field'))
+Vue.component('address-fieldtype-settings', () => import('../components/Fieldtypes/Address/Settings'))
