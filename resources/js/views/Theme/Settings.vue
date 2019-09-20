@@ -8,7 +8,7 @@
             <div class="side-container">
                 <p-card class="mb-6 flex flex-col items-center justify-center">
                     <div class="text-center mb-3">
-                        Your currently set theme is <span class="font-bold">Hello</span>.
+                        Your currently set theme is <span class="font-bold">{{ theme.name }}</span>.
                     </div>
 
                     <a href="#" class="button w-full">Learn More</a>
@@ -17,7 +17,18 @@
                 <p-card>
                     <h3 class="font-bold text-lg">Theme Settings</h3>
 
-                    <p-input name="test" label="Test" help="A test theme setting value."></p-input>
+                    <component
+                        v-for="setting in theme.settings"
+                        :key="setting.handle"
+                        :is="setting.fieldtype + '-fieldtype'"
+                        :field="{
+                            name: setting.name,
+                            handle: setting.handle,
+                            help: setting.help,
+                            settings: {},
+                        }"
+                        class="mb-6"
+                    ></component>
                 </p-card>
             </div>
 
@@ -44,7 +55,7 @@
     export default {
         data() {
             return {
-                // 
+                theme: {},
             }
         },
 
@@ -52,6 +63,16 @@
             submit() {
                 //
             }
-        }
+        },
+
+        beforeRouteEnter(to, from, next) {
+            axios.all([
+                axios.get('/api/theme/active'),
+            ]).then(axios.spread(function (theme) {
+                next(function(vm) {
+                    vm.theme = theme.data.data
+                })
+            }))
+        },
     }
 </script>

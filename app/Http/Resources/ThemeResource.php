@@ -32,6 +32,7 @@ class ThemeResource extends JsonResource
             'version'     => $this->get('version'),
             'active'      => $this->get('slug') === Theme::getCurrent(),
             'preview'     => "/themes/{$this->get('slug')}/preview.png",
+            'settings'    => $this->get('settings'),
         ];
     }
 }

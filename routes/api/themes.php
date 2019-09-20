@@ -10,5 +10,8 @@
  */
 
 Route::apiResource('themes', 'ThemeController');
+
+Route::get('theme/active', 'ActiveThemeController@show');
+
 Route::put('themes/set-active/{theme}', 'ThemeController@setActive');
 Route::get('themes/{theme}/preview.png', 'ThemeController@previewImage');
