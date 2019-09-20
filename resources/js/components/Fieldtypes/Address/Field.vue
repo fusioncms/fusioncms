@@ -1,45 +1,52 @@
 <template>
-    <div class="card p-3">
+    <div class="px-2 mb-4">
+        <div class="form__label">{{field.name}}</div>
         <div class="row px-2">
             <div class="w-1/2">
                 <p-input
                     :name="field.handle + '_address1'"
-                    label="Address 1"
+                    placeholder="Address 1"
                     :value="data.address1"
                     @input="updateValue($event, 'address1')"
+                    class="mb-2"
                 ></p-input>
                 <p-input
                     :name="field.handle + '_address2'"
-                    label="Address 2"
+                    placeholder="Address 2"
                     :value="data.address2"
                     @input="updateValue($event, 'address2')"
+                    class="mb-2"
                 ></p-input>
                 <p-input
                     :name="field.handle + '_city'"
-                    label="City"
+                    placeholder="City"
                     :value="data.city"
                     @input="updateValue($event, 'city')"
+                    class="mb-2"
                 ></p-input>
                 <p-input
                     :name="field.handle + '_state'"
-                    label="State"
+                    placeholder="State"
                     :value="data.state"
                     @input="updateValue($event, 'state')"
+                    class="mb-2"
                 ></p-input>
                 <p-input
                     :name="field.handle + '_zip'"
-                    label="ZIP"
+                    placeholder="ZIP"
                     :value="data.zip"
                     @input="updateValue($event, 'zip')"
+                    class="mb-2"
                 ></p-input>
                 <p-input
                     :name="field.handle + '_country'"
-                    label="Country"
+                    placeholder="Country"
                     :value="data.country"
                     @input="updateValue($event, 'country')"
+                    class="mb-2"
                 ></p-input>
             </div>
-            <div class="w-1/2">
+            <div class="w-1/2 pl-2">
                 <div class="h-full" :id="mapID">
                     <div v-if="mapError" class="p-5" v-html="mapError">
                         
@@ -198,14 +205,13 @@
         },
 
         mounted() {
-            let apiKey = this.field.settings.api_key
-            console.log(apiKey)
+            let vm = this
+            let apiKey = vm.field.settings.api_key
             if (!apiKey || apiKey == '') {
-                this.mapError = 'You will need to generate a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a> in order to view the map component and retrieve latitude and longitude coordinates for your address'
+                vm.mapError = 'You will need to generate a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a> in order to view the map component and retrieve latitude and longitude coordinates for your address'
                 return
             }
             if (_.isUndefined(window.google)) {
-                let vm = this
                 window.mapInit = function() {
                     vm.createMap()
                 }
