@@ -41,3 +41,6 @@ Vue.component('us_state-fieldtype-settings', () => import('../components/Fieldty
 
 Vue.component('address-fieldtype', () => import('../components/Fieldtypes/Address/Field'))
 Vue.component('address-fieldtype-settings', () => import('../components/Fieldtypes/Address/Settings'))
+
+Vue.component('country-fieldtype', () => import('../components/Fieldtypes/Country/Field'))
+Vue.component('country-fieldtype-settings', () => import('../components/Fieldtypes/Country/Settings'))
