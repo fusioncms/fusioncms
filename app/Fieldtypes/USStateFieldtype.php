@@ -99,7 +99,7 @@ class USStateFieldtype extends Fieldtype
         'WA' => 'Washington',
         'WV' => 'West Virginia',
         'WI' => 'Wisconsin',
-        'WY' => 'Wyomin'
+        'WY' => 'Wyoming'
     ];
 
     /**
