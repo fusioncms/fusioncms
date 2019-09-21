@@ -35,6 +35,16 @@
 
             <div class="content-container">
                 <p-card no-body>
+                    <div class="w-full p-2 bg-gray-700 rounded-t flex">
+                        <button class="ml-2 mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reload"><fa-icon :icon="['far', 'redo']" class="fa-fw text-white"></fa-icon></button>
+                        <button class="mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reset"><fa-icon :icon="['far', 'home']" class="fa-fw text-white"></fa-icon></button>
+
+                        <div class="px-6 bg-gray-800 rounded-full text-gray-400 flex flex-1">
+                            <span>https://fusioncms.test/</span>
+                            <input type="text" name="url" v-model="url" class="flex flex-1 tracking-wide text-white font-bold bg-transparent focus:outline-none" @enter.prevent="reload">
+                        </div>
+                    </div>
+
                     <p-frame
                         v-if="preview"
                         :src="preview"
@@ -71,6 +81,8 @@
             return {
                 theme: {},
                 preview: '',
+                baseUrl: 'http://fusioncms.test/',
+                url: '',
             }
         },
 
@@ -78,16 +90,26 @@
             hash() {
                 return this.encode(JSON.stringify(this.theme.setting))
             },
+
+            previewUrl() {
+                return this.baseUrl + this.url + '?preview=' + this.hash
+            },
         },
 
         watch: {
             'theme.setting': {
                 handler: _.debounce(function(value) {
-                    this.preview = 'http://fusioncms.test?preview=' + this.hash
+                    this.reload()
                 }, 500),
 
                 deep: true
             },
+
+            'url': {
+                handler: _.debounce(function(value) {
+                    this.reload()
+                }, 500)
+            }
         },
 
         methods: {
@@ -97,7 +119,17 @@
 
             encode(string) {
                 return encodeURIComponent(string).replace(/[!'()*]/g, escape);
-            }
+            },
+
+            reload() {
+                this.preview = this.previewUrl
+            },
+
+            reset() {
+                this.url = ''
+
+                this.reload()
+            },
         },
 
         beforeRouteEnter(to, from, next) {
