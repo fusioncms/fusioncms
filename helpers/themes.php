@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 if (! function_exists('blade')) {
@@ -43,37 +44,37 @@ if (! function_exists('javascript')) {
     }
 }
 
-if (! function_exists('layout')) {
-    /**
-     * Fetches the currently configured theme layout.
-     *
-     * @return string
-     */
-    function layout()
-    {
-        return Theme::getLayout();
-    }
-}
+// if (! function_exists('layout')) {
+//     /**
+//      * Fetches the currently configured theme layout.
+//      *
+//      * @return string
+//      */
+//     function layout()
+//     {
+//         return Theme::getLayout();
+//     }
+// }
 
-if (! function_exists('theme')) {
-    /**
-     * Return the currently active theme's URL path.
-     *
-     * @return string
-     */
-    function theme($path, $theme = null)
-    {
-        if (is_null($theme)) {
-            $theme = Theme::getCurrent();
-        }
+// if (! function_exists('theme')) {
+//     /**
+//      * Return the currently active theme's URL path.
+//      *
+//      * @return string
+//      */
+//     function theme($path, $theme = null)
+//     {
+//         if (is_null($theme)) {
+//             $theme = Theme::getCurrent();
+//         }
 
-        return url(
-            Config::get('themes.paths.base') . '/' .
-            $theme . '/' .
-            $path
-        );
-    }
-}
+//         return url(
+//             Config::get('themes.paths.base') . '/' .
+//             $theme . '/' .
+//             $path
+//         );
+//     }
+// }
 
 if (! function_exists('theme_mix')) {
     /**
@@ -114,7 +115,7 @@ if (! function_exists('theme_mix')) {
     }
 }
 
-if (! function_exists('theme_property')) {
+if (! function_exists('theme')) {
     /**
      * Fetches the theme property from the manifest file.
      *
@@ -122,10 +123,20 @@ if (! function_exists('theme_property')) {
      * @param  mixed  $default
      * @return mixed
      */
-    function theme_property($key, $default = '')
+    function theme($key, $default = '')
     {
         $theme = Theme::where('slug', Theme::getCurrent())->first();
 
-        return $theme->get($key) ?? $default;
+        if (request()->has('preview')) {
+            $setting = json_decode(request()->get('preview'), true);
+
+            $theme->put('setting', $setting);
+        }
+
+        $theme = $theme->mapWithKeys(function($value, $handle) {
+            return Arr::dot([$handle => $value]);
+        });
+
+        return $theme->get($key, $default);
     }
 }

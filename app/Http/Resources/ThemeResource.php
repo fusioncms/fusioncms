@@ -33,6 +33,16 @@ class ThemeResource extends JsonResource
             'active'      => $this->get('slug') === Theme::getCurrent(),
             'preview'     => "/themes/{$this->get('slug')}/preview.png",
             'settings'    => $this->get('settings'),
+            'setting'     => $this->getSettingValues($this->get('slug')),
         ];
+    }
+
+    protected function getSettingValues()
+    {
+        $settings = collect($this->get('settings'))->mapWithKeys(function($setting, $handle) {
+            return [$handle => $setting['default'] ?? null];
+        });
+
+        return $settings;
     }
 }

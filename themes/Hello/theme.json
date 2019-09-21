@@ -1,7 +1,7 @@
 {
     "name": "Hello",
     "slug": "hello",
-    "description": "Say hello to your new CMS.",
+    "description": "Say hello to your new Content Management System.",
     "author": "efelle creative",
     "version": "1.0.0",
 
@@ -9,28 +9,35 @@
         "test": {
             "name": "Test",
             "fieldtype": "input",
-            "default": "foobar",
+            "default": "hello world!",
+            "help": "This is an example of a theme setting.",
+            "required": false
+        },
+        "message": {
+            "name": "Message",
+            "fieldtype": "redactor",
+            "default": "hello world!",
             "help": "This is an example of a theme setting.",
             "required": false
         },
         "primary_color": {
             "name": "Primary Color",
             "fieldtype": "color_picker",
-            "default": "foobar",
+            "default": "#FF5722",
             "help": "This is an example of a theme setting.",
             "required": false
         },
         "secondary_color": {
             "name": "Secondary Color",
             "fieldtype": "color_picker",
-            "default": "foobar",
+            "default": "#4DD0E1",
             "help": "This is an example of a theme setting.",
             "required": false
         },
         "enable_masthead": {
             "name": "Enable Masthead",
             "fieldtype": "toggle",
-            "default": false,
+            "default": true,
             "help": "Should the masthead be enabled on the homepage?",
             "required": false
         }
