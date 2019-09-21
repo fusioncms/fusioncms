@@ -3,7 +3,8 @@
         <p-checkbox-group 
             :name="field.name"
             :label="field.name"
-            :help="field.help">
+            :help="field.help"
+            :inline="field.settings.display == 'row'">
                 <p-checkbox :key="field.name + option.label"
                     v-for="option in field.settings.options"
                     :name="field.name"
