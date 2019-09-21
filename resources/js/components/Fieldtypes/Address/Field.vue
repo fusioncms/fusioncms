@@ -63,7 +63,7 @@
 
         data() {
             let data = {}
-            let value = JSON.parse(this.value)
+            let value = this.value
             if (this.value) {
                 data = {
                     address1: value.address1 || '',
@@ -142,7 +142,7 @@
         methods: {
             updateValue(event, handle) {
                 this.data[handle] = event
-                this.$emit('input', JSON.stringify(this.data))
+                this.$emit('input', this.data)
             },
 
             createMap: function() {
