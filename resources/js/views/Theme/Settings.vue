@@ -76,7 +76,7 @@
 
         computed: {
             hash() {
-                return encodeURIComponent(JSON.stringify(this.theme.setting))
+                return this.encode(JSON.stringify(this.theme.setting))
             },
         },
 
@@ -93,6 +93,10 @@
         methods: {
             submit() {
                 //
+            },
+
+            encode(string) {
+                return encodeURIComponent(string).replace(/[!'()*]/g, escape);
             }
         },
 

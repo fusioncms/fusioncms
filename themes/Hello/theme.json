@@ -6,40 +6,41 @@
     "version": "1.0.0",
 
     "settings": {
-        "test": {
-            "name": "Test",
+        "greeting": {
+            "name": "Greeting",
             "fieldtype": "input",
-            "default": "hello world!",
-            "help": "This is an example of a theme setting.",
+            "default": "Welcome to FusionCMS",
+            "help": "Say hello to your visitors.",
             "required": false
         },
+
         "message": {
             "name": "Message",
-            "fieldtype": "redactor",
-            "default": "hello world!",
-            "help": "This is an example of a theme setting.",
+            "fieldtype": "input",
+            "default": "We think you'll enjoy your time here ✌️",
             "required": false
         },
+
+        "say_hello": {
+            "name": "Say Hello",
+            "fieldtype": "toggle",
+            "default": true,
+            "help": "Should we say hello?",
+            "required": true
+        },
+
         "primary_color": {
             "name": "Primary Color",
             "fieldtype": "color_picker",
             "default": "#FF5722",
-            "help": "This is an example of a theme setting.",
-            "required": false
+            "required": true
         },
+
         "secondary_color": {
             "name": "Secondary Color",
             "fieldtype": "color_picker",
             "default": "#4DD0E1",
-            "help": "This is an example of a theme setting.",
-            "required": false
-        },
-        "enable_masthead": {
-            "name": "Enable Masthead",
-            "fieldtype": "toggle",
-            "default": true,
-            "help": "Should the masthead be enabled on the homepage?",
-            "required": false
+            "required": true
         }
     }
 }
