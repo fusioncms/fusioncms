@@ -49,6 +49,8 @@
             if(!this.value) {
                 this.$emit('input', [])
             }
+
+            this.values = _.cloneDeep(this.value)
         }
     }
 </script>
