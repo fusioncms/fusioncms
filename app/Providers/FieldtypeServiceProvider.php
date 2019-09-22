@@ -22,7 +22,7 @@ class FieldtypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // fieldtypes()->register(\App\Fieldtypes\CheckboxFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\CheckboxFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\DividerFieldtype::class);
         // fieldtypes()->register(\App\Fieldtypes\FileFieldtype::class);
         // fieldtypes()->register(\App\Fieldtypes\ImageFieldtype::class);
@@ -37,6 +37,8 @@ class FieldtypeServiceProvider extends ServiceProvider
         fieldtypes()->register(\App\Fieldtypes\ToggleFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\DateTimeFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\USStateFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\AddressFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\CountryFieldtype::class);
     }
 
     /**

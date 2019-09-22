@@ -1,12 +1,32 @@
 <template>
     <div>
-
+        <p-checkbox-group 
+            :name="field.name"
+            :label="field.name"
+            :help="field.help"
+            :inline="field.settings.display == 'row'">
+                <p-checkbox :key="field.name + option.label"
+                    v-for="option in field.settings.options"
+                    :name="field.name"
+                    :id="option.value"
+                    :native-value="option.value"
+                    v-model="values"
+                    @input="$emit('input', values)"
+                    >
+                    <template>
+                        {{option.label}}
+                    </template>
+                </p-checkbox>
+        </p-checkbox-group>
     </div>
 </template>
 
 <script>
+    import fieldtype from '../../../mixins/fieldtype'
     export default {
         name: 'checkbox-fieldtype',
+
+        mixins: [fieldtype],
 
         props: {
             field: {
@@ -16,14 +36,22 @@
 
             value: {
                 required: false,
-                default: '',
+                default: function(){ return [] },
             },
         },
 
-        computed: {
-            options() {
-                return this.field.settings.options
-            },
+        data() {
+            return {
+                values: []
+            }
+        },
+
+        mounted() {
+            if(!this.value) {
+                this.$emit('input', [])
+            }
+
+            this.values = _.cloneDeep(this.value)
         }
     }
 </script>

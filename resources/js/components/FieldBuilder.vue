@@ -46,9 +46,11 @@
         </div>
 
         <p-modal name="add-field" title="Add Field" extra-large>
-            <div class="row">
-                <div class="col w-1/4" v-for="fieldtype in fieldtypes" :key="fieldtype.handle">
-                    <p-button class="w-full items-center justify-start" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field><fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}</p-button>
+            <div class="row -mb-6">
+                <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="fieldtype.handle">
+                    <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field>
+                        <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
+                    </p-button>
                 </div>
             </div>
 
