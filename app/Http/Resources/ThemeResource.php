@@ -39,10 +39,16 @@ class ThemeResource extends JsonResource
 
     protected function getSettingValues()
     {
-        $settings = collect($this->get('settings'))->mapWithKeys(function($setting, $handle) {
+        $settingsFilePath = storage_path('themes/'.$this->get('slug').'.json');
+
+        $defaults = collect($this->get('settings'))->mapWithKeys(function($setting, $handle) {
             return [$handle => $setting['default'] ?? null];
         });
 
-        return $settings;
+        if (! \File::exists($settingsFilePath)) {
+            return $defaults;    
+        }
+
+        return json_decode(\File::get($settingsFilePath), true);
     }
 }

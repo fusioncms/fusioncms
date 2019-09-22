@@ -128,9 +128,19 @@ if (! function_exists('theme')) {
         $theme = Theme::where('slug', Theme::getCurrent())->first();
 
         if (request()->has('preview')) {
-            $setting = json_decode(request()->get('preview'), true);
+            $theme->put('setting', json_decode(request()->get('preview'), true));
+        } else {
+            $settingsFilePath = storage_path('themes/'.$theme->get('slug').'.json');
 
-            $theme->put('setting', $setting);
+            if (! \File::exists($settingsFilePath)) {
+                $defaults = collect($theme->get('settings'))->mapWithKeys(function($setting, $handle) {
+                    return [$handle => $setting['default'] ?? null];
+                });
+
+                \File::put($settingsFilePath, json_encode($defaults, JSON_PRETTY_PRINT));
+            }
+
+            $theme->put('setting', json_decode(\File::get($settingsFilePath), true));
         }
 
         $theme = $theme->mapWithKeys(function($value, $handle) {

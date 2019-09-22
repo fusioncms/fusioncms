@@ -34,13 +34,6 @@
             "fieldtype": "color_picker",
             "default": "#FF5722",
             "required": true
-        },
-
-        "secondary_color": {
-            "name": "Secondary Color",
-            "fieldtype": "color_picker",
-            "default": "#4DD0E1",
-            "required": true
         }
     }
 }

@@ -1,3 +1,6 @@
+import store from '../vuex'
+import _ from 'lodash'
+
 window.proton = function() {
     return Vue.prototype.$proton
 }

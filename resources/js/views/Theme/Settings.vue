@@ -40,7 +40,7 @@
                         <button class="mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reset"><fa-icon :icon="['far', 'home']" class="fa-fw text-white"></fa-icon></button>
 
                         <div class="px-6 bg-gray-800 rounded-full text-gray-400 flex flex-1">
-                            <span>https://fusioncms.test/</span>
+                            <span>{{ baseUrl }}</span>
                             <input type="text" name="url" v-model="url" class="flex flex-1 tracking-wide text-white font-bold bg-transparent focus:outline-none" @enter.prevent="reload">
                         </div>
                     </div>
@@ -81,7 +81,6 @@
             return {
                 theme: {},
                 preview: '',
-                baseUrl: 'http://fusioncms.test/',
                 url: '',
             }
         },
@@ -93,6 +92,10 @@
 
             previewUrl() {
                 return this.baseUrl + this.url + '?preview=' + this.hash
+            },
+
+            baseUrl() {
+                return this.setting('site_url') + '/'
             },
         },
 
@@ -114,7 +117,11 @@
 
         methods: {
             submit() {
-                //
+                this.theme.setting['_method'] = 'PATCH'
+
+                axios.post(`/api/themes/${this.theme.slug}`, this.theme.setting).then(() => {
+                    toast('Settings have been updated.', 'success')
+                })
             },
 
             encode(string) {
@@ -134,7 +141,7 @@
 
         beforeRouteEnter(to, from, next) {
             axios.all([
-                axios.get('/api/theme/active'),
+                axios.get('/api/theme'),
             ]).then(axios.spread(function (theme) {
                 next(function(vm) {
                     vm.theme = theme.data.data
