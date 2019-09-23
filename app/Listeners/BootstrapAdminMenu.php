@@ -107,7 +107,7 @@ class BootstrapAdminMenu
             ]);
 
             $menu->add('Theme')->data([
-                'to'   => '/theme',
+                'to'   => '/themes/settings',
                 'icon' => 'paint-roller',
             ]);
 

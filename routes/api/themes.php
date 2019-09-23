@@ -10,7 +10,6 @@
  */
 
 Route::apiResource('/themes', 'Themes\BrowseController');
-Route::get('/themes/{theme}/screenshot.png', 'Themes\ScreenshotController');
 
 Route::get('/theme', 'Themes\ActiveController@show');
 Route::patch('/theme/{theme}', 'Themes\ActiveController@update');
