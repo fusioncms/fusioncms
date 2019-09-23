@@ -26,17 +26,6 @@ class LocalDevelopment
      */
     public function handle($request, Closure $next)
     {
-        // if ($request->has('preview')) {
-        // //     $settings = json_decode($request->get('preview'));
-        // //     $theme    = Theme::where('slug', 'hello')->first();
-
-        // //     $theme->
-
-        // //     dd($settings, $theme);
-        //     dd(theme('setting.test'));
-        // }
-
-
         // if (app()->isLocal()) {
         //     // We're developing locally, so just copy any module
         //     // assets we may have to the public directory.

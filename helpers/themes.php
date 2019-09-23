@@ -44,37 +44,25 @@ if (! function_exists('javascript')) {
     }
 }
 
-// if (! function_exists('layout')) {
-//     /**
-//      * Fetches the currently configured theme layout.
-//      *
-//      * @return string
-//      */
-//     function layout()
-//     {
-//         return Theme::getLayout();
-//     }
-// }
+if (! function_exists('theme_path')) {
+    /**
+     * Return the currently active theme's URL path.
+     *
+     * @return string
+     */
+    function theme_path($path, $theme = null)
+    {
+        if (is_null($theme)) {
+            $theme = Theme::getCurrent();
+        }
 
-// if (! function_exists('theme')) {
-//     /**
-//      * Return the currently active theme's URL path.
-//      *
-//      * @return string
-//      */
-//     function theme($path, $theme = null)
-//     {
-//         if (is_null($theme)) {
-//             $theme = Theme::getCurrent();
-//         }
-
-//         return url(
-//             Config::get('themes.paths.base') . '/' .
-//             $theme . '/' .
-//             $path
-//         );
-//     }
-// }
+        return url(
+            Config::get('themes.paths.base') . '/' .
+            $theme . '/' .
+            $path
+        );
+    }
+}
 
 if (! function_exists('theme_mix')) {
     /**
