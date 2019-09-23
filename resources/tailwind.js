@@ -12,7 +12,8 @@ const screens = {
 }
 
 const spacing = {
-    '32': '8rem',
+    '28': '7rem',
+    // '32': '8rem',
 
     '45px': '45px',
     '50px': '50px',

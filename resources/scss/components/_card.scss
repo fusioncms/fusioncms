@@ -1,23 +1,23 @@
 .card {
-    @apply .rounded .shadow .bg-white .relative;
+    @apply rounded shadow bg-white relative overflow-hidden;
 
     &__body {
-        @apply .p-6;
+        @apply p-6;
     }
 
     &--primary {
-        @apply .rounded .shadow .bg-primary-500;
+        @apply rounded shadow bg-primary-500;
 
         > p {
-            @apply .text-white;
+            @apply text-white;
         }
     }
 
-    &--600 {
-        @apply .rounded .shadow .bg-black .text-white;
+    &--dark {
+        @apply rounded shadow bg-black text-white;
 
         > p {
-            @apply .text-white;
+            @apply text-white;
         }
     }
 }

@@ -1,16 +1,39 @@
 {
     "name": "Hello",
     "slug": "hello",
-    "description": "Say hello to your new CMS.",
+    "description": "Say hello to your new Content Management System.",
     "author": "efelle creative",
     "version": "1.0.0",
 
     "settings": {
-        "foo": {
-            "fieldtype": "string",
-            "default": "bar",
-            "description": "This is an example of a theme setting.",
+        "greeting": {
+            "name": "Greeting",
+            "fieldtype": "input",
+            "default": "Welcome to FusionCMS",
+            "help": "Say hello to your visitors.",
             "required": false
+        },
+
+        "message": {
+            "name": "Message",
+            "fieldtype": "input",
+            "default": "We think you'll enjoy your time here ✌️",
+            "required": false
+        },
+
+        "say_hello": {
+            "name": "Say Hello",
+            "fieldtype": "toggle",
+            "default": true,
+            "help": "Should we say hello?",
+            "required": true
+        },
+
+        "primary_color": {
+            "name": "Primary Color",
+            "fieldtype": "color_picker",
+            "default": "#FF5722",
+            "required": true
         }
     }
 }

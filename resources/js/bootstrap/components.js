@@ -12,6 +12,7 @@ Vue.component('redactor', require('../components/Redactor').default)
 Vue.component('tos-modal', require('../components/Modals/TOSModal').default)
 Vue.component('privacy-modal', require('../components/Modals/PrivacyModal').default)
 Vue.component('analytics-overview', require('../components/AnalyticsOverview').default)
+Vue.component('p-frame', require('../components/Frame').default)
 
 // File Manager
 Vue.component('p-img', require('../components/FileManager/Image').default)

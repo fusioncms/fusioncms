@@ -8,23 +8,23 @@ class RSSController extends Controller
 {
     public function __invoke()
     {
-        $news = matrix_entries('posts')
-            ->orderBy('created_at', 'desc')
+        $news = matrix_entries('news')
+            ->orderBy('publish_at', 'desc')
             ->limit(10)
             ->get();
 
         $data['feed'] = [
-            'version' => 'https:/​/jsonfeed.org/version/1',
-            'title' => 'Get FusionCMS',
+            'version'       => 'https:/​/jsonfeed.org/version/1',
+            'title'         => 'Get FusionCMS',
             'home_page_url' => 'http://fusioncms.test/',
-            'feed_url' => 'http://fusioncms.test/feed.json',
-            'items' => $news->map(function($item) {
+            'feed_url'      => 'http://fusioncms.test/feed.json',
+            'items'         => $news->map(function($item) {
                 return [
-                    'id' => $item->id,
-                    'title' => $item->name,
-                    'url' => url($item->slug),
-                    'content_text' => $item->excerpt,
-                    'date_published' => $item->updated_at->toAtomString(),
+                    'id'             => $item->id,
+                    'title'          => $item->name,
+                    'url'            => url($item->slug),
+                    'content_text'   => $item->excerpt,
+                    'date_published' => $item->created_at->toAtomString(),
                 ];
             })->toArray(),
         ];

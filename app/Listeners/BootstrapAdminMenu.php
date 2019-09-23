@@ -106,8 +106,8 @@ class BootstrapAdminMenu
                 'icon' => 'ballot',
             ]);
 
-            $menu->add('Themes')->data([
-                'to'   => '/themes',
+            $menu->add('Theme')->data([
+                'to'   => '/themes/settings',
                 'icon' => 'paint-roller',
             ]);
 

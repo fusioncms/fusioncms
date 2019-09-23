@@ -239,8 +239,17 @@ const router = new Router({
         },
         {
             path: '/themes',
-            component: () => import('../views/Themes'),
-            name: 'themes',
+            component: () => import('../views/Themes/Index'),
+            name: 'themes.index',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            }
+        },
+        {
+            path: '/themes/settings',
+            component: () => import('../views/Themes/Settings'),
+            name: 'themes.settings',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

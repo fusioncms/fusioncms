@@ -24,6 +24,8 @@ Route::pattern('username', '[a-z0-9_-]{3,16}');
 |
 */
 
+Route::get('/themes/{theme}/preview.png', 'Themes\ScreenshotController@show');
+
 Route::group(['prefix' => config('fusioncms.path')], function () {
     Route::post('/login', [
         'as'   => 'admin.post.login',

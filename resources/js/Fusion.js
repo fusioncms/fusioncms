@@ -12,6 +12,14 @@ export default class Fusion {
 
         Vue.prototype.$bus = this.bus
 
+        Vue.mixin({
+            methods: {
+                setting(key) {
+                    return this.$store.getters['settings/getSettingByKey'](key)
+                },
+            }
+        })
+
         this.bootingCallbacks = []
         this.bootedCallbacks = []
     }

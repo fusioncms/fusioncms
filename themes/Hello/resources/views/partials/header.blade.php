@@ -1,4 +1,4 @@
-<nav id="header" class="bg-white fixed w-full z-10 top-0 border-t-4 border-blue-500">
+<nav id="header" class="bg-white fixed w-full z-10 top-0 border-t-4" style="border-color: {{ theme('setting.primary_color') }};">
     <div class="w-full border-b border-gray-200">
         <div class="w-full container mx-auto mb-px flex flex-wrap items-center">
             <div class="w-1/2 px-6 flex items-center">

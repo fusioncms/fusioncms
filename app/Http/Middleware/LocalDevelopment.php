@@ -11,6 +11,7 @@
 
 namespace App\Http\Middleware;
 
+use Theme;
 use Closure;
 use Illuminate\Support\Facades\Artisan;
 

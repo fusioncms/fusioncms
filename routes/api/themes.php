@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('themes', 'ThemeController');
-Route::put('themes/set-active/{theme}', 'ThemeController@setActive');
-Route::get('themes/{theme}/preview.png', 'ThemeController@previewImage');
+Route::apiResource('/themes', 'Themes\BrowseController');
+
+Route::get('/theme', 'Themes\ActiveController@show');
+Route::patch('/theme/{theme}', 'Themes\ActiveController@update');
