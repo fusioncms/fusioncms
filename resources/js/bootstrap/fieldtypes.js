@@ -47,3 +47,6 @@ Vue.component('country-fieldtype-settings', () => import('../components/Fieldtyp
 
 Vue.component('radio-fieldtype', () => import('../components/Fieldtypes/Radio/Field'))
 Vue.component('radio-fieldtype-settings', () => import('../components/Fieldtypes/Radio/Settings'))
+
+Vue.component('markdown-fieldtype', () => import('../components/Fieldtypes/Markdown/Field'))
+Vue.component('markdown-fieldtype-settings', () => import('../components/Fieldtypes/Markdown/Settings'))
