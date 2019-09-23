@@ -39,6 +39,7 @@ class FieldtypeServiceProvider extends ServiceProvider
         fieldtypes()->register(\App\Fieldtypes\USStateFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\AddressFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\CountryFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\RadioFieldtype::class);
     }
 
     /**

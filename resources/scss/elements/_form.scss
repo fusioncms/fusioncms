@@ -117,6 +117,18 @@ select {
     }
 }
 
+.form__radio {
+    &-group {
+        &--inline {
+            @apply .inline-flex my-3;
+
+            label {
+                @apply mr-4;
+            }
+        }
+    }
+}
+
 .form__label {
     @apply .block .uppercase .tracking-wide .text-gray-700 .text-xs .font-bold .mb-2;
 }

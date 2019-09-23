@@ -44,3 +44,6 @@ Vue.component('address-fieldtype-settings', () => import('../components/Fieldtyp
 
 Vue.component('country-fieldtype', () => import('../components/Fieldtypes/Country/Field'))
 Vue.component('country-fieldtype-settings', () => import('../components/Fieldtypes/Country/Settings'))
+
+Vue.component('radio-fieldtype', () => import('../components/Fieldtypes/Radio/Field'))
+Vue.component('radio-fieldtype-settings', () => import('../components/Fieldtypes/Radio/Settings'))
