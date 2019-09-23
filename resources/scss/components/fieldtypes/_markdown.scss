@@ -1,0 +1,24 @@
+.markdown {
+  &__preview {
+    flex: 1 1 0;
+
+    h1 {
+      @apply .text-3xl;
+    }
+    h2 {
+      @apply .text-2xl;
+    }
+    h3 {
+      @apply .text-lg;
+    }
+    h4 {
+      @apply .text-base;
+    }
+    h5 {
+      @apply .text-sm;
+    }
+    h6 {
+      @apply .text-xs;
+    }
+  }
+}
