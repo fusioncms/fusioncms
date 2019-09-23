@@ -10,8 +10,7 @@
                     :name="field.name"
                     :id="option.value"
                     :value="option.value"
-                    :checked="option.value == originalValue"
-                    v-model="originalValue"
+                    :checked="option.value == value"
                     @input="$emit('input', option.value)">
                     {{option.label}}
                 </p-radio>
@@ -34,24 +33,8 @@
 
             value: {
                 required: false,
-                default: function(){ return [] },
+                default: null,
             },
-        },
-
-        data() {
-            return {
-                originalValue: ''
-            }
-        },
-
-        mounted() {
-            // if(!this.value) {
-            //     this.$emit('input', [])
-            // }
-
-            // this.values = _.cloneDeep(this.value)
-
-            this.originalValue = this.value
         }
     }
 </script>
