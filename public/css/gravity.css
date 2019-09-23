@@ -2549,6 +2549,7 @@ table td::before {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
   position: relative;
+  overflow: hidden;
 }
 
 .card__body {
@@ -2565,14 +2566,14 @@ table td::before {
   color: #ffffff;
 }
 
-.card--600 {
+.card--dark {
   border-radius: 0.25rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   background-color: #000000;
   color: #ffffff;
 }
 
-.card--600 > p {
+.card--dark > p {
   color: #ffffff;
 }
 
@@ -2736,23 +2737,23 @@ table td::before {
   padding-right: 1.5rem;
 }
 
-.modal--600 {
+.modal--dark {
   background-color: #000000;
 }
 
-.modal--600 p, .modal--600 li {
+.modal--dark p, .modal--dark li {
   color: #a0aec0;
 }
 
-.modal--600 .modal__header--title, .modal--600 h1, .modal--600 h2, .modal--600 h3, .modal--600 h4, .modal--600 h5, .modal--600 h6 {
+.modal--dark .modal__header--title, .modal--dark h1, .modal--dark h2, .modal--dark h3, .modal--dark h4, .modal--dark h5, .modal--dark h6 {
   color: #cbd5e0;
 }
 
-.modal--600 .modal__header {
+.modal--dark .modal__header {
   border-color: #2d3748;
 }
 
-.modal--600 .modal__footer {
+.modal--dark .modal__footer {
   border-color: #2d3748;
 }
 
@@ -6212,6 +6213,10 @@ table td::before {
   height: 6rem;
 }
 
+.h-28{
+  height: 7rem;
+}
+
 .h-32{
   height: 8rem;
 }
@@ -6416,6 +6421,10 @@ table td::before {
   margin: 6rem;
 }
 
+.m-28{
+  margin: 7rem;
+}
+
 .m-32{
   margin: 8rem;
 }
@@ -6534,6 +6543,10 @@ table td::before {
 
 .-m-24{
   margin: -6rem;
+}
+
+.-m-28{
+  margin: -7rem;
 }
 
 .-m-32{
@@ -6732,6 +6745,16 @@ table td::before {
 .mx-24{
   margin-left: 6rem;
   margin-right: 6rem;
+}
+
+.my-28{
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+}
+
+.mx-28{
+  margin-left: 7rem;
+  margin-right: 7rem;
 }
 
 .my-32{
@@ -7032,6 +7055,16 @@ table td::before {
 .-mx-24{
   margin-left: -6rem;
   margin-right: -6rem;
+}
+
+.-my-28{
+  margin-top: -7rem;
+  margin-bottom: -7rem;
+}
+
+.-mx-28{
+  margin-left: -7rem;
+  margin-right: -7rem;
 }
 
 .-my-32{
@@ -7410,6 +7443,22 @@ table td::before {
 
 .ml-24{
   margin-left: 6rem;
+}
+
+.mt-28{
+  margin-top: 7rem;
+}
+
+.mr-28{
+  margin-right: 7rem;
+}
+
+.mb-28{
+  margin-bottom: 7rem;
+}
+
+.ml-28{
+  margin-left: 7rem;
 }
 
 .mt-32{
@@ -7892,6 +7941,22 @@ table td::before {
   margin-left: -6rem;
 }
 
+.-mt-28{
+  margin-top: -7rem;
+}
+
+.-mr-28{
+  margin-right: -7rem;
+}
+
+.-mb-28{
+  margin-bottom: -7rem;
+}
+
+.-ml-28{
+  margin-left: -7rem;
+}
+
 .-mt-32{
   margin-top: -8rem;
 }
@@ -8164,8 +8229,8 @@ table td::before {
   margin-left: calc(-100% - -90px);
 }
 
-.max-h-32{
-  max-height: 8rem;
+.max-h-28{
+  max-height: 7rem;
 }
 
 .max-h-full{
@@ -8248,8 +8313,8 @@ table td::before {
   max-height: calc(100% - 90px);
 }
 
-.max-w-32{
-  max-width: 8rem;
+.max-w-28{
+  max-width: 7rem;
 }
 
 .max-w-xs{
@@ -8352,8 +8417,8 @@ table td::before {
   min-height: 0;
 }
 
-.min-h-32{
-  min-height: 8rem;
+.min-h-28{
+  min-height: 7rem;
 }
 
 .min-h-full{
@@ -8440,8 +8505,8 @@ table td::before {
   min-width: 0;
 }
 
-.min-w-32{
-  min-width: 8rem;
+.min-w-28{
+  min-width: 7rem;
 }
 
 .min-w-full{
@@ -8766,6 +8831,10 @@ table td::before {
   padding: 6rem;
 }
 
+.p-28{
+  padding: 7rem;
+}
+
 .p-32{
   padding: 8rem;
 }
@@ -8962,6 +9031,16 @@ table td::before {
 .px-24{
   padding-left: 6rem;
   padding-right: 6rem;
+}
+
+.py-28{
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.px-28{
+  padding-left: 7rem;
+  padding-right: 7rem;
 }
 
 .py-32{
@@ -9340,6 +9419,22 @@ table td::before {
 
 .pl-24{
   padding-left: 6rem;
+}
+
+.pt-28{
+  padding-top: 7rem;
+}
+
+.pr-28{
+  padding-right: 7rem;
+}
+
+.pb-28{
+  padding-bottom: 7rem;
+}
+
+.pl-28{
+  padding-left: 7rem;
 }
 
 .pt-32{
@@ -14088,6 +14183,10 @@ table td::before {
 
 .w-24{
   width: 6rem;
+}
+
+.w-28{
+  width: 7rem;
 }
 
 .w-32{
@@ -20825,6 +20924,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .xs\:h-28{
+    height: 7rem;
+  }
+
   .xs\:h-32{
     height: 8rem;
   }
@@ -21029,6 +21132,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .xs\:m-28{
+    margin: 7rem;
+  }
+
   .xs\:m-32{
     margin: 8rem;
   }
@@ -21147,6 +21254,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xs\:-m-24{
     margin: -6rem;
+  }
+
+  .xs\:-m-28{
+    margin: -7rem;
   }
 
   .xs\:-m-32{
@@ -21345,6 +21456,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xs\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .xs\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .xs\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .xs\:my-32{
@@ -21645,6 +21766,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xs\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .xs\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .xs\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .xs\:-my-32{
@@ -22023,6 +22154,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xs\:ml-24{
     margin-left: 6rem;
+  }
+
+  .xs\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .xs\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .xs\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .xs\:ml-28{
+    margin-left: 7rem;
   }
 
   .xs\:mt-32{
@@ -22505,6 +22652,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .xs\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .xs\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .xs\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .xs\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .xs\:-mt-32{
     margin-top: -8rem;
   }
@@ -22777,8 +22940,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .xs\:max-h-32{
-    max-height: 8rem;
+  .xs\:max-h-28{
+    max-height: 7rem;
   }
 
   .xs\:max-h-full{
@@ -22861,8 +23024,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .xs\:max-w-32{
-    max-width: 8rem;
+  .xs\:max-w-28{
+    max-width: 7rem;
   }
 
   .xs\:max-w-xs{
@@ -22965,8 +23128,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .xs\:min-h-32{
-    min-height: 8rem;
+  .xs\:min-h-28{
+    min-height: 7rem;
   }
 
   .xs\:min-h-full{
@@ -23053,8 +23216,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .xs\:min-w-32{
-    min-width: 8rem;
+  .xs\:min-w-28{
+    min-width: 7rem;
   }
 
   .xs\:min-w-full{
@@ -23379,6 +23542,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .xs\:p-28{
+    padding: 7rem;
+  }
+
   .xs\:p-32{
     padding: 8rem;
   }
@@ -23575,6 +23742,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xs\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .xs\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .xs\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .xs\:py-32{
@@ -23953,6 +24130,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xs\:pl-24{
     padding-left: 6rem;
+  }
+
+  .xs\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .xs\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .xs\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .xs\:pl-28{
+    padding-left: 7rem;
   }
 
   .xs\:pt-32{
@@ -28703,6 +28896,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .xs\:w-28{
+    width: 7rem;
+  }
+
   .xs\:w-32{
     width: 8rem;
   }
@@ -31687,6 +31884,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .sm\:h-28{
+    height: 7rem;
+  }
+
   .sm\:h-32{
     height: 8rem;
   }
@@ -31891,6 +32092,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .sm\:m-28{
+    margin: 7rem;
+  }
+
   .sm\:m-32{
     margin: 8rem;
   }
@@ -32009,6 +32214,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .sm\:-m-24{
     margin: -6rem;
+  }
+
+  .sm\:-m-28{
+    margin: -7rem;
   }
 
   .sm\:-m-32{
@@ -32207,6 +32416,16 @@ a.plyr__control::after, a.plyr__control::before {
   .sm\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .sm\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .sm\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .sm\:my-32{
@@ -32507,6 +32726,16 @@ a.plyr__control::after, a.plyr__control::before {
   .sm\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .sm\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .sm\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .sm\:-my-32{
@@ -32885,6 +33114,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .sm\:ml-24{
     margin-left: 6rem;
+  }
+
+  .sm\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .sm\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .sm\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .sm\:ml-28{
+    margin-left: 7rem;
   }
 
   .sm\:mt-32{
@@ -33367,6 +33612,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .sm\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .sm\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .sm\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .sm\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .sm\:-mt-32{
     margin-top: -8rem;
   }
@@ -33639,8 +33900,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .sm\:max-h-32{
-    max-height: 8rem;
+  .sm\:max-h-28{
+    max-height: 7rem;
   }
 
   .sm\:max-h-full{
@@ -33723,8 +33984,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .sm\:max-w-32{
-    max-width: 8rem;
+  .sm\:max-w-28{
+    max-width: 7rem;
   }
 
   .sm\:max-w-xs{
@@ -33827,8 +34088,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .sm\:min-h-32{
-    min-height: 8rem;
+  .sm\:min-h-28{
+    min-height: 7rem;
   }
 
   .sm\:min-h-full{
@@ -33915,8 +34176,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .sm\:min-w-32{
-    min-width: 8rem;
+  .sm\:min-w-28{
+    min-width: 7rem;
   }
 
   .sm\:min-w-full{
@@ -34241,6 +34502,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .sm\:p-28{
+    padding: 7rem;
+  }
+
   .sm\:p-32{
     padding: 8rem;
   }
@@ -34437,6 +34702,16 @@ a.plyr__control::after, a.plyr__control::before {
   .sm\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .sm\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .sm\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .sm\:py-32{
@@ -34815,6 +35090,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .sm\:pl-24{
     padding-left: 6rem;
+  }
+
+  .sm\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .sm\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .sm\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .sm\:pl-28{
+    padding-left: 7rem;
   }
 
   .sm\:pt-32{
@@ -39565,6 +39856,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .sm\:w-28{
+    width: 7rem;
+  }
+
   .sm\:w-32{
     width: 8rem;
   }
@@ -42549,6 +42844,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .md\:h-28{
+    height: 7rem;
+  }
+
   .md\:h-32{
     height: 8rem;
   }
@@ -42753,6 +43052,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .md\:m-28{
+    margin: 7rem;
+  }
+
   .md\:m-32{
     margin: 8rem;
   }
@@ -42871,6 +43174,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .md\:-m-24{
     margin: -6rem;
+  }
+
+  .md\:-m-28{
+    margin: -7rem;
   }
 
   .md\:-m-32{
@@ -43069,6 +43376,16 @@ a.plyr__control::after, a.plyr__control::before {
   .md\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .md\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .md\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .md\:my-32{
@@ -43369,6 +43686,16 @@ a.plyr__control::after, a.plyr__control::before {
   .md\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .md\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .md\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .md\:-my-32{
@@ -43747,6 +44074,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .md\:ml-24{
     margin-left: 6rem;
+  }
+
+  .md\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .md\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .md\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .md\:ml-28{
+    margin-left: 7rem;
   }
 
   .md\:mt-32{
@@ -44229,6 +44572,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .md\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .md\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .md\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .md\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .md\:-mt-32{
     margin-top: -8rem;
   }
@@ -44501,8 +44860,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .md\:max-h-32{
-    max-height: 8rem;
+  .md\:max-h-28{
+    max-height: 7rem;
   }
 
   .md\:max-h-full{
@@ -44585,8 +44944,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .md\:max-w-32{
-    max-width: 8rem;
+  .md\:max-w-28{
+    max-width: 7rem;
   }
 
   .md\:max-w-xs{
@@ -44689,8 +45048,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .md\:min-h-32{
-    min-height: 8rem;
+  .md\:min-h-28{
+    min-height: 7rem;
   }
 
   .md\:min-h-full{
@@ -44777,8 +45136,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .md\:min-w-32{
-    min-width: 8rem;
+  .md\:min-w-28{
+    min-width: 7rem;
   }
 
   .md\:min-w-full{
@@ -45103,6 +45462,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .md\:p-28{
+    padding: 7rem;
+  }
+
   .md\:p-32{
     padding: 8rem;
   }
@@ -45299,6 +45662,16 @@ a.plyr__control::after, a.plyr__control::before {
   .md\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .md\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .md\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .md\:py-32{
@@ -45677,6 +46050,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .md\:pl-24{
     padding-left: 6rem;
+  }
+
+  .md\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .md\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .md\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .md\:pl-28{
+    padding-left: 7rem;
   }
 
   .md\:pt-32{
@@ -50427,6 +50816,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .md\:w-28{
+    width: 7rem;
+  }
+
   .md\:w-32{
     width: 8rem;
   }
@@ -53411,6 +53804,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .lg\:h-28{
+    height: 7rem;
+  }
+
   .lg\:h-32{
     height: 8rem;
   }
@@ -53615,6 +54012,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .lg\:m-28{
+    margin: 7rem;
+  }
+
   .lg\:m-32{
     margin: 8rem;
   }
@@ -53733,6 +54134,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .lg\:-m-24{
     margin: -6rem;
+  }
+
+  .lg\:-m-28{
+    margin: -7rem;
   }
 
   .lg\:-m-32{
@@ -53931,6 +54336,16 @@ a.plyr__control::after, a.plyr__control::before {
   .lg\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .lg\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .lg\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .lg\:my-32{
@@ -54231,6 +54646,16 @@ a.plyr__control::after, a.plyr__control::before {
   .lg\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .lg\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .lg\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .lg\:-my-32{
@@ -54609,6 +55034,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .lg\:ml-24{
     margin-left: 6rem;
+  }
+
+  .lg\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .lg\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .lg\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .lg\:ml-28{
+    margin-left: 7rem;
   }
 
   .lg\:mt-32{
@@ -55091,6 +55532,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .lg\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .lg\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .lg\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .lg\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .lg\:-mt-32{
     margin-top: -8rem;
   }
@@ -55363,8 +55820,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .lg\:max-h-32{
-    max-height: 8rem;
+  .lg\:max-h-28{
+    max-height: 7rem;
   }
 
   .lg\:max-h-full{
@@ -55447,8 +55904,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .lg\:max-w-32{
-    max-width: 8rem;
+  .lg\:max-w-28{
+    max-width: 7rem;
   }
 
   .lg\:max-w-xs{
@@ -55551,8 +56008,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .lg\:min-h-32{
-    min-height: 8rem;
+  .lg\:min-h-28{
+    min-height: 7rem;
   }
 
   .lg\:min-h-full{
@@ -55639,8 +56096,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .lg\:min-w-32{
-    min-width: 8rem;
+  .lg\:min-w-28{
+    min-width: 7rem;
   }
 
   .lg\:min-w-full{
@@ -55965,6 +56422,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .lg\:p-28{
+    padding: 7rem;
+  }
+
   .lg\:p-32{
     padding: 8rem;
   }
@@ -56161,6 +56622,16 @@ a.plyr__control::after, a.plyr__control::before {
   .lg\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .lg\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .lg\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .lg\:py-32{
@@ -56539,6 +57010,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .lg\:pl-24{
     padding-left: 6rem;
+  }
+
+  .lg\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .lg\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .lg\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .lg\:pl-28{
+    padding-left: 7rem;
   }
 
   .lg\:pt-32{
@@ -61289,6 +61776,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .lg\:w-28{
+    width: 7rem;
+  }
+
   .lg\:w-32{
     width: 8rem;
   }
@@ -64273,6 +64764,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .xl\:h-28{
+    height: 7rem;
+  }
+
   .xl\:h-32{
     height: 8rem;
   }
@@ -64477,6 +64972,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .xl\:m-28{
+    margin: 7rem;
+  }
+
   .xl\:m-32{
     margin: 8rem;
   }
@@ -64595,6 +65094,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xl\:-m-24{
     margin: -6rem;
+  }
+
+  .xl\:-m-28{
+    margin: -7rem;
   }
 
   .xl\:-m-32{
@@ -64793,6 +65296,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xl\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .xl\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .xl\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .xl\:my-32{
@@ -65093,6 +65606,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xl\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .xl\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .xl\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .xl\:-my-32{
@@ -65471,6 +65994,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xl\:ml-24{
     margin-left: 6rem;
+  }
+
+  .xl\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .xl\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .xl\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .xl\:ml-28{
+    margin-left: 7rem;
   }
 
   .xl\:mt-32{
@@ -65953,6 +66492,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .xl\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .xl\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .xl\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .xl\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .xl\:-mt-32{
     margin-top: -8rem;
   }
@@ -66225,8 +66780,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .xl\:max-h-32{
-    max-height: 8rem;
+  .xl\:max-h-28{
+    max-height: 7rem;
   }
 
   .xl\:max-h-full{
@@ -66309,8 +66864,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .xl\:max-w-32{
-    max-width: 8rem;
+  .xl\:max-w-28{
+    max-width: 7rem;
   }
 
   .xl\:max-w-xs{
@@ -66413,8 +66968,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .xl\:min-h-32{
-    min-height: 8rem;
+  .xl\:min-h-28{
+    min-height: 7rem;
   }
 
   .xl\:min-h-full{
@@ -66501,8 +67056,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .xl\:min-w-32{
-    min-width: 8rem;
+  .xl\:min-w-28{
+    min-width: 7rem;
   }
 
   .xl\:min-w-full{
@@ -66827,6 +67382,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .xl\:p-28{
+    padding: 7rem;
+  }
+
   .xl\:p-32{
     padding: 8rem;
   }
@@ -67023,6 +67582,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xl\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .xl\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .xl\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .xl\:py-32{
@@ -67401,6 +67970,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xl\:pl-24{
     padding-left: 6rem;
+  }
+
+  .xl\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .xl\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .xl\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .xl\:pl-28{
+    padding-left: 7rem;
   }
 
   .xl\:pt-32{
@@ -72151,6 +72736,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .xl\:w-28{
+    width: 7rem;
+  }
+
   .xl\:w-32{
     width: 8rem;
   }
@@ -75135,6 +75724,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .xxl\:h-28{
+    height: 7rem;
+  }
+
   .xxl\:h-32{
     height: 8rem;
   }
@@ -75339,6 +75932,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .xxl\:m-28{
+    margin: 7rem;
+  }
+
   .xxl\:m-32{
     margin: 8rem;
   }
@@ -75457,6 +76054,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxl\:-m-24{
     margin: -6rem;
+  }
+
+  .xxl\:-m-28{
+    margin: -7rem;
   }
 
   .xxl\:-m-32{
@@ -75655,6 +76256,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxl\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .xxl\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .xxl\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .xxl\:my-32{
@@ -75955,6 +76566,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxl\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .xxl\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .xxl\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .xxl\:-my-32{
@@ -76333,6 +76954,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxl\:ml-24{
     margin-left: 6rem;
+  }
+
+  .xxl\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .xxl\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .xxl\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .xxl\:ml-28{
+    margin-left: 7rem;
   }
 
   .xxl\:mt-32{
@@ -76815,6 +77452,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .xxl\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .xxl\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .xxl\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .xxl\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .xxl\:-mt-32{
     margin-top: -8rem;
   }
@@ -77087,8 +77740,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .xxl\:max-h-32{
-    max-height: 8rem;
+  .xxl\:max-h-28{
+    max-height: 7rem;
   }
 
   .xxl\:max-h-full{
@@ -77171,8 +77824,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .xxl\:max-w-32{
-    max-width: 8rem;
+  .xxl\:max-w-28{
+    max-width: 7rem;
   }
 
   .xxl\:max-w-xs{
@@ -77275,8 +77928,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .xxl\:min-h-32{
-    min-height: 8rem;
+  .xxl\:min-h-28{
+    min-height: 7rem;
   }
 
   .xxl\:min-h-full{
@@ -77363,8 +78016,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .xxl\:min-w-32{
-    min-width: 8rem;
+  .xxl\:min-w-28{
+    min-width: 7rem;
   }
 
   .xxl\:min-w-full{
@@ -77689,6 +78342,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .xxl\:p-28{
+    padding: 7rem;
+  }
+
   .xxl\:p-32{
     padding: 8rem;
   }
@@ -77885,6 +78542,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxl\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .xxl\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .xxl\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .xxl\:py-32{
@@ -78263,6 +78930,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxl\:pl-24{
     padding-left: 6rem;
+  }
+
+  .xxl\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .xxl\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .xxl\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .xxl\:pl-28{
+    padding-left: 7rem;
   }
 
   .xxl\:pt-32{
@@ -83013,6 +83696,10 @@ a.plyr__control::after, a.plyr__control::before {
     width: 6rem;
   }
 
+  .xxl\:w-28{
+    width: 7rem;
+  }
+
   .xxl\:w-32{
     width: 8rem;
   }
@@ -85997,6 +86684,10 @@ a.plyr__control::after, a.plyr__control::before {
     height: 6rem;
   }
 
+  .xxxl\:h-28{
+    height: 7rem;
+  }
+
   .xxxl\:h-32{
     height: 8rem;
   }
@@ -86201,6 +86892,10 @@ a.plyr__control::after, a.plyr__control::before {
     margin: 6rem;
   }
 
+  .xxxl\:m-28{
+    margin: 7rem;
+  }
+
   .xxxl\:m-32{
     margin: 8rem;
   }
@@ -86319,6 +87014,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxxl\:-m-24{
     margin: -6rem;
+  }
+
+  .xxxl\:-m-28{
+    margin: -7rem;
   }
 
   .xxxl\:-m-32{
@@ -86517,6 +87216,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxxl\:mx-24{
     margin-left: 6rem;
     margin-right: 6rem;
+  }
+
+  .xxxl\:my-28{
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+  }
+
+  .xxxl\:mx-28{
+    margin-left: 7rem;
+    margin-right: 7rem;
   }
 
   .xxxl\:my-32{
@@ -86817,6 +87526,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxxl\:-mx-24{
     margin-left: -6rem;
     margin-right: -6rem;
+  }
+
+  .xxxl\:-my-28{
+    margin-top: -7rem;
+    margin-bottom: -7rem;
+  }
+
+  .xxxl\:-mx-28{
+    margin-left: -7rem;
+    margin-right: -7rem;
   }
 
   .xxxl\:-my-32{
@@ -87195,6 +87914,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxxl\:ml-24{
     margin-left: 6rem;
+  }
+
+  .xxxl\:mt-28{
+    margin-top: 7rem;
+  }
+
+  .xxxl\:mr-28{
+    margin-right: 7rem;
+  }
+
+  .xxxl\:mb-28{
+    margin-bottom: 7rem;
+  }
+
+  .xxxl\:ml-28{
+    margin-left: 7rem;
   }
 
   .xxxl\:mt-32{
@@ -87677,6 +88412,22 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: -6rem;
   }
 
+  .xxxl\:-mt-28{
+    margin-top: -7rem;
+  }
+
+  .xxxl\:-mr-28{
+    margin-right: -7rem;
+  }
+
+  .xxxl\:-mb-28{
+    margin-bottom: -7rem;
+  }
+
+  .xxxl\:-ml-28{
+    margin-left: -7rem;
+  }
+
   .xxxl\:-mt-32{
     margin-top: -8rem;
   }
@@ -87949,8 +88700,8 @@ a.plyr__control::after, a.plyr__control::before {
     margin-left: calc(-100% - -90px);
   }
 
-  .xxxl\:max-h-32{
-    max-height: 8rem;
+  .xxxl\:max-h-28{
+    max-height: 7rem;
   }
 
   .xxxl\:max-h-full{
@@ -88033,8 +88784,8 @@ a.plyr__control::after, a.plyr__control::before {
     max-height: calc(100% - 90px);
   }
 
-  .xxxl\:max-w-32{
-    max-width: 8rem;
+  .xxxl\:max-w-28{
+    max-width: 7rem;
   }
 
   .xxxl\:max-w-xs{
@@ -88137,8 +88888,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-height: 0;
   }
 
-  .xxxl\:min-h-32{
-    min-height: 8rem;
+  .xxxl\:min-h-28{
+    min-height: 7rem;
   }
 
   .xxxl\:min-h-full{
@@ -88225,8 +88976,8 @@ a.plyr__control::after, a.plyr__control::before {
     min-width: 0;
   }
 
-  .xxxl\:min-w-32{
-    min-width: 8rem;
+  .xxxl\:min-w-28{
+    min-width: 7rem;
   }
 
   .xxxl\:min-w-full{
@@ -88551,6 +89302,10 @@ a.plyr__control::after, a.plyr__control::before {
     padding: 6rem;
   }
 
+  .xxxl\:p-28{
+    padding: 7rem;
+  }
+
   .xxxl\:p-32{
     padding: 8rem;
   }
@@ -88747,6 +89502,16 @@ a.plyr__control::after, a.plyr__control::before {
   .xxxl\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .xxxl\:py-28{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .xxxl\:px-28{
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 
   .xxxl\:py-32{
@@ -89125,6 +89890,22 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxxl\:pl-24{
     padding-left: 6rem;
+  }
+
+  .xxxl\:pt-28{
+    padding-top: 7rem;
+  }
+
+  .xxxl\:pr-28{
+    padding-right: 7rem;
+  }
+
+  .xxxl\:pb-28{
+    padding-bottom: 7rem;
+  }
+
+  .xxxl\:pl-28{
+    padding-left: 7rem;
   }
 
   .xxxl\:pt-32{
@@ -93873,6 +94654,10 @@ a.plyr__control::after, a.plyr__control::before {
 
   .xxxl\:w-24{
     width: 6rem;
+  }
+
+  .xxxl\:w-28{
+    width: 7rem;
   }
 
   .xxxl\:w-32{
