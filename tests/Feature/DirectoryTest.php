@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\API;
+namespace Tests\Feature;
 
 use App\Models\Directory;
 use Facades\DirectoryFactory;

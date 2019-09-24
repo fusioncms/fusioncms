@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Web;
+namespace Tests\Feature;
 
 use App\Models\User;
 use Tests\Foundation\TestCase;

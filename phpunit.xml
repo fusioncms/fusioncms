@@ -18,18 +18,6 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
 
-        <testsuite name="API">
-            <directory suffix="Test.php">./tests/API</directory>
-        </testsuite>
-
-        <testsuite name="Web">
-            <directory suffix="Test.php">./tests/Web</directory>
-        </testsuite>
-
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
-        </testsuite>
-
         <testsuite name="Add-on Modules">
             <directory suffix="Test.php">./modules</directory>
         </testsuite>
