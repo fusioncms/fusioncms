@@ -45,6 +45,6 @@ class NumberFieldtype extends Fieldtype
      */
     public $column = [
         'type'    => 'float',
-        'options' => [24, 12],
+        'settings' => [24, 12],
     ];
 }

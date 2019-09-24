@@ -1,20 +1,15 @@
 <template>
-    <div class="form__group">
-        <label :for="field.handle">{{field.name}}</label>
-        <input
+    <div>
+        <p-number
             :name="field.handle"
             :label="field.name"
+            :help="field.help"
             :placeholder="field.settings.placeholder"
-            :step="steps"
-            v-model="inputValue"
-            @blur="emitValue($event.target.value)"
-            type="number"
-            class="form__control"
-        ></input>
-        <div class="form__control--meta">
-            <div class="form__help" v-html="field.help">
-            </div>
-        </div>
+            :value="value"
+            @input="$emit('input', $event)"
+            :steps="steps"
+            :decimals="field.settings.decimals"
+        ></p-number>
     </div>
 </template>
 
@@ -29,15 +24,10 @@
             },
 
             value: {
+                type: [String, Number],
                 required: false,
-                default: '',
+                default: null,
             },
-        },
-
-        data() {
-            return {
-                inputValue: null
-            }
         },
 
         computed: {
@@ -49,6 +39,7 @@
                 }
                 return 1
             },
+
         },
 
         methods: {
@@ -57,28 +48,9 @@
                 while(str.length < length) {
                     str = '0' + str
                 }
-                return '0.' + str.substr(-length, length)
+                return Number('0.' + str.substr(-length, length))
             },
-
-            emitValue(newValue) {
-                if(!newValue) {
-                    this.inputValue = this.value
-                    return
-                }
-                newValue = this.formatNumber(newValue, this.field.settings.decimals)
-                this.inputValue = newValue
-                this.$emit('input', newValue)
-            },
-
-            formatNumber(num, decimals) {
-                let regex = new RegExp('^-?\\d+(?:\.\\d{0,' + (decimals || -1) + '})?')
-                return Number(num.toString().match(regex)[0]).toFixed(decimals)
-            }
         },
-
-        mounted() {
-            this.inputValue = this.value
-        }
     }
 </script>
 
