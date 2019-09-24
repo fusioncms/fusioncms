@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\API;
+namespace Tests\Feature;
 
 use App\Models\File;
 use Facades\FileFactory;
