@@ -37,7 +37,8 @@ class NumberFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        'decimals' => 0
+        'decimals' => 0,
+        'steps' => 1
     ];
 
     /**

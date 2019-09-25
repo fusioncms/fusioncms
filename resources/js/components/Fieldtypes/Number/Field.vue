@@ -7,9 +7,16 @@
             :placeholder="field.settings.placeholder"
             :value="value"
             @input="$emit('input', $event)"
-            :steps="steps"
+            :steps="field.settings.steps"
             :decimals="field.settings.decimals"
-        ></p-number>
+        >
+            <template slot="decrease">
+                <fa-icon icon="minus"></fa-icon>
+            </template>
+            <template slot="increase">
+                <fa-icon icon="plus"></fa-icon>
+            </template>
+        </p-number>
     </div>
 </template>
 
@@ -28,18 +35,6 @@
                 required: false,
                 default: null,
             },
-        },
-
-        computed: {
-            steps() {
-                let places = this.field.settings.decimals
-
-                if (places > 0) {
-                    return this.pad(this.field.settings.decimals)
-                }
-                return 1
-            },
-
         },
 
         methods: {
