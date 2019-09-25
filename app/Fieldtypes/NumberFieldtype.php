@@ -38,7 +38,9 @@ class NumberFieldtype extends Fieldtype
      */
     public $settings = [
         'decimals' => 0,
-        'steps' => 1
+        'steps'    => 1,
+        'min'      => null,
+        'max'      => null
     ];
 
     /**
