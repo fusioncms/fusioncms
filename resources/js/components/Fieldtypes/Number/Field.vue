@@ -9,8 +9,8 @@
             @input="$emit('input', $event)"
             :steps="field.settings.steps"
             :decimals="field.settings.decimals"
-            :min="field.settings.min"
-            :max="field.settings.max"
+            :min="Number(field.settings.min)"
+            :max="Number(field.settings.max)"
         >
             <template slot="decrease">
                 <fa-icon icon="minus"></fa-icon>
