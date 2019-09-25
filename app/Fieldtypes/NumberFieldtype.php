@@ -37,7 +37,10 @@ class NumberFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        'decimals' => 0
+        'decimals' => 0,
+        'steps'    => 1,
+        'min'      => null,
+        'max'      => null
     ];
 
     /**
@@ -45,6 +48,6 @@ class NumberFieldtype extends Fieldtype
      */
     public $column = [
         'type'    => 'float',
-        'options' => [24, 12],
+        'settings' => [24, 12],
     ];
 }
