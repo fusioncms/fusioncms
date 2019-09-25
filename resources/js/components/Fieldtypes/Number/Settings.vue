@@ -32,7 +32,7 @@
             autocomplete="off"
             v-model="value.min"
             :decimals="value.decimals"
-            :steps="pad(value.decimals)"
+            :steps="value.steps"
             class="w-1/5 mr-5"
             >
         </p-number>
@@ -44,7 +44,7 @@
             autocomplete="off"
             v-model="value.max"
             :decimals="value.decimals"
-            :steps="pad(value.decimals)"
+            :steps="value.steps"
             class="w-1/5"
             >
         </p-number>
