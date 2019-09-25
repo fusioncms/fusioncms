@@ -584,7 +584,7 @@
 
 "@efelle/proton@https://github.com/efellemedia/proton":
   version "1.0.0-beta.14"
-  resolved "https://github.com/efellemedia/proton#2ebb972031dbd5ff93391b9816b9bf948de1671a"
+  resolved "https://github.com/efellemedia/proton#c39b4659f9fbcfc7bf7b23761b61ae4deba90d48"
 
 "@fortawesome/fontawesome-common-types@^0.2.22":
   version "0.2.22"
