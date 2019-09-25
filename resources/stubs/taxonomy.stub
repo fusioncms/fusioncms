@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Models\Pages;
+namespace App\Models\Taxonomies;
 
 use App\Models\Field;
-use App\Models\Matrix;
+use App\Models\Taxonomy;
 use App\Database\Eloquent\Model;
 
 class {class} extends Model
@@ -22,14 +22,7 @@ class {class} extends Model
      *
      * @var string
      */
-    protected $table = 'mx_{handle}';
-
-    /**
-     * Mass assignment protection.
-     *
-     * @var array
-     */
-    protected $fillable = {fillable};
+    protected $table = 'taxonomy_{handle}';
 
     /**
      * The attributes that should be cast to native types.
@@ -39,30 +32,37 @@ class {class} extends Model
     protected $casts = {casts};
 
     /**
-     * @var integer
+     * Mass assignment protection.
+     *
+     * @var array
      */
-    protected $primaryKey = 'matrix_id';
+    protected $fillable = {fillable};
 
     /**
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * Get the Matrix Type relationship.
+     * Get the Taxonomy relationship.
      *
      * @return mixed
      */
-    public function matrix()
+    public function taxonomy()
     {
-        return $this->belongsTo(Matrix::class);
+        return $this->belongsTo(Taxonomy::class);
     }
 
     /**
-     * Get all of the fields for the matrix.
+     * Get all of the fields for the taxonomy.
      */
     public function getFieldsAttribute()
     {
-        return $this->matrix->fieldset->fields;
+        return $this->taxonomy->fieldset->fields;
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Taxonomy::class, 'id', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Taxonomy::class, 'parent_id', 'id');
     }
 }

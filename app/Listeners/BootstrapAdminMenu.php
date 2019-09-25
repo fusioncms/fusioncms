@@ -13,6 +13,7 @@ namespace App\Listeners;
 
 use Menu;
 use App\Models\Matrix;
+use App\Models\Taxonomy;
 use App\Events\ServingFusion;
 
 class BootstrapAdminMenu
@@ -25,9 +26,10 @@ class BootstrapAdminMenu
      */
     public function handle()
     {
-        $matrices = Matrix::where('sidebar', true)->orderBy('name')->get();
+        $matrices   = Matrix::where('sidebar', true)->orderBy('name')->get();
+        $taxonomies = Taxonomy::where('sidebar', true)->orderBy('name')->get();
 
-        Menu::make('admin', function ($menu) use ($matrices) {
+        Menu::make('admin', function ($menu) use ($matrices, $taxonomies) {
             $menu->add('Dashboard')->data([
                 'to'    => '/',
                 'icon'  => 'grip-horizontal',
@@ -44,12 +46,9 @@ class BootstrapAdminMenu
                 }
             }
 
-            $menu->add('Organize')->divide();
-
-            $menu->add('Categories')->data([
-                'icon' => 'sitemap',
-                'to'   => '/category-groups',
-            ]);
+            if ($taxonomies->count()) {
+                $menu->add('Organize')->divide();
+            }
 
             $menu->add('Tools')->divide();
 
@@ -99,6 +98,11 @@ class BootstrapAdminMenu
             $menu->add('Matrix')->data([
                 'to'   => '/matrices',
                 'icon' => 'chart-network',
+            ]);
+
+            $menu->add('Taxonomy')->data([
+                'to'   => '/taxonomies',
+                'icon' => 'sitemap',
             ]);
 
             $menu->add('Fieldsets')->data([

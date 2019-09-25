@@ -24,6 +24,11 @@ class {class} extends Model
      */
     protected $table = 'mx_{handle}';
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = {casts};
 
     /**

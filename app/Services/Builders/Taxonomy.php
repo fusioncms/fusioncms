@@ -11,74 +11,74 @@
 
 namespace App\Services\Builders;
 
-use App\Models\Matrix;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use App\Models\Taxonomy as TaxonomyModel;
 use App\Contracts\Builder as BuilderContract;
 
-class Collection extends Builder implements BuilderContract
+class Taxonomy extends Builder implements BuilderContract
 {
     /**
      * @var string
      */
-    protected $matrix;
+    protected $taxonomy;
 
     /**
      * @var string
      */
-    protected $namespace = 'App\Models\Matrix';
+    protected $namespace = 'App\Models\Taxonomy';
 
     protected $model;
 
     /**
      * Create a new Page instance.
      *
-     * @param  string  $matrix
+     * @param  string  $taxonomy
      */
-    public function __construct($matrix)
+    public function __construct($taxonomy)
     {
         parent::__construct();
 
-        $this->matrix = Matrix::where('handle', $matrix)->firstOrFail();
-        $this->model  = $this->make();
+        $this->taxonomy = TaxonomyModel::where('handle', $taxonomy)->firstOrFail();
+        $this->model    = $this->make();
     }
 
     /**
-     * Make a new matrix model instance.
+     * Make a new taxonomy model instance.
      */
     public function make()
     {
-        $className = Str::studly($this->matrix->handle);
+        $className = Str::studly($this->taxonomy->handle);
         $traits    = [];
-        $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
+        $fillable  = ['taxonomy_id', 'parent_id', 'name', 'slug', 'status'];
         $casts     = [];
 
-        if ($this->matrix->fieldset) {
-            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
+        if ($this->taxonomy->fieldset) {
+            $fields    = $this->taxonomy->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
                 return is_null($fieldtype->column);
             });
 
             foreach ($fields as $field) {
-                $fieldtype  = fieldtypes()->get($field->type);
+                $fieldtype = fieldtypes()->get($field->type);
                 $fillable[] = $field->handle;
                 $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast ;
             }
         }
 
-        $path     = app_path('Models/Collections/' . $className . '.php');
-        $stub     = File::get(resource_path('stubs/matrix/collection.stub'));
+        $path     = app_path('Models/Taxonomies/' . $className . '.php');
+        $stub     = File::get(resource_path('stubs/taxonomy.stub'));
 
         $contents = strtr($stub, [
             '{class}'         => $className,
-            '{handle}'        => $this->matrix->handle,
+            '{handle}'        => $this->taxonomy->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
             '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
             '{with}'          => $this->getWith(),
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
-            '{matrix_id}'     => $this->matrix->id,
+            '{taxonomy_id}'     => $this->taxonomy->id,
 
         ]);
 
@@ -92,7 +92,7 @@ class Collection extends Builder implements BuilderContract
             });
         }
 
-        return app()->make('App\Models\Collections\\'. $className);
+        return app()->make('App\Models\Taxonomies\\'. $className);
     }
 
     /**
@@ -100,6 +100,6 @@ class Collection extends Builder implements BuilderContract
      */
     public function get()
     {
-        return $this->model->where('matrix_id', $this->matrix->id)->firstOrCreate(['matrix_id' => $this->matrix->id]);
+        return $this->model->where('taxonomy_id', $this->taxonomy->id)->firstOrCreate(['taxonomy_id' => $this->taxonomy->id]);
     }
 }
