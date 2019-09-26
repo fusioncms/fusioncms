@@ -45,7 +45,7 @@
                                 <p-slug
                                     name="slug"
                                     label="Slug"
-                                    help="URL slug."
+                                    help="A web-friendly variant of the matrix's name used for URLs."
                                     autocomplete="off"
                                     required
                                     delimiter="-"

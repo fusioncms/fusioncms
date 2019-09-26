@@ -80,16 +80,6 @@ class Matrix extends Model
     }
 
     /**
-     * Get the "slug" attribute value.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return Str::slug($this->handle);
-    }
-
-    /**
      * Get the "table" attribute value.
      *
      * @return string
