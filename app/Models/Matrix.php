@@ -30,6 +30,7 @@ class Matrix extends Model
     protected $fillable = [
         'name',
         'handle',
+        'slug',
         'description',
         'type',
         'fieldset_id',

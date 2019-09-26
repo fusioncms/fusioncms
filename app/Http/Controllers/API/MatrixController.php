@@ -27,6 +27,7 @@ class MatrixController extends Controller
     protected $rules = [
         'name'             => 'required',
         'handle'           => 'required',
+        'slug'             => 'required',
         'description'      => 'sometimes',
         'type'             => 'required',
         'fieldset'         => 'sometimes',
@@ -81,9 +82,9 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.show');
 
-        $matrix = str_handle($matrix);
+        // $matrix = str_handle($matrix);
 
-        $matrix = Matrix::where('handle', $matrix)->first();
+        $matrix = Matrix::where('slug', $matrix)->first();
 
         return new MatrixResource($matrix);
     }
