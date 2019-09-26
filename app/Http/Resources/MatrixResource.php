@@ -27,6 +27,7 @@ class MatrixResource extends JsonResource
             'id'               => $this->id,
             'name'             => $this->name,
             'handle'           => $this->handle,
+            'slug'             => $this->slug,
             'description'      => $this->description,
             'type'             => $this->type,
             'admin_path'       => $this->adminPath,

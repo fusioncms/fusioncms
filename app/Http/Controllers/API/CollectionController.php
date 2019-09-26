@@ -38,7 +38,7 @@ class CollectionController extends Controller
      */
     public function show($matrix, $id)
     {
-        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->find($id);
 
@@ -49,7 +49,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.create');
 
-        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $collection = (new Collection($matrix->handle))->make();
         
         $rules = [
@@ -95,7 +95,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.update');
 
-        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $entry = (new Collection($matrix->handle))->make()->find($id);
         $rules = [
             'name'      => 'required',
@@ -128,7 +128,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.destroy');
 
-        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);
 

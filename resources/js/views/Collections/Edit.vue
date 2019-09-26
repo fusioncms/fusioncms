@@ -30,7 +30,7 @@
                                 </div>
                             </div>
 
-                        <div v-if="sections.body.length > 0" :key="collection.handle">
+                        <div v-if="sections.body.length > 0" :key="collection.slug">
                             <!-- Loop through each section -->
                             <div v-for="(section, index) in sections.body" :key="section.handle">
                                 <div class="row">
@@ -92,7 +92,7 @@
                         </div>
 
                         <portal to="actions">
-                            <router-link v-if="collection.handle" :to="{ name: 'entries.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
+                            <router-link v-if="collection.slug" :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-3">Go Back</router-link>
 
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>
@@ -165,7 +165,7 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/collections/' + this.collection.handle + '/' + this.entry.id).then((response) => {
+                this.form.patch('/api/collections/' + this.collection.slug + '/' + this.entry.id).then((response) => {
                     toast('Entry saved successfully', 'success')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')

@@ -73,9 +73,9 @@ class Matrix extends Model
     public function getAdminPathAttribute()
     {
         if ($this->type === 'page') {
-            return '/pages/' . $this->handle;
+            return '/pages/' . $this->slug;
         } else {
-            return '/collections/' . $this->handle;
+            return '/collections/' . $this->slug;
         }
     }
 
