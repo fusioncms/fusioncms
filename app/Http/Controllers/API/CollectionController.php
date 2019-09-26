@@ -58,15 +58,17 @@ class CollectionController extends Controller
             'status'    => 'required|boolean',
         ];
 
-        $fields = $matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-            
-            return is_null($fieldtype->column);
-        });
+        if(isset($matrix->fieldset)) {
+            $fields = $matrix->fieldset->fields->reject(function ($field) {
+                $fieldtype = fieldtypes()->get($field->type);
+                
+                return is_null($fieldtype->column);
+            });
 
-        foreach ($fields as $field) {
-            $rules[$field->handle] = 'sometimes';
-        }
+            foreach ($fields as $field) {
+                $rules[$field->handle] = 'sometimes';
+            }
+        }    
 
         $attributes              = $request->validate($rules);
         $attributes['matrix_id'] = $matrix->id;
@@ -103,15 +105,17 @@ class CollectionController extends Controller
             'status'    => 'required|boolean',
         ];
 
-        $fields = $matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
+        if(isset($matrix->fieldset)) {
+            $fields = $matrix->fieldset->fields->reject(function ($field) {
+                $fieldtype = fieldtypes()->get($field->type);
 
-            return is_null($fieldtype->column);
-        });
+                return is_null($fieldtype->column);
+            });
 
-        foreach ($fields as $field) {
-            $rules[$field->handle] = 'sometimes';
-        }
+            foreach ($fields as $field) {
+                $rules[$field->handle] = 'sometimes';
+            }
+        }    
 
         $attributes = $request->validate($rules);
 
