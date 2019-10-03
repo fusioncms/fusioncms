@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
@@ -80,10 +81,8 @@ class MatrixController extends Controller
     public function slug($matrix)
     {
         $this->authorize('matrices.show');
-
-        $matrix = str_handle($matrix);
-
-        $matrix = Matrix::where('handle', $matrix)->first();
+        
+        $matrix = Matrix::where('slug', $matrix)->first();
 
         return new MatrixResource($matrix);
     }
@@ -99,7 +98,10 @@ class MatrixController extends Controller
         $this->authorize('matrices.create');
 
         $attributes = collect($request->validate($this->rules));
-        $matrix     = Matrix::create($attributes->except('fieldset')->all());
+        
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
+        
+        $matrix = Matrix::create($attributes->except('fieldset')->all());
 
         if ($attributes->get('fieldset')) {
             $matrix->attachFieldset($attributes->get('fieldset'));
@@ -129,7 +131,10 @@ class MatrixController extends Controller
 
         $attributes = collect($request->validate($this->rules));
 
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
+
         $matrix->update($attributes->except('fieldset')->all());
+
         if ($attributes->get('fieldset') && (!isset($matrix->fieldset) || ($matrix->fieldset->id !== $attributes->get('fieldset')))) {
             $matrix->attachFieldset($attributes->get('fieldset'));
         } else if (!$attributes->get('fieldset')) {

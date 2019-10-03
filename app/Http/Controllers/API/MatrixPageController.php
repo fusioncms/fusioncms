@@ -37,7 +37,8 @@ class MatrixPageController extends Controller
      */
     public function show($matrix)
     {
-        $matrix = Matrix::findOrFail($matrix);
+
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $page   = (new Page($matrix->handle))->get();
 
         return new MatrixPageResource([

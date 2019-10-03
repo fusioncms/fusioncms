@@ -24,7 +24,7 @@ class EntryResource extends JsonResource
     public function toArray($request)
     {
         $matrix = new MatrixResource($this->resource['matrix']);
-        $fields = $matrix->fieldset->fields;
+        $fields = $matrix->fieldset->fields ?? null;
         
         $resource['id']     = $this->id;
         $resource['name']   = $this->name;

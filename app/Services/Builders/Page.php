@@ -53,7 +53,7 @@ class Page extends Builder implements BuilderContract
         $fillable  = ['matrix_id', 'status'];
         $casts     = [];
 
-        if ($this->matrix->fieldset->fields) {
+        if (isset($this->matrix->fieldset->fields)) {
             $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 

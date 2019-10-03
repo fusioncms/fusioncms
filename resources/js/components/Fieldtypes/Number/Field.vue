@@ -1,13 +1,24 @@
 <template>
     <div>
-        <p-input
+        <p-number
             :name="field.handle"
             :label="field.name"
             :help="field.help"
             :placeholder="field.settings.placeholder"
             :value="value"
             @input="$emit('input', $event)"
-        ></p-input>
+            :steps="field.settings.steps"
+            :decimals="field.settings.decimals"
+            :min="Number(field.settings.min)"
+            :max="Number(field.settings.max)"
+        >
+            <template slot="decrease">
+                <fa-icon icon="minus"></fa-icon>
+            </template>
+            <template slot="increase">
+                <fa-icon icon="plus"></fa-icon>
+            </template>
+        </p-number>
     </div>
 </template>
 
@@ -22,8 +33,19 @@
             },
 
             value: {
+                type: [String, Number],
                 required: false,
-                default: '',
+                default: null,
+            },
+        },
+
+        methods: {
+            pad(length) {
+                let str = '1'
+                while(str.length < length) {
+                    str = '0' + str
+                }
+                return Number('0.' + str.substr(-length, length))
             },
         },
     }
