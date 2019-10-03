@@ -1,5 +1,5 @@
 .card {
-    @apply rounded shadow bg-white relative overflow-hidden;
+    @apply rounded shadow bg-white relative;
 
     &__body {
         @apply p-6;
