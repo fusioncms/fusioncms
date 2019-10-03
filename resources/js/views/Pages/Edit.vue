@@ -145,7 +145,7 @@
             getPage(to, from, next) {
                 let vm = this
 
-                axios.get('/api/pages/handle/' + to.params.page).then((response) => {    
+                axios.get('/api/pages/' + to.params.page).then((response) => {    
                     vm.matrix  = response.data.data.matrix
                     vm.page = response.data.data.page
 

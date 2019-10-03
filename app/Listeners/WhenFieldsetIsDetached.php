@@ -17,15 +17,17 @@ class WhenFieldsetIsDetached
      */
     public function handle(FieldsetDetached $event)
     {
-        $fields = $event->fieldset->fields;
-        $table  = $event->model->getTable();
+        if($event->fieldset) {
+            $fields = $event->fieldset->fields;
+            $table  = $event->model->getTable();
 
-        $columns = $fields->map(function($field) {
-            return $field->handle;
-        })->toArray();
+            $columns = $fields->map(function($field) {
+                return $field->handle;
+            })->toArray();
 
-        Schema::table($table, function ($blueprint) use ($columns) {
-            $blueprint->dropColumn($columns);
-        });
+            Schema::table($table, function ($blueprint) use ($columns) {
+                $blueprint->dropColumn($columns);
+            });
+        }  
     }
 }

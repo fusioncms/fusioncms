@@ -42,6 +42,19 @@
                                     v-model="form.handle">
                                 </p-slug>
 
+                                <p-slug
+                                    name="slug"
+                                    label="Slug"
+                                    help="A web-friendly variant of the matrix's name used for URLs."
+                                    autocomplete="off"
+                                    required
+                                    delimiter="-"
+                                    :watch="form.name"
+                                    :has-error="form.errors.has('slug')"
+                                    :error-message="form.errors.get('slug')"
+                                    v-model="form.slug">
+                                </p-slug>
+
                                 <p-input
                                     name="description"
                                     label="Description"
@@ -245,6 +258,7 @@
                 form: new Form({
                     name: '',
                     handle: '',
+                    slug: '',
                     description: '',
                     type: 'collection',
                     fieldset: null,

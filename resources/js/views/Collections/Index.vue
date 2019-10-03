@@ -5,14 +5,14 @@
         </portal>
 
         <portal to="actions">
-            <router-link v-if="collection.handle" :to="{ name: 'entries.create', params: {collection: collection.handle} }" class="button">Create {{ singular }}</router-link>
+            <router-link v-if="collection.slug" :to="{ name: 'entries.create', params: {collection: collection.slug} }" class="button">Create {{ singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
                 <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10">
                     <template slot="name" slot-scope="table">
-                        <router-link :to="{ name: 'entries.edit', params: {collection: collection.handle, id: table.record.id} }">{{ table.record.name }}</router-link>
+                        <router-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
@@ -28,7 +28,7 @@
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.handle, id: table.record.id} }">Edit</p-dropdown-item>
+                                <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-item>
 
                                 <p-dropdown-item
                                     @click.prevent
@@ -86,7 +86,7 @@
 
         methods: {
             destroy(id) {
-                axios.delete('/api/collections/' + this.collection.handle + '/' + id).then((response) => {
+                axios.delete('/api/collections/' + this.collection.slug + '/' + id).then((response) => {
                     toast('Entry successfully deleted.', 'success')
                     
                     proton().$emit('refresh-datatable-entries')

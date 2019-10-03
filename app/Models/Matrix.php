@@ -30,6 +30,7 @@ class Matrix extends Model
     protected $fillable = [
         'name',
         'handle',
+        'slug',
         'description',
         'type',
         'fieldset_id',
@@ -72,20 +73,10 @@ class Matrix extends Model
     public function getAdminPathAttribute()
     {
         if ($this->type === 'page') {
-            return '/pages/' . $this->handle;
+            return '/pages/' . $this->slug;
         } else {
-            return '/collections/' . $this->handle;
+            return '/collections/' . $this->slug;
         }
-    }
-
-    /**
-     * Get the "slug" attribute value.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return Str::slug($this->handle);
     }
 
     /**

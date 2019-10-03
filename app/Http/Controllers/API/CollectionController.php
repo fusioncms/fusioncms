@@ -38,7 +38,7 @@ class CollectionController extends Controller
      */
     public function show($matrix, $id)
     {
-        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->find($id);
 
@@ -49,7 +49,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.create');
 
-        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $collection = (new Collection($matrix->handle))->make();
         
         $rules = [
@@ -58,15 +58,17 @@ class CollectionController extends Controller
             'status'    => 'required|boolean',
         ];
 
-        $fields = $matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-            
-            return is_null($fieldtype->column);
-        });
+        if(isset($matrix->fieldset)) {
+            $fields = $matrix->fieldset->fields->reject(function ($field) {
+                $fieldtype = fieldtypes()->get($field->type);
+                
+                return is_null($fieldtype->column);
+            });
 
-        foreach ($fields as $field) {
-            $rules[$field->handle] = 'sometimes';
-        }
+            foreach ($fields as $field) {
+                $rules[$field->handle] = 'sometimes';
+            }
+        }    
 
         $attributes              = $request->validate($rules);
         $attributes['matrix_id'] = $matrix->id;
@@ -95,7 +97,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.update');
 
-        $matrix     = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $entry = (new Collection($matrix->handle))->make()->find($id);
         $rules = [
             'name'      => 'required',
@@ -103,15 +105,17 @@ class CollectionController extends Controller
             'status'    => 'required|boolean',
         ];
 
-        $fields = $matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
+        if(isset($matrix->fieldset)) {
+            $fields = $matrix->fieldset->fields->reject(function ($field) {
+                $fieldtype = fieldtypes()->get($field->type);
 
-            return is_null($fieldtype->column);
-        });
+                return is_null($fieldtype->column);
+            });
 
-        foreach ($fields as $field) {
-            $rules[$field->handle] = 'sometimes';
-        }
+            foreach ($fields as $field) {
+                $rules[$field->handle] = 'sometimes';
+            }
+        }    
 
         $attributes = $request->validate($rules);
 
@@ -128,7 +132,7 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.destroy');
 
-        $matrix = Matrix::where('handle', $matrix)->firstOrFail();
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);
 

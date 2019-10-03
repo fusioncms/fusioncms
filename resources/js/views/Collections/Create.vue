@@ -95,7 +95,7 @@
                         </div>
 
                         <portal to="actions">
-                            <router-link :to="{ name: 'entries.index', params: {collection: collection.handle} }" class="button mr-3">Go Back</router-link>
+                            <router-link :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-3">Go Back</router-link>
 
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>
@@ -167,10 +167,10 @@
 
         methods: {
             submit() {
-                this.form.post('/api/collections/' + this.collection.handle).then((response) => {
+                this.form.post('/api/collections/' + this.collection.slug).then((response) => {
                     toast('Entry saved successfully', 'success')
 
-                    this.$router.push('/collections/' + this.collection.handle + '/edit/' + response.data.id)
+                    this.$router.push('/collections/' + this.collection.slug + '/edit/' + response.data.id)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
