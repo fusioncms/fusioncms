@@ -48,6 +48,13 @@ class BootstrapAdminMenu
 
             if ($taxonomies->count()) {
                 $menu->add('Organize')->divide();
+
+                foreach ($taxonomies as $taxonomy) {
+                    $menu->add($taxonomy->name)->data([
+                        'to'   => $taxonomy->adminPath,
+                        'icon' => $taxonomy->icon ?: 'tag',
+                    ]);
+                }
             }
 
             $menu->add('Tools')->divide();

@@ -13,13 +13,41 @@ namespace Tests\Feature;
 
 use App\Models\Taxonomy;
 use App\Models\Fieldset;
+use Facades\FieldFactory;
+use Facades\SectionFactory;
+use Facades\FieldsetFactory;
 use Facades\TaxonomyFactory;
 use Tests\Foundation\TestCase;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxonomyTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Called before each test is run...
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->handleValidationExceptions();
+
+        $this->section  = SectionFactory::times(1)->withoutFields()->create();
+        $this->fields[] = FieldFactory::withName('Excerpt')->create();
+        $this->fields[] = FieldFactory::withName('Content')->create();
+
+        foreach ($this->fields as $field) {
+            $this->section->fields()->save($field);
+        }
+
+        $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
+    }
 
     /**
      * @test
@@ -40,6 +68,10 @@ class TaxonomyTest extends TestCase
         $response = $this->json('POST', '/api/taxonomies', $taxonomy);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseHasTable('taxonomy_categories')
+            ->assertDatabaseTableHasColumn('taxonomy_categories', 'name')
+            ->assertDatabaseTableHasColumn('taxonomy_categories', 'slug');
     }
 
     /**
@@ -49,12 +81,14 @@ class TaxonomyTest extends TestCase
      */
     public function a_user_without_permissions_can_not_create_a_taxonomy()
     {
+        $this->expectException(AuthenticationException::class);
+        
         $response = $this->json('POST', '/api/taxonomies', [
             'name'   => 'Test',
             'handle' => 'test',
         ]);
 
-        $response->assertStatus(401);
+        $response->assertStatus(422);
     }
 
     /**

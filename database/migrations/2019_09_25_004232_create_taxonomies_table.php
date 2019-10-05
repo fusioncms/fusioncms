@@ -17,6 +17,7 @@ class CreateTaxonomiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('handle')->unique();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->boolean('sidebar')->default(true);
             $table->string('icon')->nullable();

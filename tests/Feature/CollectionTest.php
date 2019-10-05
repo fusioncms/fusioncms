@@ -37,7 +37,7 @@ class CollectionTest extends TestCase
 
         $this->handleValidationExceptions();
         
-        $this->section = SectionFactory::times(1)->withoutFields()->create();
+        $this->section  = SectionFactory::times(1)->withoutFields()->create();
         $this->fields[] = FieldFactory::withName('Excerpt')->create();
         $this->fields[] = FieldFactory::withName('Content')->create();
 

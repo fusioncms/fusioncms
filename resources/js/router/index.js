@@ -67,6 +67,33 @@ const router = new Router({
             }
         },
         {
+            path: '/taxonomies',
+            component: () => import('../views/TaxonomyGroups/Index'),
+            name: 'taxonomies',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/taxonomies/create',
+            component: () => import('../views/TaxonomyGroups/Create'),
+            name: 'taxonomies.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/taxonomies/edit/:taxonomy',
+            component: () => import('../views/TaxonomyGroups/Edit'),
+            name: 'taxonomies.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',
@@ -277,43 +304,6 @@ const router = new Router({
             path: '/telescope',
             name: 'telescope',
             beforeEnter() { location.href = '/telescope/exceptions' },
-        },
-        {
-            path: '/category-groups',
-            component: require('../views/CategoryGroups').default,
-            name: 'category-groups.index',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin',
-            },
-            children: [
-                {
-                    path: ':category_group_id',
-                    component: require('../views/CategoryGroups/Edit').default,
-                    name: 'category-groups.edit',
-                    meta: {
-                        layout: 'admin',
-                    },
-                    children: [
-                        {
-                            path: 'categories',
-                            component: require('../views/CategoryGroups/Categories/Index').default,
-                            name: 'categories.index',
-                            meta: {
-                                layout: 'admin',
-                            },
-                        },
-                        {
-                            path: 'categories/:category_id',
-                            component: require('../views/CategoryGroups/Categories/Edit').default,
-                            name: 'categories.edit',
-                            meta: {
-                                layout: 'admin',
-                            },
-                        }
-                    ]
-                },
-            ]
         },
 
         {

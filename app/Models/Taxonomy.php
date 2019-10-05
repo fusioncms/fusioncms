@@ -30,6 +30,7 @@ class Taxonomy extends Model
     protected $fillable = [
         'name',
         'handle',
+        'slug',
         'description',
         'fieldset_id',
         'sidebar',

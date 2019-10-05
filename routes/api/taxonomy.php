@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/taxonomies', 'TaxonomiesController');
-Route::get('/taxonomies/slug/{slug}', 'TaxonomiesController@slug');
+Route::apiResource('/taxonomies', 'TaxonomyGroupsController');
+Route::get('/taxonomies/slug/{slug}', 'TaxonomyGroupsController@slug');
 
 Route::get('/taxonomy/{slug}', 'TaxonomyController@index');
 Route::get('/taxonomy/{slug}/{id}', 'TaxonomyController@show');
