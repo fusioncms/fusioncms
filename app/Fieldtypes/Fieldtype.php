@@ -11,15 +11,10 @@
 
 namespace App\Fieldtypes;
 
-// use Fusion\Modules\Fields\Models\Field;
-// use Fusion\Modules\Fields\Concerns\CastsAttributes;
-// use Fusion\Modules\Fields\Renderers\FieldtypeRenderer;
+use Illuminate\Support\Str;
 
 abstract class Fieldtype
 {
-    // use CastsAttributes,
-    // FieldtypeRenderer;
-
     /**
      * @var array
      */
@@ -85,6 +80,16 @@ abstract class Fieldtype
     public function getHandle()
     {
         return str_handle($this->getName());
+    }
+
+    /**
+     * Get the fieldtype ID based off the name property.
+     *
+     * @return string
+     */
+    public function getID()
+    {
+        return Str::slug($this->getName(), '-');
     }
 
     /**
