@@ -3212,6 +3212,15 @@ table td::before {
 }
 
 .toggle {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.toggle__wrap {
   position: relative;
   display: inline-flex;
   border-radius: 9999px;
@@ -3221,12 +3230,12 @@ table td::before {
   flex-shrink: 0;
 }
 
-.toggle:focus {
+.toggle__wrap:focus-within {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   outline: 0;
 }
 
-.toggle:before {
+.toggle__wrap:before {
   display: inline-block;
   border-radius: 9999px;
   height: 100%;
@@ -3237,7 +3246,7 @@ table td::before {
   transition: background-color 0.2s ease;
 }
 
-.toggle:after {
+.toggle__wrap:after {
   position: absolute;
   top: 0;
   left: 0;
@@ -3253,11 +3262,11 @@ table td::before {
   transition: transform 0.2s ease;
 }
 
-.toggle:checked:before {
+.toggle__wrap--checked:before {
   background-color: #2d3748;
 }
 
-.toggle:checked:after {
+.toggle__wrap--checked:after {
   transform: translateX(1.5rem);
 }
 
