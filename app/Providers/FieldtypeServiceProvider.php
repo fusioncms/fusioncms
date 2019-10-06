@@ -26,6 +26,7 @@ class FieldtypeServiceProvider extends ServiceProvider
         fieldtypes()->register(\App\Fieldtypes\DividerFieldtype::class);
         // fieldtypes()->register(\App\Fieldtypes\FileFieldtype::class);
         // fieldtypes()->register(\App\Fieldtypes\ImageFieldtype::class);
+        fieldtypes()->register(\App\Fieldtypes\EditorFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\InformationFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\InputFieldtype::class);
         fieldtypes()->register(\App\Fieldtypes\NumberFieldtype::class);

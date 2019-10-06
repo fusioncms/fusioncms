@@ -24,6 +24,7 @@ class FieldtypeResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'          => $this->getID(),
             'name'        => $this->name,
             'icon'        => $this->icon,
             'handle'      => $this->getHandle(),

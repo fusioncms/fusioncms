@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row mb-6">
             <div class="col w-1/2">
                 <p-input 
                     name="value-name" 
@@ -32,7 +32,7 @@
 
         <hr>
 
-        <component v-if="value.type" :is="value.type.handle + '-fieldtype-settings'" v-model="value.settings"></component>
+        <component v-if="value.type" :is="value.type.id + '-fieldtype-settings'" v-model="value.settings"></component>
     </div>
 </template>
 
