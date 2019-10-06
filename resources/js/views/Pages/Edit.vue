@@ -24,7 +24,7 @@
                                     <!-- Loop through each section field -->
                                     <div v-for="field in section.fields" :key="field.handle" class="form__group">
                                         <component
-                                            :is="field.type.handle + '-fieldtype'"
+                                            :is="field.type.id + '-fieldtype'"
                                             :field="field"
                                             v-model="form[field.handle]"
                                         >
@@ -85,7 +85,7 @@
                             <!-- Loop through each section field -->
                             <div v-for="field in section.fields" :key="field.handle" class="form__group">
                                 <component
-                                    :is="field.type.handle + '-fieldtype'"
+                                    :is="field.type.id + '-fieldtype'"
                                     :field="field"
                                     v-model="form[field.handle]"
                                 >
