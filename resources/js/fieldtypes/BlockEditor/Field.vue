@@ -1,6 +1,11 @@
 <template>
     <div>
-        <div :id="field.handle"></div>
+        <label :for="field.handle" class="form__label">{{field.name}}</label>
+        <div class="block-editor" :id="field.handle">
+            <a href="#" class="block-editor__add" @click.prevent="addBlock" name="Add block">
+                <fa-icon :icon="['far', 'plus-circle']"></fa-icon>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -37,12 +42,21 @@
             },
         },
 
+        data() {
+            return {
+                editor: {
+                    type: Object
+                }
+            }   
+        },
+
         mounted() {
             let vm = this
-            let data = (this.value ? JSON.parse(this.value) : this.value)
+            let data = this.value
 
-            let editor = new EditorJS({
+            vm.editor = new EditorJS({
                 holder: this.field.handle,
+                placeholder: this.field.settings.placeholder || 'Add some text here...',
 
                 data,
 
@@ -66,11 +80,19 @@
                 },
 
                 onChange() {
-                    editor.save().then((saved) => {
+                    vm.editor.save().then((saved) => {
                         vm.$emit('input', saved)
                     })
                 }
             })
+        },
+
+        methods: {
+            addBlock() {
+                this.editor.blocks.insert('paragraph', null, null, this.editor.blocks.getBlocksCount())
+                this.editor.caret.setToLastBlock()
+                this.editor.toolbar.open()
+            }
         }
     }
 </script>
