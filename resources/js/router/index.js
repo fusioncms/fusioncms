@@ -278,43 +278,6 @@ const router = new Router({
             name: 'telescope',
             beforeEnter() { location.href = '/telescope/exceptions' },
         },
-        {
-            path: '/category-groups',
-            component: require('../views/CategoryGroups').default,
-            name: 'category-groups.index',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin',
-            },
-            children: [
-                {
-                    path: ':category_group_id',
-                    component: require('../views/CategoryGroups/Edit').default,
-                    name: 'category-groups.edit',
-                    meta: {
-                        layout: 'admin',
-                    },
-                    children: [
-                        {
-                            path: 'categories',
-                            component: require('../views/CategoryGroups/Categories/Index').default,
-                            name: 'categories.index',
-                            meta: {
-                                layout: 'admin',
-                            },
-                        },
-                        {
-                            path: 'categories/:category_id',
-                            component: require('../views/CategoryGroups/Categories/Edit').default,
-                            name: 'categories.edit',
-                            meta: {
-                                layout: 'admin',
-                            },
-                        }
-                    ]
-                },
-            ]
-        },
 
         {
             path: '/playground',
