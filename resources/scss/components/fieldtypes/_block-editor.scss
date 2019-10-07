@@ -4,7 +4,7 @@
   .ce-block {
     @apply .border-dashed .border .border-transparent .mb-3;
     
-    padding: 7px 10px 7px 40px;
+    padding: 15px 10px 15px 40px;
 
     &:hover, &:focus {
       @apply .border-gray-300;
@@ -20,12 +20,16 @@
   }
   .ce-toolbar {
     left: 10px;
+    &__plus {
+      left: -30px;
+    }
   }
   .cdx-block:not(.cdx-list) {
     padding: 0;
   }
   .ce-settings {
     bottom: 55px;
+    top: initial;
     &:before {
       top: initial;
       bottom: -7px;
@@ -33,12 +37,12 @@
   }
 
   &__add {
-    @apply .absolute .border-dashed .border .border-gray-300 .py-3 .text-center .z-10 .block .text-gray-700;
+    @apply .absolute .border-dashed .border .border-gray-300 .py-3 .text-center .z-10 .block .text-gray-500;
     left: .75rem;
     right: .75rem;
     bottom: .75rem;
     &:hover, &:focus {
-      @apply .bg-gray-100 .text-gray-600;
+      @apply .bg-gray-100;
     }
   }
 

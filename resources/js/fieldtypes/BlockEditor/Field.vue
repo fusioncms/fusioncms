@@ -3,7 +3,7 @@
         <label :for="field.handle" class="form__label">{{field.name}}</label>
         <div class="block-editor" :id="field.handle">
             <a href="#" class="block-editor__add" @click.prevent="addBlock" name="Add block">
-                <fa-icon icon="plus-circle"></fa-icon>
+                <fa-icon :icon="['far', 'plus-circle']"></fa-icon>
             </a>
         </div>
     </div>
@@ -53,7 +53,7 @@
         mounted() {
             let vm = this
             let data = this.value
-console.log(data)
+
             vm.editor = new EditorJS({
                 holder: this.field.handle,
                 placeholder: this.field.settings.placeholder || 'Add some text here...',
@@ -90,7 +90,7 @@ console.log(data)
         methods: {
             addBlock() {
                 this.editor.blocks.insert('paragraph', null, null, this.editor.blocks.getBlocksCount())
-                // this.editor.caret.setToLastBlock()
+                this.editor.caret.setToLastBlock()
                 this.editor.toolbar.open()
             }
         }
