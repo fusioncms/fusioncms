@@ -44,13 +44,6 @@ class BootstrapAdminMenu
                 }
             }
 
-            $menu->add('Organize')->divide();
-
-            $menu->add('Categories')->data([
-                'icon' => 'sitemap',
-                'to'   => '/category-groups',
-            ]);
-
             $menu->add('Tools')->divide();
 
             $menu->add('File Manager')->data([
