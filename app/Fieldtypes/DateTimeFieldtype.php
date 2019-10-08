@@ -31,7 +31,7 @@ class DateTimeFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $cast = 'dateTime:Y-m-d';
+    public $cast = 'dateTime';
 
     /**
      * @var array
@@ -45,6 +45,6 @@ class DateTimeFieldtype extends Fieldtype
      * @var array
      */
     public $column = [
-        'type' => 'dateTime',
+        'type' => 'date',
     ];
 }
