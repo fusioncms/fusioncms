@@ -23,26 +23,17 @@ class TaxonomyResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = [
-            'id'               => $this->id,
-            'name'             => $this->name,
-            'handle'           => $this->handle,
-            'description'      => $this->description,
-            'admin_path'       => $this->adminPath,
-            'table'            => $this->table,
+        $taxonomy = new TaxonomyGroupResource($this->resource['taxonomy']);
+        $fields   = $taxonomy->fieldset->fields ?? null;
+        
+        $resource['id']       = $this->id;
+        $resource['name']     = $this->name;
+        $resource['slug']     = $this->slug;
+        $resource['taxonomy'] = $taxonomy;
 
-            'sidebar'          => $this->sidebar,
-            'icon'             => $this->icon,
-
-            'route'            => $this->route,
-            'template'         => $this->template,
-
-            'fieldset'         => new FieldsetResource($this->fieldset),
-        ];
-
-        if ($this->fieldset) {
-            foreach ($this->fieldset->fields as $field) {
-                $resource['fields'][$field->handle] = $this->{$field->handle};
+        if ($fields) {
+            foreach ($fields as $field) {
+                $resource[$field->handle] = $this->{$field->handle};
             }
         }
 

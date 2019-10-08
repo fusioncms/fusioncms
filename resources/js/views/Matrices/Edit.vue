@@ -242,6 +242,7 @@
             return {
                 id: null,
                 fieldsets: [],
+                creatingFieldset: false,
                 form: new Form({
                     name: '',
                     handle: '',

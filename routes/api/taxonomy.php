@@ -12,10 +12,10 @@
 Route::apiResource('/taxonomies', 'TaxonomyGroupsController');
 Route::get('/taxonomies/slug/{slug}', 'TaxonomyGroupsController@slug');
 
-Route::get('/taxonomy/{slug}', 'TaxonomyController@index');
-Route::get('/taxonomy/{slug}/{id}', 'TaxonomyController@show');
-Route::get('/taxonomy/{slug}/create', 'TaxonomyController@create');
-Route::post('/taxonomy/{slug}', 'TaxonomyController@store');
-Route::patch('/taxonomy/{slug}/{id}', 'TaxonomyController@update');
-Route::get('/taxonomy/{slug}/{id}/edit', 'TaxonomyController@edit');
-Route::delete('/taxonomy/{slug}/{id}', 'TaxonomyController@destroy');
+Route::get('/taxonomies/{slug}', 'TaxonomyController@index');
+Route::get('/taxonomies/{slug}/{id}', 'TaxonomyController@show');
+Route::get('/taxonomies/{slug}/create', 'TaxonomyController@create');
+Route::post('/taxonomies/{slug}', 'TaxonomyController@store');
+Route::patch('/taxonomies/{slug}/{id}', 'TaxonomyController@update');
+Route::get('/taxonomies/{slug}/{id}/edit', 'TaxonomyController@edit');
+Route::delete('/taxonomies/{slug}/{id}', 'TaxonomyController@destroy');

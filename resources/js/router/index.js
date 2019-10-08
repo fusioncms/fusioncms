@@ -69,7 +69,7 @@ const router = new Router({
         {
             path: '/taxonomies',
             component: () => import('../views/TaxonomyGroups/Index'),
-            name: 'taxonomies',
+            name: 'taxonomy.groups',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -78,7 +78,7 @@ const router = new Router({
         {
             path: '/taxonomies/create',
             component: () => import('../views/TaxonomyGroups/Create'),
-            name: 'taxonomies.create',
+            name: 'taxonomy.groups.create',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -87,7 +87,7 @@ const router = new Router({
         {
             path: '/taxonomies/edit/:taxonomy',
             component: () => import('../views/TaxonomyGroups/Edit'),
-            name: 'taxonomies.edit',
+            name: 'taxonomy.groups.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -151,6 +151,33 @@ const router = new Router({
             path: '/collections/:collection/edit/:id',
             component: () => import('../views/Collections/Edit'),
             name: 'entries.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy',
+            component: () => import('../views/Taxonomies/Index'),
+            name: 'taxonomies.index',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy/create',
+            component: () => import('../views/Taxonomies/Create'),
+            name: 'taxonomies.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy/edit/:id',
+            component: () => import('../views/Taxonomies/Edit'),
+            name: 'taxonomies.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

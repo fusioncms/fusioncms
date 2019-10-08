@@ -15,7 +15,7 @@ use App\Models\Taxonomy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TaxonomyResource;
+use App\Http\Resources\TaxonomyGroupResource;
 
 class TaxonomyGroupsController extends Controller
 {
@@ -50,7 +50,7 @@ class TaxonomyGroupsController extends Controller
 
         $taxonomies = Taxonomy::orderBy('name')->paginate(25);
 
-        return TaxonomyResource::collection($taxonomies);
+        return TaxonomyGroupResource::collection($taxonomies);
     }
 
     /**
@@ -63,7 +63,7 @@ class TaxonomyGroupsController extends Controller
     {
         $this->authorize('taxonomies.show');
 
-        return new TaxonomyResource($taxonomy);
+        return new TaxonomyGroupResource($taxonomy);
     }
 
     /**
@@ -80,7 +80,7 @@ class TaxonomyGroupsController extends Controller
 
         $taxonomy = Taxonomy::where('handle', $taxonomy)->first();
 
-        return new TaxonomyResource($taxonomy);
+        return new TaxonomyGroupResource($taxonomy);
     }
 
     /**
@@ -111,7 +111,7 @@ class TaxonomyGroupsController extends Controller
             ])
             ->log('Created taxonomy (:subject.name)');
 
-        return new TaxonomyResource($taxonomy);
+        return new TaxonomyGroupResource($taxonomy);
     }
 
     /**
@@ -145,7 +145,7 @@ class TaxonomyGroupsController extends Controller
             ])
             ->log('Updated taxonomy (:subject.name)');
 
-        return new TaxonomyResource($taxonomy);
+        return new TaxonomyGroupResource($taxonomy);
     }
 
     /**
