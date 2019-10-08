@@ -44,16 +44,12 @@
 
     methods: {
       updateFormat(value) {
-        console.log(value)
-        console.log(this.value.format)
         let tokens = /[H|h|G|i|S|s|K|:]/g
         if(value) {
           if (!new RegExp(tokens).test(this.value.format)) {
-            console.log('adding time format')
             this.value.format = this.value.format + ' h:i'
           }
         } else {
-          console.log('removing time format')
           this.value.format = this.value.format.replace(tokens, '')
         }
       }
