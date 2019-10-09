@@ -1,7 +1,3 @@
-@php
-  dd($entry->date);
-@endphp
-
 @extends('layouts.default')
 
 @section('content')
@@ -12,6 +8,6 @@
     </div>
 
     <div class="leading-loose tracking-wide" v-pre>
-        {!! $entry->date !!}
+        {!! $entry->content !!}
     </div>
 @endsection
