@@ -14,6 +14,10 @@ namespace App\Observers;
 use App\Models\Matrix;
 use App\Database\Migration;
 use App\Database\Schema\Blueprint;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Str;
+Use Illuminate\Support\Facades\DB;
+use App\Services\Builders\Collection;
 
 class MatrixObserver
 {
@@ -72,6 +76,14 @@ class MatrixObserver
         // Rename the tables if changed
         if ($old->table !== $matrix->table) {
             $this->migration->schema->rename($old->table, $matrix->table);
+
+            $oldClass = 'App\\Models\\Collections\\' . Str::studly($old->handle);
+            $newClass = 'App\\Models\\Collections\\' . Str::studly($matrix->handle);
+            Activity::where('subject_type', $oldClass)
+                ->update([
+                    'subject_type'      => $newClass,
+                    'properties'  => DB::raw("REPLACE(properties, '" . $old->slug . "', '" . $matrix->slug . "')")
+                ]);
         }
 
         // Create the ID column if converting from a page to a collection type
