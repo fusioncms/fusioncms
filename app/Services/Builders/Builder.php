@@ -91,4 +91,9 @@ abstract class Builder implements BuilderContract
     {
         return [];
     }
+
+    public function getDates()
+    {
+        return [];
+    }
 }

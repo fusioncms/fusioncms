@@ -39,6 +39,13 @@ class {class} extends Model
     protected $fillable = {fillable};
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+    /**
      * Get the Taxonomy relationship.
      *
      * @return mixed

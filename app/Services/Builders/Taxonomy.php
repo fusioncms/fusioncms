@@ -28,6 +28,9 @@ class Taxonomy extends Builder implements BuilderContract
      */
     protected $namespace = 'App\Models\Taxonomy';
 
+    /**
+     * @var \App\Database\Eloquent\Model
+     */
     protected $model;
 
     /**
@@ -75,11 +78,11 @@ class Taxonomy extends Builder implements BuilderContract
             '{handle}'        => $this->taxonomy->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
             '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
-            '{with}'          => $this->getWith(),
+            '{with}'          => '[\'' . implode('\', \'', $this->getWith()) . '\']',
+            '{dates}'         => '[\'' . implode('\', \'', $this->getDates()) . '\']',
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
-            '{taxonomy_id}'     => $this->taxonomy->id,
-
+            '{taxonomy_id}'   => $this->taxonomy->id,
         ]);
 
         File::put($path, $contents);
@@ -96,7 +99,7 @@ class Taxonomy extends Builder implements BuilderContract
     }
 
     /**
-     * Get the collection.
+     * Get the taxonomy.
      */
     public function get()
     {

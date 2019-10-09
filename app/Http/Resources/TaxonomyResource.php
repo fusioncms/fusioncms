@@ -37,6 +37,8 @@ class TaxonomyResource extends JsonResource
             }
         }
 
+        $resource['status'] = $this->status;
+
         return $resource;
     }
 }
