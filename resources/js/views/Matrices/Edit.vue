@@ -236,6 +236,7 @@
 
 <script>
     import Form from '../../forms/Form'
+    import store from '../../vuex'
 
     export default {
         data() {
@@ -272,6 +273,7 @@
             submit() {
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
                     toast('Matrix successfully updated', 'success')
+                    store.dispatch('navigation/fetchAdminNavigation')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
