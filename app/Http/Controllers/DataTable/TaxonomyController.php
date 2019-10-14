@@ -18,12 +18,6 @@ class TaxonomyController extends DataTableController
 {
     public function builder()
     {
-        $taxonomy = Taxonomy::find(request()->route('taxonomy'));
-
-        if ($taxonomy) {
-            return $taxonomy->getBuilder()->query();
-        }
-
         return Taxonomy::query();
     }
 
@@ -31,8 +25,8 @@ class TaxonomyController extends DataTableController
     {
         return [
             'name',
-            'slug',
-            'status',
+            'handle',
+            'description',
         ];
     }
 
@@ -40,8 +34,8 @@ class TaxonomyController extends DataTableController
     {
         return [
             'name',
-            'slug',
-            'status',
+            'handle',
+            'description',
         ];
     }
 
@@ -49,17 +43,17 @@ class TaxonomyController extends DataTableController
     {
         return [
             'name',
-            'slug',
-            'status',
+            'handle',
+            'description',
         ];
     }
 
     public function getCustomColumnNames()
     {
         return [
-            'name'   => 'Name',
-            'slug'   => 'Slug',
-            'status' => 'Status',
+            'name'        => 'Name',
+            'handle'      => 'Handle',
+            'description' => 'Description',
         ];
     }
 }

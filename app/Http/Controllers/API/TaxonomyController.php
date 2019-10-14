@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaxonomyResource;
-use App\Services\Builders\Taxonomy as Builder;
 
 class TaxonomyController extends Controller
 {
@@ -27,8 +26,32 @@ class TaxonomyController extends Controller
      * @var array
      */
     protected $rules = [
-        //
+        'name'        => 'required',
+        'handle'      => 'required',
+        'description' => 'sometimes',
+        'fieldset'    => 'sometimes',
+
+        'sidebar'     => 'required|boolean',
+        'icon'        => 'sometimes',
+
+        'route'       => 'sometimes',
+        'template'    => 'sometimes',
     ];
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('taxonomies.show');
+
+        $taxonomies = Taxonomy::orderBy('name')->paginate(25);
+
+        return TaxonomyResource::collection($taxonomies);
+    }
 
     /**
      * Display the specified resource.
@@ -36,119 +59,112 @@ class TaxonomyController extends Controller
      * @param  \App\Models\Taxonomy  $taxonomy
      * @return \Illuminate\Http\Response
      */
-    public function show($taxonomy, $id)
+    public function show(Taxonomy $taxonomy)
     {
-        $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $model    = (new Builder($taxonomy->handle))->make();
-        $entry    = $model->find($id);
+        $this->authorize('taxonomies.show');
 
-        return new TaxonomyResource($entry);
+        return new TaxonomyResource($taxonomy);
     }
 
-    public function store(Request $request, $taxonomy)
+    /**
+     * Display the specified resource by slug value.
+     *
+     * @param  string  $taxonomy
+     * @return \Illuminate\Http\Response
+     */
+    public function slug($taxonomy)
     {
-        $this->authorize('entry.create');
+        $this->authorize('taxonomies.show');
 
-        $taxonomy     = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $collection = (new Builder($taxonomy->handle))->make();
+        $taxonomy = str_handle($taxonomy);
+
+        $taxonomy = Taxonomy::where('handle', $taxonomy)->first();
+
+        return new TaxonomyResource($taxonomy);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->authorize('taxonomies.create');
+
+        $attributes = collect($request->validate($this->rules));
         
-        $rules = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-        ];
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
+        
+        $taxonomy = Taxonomy::create($attributes->except('fieldset')->all());
 
-        if(isset($taxonomy->fieldset)) {
-            $fields = $taxonomy->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-                
-                return is_null($fieldtype->column);
-            });
-
-            foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
-            }
-        }    
-
-        $attributes              = $request->validate($rules);
-        $attributes['taxonomy_id'] = $taxonomy->id;
-
-        $entry = $collection->create($attributes);
+        if ($attributes->get('fieldset')) {
+            $taxonomy->attachFieldset($attributes->get('fieldset'));
+        }
 
         activity()
-            ->performedOn($entry)
+            ->performedOn($taxonomy)
             ->withProperties([
-                'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $entry->id,
+                'icon' => 'sitemap',
+                'link' => 'taxonomies/edit/' . $taxonomy->id,
             ])
-            ->log('Created '.Str::singular($taxonomy->name).' (:subject.name)');
+            ->log('Created taxonomy (:subject.name)');
 
-        return new TaxonomyResource($entry);
+        return new TaxonomyResource($taxonomy);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $taxonomy
+     * @param  \App\Models\Taxonomy  $taxonomy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $taxonomy, $id)
+    public function update(Request $request, Taxonomy $taxonomy)
     {
-        $this->authorize('entry.update');
+        $this->authorize('taxonomies.update');
 
-        $taxonomy     = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $entry = (new Builder($taxonomy->handle))->make()->find($id);
-        $rules = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-        ];
+        $attributes = collect($request->validate($this->rules));
 
-        if(isset($taxonomy->fieldset)) {
-            $fields = $taxonomy->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
 
-                return is_null($fieldtype->column);
-            });
+        $taxonomy->update($attributes->except('fieldset')->all());
 
-            foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
-            }
-        }    
-
-        $attributes = $request->validate($rules);
-
-        foreach ($attributes as $handle => $value) {
-            $entry->{$handle} = $value;
+        if ($attributes->get('fieldset') && (!isset($taxonomy->fieldset) || ($taxonomy->fieldset->id !== $attributes->get('fieldset')))) {
+            $taxonomy->attachFieldset($attributes->get('fieldset'));
+        } else if (!$attributes->get('fieldset')) {
+            $taxonomy->detachFieldset();
         }
 
-        $entry->update($attributes);
-
         activity()
-            ->performedOn($entry)
+            ->performedOn($taxonomy)
             ->withProperties([
-                'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $entry->id,
+                'icon' => 'sitemap',
+                'link' => 'taxonomies/edit/' . $taxonomy->id,
             ])
-            ->log('Updated '.Str::singular($taxonomy->name).' (:subject.name)');
+            ->log('Updated taxonomy (:subject.name)');
 
-        return new TaxonomyResource($entry);
+        return new TaxonomyResource($taxonomy);
     }
 
-    public function destroy(Request $request, $taxonomy, $id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Taxonomy  $taxonomy
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Taxonomy $taxonomy)
     {
-        $this->authorize('entry.destroy');
-
-        $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $model    = (new Builder($taxonomy->handle))->make();
-        $entry    = $model->findOrFail($id);
+        $this->authorize('taxonomies.delete');
 
         activity()
-            ->performedOn($entry)
+            ->performedOn($taxonomy)
             ->withProperties([
-                'icon' => $taxonomy->icon,
+                'icon' => 'sitemap',
             ])
-            ->log('Deleted '.Str::singular($taxonomy->name).' (:subject.name)');
+            ->log('Deleted taxonomy (:subject.name)');
 
-        $entry->delete();
+        $taxonomy->delete();
     }
 }

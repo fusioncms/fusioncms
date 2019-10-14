@@ -3567,6 +3567,33 @@ table td::before {
   font-size: 0.75rem;
 }
 
+.taxonomy__cloud {
+  padding: 0.75rem;
+  background-color: #f7fafc;
+  border-radius: 0.25rem;
+  border-width: 1px;
+}
+
+.taxonomy__cloud .taxonomy__term {
+  display: inline-flex;
+  line-height: 2;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+  background-color: #1a202c;
+  color: #e2e8f0;
+  align-items: center;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.taxonomy__cloud .taxonomy__term--remove {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-left: 0.75rem;
+}
+
 .sr-only{
   position: absolute;
   width: 1px;

@@ -68,8 +68,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies',
-            component: () => import('../views/TaxonomyGroups/Index'),
-            name: 'taxonomy.groups',
+            component: () => import('../views/Taxonomies/Index'),
+            name: 'taxonomies',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -77,8 +77,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies/create',
-            component: () => import('../views/TaxonomyGroups/Create'),
-            name: 'taxonomy.groups.create',
+            component: () => import('../views/Taxonomies/Create'),
+            name: 'taxonomies.create',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -86,8 +86,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies/edit/:taxonomy',
-            component: () => import('../views/TaxonomyGroups/Edit'),
-            name: 'taxonomy.groups.edit',
+            component: () => import('../views/Taxonomies/Edit'),
+            name: 'taxonomies.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin'
@@ -158,8 +158,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies/:taxonomy',
-            component: () => import('../views/Taxonomies/Index'),
-            name: 'taxonomies.index',
+            component: () => import('../views/Terms/Index'),
+            name: 'terms.index',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
@@ -167,8 +167,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies/:taxonomy/create',
-            component: () => import('../views/Taxonomies/Create'),
-            name: 'taxonomies.create',
+            component: () => import('../views/Terms/Create'),
+            name: 'terms.create',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
@@ -176,8 +176,8 @@ const router = new Router({
         },
         {
             path: '/taxonomies/:taxonomy/edit/:id',
-            component: () => import('../views/Taxonomies/Edit'),
-            name: 'taxonomies.edit',
+            component: () => import('../views/Terms/Edit'),
+            name: 'terms.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

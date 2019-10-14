@@ -14,10 +14,16 @@ namespace App\Http\Controllers\DataTable;
 use App\Models\Taxonomy;
 use App\Http\Controllers\DataTableController;
 
-class TaxonomyGroupController extends DataTableController
+class TermController extends DataTableController
 {
     public function builder()
     {
+        $taxonomy = Taxonomy::find(request()->route('taxonomy'));
+
+        if ($taxonomy) {
+            return $taxonomy->getBuilder()->query();
+        }
+
         return Taxonomy::query();
     }
 
@@ -25,8 +31,8 @@ class TaxonomyGroupController extends DataTableController
     {
         return [
             'name',
-            'handle',
-            'description',
+            'slug',
+            'status',
         ];
     }
 
@@ -34,8 +40,8 @@ class TaxonomyGroupController extends DataTableController
     {
         return [
             'name',
-            'handle',
-            'description',
+            'slug',
+            'status',
         ];
     }
 
@@ -43,17 +49,17 @@ class TaxonomyGroupController extends DataTableController
     {
         return [
             'name',
-            'handle',
-            'description',
+            'slug',
+            'status',
         ];
     }
 
     public function getCustomColumnNames()
     {
         return [
-            'name'        => 'Name',
-            'handle'      => 'Handle',
-            'description' => 'Description',
+            'name'   => 'Name',
+            'slug'   => 'Slug',
+            'status' => 'Status',
         ];
     }
 }

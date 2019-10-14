@@ -1,0 +1,11 @@
+.taxonomy__cloud {
+    @apply p-3 bg-gray-100 rounded border;
+
+    .taxonomy__term {
+        @apply inline-flex leading-loose text-sm mr-2 bg-gray-900 text-gray-300 items-center px-3 rounded;
+
+        &--remove {
+            @apply text-white font-bold text-lg ml-3;
+        }
+    }
+}

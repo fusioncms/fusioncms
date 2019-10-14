@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/taxonomies', 'TaxonomyGroupsController');
-Route::get('/taxonomies/slug/{slug}', 'TaxonomyGroupsController@slug');
+Route::apiResource('/taxonomies', 'TaxonomyController');
+Route::get('/taxonomies/slug/{slug}', 'TaxonomyController@slug');
 
-Route::get('/taxonomies/{slug}', 'TaxonomyController@index');
-Route::get('/taxonomies/{slug}/{id}', 'TaxonomyController@show');
-Route::get('/taxonomies/{slug}/create', 'TaxonomyController@create');
-Route::post('/taxonomies/{slug}', 'TaxonomyController@store');
-Route::patch('/taxonomies/{slug}/{id}', 'TaxonomyController@update');
-Route::get('/taxonomies/{slug}/{id}/edit', 'TaxonomyController@edit');
-Route::delete('/taxonomies/{slug}/{id}', 'TaxonomyController@destroy');
+Route::get('/taxonomies/{slug}', 'TermController@index');
+Route::get('/taxonomies/{slug}/{id}', 'TermController@show');
+Route::get('/taxonomies/{slug}/create', 'TermController@create');
+Route::post('/taxonomies/{slug}', 'TermController@store');
+Route::patch('/taxonomies/{slug}/{id}', 'TermController@update');
+Route::get('/taxonomies/{slug}/{id}/edit', 'TermController@edit');
+Route::delete('/taxonomies/{slug}/{id}', 'TermController@destroy');

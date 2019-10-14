@@ -33,6 +33,9 @@ Vue.component('checkbox-fieldtype-settings', () => import('../fieldtypes/Checkbo
 Vue.component('code-fieldtype', () => import('../fieldtypes/Code/Field'))
 Vue.component('code-fieldtype-settings', () => import('../fieldtypes/Code/Settings'))
 
+Vue.component('taxonomy-fieldtype', () => import('../fieldtypes/Taxonomy/Field'))
+Vue.component('taxonomy-fieldtype-settings', () => import('../fieldtypes/Taxonomy/Settings'))
+
 Vue.component('toggle-fieldtype', () => import('../fieldtypes/Toggle/Field'))
 Vue.component('toggle-fieldtype-settings', () => import('../fieldtypes/Toggle/Settings'))
 

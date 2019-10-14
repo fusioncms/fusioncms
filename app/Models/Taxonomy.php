@@ -79,4 +79,17 @@ class Taxonomy extends Model
     {
         return 'taxonomy_' . $this->handle;
     }
+
+    /**
+     * Taxonomies have many terms.
+     * 
+     * @return HasManyRelationship
+     */
+    public function terms()
+    {
+        $model = $this->getBuilder();
+        $class = new \ReflectionClass($model);
+
+        return $this->hasMany('\\'.$class->getName());
+    }
 }
