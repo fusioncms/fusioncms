@@ -83,36 +83,57 @@ abstract class Builder implements BuilderContract
         return $this->namespace;
     }
 
+    /**
+     * @return array
+     */
     public function getTraitImportStatements()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getTraitUseStatements()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getWith()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getDates()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getRelationships()
     {
         return $this->relationships;
     }
 
+    /**
+     * @return bool
+     */
     public function hasRelationships()
     {
         return count($this->relationships) > 0;
     }
 
+    /**
+     * @return self
+     */
     public function addRelationship($handle, $type)
     {
         $this->relationships[$handle] = $type;
@@ -120,6 +141,9 @@ abstract class Builder implements BuilderContract
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function generateRelationships()
     {
         if (! $this->hasRelationships()) {
@@ -145,6 +169,12 @@ abstract class Builder implements BuilderContract
         return trim($generated);
     }
 
+    /**
+     * Properly suffixes the given word with "-able".
+     * 
+     * @param  string  $word
+     * @return string
+     */
     protected function addAbleSuffixToWord($word)
     {
         $temp               = Str::singular(strtolower($word));
