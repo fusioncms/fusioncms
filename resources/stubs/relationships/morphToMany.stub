@@ -1,0 +1,9 @@
+    /**
+     * A polymorphic many to many relationship.
+     *
+     * @return MorphToMany
+     */
+    public function {handle}()
+    {
+        return $this->morphToMany('{related_namespace}', '{tag}');
+    }

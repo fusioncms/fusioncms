@@ -72,4 +72,6 @@ class {class} extends Model
     {
         return $this->hasMany(Matrix::class, 'parent_id', 'id');
     }
+
+    {relationships}
 }

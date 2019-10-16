@@ -46,4 +46,27 @@ class TaxonomyFieldtype extends Fieldtype
     public $column = [
         'type' => 'text',
     ];
+
+    // The following three public properties are
+    // required for setting up fieldtypes
+    // that generate relationships.
+
+    /**
+     * @var string
+     */
+    public $relationship = 'morphToMany';
+
+    /**
+     * category -> categorizable
+     * tag -> taggable
+     * taxonomy -> taxonomiable
+     * 
+     * @var string
+     */
+    public $tag = 'taxonomiable';
+
+    /**
+     * @var string
+     */
+    public $namespace = 'App\Models\Taxonomies';
 }

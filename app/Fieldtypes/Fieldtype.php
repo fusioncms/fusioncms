@@ -184,6 +184,16 @@ abstract class Fieldtype
     }
 
     /**
+     * Determine if the fieldtype has a relationship.
+     * 
+     * @return bool
+     */
+    public function hasRelationship()
+    {
+        return isset($this->relationship) and $this->relationship !== '';
+    }
+
+    /**
      * Set custom rules for form request validator.
      *
      * @param  mixed  $value
@@ -260,6 +270,16 @@ abstract class Fieldtype
     public function getCast($field)
     {
         return $this->cast;
+    }
+
+    /**
+     * Get the relationship type for the fieldtype.
+     * 
+     * @return string
+     */
+    public function getRelationship()
+    {
+        return $this->relationship;
     }
 
     /**
