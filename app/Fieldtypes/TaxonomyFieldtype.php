@@ -57,15 +57,6 @@ class TaxonomyFieldtype extends Fieldtype
     public $relationship = 'morphToMany';
 
     /**
-     * category -> categorizable
-     * tag -> taggable
-     * taxonomy -> taxonomiable
-     * 
-     * @var string
-     */
-    public $tag = 'taxonomiable';
-
-    /**
      * @var string
      */
     public $namespace = 'App\Models\Taxonomies';

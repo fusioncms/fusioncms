@@ -58,20 +58,20 @@ class BootstrapAdminMenu
             }
 
             $menu->add('Tools')->divide();
-
+            
             $menu->add('File Manager')->data([
                 'to'   => '/files',
                 'icon' => 'images',
             ]);
-
+                
             // $menu->add('Forms', '#')->data([
             //     'icon' => 'paper-plane',
             // ]);
-
+                    
             // $menu->forms->add('Inbox')->data([
             //     'to' => '/',
             // ]);
-
+                        
             // $menu->forms->add('Manage')->data([
             //     'to' => '/',
             // ]);

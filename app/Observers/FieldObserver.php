@@ -30,7 +30,7 @@ class FieldObserver
         
         $fieldtype = fieldtypes()->get($field->type);
         $column    = $fieldtype->getColumn('type');
-        $settings   = $fieldtype->getColumn('settings') ?? [];
+        $settings  = $fieldtype->getColumn('settings') ?? [];
 
         array_unshift($settings, $field->handle);
 
