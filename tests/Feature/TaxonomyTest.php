@@ -68,10 +68,6 @@ class TaxonomyTest extends TestCase
         $response = $this->json('POST', '/api/taxonomies', $taxonomy);
 
         $response->assertStatus(201);
-
-        $this->assertDatabaseHasTable('taxonomy_categories')
-            ->assertDatabaseTableHasColumn('taxonomy_categories', 'name')
-            ->assertDatabaseTableHasColumn('taxonomy_categories', 'slug');
     }
 
     /**

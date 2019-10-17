@@ -3,6 +3,7 @@
 use App\Models\Matrix;
 use App\Models\Fieldset;
 use App\Contracts\Factory;
+use Illuminate\Support\Str;
 
 class MatrixFactory implements Factory
 {
@@ -36,8 +37,9 @@ class MatrixFactory implements Factory
         $overrides = [];
 
         if ($this->name) {
-            $overrides['name'] = $this->name;
-            $overrides['handle'] = str_handle($this->name);
+            $overrides['name']   = $this->name;
+            $overrides['slug']   = Str::slug($this->name, '-');
+            $overrides['handle'] = Str::slug($this->name, '_');
         }
 
         if ($this->asCollection) {

@@ -12,6 +12,7 @@
 namespace App\Observers;
 
 use App\Models\Field;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -28,9 +29,10 @@ class FieldObserver
         $fieldset   = $field->section->fieldset;
         $containers = $this->getFieldsettables($fieldset);
         
-        $fieldtype = fieldtypes()->get($field->type);
-        $column    = $fieldtype->getColumn('type');
-        $settings  = $fieldtype->getColumn('settings') ?? [];
+        $fieldtype    = fieldtypes()->get($field->type);
+        $relationship = $fieldtype->getRelationship();
+        $column       = $fieldtype->getColumn('type');
+        $settings     = $fieldtype->getColumn('settings') ?? [];
 
         array_unshift($settings, $field->handle);
 
@@ -40,6 +42,22 @@ class FieldObserver
                     call_user_func_array([$table, $column], $settings)->nullable();
                 });
             });
+        }
+
+        if (! is_null($relationship)) {
+            switch($relationship) {
+                case 'morphToMany':
+                    $tableName = Str::plural(Str::addAbleSuffix($field->handle));
+
+                    if (! Schema::hasTable($tableName)) {
+                        Schema::create($tableName, function($table) use ($field) {
+                            $table->integer(Str::singular($field->handle).'_id')->unsigned();
+                            $table->morphs(Str::addAbleSuffix($field->handle));
+                        });
+                    }
+
+                    break;
+            }
         }
     }
 
@@ -77,7 +95,7 @@ class FieldObserver
             if ($oldFieldtype !== $newFieldtype) {
                 $fieldtype = fieldtypes()->get($new['type']);
                 $column    = $fieldtype->getColumn('type');
-                $settings   = $fieldtype->getColumn('settings') ?? [];
+                $settings  = $fieldtype->getColumn('settings') ?? [];
 
                 array_unshift($settings, $new['handle']);
 

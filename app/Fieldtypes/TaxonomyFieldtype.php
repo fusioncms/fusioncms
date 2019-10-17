@@ -43,9 +43,7 @@ class TaxonomyFieldtype extends Fieldtype
     /**
      * @var array
      */
-    public $column = [
-        'type' => 'text',
-    ];
+    public $column = null;
 
     // The following three public properties are
     // required for setting up fieldtypes

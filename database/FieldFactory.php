@@ -18,6 +18,16 @@ class FieldFactory implements Factory
     protected $section;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
      * Create a new Field factory.
      * 
      * @return \App\Models\Fieldset
@@ -29,6 +39,14 @@ class FieldFactory implements Factory
         if ($this->name) {
             $overrides['name'] = $this->name;
             $overrides['handle'] = str_handle($this->name);
+        }
+
+        if ($this->type) {
+            $overrides['type'] = $this->type;
+        }
+
+        if ($this->settings) {
+            $overrides['settings'] = $this->settings;
         }
 
         if (! $this->section) {
@@ -43,21 +61,53 @@ class FieldFactory implements Factory
     }
 
     /**
-     * Create a matrix with the given name.
+     * Create a field with the given name.
      * 
      * @param  string  $name
-     * @return \MatrixFactory
+     * @return \FieldFactory
      */
-    public function withName($name)
+    public function withName(string $name)
     {
         $this->name = $name;
 
         return $this;
     }
 
+    /**
+     * Create a field with the given section.
+     * 
+     * @param  \SectionFactory  $section
+     * @return \FieldFactory
+     */
     public function withSection($section)
     {
         $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Create a field with the given type.
+     * 
+     * @param  string  $type
+     * @return \FieldFactory
+     */
+    public function withType(string $type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Create a field with the given settings.
+     * 
+     * @param  array  $settings
+     * @return \FieldFactory
+     */
+    public function withSettings(array $settings)
+    {
+        $this->settings = $settings;
 
         return $this;
     }

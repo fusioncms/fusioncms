@@ -58,6 +58,11 @@ abstract class Fieldtype
     protected $eagerLoad = false;
 
     /**
+     * @var mixed
+     */
+    protected $relationship = null;
+
+    /**
      * @var Field
      */
     public $field;
@@ -279,6 +284,10 @@ abstract class Fieldtype
      */
     public function getRelationship()
     {
+        if (! $this->relationship) {
+            return null;
+        }
+
         return $this->relationship;
     }
 

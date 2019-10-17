@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -27,11 +28,12 @@ $factory->define(App\Models\Taxonomy::class, function (Faker $faker) {
 
     return [
         'name'             => $name,
-        'handle'           => str_handle($name),
+        'slug'             => Str::slug($name, '-'),
+        'handle'           => Str::slug($name, '_'),
         'description'      => $faker->sentence,
         'sidebar'          => $faker->boolean(50),
         'icon'             => $faker->randomElement(['tag', 'swatchbook', 'map-marker-alt', 'feather-alt']),
-        'route'            => 'test/{slug}',
-        'template'         => 'test.' . str_handle($name),
+        'route'            => 'taxonomy/{slug}',
+        'template'         => 'taxonomy.' . Str::slug($name, '_'),
     ];
 });

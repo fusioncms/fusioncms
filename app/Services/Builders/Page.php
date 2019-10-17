@@ -71,6 +71,7 @@ class Page extends Builder implements BuilderContract
         $stub     = File::get(resource_path('stubs/matrix/page.stub'));
         $contents = strtr($stub, [
             '{class}'         => $className,
+            '{slug}'          => $this->matrix->slug,
             '{handle}'        => $this->matrix->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
             '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
