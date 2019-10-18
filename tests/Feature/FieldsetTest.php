@@ -207,6 +207,62 @@ class FieldsetTest extends TestCase
     }
 
     /** @test */
+    public function when_a_field_with_a_morph_to_many_relationship_is_renamed_the_proper_tables_and_columns_should_be_updated()
+    {
+        $fieldset           = FieldsetFactory::create();
+        $postsMatrix        = MatrixFactory::withName('Posts')->withFieldset($fieldset)->create();
+        $categoriesTaxonomy = TaxonomyFactory::withName('Categories')->create();
+        $postsTable        = $postsMatrix->getBuilder()->getTable();
+
+        $section = $fieldset->sections()->first();
+        $field   = FieldFactory::withName('Categories')
+            ->withSection($section)
+            ->withType('taxonomy')
+            ->withSettings([
+                'taxonomy' => $categoriesTaxonomy->id,
+            ])
+            ->create();
+        
+        $fieldset->sections()->first()->fields()->save($field);
+
+        $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
+        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($field->handle)));
+
+        $field->name   = 'Tags';
+        $field->handle = 'tags';
+        $field->save();
+
+        $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
+        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($field->handle)));
+    }
+
+    /** @test */
+    public function when_a_field_with_a_morph_to_many_relationship_is_removed_the_associated_table_should_be_removed_as_well()
+    {
+        $fieldset           = FieldsetFactory::create();
+        $postsMatrix        = MatrixFactory::withName('Posts')->withFieldset($fieldset)->create();
+        $categoriesTaxonomy = TaxonomyFactory::withName('Categories')->create();
+        $postsTable        = $postsMatrix->getBuilder()->getTable();
+
+        $section = $fieldset->sections()->first();
+        $field   = FieldFactory::withName('Categories')
+            ->withSection($section)
+            ->withType('taxonomy')
+            ->withSettings([
+                'taxonomy' => $categoriesTaxonomy->id,
+            ])
+            ->create();
+        
+        $fieldset->sections()->first()->fields()->save($field);
+
+        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($field->handle)));
+
+        $field->delete();
+
+        $this->assertDatabaseDoesNotHaveTable(Str::plural(Str::addAbleSuffix('Categories')));
+    }
+
+    /** @test */
     public function when_a_field_is_removed_the_associated_database_column_should_be_removed_from_all_tables()
     {
         $fieldset = FieldsetFactory::create();

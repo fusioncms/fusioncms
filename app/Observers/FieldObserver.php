@@ -98,11 +98,21 @@ class FieldObserver
                             $oldTableName = Str::plural(Str::addAbleSuffix($old['handle']));
                             $newTableName = Str::plural(Str::addAbleSuffix($new['handle']));
 
+                            // Coooooool
+                            // https://github.com/laravel/framework/issues/2979
+                            
                             if (! Schema::hasTable($newTableName)) {
                                 Schema::rename($oldTableName, $newTableName);
+
                                 Schema::table($newTableName, function($table) use ($old, $new) {
                                     $table->renameColumn(Str::singular($old['handle']).'_id', Str::singular($new['handle']).'_id');
+                                });
+
+                                Schema::table($newTableName, function($table) use ($old, $new) {
                                     $table->renameColumn(Str::addAbleSuffix($old['handle']).'_id', Str::addAbleSuffix($new['handle']).'_id');
+                                });
+
+                                Schema::table($newTableName, function($table) use ($old, $new) {
                                     $table->renameColumn(Str::addAbleSuffix($old['handle']).'_type', Str::addAbleSuffix($new['handle']).'_type');
                                 });
                             }
