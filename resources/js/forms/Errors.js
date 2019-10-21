@@ -1,24 +1,24 @@
 export default class Errors {
     constructor() {
-        this.bag = {}
+        this.errors = {}
     }
 
     has(field) {
-        return this.bag.hasOwnProperty(field)
+        return this.errors.hasOwnProperty(field)
     }
 
     any() {
-        return Object.keys(this.bag).length > 0
+        return Object.keys(this.errors).length > 0
     }
 
     get(field) {
-        if (this.bag[field]) {
-            return this.bag[field][0]
+        if (this.errors[field]) {
+            return this.errors[field][0]
         }
     }
 
-    record(bag) {
-        this.bag = bag
+    record(response) {
+        this.errors = response.errors
     }
 
     clear(field) {
@@ -27,10 +27,6 @@ export default class Errors {
             return
         }
 
-        this.errors = {}
-    }
-
-    reset() {
         this.errors = {}
     }
 }
