@@ -24,4 +24,6 @@ Route::group(['prefix' => 'settings', 'middleware' => ['auth', 'verified']], fun
 
     Route::get('security', 'Settings\SecurityController@edit');
     Route::post('security', 'Settings\SecurityController@update');
+
+    Route::get('personal-token', 'Settings\PersonalTokenController@edit');
 });

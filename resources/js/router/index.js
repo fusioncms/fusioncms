@@ -30,16 +30,6 @@ const router = new Router({
         },
 
         {
-            path: '/personal-token',
-            component: () => import('../views/Passport/Personal'),
-            name: 'passport.personal',
-            meta: {
-                requiresAuth: true,
-                layout: 'error'
-            }
-        },
-
-        {
             path: '/insight',
             component: () => import('../views/SEO/Insight'),
             name: 'insight',
