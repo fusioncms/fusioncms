@@ -3590,6 +3590,86 @@ table td::before {
   margin-left: 0.75rem;
 }
 
+.block-editor {
+  background-color: #ffffff;
+  color: #4a5568;
+  border-width: 1px;
+  border-color: #cbd5e0;
+  border-radius: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  position: relative;
+}
+
+.block-editor .ce-block {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0);
+  margin-bottom: 0.75rem;
+  padding: 15px 10px 15px 40px;
+}
+
+.block-editor .ce-block:hover, .block-editor .ce-block:focus {
+  border-color: #e2e8f0;
+}
+
+.block-editor .ce-block__content {
+  max-width: none;
+}
+
+.block-editor .ce-header {
+  margin-bottom: 0 !important;
+  padding: 0;
+}
+
+.block-editor .ce-toolbar {
+  left: 10px;
+}
+
+.block-editor .ce-toolbar__plus {
+  left: -30px;
+}
+
+.block-editor .cdx-block:not(.cdx-list) {
+  padding: 0;
+}
+
+.block-editor .ce-settings {
+  bottom: 55px;
+  top: initial;
+}
+
+.block-editor .ce-settings:before {
+  top: initial;
+  bottom: -7px;
+}
+
+.block-editor__add {
+  position: absolute;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #e2e8f0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  z-index: 10;
+  display: block;
+  color: #a0aec0;
+  left: .75rem;
+  right: .75rem;
+  bottom: .75rem;
+}
+
+.block-editor__add:hover, .block-editor__add:focus {
+  background-color: #f7fafc;
+}
+
+.block-editor .codex-editor__redactor {
+  padding-bottom: 65px !important;
+}
+
 .sr-only{
   position: absolute;
   width: 1px;
