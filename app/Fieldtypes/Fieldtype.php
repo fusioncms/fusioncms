@@ -60,7 +60,7 @@ abstract class Fieldtype
     /**
      * @var mixed
      */
-    protected $relationship = null;
+    public $relationship = null;
 
     /**
      * @var Field
@@ -194,8 +194,8 @@ abstract class Fieldtype
      * @return bool
      */
     public function hasRelationship()
-    {
-        return isset($this->relationship) and $this->relationship !== '';
+    {        
+        return ! is_null($this->relationship);
     }
 
     /**

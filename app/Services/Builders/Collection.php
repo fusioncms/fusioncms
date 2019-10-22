@@ -54,8 +54,12 @@ class Collection extends Builder implements BuilderContract
         $casts         = [];
 
         if ($this->matrix->fieldset) {
-            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
+            $fields = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
+
+                if ($fieldtype->hasRelationship()) {
+                    $this->addRelationship($field, $fieldtype);
+                }
 
                 return is_null($fieldtype->column);
             });
@@ -64,10 +68,6 @@ class Collection extends Builder implements BuilderContract
                 $fieldtype  = fieldtypes()->get($field->type);
                 $fillable[] = $field->handle;
                 $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast;
-                
-                if ($fieldtype->hasRelationship()) {
-                    $this->addRelationship($field->handle, $fieldtype);
-                }
             }
         }
 

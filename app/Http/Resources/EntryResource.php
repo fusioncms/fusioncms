@@ -26,18 +26,23 @@ class EntryResource extends JsonResource
         $matrix = new MatrixResource($this->resource['matrix']);
         $fields = $matrix->fieldset->fields ?? null;
         
-        $resource['id']     = $this->id;
-        $resource['name']   = $this->name;
-        $resource['slug']   = $this->slug;
-        $resource['matrix'] = $matrix;
+        $resource['matrix']        = $matrix;
+        $resource['entry']['id']   = $this->id;
+        $resource['entry']['name'] = $this->name;
+        $resource['entry']['slug'] = $this->slug;
 
         if ($fields) {
             foreach ($fields as $field) {
-                $resource[$field->handle] = $this->{$field->handle};
+                $fieldtype                         = fieldtypes()->get($field->type);
+                $resource['entry'][$field->handle] = $this->{$field->handle};
+
+                if ($fieldtype->hasRelationship()) {
+                    $resource['entry'][$field->handle.'_raw'] = $this->{$field->handle.'_raw'};
+                }
             }
         }
 
-        $resource['status'] = $this->status;
+        $resource['entry']['status'] = $this->status;
 
         return $resource;
     }

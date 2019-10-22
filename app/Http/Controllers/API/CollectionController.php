@@ -52,10 +52,11 @@ class CollectionController extends Controller
         $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $collection = (new Collection($matrix->handle))->make();
         
-        $rules = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-            'status'    => 'required|boolean',
+        $relationships = [];
+        $rules         = [
+            'name'   => 'required',
+            'slug'   => 'sometimes',
+            'status' => 'required|boolean',
         ];
 
         if(isset($matrix->fieldset)) {
@@ -65,15 +66,25 @@ class CollectionController extends Controller
                 return is_null($fieldtype->column);
             });
 
+            // $relationships = $matrix->fieldset->fields->reject(function($field) {
+            //     $fieldtype = fieldtypes()->get($field->type);
+
+            //     return is_null($fieldtype->relationship);
+            // });
+
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes              = $request->validate($rules);
         $attributes['matrix_id'] = $matrix->id;
 
         $entry = $collection->create($attributes);
+
+        // foreach ($relationships as $relationship) {
+        //     dd($relationship);
+        // }
 
         activity()
             ->performedOn($entry)
@@ -97,9 +108,10 @@ class CollectionController extends Controller
     {
         $this->authorize('entry.update');
 
-        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
-        $entry = (new Collection($matrix->handle))->make()->find($id);
-        $rules = [
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
+        $entry  = (new Collection($matrix->handle))->make()->find($id);
+        $relationships = [];
+        $rules         = [
             'name'      => 'required',
             'slug'      => 'sometimes',
             'status'    => 'required|boolean',
@@ -112,10 +124,16 @@ class CollectionController extends Controller
                 return is_null($fieldtype->column);
             });
 
+            $relationships = $matrix->fieldset->fields->reject(function($field) {
+                $fieldtype = fieldtypes()->get($field->type);
+
+                return is_null($fieldtype->getRelationship());
+            });
+
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes = $request->validate($rules);
 
@@ -124,6 +142,10 @@ class CollectionController extends Controller
         }
 
         $entry->update($attributes);
+
+        foreach ($relationships as $relationship) {
+            $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
 
         return new EntryResource($entry);
     }

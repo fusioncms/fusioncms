@@ -51,7 +51,7 @@ class FieldObserver
 
                     if (! Schema::hasTable($tableName)) {
                         Schema::create($tableName, function($table) use ($field) {
-                            $table->integer(Str::singular($field->handle).'_id')->unsigned();
+                            $table->integer($field->handle.'_id')->unsigned();
                             $table->morphs(Str::addAbleSuffix($field->handle));
                         });
                     }
@@ -105,7 +105,7 @@ class FieldObserver
                                 Schema::rename($oldTableName, $newTableName);
 
                                 Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn(Str::singular($old['handle']).'_id', Str::singular($new['handle']).'_id');
+                                    $table->renameColumn($old['handle'].'_id', $new['handle'].'_id');
                                 });
 
                                 Schema::table($newTableName, function($table) use ($old, $new) {

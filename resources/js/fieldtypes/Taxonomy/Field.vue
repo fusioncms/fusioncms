@@ -7,9 +7,13 @@
                 :name="field.handle"
                 :id="term.id"
                 :native-value="term.id"
-                @input="$emit('input', $event)">
+                v-model="values"
+                @input="$emit('input', values)"
+            >
+                <template>
                     {{ term.name }}
-                </p-checkbox>
+                </template>
+            </p-checkbox>
         </p-checkbox-group>
     </div>
 </template>
@@ -21,6 +25,7 @@
         data() {
             return {
                 taxonomy: {},
+                values: [],
             }
         },
 
@@ -42,14 +47,22 @@
 
             value: {
                 required: false,
-                default: '',
+                default: function() {
+                    return []
+                },
             },
         },
 
-        created() {
+        mounted() {
             axios.get('/api/taxonomies/' + this.field.settings.taxonomy).then((response) => {
                 this.taxonomy = response.data.data
             })
-        }
+
+            if(! this.value) {
+                this.$emit('input', [])
+            }
+
+            this.values = _.cloneDeep(this.value)
+        },
     }
 </script>

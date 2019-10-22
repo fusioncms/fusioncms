@@ -128,15 +128,18 @@ abstract class Builder implements BuilderContract
      */
     public function hasRelationships()
     {
-        return count($this->relationships) > 0;
+        return count($this->getRelationships()) > 0;
     }
 
     /**
      * @return self
      */
-    public function addRelationship($handle, $type)
+    public function addRelationship($field, $type)
     {
-        $this->relationships[$handle] = $type;
+        $this->relationships[$field->handle] = [
+            $field,
+            $type,
+        ];
 
         return $this;
     }
@@ -153,13 +156,15 @@ abstract class Builder implements BuilderContract
         $relationships = $this->getRelationships();
         $generated     = '';
 
-        foreach ($relationships as $handle => $fieldtype) {
+        foreach ($relationships as $handle => list($field, $fieldtype)) {
             $namespace = $fieldtype->namespace.'\\'.Str::studly($handle);
             $stub      = File::get(resource_path('stubs/relationships/'.$fieldtype->relationship.'.stub'));
 
             $contents = strtr($stub, [
                 '{handle}'            => $handle,
+                '{studly_handle}'     => Str::studly($handle),
                 '{related_namespace}' => $namespace,
+                '{related_table}'     => null,
                 '{tag}'               => Str::addAbleSuffix($handle),
             ]);
 

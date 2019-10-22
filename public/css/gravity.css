@@ -820,7 +820,7 @@ span.flatpickr-weekday{
     -webkit-transform:translate3d(0,0,0);
     transform:translate3d(0,0,0)
   }
-}/*! Pickr 1.4.2 MIT | https://github.com/Simonwep/pickr */
+}/*! Pickr 1.4.5 MIT | https://github.com/Simonwep/pickr */
 
 .pickr{
   position:relative;
@@ -1689,23 +1689,19 @@ textarea {
   resize: vertical;
 }
 
-input::-webkit-input-placeholder,
-textarea::-webkit-input-placeholder {
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   color: #a0aec0;
 }
 
-input::-moz-placeholder,
-textarea::-moz-placeholder {
+input::-moz-placeholder, textarea::-moz-placeholder {
   color: #a0aec0;
 }
 
-input:-ms-input-placeholder,
-textarea:-ms-input-placeholder {
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #a0aec0;
 }
 
-input::-ms-input-placeholder,
-textarea::-ms-input-placeholder {
+input::-ms-input-placeholder, textarea::-ms-input-placeholder {
   color: #a0aec0;
 }
 
@@ -2062,7 +2058,7 @@ input.form__control.font-mono, select.form__control.font-mono, textarea.form__co
   height: 42px;
 }
 
-input.form__control:-moz-read-only, input.form__control:disabled, select.form__control:-moz-read-only, select.form__control:disabled, textarea.form__control:-moz-read-only, textarea.form__control:disabled {
+input.form__control:-moz-read-only, select.form__control:-moz-read-only, textarea.form__control:-moz-read-only {
   background-color: #edf2f7;
 }
 
@@ -2070,7 +2066,7 @@ input.form__control:read-only, input.form__control:disabled, select.form__contro
   background-color: #edf2f7;
 }
 
-input.form__control:-moz-read-only:focus, input.form__control:disabled:focus, select.form__control:-moz-read-only:focus, select.form__control:disabled:focus, textarea.form__control:-moz-read-only:focus, textarea.form__control:disabled:focus {
+input.form__control:-moz-read-only:focus, select.form__control:-moz-read-only:focus, textarea.form__control:-moz-read-only:focus {
   box-shadow: none;
 }
 
