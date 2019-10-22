@@ -127,7 +127,7 @@
                                         <p-input
                                             name="icon"
                                             label="Icon"
-                                            placeholder="pencil"
+                                            placeholder="tag"
                                             help="Choose an icon that best represents your taxonomy."
                                             autocomplete="off"
                                             autofocus

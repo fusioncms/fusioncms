@@ -738,10 +738,6 @@
   resolved "https://registry.yarnpkg.com/@editorjs/warning/-/warning-1.1.1.tgz#8981f36f2316ae87e5204e808d22a0d9aa072468"
   integrity sha512-YIO9yEdJZMUeKPNrlwXIYmMzfBfKiXDhTgSh8JSAmh0XCV2rJfPWo9g2pgyD3g0Re/kclfbUVSfFLCBR0RsCtw==
 
-"@efelle/proton@https://github.com/efellemedia/proton":
-  version "0.1.0"
-  resolved "https://github.com/efellemedia/proton#d9fa3b4c5df4f9c0b6a036035c7c753b66dba17b"
-
 "@fortawesome/fontawesome-common-types@^0.2.25":
   version "0.2.25"
   resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.25.tgz#6df015905081f2762e5cfddeb7a20d2e9b16c786"
@@ -809,6 +805,10 @@
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
+
+"@proton-ui/proton@https://github.com/proton-ui/proton":
+  version "0.2.0"
+  resolved "https://github.com/proton-ui/proton#05c7210a10c208c0e1786483e92f590ad4faa804"
 
 "@simonwep/pickr@^1.2.3":
   version "1.4.5"

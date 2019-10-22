@@ -13,7 +13,7 @@ mix.setPublicPath('public')
     .webpackConfig({
         devtool: sourceMap,
         output: {
-            chunkFilename: "chunks/[id].chunk.[chunkhash].js"
+            chunkFilename: "chunks/[id].js"
         },
     })
     .options({
