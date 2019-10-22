@@ -12,14 +12,6 @@
 
         <hr>
 
-        <!-- <div class="row" v-if="accessToken">
-            <div class="col w-full">
-                <h3>Your Generated Token</h3>
-                <p class="text-sm text-gray-600 mb-3">Save this, as it will not be shown ever again.</p>
-                <textarea class="h-64 w-full p-3 text-blue-600 bg-blue-100 rounded">{{ accessToken }}</textarea>
-            </div>
-        </div> -->
-
         <div class="row">
             <div class="col w-full">
                 <h3 class="mt-0 mb-3">Manage API Tokens</h3>
