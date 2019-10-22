@@ -36,7 +36,9 @@
 
             value: {
                 required: false,
-                default: function(){ return [] },
+                default: function() {
+                    return []
+                },
             },
         },
 

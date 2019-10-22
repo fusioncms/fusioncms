@@ -23,13 +23,14 @@ class ActivityResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($this);
+
         return [
             'id'          => $this->id,
             'log_name'    => $this->log_name,
             'description' => $this->description,
             'properties'  => $this->properties,
             'causer'      => new UserResource($this->causer),
-            'subject'     => $this->subject,
             'created_at'  => $this->created_at,
         ];
     }

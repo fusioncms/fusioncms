@@ -1,0 +1,75 @@
+<?php
+
+/*
+ * This file is part of the FusionCMS application.
+ *
+ * (c) efelle creative <appdev@efelle.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace App\Models\Taxonomies;
+
+use App\Models\Field;
+use App\Models\Taxonomy;
+use App\Database\Eloquent\Model;
+
+class {class} extends Model
+{
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'taxonomy_{handle}';
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+    /**
+     * Get the Taxonomy relationship.
+     *
+     * @return mixed
+     */
+    public function taxonomy()
+    {
+        return $this->belongsTo(Taxonomy::class);
+    }
+
+    /**
+     * Get all of the fields for the taxonomy.
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->taxonomy->fieldset->fields;
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Taxonomy::class, 'id', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Taxonomy::class, 'parent_id', 'id');
+    }
+}

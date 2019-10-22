@@ -67,6 +67,33 @@ const router = new Router({
             }
         },
         {
+            path: '/taxonomies',
+            component: () => import('../views/Taxonomies/Index'),
+            name: 'taxonomies',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/taxonomies/create',
+            component: () => import('../views/Taxonomies/Create'),
+            name: 'taxonomies.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/taxonomies/edit/:taxonomy',
+            component: () => import('../views/Taxonomies/Edit'),
+            name: 'taxonomies.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',
@@ -124,6 +151,33 @@ const router = new Router({
             path: '/collections/:collection/edit/:id',
             component: () => import('../views/Collections/Edit'),
             name: 'entries.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy',
+            component: () => import('../views/Terms/Index'),
+            name: 'terms.index',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy/create',
+            component: () => import('../views/Terms/Create'),
+            name: 'terms.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/taxonomies/:taxonomy/edit/:id',
+            component: () => import('../views/Terms/Edit'),
+            name: 'terms.edit',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',

@@ -16,7 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factory;
-use Laravel\Telescope\TelescopeServiceProvider;
+use App\Providers\TelescopeServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider

@@ -72,8 +72,9 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        \App\Models\Matrix::observe(\App\Observers\MatrixObserver::class);
         \App\Models\Field::observe(\App\Observers\FieldObserver::class);
+        \App\Models\Matrix::observe(\App\Observers\MatrixObserver::class);
         \App\Models\Section::observe(\App\Observers\SectionObserver::class);
+        \App\Models\Taxonomy::observe(\App\Observers\TaxonomyObserver::class);
     }
 }

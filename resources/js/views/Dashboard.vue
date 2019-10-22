@@ -53,8 +53,8 @@
                                 <td><router-link :to="{ name: 'users.edit', params: {user: activity.causer.id} }">{{ activity.causer.name }}</router-link></td>
                                 <td class="flex items-center">
                                     <div class="text-gray-900 mr-4 flex items-center text-sm w-3">
-                                        <fa-icon v-if="activity.properties.icon" :icon="['fas', activity.properties.icon]"></fa-icon>
-                                        <fa-icon v-else class="fa-xs" :icon="['fas', 'circle']"></fa-icon>
+                                        <fa-icon v-if="activity.properties.icon" :icon="['fas', activity.properties.icon]" class="fa-fw"></fa-icon>
+                                        <fa-icon v-else class="fa-xs fa-fw" :icon="['fas', 'circle']"></fa-icon>
                                     </div>
 
                                     {{ activity.description }}

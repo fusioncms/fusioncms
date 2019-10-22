@@ -1,0 +1,20 @@
+    /**
+     * A polymorphic many to many "{handle}" relationship.
+     *
+     * @return MorphToMany
+     */
+    public function {handle}()
+    {
+        return $this->morphToMany('{related_namespace}', '{tag}');
+    }
+
+    /**
+     * Get the raw value for the polymorphic many to many 
+     * "{handle}" relationship.
+     *
+     * @return Array
+     */
+    public function get{studly_handle}RawAttribute()
+    {
+        return $this->{handle}->pluck('id');
+    }

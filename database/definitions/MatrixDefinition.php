@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -27,14 +28,15 @@ $factory->define(App\Models\Matrix::class, function (Faker $faker) {
 
     return [
         'name'             => $name,
-        'handle'           => str_handle($name),
+        'handle'           => Str::slug($name, '_'),
+        'slug'             => Str::slug($name, '-'),
         'description'      => $faker->sentence,
         'type'             => $faker->randomElement(['page', 'collection']),
         'sidebar'          => $faker->boolean(50),
         'quicklink'        => $faker->boolean(50),
         'icon'             => $faker->randomElement(['pencil', 'airplane', 'book', 'brain']),
         'route'            => 'test/{slug}',
-        'template'         => 'test.' . str_handle($name),
+        'template'         => 'test.' . Str::slug($name),
         'revision_control' => $faker->boolean(50),
         'creditable'       => $faker->boolean(50),
         'publishable'      => $faker->boolean(50),
