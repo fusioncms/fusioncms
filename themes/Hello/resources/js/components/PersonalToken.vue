@@ -1,61 +1,55 @@
 <template>
 	<div>
         <div class="row">
-            <form class="w-full" @submit.prevent="submit">
-                <h3>Create New Token</h3>
+            <form class="col w-full" @submit.prevent="submit">
+                <p class="mb-6 text-sm">Personal API tokens allow third-party services to authenticate as you to access the API. Tokens should never be shared with anyone and should be treated as passwords.</p>
 
-                <div class="mb-6">
-                    <input
-                        type="text"
-                        name="name"
-                        class="form-input w-full"
-                        required
-                        v-model="form.name"/>
-
-                    <span class="text-sm text-red-600 italic" v-if="form.errors.has('name')" v-text="form.errors.get('name')"></span>
-                </div>
+                <p-input name="name" label="Create New Token" v-model="form.name" :has-error="form.errors.has('name')" :error-message="form.errors.get('name')"></p-input>
 
                 <button class="button" type="submit" @click.prevent="submit">Create</button>
             </form>
         </div>
 
-        <div class="row" v-if="accessToken">
-            <div class="w-full">
+        <hr>
+
+        <!-- <div class="row" v-if="accessToken">
+            <div class="col w-full">
                 <h3>Your Generated Token</h3>
                 <p class="text-sm text-gray-600 mb-3">Save this, as it will not be shown ever again.</p>
                 <textarea class="h-64 w-full p-3 text-blue-600 bg-blue-100 rounded">{{ accessToken }}</textarea>
             </div>
-        </div>
+        </div> -->
 
         <div class="row">
-            <div class="w-full">
-                <h3>Manage Tokens</h3>
+            <div class="col w-full">
+                <h3 class="mt-0 mb-3">Manage API Tokens</h3>
                 
-                <div v-if="tokens.length == 0" class="my-3 bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
-                    <p>You have not created any personal access tokens.</p>
+                <div
+                    class="my-3 border-l-4 p-4"
+                    :class="{
+                        'bg-gray-100 border-gray-500 text-gray-700': (loading == true),
+                        'bg-orange-100 border-orange-500 text-orange-700': (loading == false && tokens.length == 0),
+                        'bg-blue-100 border-blue-500 text-blue-700': (loading == false && tokens.length > 0)
+                    }"
+                    role="alert"
+                >
+                    <p v-if="loading">Loading existing API tokens...</p>
+                    <p v-else-if="tokens.length == 0">You have not created any API tokens.</p>
+                    <p v-else>You may revoke any of your existing tokens if they are no longer in use.</p>
                 </div>
 
-                <table v-else class="text-left w-full border-collapse">
-                    <thead>
-                        <tr>
-                            <th class="w-4/5 py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-500 border-b border-gray-300">Name</th>
-                            <th class="w-1/5 py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-500 border-b border-gray-300">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="token in tokens">
-                            <td class="py-4 px-6 border-b border-grey-light">{{ token.name }}</td>
-                            <td class="py-4 px-6 border-b border-grey-light">
-                                <button class="button inline-flex items-center" @click="revoke(token)">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div v-if="tokens.length">
+                    <table>
+                        <tbody>
+                            <tr v-for="token in tokens" :key="token.name">
+                                <td>{{ token.name }}</td>
+                                <td class="text-right"><a href="#" @click.prevent="revoke(token)" class="text-red-400 hover:text-red-600">Revoke</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -67,6 +61,8 @@
 
         data() {
             return {
+                loading: true,
+
                 accessToken: null,
                 
                 tokens: [],  // existing tokens for current user
@@ -81,12 +77,16 @@
 
         methods: {
             refreshTokens() {
+                this.loading = true
+
                 axios.all([
                     axios.get('/oauth/personal-access-tokens'),
                     axios.get('/oauth/scopes')
                 ]).then(axios.spread(function (tokens, scopes) {
                     if (tokens) this.tokens = tokens.data
                     if (scopes) this.scopes = scopes.data
+
+                    this.loading = false
                 }.bind(this)))
             },
 
