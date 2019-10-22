@@ -50,6 +50,16 @@
                 </div>
             </div>
         </div>
+
+        <p-modal name="access-token" v-model="hasAccessToken" title="Your API Token" large no-outside-close no-esc-close>
+            <p class="mb-6">Please copy your new API token. For your security, it won't be shown again.</p>
+
+            <p-textarea name="access-token" v-model="accessToken" :rows="6"></p-textarea>
+
+            <template v-slot:footer>
+                <p-button v-modal:access-token>OK</p-button>
+            </template>
+        </p-modal>
     </div>
 </template>
 
@@ -73,6 +83,18 @@
                     scopes: []
                 })
             }
+        },
+
+        computed: {
+            hasAccessToken: {
+                get: function() {
+                    return null !== this.accessToken
+                },
+
+                set: function(value) {
+                    this.accessToken = null
+                }
+            },
         },
 
         methods: {
