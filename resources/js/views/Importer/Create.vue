@@ -41,14 +41,14 @@
 								</p-slug>
 
 								<p-input
-									name="url"
-									label="URL"
+									name="location"
+									label="Location"
 									help="File location import will reference."
 									autocomplete="off"
 									required
-									:has-error="form.errors.has('url')"
-									:error-message="form.errors.get('url')"
-									v-model="form.url">
+									:has-error="form.errors.has('location')"
+									:error-message="form.errors.get('location')"
+									v-model="form.location">
 								</p-input>
 
 								<p-select
@@ -74,12 +74,14 @@
                                 </p-checkbox-group>
 
 
+                                <!--
                                 <p-toggle
                                 	name="backup"
                                 	label="Backup"
                                 	help="Backup data before importing?"
                                 	v-model="form.backup">
                                 </p-toggle>
+                            	-->
 
 							</div>
 						</div>
@@ -99,7 +101,7 @@
 				form: new Form({
 					name: '',
 					handle: '',
-					url: '',
+					location: '',
 					module: 'users',
 					strategy: [],
 					backup: false
@@ -112,7 +114,8 @@
 				this.form.post('/api/imports').then((response) => {
 					toast('Import successfully saved', 'success')
 
-					this.$router.push(`/importer/${response.data.id}`)
+					this.$router.push('/importer')
+					// this.$router.push(`/importer/mapping/${response.data.id}`)
 				}).catch((response) => {
 					toast(response.message, 'failed')
 				})
