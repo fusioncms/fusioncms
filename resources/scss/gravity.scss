@@ -59,11 +59,12 @@
 @import "layout/tiles";
 
 // Vendor
+@import "vendor/codemirror";
 @import "vendor/draggable";
 @import "vendor/flatpickr";
 @import "vendor/fontawesome";
 @import "vendor/nprogress";
+@import "vendor/pickr";
 @import "vendor/plyr";
 @import "vendor/redactor";
 @import "vendor/vue";
-@import "../../node_modules/@simonwep/pickr/dist/themes/monolith.min.css";

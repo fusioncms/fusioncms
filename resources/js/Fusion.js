@@ -1,6 +1,7 @@
 import router from './router'
 import store from './vuex'
 import Vue from 'vue'
+import Proton from '@proton-ui/proton'
 
 export default class Fusion {
     constructor(config) {
@@ -11,6 +12,8 @@ export default class Fusion {
         this.vue = null
 
         Vue.prototype.$bus = this.bus
+
+        Vue.use(Proton)
 
         Vue.mixin({
             methods: {
