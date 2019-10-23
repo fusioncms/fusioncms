@@ -1,0 +1,15 @@
+@import "~@simonwep/pickr/dist/themes/monolith.min.css";
+
+.color-picker .pickr {
+    @apply w-full p-0 shadow-none;
+    
+    height: 42px;
+}
+
+.color-picker .pickr .pcr-button {
+    @apply w-full border border-gray-400 rounded;
+
+    &:focus {
+        @apply outline-none shadow;
+    }
+}

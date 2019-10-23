@@ -25,7 +25,7 @@
                     }"
                     role="alert"
                 >
-                    <p v-if="loading">Loading existing API tokens...</p>
+                    <p v-if="loading">{{ loadingMessage || 'Loading existing API tokens...' }}</p>
                     <p v-else-if="tokens.length == 0">You have not created any API tokens.</p>
                     <p v-else>You may revoke any of your existing tokens if they are no longer in use.</p>
                 </div>
@@ -35,7 +35,7 @@
                         <tbody>
                             <tr v-for="token in tokens" :key="token.name">
                                 <td>{{ token.name }}</td>
-                                <td class="text-right"><a href="#" @click.prevent="revoke(token)" class="text-red-400 hover:text-red-600">Revoke</a></td>
+                                <td class="text-right"><a href="#" @click.prevent="confirmRevoke(token)" class="text-red-400 hover:text-red-600">Revoke</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,6 +52,15 @@
                 <p-button v-modal:access-token>OK</p-button>
             </template>
         </p-modal>
+
+        <p-modal name="revoke-token" v-model="wantsToRevokeToken" title="Revoke API Token" v-if="revokeToken" large no-outside-close no-esc-close>
+            <p class="mb-6">Are you sure you want to revoke the <b>{{ revokeToken.name }}</b> token?</p>
+
+            <template v-slot:footer>
+                <p-button theme="danger" v-modal:revoke-token @click.prevent="revoke(revokeToken)">Revoke</p-button>
+                <p-button v-modal:revoke-token class="mr-3">Cancel</p-button>
+            </template>
+        </p-modal>
     </div>
 </template>
 
@@ -64,8 +73,10 @@
         data() {
             return {
                 loading: true,
+                loadingMessage: '',
 
                 accessToken: null,
+                revokeToken: null,
                 
                 tokens: [],  // existing tokens for current user
                 scopes: [],  // all available scopes
@@ -87,6 +98,16 @@
                     this.accessToken = null
                 }
             },
+
+            wantsToRevokeToken: {
+                get: function() {
+                    return null !== this.revokeToken
+                },
+
+                set: function(value) {
+                    this.revokeToken = null
+                }
+            },
         },
 
         methods: {
@@ -101,6 +122,7 @@
                     if (scopes) this.scopes = scopes.data
 
                     this.loading = false
+                    this.loadingMessage = ''
                 }.bind(this)))
             },
 
@@ -114,13 +136,22 @@
                     .catch(() => {})
             },
 
+            confirmRevoke(token) {
+                this.revokeToken = token
+            },
+
             revoke(token) {
                 axios.delete('/oauth/personal-access-tokens/' + token.id)
                     .then(response => {
+                        this.setLoadingMessage('Deleting token...')
                         this.refreshTokens()
                     })
                     .catch(() => {})
-            }
+            },
+
+            setLoadingMessage(message) {
+                this.loadingMessage = message
+            },
         },
 
         mounted() {
