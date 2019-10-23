@@ -33,7 +33,7 @@
     import fieldtype from '../../mixins/fieldtype'
 
     export default {
-        name: 'color_picker-fieldtype-settings',
+        name: 'color-picker-fieldtype-settings',
 
         props: {
             value: Object

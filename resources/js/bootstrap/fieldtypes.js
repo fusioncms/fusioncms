@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
-Vue.component('color_picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
-Vue.component('color_picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
+Vue.component('color-picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
+Vue.component('color-picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
 
 Vue.component('divider-fieldtype', () => import('../fieldtypes/Divider/Field'))
 Vue.component('divider-fieldtype-settings', () => import('../fieldtypes/Divider/Settings'))

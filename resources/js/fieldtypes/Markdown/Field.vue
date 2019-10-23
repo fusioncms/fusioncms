@@ -1,32 +1,30 @@
 <template>
-    <div class="row markdown">
-        <div class="col" :class="[previewOpen ? 'w-1/2' : 'w-full']">
-            <p-textarea
-                :name="field.handle"
-                :label="field.name"
-                :help="field.help"
-                :value="value"
-                @input="$emit('input', $event)"
-                :rows="8"
-            ></p-textarea>
-        </div>
-        <div class="w-1/2 flex flex-col" v-if="previewOpen">
-            <div class="form__label">{{field.name}} Preview</div>
-            <div class="markdown__preview card overflow-auto">
-                <div class="p-2" v-html="markdown"></div>
-            </div>
-        </div>
-        <div class="w-full col">
-            <a href="#" class="button button--primary button--small mt-3 mb-4" @click="previewOpen = !previewOpen">Toggle Preview</a>
-        </div>
+    <div class="form__group">
+        <label
+            class="form__label"
+            :for="field.handle"
+            v-html="field.name">
+        </label>
+
+        <textarea :name="field.handle" :id="field.handle" cols="30" rows="10" v-model="value"></textarea>
     </div>
 </template>
 
 <script>
-    import marked from 'marked'
+    require('codemirror/mode/gfm/gfm')
+    require('codemirror/keymap/sublime')
+    require('codemirror/addon/display/placeholder')
+
+    import CodeMirror from 'codemirror'
 
     export default {
         name: 'markdown-fieldtype',
+
+        data() {
+            return {
+                codemirror: null,
+            }
+        },
 
         props: {
             field: {
@@ -40,17 +38,23 @@
             },
         },
 
-        data() {
-            return {
-                previewOpen: true
-            }
-        },
+        mounted() {
+            this.codemirror = CodeMirror.fromTextArea(document.getElementById(this.field.handle), {
+                theme: 'fusion',
+                mode: {
+                    name: 'gfm',
+                    highlightFormatting: true,
+                    fencedCodeBlockHighlighting: true,
+                },
+                lineWrapping: true,
+                viewportMargin: Infinity,
+                keyMap: 'sublime',
+            })
 
-        computed: {
-            markdown() {
-                return this.value ? marked(this.value) : ''
-            }
-        }
+            this.codemirror.on('change', (instance) => {
+                this.$emit('input', instance.getValue())
+            })
+        },
     }
 </script>
 

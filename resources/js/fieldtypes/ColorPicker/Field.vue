@@ -1,34 +1,30 @@
 <template>
     <div class="color-picker">
         <div class="form__group">
-            <label :for="field.handle" class="form__label">{{field.name}}</label>
-            <div class="flex items-center">
-                <div class="mr-2 mt-5">
+            <label :for="field.handle" class="form__label">{{ field.name }}</label>
+
+            <div class="flex items-end">
+                <div class="flex-grow mr-3">
+                    <label :for="pickrClass + '_hex'" class="text-xs">Picker</label>
                     <div :class="pickrClass"></div>
                 </div>
-                <div class="mr-2 flex-grow">
+                
+                <div class="mr-3 flex-grow">
+                    <label :for="pickrClass + '_hex'" class="text-xs">Hex</label>
+                    <input :id="pickrClass + '_hex'"
+                        :name="pickrClass + '_hex'"
+                        type="text"
+                        class="form__control" 
+                        v-model="hex">
+                </div>
+
+                <div class="flex-grow">
                     <label :for="pickrClass + '_rgba'" class="text-xs">RGBA</label>
                     <input :id="pickrClass + '_rgba'"
                         :name="pickrClass + '_rgba'"
                         type="text" 
                         class="form__control" 
                         v-model="rgba">
-                </div>
-                <div class="mr-2 flex-grow">
-                    <label :for="pickrClass + '_hex'" class="text-xs">Hex</label>
-                    <input :id="pickrClass + '_hex'"
-                        :name="pickrClass + '_hex'"
-                        type="text" 
-                        class="form__control" 
-                        v-model="hex">
-                </div>
-                <div class="flex-grow">
-                    <label :for="pickrClass + '_cmyk'" class="text-xs">CMYK</label>
-                    <input :id="pickrClass + '_cmyk'"
-                        :name="pickrClass + '_cmyk'"
-                        type="text" 
-                        class="form__control" 
-                        v-model="cmyk">
                 </div>
             </div>
         </div>
@@ -37,13 +33,14 @@
 
 <script>
     import Pickr from '@simonwep/pickr'
+
     export default {
-        name: 'color_picker-fieldtype',
+        name: 'color-picker-fieldtype',
 
         data() {
             return {
-                color: Object,
-                pickr: Object,
+                color: {},
+                pickr: {},
                 rgba: '',
                 hex: '',
                 cmyk: '',
@@ -67,19 +64,21 @@
         computed: {
             pickrClass() {
                 return this.field.handle + '-pickr'
-            }
+            },
         },
 
         methods: {
             pickrChanged(color) {
                 this.color = color
-                this.rgba = this.color ? this.color.toRGBA().toString(0) : ''
+
                 this.hex = this.color ? this.color.toHEXA().toString() : ''
-                this.cmyk = this.color ?  this.color.toCMYK().toString(0) : ''
+                this.rgba = this.color ? this.color.toRGBA().toString(0) : ''
+
                 this.$emit('input', this.rgba)
             },
+
             changeColor(colorString) {
-                if(this.pickr.setColor(colorString)) {
+                if (this.pickr.setColor(colorString)) {
                     this.pickr.applyColor()
                 }
             },
@@ -89,60 +88,81 @@
             rgba(colorString) {
                 this.changeColor(colorString)
             },
+
             hex(colorString) {
                 this.changeColor(colorString)
             },
-            cmyk(colorString) {
-                this.changeColor(colorString)
-            }
         },
 
         mounted() {
-            let vm = this
-            let defaultColor = vm.value === null && vm.field.settings.default ? vm.field.settings.default : null
+            let defaultColor = this.value === null && this.field.settings.default ? this.field.settings.default : ''
 
-            vm.pickr = Pickr.create({
+            this.pickr = Pickr.create({
                 el: '.' + this.pickrClass,
                 theme: 'monolith',
-                default: vm.value && vm.value != '' ? vm.value : defaultColor,
-                swatches: null,
-                comparison: false,
-                defaultRepresentation: 'RGBA',
+                default: this.value && this.value != '' ? this.value : defaultColor,
+                swatches: [
+                    '#000000',
+                    '#FFFFFF',
+                    
+                    '#F7FAFC',
+                    '#EDF2F7',
+                    '#E2E8F0',
+                    '#CBD5E0',
+                    '#A0AEC0',
+                    '#718096',
+                    '#4A5568',
+                    '#2D3748',
+                    
+                    '#F56565',
+                    '#F98C12',
+                    '#F6E05E',
+                    '#BF7E32',
+                    '#48BB78',
+                    '#38B2AC',
+                    '#4299E1',
+                    '#667EEA',
+                    '#9F7AEA',
+                    '#ED64A6',
+                ],
+                comparison: true,
                 components: {
-                    palette: true,
-                    preview: true,
-                    opacity: vm.transparency,
+                    opacity: this.transparency,
                     hue: true,
-                    interaction: {
-                        hex: true,
-                        rgba: true,
-                        cmyk: true,
-                        input: true,
-                        cancel: false,
-                        clear: true
-                    }
+
+                    // interaction: {
+                    //     // hex: true,
+                    //     // rgba: true,
+                    //     // input: true,
+                    //     // clear: true,
+                    // }
                 }
             })
 
-            if(vm.value) {
-                vm.changeColor(vm.value)
-                vm.color = vm.pickr.getColor()
-                vm.pickrChanged(vm.color)
-            } else if(defaultColor) {
-                vm.changeColor(defaultColor)
-                vm.color = vm.pickr.getColor()
-                vm.pickrChanged(vm.color)
+            if (this.value) {
+                this.changeColor(this.value)
+                
+                this.color = this.pickr.getColor()
+                
+                this.pickrChanged(this.color)
+            } else if (defaultColor) {
+                this.changeColor(defaultColor)
+                
+                this.color = this.pickr.getColor()
+                
+                this.pickrChanged(this.color)
             }
 
+            this.pickr.on('save', (color, instance) => {
+                this.pickrChanged(color)
+            })
 
-            vm.pickr.on('save', (color, instance) => {
-                vm.pickrChanged(color)
+            this.pickr.on('change', (color, instance) => {
+                this.pickrChanged(color)
             })
-            vm.pickr.on('change', (color, instance) => {
-                vm.pickrChanged(color)
-            })
-            vm.pickr.on('clear', instance => {
-                vm.pickrChanged(null)
+
+            this.pickr.on('clear', (instance) => {
+                this.pickrChanged(null)
             })
         }
     }
