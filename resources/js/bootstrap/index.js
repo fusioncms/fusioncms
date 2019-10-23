@@ -1,5 +1,5 @@
 window.Vue = require('vue')
-window.Proton = require('@efelle/proton')
+window.Proton = require('@proton-ui/proton')
 
 require('./axios.js')
 require('./components.js')
