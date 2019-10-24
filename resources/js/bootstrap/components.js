@@ -12,11 +12,12 @@ Vue.component('redactor', require('../components/Redactor').default)
 Vue.component('tos-modal', require('../components/Modals/TOSModal').default)
 Vue.component('privacy-modal', require('../components/Modals/PrivacyModal').default)
 Vue.component('analytics-overview', require('../components/AnalyticsOverview').default)
+Vue.component('recent-activity', require('../components/RecentActivity').default)
+Vue.component('recent-news', require('../components/RecentNews').default)
 Vue.component('p-frame', require('../components/Frame').default)
 Vue.component('p-autocomplete', require('../components/Autocomplete').default)
 
 // File Manager
-Vue.component('p-img', require('../components/FileManager/Image').default)
 Vue.component('file-manager-file', require('../components/FileManager/File').default)
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)
 Vue.component('new-folder-modal', require('../components/FileManager/NewFolderModal').default)
