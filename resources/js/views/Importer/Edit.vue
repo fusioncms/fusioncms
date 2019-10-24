@@ -6,7 +6,7 @@
 
 		<portal to="actions">
 			<router-link :to="{ name: 'importer' }" class="button mr-3">Go Back</router-link>
-			<button type="submit" @click.prevent="submit" class="button button--primary">Update</button>
+			<button type="submit" @click.prevent="submit" class="button button--primary">Save &amp; Continue</button>
 		</portal>
 
 		<div class="row">
@@ -45,8 +45,7 @@
 				this.form.patch(`/api/imports/${this.id}`).then((response) => {
 					toast('Import successfully saved', 'success')
 
-					this.$router.push('/importer')
-					// this.$router.push(`/importer/mapping/${response.data.id}`)
+					this.$router.push(`/importer/mapping/${response.data.id}`)
 				}).catch((response) => {
 					toast(response.message, 'failed')
 				})

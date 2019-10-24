@@ -1,9 +1,5 @@
 <template>
 	<div>
-		<portal to="title">
-			<app-title icon="ship">Import Mapping</app-title>
-		</portal>
-
 		<portal to="actions">
 			<router-link :to="{ name: 'importer'}" class="button mr-3">Go Back</router-link>
 			<router-link :to="{ name: 'importer.edit', params: {importer: this.id} }" class="button mr-3">Back to Edit</router-link>

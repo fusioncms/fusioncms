@@ -44,8 +44,7 @@
 				this.form.post('/api/imports').then((response) => {
 					toast('Import successfully saved', 'success')
 
-					this.$router.push('/importer')
-					// this.$router.push(`/importer/mapping/${response.data.id}`)
+					this.$router.push(`/importer/mapping/${response.data.id}`)
 				}).catch((response) => {
 					toast(response.message, 'failed')
 				})

@@ -26,7 +26,7 @@ class Import extends Model
         'location',
         'module',
         'strategy',
-        'headings',
+        'preview',
         'mappings',
         'backup',
     ];
@@ -38,7 +38,7 @@ class Import extends Model
      */
     protected $casts = [
         'strategy' => 'collection',
-        'headings' => 'collection',
+        'preview'  => 'collection',
         'mappings' => 'collection',
         'backup'   => 'boolean',
     ];

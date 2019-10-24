@@ -20,7 +20,7 @@ class CreateImportsTable extends Migration
             $table->string('location');
             $table->string('module');
             $table->text('strategy')->nullable();
-            $table->text('headings')->nullable();
+            $table->text('preview')->nullable();
             $table->text('mappings')->nullable();
             $table->boolean('backup');
             

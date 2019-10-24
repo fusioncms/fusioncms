@@ -9,4 +9,9 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/imports', 'ImporterController');
+Route::apiResource('/imports', 'ImportController');
+
+Route::group(['prefix' => '/imports/mapping'], function() {
+	Route::get('{import}', 'ImportMappingController@show');
+	Route::patch('{import}', 'ImportMappingController@update');
+});
