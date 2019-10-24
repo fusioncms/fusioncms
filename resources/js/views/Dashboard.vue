@@ -4,7 +4,7 @@
             <app-title icon="grip-horizontal">Dashboard</app-title>
         </portal>
 
-        <quick-links :links="quicklinks"></quick-links>
+        <quicklinks :links="quicklinks"></quicklinks>
 
         <div class="row">
             <div class="col mb-6 md:w-full">

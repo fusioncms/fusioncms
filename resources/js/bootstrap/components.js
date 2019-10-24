@@ -14,6 +14,7 @@ Vue.component('privacy-modal', require('../components/Modals/PrivacyModal').defa
 Vue.component('analytics-overview', require('../components/AnalyticsOverview').default)
 Vue.component('recent-activity', require('../components/RecentActivity').default)
 Vue.component('recent-news', require('../components/RecentNews').default)
+Vue.component('quicklinks', require('../components/Quicklinks').default)
 Vue.component('p-frame', require('../components/Frame').default)
 Vue.component('p-autocomplete', require('../components/Autocomplete').default)
 
