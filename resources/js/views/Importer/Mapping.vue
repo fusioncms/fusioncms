@@ -5,7 +5,7 @@
 		</portal>
 
 		<portal to="actions">
-			<router-link :to="{ name: 'importer'" class="button mr-3">Go Back</router-link>
+			<router-link :to="{ name: 'importer'}" class="button mr-3">Go Back</router-link>
 			<router-link :to="{ name: 'importer.edit', params: {importer: this.id} }" class="button mr-3">Back to Edit</router-link>
 			<button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
 		</portal>
@@ -22,7 +22,7 @@
 	export default {
 		data() {
 			return {
-				id: null
+				id: null,
 				module: null
 			}
 		},

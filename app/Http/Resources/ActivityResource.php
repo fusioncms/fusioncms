@@ -23,8 +23,6 @@ class ActivityResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this);
-
         return [
             'id'          => $this->id,
             'log_name'    => $this->log_name,

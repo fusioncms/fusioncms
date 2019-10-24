@@ -193,8 +193,6 @@
                         }
                     })
 
-                    console.log(fields)
-
                     vm.form = new Form(fields)
                 })
             },

@@ -33,8 +33,6 @@ class EntryRouter extends Router
 
             $model  = (new Collection($collection->handle))->make();
             $entry  = $model->where('slug', $found->parameter('slug'))->first();
-
-            dd($entry, $entry->matrix->fieldset->fields);
             
             if (is_null($entry)) {
                 continue 1;
