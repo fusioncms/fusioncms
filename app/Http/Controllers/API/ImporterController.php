@@ -13,6 +13,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Import;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportResource;
 use Illuminate\Support\Facades\Storage;
@@ -20,20 +21,6 @@ use Maatwebsite\Excel\HeadingRowImport;
 
 class ImporterController extends Controller
 {
-	/**
-	 * Validation rules used for POST actions.
-	 * 
-	 * @var array
-	 */
-	protected $rules = [
-		'name'     => 'required',
-		'handle'   => 'required|unique:imports,handle',
-		'location' => 'required|url',
-		'module'   => 'required',
-		'strategy' => 'required|array',
-		'backup'   => 'sometimes|boolean',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +60,14 @@ class ImporterController extends Controller
     	$this->authorize('importer.create');
 
     	// Validate..
-		$attributes = $request->validate($this->rules);
+		$attributes = $request->validate([
+            'name'     => 'required',
+            'handle'   => 'required|unique:imports,handle',
+            'location' => 'required|url',
+            'module'   => 'required',
+            'strategy' => 'sometimes|array',
+            'backup'   => 'sometimes|boolean',
+        ]);
 
 		// Save import file locally..
 		Storage::put("imports/{$attributes['handle']}.csv", file_get_contents($attributes['location']));
@@ -107,7 +101,14 @@ class ImporterController extends Controller
     {
     	$this->authorize('importer.update');
 
-    	$attributes = $request->validate($this->rules);
+    	$attributes = $request->validate([
+            'name'     => 'required',
+            'handle'   => 'required|unique:imports,id,' . $import->id,
+            'location' => 'required|url',
+            'module'   => 'required',
+            'strategy' => 'sometimes|array',
+            'backup'   => 'sometimes|boolean',
+        ]);
 
     	$import->update($attributes);
 

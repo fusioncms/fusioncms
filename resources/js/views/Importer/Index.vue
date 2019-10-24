@@ -12,7 +12,7 @@
 			<div class="content-container">
 				<p-datatable :endpoint="endpoint" name="imports" sort-by="name" :per-page="10" primary-key="handle">
 					<template slot="name" slot-scope="table">
-                        <router-link :to="{ name: 'importer.edit', params: {import: table.record.id} }">{{ table.record.name }}</router-link>
+                        <router-link :to="{ name: 'importer.edit', params: {importer: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
 
                     <template slot="handle" slot-scope="table">
@@ -24,7 +24,7 @@
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {fieldset: table.record.id} }">Edit</p-dropdown-item>
+                                <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {importer: table.record.id} }">Edit</p-dropdown-item>
 
                                 <p-dropdown-item
                                     @click.prevent

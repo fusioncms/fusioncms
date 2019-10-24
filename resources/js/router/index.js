@@ -363,6 +363,16 @@ const router = new Router({
         },
 
         {
+            path: '/importer/edit/:importer',
+            component: () => import('../views/Importer/Edit'),
+            name: 'importer.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',
