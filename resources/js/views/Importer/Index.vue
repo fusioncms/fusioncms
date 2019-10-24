@@ -25,6 +25,7 @@
                             
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {importer: table.record.id} }">Edit</p-dropdown-item>
+                                <p-dropdown-item @click.prevent :to="{ name: 'importer.mapping', params: {importer: table.record.id} }">Mapping</p-dropdown-item>
 
                                 <p-dropdown-item
                                     @click.prevent
