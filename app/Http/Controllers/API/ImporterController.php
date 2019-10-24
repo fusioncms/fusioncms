@@ -65,7 +65,7 @@ class ImporterController extends Controller
             'handle'   => 'required|unique:imports,handle',
             'location' => 'required|url',
             'module'   => 'required',
-            'strategy' => 'sometimes|array',
+            'strategy' => 'required|array',
             'backup'   => 'sometimes|boolean',
         ]);
 
@@ -106,7 +106,7 @@ class ImporterController extends Controller
             'handle'   => 'required|unique:imports,id,' . $import->id,
             'location' => 'required|url',
             'module'   => 'required',
-            'strategy' => 'sometimes|array',
+            'strategy' => 'required|array',
             'backup'   => 'sometimes|boolean',
         ]);
 
