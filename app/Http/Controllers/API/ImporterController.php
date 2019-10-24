@@ -69,14 +69,14 @@ class ImporterController extends Controller
             'backup'   => 'sometimes|boolean',
         ]);
 
-		// Save import file locally..
-		Storage::put("imports/{$attributes['handle']}.csv", file_get_contents($attributes['location']));
+		// // Save import file locally..
+		// Storage::put("imports/{$attributes['handle']}.csv", @file_get_contents($attributes['location']));
 
-		// Populate headings attribute..
-		$headings = (new \Maatwebsite\Excel\HeadingRowImport)->toArray("imports/{$attributes['handle']}.csv");
-		$attributes['headings'] = $headings[0];
+		// // Populate headings attribute..
+		// $headings = (new \Maatwebsite\Excel\HeadingRowImport)->toArray("imports/{$attributes['handle']}.csv");
+		// $attributes['headings'] = $headings[0];
 
-    	// Save imports record..
+    	// Save import record..
     	$import = Import::create($attributes);
 
     	activity()
@@ -101,6 +101,7 @@ class ImporterController extends Controller
     {
     	$this->authorize('importer.update');
 
+        // Validate..
     	$attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,id,' . $import->id,
@@ -110,6 +111,14 @@ class ImporterController extends Controller
             'backup'   => 'sometimes|boolean',
         ]);
 
+        // // Save import file locally..
+        // Storage::put("imports/{$attributes['handle']}.csv", @file_get_contents($attributes['location']));
+
+        // // Populate headings attribute..
+        // $headings = (new \Maatwebsite\Excel\HeadingRowImport)->toArray("imports/{$attributes['handle']}.csv");
+        // $attributes['headings'] = $headings[0];
+
+        // Update import record..
     	$import->update($attributes);
 
     	activity()

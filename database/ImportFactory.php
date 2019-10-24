@@ -28,7 +28,7 @@ class ImportFactory implements Factory
 	 *
 	 * @var integer
 	 */
-	protected $count = 1;
+	protected $times = 1;
 
 	/**
 	 * Create 
@@ -36,20 +36,19 @@ class ImportFactory implements Factory
 	 */
 	public function create()
 	{
-		if (count($this->state) > 0) {
-			return factory(Import::class, $this->count)
+		if (count($this->states) > 0) {
+			$imports = factory(Import::class, $this->times)
 				->states(implode(',', $this->states))
 				->create();
+		} else {
+			$imports = factory(Import::class, $this->times)->create();
 		}
 
-		return factory(Import::class, $this->count)->create();
-	}
+		if ($this->times === 1) {
+            return $imports->first();
+        }
 
-	public function withCount(int $count)
-	{
-		$this->count = $count;
-
-		return $this;
+		return $imports;
 	}
 
 	public function withStates(array $states)
@@ -58,4 +57,17 @@ class ImportFactory implements Factory
 
 		return $this;
 	}
+
+	/**
+     * Create N number of instances.
+     * 
+     * @param  integer  $times
+     * @return \SectionFactory
+     */
+    public function times($times)
+    {
+        $this->times = $times;
+
+        return $this;
+    }
 }

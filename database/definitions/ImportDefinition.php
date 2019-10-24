@@ -25,17 +25,6 @@ $factory->define(Import::class, function (Faker $faker) {
 			['create', 'update', 'disable', 'delete'],
 			$faker->numberBetween(1, 4)
 		),
-		'headings' => $faker->words($faker->numberBetween(8, 12)),
 		'backup'   => $faker->boolean(50),
 	];
-});
-
-$factory->afterCreatingState(Import::class, 'mapped', function ($import, $faker) {
-    $mappings = [];
-
-    foreach($import->heading as $heading) {
-    	$mappings[$heading] = $faker->word;
-    }
-    
-    return $mappings;
 });
