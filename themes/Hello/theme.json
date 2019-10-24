@@ -31,7 +31,7 @@
 
         "primary_color": {
             "name": "Primary Color",
-            "fieldtype": "color_picker",
+            "fieldtype": "color-picker",
             "default": "#FF5722",
             "required": true
         }
