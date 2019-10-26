@@ -3183,6 +3183,8 @@ table td::before {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
   position: relative;
+  border-width: 1px;
+  border-color: #f7fafc;
 }
 
 .card__body {
@@ -3894,6 +3896,7 @@ table td::before {
   font-size: 0.875rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   z-index: 50;
+  margin: 0.5rem;
 }
 
 .tooltip-inner {
