@@ -14,7 +14,7 @@
                         <div v-for="(section, index) in sections.body" :key="section.handle">
                             <div class="row">
                                 <div class="col xxl:text-right w-full xxl:w-1/3">
-                                    <div class="xxl:mr-10">
+                                    <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                         <h3>{{ section.name }}</h3>
                                         <p class="text-sm">{{ section.description }}</p>
                                     </div>

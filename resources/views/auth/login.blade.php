@@ -18,7 +18,7 @@
 					type="text"
 					id="email"
 					name="email"
-					class="form-control  {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}"
+					class="form__control  {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}"
 					value="{{ old('email') }}"
 					required
 				/>
@@ -41,7 +41,7 @@
 					type="password"
 					id="password"
 					name="password"
-					class="form-control {{ $errors->has('password') ? 'border-red-500 border-2' : '' }}"
+					class="form__control {{ $errors->has('password') ? 'border-red-500 border-2' : '' }}"
 					required
 				/>
 				

@@ -25,7 +25,7 @@
                     id="email"
                     name="email"
                     value="{{ $email ?? old('email') }}"
-                    class="form-input w-full {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}"
+                    class="form__control w-full {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}"
                     required
                     autofocus
                 />
