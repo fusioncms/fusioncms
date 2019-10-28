@@ -13,7 +13,7 @@
 					style="height: 42px; width: 42px;"
 					class="p-2 flex items-center justify-center rounded border border-gray-400 text-gray-600 mr-3 text-2xl focus:outline-none"
 					:class="{'pattern-checkers': ! selected}"
-					@click="open">
+					@click.prevent="open">
 					<fa-icon v-if="selected" :icon="['far', selected]" fixed-width></fa-icon>
 				</button>
 				
