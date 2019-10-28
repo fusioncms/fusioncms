@@ -6,14 +6,6 @@
 
         <quicklinks :links="quicklinks"></quicklinks>
 
-         <div class="row">
-            <div class="col mb-6 md:w-full">
-                <p-card>
-                    <icon-picker name="icon" label="Icon" v-model="icon"></icon-picker>
-                </p-card>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col mb-6 md:w-full">
                 <analytics-overview></analytics-overview>

@@ -10,7 +10,7 @@
                     <p-card>
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>General</h3>
                                     <p class="text-sm">What will this taxonomy be called and what will it organize?</p>
                                 </div>
@@ -94,7 +94,7 @@
 
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>Customize</h3>
                                     <p class="text-sm">Customize how your taxonomy will be found and displayed within the admin control panel.</p>
                                 </div>
@@ -145,7 +145,7 @@
 
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>Route</h3>
                                     <p class="text-sm">If your taxonomy will be accessible from the frontend, you may define its route and template here.</p>
                                 </div>

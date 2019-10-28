@@ -1,68 +1,72 @@
 <template>
-	<div class="mb-6">
-		<div class="flex w-full">
-			<div class="form__group">
-				<label for="search" class="form__label">&nbsp;</label>
+	<div class="form__group">
+		<div class="w-full">
+			<label
+				class="form__label"
+				:for="name"
+				v-if="label"
+				v-html="label">
+			</label>
 
-				<div style="height: 42px; width: 42px;" class="p-2 flex items-center justify-center rounded border text-gray-600 mr-3 text-2xl">
-					<fa-icon v-if="selected" :icon="selected" fixed-width></fa-icon>
-				</div>
-			</div>
-			
-			<div class="flex-1">
-				<div class="form__group">
-					<label
-						class="form__label"
-						:for="name"
-						v-if="label"
-						v-html="label">
-					</label>
+			<div class="flex w-full" v-click-outside="close">
+				<button
+					style="height: 42px; width: 42px;"
+					class="p-2 flex items-center justify-center rounded border border-gray-400 text-gray-600 mr-3 text-2xl focus:outline-none"
+					:class="{'pattern-checkers': ! selected}"
+					@click="open">
+					<fa-icon v-if="selected" :icon="['far', selected]" fixed-width></fa-icon>
+				</button>
+				
+				<div class="flex-1">
+					<div class="form__group relative">
+						<input
+							class="form__control"
+							:class="{'form__error': hasError}"
+							:id="name"
+							:name="name"
+							type="text"
+							:placeholder="placeholder"
+							:readonly="readonly"
+							:disabled="disabled"
+							:autocomplete="autocomplete"
+							:autofocus="autofocus"
+							v-model="search"
+							@focus="open"
+							@keydown.esc="close"
+							ref="search"
+						>
 
-					<input
-						class="form__control"
-						:class="{'form__error': hasError}"
-						:id="name"
-						:name="name"
-						type="text"
-						:placeholder="placeholder"
-						:readonly="readonly"
-						:disabled="disabled"
-						:autocomplete="autocomplete"
-						:autofocus="autofocus"
-						v-model="search"
-						@focus="open"
-						@blur="close"
-						ref="search"
-					>
+						<div v-show="isOpen" class="form__select-dropdown overflow-y-scroll" style="height: 500px;" ref="dropdown" @keydown.esc="close">
+							<div v-for="category in filtered" :key="category.label">
+								<div class="px-4 pt-4">
+									<div class="border-b">
+										<span class="leading-relaxed text-xs tracking-wider font-semibold uppercase">{{ category.label }}</span>
+									</div>
+								</div>
 
-					<div class="form__control--meta" v-if="help || errorMessage">
-						<div class="form__help">
-							<span v-if="help" v-html="help"></span>
-							<span v-if="errorMessage" class="form__error--message" v-html="errorMessage"></span>
-						</div>
-					</div>
-				</div>
+								<div class="px-3 py-4 text-2xl">
+									<a href="#" @click.prevent="select(icon)" class="inline-flex bg-white p-2 m-1 rounded border-2 border-gray-300 text-gray-600 hover:text-gray-900" v-for="icon in category.icons" :key="icon">
+										<fa-icon :icon="['far', icon]" fixed-width></fa-icon>
 
-				<div v-show="isOpen" class="card bg-gray-900 text-gray-400 overflow-auto z-10 mt-3" style="width: 548px; height: 500px;" ref="preview">
-					<div v-for="category in filtered" :key="category.label">
-						<div class="px-4 pt-4">
-							<div class="border-b">
-								<span class="leading-relaxed text-xs tracking-wider font-semibold uppercase">{{ category.label }}</span>
+										<span class="text-xs ml-2">{{ icon }}</span>
+									</a>
+								</div>
 							</div>
 						</div>
-
-						<div class="px-3 py-4 text-2xl">
-							<a href="#" @click.prevent="select(icon)" class="inline-flex p-2 m-1 bg-gray-900 rounded border-2 border-gray-600 text-gray-500 hover:text-gray-400" v-for="icon in category.icons" :key="icon">
-								<fa-icon :icon="['far', icon]" fixed-width></fa-icon>
-
-								<span class="text-xs ml-2">{{ icon }}</span>
-							</a>
-						</div>
 					</div>
 				</div>
-
 			</div>
-		</div>		
+
+			<div class="form__control--meta" v-if="help || errorMessage">
+				<div class="form__help">
+					<span v-if="help" v-html="help"></span>
+					<span v-if="errorMessage" class="form__error--message" v-html="errorMessage"></span>
+				</div>
+			</div>
+		</div>	
+		
+
+		
 	</div>
 </template>
 
@@ -88,7 +92,7 @@
             label: String,
             help: String,
             value: {
-                type: [String, Number],
+                type: String,
                 default: '',
             },
             type: {
@@ -143,6 +147,10 @@
 			search(value) {
 				this.filter(value)
 			},
+
+			value(value) {
+				this.selected = value
+			},
 		},
 
 		methods: {
@@ -167,32 +175,32 @@
 			select(icon) {
 				this.$emit('input', icon)
                 this.selected = icon
-                // this.close()
+                this.close()
 			},
 
 			open() {
 				this.isOpen = true
 
 				this.$nextTick(() => {
+					this.$refs.search.focus()
                     this.setupPopper()
                 })
 			},
 
 			close() {
 				if (this.isOpen) {
-                    this.resetSearch()
-                    
-                    this.isOpen = false
+					this.search = ''
+					this.isOpen = false
+					
+					this.$nextTick(() => {
+						this.$refs.search.blur()
+					})
                 }
-			},
-
-			resetSearch() {
-				this.search = ''
 			},
 
 			setupPopper() {
                 if (this.popper === undefined) {
-                    this.popper = new Popper(this.$refs.search, this.$refs.preview, {
+                    this.popper = new Popper(this.$refs.search, this.$refs.dropdown, {
                         placement: 'bottom'
                     })
                 } else {
@@ -205,6 +213,12 @@
             if (this.popper) {
                 this.popper.destroy()
             }
-        }
+		},
+		
+		mounted() {
+			if (this.value) {
+				this.selected = this.value
+			}
+		}
 	}
 </script>
