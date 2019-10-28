@@ -45,19 +45,7 @@ class FieldObserver
         }
 
         if (! is_null($relationship)) {
-            switch($relationship) {
-                case 'morphToMany':
-                    $tableName = Str::plural(Str::addAbleSuffix($field->handle));
-
-                    if (! Schema::hasTable($tableName)) {
-                        Schema::create($tableName, function($table) use ($field) {
-                            $table->integer($field->handle.'_id')->unsigned();
-                            $table->morphs(Str::addAbleSuffix($field->handle));
-                        });
-                    }
-
-                    break;
-            }
+            app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->create($field);
         }
     }
 
@@ -93,38 +81,7 @@ class FieldObserver
                 }
 
                 if (! is_null($relationship)) {
-                    switch($relationship) {
-                        case 'morphToMany':
-                            $oldTableName = Str::plural(Str::addAbleSuffix($old['handle']));
-                            $newTableName = Str::plural(Str::addAbleSuffix($new['handle']));
-
-                            // Because we utilize an in-memory SQLite database for testing,
-                            // we actually can't lump multiple table modifications in one
-                            // operation like we can with MySQL. For this reason, we've
-                            // separated out each modification we need to perform into its
-                            // own operation. The following is a link to a reported issue
-                            // against Laravel that outlines this dilemma.
-                            //
-                            // https://github.com/laravel/framework/issues/2979
-                            
-                            if (! Schema::hasTable($newTableName)) {
-                                Schema::rename($oldTableName, $newTableName);
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn($old['handle'].'_id', $new['handle'].'_id');
-                                });
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn(Str::addAbleSuffix($old['handle']).'_id', Str::addAbleSuffix($new['handle']).'_id');
-                                });
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn(Str::addAbleSuffix($old['handle']).'_type', Str::addAbleSuffix($new['handle']).'_type');
-                                });
-                            }
-
-                            break;
-                    }
+                    app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->update($old, $new);
                 }
             }
 
@@ -175,14 +132,7 @@ class FieldObserver
         }
 
         if (! is_null($relationship)) {
-            switch($relationship) {
-                case 'morphToMany':
-                    $tableName = Str::plural(Str::addAbleSuffix($field->handle));
-
-                    Schema::dropIfExists($tableName);
-
-                    break;
-            }
+            app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->delete($field);
         }
     }
 
