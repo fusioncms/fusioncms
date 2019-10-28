@@ -100,9 +100,9 @@ class FieldObserver
 
                             // Because we utilize an in-memory SQLite database for testing,
                             // we actually can't lump multiple table modifications in one
-                            // statement like we can with MySQL. For this reason, we've
+                            // operation like we can with MySQL. For this reason, we've
                             // separated out each modification we need to perform into its
-                            // own statement. The following is a link to a reported issue
+                            // own operation. The following is a link to a reported issue
                             // against Laravel that outlines this dilemma.
                             //
                             // https://github.com/laravel/framework/issues/2979
