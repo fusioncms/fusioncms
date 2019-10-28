@@ -124,18 +124,16 @@
                                     </div>
 
                                     <div class="col w-full xxl:w-1/2">
-                                        <p-input
+                                        <icon-picker
                                             name="icon"
                                             label="Icon"
-                                            placeholder="tag"
-                                            help="Choose an icon that best represents your taxonomy."
-                                            autocomplete="off"
-                                            autofocus
-                                            required
+                                            placeholder="Search icons..."
+                                            help="Choose an icon that best represents your taxonomy"
                                             :has-error="form.errors.has('icon')"
                                             :error-message="form.errors.get('icon')"
+                                            required
                                             v-model="form.icon">
-                                        </p-input>
+                                        </icon-picker>
                                     </div>
                                 </div>
                             </div>
