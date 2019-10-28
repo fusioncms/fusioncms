@@ -16,7 +16,7 @@
                     type="text"
                     id="name"
                     name="name"
-                    class="form-input w-full {{ $errors->has('name') ? 'border-red-500 border-2' : '' }}"
+                    class="form__control w-full {{ $errors->has('name') ? 'border-red-500 border-2' : '' }}"
                     value="{{ old('name') }}"
                     required>
 
@@ -38,7 +38,7 @@
 					type="text"
 					id="email"
 					name="email"
-					class="form-input w-full {{ $errors->has('email') ? 'border-red-500' : '' }}"
+					class="form__control w-full {{ $errors->has('email') ? 'border-red-500' : '' }}"
 					value="{{ old('email') }}"
 					required>
 
@@ -60,7 +60,7 @@
 					type="password"
 					id="password"
 					name="password"
-					class="form-input w-full {{ $errors->has('password') ? 'border-red-500' : '' }}"
+					class="form__control w-full {{ $errors->has('password') ? 'border-red-500' : '' }}"
 					required>
 
 		        @if ($errors->has('password'))
@@ -81,7 +81,7 @@
 					type="password"
 					id="password_confirmation"
 					name="password_confirmation"
-					class="form-input w-full {{ $errors->has('password') ? 'border-red-500' : '' }}"
+					class="form__control w-full {{ $errors->has('password') ? 'border-red-500' : '' }}"
 					required>
 			</div>
 
