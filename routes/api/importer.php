@@ -11,7 +11,5 @@
 
 Route::apiResource('/imports', 'ImportController');
 
-Route::group(['prefix' => '/imports/mapping'], function() {
-	Route::get('{import}', 'ImportMappingController@show');
-	Route::patch('{import}', 'ImportMappingController@update');
-});
+Route::get('/imports/mapping/{import}', 'ImportMappingController@show');
+Route::patch('/imports/mapping/{import}', 'ImportMappingController@update');

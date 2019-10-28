@@ -46,7 +46,7 @@ class ImportMappingController extends Controller
             'mappings' => 'required|array',
         ]);
 
-    	$import->update($attributes);
+        $import->update($attributes);
 
     	return new ImportResource($import);
     }

@@ -15,7 +15,7 @@ use App\Models\Import;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportResource;
-use App\Support\Imports\PreviewImport;
+use App\Services\Imports\PreviewImport;
 use Illuminate\Support\Facades\Storage;
 
 class ImportController extends Controller

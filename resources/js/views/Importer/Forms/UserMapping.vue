@@ -4,12 +4,18 @@
 			<app-title icon="ship">Mapping for Users Import</app-title>
 		</portal>
 
-		<div class="row">
-			
-		</div>
+		<field name="ID" :default="false" />
+		<field name="Name" />
+		<field name="Email" />
 	</div>
 </template>
 
 <script>
-	export default {}
+	import Field from './Field.vue'
+
+	export default {
+		components: {
+			'field': Field
+		}
+	}
 </script>
