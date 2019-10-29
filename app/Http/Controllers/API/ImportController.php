@@ -57,16 +57,16 @@ class ImportController extends Controller
     public function store(Request $request)
     {
     	$this->authorize('importer.create');
-
-		$attributes = $request->validate([
-            'name'     => 'required',
-            'handle'   => 'required|unique:imports,handle',
-            'location' => 'required|url',
-            'module'   => 'required',
-            'strategy' => 'required|array',
-            'backup'   => 'sometimes|boolean',
+        
+        $attributes = $request->validate([
+         'name'     => 'required',
+         'handle'   => 'required|unique:imports,handle',
+         'location' => 'required',
+         'module'   => 'required',
+         'strategy' => 'required|array',
+         'backup'   => 'sometimes|boolean',
         ]);
-
+        
     	$import = Import::create($attributes);
         $this->saveImportPreview($import);
 
@@ -96,7 +96,7 @@ class ImportController extends Controller
     	$attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,id,' . $import->id,
-            'location' => 'required|url',
+            'location' => 'required',
             'module'   => 'required',
             'strategy' => 'required|array',
             'backup'   => 'sometimes|boolean',
@@ -145,8 +145,10 @@ class ImportController extends Controller
     private function saveImportPreview(Import $import)
     {
         Storage::put("imports/{$import->handle}.csv", file_get_contents($import->location));
-        $preview = (new PreviewImport(1, 2))->toArray("imports/{$import->handle}.csv");
         
+        $preview = (new PreviewImport(1, 2))->toArray("imports/{$import->handle}.csv");
+        $preview = $preview[0];  // We'll only acknowledge sheet 1
+
         $import->update(['preview' => $preview]);
     }
 }

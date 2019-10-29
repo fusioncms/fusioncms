@@ -14,6 +14,8 @@ namespace Tests\Feature;
 use App\Models\Import;
 use Facades\ImportFactory;
 use Tests\Foundation\TestCase;
+use App\Services\Imports\PreviewImport;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -35,16 +37,16 @@ class ImporterTest extends TestCase
      */
 	public function a_user_with_permission_can_create_an_import()
 	{
-		$this->withoutExceptionHandling();
-        
-        $this->actingAs($this->admin, 'api');
-        
-        $response = $this->json(
-        	'POST',
-        	'/api/imports',
-        	factory(Import::class)->make()->toArray()
-       	);
+        Storage::fake();
 
+        $this->actingAs($this->admin, 'api');
+
+        $attributes = factory(Import::class)->make([
+            'location' => base_path('tests/Stubs/Importer/Users.csv')
+        ])->toArray();
+
+        $response = $this->json('POST', '/api/imports', $attributes);
+        
         $response->assertStatus(201);
 	}
 
@@ -57,14 +59,32 @@ class ImporterTest extends TestCase
 	{
 		$this->expectException(AuthenticationException::class);
 
-		$response = $this->json(
-        	'POST',
-        	'/api/imports',
-        	factory(Import::class)->make()->toArray()
-       	);
+        $response = $this->json(
+            'POST',
+            '/api/imports',
+            factory(Import::class)->make()->toArray()
+        );
 
-       	$response->assertStatus(422);
+        $response->assertStatus(422);
 	}
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group imports
+     */
+    public function a_preview_will_be_generated_for_every_import_file()
+    {
+        $sample  = base_path('tests/Stubs/Importer/Users.csv');
+        $preview = (new PreviewImport(1, 2))->toArray($sample);
+        $preview = $preview[0];  // We'll only acknowledge sheet 1
+        
+        $this->assertEquals(
+            [
+                ['id', 'name', 'email', 'role', 'status'],
+                [1, 'Janet Doe', 'admin@example.com', '[\'admin\']', 1]
+            ], $preview);
+    }
 
 	/**
      * @test
@@ -73,9 +93,13 @@ class ImporterTest extends TestCase
      */
 	public function a_user_with_permission_can_update_an_import()
 	{
+        Storage::fake();
+
         $this->actingAs($this->admin, 'api');
 
-        $import = ImportFactory::create();
+        $import = factory(Import::class)->create([
+            'location' => base_path('tests/Stubs/Importer/Users.csv')
+        ]);
 
         $data           = $import->toArray();
         $data['name']   = "Updated name";
