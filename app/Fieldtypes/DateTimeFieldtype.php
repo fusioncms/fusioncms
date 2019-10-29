@@ -45,6 +45,6 @@ class DateTimeFieldtype extends Fieldtype
      * @var array
      */
     public $column = [
-        'type' => 'date',
+        'type' => 'dateTime',
     ];
 }
