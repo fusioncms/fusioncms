@@ -1,62 +1,61 @@
 <?php
 
+/*
+ * This file is part of the FusionCMS application.
+ *
+ * (c) efelle creative <appdev@efelle.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Services\Imports;
 
-use App\ModelsUser;
-use Maatwebsite\Excel\Row;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Events\AfterImport;
-use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use App\Models\User;
+use App\Models\Import;
 
-class UserImport implements ToModel,
-                            WithBatchInserts,
-                            WithChunkReading,
-                            WithHeadingRow,
-                            WithValidation,
-                            SkipsOnFailure
+class UserImport extends BaseImport
 {
-    use Importable, SkipsFailures, RegistersEventListeners;
-
-    protected $batchSize = 1000;
-    protected $chunkSize = 1000;
-
-    public function model(array $row)
+    public function __construct(Import $import)
     {
-        dd($row);
-        // return new User([
-        //     'name' => $row['name'],
-        // ]);
+        parent::__construct($import);
     }
-
+    
     /**
-     * Row validation rules
+     * Row validation rules.
+     * [override]
      * 
      * @return array
      */
-    public function rules(): array
+    public function rules()
+    {
+        return [
+            'id'     => 'sometimes|integer',
+            'name'   => 'required',
+            'email'  => 'required|email',
+            'roles'  => 'sometimes|array',
+            'status' => 'required|boolean',
+        ];
+    }
+
+    /**
+     * Set custom attributes for validator errors.
+     * [override]
+     *
+     * @return array
+     */
+    public function messages()
     {
         return [];
     }
 
-    public function batchSize(): int
+    /**
+     * Persist data.
+     *
+     * @return void
+     */
+    public function handle()
     {
-        return $this->batchSize;
-    }
-
-    public function chunkSize(): int
-    {
-        return $this->chunkSize;
-    }
-
-    public static function afterImport(AfterImport $event)
-    {
-        // TODO: Notify user of completed import
+        // User::updateOrCreate(['id' => $this->get('id')], $this->all());
     }
 }

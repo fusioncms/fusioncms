@@ -1,4 +1,4 @@
-ID,Name,Email,Role,Status
+id,name,email,roles,status
 1,Janet Doe,admin@example.com,['admin'],1
 2,Ducky Consumer,janedoe@example.com,['user'],1
 ,Justin Timberlake,justin.timberlake@nsync.com,['guest'],1

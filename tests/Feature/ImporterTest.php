@@ -81,7 +81,7 @@ class ImporterTest extends TestCase
         
         $this->assertEquals(
             [
-                ['id', 'name', 'email', 'role', 'status'],
+                ['id', 'name', 'email', 'roles', 'status'],
                 [1, 'Janet Doe', 'admin@example.com', '[\'admin\']', 1]
             ], $preview);
     }

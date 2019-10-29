@@ -7,6 +7,8 @@
 		<field name="ID" :default="false" />
 		<field name="Name" />
 		<field name="Email" />
+		<field name="Roles" />
+		<field name="Status" />
 	</div>
 </template>
 

@@ -2,7 +2,6 @@
 	<div>
 		<portal to="actions">
 			<router-link :to="{ name: 'importer'}" class="button mr-3">Go Back</router-link>
-			<router-link :to="{ name: 'importer.edit', params: {name: this.id} }" class="button mr-3">Back to Edit</router-link>
 			<button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
 		</portal>
 
@@ -77,8 +76,8 @@
 					vm.id      = response.data.data.id
 					vm.module  = response.data.data.module
 
-					let columns = response.data.data.preview[0][0]
-					let preview = response.data.data.preview[0][1]
+					let columns = response.data.data.preview[0]
+					let preview = response.data.data.preview[1]
 					let mapping = _.zipObject(columns, preview)
 					let options = _.map(mapping, (label, value) => {
 						return {

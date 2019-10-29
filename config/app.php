@@ -185,6 +185,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\FieldtypeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,

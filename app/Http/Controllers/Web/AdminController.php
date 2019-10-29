@@ -22,6 +22,11 @@ class AdminController extends Controller
      */
     public function index()
     {
+    	// $import = \App\Models\Import::find(1);
+    	// dd(
+    	// 	(new \App\Services\Imports\UserImport($import))
+    	// 		->import(storage_path('app/public/imports/test.csv'))
+    	// );
         return view('admin.index');
     }
 }

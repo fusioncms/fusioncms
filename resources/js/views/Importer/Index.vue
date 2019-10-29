@@ -26,13 +26,8 @@
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {importer: table.record.id} }">Edit</p-dropdown-item>
                                 <p-dropdown-item @click.prevent :to="{ name: 'importer.mapping', params: {importer: table.record.id} }">Mapping</p-dropdown-item>
-
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-importer="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
+                                <p-dropdown-item @click="queue(table.record.id)">Run Import</p-dropdown-item>
+                                <p-dropdown-item @click.prevent v-modal:delete-importer="table.record">Delete</p-dropdown-item>
                             </template>
                         </p-dropdown>
                     </template>
@@ -62,8 +57,16 @@
         },
 
         methods: {
+            queue(id) {
+                axios.post(`/api/imports/queue/${id}`).then((response) => {
+                    toast('Import has been added to the queue.', 'success')
+                }).catch((response) => {
+                    toast(response.message, 'failed')
+                });
+            },
+
             destroy(id) {
-                axios.delete('/api/imports/' + id).then((response) => {
+                axios.delete(`/api/imports/${id}`).then((response) => {
                     toast('Import successfully deleted.', 'success')
                     
                     proton().$emit('refresh-datatable-imports')

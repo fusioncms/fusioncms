@@ -8,10 +8,7 @@ use Symfony\Component\Mime\Exception\InvalidArgumentException;
 
 class ImportFile implements Rule
 {
-    protected $acceptableMimeTypes = [
-        'text/plain',
-        'text/csv'
-    ];
+    protected $acceptableMimes = [ 'txt', 'csv' ];
 
     /**
      * Determine if the validation rule passes.
@@ -24,8 +21,8 @@ class ImportFile implements Rule
     {
         try {
             return in_array(
-                MimeTypes::getDefault()->guessMimeType($value),
-                $this->acceptableMimeTypes
+                pathinfo($value, PATHINFO_EXTENSION),
+                $this->acceptableMimes
             );
         } catch(InvalidArgumentException $ex) {
             //..
@@ -41,6 +38,6 @@ class ImportFile implements Rule
      */
     public function message()
     {
-        return "The :attribute field must be of type: " . implode(",", $this->acceptableMimeTypes) . ".";
+        return "The :attribute field must be of type: " . implode(",", $this->acceptableMimes) . ".";
     }
 }

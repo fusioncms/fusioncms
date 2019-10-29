@@ -12,6 +12,7 @@
 Auth::routes([
     'verify'   => setting('users.user_email_verification') === 'enabled',
     'register' => setting('users.public_registration') === 'enabled',
+    'confirm' => false
 ]);
 
 Route::get('logout', 'Auth\LoginController@logout');

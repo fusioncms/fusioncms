@@ -9,7 +9,10 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/imports', 'ImportController');
-
 Route::get('/imports/mapping/{import}', 'ImportMappingController@show');
 Route::patch('/imports/mapping/{import}', 'ImportMappingController@update');
+
+Route::get('/imports/queue', 'ImportQueueController@index');
+Route::post('/imports/queue/{import}', 'ImportQueueController@store');
+
+Route::apiResource('/imports', 'ImportController');

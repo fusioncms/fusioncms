@@ -36,7 +36,7 @@ class ImportController extends Controller
     }
 
     /**
-     * Display a specifie resource.
+     * Display a specific resource.
      * 
      * @param  Import $import
      * @return Resource
