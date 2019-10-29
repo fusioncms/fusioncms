@@ -80,7 +80,7 @@ class CollectionController extends Controller
             ->performedOn($entry)
             ->withProperties([
                 'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->handle.'//edit/' . $entry->id,
+                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
             ])
             ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
 

@@ -15,6 +15,7 @@
                  label: 'Date and Time'
             }
         ]"
+        @input="updateFormat"
     >
     </p-select>
 
@@ -33,12 +34,25 @@
   export default {
     name: 'datetime-fieldtype-settings',
     data() {
-            return {
-                format: this.value.format || 'Y-m-d',
-                time: this.value.time || false
-            }
-        },
+        return {
+            format: this.value.format || 'Y-m-d',
+            time: this.value.time || false
+        }
+    },
 
-        mixins: [fieldtype]
+    mixins: [fieldtype],
+
+    methods: {
+      updateFormat(value) {
+        let tokens = /[H|h|G|i|S|s|K|:]/g
+        if(value) {
+          if (!new RegExp(tokens).test(this.value.format)) {
+            this.value.format = this.value.format + ' h:i'
+          }
+        } else {
+          this.value.format = this.value.format.replace(tokens, '')
+        }
+      }
+    }
   }
 </script>
