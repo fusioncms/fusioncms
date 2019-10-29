@@ -59,12 +59,12 @@ class ImportController extends Controller
     	$this->authorize('importer.create');
         
         $attributes = $request->validate([
-         'name'     => 'required',
-         'handle'   => 'required|unique:imports,handle',
-         'location' => 'required',
-         'module'   => 'required',
-         'strategy' => 'required|array',
-         'backup'   => 'sometimes|boolean',
+            'name'     => 'required',
+            'handle'   => 'required|unique:imports,handle',
+            'location' => ['required', new \App\Rules\ImportFile],
+            'module'   => 'required',
+            'strategy' => 'required|array',
+            'backup'   => 'sometimes|boolean',
         ]);
         
     	$import = Import::create($attributes);
@@ -96,7 +96,7 @@ class ImportController extends Controller
     	$attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,id,' . $import->id,
-            'location' => 'required',
+            'location' => ['required', new \App\Rules\ImportFile],
             'module'   => 'required',
             'strategy' => 'required|array',
             'backup'   => 'sometimes|boolean',
