@@ -1,0 +1,9 @@
+    /**
+     * Get all of the {handle} that are assigned this taxonomy.
+     *
+     * @return MorphedByMany
+     */
+    public function {handle}()
+    {
+        return $this->morphedByMany('{related_namespace}', 'pivot', '{related_table}');
+    }

@@ -51,6 +51,11 @@ class TaxonomyObserver
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        $this->migration->schema->create($taxonomy->pivot_table, function (Blueprint $table) use ($taxonomy) {
+            $table->integer($taxonomy->handle.'_id')->unsigned();
+            $table->morphs('pivot');
+        });
     }
 
     /**
@@ -67,6 +72,11 @@ class TaxonomyObserver
         // Rename the tables if changed
         if ($old->table !== $taxonomy->table) {
             $this->migration->schema->rename($old->table, $taxonomy->table);
+            $this->migration->schema->rename($old->pivot_table, $taxonomy->pivot_table);
+
+            $this->migration->schema->table($taxonomy->pivot_table, function (Blueprint $table) use ($old, $taxonomy) {
+                $table->renameColumn($old->handle.'_id', $taxonomy->handle.'_id');
+            });
         }
     }
 
@@ -78,17 +88,7 @@ class TaxonomyObserver
      */
     public function deleted(Taxonomy $taxonomy)
     {
-        $this->dropTable($taxonomy);
-    }
-
-    /**
-     * Drop the taxonomy database table.
-     *
-     * @param  \App\Models\Taxonomy  $taxonomy
-     * @return void
-     */
-    protected function dropTable($taxonomy)
-    {
         $this->migration->schema->dropIfExists($taxonomy->table);
+        $this->migration->schema->dropIfExists($taxonomy->pivot_table);
     }
 }

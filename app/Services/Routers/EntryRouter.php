@@ -31,8 +31,19 @@ class EntryRouter extends Router
                 continue 1;
             }
 
+            // Eager load our relatable fields
+            $relationships = [];
+            
+            foreach ($collection->fieldset->fields as $field) {
+                $fieldtype = fieldtypes()->get($field->type);
+
+                if ($fieldtype->hasRelationship()) {
+                    $relationships[] = $field->handle;
+                }
+            }
+
             $model  = (new Collection($collection->handle))->make();
-            $entry  = $model->where('slug', $found->parameter('slug'))->first();
+            $entry  = $model->with($relationships)->where('slug', $found->parameter('slug'))->first();
             
             if (is_null($entry)) {
                 continue 1;

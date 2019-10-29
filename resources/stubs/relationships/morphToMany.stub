@@ -5,11 +5,11 @@
      */
     public function {handle}()
     {
-        return $this->morphToMany('{related_namespace}', '{tag}');
+        return $this->morphToMany('{related_namespace}', 'pivot', '{related_table}');
     }
 
     /**
-     * Get the raw value for the polymorphic many to many 
+     * Get the raw value for the polymorphic many to many
      * "{handle}" relationship.
      *
      * @return Array
