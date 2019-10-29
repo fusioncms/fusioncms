@@ -18,7 +18,7 @@ use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class MatrixModelTest extends TestCase
+class MatrixTest extends TestCase
 {
     use RefreshDatabase;
 

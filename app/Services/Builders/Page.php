@@ -51,6 +51,7 @@ class Page extends Builder implements BuilderContract
         $className = Str::studly($this->matrix->handle);
         $traits    = [];
         $fillable  = ['matrix_id', 'status'];
+        $casts     = [];
 
         if (isset($this->matrix->fieldset->fields)) {
             $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
@@ -60,7 +61,9 @@ class Page extends Builder implements BuilderContract
             });
 
             foreach ($fields as $field) {
+                $fieldtype  = fieldtypes()->get($field->type);
                 $fillable[] = $field->handle;
+                $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast ;
             }
         }
 
@@ -68,9 +71,12 @@ class Page extends Builder implements BuilderContract
         $stub     = File::get(resource_path('stubs/matrix/page.stub'));
         $contents = strtr($stub, [
             '{class}'         => $className,
+            '{slug}'          => $this->matrix->slug,
             '{handle}'        => $this->matrix->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
-            '{with}'          => $this->getWith(),
+            '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
+            '{with}'          => '[\'' . implode('\', \'', $this->getWith()) . '\']',
+            '{dates}'         => '[\'' . implode('\', \'', $this->getDates()) . '\']',
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
             '{matrix_id}'     => $this->matrix->id,

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
-Vue.component('color_picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
-Vue.component('color_picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
+Vue.component('color-picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
+Vue.component('color-picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
 
 Vue.component('divider-fieldtype', () => import('../fieldtypes/Divider/Field'))
 Vue.component('divider-fieldtype-settings', () => import('../fieldtypes/Divider/Settings'))
@@ -32,6 +32,9 @@ Vue.component('checkbox-fieldtype-settings', () => import('../fieldtypes/Checkbo
 
 Vue.component('code-fieldtype', () => import('../fieldtypes/Code/Field'))
 Vue.component('code-fieldtype-settings', () => import('../fieldtypes/Code/Settings'))
+
+Vue.component('taxonomy-fieldtype', () => import('../fieldtypes/Taxonomy/Field'))
+Vue.component('taxonomy-fieldtype-settings', () => import('../fieldtypes/Taxonomy/Settings'))
 
 Vue.component('toggle-fieldtype', () => import('../fieldtypes/Toggle/Field'))
 Vue.component('toggle-fieldtype-settings', () => import('../fieldtypes/Toggle/Settings'))

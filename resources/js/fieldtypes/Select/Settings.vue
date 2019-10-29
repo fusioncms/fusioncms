@@ -18,6 +18,7 @@
             ]"
         >
         </p-select>
+        
         <div class="col w-full">
             <option-builder v-model="value.options"></option-builder>
         </div>

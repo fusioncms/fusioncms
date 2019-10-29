@@ -1,0 +1,66 @@
+.modal {
+    @apply rounded shadow-md bg-white relative w-full m-auto;
+    max-width: 500px;
+
+    &--large {
+        max-width: 750px;
+    }
+
+    &--x-large {
+        max-width: 1000px;
+    }
+
+    &--overlay {
+        @apply fixed inset-0 overflow-auto flex py-20 px-6 z-10;
+
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    &--dark {
+        @apply bg-black;
+
+        p, li {
+            @apply text-gray-500;
+        }
+
+        .modal__header--title, h1, h2, h3, h4, h5, h6 {
+            @apply text-gray-400;
+        }
+
+        .modal__header {
+            @apply border-gray-800;
+        }
+
+        .modal__footer {
+            @apply border-gray-800;
+        }
+    }
+
+    &__body {
+        @apply p-6;
+
+        &--flush {
+            @apply p-0;
+        }
+    }
+
+    &__header {
+        @apply flex justify-between items-center p-6 border-b border-gray-200;
+
+        &--title {
+            @apply text-xl font-bold;
+        }
+
+        &--close-button {
+            @apply text-3xl font-bold text-gray-700 no-underline;
+
+            &:hover {
+                @apply text-black;
+            }
+        }
+    }
+
+    &__footer {
+        @apply flex flex-row-reverse items-center p-6 border-t border-gray-200;
+    }
+}

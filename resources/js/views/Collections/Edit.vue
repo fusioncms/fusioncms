@@ -175,9 +175,9 @@
             getEntry(to, from, next) {
                 let vm = this
 
-                axios.get('/api/collections/' + to.params.collection + '/' + to.params.id).then((response) => {    
+                axios.get('/api/collections/' + to.params.collection + '/' + to.params.id).then((response) => {
                     vm.collection = response.data.data.matrix
-                    vm.entry = response.data.data
+                    vm.entry = response.data.data.entry
 
                     let fields = {
                         name: vm.entry.name,
@@ -186,7 +186,11 @@
                     }
 
                     _.forEach(vm.collection.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.entry[handle])
+                        if (vm.entry[handle + '_raw']) {
+                            Vue.set(fields, handle, vm.entry[handle + '_raw'])
+                        } else {
+                            Vue.set(fields, handle, vm.entry[handle])
+                        }
                     })
 
                     vm.form = new Form(fields)

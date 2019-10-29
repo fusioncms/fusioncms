@@ -1,12 +1,12 @@
 <template>
     <redactor
-            :name="field.handle"
-            :label="field.name"
-            :help="field.help"
-            :placeholder="field.settings.placeholder"
-            :value="value"
-            @input="$emit('input', $event)"
-        ></redactor>
+        :name="field.handle"
+        :label="field.name"
+        :help="field.help"
+        :placeholder="field.settings.placeholder"
+        :value="value"
+        @input="$emit('input', $event)"
+    ></redactor>
 </template>
 
 <script>

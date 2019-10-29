@@ -1,0 +1,91 @@
+@import "~codemirror/lib/codemirror.css";
+
+.CodeMirror {
+	@apply border border-gray-400 rounded leading-loose tracking-wide font-mono text-sm h-auto;
+
+	&-lines {
+		@apply p-3 bg-white;
+	}
+
+	&:hover {
+		@apply cursor-text;
+	}
+
+	&-focused {
+		@apply outline-none shadow;
+	}
+
+	&-selected {
+		background: #FFEEE9 !important;
+	}
+}
+
+.cm-s-fusion span.cm-number, .cm-s-fusion span.cm-string, .cm-s-fusion span.cm-atom {
+	color: rgb(253, 202, 73);
+}
+
+.cm-s-fusion span.cm-header {
+	@apply leading-none mb-2;
+
+	&-1 {
+		@apply text-2xl;
+	}
+
+	&-2 {
+		@apply text-xl;
+	}
+
+	&-3 {
+		@apply text-lg;
+	}
+}
+
+.cm-s-fusion span.cm-comment {
+	@apply italic;
+
+	color: rgb(170, 170, 170);
+}
+
+.cm-s-fusion span.cm-meta {
+	@apply italic;
+
+	color: rgb(170, 170, 170);
+}
+
+.cm-s-fusion span.cm-variable {
+	@apply text-primary-500 font-bold;
+}
+
+.cm-s-fusion span.cm-variable-2 {
+	@apply text-gray-900;
+}
+
+.cm-s-fusion span.cm-qualifier {
+	color: rgb(170, 170, 170);
+}
+
+.cm-s-fusion span.cm-keyword {
+	color: rgb(255, 196, 140);
+}
+
+.cm-s-fusion span.cm-builtin {
+	color: #30a;
+}
+
+.cm-s-fusion span.cm-link {
+	@apply text-secondary-500;
+}
+
+.cm-s-fusion span.cm-error {
+	background-color: #fdd;
+}
+
+.cm-s-fusion .CodeMirror-activeline-background {
+	// background: #e8f2ff;
+	background: rgb(255, 196, 140);
+}
+
+.cm-s-fusion .CodeMirror-matchingbracket {
+	outline:1px solid grey;
+	color:black !important;
+}

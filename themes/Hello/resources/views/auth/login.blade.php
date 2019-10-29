@@ -12,7 +12,7 @@
 					E-Mail Address
 				</label>
 
-				<input type="text" id="email" name="email" class="form-input w-full {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}" value="{{ old('email') }}" required>
+				<input type="text" id="email" name="email" class="form__control w-full {{ $errors->has('email') ? 'border-red-500 border-2' : '' }}" value="{{ old('email') }}" required>
 
 		        @if ($errors->has('email'))
 					<div class="text-sm mb-3 mt-1 flex justify-between">
@@ -28,7 +28,7 @@
 					Password
 				</label>
 
-				<input type="password" id="password" name="password" class="form-input w-full {{ $errors->has('password') ? 'border-red-500 border-2' : '' }}" required>
+				<input type="password" id="password" name="password" class="form__control w-full {{ $errors->has('password') ? 'border-red-500 border-2' : '' }}" required>
 				
 				@if ($errors->has('password'))
 					<div class="text-sm mb-3 mt-1 flex justify-between">

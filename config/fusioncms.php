@@ -40,6 +40,30 @@ return [
         // 'type'   => 'App\Models\Type',
     ],
 
+    'fieldtypes' => [
+
+        \App\Fieldtypes\AddressFieldtype::class,
+        \App\Fieldtypes\CheckboxFieldtype::class,
+        \App\Fieldtypes\CodeFieldtype::class,
+        \App\Fieldtypes\ColorPickerFieldtype::class,
+        \App\Fieldtypes\CountryFieldtype::class,
+        \App\Fieldtypes\DateTimeFieldtype::class,
+        \App\Fieldtypes\DividerFieldtype::class,
+        \App\Fieldtypes\EditorFieldtype::class,
+        \App\Fieldtypes\InformationFieldtype::class,
+        \App\Fieldtypes\InputFieldtype::class,
+        \App\Fieldtypes\MarkdownFieldtype::class,
+        \App\Fieldtypes\NumberFieldtype::class,
+        \App\Fieldtypes\RadioFieldtype::class,
+        \App\Fieldtypes\RedactorFieldtype::class,
+        \App\Fieldtypes\SelectFieldtype::class,
+        \App\Fieldtypes\TaxonomyFieldtype::class,
+        \App\Fieldtypes\TextareaFieldtype::class,
+        \App\Fieldtypes\ToggleFieldtype::class,
+        \App\Fieldtypes\USStateFieldtype::class,
+
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Content Structures

@@ -58,6 +58,11 @@ abstract class Fieldtype
     protected $eagerLoad = false;
 
     /**
+     * @var mixed
+     */
+    public $relationship = null;
+
+    /**
      * @var Field
      */
     public $field;
@@ -184,6 +189,16 @@ abstract class Fieldtype
     }
 
     /**
+     * Determine if the fieldtype has a relationship.
+     * 
+     * @return bool
+     */
+    public function hasRelationship()
+    {        
+        return ! is_null($this->relationship);
+    }
+
+    /**
      * Set custom rules for form request validator.
      *
      * @param  mixed  $value
@@ -260,6 +275,20 @@ abstract class Fieldtype
     public function getCast($field)
     {
         return $this->cast;
+    }
+
+    /**
+     * Get the relationship type for the fieldtype.
+     * 
+     * @return string
+     */
+    public function getRelationship()
+    {
+        if (! $this->relationship) {
+            return null;
+        }
+
+        return $this->relationship;
     }
 
     /**

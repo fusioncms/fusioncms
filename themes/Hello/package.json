@@ -18,7 +18,8 @@
     "vue": "^2.6.10"
   },
   "dependencies": {
-    "@efelle/proton": "^1.0.0-beta.12",
-    "@tailwindcss/custom-forms": "^0.1.4"
+    "@proton-ui/proton": "https://github.com/proton-ui/proton",
+    "@tailwindcss/custom-forms": "^0.1.4",
+    "lodash": "^4.17.15"
   }
 }

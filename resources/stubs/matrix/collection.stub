@@ -24,6 +24,11 @@ class {class} extends Model
      */
     protected $table = 'mx_{handle}';
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = {casts};
 
     /**
@@ -32,6 +37,13 @@ class {class} extends Model
      * @var array
      */
     protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
 
     /**
      * Get the Matrix Type relationship.
@@ -60,4 +72,6 @@ class {class} extends Model
     {
         return $this->hasMany(Matrix::class, 'parent_id', 'id');
     }
+
+    {relationships}
 }

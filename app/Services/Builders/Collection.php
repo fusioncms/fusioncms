@@ -48,38 +48,43 @@ class Collection extends Builder implements BuilderContract
      */
     public function make()
     {
-        $className = Str::studly($this->matrix->handle);
-        $traits    = [];
-        $fillable  = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
-        $casts     = [];
+        $className     = Str::studly($this->matrix->handle);
+        $traits        = [];
+        $fillable      = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
+        $casts         = [];
 
         if ($this->matrix->fieldset) {
-            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
+            $fields = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
+
+                if ($fieldtype->hasRelationship()) {
+                    $this->addRelationship($field, $fieldtype);
+                }
 
                 return is_null($fieldtype->column);
             });
 
             foreach ($fields as $field) {
-                $fieldtype = fieldtypes()->get($field->type);
+                $fieldtype  = fieldtypes()->get($field->type);
                 $fillable[] = $field->handle;
-                $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast ;
+                $casts[]    = $field->handle . '\' => \'' . $fieldtype->cast;
             }
         }
 
-        $path     = app_path('Models/Collections/' . $className . '.php');
-        $stub     = File::get(resource_path('stubs/matrix/collection.stub'));
+        $path = app_path('Models/Collections/' . $className . '.php');
+        $stub = File::get(resource_path('stubs/matrix/collection.stub'));
 
         $contents = strtr($stub, [
             '{class}'         => $className,
+            '{matrix_id}'     => $this->matrix->id,
             '{handle}'        => $this->matrix->handle,
             '{fillable}'      => '[\'' . implode('\', \'', $fillable) . '\']',
             '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
-            '{with}'          => $this->getWith(),
+            '{with}'          => '[\'' . implode('\', \'', $this->getWith()) . '\']',
+            '{dates}'         => '[\'' . implode('\', \'', $this->getDates()) . '\']',
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
-            '{matrix_id}'     => $this->matrix->id,
-
+            '{relationships}' => $this->generateRelationships(),
         ]);
 
         File::put($path, $contents);

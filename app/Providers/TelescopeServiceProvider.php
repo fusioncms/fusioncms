@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Providers;
 
 use Laravel\Telescope\Telescope;
@@ -25,7 +16,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register()
     {
-        Telescope::night();
+        // Telescope::night();
 
         $this->hideSensitiveRequestDetails();
 
@@ -35,6 +26,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             }
 
             return $entry->isReportableException() ||
+                   $entry->isFailedRequest() ||
                    $entry->isFailedJob() ||
                    $entry->isScheduledTask() ||
                    $entry->hasMonitoredTag();

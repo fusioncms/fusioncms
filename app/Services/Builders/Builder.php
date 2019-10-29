@@ -11,7 +11,8 @@
 
 namespace App\Services\Builders;
 
-use Illuminate\Support\Facades\Str;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use App\Contracts\Builder as BuilderContract;
 
 abstract class Builder implements BuilderContract
@@ -20,6 +21,11 @@ abstract class Builder implements BuilderContract
      * @var string
      */
     protected $namespace;
+
+    /**
+     * @var array
+     */
+    protected $relationships = [];
 
     /**
      * Create a new Builder instance.
@@ -77,18 +83,94 @@ abstract class Builder implements BuilderContract
         return $this->namespace;
     }
 
+    /**
+     * @return array
+     */
     public function getTraitImportStatements()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getTraitUseStatements()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getWith()
     {
         return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getDates()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getRelationships()
+    {
+        return $this->relationships;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRelationships()
+    {
+        return count($this->getRelationships()) > 0;
+    }
+
+    /**
+     * @return self
+     */
+    public function addRelationship($field, $type)
+    {
+        $this->relationships[$field->handle] = [
+            $field,
+            $type,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function generateRelationships()
+    {
+        if (! $this->hasRelationships()) {
+            return '';
+        }
+
+        $relationships = $this->getRelationships();
+        $generated     = '';
+
+        foreach ($relationships as $handle => list($field, $fieldtype)) {
+            $namespace = $fieldtype->namespace.'\\'.Str::studly($handle);
+            $stub      = File::get(resource_path('stubs/relationships/'.$fieldtype->relationship.'.stub'));
+
+            $contents = strtr($stub, [
+                '{handle}'            => $handle,
+                '{studly_handle}'     => Str::studly($handle),
+                '{related_namespace}' => $namespace,
+                '{related_table}'     => null,
+                '{tag}'               => Str::addAbleSuffix($handle),
+            ]);
+
+            $generated .= $contents."\n\n";
+        }
+        
+        return trim($generated);
     }
 }

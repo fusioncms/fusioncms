@@ -37,7 +37,7 @@ class CollectionTest extends TestCase
 
         $this->handleValidationExceptions();
         
-        $this->section = SectionFactory::times(1)->withoutFields()->create();
+        $this->section  = SectionFactory::times(1)->withoutFields()->create();
         $this->fields[] = FieldFactory::withName('Excerpt')->create();
         $this->fields[] = FieldFactory::withName('Content')->create();
 
@@ -125,9 +125,9 @@ class CollectionTest extends TestCase
         $form['content'] = 'This is the content of the blog post.';
         $form['status'] = true;
 
-        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
-        $response = $this->json('PATCH', '/api/collections/posts/'.$entry->id, [
+        $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
             'name'   => 'New Post Title',
             'status' => true,
         ]);
@@ -153,12 +153,12 @@ class CollectionTest extends TestCase
         $form['content'] = 'This is the content of the blog post.';
         $form['status'] = true;
 
-        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
-        $response = $this->json('DELETE', '/api/collections/posts/'.$entry->id);
+        $response = $this->json('DELETE', '/api/collections/posts/'.$data->entry->id);
         
         $this->assertDatabaseMissing('mx_posts', [
-            'id' => $entry->id
+            'id' => $data->entry->id
         ]);
     }
 
@@ -196,11 +196,11 @@ class CollectionTest extends TestCase
         $form['content'] = 'This is the content of the blog post.';
         $form['status'] = true;
 
-        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
         $this->actingAs($this->user, 'api');
 
-        $response = $this->json('PATCH', '/api/collections/posts/'.$entry->id, [
+        $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
             'name'   => 'New Post Title',
             'status' => true,
         ])->assertUnauthorized();

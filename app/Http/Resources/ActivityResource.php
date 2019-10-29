@@ -29,7 +29,6 @@ class ActivityResource extends JsonResource
             'description' => $this->description,
             'properties'  => $this->properties,
             'causer'      => new UserResource($this->causer),
-            // 'subject'     => $this->subject,
             'created_at'  => $this->created_at,
         ];
     }

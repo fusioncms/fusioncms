@@ -1,17 +1,11 @@
 table {
-    border-collapse: collapse;
-
-    @apply w-full mb-6;
+    @apply w-full mb-6 border-collapse text-sm;
     
     th, td {
         @apply p-2 border-t border-gray-200;
     }
 
-    td {
-        @apply border-t border-gray-200;
-    }
-
     thead th {
-        @apply border-b-2 border-gray-200;
+        @apply border-b-2 border-gray-200 text-left;
     }
 }

@@ -10,7 +10,7 @@
                     <p-card>
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>General</h3>
                                     <p class="text-sm">What will this matrix be called and what will it manage?</p>
                                 </div>
@@ -88,7 +88,7 @@
 
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>Customize</h3>
                                     <p class="text-sm">Customize how your matrix will be found and displayed within the admin control panel.</p>
                                 </div>
@@ -96,7 +96,7 @@
 
                             <div class="col w-full xxl:w-2/3">
                                 <div class="row">
-                                    <div class="col w-full xxl:w-1/2">
+                                    <div class="col w-full xxl:w-1/2 mb-6">
                                         <p-select
                                             name="sidebar"
                                             label="Show in Sidebar"
@@ -117,7 +117,7 @@
                                         </p-select>
                                     </div>
 
-                                    <div class="col w-full xxl:w-1/2">
+                                    <div class="col w-full xxl:w-1/2 mb-6">
                                         <p-select
                                             name="quicklink"
                                             label="Show as Quicklink"
@@ -139,18 +139,16 @@
                                     </div>
 
                                     <div class="col w-full">
-                                        <p-input
+                                        <icon-picker
                                             name="icon"
                                             label="Icon"
-                                            placeholder="pencil"
+                                            placeholder="Search icons..."
                                             help="Choose an icon that best represents your matrix."
-                                            autocomplete="off"
-                                            autofocus
-                                            required
                                             :has-error="form.errors.has('icon')"
                                             :error-message="form.errors.get('icon')"
+                                            required
                                             v-model="form.icon">
-                                        </p-input>
+                                        </icon-picker>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +158,7 @@
 
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10">
+                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>Route</h3>
                                     <p class="text-sm">If your matrix will be accessible from the frontend, you may define its route and template here.</p>
                                 </div>
@@ -168,7 +166,7 @@
 
                             <div class="col w-full xxl:w-2/3">
                                 <div class="row">
-                                    <div class="col w-full xxl:w-1/2">
+                                    <div class="col w-full xxl:w-1/2 xxl:mb-0 mb-6">
                                         <p-input
                                             name="route"
                                             label="Route"
@@ -243,6 +241,7 @@
             return {
                 id: null,
                 fieldsets: [],
+                creatingFieldset: false,
                 form: new Form({
                     name: '',
                     handle: '',
