@@ -15,6 +15,7 @@ Vue.component('analytics-overview', require('../components/AnalyticsOverview').d
 Vue.component('recent-activity', require('../components/RecentActivity').default)
 Vue.component('recent-news', require('../components/RecentNews').default)
 Vue.component('quicklinks', require('../components/Quicklinks').default)
+Vue.component('icon-picker', require('../components/IconPicker').default)
 Vue.component('p-frame', require('../components/Frame').default)
 Vue.component('p-autocomplete', require('../components/Autocomplete').default)
 

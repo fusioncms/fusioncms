@@ -31,6 +31,7 @@
                 matrices: [],
                 activities: [],
                 feed: [],
+                icon: '',
             }
         },
 
