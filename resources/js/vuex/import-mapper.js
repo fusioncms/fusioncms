@@ -2,8 +2,8 @@ export default {
     namespaced: true,
 
     state: {
-        mappingOptions: {},
-        formMappings: {},
+        mappingOptions: [],
+        formMappings: {}
     },
 
     getters: {
@@ -26,7 +26,8 @@ export default {
         },
 
         setFormMapping(state, value) {
-            state.formMappings[value.handle] = value
+            state.formMappings = _.assign({ [value.handle]: value }, state.formMappings)
+            //state.formMappings[value.handle] = value
         },
 
         setFormMappings(state, value) {

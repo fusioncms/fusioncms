@@ -21,7 +21,7 @@
 							</div>
 						</div>
 						
-						<user-mapping v-if="module == 'users'"></user-mapping>
+						<component v-if="loaded" :is="'user-mapping'"></component>
 					</p-card>	
 				</form>
 			</div>
@@ -31,13 +31,14 @@
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
-	import UserMapping from './Forms/UserMapping.vue'
+	import UserMapping from '../../components/Importer/UserMapping.vue'
 
 	export default {
 		data() {
 			return {
 				id: null,
-				module: null
+				module: null,
+				loaded: false
 			}
 		},
 
@@ -76,18 +77,30 @@
 					vm.id      = response.data.data.id
 					vm.module  = response.data.data.module
 
+					let mapping = response.data.data.mappings || {}
 					let columns = response.data.data.preview[0]
 					let preview = response.data.data.preview[1]
-					let mapping = _.zipObject(columns, preview)
-					let options = _.map(mapping, (label, value) => {
+					let optObj  = _.zipObject(columns, preview)
+					let options = _.map(optObj, (label, value) => {
 						return {
-							'label': `<${value}> eg: ${label}`,
+							'label': `[${value}] eg: ${label}`,
 							'value': value
 						}
 					})
 
+					options.unshift({
+						'label': 'Use default',
+						'value': null
+					})
+
+					options.unshift({
+						'label': 'Don\'t import',
+						'value': false
+					})
+					
 					vm.setMappingOptions(options)
-					vm.setFormMappings(response.data.data.mappings || {})
+					vm.setFormMappings(mapping)
+					vm.loaded = true
 				})
 			}))
 		}
