@@ -40,7 +40,7 @@ class CollectionController extends Controller
     {
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
-        $entry  = $model->find($id);
+        $entry  = $model->findOrFail($id);
 
         return new EntryResource($entry);
     }
