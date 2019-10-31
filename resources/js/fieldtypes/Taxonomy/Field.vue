@@ -6,7 +6,7 @@
             v-html="field.name">
         </label>
 
-        <p-checkbox-group :help="field.help" v-if="taxonomy.terms && taxonomy.terms.length">
+        <p-checkbox-group :help="field.help" v-if="taxonomy.terms && taxonomy.terms.length > 0">
             <p-checkbox
                 v-for="term in taxonomy.terms"
                 :key="term.id"
@@ -21,6 +21,8 @@
                 </template>
             </p-checkbox>
         </p-checkbox-group>
+
+        <p v-else class="text-sm leading-none">Add a {{ singular }} below.</p>
 
         <div class="border-t pt-6">
             <p-input @keyup.enter.native="submit" :name="term + '_name'" v-model="form.name" :placeholder="'New ' + singular + ' name...'" class="mb-2"></p-input>
