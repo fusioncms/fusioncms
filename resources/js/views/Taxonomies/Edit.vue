@@ -218,6 +218,8 @@
         methods: {
             submit() {
                 this.form.patch('/api/taxonomies/' + this.id).then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+                    
                     toast('Taxonomy successfully updated', 'success')
 
                     this.$router.push('/taxonomies')

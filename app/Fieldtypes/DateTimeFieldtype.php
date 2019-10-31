@@ -31,7 +31,7 @@ class DateTimeFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $cast = 'string';
+    public $cast = 'dateTime';
 
     /**
      * @var array
