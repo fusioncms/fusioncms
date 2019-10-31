@@ -95,7 +95,6 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            let vm = this
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 next(function(vm) {
                     vm.collection = response.data.data
