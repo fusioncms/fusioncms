@@ -219,6 +219,8 @@
             submit() {
                 this.form.patch('/api/taxonomies/' + this.id).then((response) => {
                     toast('Taxonomy successfully updated', 'success')
+
+                    this.$router.push('/taxonomies')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

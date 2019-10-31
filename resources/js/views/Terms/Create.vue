@@ -170,7 +170,7 @@
                 this.form.post('/api/taxonomies/' + this.taxonomy.slug).then((response) => {
                     toast('Entry saved successfully', 'success')
 
-                    this.$router.push('/taxonomies/' + this.taxonomy.slug + '/edit/' + response.data.id)
+                    this.$router.push('/taxonomies/' + this.taxonomy.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

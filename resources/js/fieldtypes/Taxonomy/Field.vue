@@ -1,6 +1,12 @@
 <template>
     <div>
-        <p-checkbox-group :label="field.name" :help="field.help">
+        <label
+            class="form__label"
+            :for="field.handle"
+            v-html="field.name">
+        </label>
+
+        <p-checkbox-group :help="field.help" v-if="taxonomy.terms && taxonomy.terms.length">
             <p-checkbox
                 v-for="term in taxonomy.terms"
                 :key="term.id"
@@ -15,10 +21,19 @@
                 </template>
             </p-checkbox>
         </p-checkbox-group>
+
+        <div class="border-t pt-6">
+            <p-input @keyup.enter.native="submit" :name="term + '_name'" v-model="form.name" :placeholder="'New ' + singular + ' name...'" class="mb-2"></p-input>
+            <p-slug :name="term + '_slug'" v-model="form.slug" :watch="form.name" hidden></p-slug>
+            <p-button @click.prevent="submit">Add {{ singular }}</p-button>
+        </div>
     </div>
 </template>
 
 <script>
+    import pluralize from 'pluralize'
+    import Form from '../../forms/Form'
+
     export default {
         name: 'taxonomy-fieldtype',
 
@@ -26,6 +41,7 @@
             return {
                 taxonomy: {},
                 values: [],
+                form: {},
             }
         },
 
@@ -34,9 +50,13 @@
                 if (this.taxonomy.name) {
                     return this.taxonomy.name.toLowerCase()
                 } else {
-                    return 'term'
+                    return 'terms'
                 }
-            }
+            },
+
+            singular() {
+                return pluralize.singular(this.term)
+            },
         },
 
         props: {
@@ -53,16 +73,45 @@
             },
         },
 
+        methods: {
+            submit() {
+                this.form.post('/api/taxonomies/' + this.taxonomy.slug).then((response) => {
+                    toast('Term saved successfully', 'success')
+
+                    this.fetchTaxonomy()
+                    this.resetForm()
+                }).catch((response) => {
+                    toast(response.response.data.message, 'failed')
+                })
+            },
+
+            resetForm() {
+                this.form = new Form({
+                    name: '',
+                    slug: '',
+                    status: 1,
+                })
+            },
+
+            fetchTaxonomy() {
+                axios.get('/api/taxonomies/' + this.field.settings.taxonomy).then((response) => {
+                    this.taxonomy = response.data.data
+                })
+            }
+        },
+
         mounted() {
-            axios.get('/api/taxonomies/' + this.field.settings.taxonomy).then((response) => {
-                this.taxonomy = response.data.data
-            })
+            this.fetchTaxonomy()
 
             if(! this.value) {
                 this.$emit('input', [])
             }
 
             this.values = _.cloneDeep(this.value)
+        },
+
+        created() {
+            this.resetForm()
         },
     }
 </script>

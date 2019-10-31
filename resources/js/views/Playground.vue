@@ -5,9 +5,23 @@
         </portal>
 
         <p-card>
-            <p-autocomplete v-model="test" :items="['foo', 'bar', 'lorem', 'ipsum']"></p-autocomplete>
+            <p-select name="test_select" :options="[
+                {
+                    label: 'Lorem',
+                    value: 'lorem',
+                },
 
-            <p class="font-mono">{{ test }}</p>
+                {
+                    label: 'Ipsum',
+                    value: 'ipsum'
+                },
+            ]" v-model="selected">
+            </p-select>
+
+            <select name="test_select" v-model="selected" class="form__select">
+                <option value="lorem">Lorem</option>
+                <option value="ipsum">Ipsum</option>
+            </select>
         </p-card>
     </div>
 </template>
@@ -16,7 +30,7 @@
     export default {
         data() {
             return {
-                test: '',
+                selected: 'foo',
             }
         }
     }

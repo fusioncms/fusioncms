@@ -115,7 +115,7 @@ class Taxonomy extends Builder implements BuilderContract
         $morphedBy = Field::with('section.fieldset')->where('type', 'taxonomy')->where('settings->taxonomy', $this->taxonomy->id)->get();
 
         if ($morphedBy->isEmpty()) {
-            return parent::generatedRelationships();
+            return parent::generateRelationships();
         }
 
         foreach ($morphedBy as $field) {
