@@ -21,7 +21,7 @@
 	import FieldSelect from './Fields/Select.vue'
 
 	export default {
-		name: 'user-mapping',
+		name: 'users-mapping',
 
 		data() {
 			return {

@@ -25,6 +25,7 @@ class Import extends Model
         'handle',
         'location',
         'module',
+        'group',
         'strategy',
         'preview',
         'mappings',

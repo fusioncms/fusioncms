@@ -47,11 +47,30 @@
                             {
                                 'label': 'Users',
                                 'value': 'users',
+                            },
+                            {
+                            	'label': 'Taxonomies',
+                            	'value': 'taxonomies',
+                            },
+                            {
+                            	'label': 'Matrices',
+                            	'value': 'matrices',
                             }
                         ]"
                         :has-error="form.errors.has('module')"
                         :error-message="form.errors.get('module')"
                         v-model="form.module">
+                    </p-select>
+
+                    <p-select
+                    	v-if="groupOptions.length > 0"
+                    	name="group"
+                        label="Group"
+                        help="Which group do you wish to import to?"
+                        :options="groupOptions"
+                        :has-error="form.errors.has('group')"
+                        :error-message="form.errors.get('group')"
+                    	v-model="form.group">
                     </p-select>
 
                     <p-checkbox-group
@@ -91,11 +110,62 @@
 
 <script>
 	export default {
+		data() {
+			return {
+				groups: {},
+				groupOptions: []
+			}
+		},
+
 		props: {
 			form: {
 				type: Object,
 				required: true
 			}
+		},
+
+		watch: {
+			'form.module': function(value) {
+				this.setFormGroup(value)
+			}
+		},
+
+		methods: {
+			setFormGroup: function(value) {
+				this.groupOptions = []
+				this.form.group   = 0
+
+				if (_.has(this.groups, value)) {
+					this.groupOptions = this.groups[value]
+
+					if (this.form.group == 0) {
+						this.form.group = _.head(this.groupOptions).value
+					}
+				}
+			}
+		},
+
+		created() {
+			axios.all([
+				axios.get('/api/taxonomies'),
+				axios.get('/api/matrices')
+			]).then(axios.spread(function (taxonomies, matrices) {
+				this.groups['taxonomies'] = _.map(taxonomies.data.data, function(taxonomy) {
+					return {
+						'label': taxonomy.name,
+						'value': taxonomy.id
+					}
+				})
+
+				this.groups['matrices'] = _.map(matrices.data.data, function(matrix) {
+					return {
+						'label': matrix.name,
+						'value': matrix.id
+					}
+				})
+
+				this.setFormGroup(this.form.module)
+			}.bind(this)))
 		}
 	}
 </script>

@@ -21,7 +21,11 @@
 							</div>
 						</div>
 						
-						<component v-if="loaded" :is="'user-mapping'"></component>
+						<component
+							v-if="loaded"
+							:is="mod + '-mapping'"
+							:group="group">
+						</component>
 					</p-card>	
 				</form>
 			</div>
@@ -32,18 +36,23 @@
 <script>
 	import { mapGetters, mapActions } from 'vuex'
 	import UserMapping from '../../components/Importer/UserMapping.vue'
+	import MatrixMapping from '../../components/Importer/MatrixMapping.vue'
+	import TaxonomyMapping from '../../components/Importer/TaxonomyMapping.vue'
 
 	export default {
 		data() {
 			return {
 				id: null,
-				module: null,
+				mod: null,
+				group: 0,
 				loaded: false
 			}
 		},
 
 		components: {
-			'user-mapping': UserMapping
+			'users-mapping': UserMapping,
+			'taxonomies-mapping': TaxonomyMapping,
+			'matrices-mapping': MatrixMapping,
 		},
 
 		computed: {
@@ -74,8 +83,9 @@
 				axios.get(`/api/imports/mapping/${to.params.importer}`)
 			]).then(axios.spread(function (response) {
 				next(function (vm) {
-					vm.id      = response.data.data.id
-					vm.module  = response.data.data.module
+					vm.id    = response.data.data.id
+					vm.mod   = response.data.data.module
+					vm.group = response.data.data.group
 
 					let mapping = response.data.data.mappings || {}
 					let columns = response.data.data.preview[0]

@@ -5,7 +5,7 @@
 			<span v-if="required" class="text-xs text-warning-700 float-right">required</span>
 			
 			<div v-if="help" role="alert" class="border-l-4 px-4 bg-secondary-100 border-secondary-500 text-xs">
-				<p v-text="help"></p>
+				<p v-html="help"></p>
 			</div>
 		</div>
 		<div class="col flex-1">

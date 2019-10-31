@@ -19,6 +19,7 @@ class CreateImportsTable extends Migration
             $table->string('handle')->unique();
             $table->string('location');
             $table->string('module');
+            $table->integer('group')->default(0);
             $table->text('strategy')->nullable();
             $table->text('preview')->nullable();
             $table->text('mappings')->nullable();

@@ -30,6 +30,7 @@
 					handle: '',
 					location: '',
 					module: 'users',
+					group: 0,
 					strategy: [],
 					backup: false
 				})
@@ -59,12 +60,11 @@
 				next(function (vm) {
 					vm.id = response.data.data.id
 
-					vm.form.name     = response.data.data.name
-					vm.form.handle   = response.data.data.handle
-					vm.form.location = response.data.data.location
-					vm.form.module   = response.data.data.module
-					vm.form.strategy = response.data.data.strategy
-					vm.form.backup   = response.data.data.backup
+					_.forEach(response.data.data, function(value, key) {
+						if (_.has(vm.form, key)) {
+							vm.form[key] = value
+						}
+					})
 				})
 			}))
 		}

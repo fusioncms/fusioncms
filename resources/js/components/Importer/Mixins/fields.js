@@ -19,7 +19,7 @@ export default {
 			default: false
 		},
 
-		default: {
+		defaultValue: {
 			type: String,
 			required: false,
 			default: null
@@ -62,7 +62,7 @@ export default {
 				handle:   this.handle,
 				column:   this.handle,
 				required: this.required,
-				default:  this.default
+				default:  this.defaultValue
 			})
 		}
 	}

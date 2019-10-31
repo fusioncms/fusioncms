@@ -29,6 +29,7 @@
 					handle: '',
 					location: '',
 					module: 'users',
+					group: 0,
 					strategy: [],
 					backup: false
 				})

@@ -63,8 +63,9 @@ class ImportController extends Controller
             'handle'   => 'required|unique:imports,handle',
             'location' => ['required', new \App\Rules\ImportFile],
             'module'   => 'required',
+            'group'    => 'required|integer',
             'strategy' => 'required|array',
-            'backup'   => 'sometimes|boolean',
+            'backup'   => 'required|boolean',
         ]);
         
     	$import = Import::create($attributes);
@@ -98,10 +99,11 @@ class ImportController extends Controller
             'handle'   => 'required|unique:imports,id,' . $import->id,
             'location' => ['required', new \App\Rules\ImportFile],
             'module'   => 'required',
+            'group'    => 'required|integer',
             'strategy' => 'required|array',
-            'backup'   => 'sometimes|boolean',
+            'backup'   => 'required|boolean',
         ]);
-
+        
     	$import->update($attributes);
         $this->saveImportPreview($import);
 
