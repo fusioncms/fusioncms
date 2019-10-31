@@ -25,11 +25,15 @@ class EntryResource extends JsonResource
     {
         $matrix = new MatrixResource($this->resource['matrix']);
         $fields = $matrix->fieldset->fields ?? null;
-        
+
+        if(!isset($this->id)) {
+            return abort('404');
+        }
+
         $resource['matrix']        = $matrix;
-        $resource['entry']['id']   = $this->id;
-        $resource['entry']['name'] = $this->name;
-        $resource['entry']['slug'] = $this->slug;
+        $resource['entry']['id']   = $this->id ?? null;
+        $resource['entry']['name'] = $this->name ?? null;
+        $resource['entry']['slug'] = $this->slug ?? null;
 
         if ($fields) {
             foreach ($fields as $field) {
@@ -42,7 +46,7 @@ class EntryResource extends JsonResource
             }
         }
 
-        $resource['entry']['status'] = $this->status;
+        $resource['entry']['status'] = $this->status ?? null;
 
         return $resource;
     }

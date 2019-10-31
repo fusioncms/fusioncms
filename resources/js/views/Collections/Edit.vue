@@ -194,6 +194,9 @@
                     })
 
                     vm.form = new Form(fields)
+                }).catch(function(error) {
+                    vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
+                    toast('The requested entry could not be found', 'warning')
                 })
             },
         },
