@@ -43,10 +43,6 @@ class FieldObserver
                 });
             });
         }
-
-        if (! is_null($relationship)) {
-            app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->create($field);
-        }
     }
 
     /**
@@ -78,10 +74,6 @@ class FieldObserver
                     Schema::table($table, function ($table) use ($old, $new) {
                         $table->renameColumn("`{$old['handle']}`", "`{$new['handle']}`");
                     });
-                }
-
-                if (! is_null($relationship)) {
-                    app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->update($old, $new);
                 }
             }
 
@@ -129,10 +121,6 @@ class FieldObserver
                     });
                 }
             });
-        }
-
-        if (! is_null($relationship)) {
-            app()->make('App\Fieldtypes\Relationships\\'.Str::studly($relationship))->delete($field);
         }
     }
 
