@@ -83,7 +83,7 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.show');
         
-        $matrix = Matrix::where('slug', $matrix)->first();
+        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
 
         return new MatrixResource($matrix);
     }
