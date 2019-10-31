@@ -31,9 +31,9 @@ class EntryResource extends JsonResource
         }
 
         $resource['matrix']        = $matrix;
-        $resource['entry']['id']   = $this->id ?? null;
-        $resource['entry']['name'] = $this->name ?? null;
-        $resource['entry']['slug'] = $this->slug ?? null;
+        $resource['entry']['id']   = $this->id;
+        $resource['entry']['name'] = $this->name;
+        $resource['entry']['slug'] = $this->slug;
 
         if ($fields) {
             foreach ($fields as $field) {
@@ -46,7 +46,7 @@ class EntryResource extends JsonResource
             }
         }
 
-        $resource['entry']['status'] = $this->status ?? null;
+        $resource['entry']['status'] = $this->status;
 
         return $resource;
     }
