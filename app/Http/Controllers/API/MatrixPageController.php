@@ -73,13 +73,21 @@ class MatrixPageController extends Controller
      */
     public function update(Request $request, $matrix)
     {
-        $matrix = Matrix::findOrFail($matrix);
-        $page   = new Page($matrix->handle);
-        $rules  = ['status' => 'required|boolean'];
+        $matrix        = Matrix::findOrFail($matrix);
+        $page          = new Page($matrix->handle);
+        $relationships = [];
+        $rules         = ['status' => 'required|boolean'];
+
         $fields = $matrix->fieldset->fields->reject(function ($field) {
             $fieldtype = fieldtypes()->get($field->type);
 
             return is_null($fieldtype->column);
+        });
+
+        $relationships = $matrix->fieldset->fields->reject(function($field) {
+            $fieldtype = fieldtypes()->get($field->type);
+
+            return is_null($fieldtype->getRelationship());
         });
 
         foreach ($fields as $field) {
@@ -93,6 +101,10 @@ class MatrixPageController extends Controller
         }
 
         $page->update($attributes);
+
+        foreach ($relationships as $relationship) {
+            $page->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
 
         return new MatrixPageResource([
             'matrix' => $matrix,
