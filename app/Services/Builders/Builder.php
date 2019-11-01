@@ -11,6 +11,7 @@
 
 namespace App\Services\Builders;
 
+use App\Models\Taxonomy;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Contracts\Builder as BuilderContract;
@@ -160,12 +161,18 @@ abstract class Builder implements BuilderContract
             $namespace = $fieldtype->namespace.'\\'.Str::studly($handle);
             $stub      = File::get(resource_path('stubs/relationships/'.$fieldtype->relationship.'.stub'));
 
+            // This value can't be hardcoded to querying the Taxonomy model
+            // instance. We'll need to create a standard API as a means to
+            // query the proper Eloquent model and retrievable value.
+            $model = Taxonomy::find($field->settings['taxonomy']);
+
+            if (! $model) continue;
+
             $contents = strtr($stub, [
-                '{handle}'            => $handle,
-                '{studly_handle}'     => Str::studly($handle),
-                '{related_namespace}' => $namespace,
-                '{related_table}'     => null,
-                '{tag}'               => Str::addAbleSuffix($handle),
+                '{handle}'                    => $handle,
+                '{studly_handle}'             => Str::studly($handle),
+                '{related_namespace}'         => $namespace,
+                '{related_table}'             => $model->pivot_table,
             ]);
 
             $generated .= $contents."\n\n";

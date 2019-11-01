@@ -11,7 +11,9 @@
 
 namespace App\Services\Builders;
 
+use App\Models\Field;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\Taxonomy as TaxonomyModel;
 use App\Contracts\Builder as BuilderContract;
@@ -83,6 +85,7 @@ class Taxonomy extends Builder implements BuilderContract
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
             '{taxonomy_id}'   => $this->taxonomy->id,
+            '{relationships}' => $this->generateRelationships(),
         ]);
 
         File::put($path, $contents);
@@ -104,5 +107,57 @@ class Taxonomy extends Builder implements BuilderContract
     public function get()
     {
         return $this->model->where('taxonomy_id', $this->taxonomy->id)->firstOrCreate(['taxonomy_id' => $this->taxonomy->id]);
+    }
+
+    public function generateRelationships()
+    {
+        $generated = '';
+        $morphedBy = Field::with('section.fieldset')->where('type', 'taxonomy')->where('settings->taxonomy', $this->taxonomy->id)->get();
+
+        if ($morphedBy->isEmpty()) {
+            return parent::generateRelationships();
+        }
+
+        foreach ($morphedBy as $field) {
+            $models = $this->getFieldsettables($field->section->fieldset);
+
+            foreach ($models as $model) {
+                $namespace = (new \ReflectionClass($model->getBuilder()))->getName();
+                $stub      = File::get(resource_path('stubs/relationships/morphedByMany.stub'));
+
+                $contents = strtr($stub, [
+                    '{handle}'                    => $model->handle,
+                    '{related_namespace}'         => $namespace,
+                    '{related_table}'             => $model->table,
+                ]);
+
+                $generated .= $contents."\n\n";
+            }
+        }
+
+        return trim($generated .= parent::generateRelationships());
+    }
+
+    /**
+     * Pure witchcraft. Fetches the related fieldsettables and resolves their
+     * proper Eloquent models.
+     * 
+     * https://media.giphy.com/media/zIwIWQx12YNEI/giphy.gif
+     * 
+     * @param  Fieldset  $fieldset
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getFieldsettables($fieldset)
+    {
+        return DB::table('fieldsettables')->where('fieldset_id', $fieldset->id)->get()->map(function($morph) {
+            $model = app()->make($morph->fieldsettable_type);
+            $model = $model->find($morph->fieldsettable_id);
+
+            return $model;
+        })->reject(function($model) {
+            return is_null($model);
+        })->map(function($model) {
+            return $model;
+        });
     }
 }

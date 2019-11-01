@@ -294,6 +294,8 @@
         methods: {
             submit() {
                 this.form.post('/api/matrices').then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+                    
                     toast('Matrix successfully created', 'success')
 
                     this.$router.push('/matrices')

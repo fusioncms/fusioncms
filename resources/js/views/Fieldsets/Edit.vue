@@ -76,6 +76,8 @@
 
                     axios.post(`/api/fieldsets/${this.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully updated', 'success')
+                        
+                        vm.$router.push('/fieldsets')
                     })
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')

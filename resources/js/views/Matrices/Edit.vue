@@ -271,8 +271,11 @@
         methods: {
             submit() {
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
-                    toast('Matrix successfully updated', 'success')
                     store.dispatch('navigation/fetchAdminNavigation')
+                    
+                    toast('Matrix successfully updated', 'success')
+
+                    this.$router.push('/matrices')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

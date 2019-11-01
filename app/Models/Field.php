@@ -51,4 +51,14 @@ class Field extends Model
     {
         return $this->belongsTo(Section::class);
     }
+
+    /**
+     * Return the fieldtype instance of this field.
+     * 
+     * @return Fieldtype
+     */
+    public function type()
+    {
+        return fieldtypes()->get($this->type);
+    }
 }

@@ -167,6 +167,8 @@
             submit() {
                 this.form.patch('/api/taxonomies/' + this.taxonomy.slug + '/' + this.entry.id).then((response) => {
                     toast('Entry saved successfully', 'success')
+
+                    this.$router.push('/taxonomies/' + this.taxonomy.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

@@ -167,6 +167,8 @@
             submit() {
                 this.form.patch('/api/collections/' + this.collection.slug + '/' + this.entry.id).then((response) => {
                     toast('Entry saved successfully', 'success')
+                    
+                    this.$router.push('/collections/' + this.collection.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

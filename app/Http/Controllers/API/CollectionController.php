@@ -60,11 +60,8 @@ class CollectionController extends Controller
         ];
 
         if(isset($matrix->fieldset)) {
-            $fields = $matrix->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-                
-                return is_null($fieldtype->column);
-            });
+            $fields        = $matrix->fieldset->database();
+            $relationships = $matrix->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
@@ -75,6 +72,10 @@ class CollectionController extends Controller
         $attributes['matrix_id'] = $matrix->id;
 
         $entry = $collection->create($attributes);
+
+        foreach ($relationships as $relationship) {
+            $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
 
         activity()
             ->performedOn($entry)
@@ -108,17 +109,8 @@ class CollectionController extends Controller
         ];
 
         if(isset($matrix->fieldset)) {
-            $fields = $matrix->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-
-                return is_null($fieldtype->column);
-            });
-
-            $relationships = $matrix->fieldset->fields->reject(function($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-
-                return is_null($fieldtype->getRelationship());
-            });
+            $fields        = $matrix->fieldset->database();
+            $relationships = $matrix->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';

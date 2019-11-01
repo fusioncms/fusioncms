@@ -219,6 +219,8 @@
         methods: {
             submit() {
                 this.form.post('/api/taxonomies').then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+                    
                     toast('Taxonomy successfully created', 'success')
 
                     this.$router.push('/taxonomies')
