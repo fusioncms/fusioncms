@@ -78,17 +78,8 @@ class MatrixPageController extends Controller
         $relationships = [];
         $rules         = ['status' => 'required|boolean'];
 
-        $fields = $matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-
-            return is_null($fieldtype->column);
-        });
-
-        $relationships = $matrix->fieldset->fields->reject(function($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-
-            return is_null($fieldtype->getRelationship());
-        });
+        $fields        = $matrix->fieldset->database();
+        $relationships = $matrix->fieldset->relationships();
 
         foreach ($fields as $field) {
             $rules[$field->handle] = 'sometimes';

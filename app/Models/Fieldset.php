@@ -74,4 +74,28 @@ class Fieldset extends Model
     {
         return null !== @$this->fields;
     }
+
+    /**
+     * Return the fields that generate database columns.
+     * 
+     * @return self
+     */
+    public function database()
+    {
+        return $this->fields->reject(function($field) {
+            return is_null($field->type()->getColumn());
+        });
+    }
+
+    /**
+     * Return the fields that define relationships.
+     * 
+     * @return self
+     */
+    public function relationships()
+    {
+        return $this->fields->reject(function($field) {
+            return is_null($field->type()->getRelationship());
+        });
+    }
 }
