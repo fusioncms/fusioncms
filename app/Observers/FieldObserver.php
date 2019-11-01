@@ -43,22 +43,6 @@ class FieldObserver
                 });
             });
         }
-
-        if (! is_null($relationship)) {
-            switch($relationship) {
-                case 'morphToMany':
-                    $tableName = Str::plural(Str::addAbleSuffix($field->handle));
-
-                    if (! Schema::hasTable($tableName)) {
-                        Schema::create($tableName, function($table) use ($field) {
-                            $table->integer($field->handle.'_id')->unsigned();
-                            $table->morphs(Str::addAbleSuffix($field->handle));
-                        });
-                    }
-
-                    break;
-            }
-        }
     }
 
     /**
@@ -90,35 +74,6 @@ class FieldObserver
                     Schema::table($table, function ($table) use ($old, $new) {
                         $table->renameColumn("`{$old['handle']}`", "`{$new['handle']}`");
                     });
-                }
-
-                if (! is_null($relationship)) {
-                    switch($relationship) {
-                        case 'morphToMany':
-                            $oldTableName = Str::plural(Str::addAbleSuffix($old['handle']));
-                            $newTableName = Str::plural(Str::addAbleSuffix($new['handle']));
-
-                            // Coooooool
-                            // https://github.com/laravel/framework/issues/2979
-                            
-                            if (! Schema::hasTable($newTableName)) {
-                                Schema::rename($oldTableName, $newTableName);
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn($old['handle'].'_id', $new['handle'].'_id');
-                                });
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn(Str::addAbleSuffix($old['handle']).'_id', Str::addAbleSuffix($new['handle']).'_id');
-                                });
-
-                                Schema::table($newTableName, function($table) use ($old, $new) {
-                                    $table->renameColumn(Str::addAbleSuffix($old['handle']).'_type', Str::addAbleSuffix($new['handle']).'_type');
-                                });
-                            }
-
-                            break;
-                    }
                 }
             }
 
@@ -166,17 +121,6 @@ class FieldObserver
                     });
                 }
             });
-        }
-
-        if (! is_null($relationship)) {
-            switch($relationship) {
-                case 'morphToMany':
-                    $tableName = Str::plural(Str::addAbleSuffix($field->handle));
-
-                    Schema::dropIfExists($tableName);
-
-                    break;
-            }
         }
     }
 

@@ -167,6 +167,8 @@
             submit() {
                 this.form.patch('/api/collections/' + this.collection.slug + '/' + this.entry.id).then((response) => {
                     toast('Entry saved successfully', 'success')
+                    
+                    this.$router.push('/collections/' + this.collection.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
@@ -194,6 +196,9 @@
                     })
 
                     vm.form = new Form(fields)
+                }).catch(function(error) {
+                    vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
+                    toast('The requested entry could not be found', 'warning')
                 })
             },
         },

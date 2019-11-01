@@ -99,6 +99,9 @@
                 next(function(vm) {
                     vm.collection = response.data.data
                 })
+            }).catch(function(error) {
+                next('/')
+                toast('The requested collection could not be found', 'warning')
             })
         },
 

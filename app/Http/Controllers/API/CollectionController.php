@@ -40,7 +40,7 @@ class CollectionController extends Controller
     {
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
-        $entry  = $model->find($id);
+        $entry  = $model->findOrFail($id);
 
         return new EntryResource($entry);
     }
@@ -60,11 +60,8 @@ class CollectionController extends Controller
         ];
 
         if(isset($matrix->fieldset)) {
-            $fields = $matrix->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-                
-                return is_null($fieldtype->column);
-            });
+            $fields        = $matrix->fieldset->database();
+            $relationships = $matrix->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
@@ -76,11 +73,15 @@ class CollectionController extends Controller
 
         $entry = $collection->create($attributes);
 
+        foreach ($relationships as $relationship) {
+            $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
+
         activity()
             ->performedOn($entry)
             ->withProperties([
                 'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->handle.'//edit/' . $entry->id,
+                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
             ])
             ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
 
@@ -108,17 +109,8 @@ class CollectionController extends Controller
         ];
 
         if(isset($matrix->fieldset)) {
-            $fields = $matrix->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-
-                return is_null($fieldtype->column);
-            });
-
-            $relationships = $matrix->fieldset->fields->reject(function($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-
-                return is_null($fieldtype->getRelationship());
-            });
+            $fields        = $matrix->fieldset->database();
+            $relationships = $matrix->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';

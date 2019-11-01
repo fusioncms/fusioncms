@@ -234,6 +234,7 @@
 
 <script>
     import Form from '../../forms/Form'
+    import store from '../../vuex'
 
     export default {
         data() {
@@ -270,7 +271,11 @@
         methods: {
             submit() {
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+                    
                     toast('Matrix successfully updated', 'success')
+
+                    this.$router.push('/matrices')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
@@ -318,7 +323,10 @@
 
                     vm.form.status = matrix.data.data.status ? '1' : '0'
                 })
-            }))
+            })).catch(function(error) {
+                next('/matrices')
+                toast('The requested matrix could not be found', 'warning')
+            })
         }
     }
 </script>

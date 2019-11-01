@@ -40,17 +40,18 @@ class TermController extends Controller
     {
         $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
         $model    = (new Builder($taxonomy->handle))->make();
-        $entry    = $model->find($id);
+        $term    = $model->find($id);
 
-        return new TermResource($entry);
+        return new TermResource($term);
     }
 
     public function store(Request $request, $taxonomy)
     {
-        $this->authorize('entry.create');
+        $this->authorize('term.create');
 
-        $taxonomy   = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $collection = (new Builder($taxonomy->handle))->make();
+        $taxonomy      = Taxonomy::where('slug', $taxonomy)->firstOrFail();
+        $collection    = (new Builder($taxonomy->handle))->make();
+        $relationships = [];
         
         $rules = [
             'name'      => 'required',
@@ -58,11 +59,8 @@ class TermController extends Controller
         ];
 
         if(isset($taxonomy->fieldset)) {
-            $fields = $taxonomy->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-                
-                return is_null($fieldtype->column);
-            });
+            $fields        = $taxonomy->fieldset->database();
+            $relationships = $taxonomy->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
@@ -72,17 +70,21 @@ class TermController extends Controller
         $attributes              = $request->validate($rules);
         $attributes['taxonomy_id'] = $taxonomy->id;
 
-        $entry = $collection->create($attributes);
+        $term = $collection->create($attributes);
+
+        foreach ($relationships as $relationship) {
+            $term->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
 
         activity()
-            ->performedOn($entry)
+            ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $entry->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
             ])
             ->log('Created '.Str::singular($taxonomy->name).' (:subject.name)');
 
-        return new TermResource($entry);
+        return new TermResource($term);
     }
 
     /**
@@ -94,21 +96,19 @@ class TermController extends Controller
      */
     public function update(Request $request, $taxonomy, $id)
     {
-        $this->authorize('entry.update');
+        $this->authorize('term.update');
 
-        $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $entry    = (new Builder($taxonomy->handle))->make()->find($id);
-        $rules    = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
+        $taxonomy      = Taxonomy::where('slug', $taxonomy)->firstOrFail();
+        $term          = (new Builder($taxonomy->handle))->make()->find($id);
+        $relationships = [];
+        $rules         = [
+            'name' => 'required',
+            'slug' => 'sometimes',
         ];
 
         if(isset($taxonomy->fieldset)) {
-            $fields = $taxonomy->fieldset->fields->reject(function ($field) {
-                $fieldtype = fieldtypes()->get($field->type);
-
-                return is_null($fieldtype->column);
-            });
+            $fields        = $taxonomy->fieldset->database();
+            $relationships = $taxonomy->fieldset->relationships();
 
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
@@ -118,37 +118,41 @@ class TermController extends Controller
         $attributes = $request->validate($rules);
 
         foreach ($attributes as $handle => $value) {
-            $entry->{$handle} = $value;
+            $term->{$handle} = $value;
         }
 
-        $entry->update($attributes);
+        $term->update($attributes);
+
+        foreach ($relationships as $relationship) {
+            $term->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
 
         activity()
-            ->performedOn($entry)
+            ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $entry->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
             ])
             ->log('Updated '.Str::singular($taxonomy->name).' (:subject.name)');
 
-        return new TermResource($entry);
+        return new TermResource($term);
     }
 
     public function destroy(Request $request, $taxonomy, $id)
     {
-        $this->authorize('entry.destroy');
+        $this->authorize('term.destroy');
 
         $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
         $model    = (new Builder($taxonomy->handle))->make();
-        $entry    = $model->findOrFail($id);
+        $term    = $model->findOrFail($id);
 
         activity()
-            ->performedOn($entry)
+            ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
             ])
             ->log('Deleted '.Str::singular($taxonomy->name).' (:subject.name)');
 
-        $entry->delete();
+        $term->delete();
     }
 }

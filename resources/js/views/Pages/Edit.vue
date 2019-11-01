@@ -77,7 +77,7 @@
                         </portal>
                     </p-card>
 
-                    <p-card v-for="(section, index) in sections.sidebar" :key="section.handle" class="mt-6">
+                    <p-card v-for="(section) in sections.sidebar" :key="section.handle" class="mt-6">
                         <h3>{{ section.name }}</h3>
                         <p class="text-sm">{{ section.description }}</p>
 
@@ -137,6 +137,8 @@
             submit() {
                 this.form.patch('/api/pages/' + this.matrix.id).then((response) => {
                     toast('Page saved successfully', 'success')
+
+                    this.$router.push('/')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })

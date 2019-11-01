@@ -81,6 +81,16 @@ class Taxonomy extends Model
     }
 
     /**
+     * Get the pivot table attribute value.
+     *
+     * @return string
+     */
+    public function getPivotTableAttribute()
+    {
+        return 'taxonomy_'.$this->handle.'_pivot';
+    }
+
+    /**
      * Taxonomies have many terms.
      * 
      * @return HasManyRelationship

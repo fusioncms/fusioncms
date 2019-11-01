@@ -218,7 +218,11 @@
         methods: {
             submit() {
                 this.form.patch('/api/taxonomies/' + this.id).then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+                    
                     toast('Taxonomy successfully updated', 'success')
+
+                    this.$router.push('/taxonomies')
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
@@ -255,7 +259,10 @@
                     vm.form.route = taxonomy.data.data.route
                     vm.form.template = taxonomy.data.data.template
                 })
-            }))
+            })).catch(function(error) {
+                next('/taxonomies')
+                toast('The requested taxonomy could not be found', 'warning')
+            })
         }
     }
 </script>

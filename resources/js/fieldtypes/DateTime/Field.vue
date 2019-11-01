@@ -45,7 +45,10 @@
 
     methods: {
       emitEvent(selectedDates, dateStr, instance) {
-        this.$emit('input', dateStr)
+        let dateObject = instance.parseDate(dateStr)
+        let formattedDate = instance.formatDate(dateObject, 'Y-m-d H:i:S')
+
+        this.$emit('input', formattedDate)
       }
     },
 
@@ -58,7 +61,7 @@
         minuteIncrement: 1,
         allowInput: false,
         clickOpens: false,
-        defaultDate: this.value,
+        defaultDate: this.value + '+00.00',
         onChange: this.emitEvent,
         onValueUpdate: this.inputChanged
       })

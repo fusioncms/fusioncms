@@ -63,6 +63,14 @@ class {class} extends Model
         return $this->taxonomy->fieldset->fields;
     }
 
+    /**
+     * Get the name of the pivot table associated with this taxonomy.
+     */
+    public function getPivotTableAttribute()
+    {
+        return $this->table.'_pivot';
+    }
+
     public function parent()
     {
         return $this->hasOne(Taxonomy::class, 'id', 'parent_id');
@@ -72,4 +80,6 @@ class {class} extends Model
     {
         return $this->hasMany(Taxonomy::class, 'parent_id', 'id');
     }
+
+    {relationships}
 }

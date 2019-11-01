@@ -76,6 +76,8 @@
 
                     axios.post(`/api/fieldsets/${this.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully updated', 'success')
+                        
+                        vm.$router.push('/fieldsets')
                     })
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
@@ -94,7 +96,10 @@
                     vm.form.name = fieldset.data.data.name
                     vm.form.handle = fieldset.data.data.handle
                 })
-            }))
+            })).catch(function(error) {
+                next('/fieldsets')
+                toast('The requested fieldset could not be found', 'warning')
+            })
         }
     }
 </script>
