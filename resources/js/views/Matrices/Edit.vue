@@ -323,7 +323,10 @@
 
                     vm.form.status = matrix.data.data.status ? '1' : '0'
                 })
-            }))
+            })).catch(function(error) {
+                next('/matrices')
+                toast('The requested matrix could not be found', 'warning')
+            })
         }
     }
 </script>

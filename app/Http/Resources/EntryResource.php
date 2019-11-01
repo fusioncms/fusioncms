@@ -25,7 +25,7 @@ class EntryResource extends JsonResource
     {
         $matrix = new MatrixResource($this->resource['matrix']);
         $fields = $matrix->fieldset->fields ?? null;
-        
+
         $resource['matrix']        = $matrix;
         $resource['entry']['id']   = $this->id;
         $resource['entry']['name'] = $this->name;
