@@ -17,6 +17,7 @@
 </template>
 
 <script>
+	import FieldColor from './Fields/Color.vue'
 	import FieldInput from './Fields/Input.vue'
 	import FieldPrimary from './Fields/Primary.vue'
 	import FieldSelect from './Fields/Select.vue'
@@ -49,7 +50,8 @@
 					}
 				],
 				fieldTypes: {
-					'input': ['textarea','color-picker'],
+					'color':  ['color-picker'],
+					'input':  ['textarea'],
 					'select': ['radio','select']
 				}
 			}
@@ -63,9 +65,10 @@
 		},
 
 		components: {
-			'field-input': FieldInput,
+			'field-color':   FieldColor,
+			'field-input':   FieldInput,
 			'field-primary': FieldPrimary,
-			'field-select': FieldSelect,
+			'field-select':  FieldSelect,
 		},
 
 		created() {
