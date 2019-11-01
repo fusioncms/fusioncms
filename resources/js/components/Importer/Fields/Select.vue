@@ -18,7 +18,7 @@
 		<div class="col flex-1">
 			<p-select
 				:name="mapping.handle + '-default'"
-				:options="defaultOptions"
+				:options="settings.options"
 				v-model="mapping.default">
 			</p-select>
 		</div>

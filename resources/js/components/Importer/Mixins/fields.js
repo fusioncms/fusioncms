@@ -19,17 +19,11 @@ export default {
 			default: false
 		},
 
-		defaultValue: {
-			type: String,
-			required: false,
-			default: null
-		},
-
-		defaultOptions: {
-			type: Array,
-			required: false,
+		settings: {
+			type: Object,
+			equired: false,
 			default: () => {
-				return []
+				return {}
 			}
 		}
 	},
@@ -62,7 +56,7 @@ export default {
 				handle:   this.handle,
 				column:   this.handle,
 				required: this.required,
-				default:  this.defaultValue
+				default:  (_.has(this.settings, 'default') ? this.settings.default : null)
 			})
 		}
 	}

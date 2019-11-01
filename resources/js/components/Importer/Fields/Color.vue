@@ -31,10 +31,10 @@
 						v-model="hex"/>
 				</div>
 				<div class="flex-grow">
-					<label :for="mapping.handle + '-default'" class="text-xs">Hex</label>
+					<label :for="mapping.handle + '-rgba'" class="text-xs">RGBA</label>
 					<input
-						:id="mapping.handle + '-default'"
-						:name="mapping.handle + '-default'"
+						:id="mapping.handle + '-rgba'"
+						:name="mapping.handle + '-rgba'"
 						type="text"
 						class="form__control" 
 						v-model="mapping.default"/>
@@ -54,9 +54,8 @@
 
 		data() {
 			return {
-				pickr: {},
-				hex: '',
-				transparency: true
+				pickr: null,
+				hex: ''
 			}
 		},
 
@@ -64,6 +63,10 @@
 			'mapping.default'(colorString) {
                 this.changeColor(colorString)
             },
+
+            hex(colorString) {
+                this.changeColor(colorString)
+            }
 		},
 
 		methods: {
@@ -86,7 +89,7 @@
 				default: this.mapping.default,
 				comparison: true,
 				components: {
-                    opacity: this.transparency,
+                    opacity: this.settings.transparency,
                     hue: true,
                 }
             }).on('save', (color, instance) => {
@@ -97,6 +100,7 @@
                 this.pickrChanged(null)
             })
 
+            // init..
             this.changeColor(this.mapping.default)
             this.pickrChanged(this.pickr.getColor())
 		}
