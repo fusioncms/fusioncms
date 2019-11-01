@@ -94,7 +94,10 @@
                     vm.form.name = fieldset.data.data.name
                     vm.form.handle = fieldset.data.data.handle
                 })
-            }))
+            })).catch(function(error) {
+                next('/fieldsets')
+                toast('The requested fieldset could not be found', 'warning')
+            })
         }
     }
 </script>
