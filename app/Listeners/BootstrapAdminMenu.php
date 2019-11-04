@@ -69,11 +69,11 @@ class BootstrapAdminMenu
             ]);
                         
             $menu->forms->add('All Forms')->data([
-                'to' => '/',
+                'to' => '/forms',
             ]);
 
             $menu->forms->add('Inbox')->data([
-                'to' => '/',
+                'to' => '/inbox',
             ]);
 
             $menu->add('SEO', '#')->data([

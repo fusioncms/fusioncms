@@ -184,6 +184,24 @@ const router = new Router({
             },
         },
         {
+            path: '/forms',
+            component: () => import('../views/Forms/Index'),
+            name: 'forms',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/inbox',
+            component: () => import('../views/Inbox/Index'),
+            name: 'inbox',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
             path: '/users',
             component: () => import('../views/Users/Index'),
             name: 'users',
