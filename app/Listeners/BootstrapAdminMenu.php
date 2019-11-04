@@ -64,17 +64,17 @@ class BootstrapAdminMenu
                 'icon' => 'images',
             ]);
                 
-            // $menu->add('Forms', '#')->data([
-            //     'icon' => 'paper-plane',
-            // ]);
-                    
-            // $menu->forms->add('Inbox')->data([
-            //     'to' => '/',
-            // ]);
+            $menu->add('Forms', '#')->data([
+                'icon' => 'paper-plane',
+            ]);
                         
-            // $menu->forms->add('Manage')->data([
-            //     'to' => '/',
-            // ]);
+            $menu->forms->add('All Forms')->data([
+                'to' => '/',
+            ]);
+
+            $menu->forms->add('Inbox')->data([
+                'to' => '/',
+            ]);
 
             $menu->add('SEO', '#')->data([
                 'icon'  => 'chart-bar',
@@ -90,7 +90,7 @@ class BootstrapAdminMenu
                 'icon'  => 'users',
             ]);
 
-            $menu->users->add('Manage Users')->data([
+            $menu->users->add('All Users')->data([
                 'to' => '/users',
             ]);
 
