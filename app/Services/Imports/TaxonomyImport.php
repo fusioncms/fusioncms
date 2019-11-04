@@ -88,12 +88,16 @@ class TaxonomyImport extends BaseImport
      */
     public function handle()
     {
-        dd($this->all());
-        // 'taxonomy_id' => $taxonomy->id
+        $attributes                = $this->getAttributes();
+        $attributes['taxonomy_id'] = $this->taxonomy->id;
+
         // $relationships = $taxonomy->fieldset->relationships();
         // foreach ($relationships as $relationship) {
         //     $term->{$relationship->handle}()->sync($request->input($relationship->handle));
         // }
-        // User::updateOrCreate(['id' => $this->get('id')], $this->all());
+        $this->collection->updateOrCreate(
+            ['id' => $attributes['id']],
+            $attributes
+        );
     }
 }

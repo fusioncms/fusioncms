@@ -13,6 +13,7 @@ namespace App\Services\Imports;
 
 use App\Models\Import;
 use Maatwebsite\Excel\Row;
+use App\Concerns\HasAttributes;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -23,7 +24,7 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
 class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, ShouldQueue
 {
-	use Importable, RegistersEventListeners;
+	use Importable, RegistersEventListeners, HasAttributes;
 
 	/**
      * Import configuration.
@@ -38,13 +39,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
      * @var integer
      */
     protected $rowIndex;
-
-	/**
-     * Attributes for current row.
-     * 
-     * @var Collection
-     */
-    protected $attributes;
     
     /**
      * Queue Chunk Size.
@@ -60,8 +54,11 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
      */
     public function __construct(Import $import)
     {
-        $this->import     = $import;
-        $this->attributes = collect([]);
+        $this->import = $import;
+
+        $this->import->mappings->each(function($item) {
+            $this->setCast($item['handle'], $item['cast']);
+        });
     }
 
     /**
@@ -73,12 +70,19 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
      */
     public function onRow(Row $row)
     {
-        $rowIndex = $row->getIndex();
-        $row      = $row->toArray();
+        $this->rowIndex = $row->getIndex();
+        $row = $row->toArray();
 
-        // Set attributes for easy access..
-        $this->setAttributes($row);
-        
+        // Save attributes..
+        $this->import->mappings->each(function($item) use ($row) {
+            $this->setAttribute(
+                $item['handle'],
+                $row[$item['column']] ?? @$item['default']
+            );
+        });
+
+        dd($this->attributes, $this->casts);
+
         // Validate and persist..
         if ($this->validate()) {
             $this->handle();
@@ -103,53 +107,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
     public function messages()
     {
         return [];
-    }
-
-    /**
-     * Returns all attributes of current row.
-     *   
-     * @return array
-     */
-    public function all()
-    {
-        return $this->attributes->all();
-    }
-
-    /**
-     * Determines if attribute with $key exists.
-     *   
-     * @param  string $key
-     * @return boolean
-     */
-    public function has($key)
-    {
-        return $this->attributes->has($key);
-    }
-
-    /**
-     * Returns current row value by key,
-     *   else a default value if not found.
-     *   
-     * @param  string $key
-     * @param  mixed  $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
-    {
-        return $this->attributes->get($key, $default);
-    }
-
-    /**
-     * Sets attributes for current row.
-     *
-     * @param  array  $row
-     * @return void
-     */
-    protected function setAttributes(array $row)
-    {
-        $this->import->mappings->each(function($item) use ($row) {
-            $this->attributes->put($item['handle'], $row[$item['column']] ?? @$item['default']);
-        });
     }
 
     /**
@@ -181,7 +138,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
     protected function validate()
     {
         $validator = validator(
-        	$this->all(),
+        	$this->getAttributes(),
         	$this->rules(),
         	$this->messages()
        	);

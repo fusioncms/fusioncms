@@ -22,11 +22,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-		// $import = \App\Models\Import::find(1);
-		// dd(
-		// (new \App\Services\Imports\TaxonomyImport($import))
-		// 	->toArray("imports/{$import->handle}.csv", null, \Maatwebsite\Excel\Excel::CSV)
-		// );
+		$import = \App\Models\Import::find(1);
+		dd(
+		(new \App\Services\Imports\TaxonomyImport($import))
+			->import("imports/{$import->handle}.csv", null, \Maatwebsite\Excel\Excel::CSV)
+		);
 		// dd('done.');
         return view('admin.index');
     }
