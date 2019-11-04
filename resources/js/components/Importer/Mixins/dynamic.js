@@ -1,3 +1,4 @@
+import FieldBoolean  from '../Fields/Boolean.vue'
 import FieldColor    from '../Fields/Color.vue'
 import FieldDateTime from '../Fields/DateTime.vue'
 import FieldInput    from '../Fields/Input.vue'
@@ -13,29 +14,34 @@ export default {
 				{
 					'component': 'primary',
 					'name':      'ID',
-					'required':  true
+					'required':  true,
+					'cast':      'integer'
 				},
 				{
 					'component': 'input',
 					'name':      'Name',
-					'required':  true
+					'required':  true,
+					'cast':      'string'
 				},
 				{
 					'component': 'input',
 					'name':      'Slug',
-					'required':  true
+					'required':  true,
+					'cast':     'string'
 				},
 				{
-					'component': 'select',
+					'component': 'boolean',
 					'name':      'Status',
-					'options':   [{'label':'Yes','value':true},{'label':'No','value':false}]
+					'options':   [{'label':'Yes','value':true},{'label':'No','value':false}],
+					'cast':      'boolean'
 				}
 			],
 			fieldTypes: {
+				'boolean':  [ 'toggle' ],
 				'color':    [ 'color-picker' ],
 				'input':    [ 'textarea' ],
 				'number':   [ 'number' ],
-				'select':   [ 'radio','select','country','us-state','toggle' ],
+				'select':   [ 'radio','select','country','us-state' ],
 				'datetime': [ 'datetime' ]
 			}
 		}
@@ -49,6 +55,7 @@ export default {
 	},
 
 	components: {
+		'field-boolean':  FieldBoolean,
 		'field-color':    FieldColor,
 		'field-datetime': FieldDateTime,
 		'field-input':    FieldInput,
@@ -66,7 +73,6 @@ export default {
 		]).then(axios.spread(function (response) {
 			_.forEach(response.data.data.fieldset.sections, function(section) {
 				_.forEach(section.fields, function(field) {
-					console.log(field.name, field.type.id)
 					let properties = {
 						'component': _.defaultTo(
 							_.findKey(vm.fieldTypes, function(types) {
@@ -78,14 +84,11 @@ export default {
 						'required':  field.required,
 						'help':      field.help,
 						'settings':  _.isPlainObject(field.settings) ? field.settings : {},
+						'cast':      field.type.cast
 					}
 
-					if (field.type.id == 'toggle') {
-						properties['settings'].options = [
-							{ 'label': 'Enabled',  'value': 1 },
-							{ 'label': 'Disabled', 'value': 0 },
-						]
-					} else if (_.size(field.type.data) > 0) {
+					// Set options for pre-defined drop-downs..
+					if (_.size(field.type.data) > 0) {
 						properties['settings'].options = _.map(field.type.data, (label, value) => {
 							return {
 								'label': label,

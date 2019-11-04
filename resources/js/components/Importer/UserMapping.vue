@@ -10,15 +10,17 @@
 			:name="field.name"
 			:required="field.required"
 			:help="field.help"
-			:defaultOptions="field.options"
+			:settings="field.settings"
+			:cast="field.cast"
 		></component>
 	</div>
 </template>
 
 <script>
-	import FieldInput from './Fields/Input.vue'
+	import FieldBoolean from './Fields/Boolean.vue'
+	import FieldInput   from './Fields/Input.vue'
 	import FieldPrimary from './Fields/Primary.vue'
-	import FieldSelect from './Fields/Select.vue'
+	import FieldSelect  from './Fields/Select.vue'
 
 	export default {
 		name: 'users-mapping',
@@ -35,38 +37,44 @@
 					{
 						'component': 'primary',
 						'name':      'ID',
-						'required':  true
+						'required':  true,
+						'cast':      'integer'
 					},
 					{
 						'component': 'input',
 						'name':      'Name',
-						'required':  true
+						'required':  true,
+						'cast':      'string'
 					},
 					{
 						'component': 'input',
 						'name':      'Email',
-						'required':  true
+						'required':  true,
+						'cast':      'string'
 					},
 					{
 						'component': 'select',
 						'name':      'Role',
 						'help':      'Roles provide permissions for logged in users.',
 						'required':  true,
-						'options':   this.roles
+						'options':   this.roles,
+						'cast':      'string'
 					},
 					{
-						'component': 'select',
+						'component': 'boolean',
 						'name':      'Status',
-						'options':   [{'label':'Yes','value':true},{'label':'No','value':false}]
+						'options':   [{'label':'Yes','value':true},{'label':'No','value':false}],
+						'cast':      'boolean'
 					}
 				]
 			}
 		},
 
 		components: {
-			'field-input': FieldInput,
+			'field-boolean': FieldBoolean,
+			'field-input':   FieldInput,
 			'field-primary': FieldPrimary,
-			'field-select': FieldSelect,
+			'field-select':  FieldSelect,
 		},
 
 		created() {

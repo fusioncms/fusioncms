@@ -19,6 +19,11 @@ export default {
 			default: false
 		},
 
+		cast: {
+			type: String,
+			required: true
+		},
+
 		settings: {
 			type: Object,
 			equired: false,
@@ -54,9 +59,10 @@ export default {
 			this.setFormMapping({
 				name:     this.name,
 				handle:   this.handle,
+				cast:     this.cast,
 				column:   this.handle,
 				required: this.required,
-				default:  (_.has(this.settings, 'default') ? this.settings.default : null)
+				default:  (_.has(this.settings, 'default') ? this.settings.default : null),
 			})
 		}
 	}

@@ -11,6 +11,7 @@
 			:required="field.required"
 			:help="field.help"
 			:settings="field.settings"
+			:cast="field.cast"
 		></component>
 	</div>
 </template>
