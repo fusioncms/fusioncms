@@ -16,11 +16,24 @@
         <div class="tab__panel" v-for="(section, index) in sections" :key="index" v-show="isSelected(index)">
             <div class="row">
                 <div class="col mb-6 w-full lg:w-1/2">
-                    <p-input name="label" label="Section Label" v-model="section.name"></p-input>
+                    <p-input 
+                        name="label" 
+                        label="Section Label" 
+                        v-model="section.name"
+                        required>
+                    </p-input>
                 </div>
 
                 <div class="col mb-6 w-full lg:w-1/2">
-                    <p-input name="handle" label="Section Handle" monospaced v-model="section.handle"></p-input>
+                    <p-slug
+                        name="handle"
+                        label="Section Handle"
+                        autocomplete="off"
+                        delimiter="-"
+                        :watch="section.name"
+                        v-model="section.handle"
+                        required>
+                    </p-slug>
                 </div>
 
                 <div class="col mb-6 w-full lg:w-1/2">

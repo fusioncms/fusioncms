@@ -133,14 +133,14 @@
                     name: 'Field ' + this.total,
                     handle: this.getUniqueHandle('field_' + this.total),
                     help: '',
-                    settings: _.clone(fieldtype.settings, true),
+                    settings: _.cloneDeep(fieldtype.settings, true),
                     order: 99,
                 }
 
                 this.fields.push(field)
                 this.active = field.handle
 
-                this.tempField = _.clone(this.field, true)
+                this.tempField = _.cloneDeep(this.field, true)
             },
 
             remove(index) {
@@ -150,7 +150,7 @@
             edit(index) {
                 this.active = this.fields[index].handle
 
-                this.tempField = _.clone(this.field, true)
+                this.tempField = _.cloneDeep(this.field, true)
             },
 
             save() {
