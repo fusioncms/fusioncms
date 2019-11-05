@@ -49,7 +49,7 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-taxonomy" title="Delete Taxonomy">
+            <p-modal name="delete-taxonomy" title="Delete Taxonomy" key="delete_taxonomy">
                 <p>Are you sure you want to permenantly delete this taxonomy?</p>
 
                 <template slot="footer" slot-scope="taxonomy">

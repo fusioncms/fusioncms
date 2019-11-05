@@ -40,7 +40,7 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-fieldset" title="Delete Fieldset">
+            <p-modal name="delete-fieldset" title="Delete Fieldset" key="delete_fieldset">
                 <p>Are you sure you want to permenantly delete this fieldset?</p>
 
                 <template slot="footer" slot-scope="fieldset">
