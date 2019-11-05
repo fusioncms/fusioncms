@@ -13,7 +13,7 @@
             <h1 v-else>FU</h1>
         </router-link>
 
-        <div class="sidebar__container">
+        <div class="sidebar__container overflow-auto">
             <nav class="sidebar__nav">
                 <ul class="sidebar__menu">
                     <sidebar-item v-for="(item, id) in navigation" :key="id" :to="item.to" :icon="item.icon" :children="item.children" :divider="item.divider || false">
