@@ -62,6 +62,8 @@
 </template>
 
 <script>
+    import store from '../../vuex'
+    
     export default {
         data() {
             return {
@@ -72,6 +74,8 @@
         methods: {
             destroy(id) {
                 axios.delete('/api/taxonomies/' + id).then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+
                     toast('Taxonomy successfully deleted.', 'success')
                     
                     proton().$emit('refresh-datatable-taxonomies')

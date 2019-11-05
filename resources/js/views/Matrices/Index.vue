@@ -66,6 +66,8 @@
 </template>
 
 <script>
+    import store from '../../vuex'
+    
     export default {
         data() {
             return {
@@ -76,6 +78,8 @@
         methods: {
             destroy(id) {
                 axios.delete('/api/matrices/' + id).then((response) => {
+                    store.dispatch('navigation/fetchAdminNavigation')
+
                     toast('Matrix successfully deleted.', 'success')
                     
                     proton().$emit('refresh-datatable-matrices')

@@ -53,6 +53,7 @@
 </template>
 
 <script>
+
     export default {
         data() {
             return {
@@ -63,6 +64,7 @@
         methods: {
             destroy(id) {
                 axios.delete('/api/fieldsets/' + id).then((response) => {
+
                     toast('Fieldset successfully deleted.', 'success')
                     
                     proton().$emit('refresh-datatable-fieldsets')
