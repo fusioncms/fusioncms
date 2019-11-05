@@ -54,7 +54,7 @@ class CollectionController extends Controller
         
         $relationships = [];
         $rules         = [
-            'name'   => 'required',
+            'name'   => 'required|regex:/^[A-z]/i',
             'slug'   => 'sometimes',
             'status' => 'required|boolean',
         ];
