@@ -259,6 +259,7 @@
 
 <script>
     import Form from '../../forms/Form'
+    import store from '../../vuex'
 
     export default {
         data() {
