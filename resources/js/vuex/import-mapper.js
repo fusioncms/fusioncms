@@ -3,7 +3,8 @@ export default {
 
     state: {
         mappingOptions: [],
-        formMappings: {}
+        formMappings: {},
+        origMappings: {},
     },
 
     getters: {
@@ -17,6 +18,10 @@ export default {
 
         getFormMappings(state) {
             return state.formMappings
+        },
+
+        getOrigMappings(state) {
+            return state.origMappings
         }
     },
 
@@ -27,11 +32,14 @@ export default {
 
         setFormMapping(state, value) {
             state.formMappings = _.assign({ [value.handle]: value }, state.formMappings)
-            //state.formMappings[value.handle] = value
         },
 
         setFormMappings(state, value) {
             state.formMappings = value
+        },
+
+        setOrigMappings(state, value) {
+            state.origMappings = value
         }
     },
 
@@ -46,6 +54,10 @@ export default {
 
         setFormMappings(context, value) {
             context.commit('setFormMappings', value)
+        },
+
+        setOrigMappings(context, value) {
+            context.commit('setOrigMappings', value)
         }
     }
 }

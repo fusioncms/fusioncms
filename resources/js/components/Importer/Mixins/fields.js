@@ -36,7 +36,7 @@ export default {
 	computed: {
 		...mapGetters({
 			mappingOptions: 'mapper/getMappingOptions',
-			mappings: 'mapper/getFormMappings'
+			mappings: 'mapper/getOrigMappings'
 		}),
 
 		handle: function() {
@@ -55,7 +55,9 @@ export default {
 	},
 
 	created() {
-		if (! _.has(this.mappings, this.handle)) {
+		if (_.has(this.mappings, this.handle)) {
+			this.setFormMapping(this.mapping)
+		} else {
 			this.setFormMapping({
 				name:     this.name,
 				handle:   this.handle,

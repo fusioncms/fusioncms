@@ -81,8 +81,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
             );
         });
 
-        dd($this->attributes, $this->casts);
-
         // Validate and persist..
         if ($this->validate()) {
             $this->handle();

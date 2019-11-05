@@ -48,6 +48,11 @@ export default {
 	},
 
 	props: {
+		mod: {
+			type: String,
+			required: true
+		},
+
 		group: {
 			type: Number,
 			required: true
@@ -69,7 +74,7 @@ export default {
 		const vm = this
 
 		axios.all([
-			axios.get(`/api/taxonomies/${this.group}`)
+			axios.get(`/api/${this.mod}/${this.group}`)
 		]).then(axios.spread(function (response) {
 			_.forEach(response.data.data.fieldset.sections, function(section) {
 				_.forEach(section.fields, function(field) {

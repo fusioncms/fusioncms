@@ -24,6 +24,7 @@
 						<component
 							v-if="loaded"
 							:is="mod + '-mapping'"
+							:mod="mod"
 							:group="group">
 						</component>
 					</p-card>	
@@ -64,7 +65,7 @@
 		methods: {
 			...mapActions({
 				setMappingOptions: 'mapper/setMappingOptions',
-				setFormMappings: 'mapper/setFormMappings'
+				setOrigMappings: 'mapper/setOrigMappings',
 			}),
 
 			submit() {
@@ -109,7 +110,7 @@
 					})
 					
 					vm.setMappingOptions(options)
-					vm.setFormMappings(mapping)
+					vm.setOrigMappings(mapping)
 					vm.loaded = true
 				})
 			}))
