@@ -104,6 +104,17 @@ class MatrixObserver
     }
 
     /**
+     * Handle the matrix "deleting" event.
+     *
+     * @param \App\Models\Matrix $matrix
+     * @return void
+     */
+    public function deleting(Matrix $matrix)
+    {
+        $matrix->detachFieldset();
+    }
+
+    /**
      * Handle the matrix "deleted" event.
      *
      * @param  \App\Models\Matrix  $matrix
