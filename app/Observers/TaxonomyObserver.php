@@ -81,6 +81,17 @@ class TaxonomyObserver
     }
 
     /**
+     * Handle the taxonomy "deleting" event.
+     *
+     * @param  \App\Models\Taxonomy  $taxonomy
+     * @return void
+     */
+    public function deleting(Taxonomy $taxonomy)
+    {
+        $taxonomy->detachFieldset();
+    }
+
+    /**
      * Handle the taxonomy "deleted" event.
      *
      * @param  \App\Models\Taxonomy  $taxonomy
