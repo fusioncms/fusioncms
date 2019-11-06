@@ -2,15 +2,11 @@
 
 namespace Tests\Feature;
 
-use Facades\FieldFactory;
-use Facades\MatrixFactory;
-use Illuminate\Support\Str;
-use Facades\FieldsetFactory;
 use Facades\TaxonomyFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class FieldRelationshipTest extends TestCase
+class RelationshipTest extends TestCase
 {
     use RefreshDatabase;
 
