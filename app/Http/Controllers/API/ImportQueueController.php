@@ -15,54 +15,9 @@ use App\Models\Import;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\QueueResource;
-use Laravel\Horizon\Contracts\JobRepository;
-use Laravel\Horizon\Contracts\TagRepository;
 
 class ImportQueueController extends Controller
 {
-    protected $jobs;
-    protected $tags;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  JobRepository  $jobs
-     * @return void
-     */
-    public function __construct(JobRepository $jobs, TagRepository $tags)
-    {
-        $this->jobs = $jobs;
-        $this->tags = $tags;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return Resource
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('importer.queue.index');
-        
-        dd($this->jobs->getRecent($request->query('starting_at', -1)));
-
-        //return new QueueResource($import);
-    }
-
-    /**
-     * Display a specific resource.
-     * 
-     * @param  Import $import
-     * @return Resource
-     */
-    public function show(Import $import)
-    {
-        $this->authorize('importer.queue.show');
-
-    }
-
     /**
      * Queue up an import from storage.
      * 
@@ -73,13 +28,20 @@ class ImportQueueController extends Controller
     public function store(Request $request, Import $import)
     {
     	$this->authorize('importer.queue.store');
-        dd($import);
 
-        // $module = 'App\\Services\\Imports\\' . Str::singular($import->module) . 'Import';
+        try {
+            $name   = Str::singular($import->module);
+            $queue  = 'imports';
+            $file   = "imports/{$import->handle}.csv";
+            $module = "App\\Services\\Imports\\{$name}Import";
 
-        // (new $module($import))
-        //     ->queue($import->location)
-        //     ->onConnection('redis')
-        //     ->onQueue('imports');
+            (new $module($import))
+                ->queue($file, null, \Maatwebsite\Excel\Excel::CSV)
+                ->onQueue($queue);
+        } catch(Exception $ex) {
+            return response()->json($ex->getMessage(), 500);
+        }
+
+        return response()->json('Successfully queued!', 200);
     }
 }

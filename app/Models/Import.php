@@ -43,4 +43,14 @@ class Import extends Model
         'mappings' => 'collection',
         'backup'   => 'boolean',
     ];
+
+    /**
+     * Has Many relationship.
+     * 
+     * @return Builder
+     */
+    public function logs()
+    {
+        return $this->hasMany(ImportLog::class);
+    }
 }

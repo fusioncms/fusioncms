@@ -5,7 +5,7 @@
 		</portal>
 
 		<portal to="actions">
-			<router-link :to="{ name: 'importer.create' }" class="button">Create</router-link>
+            <router-link :to="{ name: 'importer.create' }" class="button">Create</router-link>
 		</portal>
 
 		<div class="row">

@@ -23,6 +23,10 @@ class ImportResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $response = parent::toArray($request);
+
+        $response['logs'] = $this->logs;
+
+        return $response;
     }
 }

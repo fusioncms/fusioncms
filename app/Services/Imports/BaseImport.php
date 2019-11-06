@@ -12,17 +12,22 @@
 namespace App\Services\Imports;
 
 use App\Models\Import;
+use App\Models\ImportLog;
 use Maatwebsite\Excel\Row;
 use App\Concerns\HasAttributes;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Events\AfterImport;
+use Maatwebsite\Excel\Events\BeforeImport;
+use Maatwebsite\Excel\Events\ImportFailed;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
-class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, ShouldQueue
+class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEvents, ShouldQueue
 {
 	use Importable, RegistersEventListeners, HasAttributes;
 
@@ -34,11 +39,32 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
     protected $import;
 
     /**
+     * Import log.
+     * 
+     * @var App\Models\ImportLog
+     */
+    protected $log;
+
+    /**
      * Current row index.
      * 
      * @var integer
      */
     protected $rowIndex;
+
+    /**
+     * Total row count.
+     * 
+     * @var integer
+     */
+    protected $totalRows;
+
+    /**
+     * Progress bar.
+     * 
+     * @var integer
+     */
+    protected $progress;
     
     /**
      * Queue Chunk Size.
@@ -60,7 +86,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
             $this->setCast($item['handle'], $item['cast']);
         });
     }
-
     /**
      * Persist each row manually.
      * (Alternative to using the ToModel concern.)
@@ -71,7 +96,10 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
     public function onRow(Row $row)
     {
         $this->rowIndex = $row->getIndex();
+
         $row = $row->toArray();
+
+        $this->updateProgress();
 
         // Save attributes..
         $this->import->mappings->each(function($item) use ($row) {
@@ -161,8 +189,69 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow //, Shou
         \Log::error("Import:{$this->import->id}:{$this->rowIndex} errors found:", $errors->all());
     }
 
+    /**
+     * Update progress.
+     * 
+     * @return void
+     */
+    protected function updateProgress()
+    {
+        $progress = floor($this->rowIndex / $this->totalRows) * 100;
+
+        if ($progress % 5 == 0) {
+            $this->log->update(['progress' => $progress]);
+        }
+    }
+
+    /**
+     * Event gets raised at the start of the process.
+     * 
+     * @param  BeforeImport $event [description]
+     * @return void
+     */
+    public static function beforeImport(BeforeImport $event)
+    {
+        $import    = $event->getConcernable()->import;
+        $totalRows = collect($event->reader->getTotalRows())->first();
+
+        $log = ImportLog::create([
+            'import_id'  => $import->id,
+            'total_rows' => $totalRows
+        ]);
+
+        $event->getConcernable()->log       = $log;
+        $event->getConcernable()->totalRows = $totalRows;
+    }
+
+    /**
+     * Event gets raised at the end of the process.
+     * 
+     * @param  AfterImport $event
+     * @return void
+     */
     public static function afterImport(AfterImport $event)
     {
-        // TODO: Notify user of completed import
+        $log = $event->getConcernable()->log;
+
+        $log->update([
+            'progress'     => 100,
+            'completed_at' => now()
+        ]);
+
+        \Mail::to('admin@example.com')
+            ->send(new \App\Mail\ImportComplete($event->getConcernable()->import));
+    }
+
+    /**
+     * Handle failed job.
+     * 
+     * @param  ImportFailed $event
+     * @return void
+     */
+    public static function importFailed(ImportFailed $event)
+    {
+        $import = $event->getConcernable()->import;
+
+        \Log::error("Import:{$import->id}: failed!");
     }
 }
