@@ -22,15 +22,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-		$import = \App\Models\Import::find(1);
-		$queue  = 'imports';
-
-		(new \App\Services\Imports\TaxonomyImport($import))
-			->queue("imports/{$import->handle}.csv", null, \Maatwebsite\Excel\Excel::CSV)
-			->onConnection('database')
-			->onQueue($queue);
-		dd('done');
-
         return view('admin.index');
     }
 }

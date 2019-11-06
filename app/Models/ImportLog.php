@@ -25,6 +25,7 @@ class ImportLog extends Model
         'import_id',
         'total_rows',
         'progress',
+        'log_file',
         'completed_at',
     ];
 

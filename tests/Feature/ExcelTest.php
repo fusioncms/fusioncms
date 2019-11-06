@@ -100,6 +100,7 @@ class ExcelTest extends TestCase
         	'import_id'    => $import->id,
         	'total_rows'   => 5,
         	'progress'     => 0,
+            'log_file'     => storage_path("logs/imports/imports-{$import->id}.log"),
         	'completed_at' => null
         ]);
 	}

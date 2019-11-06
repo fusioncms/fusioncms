@@ -15,7 +15,10 @@ use App\Models\Import;
 use App\Models\ImportLog;
 use Maatwebsite\Excel\Row;
 use App\Concerns\HasAttributes;
+use App\Concerns\HasCustomLogger;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
@@ -29,9 +32,11 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
 class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEvents, ShouldQueue
 {
-	use Importable, RegistersEventListeners, HasAttributes;
+	use Importable, RegistersEventListeners, HasAttributes, HasCustomLogger;
 
-	/**
+	
+
+    /**
      * Import configuration.
      * 
      * @var App\Models\Import
@@ -81,11 +86,13 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
     public function __construct(Import $import)
     {
         $this->import = $import;
+        $this->setLogger(storage_path("logs/imports/imports-{$import->id}.log"));
 
         $this->import->mappings->each(function($item) {
             $this->setCast($item['handle'], $item['cast']);
         });
     }
+
     /**
      * Persist each row manually.
      * (Alternative to using the ToModel concern.)
@@ -186,7 +193,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
      */
     protected function onError($errors)
     {
-        \Log::error("Import:{$this->import->id}:{$this->rowIndex} errors found:", $errors->all());
+        $this->logger->error("Import:{$this->import->id}:{$this->rowIndex} errors found:", $errors->all());
     }
 
     /**
@@ -212,11 +219,13 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
     public static function beforeImport(BeforeImport $event)
     {
         $import    = $event->getConcernable()->import;
+        $logFile   = $event->getConcernable()->getLogFilePath();
         $totalRows = collect($event->reader->getTotalRows())->first();
-
+        
         $log = ImportLog::create([
             'import_id'  => $import->id,
-            'total_rows' => $totalRows
+            'total_rows' => $totalRows,
+            'log_file'   => $logFile
         ]);
 
         $event->getConcernable()->log       = $log;
@@ -238,7 +247,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
             'completed_at' => now()
         ]);
 
-        \Mail::to('admin@example.com')
+        Mail::to('admin@example.com')
             ->send(new \App\Mail\ImportComplete($event->getConcernable()->import));
     }
 
@@ -250,6 +259,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
      */
     public static function importFailed(ImportFailed $event)
     {
-        \Log::error("Import:" . static::class . ": " . $event->getException()->getMessage());
+        Log::error(static::class . ": " . $event->getException()->getMessage());
     }
 }
