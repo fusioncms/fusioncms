@@ -18,7 +18,7 @@ class CreateImportLogsTable extends Migration
             $table->unsignedBigInteger('import_id');
             $table->unsignedInteger('total_rows');
             $table->unsignedInteger('progress')->default(0);
-            $table->dateTime('completed_at');
+            $table->dateTime('completed_at')->nullable();
             $table->timestamps();
 
             $table->foreign('import_id')

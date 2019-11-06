@@ -16,7 +16,7 @@ class ImportComplete extends Mailable
      * 
      * @var App\Models\Import
      */
-    protected $import;
+    public $import;
 
     /**
      * Create a new message instance.

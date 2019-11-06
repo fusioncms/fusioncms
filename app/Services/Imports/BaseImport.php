@@ -250,8 +250,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
      */
     public static function importFailed(ImportFailed $event)
     {
-        $import = $event->getConcernable()->import;
-
-        \Log::error("Import:{$import->id}: failed!");
+        \Log::error("Import:" . static::class . ": " . $event->getException()->getMessage());
     }
 }

@@ -41,9 +41,7 @@ class ImporterTest extends TestCase
 
         $this->actingAs($this->admin, 'api');
 
-        $attributes = factory(Import::class)->make([
-            'location' => base_path('tests/Stubs/Importer/Users.csv')
-        ])->toArray();
+        $attributes = factory(Import::class)->states('users')->make()->toArray();
 
         $response = $this->json('POST', '/api/imports', $attributes);
         
@@ -81,8 +79,8 @@ class ImporterTest extends TestCase
         
         $this->assertEquals(
             [
-                ['id', 'name', 'email', 'roles', 'status'],
-                [1, 'Janet Doe', 'admin@example.com', '[\'admin\']', 1]
+                ['id', 'name', 'email', 'role', 'status'],
+                [1, 'Janet Doe', 'admin@example.com', 'admin', 1]
             ], $preview);
     }
 

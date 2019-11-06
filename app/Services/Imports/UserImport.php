@@ -13,6 +13,7 @@ namespace App\Services\Imports;
 
 use App\Models\User;
 use App\Models\Import;
+use Illuminate\Support\Str;
 
 class UserImport extends BaseImport
 {
@@ -30,11 +31,12 @@ class UserImport extends BaseImport
     public function rules()
     {
         return [
-            'id'     => 'sometimes|integer',
-            'name'   => 'required',
-            'email'  => 'required|email',
-            'roles'  => 'sometimes|array',
-            'status' => 'required|boolean',
+            'id'       => 'sometimes|integer',
+            'name'     => 'required',
+            'email'    => 'required|email',
+            'role'     => 'sometimes|string',
+            'password' => 'sometimes|min:8',
+            'status'   => 'required|boolean',
         ];
     }
 
@@ -50,12 +52,41 @@ class UserImport extends BaseImport
     }
 
     /**
+     * Set default role if one isn't provided.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    public function getRoleAttribute($value)
+    {
+        return $value ?? 'user';
+    }
+
+    /**
+     * Set default password if one isn't provided.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    public function getPasswordAttribute($value)
+    {
+        return bcrypt($value ?? Str::random(20));
+    }
+
+    /**
      * Persist data.
      *
      * @return void
      */
     public function handle()
     {
-        // User::updateOrCreate(['id' => $this->get('id')], $this->all());
+        $attributes = $this->getAttributes();
+        
+        $user = User::updateOrCreate(
+            ['id' => $attributes['id']],
+            $attributes
+        );
+
+        $user->assignRoles($attributes['role']);
     }
 }

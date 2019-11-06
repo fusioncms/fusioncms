@@ -30,7 +30,7 @@ class ImportQueueController extends Controller
     	$this->authorize('importer.queue.store');
 
         try {
-            $name   = Str::singular($import->module);
+            $name   = ucwords(Str::singular($import->module));
             $queue  = 'imports';
             $file   = "imports/{$import->handle}.csv";
             $module = "App\\Services\\Imports\\{$name}Import";
@@ -42,6 +42,6 @@ class ImportQueueController extends Controller
             return response()->json($ex->getMessage(), 500);
         }
 
-        return response()->json('Successfully queued!', 200);
+        return response()->json('Successfully queued!', 201);
     }
 }
