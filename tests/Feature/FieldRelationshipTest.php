@@ -15,81 +15,39 @@ class FieldRelationshipTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function when_a_field_with_a_morph_to_many_relationship_is_added_the_proper_tables_and_columns_should_be_generated()
+    public function when_a_matrix_with_a_morph_to_many_relationship_is_created_the_proper_pivot_table_should_be_generated()
     {
-        $fieldset    = FieldsetFactory::create();
-        $postsMatrix = MatrixFactory::withName('Posts')->withFieldset($fieldset)->create();
-        $taxonomy    = TaxonomyFactory::withName('Categories')->create();
-        $postsTable  = $postsMatrix->getBuilder()->getTable();
+        $taxonomy = TaxonomyFactory::withName('Categories')->create();
 
-        $section = $fieldset->sections()->first();
-        $field   = FieldFactory::withName('Category')
-            ->withSection($section)
-            ->withType('taxonomy')
-            ->withSettings([
-                'taxonomy' => $taxonomy->id,
-            ])
-            ->create();
-        
-        $fieldset->sections()->first()->fields()->save($field);
-
-        $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
-        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($taxonomy->handle)));
+        $this->assertDatabaseHasTable($taxonomy->pivot_table);
     }
 
     /** @test */
-    public function when_a_field_with_a_morph_to_many_relationship_is_renamed_the_proper_tables_and_columns_should_be_updated()
+    public function when_a_matrix_with_a_morph_to_many_relationship_is_renamed_the_proper_pivot_table_should_be_updated()
     {
-        $fieldset    = FieldsetFactory::create();
-        $postsMatrix = MatrixFactory::withName('Posts')->withFieldset($fieldset)->create();
-        $taxonomy    = TaxonomyFactory::withName('Categories')->create();
-        $postsTable  = $postsMatrix->getBuilder()->getTable();
+        $taxonomy           = TaxonomyFactory::withName('Categories')->create();
+        $originalPivotTable = $taxonomy->pivot_table;
 
-        $section = $fieldset->sections()->first();
-        $field   = FieldFactory::withName('Category')
-            ->withSection($section)
-            ->withType('taxonomy')
-            ->withSettings([
-                'taxonomy' => $taxonomy->id,
-            ])
-            ->create();
-        
-        $fieldset->sections()->first()->fields()->save($field);
+        $this->assertDatabaseHasTable($originalPivotTable);
 
-        $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
-        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($taxonomy->handle)));
+        $taxonomy->name   = 'Tags';
+        $taxonomy->handle = 'tags';
+        $taxonomy->save();
 
-        $field->name   = 'Tag';
-        $field->handle = 'tag';
-        $field->save();
-
-        $this->assertDatabaseTableDoesNotHaveColumn($postsTable, $field->handle);
-        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($taxonomy->handle)));
+        $this->assertDatabaseDoesNotHaveTable($originalPivotTable);
+        $this->assertDatabaseHasTable($taxonomy->pivot_table);
     }
 
     /** @test */
-    public function when_a_field_with_a_morph_to_many_relationship_is_removed_the_associated_table_should_be_removed_as_well()
+    public function when_a_matrix_with_a_morph_to_many_relationship_is_removed_the_associated_pivot_table_should_be_removed_as_well()
     {
-        $fieldset           = FieldsetFactory::create();
-        $postsMatrix        = MatrixFactory::withName('Posts')->withFieldset($fieldset)->create();
-        $categoriesTaxonomy = TaxonomyFactory::withName('Categories')->create();
-        $postsTable        = $postsMatrix->getBuilder()->getTable();
+        $taxonomy   = TaxonomyFactory::withName('Categories')->create();
+        $pivotTable = $taxonomy->pivot_table;
 
-        $section = $fieldset->sections()->first();
-        $field   = FieldFactory::withName('Categories')
-            ->withSection($section)
-            ->withType('taxonomy')
-            ->withSettings([
-                'taxonomy' => $categoriesTaxonomy->id,
-            ])
-            ->create();
-        
-        $fieldset->sections()->first()->fields()->save($field);
+        $this->assertDatabaseHasTable($pivotTable);
 
-        $this->assertDatabaseHasTable(Str::plural(Str::addAbleSuffix($field->handle)));
+        $taxonomy->delete();
 
-        $field->delete();
-
-        $this->assertDatabaseDoesNotHaveTable(Str::plural(Str::addAbleSuffix('Categories')));
+        $this->assertDatabaseDoesNotHaveTable($pivotTable);
     }
 }
