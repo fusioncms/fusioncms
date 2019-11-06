@@ -35,7 +35,7 @@ class CreateFormsTable extends Migration
 
             // Templates
             $table->string('form_template')->nullable();
-            $table->string('thanks_template')->nullable();
+            $table->string('thankyou_template')->nullable();
 
             $table->timestamps();
         });
