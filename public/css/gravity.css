@@ -2510,6 +2510,22 @@ video {
   color: #ffffff;
 }
 
+::-moz-selection {
+  background-color: #FFBCA7;
+  color: #4D1A0A;
+  opacity: 1;
+  padding: 0.5rem;
+  text-shadow: none;
+}
+
+::selection {
+  background-color: #FFBCA7;
+  color: #4D1A0A;
+  opacity: 1;
+  padding: 0.5rem;
+  text-shadow: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.75rem;
   color: #000000;

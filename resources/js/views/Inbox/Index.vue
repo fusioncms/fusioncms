@@ -7,7 +7,7 @@
         <div class="row">
             <div class="side-container">
                 <p-card>
-                    <p-button class="w-full">Manage Forms</p-button>
+                    <p-button class="w-full" to="/forms">Manage Forms</p-button>
 
                     <div class="list">
                         <span class="list--separator">Inboxes</span>
@@ -16,12 +16,18 @@
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'inbox-in']" fixed-width class="mr-2"></fa-icon> Archived</a>
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'trash-alt']" fixed-width class="mr-2"></fa-icon> Trash</a>
+                    </div>
 
+                    <div class="list" v-if="forms.length == 0">
                         <span class="list--separator">Forms</span>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'clipboard-list']" fixed-width class="mr-2"></fa-icon> Career Opportunities</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'clipboard-list']" fixed-width class="mr-2"></fa-icon> Contact Us</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'clipboard-list']" fixed-width class="mr-2"></fa-icon> Request A Quote</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'clipboard-list']" fixed-width class="mr-2"></fa-icon> Suggestions</a>
+
+                        <span class="px-2 text-gray-600 leading-loose">No forms available.</span>
+                    </div>
+
+                    <div class="list" v-else>
+                        <span class="list--separator">Forms</span>
+
+                        <a href="#" class="list--item leading-loose" v-for="form in forms" :key="form.handle"><fa-icon :icon="['far', 'paper-plane']" fixed-width class="mr-2"></fa-icon> {{ form.name }}</a>
                     </div>
                 </p-card>
             </div>
@@ -135,8 +141,19 @@
     export default {
         data() {
             return {
-                // 
+                forms: [],
+                responses: [],
             }
-        }
+        },
+
+        beforeRouteEnter(to, from, next) {
+            axios.all([
+                axios.get('/api/forms'),
+            ]).then(axios.spread(function (forms) {
+                next(function(vm) {
+                    vm.forms = forms.data.data
+                })
+            }))
+        },
     }
 </script>
