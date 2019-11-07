@@ -18,7 +18,6 @@ use App\Concerns\HasAttributes;
 use App\Concerns\HasCustomLogger;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
@@ -33,8 +32,6 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEvents, ShouldQueue
 {
 	use Importable, RegistersEventListeners, HasAttributes, HasCustomLogger;
-
-	
 
     /**
      * Import configuration.
@@ -221,7 +218,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
         $import    = $event->getConcernable()->import;
         $logFile   = $event->getConcernable()->getLogFilePath();
         $totalRows = collect($event->reader->getTotalRows())->first();
-        
+
         $log = ImportLog::create([
             'import_id'  => $import->id,
             'total_rows' => $totalRows,
@@ -246,9 +243,6 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
             'progress'     => 100,
             'completed_at' => now()
         ]);
-
-        Mail::to('admin@example.com')
-            ->send(new \App\Mail\ImportComplete($event->getConcernable()->import));
     }
 
     /**

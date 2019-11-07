@@ -70,7 +70,7 @@ class UserImport extends BaseImport
      */
     public function getPasswordAttribute($value)
     {
-        return bcrypt($value ?? Str::random(20));
+        return $value ? bcrypt($value) : $value;
     }
 
     /**
@@ -81,6 +81,8 @@ class UserImport extends BaseImport
     public function handle()
     {
         $attributes = $this->getAttributes();
+
+        //TODO: keep old password?
         
         $user = User::updateOrCreate(
             ['id' => $attributes['id']],
