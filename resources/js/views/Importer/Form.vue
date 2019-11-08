@@ -29,14 +29,14 @@
 					</p-slug>
 
 					<p-input
-						name="location"
-						label="Location"
-						help="File location import will reference."
+						name="source"
+						label="Source"
+						help="Google Sheets sheet reference URL."
 						autocomplete="off"
 						required
-						:has-error="form.errors.has('location')"
-						:error-message="form.errors.get('location')"
-						v-model="form.location">
+						:has-error="form.errors.has('source')"
+						:error-message="form.errors.get('source')"
+						v-model="form.source">
 					</p-input>
 
 					<p-select
@@ -92,6 +92,13 @@
 						</p-checkbox>
 					</p-checkbox-group>
 
+					<p-upload
+                        name="upload"
+                        label="Upload"
+                        help="Upload a file for import."
+                        v-model="form.upload"
+                        accept="csv,xlsx"
+                    ></p-upload>
 
                     <!--
                     <p-toggle

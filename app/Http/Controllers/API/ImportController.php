@@ -15,7 +15,7 @@ use App\Models\Import;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportResource;
-use App\Services\Imports\PreviewImport;
+use App\Services\Exports\GoogleExport;
 use Illuminate\Support\Facades\Storage;
 
 class ImportController extends Controller
@@ -61,15 +61,22 @@ class ImportController extends Controller
         $attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,handle',
-            'location' => ['required', new \App\Rules\ImportFile],
+            'source'   => 'required|url',
             'module'   => 'required',
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
         ]);
         
+        // TODO: catch errors and report..
+        if ($attributes['source']) {
+            (new GoogleExport($attributes['source']))->store("imports/{$attributes['handle']}.csv");
+        }
+
+        // TODO: handle file uploads..
+        // Storage::put("imports/{$import->handle}.csv", file_get_contents(...));
+
     	$import = Import::create($attributes);
-        $this->saveImportPreview($import);
 
     	activity()
     		->performedOn($import)
@@ -97,15 +104,22 @@ class ImportController extends Controller
     	$attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,id,' . $import->id,
-            'location' => ['required', new \App\Rules\ImportFile],
+            'source'   => 'required|url',
             'module'   => 'required',
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
         ]);
         
+        // TODO: catch errors and report..
+        if ($attributes['source']) {
+            (new GoogleExport($attributes['source']))->store("imports/{$attributes['handle']}.csv");
+        }
+
+        // TODO: handle file uploads..
+        // Storage::put("imports/{$import->handle}.csv", file_get_contents(...));
+
     	$import->update($attributes);
-        $this->saveImportPreview($import);
 
     	activity()
     		->performedOn($import)
@@ -135,22 +149,5 @@ class ImportController extends Controller
     		->log('Deleted import (:subject.name)');
 
     	$import->delete();
-    }
-
-    /**
-     * Save first two rows from import file to storage.
-     * [Helper]
-     * 
-     * @param  Import $import
-     * @return void
-     */
-    private function saveImportPreview(Import $import)
-    {
-        Storage::put("imports/{$import->handle}.csv", file_get_contents($import->location));
-        
-        $preview = (new PreviewImport(1, 2))->toArray("imports/{$import->handle}.csv");
-        $preview = $preview[0];  // We'll only acknowledge sheet 1
-
-        $import->update(['preview' => $preview]);
     }
 }

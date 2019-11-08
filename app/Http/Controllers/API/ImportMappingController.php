@@ -15,6 +15,7 @@ use App\Models\Import;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportResource;
+use App\Services\Imports\PreviewImport;
 
 class ImportMappingController extends Controller
 {
@@ -27,6 +28,8 @@ class ImportMappingController extends Controller
     public function show(Import $import)
     {
     	$this->authorize('importer.mapping.show');
+
+        $this->generateMappingPreview($import);
 
     	return new ImportResource($import);
     }
@@ -49,5 +52,21 @@ class ImportMappingController extends Controller
         $import->update($attributes);
 
     	return new ImportResource($import);
+    }
+
+    /**
+     * Generate mapping preview by saving the first two
+     *  row to storage.
+     * [Helper]
+     * 
+     * @param  Import $import
+     * @return void
+     */
+    private function generateMappingPreview(Import $import)
+    {
+        $preview = (new PreviewImport(1, 2))->toArray("imports/{$import->handle}.csv");
+        $preview = $preview[0];  // We'll only acknowledge sheet 1
+        
+        $import->update(['preview' => $preview]);
     }
 }

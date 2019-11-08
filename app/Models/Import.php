@@ -23,7 +23,7 @@ class Import extends Model
     protected $fillable = [
         'name',
         'handle',
-        'location',
+        'source',
         'module',
         'group',
         'strategy',

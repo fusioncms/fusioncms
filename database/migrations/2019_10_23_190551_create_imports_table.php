@@ -17,7 +17,7 @@ class CreateImportsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('handle')->unique();
-            $table->string('location');
+            $table->string('source');
             $table->string('module');
             $table->integer('group')->default(0);
             $table->text('strategy')->nullable();

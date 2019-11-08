@@ -14,10 +14,9 @@ namespace App\Http\Controllers\API;
 use App\Models\Import;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
-use App\Mail\ImportComplete;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
+use App\Jobs\NotifyUserOfImportComplete;
 
 class ImportQueueController extends Controller
 {
@@ -34,18 +33,14 @@ class ImportQueueController extends Controller
 
         try {
             $name   = ucwords(Str::singular($import->module));
-            $queue  = 'imports';
             $file   = "imports/{$import->handle}.csv";
             $module = "App\\Services\\Imports\\{$name}Import";
 
             (new $module($import))
                 ->queue($file, null, Excel::CSV)
-                ->onQueue($queue)
+                ->onQueue('imports')
                 ->chain([
-                    // TODO:
-                    // new NotifyUserOfImportComplete($import)
-                    // Mail::to('admin@example.com')
-                    //     ->send(new ImportComplete($import))
+                    new NotifyUserOfImportComplete($import)
                 ]);
         } catch(Exception $ex) {
             return response()->json($ex->getMessage(), 500);

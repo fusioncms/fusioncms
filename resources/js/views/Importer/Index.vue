@@ -19,13 +19,16 @@
                         <code>{{ table.record.handle }}</code>
                     </template>
 
+                    <template slot="source" slot-scope="table">
+                        <em>{{ table.record.source | shorten }}</em>
+                    </template>
+
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {importer: table.record.id} }">Edit</p-dropdown-item>
-                                <p-dropdown-item @click.prevent :to="{ name: 'importer.mapping', params: {importer: table.record.id} }">Mapping</p-dropdown-item>
                                 <p-dropdown-item @click="queue(table.record.id)">Run Import</p-dropdown-item>
                                 <p-dropdown-item @click.prevent v-modal:delete-importer="table.record">Delete</p-dropdown-item>
                             </template>
@@ -53,6 +56,14 @@
         data() {
             return {
                 endpoint: '/datatable/imports',
+            }
+        },
+
+        filters: {
+            shorten(value) {
+                return _.truncate(value, {
+                    'length': 50
+                })
             }
         },
 

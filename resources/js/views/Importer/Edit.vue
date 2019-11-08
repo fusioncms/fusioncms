@@ -28,7 +28,7 @@
 				form: new Form({
 					name: '',
 					handle: '',
-					location: '',
+					source: '',
 					module: 'users',
 					group: 0,
 					strategy: [],

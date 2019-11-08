@@ -26,7 +26,7 @@ class ImportController extends DataTableController
         return [
             'name',
             'handle',
-            'location',
+            'source',
             'module',
         ];
     }
@@ -36,7 +36,7 @@ class ImportController extends DataTableController
         return [
             'name',
             'handle',
-            'location',
+            'source',
             'module',
         ];
     }
@@ -46,7 +46,7 @@ class ImportController extends DataTableController
         return [
             'name',
             'handle',
-            'location',
+            'source',
             'module',
         ];
     }
@@ -54,10 +54,10 @@ class ImportController extends DataTableController
     public function getCustomColumnNames()
     {
         return [
-            'name'     => 'Name',
-            'handle'   => 'Handle',
-            'location' => 'Location',
-            'module'   => 'Module',
+            'name'   => 'Name',
+            'handle' => 'Handle',
+            'source' => 'Source',
+            'module' => 'Module',
         ];
     }
 }

@@ -25,11 +25,11 @@ class TaxonomyImport extends BaseImport
     protected $taxonomy;
 
     /**
-     * Taxonomy collection to import into.
+     * Taxonomy terms to import into.
      * 
      * @var \App\Models\Taxonomies\{$import->handle}
      */
-    protected $collection;
+    protected $terms;
 
     /**
      * Constructor.
@@ -40,8 +40,8 @@ class TaxonomyImport extends BaseImport
     {
         parent::__construct($import);
 
-        $this->taxonomy   = Taxonomy::findOrFail($import->group);
-        $this->collection = (new Builder($this->taxonomy->handle))->make();
+        $this->taxonomy = Taxonomy::findOrFail($import->group);
+        $this->terms    = (new Builder($this->taxonomy->handle))->make();
     }
     
     /**
@@ -95,7 +95,7 @@ class TaxonomyImport extends BaseImport
         // foreach ($relationships as $relationship) {
         //     $term->{$relationship->handle}()->sync($request->input($relationship->handle));
         // }
-        $this->collection->updateOrCreate(
+        $this->terms->updateOrCreate(
             ['id' => $attributes['id']],
             $attributes
         );
