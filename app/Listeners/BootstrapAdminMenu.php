@@ -85,7 +85,7 @@ class BootstrapAdminMenu
             $menu->add('System')->divide();
 
             $menu->add('Users', '#')->data([
-                'icon'  => 'users',
+                'icon'  => 'users-class',
             ]);
 
             $menu->users->add('All Users')->data([

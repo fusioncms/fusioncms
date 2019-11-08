@@ -29,8 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->text('fields')->nullable();
             $table->string('email_token')->nullable();
-            $table->boolean('verified')->default(1);
-            $table->boolean('status')->default(1);
+            $table->boolean('verified')->default(true);
+            $table->boolean('status')->default(true);
             $table->integer('invalid_logins')->unsigned()->default(0);
             $table->dateTime('logged_in_at')->nullable();
             $table->dateTime('invalidly_logged_in_at')->nullable();

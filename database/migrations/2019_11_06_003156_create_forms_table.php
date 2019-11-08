@@ -22,10 +22,12 @@ class CreateFormsTable extends Migration
             $table->text('description')->nullable();
             
             // Privacy
-            $table->boolean('anonymous')->default(false);
+            $table->boolean('collect_email_addresses')->default(false);
+            $table->boolean('collect_ip_addresses')->default(false);
+            $table->boolean('response_receipt')->default(false);
 
             // Confirmation settings
-            $table->text('confirmation_message')->nullable();
+            $table->text('message')->nullable();
             $table->boolean('redirect_on_submission')->default(false);
             $table->string('redirect_url')->nullable();
 
@@ -36,6 +38,8 @@ class CreateFormsTable extends Migration
             // Templates
             $table->string('form_template')->nullable();
             $table->string('thankyou_template')->nullable();
+
+            $table->boolean('status')->default(true);
 
             $table->timestamps();
         });

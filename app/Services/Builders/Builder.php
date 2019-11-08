@@ -13,6 +13,7 @@ namespace App\Services\Builders;
 
 use App\Models\Taxonomy;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Contracts\Builder as BuilderContract;
 

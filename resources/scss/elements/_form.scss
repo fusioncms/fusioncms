@@ -53,10 +53,10 @@ select {
         @apply flex items-center flex-grow-0 flex-shrink-0 p-0 m-0;
 
         > label {
-            @apply flex items-center px-2 py-1 cursor-pointer select-none;
+            @apply flex items-center px-2 py-1 cursor-pointer select-none border border-gray-200 rounded;
 
             &:hover {
-                @apply bg-primary-100 text-primary-700;
+                @apply bg-primary-100 text-primary-700 border-primary-100;
             }
         }
     }
@@ -68,7 +68,7 @@ select {
     color-adjust: exact;
 
     &-group {
-        @apply flex flex-wrap items-center w-full mb-6;
+        @apply flex flex-col flex-wrap justify-center w-full mb-3;
 
         &--block {
             @apply my-3;
