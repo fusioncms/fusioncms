@@ -11,6 +11,7 @@
 
 namespace App\Concerns;
 
+use Storage;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;

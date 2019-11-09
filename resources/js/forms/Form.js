@@ -1,3 +1,4 @@
+import FormData from 'form-data'
 import Errors from './Errors'
 
 export default class Form {

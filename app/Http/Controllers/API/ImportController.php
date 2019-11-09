@@ -57,24 +57,21 @@ class ImportController extends Controller
     public function store(Request $request)
     {
     	$this->authorize('importer.create');
-        
+
         $attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,handle',
-            'source'   => 'required|url',
+            'source'   => 'required_without:upload|url',
             'module'   => 'required',
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
+            'upload'   => 'required_without:source|string'
         ]);
-        
-        // TODO: catch errors and report..
-        if ($attributes['source']) {
-            (new GoogleExport($attributes['source']))->store("imports/{$attributes['handle']}.csv");
-        }
 
-        // TODO: handle file uploads..
-        // Storage::put("imports/{$import->handle}.csv", file_get_contents(...));
+        if ($attributes['upload']) {
+            Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
+        }
 
     	$import = Import::create($attributes);
 
@@ -104,20 +101,17 @@ class ImportController extends Controller
     	$attributes = $request->validate([
             'name'     => 'required',
             'handle'   => 'required|unique:imports,id,' . $import->id,
-            'source'   => 'required|url',
+            'source'   => 'required_without:upload|url',
             'module'   => 'required',
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
+            'upload'   => 'required_without:source|string'
         ]);
-        
-        // TODO: catch errors and report..
-        if ($attributes['source']) {
-            (new GoogleExport($attributes['source']))->store("imports/{$attributes['handle']}.csv");
-        }
 
-        // TODO: handle file uploads..
-        // Storage::put("imports/{$import->handle}.csv", file_get_contents(...));
+        if ($attributes['upload']) {
+            Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
+        }
 
     	$import->update($attributes);
 

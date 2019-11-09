@@ -15,8 +15,10 @@ use App\Models\Import;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 use Illuminate\Http\Request;
+use App\Jobs\Importer\RunImport;
 use App\Http\Controllers\Controller;
-use App\Jobs\NotifyUserOfImportComplete;
+use App\Services\Exports\GoogleExport;
+use App\Jobs\Importer\PullInGoogleSpreadsheet;
 
 class ImportQueueController extends Controller
 {
@@ -31,19 +33,14 @@ class ImportQueueController extends Controller
     {
     	$this->authorize('importer.queue.store');
 
-        try {
-            $name   = ucwords(Str::singular($import->module));
-            $file   = "imports/{$import->handle}.csv";
-            $module = "App\\Services\\Imports\\{$name}Import";
-
-            (new $module($import))
-                ->queue($file, null, Excel::CSV)
+        if ($import->source) {
+            PullInGoogleSpreadsheet::dispatch($import)
                 ->onQueue('imports')
                 ->chain([
-                    new NotifyUserOfImportComplete($import)
+                    new RunImport($import),
                 ]);
-        } catch(Exception $ex) {
-            return response()->json($ex->getMessage(), 500);
+        } else {
+            RunImport::dispatchNow($import);
         }
 
         return response()->json('Successfully queued!', 201);

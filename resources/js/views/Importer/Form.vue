@@ -28,16 +28,31 @@
 						v-model="form.handle">
 					</p-slug>
 
-					<p-input
-						name="source"
-						label="Source"
-						help="Google Sheets sheet reference URL."
-						autocomplete="off"
-						required
-						:has-error="form.errors.has('source')"
-						:error-message="form.errors.get('source')"
-						v-model="form.source">
-					</p-input>
+					<div class="row">
+						<div class="col w-full" :class="{ 'xl:w-3/5': showUpload }">
+							<p-input
+								v-show="showSource"
+								name="source"
+								label="Source"
+								help="Google Sheets sheet reference URL."
+								autocomplete="off"
+								required
+								:has-error="form.errors.has('source')"
+								:error-message="form.errors.get('source')"
+								v-model="form.source">
+							</p-input>
+						</div>
+						<div class="col w-full" :class="{ 'xl:w-2/5': showSource }">
+							<p-upload
+								v-show="showUpload"
+								name="upload"
+								label="Upload"
+								help="Upload a file for import."
+								v-model="fileupload"
+								accept="csv,xlsx">
+							</p-upload>
+						</div>
+					</div>
 
 					<p-select
                         name="module"
@@ -92,14 +107,6 @@
 						</p-checkbox>
 					</p-checkbox-group>
 
-					<p-upload
-                        name="upload"
-                        label="Upload"
-                        help="Upload a file for import."
-                        v-model="form.upload"
-                        accept="csv,xlsx"
-                    ></p-upload>
-
                     <!--
                     <p-toggle
                     	name="backup"
@@ -116,11 +123,16 @@
 </template>
 
 <script>
+	import FormData from 'form-data'
+
 	export default {
 		data() {
 			return {
 				groups: {},
-				groupOptions: []
+				groupOptions: [],
+				fileupload: '',
+				showUpload: true,
+				showSource: true
 			}
 		},
 
@@ -134,6 +146,22 @@
 		watch: {
 			'form.module': function(value) {
 				this.setFormGroup(value)
+			},
+
+			'form.source'(value) {
+				this.showUpload = (value == '')
+			},
+
+			'form.upload'(value) {
+				this.showSource = (value == '')
+			},
+
+			'fileupload'(value) {
+				if (value) {
+					this.upload(value)
+				} else {
+					this.form.upload = ''
+				}
 			}
 		},
 
@@ -149,6 +177,17 @@
 						this.form.group = _.head(this.groupOptions).value
 					}
 				}
+			},
+
+			upload(file) {
+				let formData = new FormData()
+
+				formData.append('file', file)
+				formData.append('mimetypes', 'text/csv,text/plain')
+				
+				axios.post(`/api/tmpfile`, formData).then(response => {
+					this.form.upload = response.data.filePath
+				})
 			}
 		},
 

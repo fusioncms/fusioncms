@@ -16,3 +16,4 @@ Route::get('/imports/queue', 'ImportQueueController@index');
 Route::post('/imports/queue/{import}', 'ImportQueueController@store');
 
 Route::apiResource('/imports', 'ImportController');
+Route::post('/tmpfile', 'UploadTempFile');

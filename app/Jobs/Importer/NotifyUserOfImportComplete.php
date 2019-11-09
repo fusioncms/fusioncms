@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Importer;
 
 use App\Models\Import;
 use App\Mail\ImportComplete;

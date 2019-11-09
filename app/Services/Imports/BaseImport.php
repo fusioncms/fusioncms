@@ -83,7 +83,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
     public function __construct(Import $import)
     {
         $this->import = $import;
-        $this->setLogger(storage_path("logs/imports/imports-{$import->id}.log"));
+        $this->setLogger("logs/imports/imports-{$import->id}.log");
 
         $this->import->mappings->each(function($item) {
             $this->setCast($item['handle'], $item['cast']);
@@ -105,12 +105,9 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
 
         $this->updateProgress();
 
-        // Save attributes..
+        // Save attributes for easy access..
         $this->import->mappings->each(function($item) use ($row) {
-            $this->setAttribute(
-                $item['handle'],
-                $row[$item['column']] ?? @$item['default']
-            );
+            $this->setAttribute($item['handle'], $row[$item['column']] ?? @$item['default']);
         });
 
         // Validate and persist..
@@ -200,7 +197,7 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
      */
     protected function updateProgress()
     {
-        $progress = floor($this->rowIndex / $this->totalRows) * 100;
+        $progress = floor($this->rowIndex / $this->totalRows * 100);
 
         if ($progress % 5 == 0) {
             $this->log->update(['progress' => $progress]);
@@ -215,16 +212,19 @@ class BaseImport implements OnEachRow, WithChunkReading, WithHeadingRow, WithEve
      */
     public static function beforeImport(BeforeImport $event)
     {
+        // Get instance data..
         $import    = $event->getConcernable()->import;
         $logFile   = $event->getConcernable()->getLogFilePath();
         $totalRows = collect($event->reader->getTotalRows())->first();
 
+        // Create new `import_log` table entry..
         $log = ImportLog::create([
             'import_id'  => $import->id,
-            'total_rows' => $totalRows,
+            'total_rows' => $totalRows - 1,  // exclude header row
             'log_file'   => $logFile
         ]);
 
+        // Save to instance..
         $event->getConcernable()->log       = $log;
         $event->getConcernable()->totalRows = $totalRows;
     }

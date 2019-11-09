@@ -39,11 +39,19 @@ class GoogleExport implements FromArray
     ];
 
     /**
-     * Source file to copy.
-     * 
      * @var string
      */
-    private $source;
+    private $sheetId;
+
+    /**
+     * @var string
+     */
+    private $range;
+
+    /**
+     * @var string
+     */
+    private $apiKey;
 
     /**
      * Constructor.
@@ -53,18 +61,39 @@ class GoogleExport implements FromArray
      */
     public function __construct($source = null)
     {
-    	$this->source = $source;
+        if ($source !== null) {
+    	   $this->setSource($source);
+        }
     }
 
     /**
      * Set export source.
      * 
-     * @param string $source
+     * @param  string $source
+     * @return void
      */
-	public function setSource($source)
+	public function setSource(string $source)
 	{
-		$this->source = $source;
+        $regex   = '/spreadsheets\/(.+)\/values\/(.+)\?key=(.+)/i';
+        $matches = [];
+
+        preg_match($regex, $source, $matches);
+
+        $this->sheetId = $matches[1];
+        $this->range   = $matches[2];
+        $this->apiKey  = $matches[3];
 	}
+
+    /**
+     * Set export range.
+     * 
+     * @param  string $range
+     * @return void
+     */
+    public function setRange(string $range)
+    {
+        $this->range = $range;
+    }
 
 	/**
 	 * Parse source input with regex.
@@ -74,7 +103,7 @@ class GoogleExport implements FromArray
 	 */
     public function parseSource()
     {
-    	$regex   = '/spreadsheets\/([a-z0-9]+)\/values\/(.+)\?key=([a-z0-9]+)/i';
+    	$regex   = '/spreadsheets\/(.+)\/values\/(.+)\?key=(.+)/i';
     	$matches = [];
 
     	preg_match($regex, $this->source, $matches);
@@ -90,15 +119,13 @@ class GoogleExport implements FromArray
 	public function array(): array
 	{
 		try {
-			list($sheetId, $range, $apiKey) = $this->parseSource();
-
 			$client = new Google_Client();
 			$client->setApplicationName('Google Sheets API v4');
 			$client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-			$client->setDeveloperKey($apiKey);
+			$client->setDeveloperKey($this->apiKey);
 
 			$service  = new Google_Service_Sheets($client);
-			$response = $service->spreadsheets_values->get($sheetId, $range);
+			$response = $service->spreadsheets_values->get($this->sheetId, $this->range);
 
 			return $response->getValues();
 		} catch(Exception $ex) {

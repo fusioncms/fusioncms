@@ -4,7 +4,8 @@
 			<app-title icon="ship">Mapping for Users Import</app-title>
 		</portal>
 
-		<component v-for="field in fields"
+		<component
+			v-for="field in fields"
 			:key="field.name"
 			:is="'field-' + field.component"
 			:name="field.name"
@@ -57,13 +58,12 @@
 						'name':      'Role',
 						'help':      'Roles provide permissions for logged in users.',
 						'required':  true,
-						'options':   this.roles,
+						'settings':   { 'options': this.roles },
 						'cast':      'string'
 					},
 					{
 						'component': 'boolean',
 						'name':      'Status',
-						'options':   [{'label':'Yes','value':true},{'label':'No','value':false}],
 						'cast':      'boolean'
 					}
 				]
