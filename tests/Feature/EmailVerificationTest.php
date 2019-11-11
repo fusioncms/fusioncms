@@ -125,7 +125,7 @@ class EmailVerificationTest extends TestCase
 
         // Manually create invalid verification signature..
         // Creating for default user..
-        $invalidSignature = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email), 'signature' => 'invalid']);
+        $invalidSignature = URL::signedRoute('verification.verify', ['id' => 123, 'hash' => sha1($this->user->email)]);
 
         $response = $this
             ->actingAs($this->user)
