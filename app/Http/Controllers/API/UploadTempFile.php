@@ -30,7 +30,7 @@ class UploadTempFile extends Controller
         $mimetypes     = $request->input('mimetypes');
 
         $attributes  = $request->validate([
-            'file' => 'required|file|mimetypes:' . $mimetypes . '|size:' . $maxFileSize,
+            'file' => 'required|file|mimetypes:' . $mimetypes . '|max:' . $maxFileSize,
         ]);
 
         $file     = $attributes['file'];
