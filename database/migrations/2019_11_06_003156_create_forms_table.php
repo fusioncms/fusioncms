@@ -31,6 +31,10 @@ class CreateFormsTable extends Migration
             $table->boolean('redirect_on_submission')->default(false);
             $table->string('redirect_url')->nullable();
 
+            // Spam
+            $table->boolean('enable_recaptcha')->default(false);
+            $table->boolean('enable_honeypot')->default(false);
+
             // Additional emails
             $table->text('send_to')->nullable();
             $table->string('reply_to')->nullable();

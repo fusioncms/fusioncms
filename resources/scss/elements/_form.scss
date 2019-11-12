@@ -68,10 +68,14 @@ select {
     color-adjust: exact;
 
     &-group {
-        @apply flex flex-col flex-wrap justify-center w-full mb-3;
+        @apply flex flex-col flex-wrap justify-center w-full mb-6;
+
+        &:last-child {
+            @apply mb-0;
+        }
 
         &--block {
-            @apply my-3;
+            @apply mb-1;
         }
 
         &--inline {
@@ -119,6 +123,16 @@ select {
 
 .form__radio {
     &-group {
+        @apply flex flex-col flex-wrap justify-center w-full mb-6;
+
+        &:last-child {
+            @apply mb-0;
+        }
+
+        &--block {
+            @apply mb-1;
+        }
+
         &--inline {
             @apply .inline-flex my-3;
 

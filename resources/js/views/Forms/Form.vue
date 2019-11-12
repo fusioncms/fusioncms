@@ -49,7 +49,7 @@
                                 v-model="form.description">
                             </p-input>
 
-                            <div class="flex">
+                            <div class="flex -mb-6">
                                 <p-select
                                     v-if="! creatingFieldset"
                                     class="flex-grow"
@@ -117,6 +117,31 @@
                     <div class="row">
                         <div class="col xxl:text-right w-full xxl:w-1/3">
                             <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                                <h3>Spam</h3>
+                                <p class="text-sm">Configure methods of spam prevention.</p>
+                            </div>
+                        </div>
+
+                        <div class="col w-full xxl:w-2/3">
+                            <div class="row">
+                                <div class="col w-full">
+                                    <p-checkbox-group help="Be sure to enter your site key and secret key in settings.">
+                                        <p-checkbox name="enable_recaptcha" id="enable_recaptcha" v-model="form.enable_recaptcha">Enable Google reCAPTCHA</p-checkbox>
+                                    </p-checkbox-group>
+
+                                    <p-checkbox-group help="A honeypot is a great and native alternative to Google reCAPTCHA. Both options can be safely enabled at the same time.">
+                                        <p-checkbox name="enable_honeypot" id="enable_honeypot" v-model="form.enable_honeypot">Enable Honeypot</p-checkbox>
+                                    </p-checkbox-group>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col xxl:text-right w-full xxl:w-1/3">
+                            <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                 <h3>E-mail</h3>
                                 <p class="text-sm">Configure who should be notified via email.</p>
                             </div>
@@ -127,7 +152,7 @@
                                 name="send_to"
                                 label="Send notifications to..."
                                 help="List emails as a comma separated list."
-                                placeholder="john@example.com, jane@example.com"
+                                placeholder="marie.c@example.com, nikola.t@example.com"
                                 :has-error="form.errors.has('send_to')"
                                 :error-message="form.errors.get('send_to')"
                                 v-model="form.send_to"
@@ -162,13 +187,13 @@
                                 :has-error="form.errors.has('redirect_on_submission')"
                                 :error-message="form.errors.get('redirect_on_submission')"
                             >
-                                <p-radio id="redirect_on_submission_false" v-model="form.redirect_on_submission" name="redirect_on_submission" native-value="false">Redirect to default confirmation page...</p-radio>
+                                <p-radio id="redirect_on_submission_false" v-model="form.redirect_on_submission" name="redirect_on_submission" :native-value="false">Redirect to default confirmation page...</p-radio>
                                 
-                                <p-radio id="redirect_on_submission_true" v-model="form.redirect_on_submission" name="redirect_on_submission" native-value="true">Redirect to custom page...</p-radio>
+                                <p-radio id="redirect_on_submission_true" v-model="form.redirect_on_submission" name="redirect_on_submission" :native-value="true">Redirect to custom page...</p-radio>
                             </p-radio-group>
                 
                             <p-input
-                                v-if="form.redirect_on_submission == 'false'"
+                                v-if="form.redirect_on_submission === false"
                                 name="confirmation_message"
                                 label="Message"
                                 help="This message will be displayed on the confirmation page."
@@ -180,7 +205,7 @@
                             </p-input>
 
                             <p-input
-                                v-if="form.redirect_on_submission == 'true'"
+                                v-if="form.redirect_on_submission === true"
                                 name="redirect_url"
                                 label="URL"
                                 help="The URL to redirect users to after submitting the form."
@@ -247,11 +272,11 @@
                                 :options="[
                                     {
                                         'label': 'Enabled',
-                                        'value': '1',
+                                        'value': true,
                                     },
                                     {
                                         'label': 'Disabled',
-                                        'value': '0',
+                                        'value': false,
                                     },
                                 ]"
                                 v-model="form.status">

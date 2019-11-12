@@ -21,14 +21,19 @@ class Form extends Model
         'name',
         'handle',
         'description',
-        'anonymous',
-        'confirmation_message',
+        'collect_email_addresses',
+        'collect_ip_addresses',
+        'response_receipt',
+        'message',
         'redirect_on_submission',
         'redirect_url',
+        'enable_recaptcha',
+        'enable_honeypot',
         'send_to',
         'reply_to',
         'form_template',
-        'thankyou_template',
+        'form_thankyou',
+        'status'
     ];
 
     /**
@@ -37,8 +42,13 @@ class Form extends Model
      * @var array
      */
     protected $casts = [
-        'anonymous'              => 'boolean',
-        'redirect_on_submission' => 'boolean',
+        'collect_email_addresses' => 'boolean',
+        'collect_ip_addresses'    => 'boolean',
+        'response_receipt'        => 'boolean',
+        'redirect_on_submission'  => 'boolean',
+        'enable_recaptcha'        => 'boolean',
+        'enable_honeypot'         => 'boolean',
+        'status'                  => 'boolean',
     ];
 
     /**

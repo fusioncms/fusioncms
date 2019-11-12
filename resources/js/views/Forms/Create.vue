@@ -34,6 +34,9 @@
                     message: '',
                     redirect_on_submission: false,
                     redirect_url: '',
+
+                    enable_recaptcha: false,
+                    enable_honeypot: false,
                     
                     send_to: '',
                     reply_to: '',
@@ -41,7 +44,7 @@
                     form_template: '',
                     thankyou_template: '',
                     
-                    status: '1',
+                    status: true,
                 })
             }
         },
