@@ -94,7 +94,7 @@ export default class Form {
             axios[requestType](url, this.data())
                 .then(response => {
                     this.onSuccess(response.data)
-
+                    store.commit('form/setPreventNavigation', false)
                     resolve(response.data)
                 })
                 .catch(errors => {
@@ -118,7 +118,7 @@ export default class Form {
     }
 
     /**
-     * Handle the on failture promise event.
+     * Handle the on failure promise event.
      *
      * @param {object} errors
      */
@@ -126,15 +126,18 @@ export default class Form {
         this.errors.record(errors)
     }
 
+    /** 
+     * Handle the first input event. Prevents navigating
+     * away from the form if the preventNavigation
+     * setting has been enabled.
+     *
+     * @param {object} data
+     */
     onFirstChange(data) {
         this.hasChanges = true
         if (this.preventNavigation) {
             store.commit('form/setPreventNavigation', true)
         }
         
-    }
-
-    onChange(data) {
-
     }
 }
