@@ -5,6 +5,7 @@ import user from './user'
 import settings from './settings'
 import navigation from './navigation'
 import filemanager from './filemanager'
+import form from './form'
 
 Vue.use(Vuex)
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
         settings,
         navigation,
         filemanager,
+        form
     },
 })

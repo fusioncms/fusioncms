@@ -1,4 +1,6 @@
 import Errors from './Errors'
+import store from '../vuex'
+
 
 export default class Form {
     /**
@@ -6,9 +8,11 @@ export default class Form {
      *
      * @param {object} data
      */
-    constructor(data) {
+    constructor(data, preventNavigation = false) {
         this.errors = new Errors
         this.originalData = data
+        this.hasChanges = false
+        this.preventNavigation = preventNavigation
 
         for (let field in data) {
             this[field] = data[field]
@@ -120,5 +124,17 @@ export default class Form {
      */
     onFailure(errors) {
         this.errors.record(errors)
+    }
+
+    onFirstChange(data) {
+        this.hasChanges = true
+        if (this.preventNavigation) {
+            store.commit('form/setPreventNavigation', true)
+        }
+        
+    }
+
+    onChange(data) {
+
     }
 }
