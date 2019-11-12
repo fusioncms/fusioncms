@@ -26,10 +26,28 @@ class FormController extends Controller
      * @var array
      */
     protected $rules = [
-        'name'        => 'required|regex:/^[A-z]/i',
-        'handle'      => 'required',
-        'description' => 'sometimes',
-        'fieldset'    => 'sometimes',
+        'name'                    => 'required|regex:/^[A-z]/i',
+        'handle'                  => 'required',
+        'description'             => 'sometimes',
+        'fieldset'                => 'sometimes',
+        'collect_email_addresses' => 'sometimes',
+        'collect_ip_addresses'    => 'sometimes',
+        'response_receipt'        => 'sometimes',
+        
+        'message'                => 'sometimes',
+        'redirect_on_submission' => 'sometimes',
+        'redirect_url'           => 'sometimes',
+
+        'enable_recaptcha' => 'sometimes',
+        'enable_honeypot'  => 'sometimes',
+        
+        'send_to'  => 'sometimes',
+        'reply_to' => 'sometimes',
+        
+        'form_template'     => 'sometimes',
+        'thankyou_template' => 'sometimes',
+        
+        'status' => 'required',
     ];
 
     /**

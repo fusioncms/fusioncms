@@ -202,6 +202,15 @@ const router = new Router({
             },
         },
         {
+            path: '/forms/edit/:form',
+            component: () => import('../views/Forms/Edit'),
+            name: 'forms.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
             path: '/inbox',
             component: () => import('../views/Inbox/Index'),
             name: 'inbox',
