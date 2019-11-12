@@ -1323,13 +1323,13 @@ span.flatpickr-weekday{
     -webkit-transform:translate3d(0,0,0);
     transform:translate3d(0,0,0)
   }
-}/*! Pickr 1.4.6 MIT | https://github.com/Simonwep/pickr */
+}/*! Pickr 1.4.7 MIT | https://github.com/Simonwep/pickr */
 
 .pickr{
   position:relative;
   overflow:visible;
   -webkit-transform:translateY(0);
-          transform:translateY(0)
+  transform:translateY(0)
 }
 
 .pickr *{
@@ -1418,7 +1418,7 @@ span.flatpickr-weekday{
   display:flex;
   -webkit-box-orient:vertical;
   -webkit-box-direction:normal;
-          flex-direction:column;
+  flex-direction:column;
   z-index:10000;
   border-radius:.1em;
   background:#fff;
@@ -1454,7 +1454,7 @@ span.flatpickr-weekday{
   .pcr-app .pcr-swatches{
     display:grid;
     -webkit-box-align:center;
-            align-items:center;
+    align-items:center;
     grid-template-columns:repeat(auto-fit,1.75em)
   }
 }
@@ -1512,7 +1512,7 @@ span.flatpickr-weekday{
   display:flex;
   flex-wrap:wrap;
   -webkit-box-align:center;
-          align-items:center;
+  align-items:center;
   margin:0 -.2em
 }
 
@@ -1547,7 +1547,7 @@ span.flatpickr-weekday{
   color:#75797e;
   text-align:left;
   -webkit-box-flex:1;
-          flex:1 1 8em;
+  flex:1 1 8em;
   min-width:8em;
   -webkit-transition:all .2s;
   transition:all .2s;
@@ -1615,7 +1615,7 @@ span.flatpickr-weekday{
   display:flex;
   -webkit-box-orient:vertical;
   -webkit-box-direction:normal;
-          flex-direction:column;
+  flex-direction:column;
   cursor:grab;
   cursor:-webkit-grab
 }
@@ -1632,15 +1632,18 @@ span.flatpickr-weekday{
 }
 
 .pcr-app[data-theme=monolith] .pcr-selection{
+  -webkit-box-orient:vertical;
+  flex-direction:column;
+  -webkit-box-flex:1;
+  flex-grow:1
+}
+
+.pcr-app[data-theme=monolith] .pcr-selection,.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview{
   display:-webkit-box;
   display:flex;
-  -webkit-box-orient:vertical;
   -webkit-box-direction:normal;
-          flex-direction:column;
   -webkit-box-pack:justify;
-          justify-content:space-between;
-  -webkit-box-flex:1;
-          flex-grow:1
+  justify-content:space-between
 }
 
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview{
@@ -1648,13 +1651,8 @@ span.flatpickr-weekday{
   z-index:1;
   width:100%;
   height:1em;
-  display:-webkit-box;
-  display:flex;
   -webkit-box-orient:horizontal;
-  -webkit-box-direction:normal;
-          flex-direction:row;
-  -webkit-box-pack:justify;
-          justify-content:space-between;
+  flex-direction:row;
   margin-bottom:.5em
 }
 
@@ -1722,12 +1720,12 @@ span.flatpickr-weekday{
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-picker,.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity .pcr-picker{
   top:50%;
   -webkit-transform:translateY(-50%);
-          transform:translateY(-50%)
+  transform:translateY(-50%)
 }
 
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-slider,.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity .pcr-slider{
   -webkit-box-flex:1;
-          flex-grow:1;
+  flex-grow:1;
   border-radius:50em
 }
 
@@ -16562,7 +16560,7 @@ a.plyr__control::after, a.plyr__control::before {
   border: 0;
   border-radius: 2.5px;
   height: 5px;
-  -webkit-transition: box-shadow 0.3s ease;
+  -moz-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   -moz-user-select: none;
        user-select: none;
@@ -16575,7 +16573,7 @@ a.plyr__control::after, a.plyr__control::before {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(35, 41, 47, 0.2);
   height: 13px;
   position: relative;
-  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
   transition: all 0.2s ease;
   width: 13px;
 }
@@ -16591,7 +16589,7 @@ a.plyr__control::after, a.plyr__control::before {
   border: 0;
   border-radius: 2.5px;
   height: 5px;
-  -webkit-transition: box-shadow 0.3s ease;
+  -ms-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   -ms-user-select: none;
       user-select: none;
@@ -16603,7 +16601,7 @@ a.plyr__control::after, a.plyr__control::before {
   border: 0;
   border-radius: 2.5px;
   height: 5px;
-  -webkit-transition: box-shadow 0.3s ease;
+  -ms-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   -ms-user-select: none;
       user-select: none;
@@ -16614,7 +16612,7 @@ a.plyr__control::after, a.plyr__control::before {
   border: 0;
   border-radius: 2.5px;
   height: 5px;
-  -webkit-transition: box-shadow 0.3s ease;
+  -ms-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   -ms-user-select: none;
       user-select: none;
@@ -16628,7 +16626,7 @@ a.plyr__control::after, a.plyr__control::before {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(35, 41, 47, 0.2);
   height: 13px;
   position: relative;
-  -webkit-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
   width: 13px;
   margin-top: 0;
@@ -16941,13 +16939,13 @@ a.plyr__control::after, a.plyr__control::before {
   background: currentColor;
   border-radius: 100px;
   min-width: 5px;
-  -webkit-transition: width 0.2s ease;
+  -moz-transition: width 0.2s ease;
   transition: width 0.2s ease;
 }
 
 .plyr__progress__buffer::-ms-fill {
   border-radius: 100px;
-  -webkit-transition: width 0.2s ease;
+  -ms-transition: width 0.2s ease;
   transition: width 0.2s ease;
 }
 

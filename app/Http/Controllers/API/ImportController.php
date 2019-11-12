@@ -66,12 +66,13 @@ class ImportController extends Controller
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
-            'upload'   => 'required_without:source|string'
+            // 'upload'   => 'required_without:source|string'
         ]);
 
-        if ($attributes['upload']) {
-            Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
-        }
+        // Move tmp file created through <p-upload> to more permanent folder..
+        // if ($attributes['upload']) {
+        //     Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
+        // }
 
     	$import = Import::create($attributes);
 
@@ -106,12 +107,13 @@ class ImportController extends Controller
             'group'    => 'required|integer',
             'strategy' => 'required|array',
             'backup'   => 'required|boolean',
-            'upload'   => 'required_without:source|string'
+            // 'upload'   => 'required_without:source|string'
         ]);
 
-        if ($attributes['upload']) {
-            Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
-        }
+        // Move tmp file created through <p-upload> to more permanent folder..
+        // if ($attributes['upload']) {
+        //     Storage::move($attributes['upload'], "imports/{$attributes['handle']}.csv");
+        // }
 
     	$import->update($attributes);
 

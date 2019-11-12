@@ -24,6 +24,7 @@ class Import extends Model
         'name',
         'handle',
         'source',
+        'schedule',
         'module',
         'group',
         'strategy',

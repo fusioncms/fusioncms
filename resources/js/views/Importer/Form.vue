@@ -29,9 +29,8 @@
 					</p-slug>
 
 					<div class="row">
-						<div class="col w-full" :class="{ 'xl:w-3/5': showUpload }">
+						<div class="col w-3/5">
 							<p-input
-								v-show="showSource"
 								name="source"
 								label="Source"
 								help="Google Sheets sheet reference URL."
@@ -42,15 +41,8 @@
 								v-model="form.source">
 							</p-input>
 						</div>
-						<div class="col w-full" :class="{ 'xl:w-2/5': showSource }">
-							<p-upload
-								v-show="showUpload"
-								name="upload"
-								label="Upload"
-								help="Upload a file for import."
-								v-model="fileupload"
-								accept="csv,xlsx">
-							</p-upload>
+						<div class="banner banner--dark col w-2/5">
+							<cron-scheduler @crontab="updateCron"></cron-scheduler>
 						</div>
 					</div>
 
@@ -123,16 +115,11 @@
 </template>
 
 <script>
-	import FormData from 'form-data'
-
 	export default {
 		data() {
 			return {
 				groups: {},
-				groupOptions: [],
-				fileupload: '',
-				showUpload: true,
-				showSource: true
+				groupOptions: []
 			}
 		},
 
@@ -146,22 +133,6 @@
 		watch: {
 			'form.module': function(value) {
 				this.setFormGroup(value)
-			},
-
-			'form.source'(value) {
-				this.showUpload = (value == '')
-			},
-
-			'form.upload'(value) {
-				this.showSource = (value == '')
-			},
-
-			'fileupload'(value) {
-				if (value) {
-					this.upload(value)
-				} else {
-					this.form.upload = ''
-				}
 			}
 		},
 
@@ -179,15 +150,8 @@
 				}
 			},
 
-			upload(file) {
-				let formData = new FormData()
-
-				formData.append('file', file)
-				formData.append('mimetypes', 'text/csv,text/plain')
-				
-				axios.post(`/api/tmpfile`, formData).then(response => {
-					this.form.upload = response.data.filePath
-				})
+			updateCron(expression) {
+				this.form.schedule = expression
 			}
 		},
 

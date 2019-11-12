@@ -28,11 +28,11 @@
 					name: '',
 					handle: '',
 					source: '',
+					schedule: null,
 					module: 'users',
 					group: 0,
 					strategy: [],
-					backup: false,
-					upload: ''
+					backup: false
 				})
 			}
 		},
