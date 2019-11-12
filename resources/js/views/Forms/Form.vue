@@ -312,6 +312,10 @@
                 type: Array,
                 required: true,
             },
+
+            submit: {
+                required: true,
+            },
         },
 
         watch: {
@@ -320,12 +324,6 @@
                     this.form.response_receipt = false
                 }
             },
-        },  
-
-        methods: {
-            submit() {
-                // 
-            }
-        }
+        },
     }
 </script>

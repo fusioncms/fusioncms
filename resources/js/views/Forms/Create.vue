@@ -4,12 +4,7 @@
 			<app-title icon="paper-plane">Create Form</app-title>
 		</portal>
 
-        <!-- <portal to="actions">
-			<router-link :to="{ name: 'forms' }" class="button mr-3">Go Back</router-link>
-			<button type="submit" @click.prevent="submit" class="button button--primary">Save Form</button>
-		</portal> -->
-
-        <shared-form :form="form" :fieldsets="fieldsets"></shared-form>
+        <shared-form :form="form" :fieldsets="fieldsets" :submit="submit"></shared-form>
     </div>
 </template>
 
