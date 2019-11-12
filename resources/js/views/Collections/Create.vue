@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card>
                         <div class="row">
                                 <div class="col form-sidebar">
@@ -192,7 +192,7 @@
                         Vue.set(fields, handle, vm.collection[handle])
                     })
 
-                    vm.form = new Form(fields)
+                    vm.form = new Form(fields, true)
                 })
             })
         },

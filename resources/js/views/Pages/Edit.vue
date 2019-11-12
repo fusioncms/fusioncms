@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card v-if="sections.body.length > 0" :key="matrix.handle">
                         <!-- Loop through each section -->
                         <div v-for="(section, index) in sections.body" :key="section.handle">
@@ -159,7 +159,7 @@
                         Vue.set(fields, handle, vm.page[handle])
                     })
 
-                    vm.form = new Form(fields)
+                    vm.form = new Form(fields, true)
                 })
             }
         },

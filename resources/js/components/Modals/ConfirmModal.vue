@@ -2,8 +2,8 @@
     <p-modal name="confirm" title="Changes not saved" key="confirm_modal" v-model="modalVisible">
         <p>Are you sure you want to leave this page? Any unsaved changes will be discarded.</p>
         <template slot="footer">
-            <p-button @click="runCallback" type="button">Leave and Discard Changes</p-button>
-            <p-button @click="closeModal" type="button" class="mr-3">Cancel and Stay</p-button>
+            <p-button @click="closeModal" type="button" class="button button--primary">Cancel and Stay</p-button>
+            <p-button @click="runCallback" type="button" class="mr-3">Leave and Discard Changes</p-button>
         </template>
     </p-modal>
 </template>
