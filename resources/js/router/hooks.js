@@ -8,6 +8,8 @@ export const before = (to, from, next) => {
     	store.commit('auth/setRequiresAuth', to.meta.requiresAuth)
     }
 
+    store.commit('form/setPreventNavigation', false)
+
     next()
 }
 

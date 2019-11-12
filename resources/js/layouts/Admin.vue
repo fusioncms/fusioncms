@@ -74,6 +74,7 @@
         <p-toast></p-toast>
         <tos-modal></tos-modal>
         <privacy-modal></privacy-modal>
+        <confirm-modal></confirm-modal>
     </div>
 </template>
 
