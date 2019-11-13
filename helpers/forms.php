@@ -10,6 +10,7 @@
  */
 
 use App\Models\Form;
+use App\Http\Honeypot;
 
 if (! function_exists('render_form')) {
     /**
@@ -24,5 +25,19 @@ if (! function_exists('render_form')) {
         $form = Form::where('handle', $handle)->first();
 
         return view($template ?? ($form->form_template ?? 'forms.default'), compact('form', array_keys($additional)));
+    }
+}
+
+if (! function_exists('honeypot_fields')) {
+    /**
+     * Render the honeypot fields.
+     *
+     * @return String
+     */
+    function honeypot_fields()
+    {
+        $honeypot = new Honeypot;
+
+        return $honeypot->generate();
     }
 }
