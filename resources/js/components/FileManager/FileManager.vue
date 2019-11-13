@@ -90,14 +90,14 @@
                                 <td>..</td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-right"></td>
+                                <td></td>
                             </tr>
                             <tr v-if="! currentDirectory" :key="'directory-' + currentDirectory">
                                 <td class="text-center w-100px"><file-manager-directory small :directory="{id: null, name: ''}" unselectable></file-manager-directory></td>
                                 <td>.</td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-right"></td>
+                                <td></td>
                             </tr>
                             <tr v-for="directory in directories" :key="directory.id">
                                 <td class="text-center w-100px"><file-manager-directory small :directory="directory"></file-manager-directory></td>
