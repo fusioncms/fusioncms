@@ -27,6 +27,7 @@ class FormController extends DataTableController
             'name',
             'handle',
             'description',
+            'status'
         ];
     }
 
@@ -36,6 +37,7 @@ class FormController extends DataTableController
             'name',
             'handle',
             'description',
+            'status'
         ];
     }
 
@@ -45,6 +47,7 @@ class FormController extends DataTableController
             'name',
             'handle',
             'description',
+            'status'
         ];
     }
 
@@ -54,6 +57,7 @@ class FormController extends DataTableController
             'name'        => 'Name',
             'handle'      => 'Handle',
             'description' => 'Description',
+            'status'      => 'Status',
         ];
     }
 }

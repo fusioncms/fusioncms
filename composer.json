@@ -55,6 +55,7 @@
             "helpers/app.php",
             "helpers/datetime.php",
             "helpers/fields.php",
+            "helpers/forms.php",
             "helpers/integers.php",
             "helpers/matrix.php",
             "helpers/misc.php",

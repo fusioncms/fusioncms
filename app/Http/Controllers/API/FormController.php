@@ -34,20 +34,20 @@ class FormController extends Controller
         'collect_ip_addresses'    => 'sometimes',
         'response_receipt'        => 'sometimes',
         
-        'message'                => 'sometimes',
-        'redirect_on_submission' => 'sometimes',
-        'redirect_url'           => 'sometimes',
+        'message'                 => 'sometimes',
+        'redirect_on_submission'  => 'sometimes',
+        'redirect_url'            => 'sometimes',
 
-        'enable_recaptcha' => 'sometimes',
-        'enable_honeypot'  => 'sometimes',
+        'enable_recaptcha'        => 'sometimes',
+        'enable_honeypot'         => 'sometimes',
         
-        'send_to'  => 'sometimes',
-        'reply_to' => 'sometimes',
+        'send_to'                 => 'sometimes',
+        'reply_to'                => 'sometimes',
         
-        'form_template'     => 'sometimes',
-        'thankyou_template' => 'sometimes',
+        'form_template'           => 'sometimes',
+        'thankyou_template'       => 'sometimes',
         
-        'status' => 'required',
+        'status'                  => 'required',
     ];
 
     /**

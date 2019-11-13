@@ -23,6 +23,11 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
+                    <template slot="status" slot-scope="table">
+                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
+                        <span class="badge badge--danger" v-else>Disabled</span>
+                    </template>
+
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon icon="bars"></fa-icon>

@@ -23,8 +23,9 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->cacheDirectives();
-        $this->themeDirectives();
+        $this->registerCacheDirectives();
+        $this->registerThemeDirectives();
+        $this->registerFormDirectives();
     }
 
     /**
@@ -37,7 +38,7 @@ class BladeServiceProvider extends ServiceProvider
         //
     }
 
-    protected function cacheDirectives()
+    protected function registerCacheDirectives()
     {
         Blade::directive('cache', function ($expression) {
             return "<?php if (! app()->make(\App\Services\Cache\Matryoshka\Parser::class)->setUp($expression)) { ?>";
@@ -48,7 +49,7 @@ class BladeServiceProvider extends ServiceProvider
         });
     }
 
-    public function themeDirectives()
+    protected function registerThemeDirectives()
     {
         Blade::directive('macro', function ($expression) {
             preg_match_all('/\((.*?)\)/i', $expression, $matches);
@@ -77,6 +78,13 @@ class BladeServiceProvider extends ServiceProvider
 
         Blade::directive('endmacro', function ($expression) {
             return "\n<?php return ob_get_clean(); } ?>\n";
+        });
+    }
+
+    protected function registerFormDirectives()
+    {
+        Blade::directive('form', function ($expression) {
+            return "<?php echo render_form({$expression}); ?>";
         });
     }
 }
