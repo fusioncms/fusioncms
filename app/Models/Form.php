@@ -11,6 +11,8 @@ class Form extends Model
     use CachesQueries, HasFieldset;
 
     protected $with = ['fieldsets'];
+    
+    protected $appends = ['fieldset'];
 
     /**
      * The attributes that are fillable via mass assignment.
