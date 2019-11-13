@@ -85,6 +85,27 @@
                         </thead>
 
                         <tbody>
+                            <tr v-if="currentDirectory" :key="'directory-' + currentDirectory">
+                                <td class="text-center w-100px"><file-manager-directory small :directory="{id: parentDirectory, name: 'Go up'}" unselectable></file-manager-directory></td>
+                                <td>..</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right"></td>
+                            </tr>
+                            <tr v-if="! currentDirectory" :key="'directory-' + currentDirectory">
+                                <td class="text-center w-100px"><file-manager-directory small :directory="{id: null, name: ''}" unselectable></file-manager-directory></td>
+                                <td>.</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right"></td>
+                            </tr>
+                            <tr v-for="directory in directories" :key="directory.id">
+                                <td class="text-center w-100px"><file-manager-directory small :directory="directory"></file-manager-directory></td>
+                                <td>{{ directory.name}}</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">{{ lastModified(directory.updated_ad) }}</td>
+                            </tr>
                             <tr v-for="file in files" :key="file.uuid">
                                 <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
                                 <td>{{ file.name }}</td>
