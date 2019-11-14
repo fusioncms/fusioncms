@@ -54,6 +54,12 @@
 						'cast':      'string'
 					},
 					{
+						'component': 'input',
+						'name':      'Password',
+						'required':  false,
+						'cast':      'string'
+					},
+					{
 						'component': 'select',
 						'name':      'Role',
 						'help':      'Roles provide permissions for logged in users.',

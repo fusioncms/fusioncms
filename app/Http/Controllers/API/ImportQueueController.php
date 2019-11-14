@@ -15,10 +15,8 @@ use App\Models\Import;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 use Illuminate\Http\Request;
-use App\Jobs\Importer\RunImport;
+use App\Jobs\Importer\BeforeImport;
 use App\Http\Controllers\Controller;
-use App\Services\Exports\GoogleExport;
-use App\Jobs\Importer\PullInGoogleSpreadsheet;
 
 class ImportQueueController extends Controller
 {
@@ -33,15 +31,7 @@ class ImportQueueController extends Controller
     {
     	$this->authorize('importer.queue.store');
 
-        if ($import->source) {
-            PullInGoogleSpreadsheet::dispatch($import)
-                ->onQueue('imports')
-                ->chain([
-                    new RunImport($import),
-                ]);
-        } else {
-            RunImport::dispatchNow($import);
-        }
+        BeforeImport::dispatch($import)->onQueue('imports');
 
         return response()->json('Successfully queued!', 201);
     }

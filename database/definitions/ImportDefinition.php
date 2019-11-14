@@ -21,10 +21,10 @@ $factory->define(Import::class, function (Faker $faker) {
 		'handle'   => str_handle($name),
 		'module'   => $faker->randomElement(['users','taxonomy','matrix']),
 		'group'    => 0,
-		'location' => $faker->url,
+		'source'   => $faker->url,
 		'strategy' => $faker->randomElements(
-			['create', 'update', 'disable', 'delete'],
-			$faker->numberBetween(1, 4)
+			['create', 'update', 'delete'],
+			$faker->numberBetween(1, 3)
 		),
 		'backup'   => false,//$faker->boolean(50),
 	];
@@ -33,7 +33,7 @@ $factory->define(Import::class, function (Faker $faker) {
 $factory->state(Import::class, 'users', function ($faker) {
     return [
         'module'   => 'users',
-        'location' => base_path('tests/Stubs/Importer/Users.csv'),
+        'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values/dummyusers!1:11?key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
         'preview'  => [
             ['id', 'name', 'email', 'password', 'role', 'status'],
             [1, 'Janet Doe', 'admin@example.com', '', 'admin', 1]

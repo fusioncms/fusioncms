@@ -39,19 +39,9 @@ class GoogleExport implements FromArray
     ];
 
     /**
-     * @var string
+     * @var boolean
      */
-    private $sheetId;
-
-    /**
-     * @var string
-     */
-    private $range;
-
-    /**
-     * @var string
-     */
-    private $apiKey;
+    private $isPreview;
 
     /**
      * Constructor.
@@ -59,56 +49,113 @@ class GoogleExport implements FromArray
      * @param string $source
      * @param string $destination
      */
-    public function __construct($source = null)
+    public function __construct($source, $isPreview = false)
     {
-        if ($source !== null) {
-    	   $this->setSource($source);
+        $this->source    = $source;
+        $this->isPreview = $isPreview;
+    }
+
+    /**
+     * Parse source for matching `regex` value.
+     * 
+     * @param  string $regex
+     * @return string|boolean
+     */
+    protected function getFromSource(string $regex)
+    {
+        $matches = [];
+        $match   = preg_match($regex, $this->source, $matches);
+
+        if ($match and @$matches[1]) {
+            return $matches[1];
+        }
+
+        return false;
+    }
+
+    /**
+     * Determin if source contains matching `regex` value.
+     * 
+     * @param  string $regex
+     * @return boolean
+     */
+    protected function sourceContains(string $regex)
+    {
+        return preg_match($regex, $this->source);
+    }
+
+    /**
+     * Parse source query string.
+     * 
+     * @return array
+     */
+    protected function parseQueryString()
+    {
+        $queryString = parse_url($this->source, PHP_URL_QUERY);
+        $queryParams = explode('&', $queryString);
+        $params      = [];
+
+        foreach ($queryParams as $queryParam) {
+            @list($name, $value) = explode('=', $queryParam, 2);
+            
+            if (isset($params[$name])) {
+                if (is_array($params[$name])) {
+                    $params[$name][] = $value;
+                } else {
+                    $params[$name] = [$params[$name], $value];
+                }
+            } else {
+                $params[$name] = $value;
+            }
+        }
+
+        return $params;
+    }
+
+    /**
+     * Get API Key from source url.
+     * 
+     * @return string|boolean
+     */
+    protected function getApiKey()
+    {
+        return $this->getFromSource('/\??key=(.+)$/i');
+    }
+
+    /**
+     * Get Sheet ID from source url.
+     * 
+     * @return string|boolean
+     */
+    protected function getSheetId()
+    {
+        return $this->getFromSource('/spreadsheets\/(.+)\/values/i');
+    }
+
+    /**
+     * Get range(s) from source url.
+     * 
+     * @return string|array
+     */
+    protected function getRange()
+    {
+        if ($this->isBatchRequest()) {
+            $queryString = $this->parseQueryString();
+
+            return $queryString['ranges'] ?? false;
+        } else {
+            return $this->getFromSource('/values\/(.+)\?/i');
         }
     }
 
     /**
-     * Set export source.
+     * Determine if request is batch request.
      * 
-     * @param  string $source
-     * @return void
+     * @return boolean
      */
-	public function setSource(string $source)
-	{
-        $regex   = '/spreadsheets\/(.+)\/values\/(.+)\?key=(.+)/i';
-        $matches = [];
-
-        preg_match($regex, $source, $matches);
-
-        $this->sheetId = $matches[1];
-        $this->range   = $matches[2];
-        $this->apiKey  = $matches[3];
-	}
-
-    /**
-     * Set export range.
-     * 
-     * @param  string $range
-     * @return void
-     */
-    public function setRange(string $range)
+    protected function isBatchRequest()
     {
-        $this->range = $range;
-    }
-
-	/**
-	 * Parse source input with regex.
-	 * 
-	 * @param  string $source
-	 * @return array
-	 */
-    public function parseSource()
-    {
-    	$regex   = '/spreadsheets\/(.+)\/values\/(.+)\?key=(.+)/i';
-    	$matches = [];
-
-    	preg_match($regex, $this->source, $matches);
-
-    	return array_slice($matches, 1, 3);
+        return $this->sourceContains('/spreadsheets\/(.+)\/values:batchGet/i');
     }
 
 	/**
@@ -122,12 +169,28 @@ class GoogleExport implements FromArray
 			$client = new Google_Client();
 			$client->setApplicationName('Google Sheets API v4');
 			$client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-			$client->setDeveloperKey($this->apiKey);
+			$client->setDeveloperKey($this->getApiKey());
+//dd($this->getApiKey(), $this->getSheetId(), $this->getRange());
+            $service  = new Google_Service_Sheets($client);
 
-			$service  = new Google_Service_Sheets($client);
-			$response = $service->spreadsheets_values->get($this->sheetId, $this->range);
+            if ($this->isPreview) {
+                $response = $service->spreadsheets_values->get($this->getSheetId(), 'A1:2');
+                $values   = $response->getValues();
+            } else {
+                if ($this->isBatchRequest()) {
+                    $response = $service->spreadsheets_values->batchGet($this->getSheetId(), ['ranges' => $this->getRange()]);
+                    $values   = [];
 
-			return $response->getValues();
+                    foreach ($response->getValueRanges() as $valueRange) {
+                        $values = array_merge($values, $valueRange->getValues());
+                    }
+                } else {
+                    $response = $service->spreadsheets_values->get($this->getSheetId(), $this->getRange());
+                    $values   = $response->getValues();
+                }
+            }
+
+			return $values;
 		} catch(Exception $ex) {
 			Log::error(__NAMESPACE__ . ": " . $ex->getMessage());
 		}

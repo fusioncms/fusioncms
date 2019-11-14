@@ -18,7 +18,7 @@ class CreateImportsTable extends Migration
             $table->string('name');
             $table->string('handle')->unique();
             $table->string('source');
-            $table->string('schedule');
+            $table->string('schedule')->nullable();
             $table->string('module');
             $table->integer('group')->default(0);
             $table->text('strategy')->nullable();

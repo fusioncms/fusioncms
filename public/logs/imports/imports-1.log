@@ -1,3 +1,0 @@
-[2019-11-09T01:09:23.435954+00:00] imports-1.log.ERROR: Import:1: errors found: {"foo":"bar"} []
-[2019-11-09T01:09:54.524507+00:00] imports-1.log.ERROR: Import:1: errors found: {"foo":"bar"} []
-[2019-11-09T01:11:52.713384+00:00] imports-1.log.ERROR: Import:1: errors found: {"foo":"bar"} []

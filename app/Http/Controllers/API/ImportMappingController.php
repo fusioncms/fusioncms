@@ -65,18 +65,8 @@ class ImportMappingController extends Controller
      */
     private function generateMappingPreview(Import $import)
     {
-        // Only if source provided..
-        //   generate local file for preview
-        if ($import->source) {
-            $source = (new GoogleExport($import->source));
-            $source->setRange('A1:2');
-            $source->store("imports/{$import->handle}.csv");
-        }
-
-        // Generate preview..
-        $preview = (new PreviewImport(1, 2))->toArray("imports/{$import->handle}.csv");
-        $preview = $preview[0];  // We'll only acknowledge sheet 1
-        
-        $import->update(['preview' => $preview]);
+        $import->update([
+            'preview' => (new GoogleExport($import->source, true))->array()
+        ]);
     }
 }

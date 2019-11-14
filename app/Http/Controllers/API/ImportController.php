@@ -13,9 +13,9 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Import;
 use Illuminate\Http\Request;
+use App\Rules\ImportStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImportResource;
-use App\Services\Exports\GoogleExport;
 use Illuminate\Support\Facades\Storage;
 
 class ImportController extends Controller
@@ -64,7 +64,7 @@ class ImportController extends Controller
             'source'   => 'required_without:upload|url',
             'module'   => 'required',
             'group'    => 'required|integer',
-            'strategy' => 'required|array',
+            'strategy' => ['required', 'array', new ImportStrategy],
             'backup'   => 'required|boolean',
             // 'upload'   => 'required_without:source|string'
         ]);
@@ -105,7 +105,7 @@ class ImportController extends Controller
             'source'   => 'required_without:upload|url',
             'module'   => 'required',
             'group'    => 'required|integer',
-            'strategy' => 'required|array',
+            'strategy' => ['required', 'array', new ImportStrategy],
             'backup'   => 'required|boolean',
             // 'upload'   => 'required_without:source|string'
         ]);

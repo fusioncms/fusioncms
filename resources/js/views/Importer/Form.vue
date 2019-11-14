@@ -85,16 +85,16 @@
 							help="Strategy used when matching record is detected or missing from import (based on an unique identifier)."
 							:has-error="form.errors.has('strategy')"
 							:error-message="form.errors.get('strategy')">
-						<p-checkbox name="create" id="create" native-value="Create" v-model="form.strategy">
+						<p-checkbox name="create" id="create" native-value="create" v-model="form.strategy">
 							Create <span class="text-gray-500 italic">- Adds new elements if they do not already exist.</span>
 						</p-checkbox>
-						<p-checkbox name="update" id="update" native-value="Update" v-model="form.strategy">
+						<p-checkbox name="update" id="update" native-value="update" v-model="form.strategy">
 							Update <span class="text-gray-500 italic">- Updates elements when matching record is found.</span>
 						</p-checkbox>
-						<p-checkbox name="disable" id="disable" native-value="Disable" v-model="form.strategy">
+						<p-checkbox name="disable" id="disable" native-value="disable" v-model="form.strategy">
 							Disable <span class="text-gray-500 italic">- Disables any elements that are missing from the import.</span>
 						</p-checkbox>
-						<p-checkbox name="delete" id="delete" native-value="Delete" v-model="form.strategy">
+						<p-checkbox name="delete" id="delete" native-value="delete" v-model="form.strategy">
 							Delete <span class="text-gray-500 italic">- Deletes any elements that are missing from the import.</span>
 						</p-checkbox>
 					</p-checkbox-group>

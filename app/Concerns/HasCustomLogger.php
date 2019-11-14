@@ -13,36 +13,90 @@ namespace App\Concerns;
 
 use Storage;
 use Monolog\Logger;
+use App\Models\ImportLog;
 use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
+use Monolog\Formatter\JsonFormatter;
 
 trait HasCustomLogger
 {
 	/**
-     * Custom logger for import.
-     * 
      * @var Monolog\Logger
      */
     protected $logger;
 
     /**
-     * Set logger instance.
-     * 
-     * @param string $filepath
+     * @var App\Models\ImportLog
      */
-    public function setLogger($filepath)
+    protected $log;
+
+    /**
+     * @var string
+     */
+    protected $logPath;
+
+    /**
+     * Set logger instance.
+     *
+     * @param  string $filepath
+     * @return void
+     */
+    protected function createLogger($filepath)
     {
-    	$name      = basename($filepath);
-    	$stream    = new StreamHandler($filepath);
-    	$formatter = new LineFormatter();
+    	$stream = new StreamHandler(storage_path($filepath));
+    	$stream->setFormatter(new JsonFormatter());
 
-    	$stream->setFormatter($formatter);
-
-    	$this->logger = new Logger($name, [ $stream ]);
+        $this->logPath = $filepath;
+    	$this->logger  = new Logger(basename($filepath), [ $stream ]);
     }
 
-    public function getLogFilePath()
+    /**
+     * Create ImportLog record in storage.
+     * 
+     * @return void
+     */
+    protected function createLogRecord()
     {
-        return $this->logger->getHandlers()[0]->getUrl();
+        $this->log = ImportLog::create([
+            'import_id'  => $this->import->id,
+            'progress'   => 0,
+            'total_rows' => $this->totalRows - 1,  // Exclude header row
+            'log_file'   => $this->logPath
+        ]);
+    }
+
+    /**
+     * Record info message w/ context.
+     * 
+     * @param  string $message
+     * @param  array  $context
+     * @return void
+     */
+    protected function info($message, array $context = [])
+    {
+        $this->logger->log('info', $message, $context);
+    }
+
+    /**
+     * Record notice message w/ context.
+     * 
+     * @param  string $message
+     * @param  array  $context
+     * @return void
+     */
+    protected function notice($message, array $context = [])
+    {
+        $this->logger->log('notice', $message, $context);
+    }
+
+    /**
+     * Record error message w/ context.
+     *
+     * @param  string $message
+     * @param  arra   $context
+     * @return void
+     */
+    protected function error($message, array $context = [])
+    {
+        $this->logger->log('error', $message, $context);
     }
 }

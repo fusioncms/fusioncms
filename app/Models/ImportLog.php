@@ -23,10 +23,21 @@ class ImportLog extends Model
      */
     protected $fillable = [
         'import_id',
+        'next_row',
         'total_rows',
+        'processed',
         'progress',
         'log_file',
         'completed_at',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'processed' => 'collection'
     ];
 
     /**

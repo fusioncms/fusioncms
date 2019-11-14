@@ -16,7 +16,9 @@ class CreateImportLogsTable extends Migration
         Schema::create('import_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('import_id');
-            $table->unsignedInteger('total_rows');
+            $table->unsignedInteger('next_row')->default(0);
+            $table->unsignedInteger('total_rows')->default(0);
+            $table->text('processed')->default('[]');
             $table->unsignedInteger('progress')->default(0);
             $table->string('log_file');
             $table->dateTime('completed_at')->nullable();

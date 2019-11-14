@@ -37,15 +37,13 @@ class ImporterTest extends TestCase
      */
 	public function a_user_with_permission_can_create_an_import()
 	{
-        Storage::fake();
-
         $this->actingAs($this->admin, 'api');
 
-        $attributes = factory(Import::class)->states('users')->make()->toArray();
-
-        $response = $this->json('POST', '/api/imports', $attributes);
-        
-        $response->assertStatus(201);
+        $response = $this->json(
+            'POST',
+            '/api/imports',
+            factory(Import::class)->make()->toArray()
+        )->assertStatus(201);
 	}
 
 	/**
@@ -61,9 +59,7 @@ class ImporterTest extends TestCase
             'POST',
             '/api/imports',
             factory(Import::class)->make()->toArray()
-        );
-
-        $response->assertStatus(422);
+        )->assertStatus(422);
 	}
 
     /**
@@ -71,17 +67,42 @@ class ImporterTest extends TestCase
      * @group fusioncms
      * @group imports
      */
-    public function a_preview_will_be_generated_for_every_import_file()
+    public function an_import_cannot_not_create_with_disable_and_delete_strategies()
     {
-        $sample  = base_path('tests/Stubs/Importer/Users.csv');
-        $preview = (new PreviewImport(1, 2))->toArray($sample);
-        $preview = $preview[0];  // We'll only acknowledge sheet 1
-        
-        $this->assertEquals(
-            [
-                ['id', 'name', 'email', 'role', 'status'],
-                [1, 'Janet Doe', 'admin@example.com', 'admin', 1]
-            ], $preview);
+        $this->actingAs($this->admin, 'api');
+
+        $response = $this->json(
+            'POST',
+            '/api/imports',
+            factory(Import::class)->make(['strategy' => ['disable','delete']])->toArray()
+        )
+        ->assertJsonValidationErrors('strategy')
+        ->assertStatus(422);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group imports
+     */
+    public function a_mapping_preview_will_be_generated_on_import_mapping_page()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $import = factory(Import::class)->states('users')->create([
+            'preview'  => [],
+            'mappings' => []
+        ]);
+
+        $response = $this->json(
+            'GET',
+            '/api/imports/mapping/' . $import->id,
+        );
+
+        $this->assertEquals([
+                ['ID', 'Name', 'Email', 'Password', 'Status'],
+                [1, 'Mrs. Nora Hickle', 'boyer.alberto@example.org', 'kHONkRQOqB6jpK2kp7W2', 1]
+        ], $import->fresh()->preview->toArray());
     }
 
 	/**
@@ -91,25 +112,27 @@ class ImporterTest extends TestCase
      */
 	public function a_user_with_permission_can_update_an_import()
 	{
-        Storage::fake();
-
         $this->actingAs($this->admin, 'api');
 
-        $import = factory(Import::class)->create([
-            'location' => base_path('tests/Stubs/Importer/Users.csv')
-        ]);
+        $import = factory(Import::class)->create();
 
-        $data           = $import->toArray();
-        $data['name']   = "Updated name";
-        $data['handle'] = str_handle($data['name']);
-        
+        $attributes           = $import->toArray();
+        $attributes['name']   = 'Updated Name';
+        $attributes['handle'] = str_handle($attributes['name']);
+
+        // ..when PATCH request submitted
+        // ..assert 200 status response
         $response = $this->json(
-        	'PATCH',
-        	'/api/imports/' . $import->id,
-        	$data
-       	);
+            'PATCH',
+            '/api/imports/' . $import->id,
+            $attributes
+        )->assertStatus(200);
 
-        $response->assertStatus(200);
+        // ..assert data was persisted.
+        $this->assertDatabaseHas('imports', [
+            'name'   => 'Updated Name',
+            'handle' => 'updated_name'
+        ]);
 	}
 
 	/**
@@ -121,10 +144,11 @@ class ImporterTest extends TestCase
 	{
         $this->actingAs($this->admin, 'api');
 
-        $import = ImportFactory::create();
+        $import = factory(Import::class)->create();
         
-        $response = $this->json('DELETE', '/api/imports/' . $import->id);
-
-        $response->assertStatus(200);
+        $response = $this->json(
+            'DELETE',
+            '/api/imports/' . $import->id
+        )->assertStatus(200);
 	}
 }

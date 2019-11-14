@@ -6,31 +6,31 @@ use App\Models\Import;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+// use App\Jobs\Importer\AftrImport;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Jobs\Importer\NotifyUserOfImportComplete;
 
-class RunImport implements ShouldQueue
+class ProcessImport
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, Queueable;
 
     /**
-     * @var Import
+     * @var App\Models\Import
      */
     protected $import;
 
     /**
      * Create a new job instance.
      *
+     * @param  App\Models\Import
+     * @param  array
      * @return void
      */
     public function __construct(Import $import)
     {
         $this->import = $import;
     }
-
+    
     /**
      * Execute the job.
      *
@@ -46,7 +46,8 @@ class RunImport implements ShouldQueue
             ->queue("imports/{$this->import->handle}.csv", null, Excel::CSV)
             ->onQueue('imports')
             ->chain([
+                // new AfterImport($this->import, $this->settings),
                 new NotifyUserOfImportComplete($this->import)
-            ]);;
+            ]);
     }
 }

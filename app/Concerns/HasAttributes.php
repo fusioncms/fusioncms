@@ -95,6 +95,21 @@ trait HasAttributes
     }
 
     /**
+     * Determines if attribute exists.
+     * 
+     * @param  string $key
+     * @return boolean
+     */
+    protected function hasAttribute($key)
+    {
+        if (! $key) {
+            return false;
+        }
+
+        return array_key_exists($key, $this->attributes);
+    }
+
+    /**
      * Returns current row value by key,
      *   else a default value if not found.
      *   
@@ -108,7 +123,7 @@ trait HasAttributes
 			return;
 		}
 
-    	if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
+    	if ($this->hasAttribute($key) || $this->hasGetMutator($key)) {
     		return $this->getAttributeValue($key);
     	}
 
