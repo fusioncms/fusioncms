@@ -5,6 +5,7 @@
         </portal>
 
         <portal to="actions">
+            <router-link :to="{ name: 'inbox' }" class="button mr-3">View Inbox</router-link>
             <router-link :to="{ name: 'forms.create' }" class="button">Create Form</router-link>
         </portal>
 

@@ -4,13 +4,15 @@
             <app-title icon="inbox">Inbox</app-title>
         </portal>
 
+        <portal to="actions">
+            <router-link :to="{ name: 'forms' }" class="button">Manage Forms</router-link>
+        </portal>
+
         <div class="row">
             <div class="side-container">
                 <p-card>
-                    <p-button class="w-full" to="/forms">Manage Forms</p-button>
-
                     <div class="list">
-                        <span class="list--separator">Inboxes</span>
+                        <span class="list--separator pt-0">Inboxes</span>
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'inbox']" fixed-width class="mr-2"></fa-icon> Inbox</a>
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'star']" fixed-width class="mr-2"></fa-icon> Starred</a>
                         <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>

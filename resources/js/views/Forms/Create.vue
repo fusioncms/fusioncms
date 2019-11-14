@@ -4,7 +4,7 @@
 			<app-title icon="paper-plane">Create Form</app-title>
 		</portal>
 
-        <shared-form :form="form" :fieldsets="fieldsets" :submit="submit"></shared-form>
+        <shared-form :form="form" :submit="submit"></shared-form>
     </div>
 </template>
 
@@ -15,12 +15,10 @@
     export default {
         data() {
             return {
-                fieldsets: [],
                 form: new Form({
                     name: '',
                     handle: '',
                     description: '',
-                    fieldset: null,
                     
                     collect_email_addresses: false,
                     collect_ip_addresses: false,
@@ -58,26 +56,6 @@
                     toast(response.message, 'failed')
                 })
             },
-        },
-
-        beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/fieldsets'),
-            ]).then(axios.spread(function (fieldsets) {
-                next(function(vm) {
-                    vm.fieldsets = _.map(fieldsets.data.data, function(fieldset) {
-                        return {
-                            'label': fieldset.name,
-                            'value': fieldset.id
-                        }
-                    })
-
-                    vm.fieldsets.unshift({
-                        'label': 'None',
-                        'value': null
-                    })
-                })
-            }))
         },
     }
 </script>

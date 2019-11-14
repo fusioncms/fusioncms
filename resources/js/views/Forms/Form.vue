@@ -48,41 +48,6 @@
                                 :error-message="form.errors.get('description')"
                                 v-model="form.description">
                             </p-input>
-
-                            <div class="flex -mb-6">
-                                <p-select
-                                    v-if="! creatingFieldset"
-                                    class="flex-grow"
-                                    name="fieldset"
-                                    label="Fieldset"
-                                    help="What fieldset would you like to attach?"
-                                    :options="fieldsets"
-                                    :has-error="form.errors.has('fieldset')"
-                                    :error-message="form.errors.get('fieldset')"
-                                    v-model="form.fieldset">
-                                </p-select>
-
-                                <p-input
-                                    v-else
-                                    class="flex-grow"
-                                    name="fieldset"
-                                    label="Fieldset"
-                                    help="What fieldset would you like to create? Don't forget to configure it afterwards."
-                                    :has-error="form.errors.has('fieldset')"
-                                    :error-message="form.errors.get('fieldset')"
-                                    v-model="form.fieldset">
-                                </p-input>
-
-                                <div class="form__group ml-2">
-                                    <label for="create_fieldset" class="form__label">&nbsp;</label>
-                                    <p-button class="form__select-button font-mono" @click="creatingFieldset = true" v-if="! creatingFieldset">+</p-button>
-
-                                    <div v-if="creatingFieldset" class="flex">
-                                        <p-button class="form__select-button mr-1" theme="primary" @click.prevent>Create</p-button>
-                                        <p-button class="form__select-button" @click="creatingFieldset = false">Cancel</p-button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -296,20 +261,9 @@
 
 <script>
     export default {
-        data() {
-            return {
-                creatingFieldset: false,
-            }
-        },
-
         props: {
             form: {
                 type: Object,
-                required: true,
-            },
-
-            fieldsets: {
-                type: Array,
                 required: true,
             },
 

@@ -15548,7 +15548,7 @@ table td::before {
 
 @media (min-width: 1280px) {
   .side-container {
-    width: 350px;
+    width: 300px;
   }
 }
 

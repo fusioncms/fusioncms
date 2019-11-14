@@ -32,6 +32,7 @@ class CreateFieldsTable extends Migration
             $table->string('type');
             $table->text('settings')->nullable();
             $table->integer('order')->default(0);
+            $table->boolean('locked')->default(false);
             $table->timestamps();
 
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');

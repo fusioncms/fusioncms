@@ -59,14 +59,17 @@ class FormTest extends TestCase
         
         $this->actingAs($this->admin, 'api');
 
-        $form     = factory(Form::class)->make()->toArray();
-        $fieldset = factory(Fieldset::class)->create();
-
-        $form['fieldset'] = $fieldset->id;
+        $form = factory(Form::class)->make()->toArray();
 
         $response = $this->json('POST', '/api/forms', $form);
 
         $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function when_a_form_is_created_an_associated_fieldset_should_also_be_created_automatically()
+    {
+        // 
     }
 
     /**
