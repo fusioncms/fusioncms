@@ -29,7 +29,6 @@ class FormController extends Controller
         'name'                    => 'required|regex:/^[A-z]/i',
         'handle'                  => 'required',
         'description'             => 'sometimes',
-        'fieldset'                => 'sometimes',
         'collect_email_addresses' => 'sometimes',
         'collect_ip_addresses'    => 'sometimes',
         'response_receipt'        => 'sometimes',
@@ -89,11 +88,7 @@ class FormController extends Controller
         $this->authorize('forms.create');
 
         $attributes = collect($request->validate($this->rules));        
-        $form       = Form::create($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset')) {
-            $form->attachFieldset($attributes->get('fieldset'));
-        }
+        $form       = Form::create($attributes->all());
 
         activity()
             ->performedOn($form)
@@ -119,13 +114,7 @@ class FormController extends Controller
 
         $attributes = collect($request->validate($this->rules));
 
-        $form->update($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset') && (!isset($form->fieldset) || ($form->fieldset->id !== $attributes->get('fieldset')))) {
-            $form->attachFieldset($attributes->get('fieldset'));
-        } else if (!$attributes->get('fieldset')) {
-            $form->detachFieldset();
-        }
+        $form->update($attributes->all());
 
         activity()
             ->performedOn($form)

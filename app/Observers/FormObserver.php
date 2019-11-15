@@ -73,7 +73,7 @@ class FormObserver
             $this->migration->schema->rename($old->table, $form->table);
         }
 
-        // $this->updateFieldset($form);
+        $this->updateFieldset($old, $form);
     }
 
     /**
@@ -105,6 +105,8 @@ class FormObserver
      */
     protected function createFieldset($form)
     {
+        $form::unsetEventDispatcher();
+
         $fieldsetName = 'Form: '.$form->name;
 
         $fieldset         = new Fieldset;
@@ -137,33 +139,28 @@ class FormObserver
 
     protected function updateFieldset($old, $new)
     {
-        // Alias the most up to date entity
-        // $form = $new;
+        $fieldset = $old->fieldsets()->first();
 
-        // if ($old->name !== $new->name) {
-        //     $fieldsetName     = 'Form: '.$form->name;
-        //     $fieldset         = $form->fieldset;
-        //     $fieldset->name   = $fieldsetName;
-        //     $fieldset->handle = Str::slug($fieldsetName, '_');
-        //     $fieldset->save();
-        // }
+        if ($old->name !== $new->name) {
+            $fieldsetName     = 'Form: '.$new->name;
+            $fieldset->name   = $fieldsetName;
+            $fieldset->handle = Str::slug($fieldsetName, '_');
+            $fieldset->save();
+        }
 
-        // if ($old->collect_email_addresses !== $form->collect_email_addresses) {
-        //     if ($form->collect_email_addresses) {
-        //         $field             = new Field;
-        //         $field->section_id = $fieldset->sections()->first()->id;
-        //         $field->name       = 'E-mail';
-        //         $field->handle     = 'identifiable_email_address';
-        //         $field->type       = 'input';
-        //         $field->settings   = ['type' => 'email'];
+        if ($old->collect_email_addresses !== $new->collect_email_addresses) {
+            if ($new->collect_email_addresses) {
+                $field             = new Field;
+                $field->section_id = $fieldset->sections()->first()->id;
+                $field->name       = 'E-mail';
+                $field->handle     = 'identifiable_email_address';
+                $field->type       = 'input';
+                $field->settings   = ['type' => 'email'];
 
-        //         $field->save();
-        //     } else {
-                
-        //     }            
-        // }
-
-        // $form->fieldsets()->save($fieldset);
-        // $form->save();
+                $field->save();
+            } else {
+                // Remove identifiable_email_address field from fieldset
+            }
+        }
     }
 }
