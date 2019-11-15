@@ -84,7 +84,7 @@ class FormObserver
      */
     public function deleting(Form $form)
     {
-        $form->detachFieldset();
+        $this->deleteFieldset($form);
     }
 
     /**
@@ -99,7 +99,7 @@ class FormObserver
     }
 
     /**
-     * Automatically create a fieldset for our forms.
+     * Automatically create a fieldset for our form.
      * 
      * @param  Form  $form
      */
@@ -114,10 +114,9 @@ class FormObserver
         $fieldset->handle = Str::slug($fieldsetName, '_');
         $fieldset->save();
 
-        $section            = new Section;
-        $section->name      = 'General';
-        $section->handle    = 'general';
-        $section->placement = 'body';
+        $section         = new Section;
+        $section->name   = 'General';
+        $section->handle = 'general';
         $section->save();
 
         $fieldset->sections()->save($section);
@@ -137,6 +136,11 @@ class FormObserver
         $form->save();
     }
 
+    /**
+     * Automatically update the fieldset for our form.
+     * 
+     * @param  Form  $form
+     */
     protected function updateFieldset($old, $new)
     {
         $fieldset = $old->fieldsets()->first();
@@ -151,6 +155,9 @@ class FormObserver
         if ($old->collect_email_addresses !== $new->collect_email_addresses) {
             if ($new->collect_email_addresses) {
                 $field             = new Field;
+                
+                $field::unsetEventDispatcher();
+
                 $field->section_id = $fieldset->sections()->first()->id;
                 $field->name       = 'E-mail';
                 $field->handle     = 'identifiable_email_address';
@@ -159,8 +166,20 @@ class FormObserver
 
                 $field->save();
             } else {
-                // Remove identifiable_email_address field from fieldset
+                $fieldset->fields()->where('fields.handle', 'identifiable_email_address')->delete();
             }
         }
+    }
+
+    /**
+     * Automatically delete the fieldset from our form.
+     * 
+     * @param  Form  $form
+     */
+    protected function deleteFieldset($form)
+    {
+        $fieldset = $form->fieldsets()->first();
+
+        $fieldset->delete();
     }
 }

@@ -38,8 +38,10 @@ class FieldObserver
 
         if (! is_null($column)) {
             $containers->each(function($container) use ($column, $settings) {
-                Schema::table($container->getTable(), function ($table) use ($column, $settings) {
-                    call_user_func_array([$table, $column], $settings)->nullable();
+                Schema::table($container->getTable(), function ($table) use ($column, $settings, $container) {
+                    if (! Schema::hasColumn($container->getTable(), $column)) {
+                        call_user_func_array([$table, $column], $settings)->nullable();
+                    }
                 });
             });
         }

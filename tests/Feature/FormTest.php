@@ -37,15 +37,6 @@ class FormTest extends TestCase
         parent::setUp();
 
         $this->handleValidationExceptions();
-
-        $this->section  = SectionFactory::times(1)->withoutFields()->create();
-        $this->fields[] = FieldFactory::withName('Message')->create();
-
-        foreach ($this->fields as $field) {
-            $this->section->fields()->save($field);
-        }
-
-        $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
     }
 
     /**
@@ -54,9 +45,7 @@ class FormTest extends TestCase
      * @group form
      */
     public function a_user_with_permissions_can_create_a_form()
-    {
-        $this->withoutExceptionHandling();
-        
+    {        
         $this->actingAs($this->admin, 'api');
 
         $form = factory(Form::class)->make()->toArray();
@@ -67,9 +56,27 @@ class FormTest extends TestCase
     }
 
     /** @test */
-    public function when_a_form_is_created_an_associated_fieldset_should_also_be_created_automatically()
+    public function when_a_form_is_created_an_associated_fieldset_should_also_be_created()
     {
-        // 
+        $this->actingAs($this->admin, 'api');
+
+        $form = FormFactory::withName('Contact Us')->create();
+
+        $this->assertDatabaseHas('fieldsets', [
+            'name' => 'Form: '.$form->name
+        ]);
+    }
+
+    /** @test */
+    public function when_a_form_collects_email_an_identifiable_email_field_should_be_created()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form = FormFactory::withName('Contact Us')->thatCollectsEmails()->create();
+
+        $this->assertDatabaseHas('fields', [
+            'handle' => 'identifiable_email_address',
+        ]);
     }
 
     /**

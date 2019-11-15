@@ -16,6 +16,9 @@ class FormFactory implements Factory
      */
     protected $fieldset;
 
+    protected $collectsEmails = false;
+    protected $collectsIPs = false;
+
     /**
      * Create a new Form factory.
      * 
@@ -23,20 +26,17 @@ class FormFactory implements Factory
      */
     public function create()
     {
-        $overrides = [];
+        $overrides = [
+            'collect_email_addresses' => $this->collectsEmails,
+            'collect_ip_addresses'    => $this->collectsIPs,
+        ];
 
         if ($this->name) {
-            $overrides['name'] = $this->name;
+            $overrides['name']   = $this->name;
             $overrides['handle'] = str_handle($this->name);
         }
 
-        if (! $this->fieldset) {
-            $this->fieldset = factory(Fieldset::class)->create();
-        }
-
         $form = factory(Form::class)->create($overrides);
-
-        $form->attachFieldset($this->fieldset);
 
         return $form;
     }
@@ -63,6 +63,34 @@ class FormFactory implements Factory
     public function withFieldset(Fieldset $fieldset)
     {
         $this->fieldset = $fieldset;
+
+        return $this;
+    }
+
+    public function thatCollectsEmails()
+    {
+        $this->collectsEmails = true;
+
+        return $this;
+    }
+
+    public function thatDoesNotCollectEmails()
+    {
+        $this->collectsEmails = false;
+
+        return $this;
+    }
+
+    public function thatCollectsIPs()
+    {
+        $this->collectsIPs = true;
+
+        return $this;
+    }
+
+    public function thatDoesNotCollectIPs()
+    {
+        $this->collectsIPs = false;
 
         return $this;
     }
