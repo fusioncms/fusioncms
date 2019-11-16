@@ -4,22 +4,25 @@
 			<app-title icon="paper-plane">Edit Form</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit"></shared-form>
+        <shared-form :form="form" :submit="submit" :id="id" :fieldset="fieldset"></shared-form>
     </div>
 </template>
 
 <script>
     import Form from '../../forms/Form'
-    import SharedForm from './Form'
+    import SharedForm from './SharedForm'
 
     export default {
         data() {
             return {
                 id: null,
+                fieldset: null,
                 form: new Form({
                     name: '',
                     handle: '',
                     description: '',
+
+                    fieldset: {},
                     
                     collect_email_addresses: false,
                     collect_ip_addresses: false,
@@ -49,13 +52,18 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/forms/' + this.id).then((response) => {
-                    toast('Form successfully saved', 'success')
+                let fieldsetForm = {}
+                fieldsetForm.sections = this.form.fieldset.sections
 
-                    this.$router.push('/forms')
-                }).catch((response) => {
-                    toast(response.message, 'failed')
-                })
+                axios.post(`/api/fieldsets/${this.form.fieldset.id}/sections`, fieldsetForm).then((response) => {
+                    this.form.patch('/api/forms/' + this.id).then((response) => {
+                        toast('Form successfully saved', 'success')
+
+                        this.$router.push('/forms')
+                    }).catch((response) => {
+                        toast(response.message, 'failed')
+                    })
+                })                
             },
         },
 
@@ -69,6 +77,8 @@
                     vm.form.name = form.data.data.name
                     vm.form.handle = form.data.data.handle
                     vm.form.description = form.data.data.description
+
+                    vm.form.fieldset = form.data.data.fieldset
                     
                     vm.form.collect_email_addresses = form.data.data.collect_email_addresses
                     vm.form.collect_ip_addresses = form.data.data.collect_ip_addresses

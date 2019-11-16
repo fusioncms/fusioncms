@@ -10,7 +10,7 @@
 
 <script>
     import Form from '../../forms/Form'
-    import SharedForm from './Form'
+    import SharedForm from './SharedForm'
 
     export default {
         data() {

@@ -117,6 +117,8 @@
             },
 
             value(value) {
+                console.log('section value', value)
+
                 if (! value.length) {
                     this.sections = this.default
                 } else {
