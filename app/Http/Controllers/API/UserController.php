@@ -95,7 +95,7 @@ class UserController extends Controller
      * @return \App\Http\Resources\UserResource
      */
     public function update(Request $request, User $user)
-    {
+    {dd($user);
         $this->authorize('users.update');
 
         $rules = [
@@ -111,7 +111,7 @@ class UserController extends Controller
         }
 
         $attributes = $request->validate($rules);
-
+dd($user, $attributes);
         $password = $attributes['password'];
         unset($attributes['password']);
 

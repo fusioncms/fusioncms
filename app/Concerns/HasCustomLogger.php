@@ -60,7 +60,8 @@ trait HasCustomLogger
             'import_id'  => $this->import->id,
             'progress'   => 0,
             'total_rows' => $this->totalRows - 1,  // Exclude header row
-            'log_file'   => $this->logPath
+            'log_file'   => $this->logPath,
+            'status'     => 'importing'
         ]);
     }
 

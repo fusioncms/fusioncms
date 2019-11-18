@@ -164,6 +164,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
         // ..assert existing record has been skipped (due to import strategy selection)
@@ -202,6 +203,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
         // ..assert existing record has been updated
@@ -236,6 +238,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ..assert unprocessed records are now inactive
@@ -260,6 +263,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ..assert unprocessed records have been removed
@@ -284,6 +288,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ..assert existing record has been updated
@@ -322,6 +327,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ..assert existing row will be skipped due to import strategy selection
@@ -363,6 +369,7 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
+		$this->actingAs($this->admin, 'api');
         (new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ..assert existing record has been updated

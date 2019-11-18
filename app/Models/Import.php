@@ -31,6 +31,7 @@ class Import extends Model
         'preview',
         'mappings',
         'backup',
+        'status',
     ];
 
     /**
@@ -43,6 +44,7 @@ class Import extends Model
         'preview'  => 'collection',
         'mappings' => 'collection',
         'backup'   => 'boolean',
+        'status'   => 'boolean',
     ];
 
     /**

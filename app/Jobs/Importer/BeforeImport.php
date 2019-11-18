@@ -57,6 +57,8 @@ class BeforeImport implements ShouldQueue
      */
     private function saveBackup()
     {
-
+        //TODO: record log information (via HasCustomLogger trait)
+        // $this->info("Starting database backup.");
+        // $this->info("Finished database backup successfully.");
     }
 }

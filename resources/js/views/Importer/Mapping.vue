@@ -95,7 +95,7 @@
 					let options = _.map(optObj, (label, value) => {
 						return {
 							'label': `[${value}] eg: ${label}`,
-							'value': value
+							'value': String(value).toLowerCase()
 						}
 					})
 

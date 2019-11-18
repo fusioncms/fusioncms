@@ -27,6 +27,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
@@ -94,14 +95,10 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
         $this->processed = $importLog->processed->toArray();
 
         foreach ($rows as $row) {
-            $this->rowIndex += 1;
+            ++$this->rowIndex;
 
-            $attributes = $this->setAttributes($row);
-
-            // Validate and strategize persistence..
-            if ($this->validate($attributes)) {
-                $this->strategize($attributes);
-            }
+            // Process row data..
+            $this->process($row);
         }
 
         // Persist import log data..
@@ -112,90 +109,83 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
     }
 
     /**
-     * Run validation on current row attributes.
-     *
-     * @param  array $attributes
-     * @return boolean
+     * Process single row of import.
+     * 
+     * @param  Collection $row
+     * @return void
      */
-    protected function validate($attributes)
+    protected function process(Collection $row)
     {
-        $validator = validator(
-            $attributes,
-            $this->rules(),
-            $this->messages()
-        );
+        $attributes = $this->setAttributes($row);
 
-        if ($validator->fails()) {
-            $this->onError($validator->errors());
-            
-            return false;
+        if ($this->hasExistingId($attributes['id'])) {
+            $this->processExistingRecord($attributes);
+        } else {
+            $this->processNewRecord($attributes);
         }
-
-        return true;
     }
 
     /**
-     * Strategize data persistence.
-     *
+     * Handle update of existing record.
+     * 
      * @param  array $attributes
      * @return void
      */
-    protected function strategize($attributes)
+    protected function processExistingRecord(array $attributes)
     {
-        if ($this->hasExistingId($attributes['id'])) {
-            /*
-                Existing record found
-             */
-            $this->info("Existing record found [ID {$attributes['id']}].");
+        $this->info("Existing record found [ID {$attributes['id']}].");
+
+        // Mark existing processed, so we don't disable/delete it..
+        $this->processed[] = $attributes['id'];
+
+        // Skip row if only `create` import strategy has been selected..
+        if ($this->onlyContainsStrategies('create')) {
+            $this->notice("Row {$this->rowIndex} skipped due to existing record found and import strategy set to create only.");
+            return;
+        }
+
+        // Continue if `update` import strategy has been selected..
+        if ($this->containsStrategies('update')) {
+            $this->info("Attempting to update existing record [row {$this->rowIndex}]:", $attributes);
             
-            // Mark existing processed, so we don't disable/delete it..
-            $this->processed[] = $attributes['id'];
-
-            if ($this->onlyContainsStrategies('create')) {
-                $this->notice("Row {$this->rowIndex} skipped due to existing record found and import strategy set to create only.");
-                return;
-            } else {
-                if ($this->containsStrategies('update')) {
-                    // Update existing record..
-                    $this->info("Updating existing record [row {$this->rowIndex}]:", $attributes);
-                    $this->update($attributes);
-                }
-            }
-        } else {
-            /*
-                New record may need to be created
-             */
-            $this->info("New record:", $attributes);
-
-            if ($this->onlyContainsStrategies('update')) {
-                $this->notice("Row {$this->rowIndex} skipped due to existing record not found and import strategy set to update only.");
-                return;
-            } elseif ($this->containsStrategies('create')) {
-                // Create new record..
-                $this->info("Creating new record [row {$this->rowIndex}].");
-                $this->store($attributes);
+            // Update existing record..
+            try {
+                $this->update($attributes);
+                $this->info("Successfully updated record [ID {$attributes['id']}]!");
+            } catch (ValidationException $ex) {
+                $this->error("Failed to update record [ID {$attributes['id']}].", $ex->errors());
             }
         }
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * Handle creation of new record.
+     * 
+     * @param  array $attributes
+     * @return void
      */
-    public function rules()
+    protected function processNewRecord(array $attributes)
     {
-        return [];
-    }
+        $this->info("New record:", $attributes);
 
-    /**
-     * Set custom attributes for validator errors.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [];
+        // Skip row if only `update` import strategy has been selected..
+        if ($this->onlyContainsStrategies('update')) {
+            $this->notice("Row {$this->rowIndex} skipped due to existing record not found and import strategy set to update only.");
+            return;
+        }
+
+        // Continue if `create` import strategy has been selected..
+        if ($this->containsStrategies('create')) {
+            $this->info("Attempting to create new record [row {$this->rowIndex}].");
+            
+            // Create new record..
+            try {
+                $this->store($attributes);
+                $this->info("Successfully created record [ID {$attributes['id']}]!");
+            } catch (ValidationException $ex) {
+                $this->error("Failed to create record [ID {$attributes['id']}].", $ex->errors());
+            }
+        }
     }
 
     /**
@@ -340,6 +330,7 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
         // Finialize ImportLog record.
         $importLog->update([
             'progress'     => 100,
+            'status'       => 'complete',
             'completed_at' => now()
         ]);
     }

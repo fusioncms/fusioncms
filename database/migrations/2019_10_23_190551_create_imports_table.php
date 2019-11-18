@@ -25,7 +25,7 @@ class CreateImportsTable extends Migration
             $table->text('preview')->nullable();
             $table->text('mappings')->nullable();
             $table->boolean('backup');
-            
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

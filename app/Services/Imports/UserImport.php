@@ -13,42 +13,12 @@ namespace App\Services\Imports;
 
 use App\Models\User;
 use App\Models\Import;
-use Illuminate\Support\Str;
 
 class UserImport extends BaseImport
 {
     public function __construct(Import $import)
     {
         parent::__construct($import);
-    }
-    
-    /**
-     * Row validation rules.
-     * [override]
-     * 
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'id'       => 'sometimes|integer',
-            'name'     => 'required',
-            'email'    => 'required|email',
-            'role'     => 'sometimes|string',
-            'password' => 'sometimes|min:8|nullable',
-            'status'   => 'required|boolean',
-        ];
-    }
-
-    /**
-     * Set custom attributes for validator errors.
-     * [override]
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [];
     }
 
     /**
@@ -60,17 +30,6 @@ class UserImport extends BaseImport
     public function getRoleAttribute($value)
     {
         return $value ?? 'user';
-    }
-
-    /**
-     * Set default password if one isn't provided.
-     * 
-     * @param  string $value
-     * @return string
-     */
-    public function getPasswordAttribute($value)
-    {
-        return $value ? bcrypt($value) : $value;
     }
 
     /**
@@ -92,18 +51,11 @@ class UserImport extends BaseImport
      */
     protected function store(array $attributes)
     {
-        try {
-            $roles = $attributes['role'];
-            unset($attributes['role']);
+        $attributes = array_merge($attributes, [
+            'password_confirmation' => $attributes['password']
+        ]);
 
-            $user = User::create($attributes);
-
-            if (! empty($roles)) {
-                $user->assignRoles($roles);
-            }
-        } catch (Exception $ex) {
-            $this->error("Failed to store record [ID {$attributes['id']}].", ['message' => $ex->getMessage()]);
-        }
+        fusion()->post('users', $attributes);
     }
 
     /**
@@ -114,26 +66,7 @@ class UserImport extends BaseImport
      */
     protected function update(array $attributes)
     {
-        try {
-            $user = User::findOrFail($attributes['id']);
-
-            $password = $attributes['password'];
-            $roles    = $attributes['role'];
-            unset($attributes['password'], $attributes['role']);
-
-            $user->update($attributes);
-
-            if (! empty($password)) {
-                $user->password            = $password;
-                $user->password_changed_at = now();
-
-                $user->save();
-            }
-
-            $user->syncRoles($roles);
-        } catch (Exception $ex) {
-            $this->error("Failed to update record [ID {$attributes['id']}].", ['message' => $ex->getMessage()]);
-        }
+        fusion()->patch("users/{$attributes['id']}", $attributes);
     }
 
     /**

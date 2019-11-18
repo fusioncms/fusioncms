@@ -28,6 +28,7 @@ class ImportLog extends Model
         'processed',
         'progress',
         'log_file',
+        'status',
         'completed_at',
     ];
 
