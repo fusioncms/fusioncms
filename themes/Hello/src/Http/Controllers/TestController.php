@@ -15,8 +15,6 @@ class TestController extends Controller
 {
     public function __invoke()
     {
-        dd(fusion()->get('users/1'));
-
         return view('testing');
     }
 }
