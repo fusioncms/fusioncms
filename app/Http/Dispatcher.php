@@ -30,7 +30,19 @@ class Dispatcher
      */
     public function __construct()
     {
-        app()->instance('middleware.disable', true);
+        $middleware = [
+            \App\Http\Middleware\Authenticate::class,
+            \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        ];
+
+        foreach ((array) $middleware as $abstract) {
+            app()->instance($abstract, new class {
+                public function handle($request, $next)
+                {
+                    return $next($request);
+                }
+            });
+        }
     }
 
     /**
