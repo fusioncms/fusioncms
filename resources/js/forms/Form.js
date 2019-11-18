@@ -1,5 +1,7 @@
 import FormData from 'form-data'
 import Errors from './Errors'
+import store from '../vuex'
+
 
 export default class Form {
     /**
@@ -7,9 +9,11 @@ export default class Form {
      *
      * @param {object} data
      */
-    constructor(data) {
+    constructor(data, preventNavigation = false) {
         this.errors = new Errors
         this.originalData = data
+        this.hasChanges = false
+        this.preventNavigation = preventNavigation
 
         for (let field in data) {
             this[field] = data[field]
@@ -91,7 +95,7 @@ export default class Form {
             axios[requestType](url, this.data())
                 .then(response => {
                     this.onSuccess(response.data)
-
+                    store.commit('form/setPreventNavigation', false)
                     resolve(response.data)
                 })
                 .catch(errors => {
@@ -115,11 +119,26 @@ export default class Form {
     }
 
     /**
-     * Handle the on failture promise event.
+     * Handle the on failure promise event.
      *
      * @param {object} errors
      */
     onFailure(errors) {
         this.errors.record(errors)
+    }
+
+    /** 
+     * Handle the first input event. Prevents navigating
+     * away from the form if the preventNavigation
+     * setting has been enabled.
+     *
+     * @param {object} data
+     */
+    onFirstChange(data) {
+        this.hasChanges = true
+        if (this.preventNavigation) {
+            store.commit('form/setPreventNavigation', true)
+        }
+        
     }
 }

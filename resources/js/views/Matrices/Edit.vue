@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card>
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
@@ -264,7 +264,7 @@
                     seoable: '1',
 
                     status: '1',
-                })
+                }, true)
             }
         },
 

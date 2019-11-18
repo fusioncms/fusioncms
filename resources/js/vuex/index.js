@@ -6,6 +6,7 @@ import settings from './settings'
 import mapper from './import-mapper'
 import navigation from './navigation'
 import filemanager from './filemanager'
+import form from './form'
 
 Vue.use(Vuex)
 
@@ -17,5 +18,6 @@ export default new Vuex.Store({
         settings,
         navigation,
         filemanager,
+        form
     },
 })

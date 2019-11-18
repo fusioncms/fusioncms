@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card>
                         <div class="row">
                                 <div class="col form-sidebar">
@@ -195,7 +195,7 @@
                         }
                     })
 
-                    vm.form = new Form(fields)
+                    vm.form = new Form(fields, true)
                 }).catch(function(error) {
                     vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
                     toast('The requested entry could not be found', 'warning')

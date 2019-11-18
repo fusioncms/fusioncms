@@ -2,6 +2,7 @@ import router from './router'
 import store from './vuex'
 import Vue from 'vue'
 import Proton from '@proton-ui/proton'
+import forms from './mixins/forms'
 
 export default class Fusion {
     constructor(config) {
@@ -22,6 +23,8 @@ export default class Fusion {
                 },
             }
         })
+
+        Vue.mixin(forms)
 
         this.bootingCallbacks = []
         this.bootedCallbacks = []
