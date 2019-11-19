@@ -4,7 +4,7 @@
             <app-title icon="ballot">Create Fieldset</app-title>
         </portal>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" @input.once="form.onFirstChange">
             <p-card>
                 <div class="row">
                     <div class="side-container">
@@ -63,7 +63,7 @@
                 form: new Form({
                     name: '',
                     handle: '',
-                })
+                }, true)
             }
         },
 

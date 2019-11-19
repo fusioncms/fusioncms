@@ -4,7 +4,7 @@
             <app-title icon="ballot">Edit Fieldset</app-title>
         </portal>
 
-        <form>
+        <form @input.once="form.onFirstChange">
             <p-card>
                 <div class="row">
                     <div class="side-container">
@@ -43,7 +43,7 @@
                 </div>
             </p-card>
 
-            <section-builder class="mt-6" v-model="sections"></section-builder>
+            <section-builder class="mt-6" v-model="sections" @input="sectionsChanged"></section-builder>
 
             <portal to="actions">
                 <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
@@ -61,10 +61,13 @@
             return {
                 id: null,
                 sections: [],
+                originalSections: [],
+                hasChanges: false,
+                loaded: false,
                 form: new Form({
                     name: '',
                     handle: '',
-                })
+                }, true)
             }
         },
 
@@ -83,6 +86,15 @@
                     toast(response.response.data.message, 'failed')
                 })
             },
+
+            sectionsChanged(value) {
+                if(this.loaded && !this.hasChanges) {
+                    if (!_.isEqual(this.originalSections, value)) {
+                        this.hasChanges = true
+                        this.form.onFirstChange()
+                    }    
+                }
+            }
         },
 
         beforeRouteEnter(to, from, next) {
@@ -92,9 +104,10 @@
                 next(function(vm) {
                     vm.id = fieldset.data.data.id
                     vm.sections = fieldset.data.data.sections
-
+                    vm.originalSections = _.cloneDeep(vm.sections)
                     vm.form.name = fieldset.data.data.name
                     vm.form.handle = fieldset.data.data.handle
+                    vm.loaded = true
                 })
             })).catch(function(error) {
                 next('/fieldsets')

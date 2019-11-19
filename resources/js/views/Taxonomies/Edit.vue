@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col w-full">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card>
                         <div class="row">
                             <div class="side-container">
@@ -212,7 +212,7 @@
 
                     route: '',
                     template: '',
-                })
+                }, true)
             }
         },
 
