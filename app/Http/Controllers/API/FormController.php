@@ -87,8 +87,10 @@ class FormController extends Controller
     {
         $this->authorize('forms.create');
 
-        $attributes = collect($request->validate($this->rules));        
-        $form       = Form::create($attributes->all());
+        $attributes = collect($request->validate($this->rules));
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
+
+        $form = Form::create($attributes->all());
 
         activity()
             ->performedOn($form)
@@ -113,6 +115,7 @@ class FormController extends Controller
         $this->authorize('forms.update');
 
         $attributes = collect($request->validate($this->rules));
+        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
 
         $form->update($attributes->all());
 

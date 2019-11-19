@@ -24,7 +24,9 @@ if (! function_exists('render_form')) {
 
         $form = Form::where('handle', $handle)->first();
 
-        return view($template ?? ($form->form_template ?? 'forms.default'), compact('form', array_keys($additional)));
+        if ($form) {
+            return view($template ?? ($form->form_template ?: 'forms.default'), compact('form', array_keys($additional)));
+        }
     }
 }
 

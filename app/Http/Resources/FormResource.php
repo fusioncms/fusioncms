@@ -27,6 +27,7 @@ class FormResource extends JsonResource
             'id'                      => $this->id,
             'name'                    => $this->name,
             'handle'                  => $this->handle,
+            'slug'                    => $this->slug,
             'description'             => $this->description,
             'collect_email_addresses' => $this->collect_email_addresses,
             'collect_ip_addresses'    => $this->collect_ip_addresses,

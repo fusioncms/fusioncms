@@ -21,6 +21,7 @@ class Form extends Model
      */
     protected $fillable = [
         'name',
+        'slug',
         'handle',
         'description',
         'collect_email_addresses',

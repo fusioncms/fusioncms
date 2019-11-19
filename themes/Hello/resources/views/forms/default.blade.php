@@ -1,15 +1,19 @@
-<h2>{{ $form->name }}</h2>
+<h1>{{ $form->name }}</h1>
 
-<form method="POST" role="form">
+<form method="POST" role="form" class="mt-10">
     @if ($form->enable_honeypot)
         @honeypot
     @endif
 
-    @if ($form->collect_email_addresses)
-        <input type="email" name="email" class="form__control">
-    @endif
+    @foreach ($form->fieldset->fields as $field)
+        <div class="mb-6">
+            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="{{ $field->handle }}">
+                {{ $field->name }}
+            </label>
+            
+            @includeIf('forms.fields.'.$field->type, compact('field'))
+        </div>
+    @endforeach
 
-    {{-- @dd($form->fieldset) --}}
-
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam libero consequatur voluptatum, architecto amet voluptates ea earum in, aliquid tenetur repellat minus! Inventore veniam dignissimos ipsam officia facilis eligendi aut.</p>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
 </form>

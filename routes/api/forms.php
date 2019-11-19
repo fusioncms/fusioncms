@@ -10,3 +10,6 @@
  */
 
 Route::apiResource('/forms', 'FormController');
+
+Route::get('/forms/{slug?}/responses', 'ResponseController@index');
+Route::apiResource('/forms/{slug}/responses', 'ResponseController');

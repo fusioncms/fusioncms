@@ -18,6 +18,7 @@ class CreateFormsTable extends Migration
 
             // Describe the form
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('handle')->unique();
             $table->text('description')->nullable();
             
