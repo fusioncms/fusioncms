@@ -53,3 +53,6 @@ Thank you for considering contributing to FusionCMS! The contribution guide can 
 
 ## Security Vulnerabilities
 If you discover a security Vulnerability within FusionCMS, please send a message to **Kai** on our Discord server. All security vulnerabilities will be promptly addressed.
+
+## License
+For a quick summary, FusionCMS is **not open source** but rather _source-available_ software. We require a paid license if you intend on using FusionCMS for commercial purposes. You are free to modify and alter the CMS as needed as long as it does not impede on our licensing or means of enforcing the licensing. For the complete license, please refer to the [LICENSE.md](LICENSE.md) file here in the repository.
