@@ -373,6 +373,16 @@ const router = new Router({
         },
 
         {
+            path: '/importer/view/:importer',
+            component: () => import('../views/Importer/View'),
+            name: 'importer.view',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '/importer/mapping/:importer',
             component: () => import('../views/Importer/Mapping'),
             name: 'importer.mapping',

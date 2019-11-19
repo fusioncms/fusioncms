@@ -28,23 +28,16 @@
 						v-model="form.handle">
 					</p-slug>
 
-					<div class="row">
-						<div class="col w-3/5">
-							<p-input
-								name="source"
-								label="Source"
-								help="Google Sheets sheet reference URL."
-								autocomplete="off"
-								required
-								:has-error="form.errors.has('source')"
-								:error-message="form.errors.get('source')"
-								v-model="form.source">
-							</p-input>
-						</div>
-						<div class="banner banner--dark col w-2/5">
-							<cron-scheduler @crontab="updateCron"></cron-scheduler>
-						</div>
-					</div>
+					<p-input
+						name="source"
+						label="Source"
+						help="Google Sheets sheet reference URL."
+						autocomplete="off"
+						required
+						:has-error="form.errors.has('source')"
+						:error-message="form.errors.get('source')"
+						v-model="form.source">
+					</p-input>
 
 					<p-select
                         name="module"
@@ -150,9 +143,9 @@
 				}
 			},
 
-			updateCron(expression) {
-				this.form.schedule = expression
-			}
+			// updateCron(expression) {
+			// 	this.form.schedule = expression
+			// }
 		},
 
 		created() {

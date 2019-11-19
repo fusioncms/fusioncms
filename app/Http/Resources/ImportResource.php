@@ -11,6 +11,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ImportResource extends JsonResource
@@ -23,9 +24,8 @@ class ImportResource extends JsonResource
      */
     public function toArray($request)
     {
-        $response = parent::toArray($request);
-
-        $response['logs'] = $this->logs;
+        $response         = parent::toArray($request);
+        $response['logs'] = ImportLogResource::collection($this->logs);
 
         return $response;
     }

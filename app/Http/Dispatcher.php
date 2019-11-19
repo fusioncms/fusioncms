@@ -15,6 +15,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 class Dispatcher
 {
@@ -70,6 +71,18 @@ class Dispatcher
     }
 
     /**
+     * PATCH request.
+     *
+     * @param  string  $endpoint
+     * @param  string  $method
+     * @param  array  $parameters
+     */
+    public function patch($endpoint, $parameters = [])
+    {
+        return $this->dispatch($endpoint, 'PATCH', $parameters);
+    }
+
+    /**
      * DELETE request.
      *
      * @param  string  $endpoint
@@ -99,6 +112,10 @@ class Dispatcher
         }
 
         $response = app()->handle($request);
+
+        if ($response->exception instanceOf ValidationException) {
+            throw new ValidationException($response->exception->validator);
+        }
 
         app()->instance('request', $current);
 

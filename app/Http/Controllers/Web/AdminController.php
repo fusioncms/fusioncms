@@ -22,12 +22,6 @@ class AdminController extends Controller
      */
     public function index()
 	{
-		dd(fusion()->get('users/1'));
-		// $import = \App\Models\Import::first();
-		// (new \App\Services\Exports\GoogleExport($import->source))->store("imports/{$import->handle}.csv");
-		// (new \App\Services\Imports\UserImport($import))->import("imports/{$import->handle}.csv");
-		// dd('done');
-
         return view('admin.index');
     }
 }

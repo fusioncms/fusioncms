@@ -133,9 +133,11 @@ class ExcelTest extends TestCase
      */
 	public function an_completed_import_will_complete_log_record()
 	{
+
 		list($import, $filepath) = $this->generateFakeImport();
 
 		// When a new import job is imported...
+		$response = $this->actingAs($this->admin, 'api');
 		(new UserImport($import))->import($filepath, null, Excel::CSV);
 
 		// ...assert database has a completed `import_log` record.
