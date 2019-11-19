@@ -5,7 +5,7 @@
 <a href="https://discord.gg/bZKyvrc"><img alt="Discord" src="https://img.shields.io/discord/588839859884392487.svg?style=flat-square"></a>
 </p>
 
-FusionCMS is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework.
+**FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework. **This repository contains the source code for version 6 of FusionCMS, which is under heavy active development.**
 
 Modular at heart, FusionCMS provides the necessary launching platform to build out any type of web or mobile application. It's intuitive and easy for content editors to use on a daily basis, while still maintaining the power and flexibility for developers and designers to dig into the heart of the platform to build and design whatever comes to mind.
 
@@ -49,7 +49,7 @@ The installer will walk you through the steps required to configure FusionCMS. T
 - **--collation[=COLLATION]:** Assign the database collation to be used during installation. Can be used in combination with the `--quick` flag.
 
 ## Contributing
-Thank you for considering contributing to FusionCMS! The contribution guide can be found in the [CONTRIBUTING.md](CONTRIBUTING.md) file here in the repo.
+Thank you for considering contributing to FusionCMS! The contribution guide can be found in the [CONTRIBUTING.md](CONTRIBUTING.md) file here in the repository.
 
 ## Security Vulnerabilities
 If you discover a security Vulnerability within FusionCMS, please send a message to **Kai** on our Discord server. All security vulnerabilities will be promptly addressed.
