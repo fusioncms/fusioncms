@@ -30,6 +30,7 @@ class CreateFieldsTable extends Migration
             $table->text('help')->nullable();
             $table->boolean('required')->default(false);
             $table->string('type');
+            $table->text('validation')->nullable();
             $table->text('settings')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('locked')->default(false);

@@ -64,7 +64,7 @@ class CollectionController extends Controller
             $relationships = $matrix->fieldset->relationships();
 
             foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
+                $rules[$field->handle] = $field->validation ?: 'sometimes';
             }
         }
 

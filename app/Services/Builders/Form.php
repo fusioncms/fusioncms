@@ -55,7 +55,7 @@ class Form extends Builder implements BuilderContract
     {
         $className = Str::studly($this->form->handle);
         $traits    = [];
-        $fillable  = ['form_id', 'email'];
+        $fillable  = ['form_id', 'identifiable_ip_address'];
         $casts     = [];
 
         if ($this->form->fieldset) {

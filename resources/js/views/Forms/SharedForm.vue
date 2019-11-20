@@ -269,6 +269,13 @@
 
 <script>
     export default {
+        data() {
+            return {
+                ready: false,
+                fieldtype: {},
+            }
+        },
+
         props: {
             id: {
                 type: Number,
@@ -288,10 +295,46 @@
 
         watch: {
             'form.collect_email_addresses': function(value) {
-                if (value === false) {
-                    this.form.response_receipt = false
+                if (this.ready) {
+                    if (value === false) {
+                        this.form.response_receipt = false
+    
+                        this.removeIdentifiableEmailField()
+                    } else {
+                        this.addIdentifiableEmailField()
+                    }
                 }
             },
         },
+
+        methods: {
+            addIdentifiableEmailField() {
+                let section = this.form.fieldset.sections[0].handle
+
+                this.$bus.$emit('add-field-' + section, {
+                    fieldtype: this.fieldtype,
+                    name: 'E-mail',
+                    handle: 'identifiable_email_address',
+                    settings: {
+                        type: 'email',
+                    }
+                })
+            },
+
+            removeIdentifiableEmailField() {
+                let section = this.form.fieldset.sections[0].handle
+
+                this.$bus.$emit('remove-field-' + section, 'identifiable_email_address')
+            },
+        },
+
+        created() {
+            axios.all([
+                axios.get('/api/fieldtypes/input'),
+            ]).then(axios.spread(function (fieldtype) {
+                this.fieldtype = fieldtype.data
+                this.ready = true
+            }.bind(this)))
+        }
     }
 </script>

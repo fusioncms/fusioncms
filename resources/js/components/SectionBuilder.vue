@@ -56,7 +56,7 @@
 
             <div class="row">
                 <div class="col mt-6 w-full">
-                    <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles"></field-builder>
+                    <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles" :id="section.handle"></field-builder>
                 </div>
             </div>
         </div>
@@ -117,8 +117,6 @@
             },
 
             value(value) {
-                console.log('section value', value)
-
                 if (! value.length) {
                     this.sections = this.default
                 } else {

@@ -66,6 +66,22 @@ class Form extends Model
         return $builder->make();
     }
 
+    public function path($additional = null)
+    {
+        $path = '/form/'.$this->slug;
+
+        if ($additional) {
+            $path .= '/'.$additional;
+        }
+
+        return $path;
+    }
+
+    public function thankyouPath()
+    {
+        return $this->path('thankyou');
+    }
+
     /**
      * Get the "table" attribute value.
      *

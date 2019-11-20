@@ -24,12 +24,42 @@ class ResponseController extends Controller
      */
     public function store(Request $request, $form)
     {
-        $form = Form::where('slug', $form)->first();
+        $form  = Form::where('slug', $form)->first();
+        $rules = [];
 
         if (! $form) {
             abort(404);
         }
 
+        $fields = $form->fieldset->database();
         
+        foreach ($fields as $field) {
+            $rules[$field->handle] = $field->validation ?: 'sometimes';
+        }
+
+        $attributes            = $request->validate($rules);
+        $attributes['form_id'] = $form->id;
+
+        if ($form->collect_ip_addresses) {
+            $attributes['identifiable_ip_address'] = request()->ip();
+        }
+
+        $response = $form->responses()->create($attributes);
+
+        activity()
+            ->performedOn($response)
+            ->withProperties([
+                'icon' => 'paper-plane',
+                'link' => 'test',
+            ])
+            ->log('Submitted response to '.$form->name.' (:subject.identifiable_email_address)');
+
+        if (! $form->redirect_on_submission) {
+            $redirect = $form->thankyouPath();
+        } else {
+            $redirect = $form->redirect_url;
+        }
+
+        return redirect($redirect);
     }
 }

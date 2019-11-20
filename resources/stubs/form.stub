@@ -25,6 +25,13 @@ class {class} extends Model
     protected $table = 'form_{handle}';
 
     /**
+     * The attributes that should be appended to the model.
+     *
+     * @var array
+     */
+    protected $appends = ['identifiable_email_address', 'identifiable_ip_address'];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -61,6 +68,24 @@ class {class} extends Model
     public function getFieldsAttribute()
     {
         return $this->form->fieldset->fields;
+    }
+
+    public function getIdentifiableEmailAddressAttribute($email)
+    {
+        if ($this->form->collect_email_addresses and ! empty($email)) {
+            return $email;
+        }
+
+        return 'anonymous@example.com';
+    }
+
+    public function getIdentifiableIpAddressAttribute($ipAddress)
+    {
+        if ($this->form->collect_ip_addresses and ! empty($ipAddress)) {
+            return $ipAddress;
+        }
+
+        return false;
     }
 
     {relationships}

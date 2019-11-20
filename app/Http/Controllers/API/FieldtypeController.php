@@ -29,4 +29,11 @@ class FieldtypeController extends Controller
 
         return FieldtypeResource::collection($fieldtypes);
     }
+
+    public function show(Request $request, $slug)
+    {
+        $fieldtype = fieldtypes()->get($slug);
+
+        return new FieldtypeResource($fieldtype);
+    }
 }

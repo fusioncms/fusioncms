@@ -48,7 +48,6 @@ class FormObserver
             $table->increments('id');
             $table->integer('form_id')->unsigned();
 
-            $table->string('identifiable_email_address')->nullable();
             $table->string('identifiable_ip_address')->nullable();
 
             $table->timestamps();
@@ -121,17 +120,6 @@ class FormObserver
 
         $fieldset->sections()->save($section);
 
-        if ($form->collect_email_addresses) {
-            $field            = new Field;
-            $field->section_id = $section->id;
-            $field->name       = 'E-mail';
-            $field->handle     = 'identifiable_email_address';
-            $field->type       = 'input';
-            $field->settings   = ['type' => 'email'];
-
-            $field->save();
-        }
-
         $form->fieldsets()->save($fieldset);
         $form->save();
     }
@@ -150,24 +138,6 @@ class FormObserver
             $fieldset->name   = $fieldsetName;
             $fieldset->handle = Str::slug($fieldsetName, '_');
             $fieldset->save();
-        }
-
-        if ($old->collect_email_addresses !== $new->collect_email_addresses) {
-            if ($new->collect_email_addresses) {
-                $field             = new Field;
-                
-                $field::unsetEventDispatcher();
-
-                $field->section_id = $fieldset->sections()->first()->id;
-                $field->name       = 'E-mail';
-                $field->handle     = 'identifiable_email_address';
-                $field->type       = 'input';
-                $field->settings   = ['type' => 'email'];
-
-                $field->save();
-            } else {
-                $fieldset->fields()->where('fields.handle', 'identifiable_email_address')->delete();
-            }
         }
     }
 
