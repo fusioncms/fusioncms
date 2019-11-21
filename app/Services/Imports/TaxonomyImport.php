@@ -13,6 +13,7 @@ namespace App\Services\Imports;
 
 use App\Models\Import;
 use App\Models\Taxonomy;
+use App\Models\ImportLog;
 use App\Services\Builders\Taxonomy as Builder;
 
 class TaxonomyImport extends BaseImport
@@ -36,68 +37,84 @@ class TaxonomyImport extends BaseImport
      * 
      * @param Import $import
      */
-    public function __construct(Import $import)
+    public function __construct(Import $import, ImportLog $log)
     {
-        parent::__construct($import);
+        parent::__construct($import, $log);
 
         $this->taxonomy = Taxonomy::findOrFail($import->group);
         $this->terms    = (new Builder($this->taxonomy->handle))->make();
     }
     
     /**
-     * Row validation rules.
-     * [override]
-     * 
-     * @return array
-     */
-    public function rules()
-    {
-        $rules = [
-            'id'     => 'sometimes|integer',
-            'name'   => 'required',
-            'slug'   => 'required',
-            'status' => 'required|boolean',
-        ];
-
-        if(isset($taxonomy->fieldset)) {
-            $fields = $taxonomy->fieldset->database();
-
-            foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
-            }
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Set custom attributes for validator errors.
-     * [override]
+     * Collect existing records for Import Strategies.
      *
-     * @return array
-     */
-    public function messages()
-    {
-        return [];
-    }
-
-    /**
-     * Persist data.
-     *
+     * @throws Exception
      * @return void
      */
-    public function handle()
+    protected function collectExistingIds()
     {
-        $attributes                = $this->getAttributes();
-        $attributes['taxonomy_id'] = $this->taxonomy->id;
+        return $this->terms->all()->modelKeys();
+    }
 
-        // $relationships = $taxonomy->fieldset->relationships();
-        // foreach ($relationships as $relationship) {
-        //     $term->{$relationship->handle}()->sync($request->input($relationship->handle));
-        // }
-        $this->terms->updateOrCreate(
-            ['id' => $attributes['id']],
-            $attributes
-        );
+    /**
+     * Store newly created record in storage.
+     *
+     * @param  array $attributes
+     * @return void
+     */
+    protected function store(array $attributes)
+    {
+        fusion()
+            ->authorize()
+            ->post(
+                "taxonomies/{$this->taxonomy->slug}",
+                $attributes
+            );
+    }
+
+    /**
+     * Update existing record in storage.
+     *
+     * @param  array $attributes
+     * @return void
+     */
+    protected function update(array $attributes)
+    {
+        fusion()
+            ->authorize()
+            ->patch(
+                "taxonomies/{$this->taxonomy->slug}/{$attributes['id']}",
+                $attributes
+            );
+    }
+
+    /**
+     * Disable existing records in storage.
+     *
+     * @param  array $ids
+     * @throws Exception
+     * @return void
+     */
+    protected function disableCollection(array $ids)
+    {
+        if (count($ids)) {
+            foreach ($ids as $id) {
+                $this->terms->where('id', $id)->update(['status' => false]);
+            }
+        }
+    }
+
+    /**
+     * Remove existing records from storage.
+     *
+     * @param  array $ids
+     * @throws Exception
+     * @return void
+     */
+    protected function deleteCollection(array $ids)
+    {
+        if (count($ids)) {
+            $this->terms->destroy($ids);
+        }
     }
 }

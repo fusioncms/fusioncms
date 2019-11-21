@@ -11,7 +11,6 @@
 
 namespace App\Services\Exports;
 
-use App\Models\User;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -19,7 +18,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class DummyExport implements FromArray, WithHeadings, WithMapping
+class DummyCollectionExport implements FromArray, WithHeadings, WithMapping
 {
 	use Exportable;
 
@@ -31,13 +30,24 @@ class DummyExport implements FromArray, WithHeadings, WithMapping
     private $writerType = Excel::CSV;
     
     /**
-    * Optional headers
-    *
-    * @var arry
-    */
+     * Optional headers
+     *
+     * @var arry
+     */
     private $headers = [
         'Content-Type' => 'text/csv',
     ];
+
+    /**
+     * @var Faker\Factory
+     */
+    private $faker;
+
+
+    public function __construct()
+    {
+    	$this->faker = \Faker\Factory::create();
+    }
 
 	/**
 	 * Set headings for export.
@@ -49,8 +59,9 @@ class DummyExport implements FromArray, WithHeadings, WithMapping
 		return [
 			'ID',
 			'Name',
-			'Email',
-			'Password',
+			'Slug',
+			'Summary',
+			'Text',
 			'Status',
 		];
 	}
@@ -62,14 +73,27 @@ class DummyExport implements FromArray, WithHeadings, WithMapping
     	return [
     		++$index,
     		$row['name'],
-    		$row['email'],
-    		Str::random(20),
+    		$row['slug'],
+    		$row['summary'],
+    		$row['text'],
     		$row['status'],
     	];
     }
 
 	public function array(): array
 	{
-		return factory(User::class, 10000)->make()->toArray();
+		$items = [];
+
+		for ($i = 0; $i < 1000; ++$i) {
+			$items[] = [
+				'name'     => ($name = $this->faker->unique()->words(2, true)),
+				'slug'     => Str::slug($name, '_'),
+				'summary'  => $this->faker->text(250) ,
+				'text'     => $this->faker->sentences(5, true),
+				'status'   => $this->faker->boolean(75),
+			];
+		}
+
+		return $items;
 	}	
 }

@@ -56,7 +56,9 @@ class UserImport extends BaseImport
             'password_confirmation' => $attributes['password']
         ]);
 
-        fusion()->post('users', $attributes);
+        fusion()
+            ->authorize()
+            ->post('users', $attributes);
     }
 
     /**
@@ -67,7 +69,9 @@ class UserImport extends BaseImport
      */
     protected function update(array $attributes)
     {
-        fusion()->patch("users/{$attributes['id']}", $attributes);
+        fusion()
+            ->authorize()
+            ->patch("users/{$attributes['id']}", $attributes);
     }
 
     /**

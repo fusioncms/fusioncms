@@ -149,6 +149,20 @@ class GoogleExport implements FromArray
     }
 
     /**
+     * Get sheet name from range param.
+     * 
+     * @return string
+     */
+    protected function getRangeSheetName()
+    {
+        if ($this->isBatchRequest()) {
+            return $this->getFromSource('/ranges=([^!|?|&]+)/i');
+        } else {
+            return $this->getFromSource('/values\/([^!|?]+)/i');
+        }
+    }
+
+    /**
      * Determine if request is batch request.
      * 
      * @return boolean
@@ -170,12 +184,13 @@ class GoogleExport implements FromArray
 			$client->setApplicationName('Google Sheets API v4');
 			$client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
 			$client->setDeveloperKey($this->getApiKey());
-//dd($this->getApiKey(), $this->getSheetId(), $this->getRange());
-            $service  = new Google_Service_Sheets($client);
+
+            $service = new Google_Service_Sheets($client);
 
             if ($this->isPreview) {
-                $response = $service->spreadsheets_values->get($this->getSheetId(), 'A1:2');
-                $values   = $response->getValues();
+                $sheetName = $this->getRangeSheetName();
+                $response  = $service->spreadsheets_values->get($this->getSheetId(), "{$sheetName}!1:2");
+                $values    = $response->getValues();
             } else {
                 if ($this->isBatchRequest()) {
                     $response = $service->spreadsheets_values->batchGet($this->getSheetId(), ['ranges' => $this->getRange()]);

@@ -22,9 +22,11 @@ class AdminController extends Controller
      */
     public function index()
 	{
-		// $import = \App\Models\Import::first();
+		(new \App\Services\Exports\DummyCollectionExport)->store('exports/dummycollections.csv');
+
+		// $import = \App\Models\Import::find(2);
 		// \App\Jobs\Importer\BeforeImport::dispatch($import)->onQueue('imports');
-		// dd('done');
+		dd('done');
         return view('admin.index');
     }
 }
