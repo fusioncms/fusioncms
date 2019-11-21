@@ -11,7 +11,9 @@
 
 namespace App\Services\Imports;
 
+use Exception;
 use App\Models\Import;
+use App\Models\ImportLog;
 use Maatwebsite\Excel\Row;
 use Illuminate\Support\Str;
 use App\Concerns\HasAttributes;
@@ -21,7 +23,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
-use Maatwebsite\Excel\Events\ImportFailed;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,6 +42,13 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
      * @var App\Models\Import
      */
     protected $import;
+
+    /**
+     * Import log for this job.
+     * 
+     * @var App\Models\ImportLog
+     */
+    protected $log;
 
     /**
      * Current row index.
@@ -68,16 +76,19 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
      * 
      * @var integer
      */
-    protected $chunkSize = 10;
+    protected $chunkSize = 250;
+
+    
 
     /**
      * Constructor.
      * 
      * @param Import $import
      */
-    public function __construct(Import $import)
+    public function __construct(Import $import, ImportLog $log)
     {
         $this->import = $import;
+        $this->log    = $log;
     }
 
     /**
@@ -258,17 +269,6 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
     }
 
     /**
-     * Handles `onError` events.
-     *
-     * @param  MessageBag $errors
-     * @return void
-     */
-    protected function onError($errors)
-    {
-        $this->error("Errors was found on row: {$this->rowIndex}", $errors->all());
-    }
-
-    /**
      * Event gets raised at the start of the process.
      * 
      * @param  BeforeImport $event
@@ -286,10 +286,17 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
 
         // Record total number of rows for progress watch..
         $importable->totalRows = collect($reader->getTotalRows())->first();
+        $importable->totalRows = $importable->totalRows - 1;  // Exclude header row
         
         // Setup logger..
-        $importable->createLogger("logs/imports/imports-{$import->id}.log");
-        $importable->createLogRecord();
+        $importable->createLogger("logs/imports/imports-{$importable->log->id}.log");
+
+        // Update import log record..
+        $importable->log->update([
+            'total_rows' => $importable->totalRows,
+            'log_file'   => $importable->logPath,
+            'status'     => 'running'
+        ]);
 
         // Collect existing records for import strategies..
         $importable->setExistingIds($importable->collectExistingIds());
@@ -336,17 +343,6 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
     }
 
     /**
-     * Handle failed job.
-     * 
-     * @param  ImportFailed $event
-     * @return void
-     */
-    public static function importFailed(ImportFailed $event)
-    {
-        Log::error(static::class . ": " . $event->getException()->getMessage());
-    }
-
-    /**
      * Save field casts for easy access.
      * 
      * @return void
@@ -374,5 +370,16 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
         });
 
         return $this->getAttributes();
+    }
+
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        $this->log->update(['status' => 'failed']);
     }
 }

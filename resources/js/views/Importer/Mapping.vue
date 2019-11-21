@@ -73,6 +73,8 @@
                     mappings: this.formMappings,
                 }).then((response) => {
 					toast('Import Mapping successfully saved', 'success')
+
+					this.$router.push(`/importer/view/${this.id}`)
 				}).catch((response) => {
 					toast(response.message, 'failed')
 				})

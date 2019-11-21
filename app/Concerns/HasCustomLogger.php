@@ -13,7 +13,6 @@ namespace App\Concerns;
 
 use Storage;
 use Monolog\Logger;
-use App\Models\ImportLog;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\JsonFormatter;
 
@@ -25,11 +24,6 @@ trait HasCustomLogger
     protected $logger;
 
     /**
-     * @var App\Models\ImportLog
-     */
-    protected $log;
-
-    /**
      * @var string
      */
     protected $logPath;
@@ -37,32 +31,20 @@ trait HasCustomLogger
     /**
      * Set logger instance.
      *
-     * @param  string $filepath
+     * @param  string $logPath
      * @return void
      */
-    protected function createLogger($filepath)
+    protected function createLogger($logPath)
     {
-    	$stream = new StreamHandler(storage_path($filepath));
+        // Clear file..
+        $handle = fopen(storage_path($logPath), 'w+');
+        fclose($handle);
+
+    	$stream = new StreamHandler(storage_path($logPath));
     	$stream->setFormatter(new JsonFormatter());
 
-        $this->logPath = $filepath;
-    	$this->logger  = new Logger(basename($filepath), [ $stream ]);
-    }
-
-    /**
-     * Create ImportLog record in storage.
-     * 
-     * @return void
-     */
-    protected function createLogRecord()
-    {
-        $this->log = ImportLog::create([
-            'import_id'  => $this->import->id,
-            'progress'   => 0,
-            'total_rows' => $this->totalRows - 1,  // Exclude header row
-            'log_file'   => $this->logPath,
-            'status'     => 'importing'
-        ]);
+        $this->logPath = $logPath;
+    	$this->logger  = new Logger(basename($logPath), [ $stream ]);
     }
 
     /**

@@ -22,6 +22,9 @@ class AdminController extends Controller
      */
     public function index()
 	{
+		// $import = \App\Models\Import::first();
+		// \App\Jobs\Importer\BeforeImport::dispatch($import)->onQueue('imports');
+		// dd('done');
         return view('admin.index');
     }
 }

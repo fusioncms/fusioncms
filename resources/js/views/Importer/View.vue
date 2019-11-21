@@ -14,31 +14,35 @@
 				<table>
 					<thead>
 						<th class="w-2/12">Scheduled</th>
-						<th class="w-6/12">Progress</th>
-						<th class="w-2/12">Status</th>
+						<th class="w-5/12">Progress</th>
+						<th class="w-3/12">Status</th>
 						<th class="w-2/12"></th>
 					</thead>
 					<tbody>
-						<tr class="w-full" v-for="log in logs" :key="log.id">
-							<td>{{ log.happened }}</td>
+						<tr class="w-full" v-for="(entry, index) in entries" :key="index">
+							<td>{{ entry.happened }}</td>
 							<td>
-								<div v-if="log.status == 'complete'" class="shadow w-full bg-warning-100">
-									<div class="bg-primary-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + log.progress + '%'">{{ log.progress }}%</div>
+								<div v-if="entry.status == 'setup'" class="shadow w-full bg-warning-100">
+									<div class="bg-primary-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + entry.progress + '%'">{{ entry.progress }}%</div>
 								</div>
-								<div v-if="log.status == 'failed'" class="shadow w-full bg-warning-100">
-									<div class="bg-warning-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + log.progress + '%'">{{ log.progress }}%</div>
+								<div v-if="entry.status == 'complete'" class="shadow w-full bg-warning-100">
+									<div class="bg-success-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + entry.progress + '%'">{{ entry.progress }}%</div>
 								</div>
-								<div v-if="log.status == 'running'" class="shadow w-full bg-warning-100">
-									<div class="bg-warning-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + log.progress + '%'">{{ log.progress }}%</div>
+								<div v-if="entry.status == 'failed'" class="shadow w-full bg-warning-100">
+									<div class="bg-danger-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + entry.progress + '%'">{{ entry.progress }}%</div>
+								</div>
+								<div v-if="entry.status == 'running'" class="shadow w-full bg-warning-100">
+									<div class="bg-warning-500 text-xs leading-none py-1 text-center text-white" :style="'width: ' + entry.progress + '%'">{{ entry.progress }}%</div>
 								</div>
 							</td>
 							<td>
-								<span v-if="log.status == 'complete'" class="badge badge--success">Complete</span>
-								<span v-if="log.status == 'failed'" class="badge badge--danger">Failed</span>
-								<span v-if="log.status == 'running'" class="badge badge--warning">In Progress...</span>
+								<span v-if="entry.status == 'setup'" class="badge badge--primary">Setup</span>
+								<span v-if="entry.status == 'complete'" class="badge badge--success">Complete</span>
+								<span v-if="entry.status == 'failed'" class="badge badge--danger">Failed</span>
+								<span v-if="entry.status == 'running'" class="badge badge--warning">In Progress...</span>
 							</td>
 							<td>
-								<p-button @click="logid = log.id">View log</p-button>
+								<p-button @click="entryId = entry.id">View log</p-button>
 							</td>
 						</tr>
 					</tbody>
@@ -46,7 +50,7 @@
 			</div>
 		</div>
 		
-		<log-modal :logid="logid" :title="'Import Logs - ' + data.name"></log-modal>
+		<log-modal :entryId="entryId" :title="'Import Logs - ' + data.name"></log-modal>
 	</div>
 </template>
 
@@ -57,8 +61,10 @@
 		data() {
 			return {
 				data: {},
-				logs: [],
-				logid: false,
+				entries: [],
+				newEntriesTimeout: null,
+                newEntriesTimer: 5000,
+				entryId: false,
 			}
 		},
 
@@ -69,11 +75,21 @@
 		computed: {
 			show: {
 				get: function() {
-					return this.logid !== false
+					return this.entryId !== false
 				},
 
 				set: function(value) {
-					this.logid = value
+					this.entryId = value
+				}
+			}
+		},
+
+		watch: {
+			entryId: function(value) {
+				clearTimeout(this.newEntriesTimeout)
+
+				if (value === false) {
+					this.loadEntries()
 				}
 			}
 		},
@@ -82,16 +98,18 @@
 			loadEntries() {
 				axios.get(`/api/imports/${this.$router.currentRoute.params.importer}`)
 					.then(response => {
-						this.data = response.data.data
-						this.logs = response.data.data.logs
+						this.data    = response.data.data
+						this.entries = response.data.data.logs
 					})
+
+				this.newEntriesTimeout = setTimeout(() => {
+					this.loadEntries()
+				}, this.newEntriesTimer)
 			},
 
 			queue(id) {
 				axios.post(`/api/imports/queue/${id}`).then((response) => {
                     toast('Import has been added to the queue.', 'success')
-
-                    this.loadEntries()
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 });
@@ -102,6 +120,11 @@
 			next(function(vm) {
 				vm.loadEntries()
 			})
+		},
+
+		beforeRouteLeave (to, from, next) {
+			clearTimeout(this.newEntriesTimeout)
+			next()
 		}
 	}
 </script>

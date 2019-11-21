@@ -2,15 +2,18 @@
 
 namespace App\Jobs\Importer;
 
+use Exception;
 use App\Models\Import;
 use App\Models\ImportLog;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Excel;
 use Illuminate\Bus\Queueable;
-use App\Jobs\Importer\ProcessImport;
 use App\Services\Exports\GoogleExport;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\Importer\NotifyUserOfImportComplete;
 
 class BeforeImport implements ShouldQueue
 {
@@ -22,6 +25,11 @@ class BeforeImport implements ShouldQueue
     protected $import;
 
     /**
+     * @var ImportLog
+     */
+    protected $log;
+
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -29,6 +37,10 @@ class BeforeImport implements ShouldQueue
     public function __construct(Import $import)
     {
         $this->import = $import;
+        $this->log    = ImportLog::create([
+            'import_id' => $import->id,
+            'status'    => 'setup'
+        ]);
     }
 
     /**
@@ -47,7 +59,7 @@ class BeforeImport implements ShouldQueue
         }
 
         // Now, run the actual import!
-        ProcessImport::dispatchNow($this->import);
+        $this->runImport();
     }
 
     /**
@@ -60,5 +72,24 @@ class BeforeImport implements ShouldQueue
         //TODO: record log information (via HasCustomLogger trait)
         // $this->info("Starting database backup.");
         // $this->info("Finished database backup successfully.");
+    }
+
+    /**
+     * Run the actual import!
+     * 
+     * @return void
+     */
+    private function runImport()
+    {
+        $name   = Str::singular($this->import->module);
+        $name   = ucwords($name);
+        $module = "App\\Services\\Imports\\{$name}Import";
+
+        (new $module($this->import, $this->log))
+            ->queue("imports/{$this->import->handle}.csv", null, Excel::CSV)
+            ->onQueue('imports')
+            ->chain([
+                new NotifyUserOfImportComplete($this->import)
+            ]);
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Tests\Feature;
 
+use Throwable;
 use App\Models\Import;
 use Maatwebsite\Excel\Excel;
 use Tests\Foundation\TestCase;
@@ -122,6 +123,7 @@ class ExcelTest extends TestCase
         	'total_rows'   => 10,
         	'progress'     => 0,
             'log_file'     => "logs/imports/imports-{$import->id}.log",
+            'status'       => 'running',
         	'completed_at' => null
         ]);
 	}
@@ -133,7 +135,6 @@ class ExcelTest extends TestCase
      */
 	public function an_completed_import_will_complete_log_record()
 	{
-
 		list($import, $filepath) = $this->generateFakeImport();
 
 		// When a new import job is imported...
@@ -145,6 +146,7 @@ class ExcelTest extends TestCase
 			'import_id'    => $import->id,
 			'total_rows'   => 10,
 			'progress'     => 100,
+			'status'       => 'complete',
 			'completed_at' => now()
 		]);
 	}

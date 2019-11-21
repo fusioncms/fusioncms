@@ -13,12 +13,13 @@ namespace App\Services\Imports;
 
 use App\Models\User;
 use App\Models\Import;
+use App\Models\ImportLog;
 
 class UserImport extends BaseImport
 {
-    public function __construct(Import $import)
+    public function __construct(Import $import, ImportLog $log)
     {
-        parent::__construct($import);
+        parent::__construct($import, $log);
     }
 
     /**
