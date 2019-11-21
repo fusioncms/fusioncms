@@ -14,7 +14,9 @@ namespace App\Http;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Auth\Access\Gate;
 
 class Dispatcher
 {
@@ -25,24 +27,46 @@ class Dispatcher
      */
     protected $baseUrl = 'api';
 
-    /**
-     * Create a new Dispatcher instance.
-     */
-    public function __construct()
+    public function authorize()
     {
-        $middleware = [
-            \App\Http\Middleware\Authenticate::class,
-            \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        ];
+        return $this->withoutAuthentication()
+            ->withoutAuthorization();
+    }
 
-        foreach ((array) $middleware as $abstract) {
-            app()->instance($abstract, new class {
-                public function handle($request, $next)
+    /**
+     * Bypass gate checks against the request.
+     * 
+     * @return self
+     */
+    public function withoutAuthorization()
+    {
+        app()->bind(Gate::class, function ($app) {
+            return new class {
+                public function authorize($ability, $arguments = [])
                 {
-                    return $next($request);
+                    return true;
                 }
-            });
-        }
+            };
+        });
+
+        return $this;
+    }
+
+    /**
+     * Bypass authentication checks against the request.
+     * 
+     * @return self
+     */
+    public function withoutAuthentication()
+    {
+        app()->instance(\App\Http\Middleware\Authenticate::class, new class {
+            public function handle($request, $next)
+            {
+                return $next($request);
+            }
+        });
+
+        return $this;
     }
 
     /**
@@ -121,5 +145,19 @@ class Dispatcher
         }
 
         return false;
+    }
+
+    /**
+     * Checks for "dynamic" methods.
+     */
+    public function __call($name, $arguments)
+    {
+        if ($name == 'andWithoutAuthentication') {
+            return $this->withoutAuthentication();
+        }
+
+        if ($name == 'andWithoutAuthorization') {
+            return $this->withoutAuthorization();
+        }
     }
 }
