@@ -30,6 +30,14 @@ class DispatcherTest extends TestCase
     }
 
     /** @test */
+    public function as_an_unauthorized_guest_the_dispatcher_should_not_resolve_requests()
+    {
+        $response = fusion()->get('users/1');
+
+        $this->assertNull($response);
+    }
+
+    /** @test */
     public function as_an_unauthorized_guest_the_dispatcher_should_resolve_requests_when_explicitly_authorized()
     {
         $response = fusion()->authorize()->get('users/1');
