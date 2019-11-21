@@ -16,7 +16,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class APIDispatcherTest extends TestCase
+class DispatcherTest extends TestCase
 {
     use RefreshDatabase;
 
