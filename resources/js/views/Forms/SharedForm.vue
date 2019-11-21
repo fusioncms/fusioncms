@@ -226,7 +226,7 @@
                             </div>
                         </p-tab>
 
-                        <p-tab name="Fields" v-if="form.fieldset">
+                        <p-tab name="Fields">
                             <section-builder v-model="form.fieldset.sections"></section-builder>
                         </p-tab>
                     </p-tabs>
