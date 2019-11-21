@@ -12,8 +12,6 @@
 namespace Tests\Feature;
 
 use Tests\Foundation\TestCase;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DispatcherTest extends TestCase
