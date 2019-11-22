@@ -14,8 +14,8 @@ namespace App\Http;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Auth\Access\Gate;
 
 class Dispatcher
@@ -27,10 +27,22 @@ class Dispatcher
      */
     protected $baseUrl = 'api';
 
+    /**
+     * Ignored middleware.
+     * 
+     * @var array
+     */
+    protected $middleware = [];
+
+    /**
+     * Bypass authentication/authorization checks against the request.
+     * 
+     * @return self
+     */
     public function authorize()
     {
         return $this->withoutAuthentication()
-            ->withoutAuthorization();
+                    ->withoutAuthorization();
     }
 
     /**
@@ -53,18 +65,25 @@ class Dispatcher
     }
 
     /**
+     * Bypass throttle checks against the request.
+     * 
+     * @return self
+     */
+    public function dethrottle()
+    {
+        $this->middleware[] = \Illuminate\Routing\Middleware\ThrottleRequests::class;
+
+        return $this;
+    }
+
+    /**
      * Bypass authentication checks against the request.
      * 
      * @return self
      */
     public function withoutAuthentication()
     {
-        app()->instance(\App\Http\Middleware\Authenticate::class, new class {
-            public function handle($request, $next)
-            {
-                return $next($request);
-            }
-        });
+        $this->middleware[] = \App\Http\Middleware\Authenticate::class;
 
         return $this;
     }
@@ -94,6 +113,18 @@ class Dispatcher
     }
 
     /**
+     * PATCH request.
+     *
+     * @param  string  $endpoint
+     * @param  string  $method
+     * @param  array  $parameters
+     */
+    public function patch($endpoint, $parameters = [])
+    {
+        return $this->dispatch($endpoint, 'PATCH', $parameters);
+    }
+
+    /**
      * DELETE request.
      *
      * @param  string  $endpoint
@@ -114,6 +145,8 @@ class Dispatcher
      */
     protected function dispatch($endpoint, $method, $parameters = [])
     {
+        $this->disableMiddleware();
+
         $uri     = url($this->baseUrl . '/' . $endpoint);
         $current = request();
         $request = Request::create($uri, $method, $parameters);
@@ -123,6 +156,10 @@ class Dispatcher
         }
 
         $response = app()->handle($request);
+
+        if ($response->exception instanceOf ValidationException) {
+            throw new ValidationException($response->exception->validator);
+        }
 
         app()->instance('request', $current);
 
@@ -158,6 +195,23 @@ class Dispatcher
 
         if ($name == 'andWithoutAuthorization') {
             return $this->withoutAuthorization();
+        }
+    }
+
+    /**
+     * Disable middleware from Request.
+     * 
+     * @return void
+     */
+    protected function disableMiddleware()
+    {
+        foreach ($this->middleware as $middleware) {
+            app()->instance($middleware, new class {
+                public function handle($request, $next)
+                {
+                    return $next($request);
+                }
+            });
         }
     }
 }

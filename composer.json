@@ -31,7 +31,8 @@
         "league/glide": "^1.5",
         "league/glide-laravel": "^1.0",
         "laravel/vapor-cli": "^1.1",
-        "laravel/vapor-core": "^2.0"
+        "laravel/vapor-core": "^2.0",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

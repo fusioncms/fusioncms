@@ -45,4 +45,24 @@ class DispatcherTest extends TestCase
         $this->assertNotNull($response);
         $this->assertEquals($response->data->name, 'Jane Doe');
     }
+
+    /** @test */
+    public function as_an_authorized_user_the_dispatcher_should_allow_for_disabling_throttle_checks()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // ...dispatcher won't be throttled for 60 attempts...
+        for ($i = 0; $i < 60; ++$i) {
+            $response = fusion()->get('users/1');
+            $this->assertNotNull($response);
+        }
+
+        // ...until the 61st attempt...
+        $response = fusion()->get('users/1');
+        $this->assertNull($response);
+
+        // ...but we can dethrottled the request
+        $response = fusion()->dethrottle()->get('users/1');
+        $this->assertNotNull($response);
+    }
 }

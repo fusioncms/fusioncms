@@ -21,7 +21,7 @@ class AdminController extends Controller
      * @return \Illuminate\View\Factory
      */
     public function index()
-    {
-        return view('admin.index');
+	{
+		return view('admin.index');
     }
 }

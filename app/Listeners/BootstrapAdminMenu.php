@@ -120,6 +120,11 @@ class BootstrapAdminMenu
                 'icon' => 'paint-roller',
             ]);
 
+            $menu->add('Importer')->data([
+                'to'   => '/importer',
+                'icon' => 'ship',
+            ]);
+
             $menu->add('Settings')->data([
                 'to'   => '/settings',
                 'icon' => 'cog',
