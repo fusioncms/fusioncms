@@ -7,9 +7,9 @@
         }"
     >
         <router-link to="/" class="sidebar__logo">
-            <img src="/img/logo.svg" alt="logo">
+            <!-- <img src="/img/logo.svg" alt="logo"> -->
             
-            <h1 v-if="this.isOpen">Fusion</h1>
+            <h1 v-if="this.isOpen"><span class="font-normal">Fusion</span>CMS</h1>
             <h1 v-else>FU</h1>
         </router-link>
 
