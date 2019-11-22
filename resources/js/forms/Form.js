@@ -1,3 +1,4 @@
+import FormData from 'form-data'
 import Errors from './Errors'
 import store from '../vuex'
 

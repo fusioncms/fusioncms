@@ -343,6 +343,56 @@ const router = new Router({
         },
 
         {
+            path: '/importer',
+            component: () => import('../views/Importer/Index'),
+            name: 'importer',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
+            path: '/importer/create',
+            component: () => import('../views/Importer/Create'),
+            name: 'importer.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
+            path: '/importer/edit/:importer',
+            component: () => import('../views/Importer/Edit'),
+            name: 'importer.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
+            path: '/importer/view/:importer',
+            component: () => import('../views/Importer/View'),
+            name: 'importer.view',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
+            path: '/importer/mapping/:importer',
+            component: () => import('../views/Importer/Mapping'),
+            name: 'importer.mapping',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',

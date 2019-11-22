@@ -25,6 +25,7 @@ Route::get('/users/{role}', 'UserController@index');
 Route::get('/roles', 'RoleController@index');
 Route::get('/permissions', 'PermissionController@index');
 Route::get('/fieldsets', 'FieldsetController@index');
+Route::get('/imports', 'ImportController@index');
 Route::get('/taxonomies', 'TaxonomyController@index');
 Route::get('/taxonomies/{taxonomy}', 'TermController@index');
 Route::get('/matrices', 'MatrixController@index');
