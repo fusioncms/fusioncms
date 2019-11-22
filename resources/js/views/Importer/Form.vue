@@ -160,7 +160,8 @@
 					}
 				})
 
-				this.groups['matrices'] = _.map(matrices.data.data, function(matrix) {
+				this.groups['matrices'] = _.reject(matrices.data.data, ['type', 'page'])
+				this.groups['matrices'] = _.map(this.groups['matrices'], function(matrix) {
 					return {
 						'label': matrix.name,
 						'value': matrix.id

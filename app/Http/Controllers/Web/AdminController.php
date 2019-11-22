@@ -22,11 +22,6 @@ class AdminController extends Controller
      */
     public function index()
 	{
-		(new \App\Services\Exports\DummyCollectionExport)->store('exports/dummycollections.csv');
-
-		// $import = \App\Models\Import::find(2);
-		// \App\Jobs\Importer\BeforeImport::dispatch($import)->onQueue('imports');
-		dd('done');
-        return view('admin.index');
+		return view('admin.index');
     }
 }

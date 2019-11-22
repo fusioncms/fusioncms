@@ -336,7 +336,6 @@ class BaseImport implements ToCollection, WithChunkReading, WithHeadingRow, With
 
         // Finialize ImportLog record.
         $importLog->update([
-            'progress'     => 100,
             'status'       => 'complete',
             'completed_at' => now()
         ]);
