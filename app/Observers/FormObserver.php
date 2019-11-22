@@ -108,25 +108,17 @@ class FormObserver
 
         $fieldsetName = 'Form: '.$form->name;
 
-        $request = [
-            'name' => $fieldsetName,
+        // Create the fieldset first
+        $fieldset = fusion()->post('fieldsets', [
+            'name'   => $fieldsetName,
             'handle' => Str::slug($fieldsetName, '_'),
-            'fields' => $form->fieldset->sections,
-        ];
+        ]);
 
-        // fusion()->post('')
+        // Resolve the model instance
+        $fieldset = Fieldset::find($fieldset->data->id);
 
-        $fieldset         = new Fieldset;
-        $fieldset->name   = $fieldsetName;
-        $fieldset->handle = Str::slug($fieldsetName, '_');
-        $fieldset->save();
-
-        $section         = new Section;
-        $section->name   = 'General';
-        $section->handle = 'general';
-        $section->save();
-
-        $fieldset->sections()->save($section);
+        // Then create the sections/fields
+        $sections = fusion()->post('fieldsets/'.$fieldset->id.'/sections', request()->fieldset);
 
         $form->fieldsets()->save($fieldset);
         $form->save();

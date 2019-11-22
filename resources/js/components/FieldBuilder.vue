@@ -187,8 +187,6 @@
             let vm = this
 
             this.$bus.$on('add-field-' + this.id, (adding) => {
-                console.log('adding field event fired', adding)
-
                 let index = _.findIndex(vm.fields, function(field) {
                     return field.handle == adding.handle
                 })

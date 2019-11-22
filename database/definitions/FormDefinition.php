@@ -29,6 +29,7 @@ $factory->define(App\Models\Form::class, function (Faker $faker) {
     return [
         'name'        => $name,
         'handle'      => Str::slug($name, '_'),
+        'slug'        => Str::slug($name, '-'),
         'description' => $faker->sentence,
 
         'collect_email_addresses' => true,
