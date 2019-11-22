@@ -1,11 +1,6 @@
 .sidebar {
     @apply .hidden .fixed .bg-white .text-gray-500 .h-full;
 
-    background-position: right -100px bottom -75px;
-    background-image: url('/img/logo-light.svg');
-    background-repeat: no-repeat;
-    background-size: 400px;
-
     @screen lg {
         @apply .flex .flex-col;
     }
