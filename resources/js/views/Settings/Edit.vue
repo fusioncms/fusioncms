@@ -8,7 +8,7 @@
             <div class="content-container">
                 <form @submit.prevent="submit" enctype="multipart/form-data">
                     <div class="col w-full xl:w-2/3 mx-auto">
-                        <p-tabs>
+                        <p-tabs replace>
                             <p-tab v-for="(settings, group, index) in groups" :key="group" :name="group" :active="index === 0">
                                 <div v-for="setting in settings" :key="setting.handle" class="form__group">
                                     <p-input

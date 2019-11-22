@@ -36,7 +36,7 @@
         "@fortawesome/pro-regular-svg-icons": "^5.11.0",
         "@fortawesome/pro-solid-svg-icons": "^5.11.0",
         "@fortawesome/vue-fontawesome": "^0.1.0",
-        "@proton-ui/proton": "https://github.com/proton-ui/proton",
+        "@proton-ui/proton": "https://github.com/proton-ui/proton#master",
         "axios": "^0.18.0",
         "glob-all": "^3.1.0",
         "laravel-mix": "^4.0.14",
