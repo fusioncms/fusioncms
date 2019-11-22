@@ -120,7 +120,7 @@ class FormObserver
         // Then create the sections/fields
         $sections = fusion()->post('fieldsets/'.$fieldset->id.'/sections', request()->fieldset);
 
-        $form->fieldsets()->save($fieldset);
+        $form->attachFieldset($fieldset);
         $form->save();
     }
 

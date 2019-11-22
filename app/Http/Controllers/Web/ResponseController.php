@@ -44,6 +44,8 @@ class ResponseController extends Controller
             $attributes['identifiable_ip_address'] = request()->ip();
         }
 
+        // dd($attributes);
+
         $response = $form->responses()->create($attributes);
 
         activity()
