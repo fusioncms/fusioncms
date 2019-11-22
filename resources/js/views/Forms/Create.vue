@@ -19,6 +19,8 @@
                     name: '',
                     handle: '',
                     description: '',
+
+                    fieldset: {},
                     
                     collect_email_addresses: false,
                     collect_ip_addresses: false,

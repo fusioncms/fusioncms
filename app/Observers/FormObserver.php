@@ -108,6 +108,14 @@ class FormObserver
 
         $fieldsetName = 'Form: '.$form->name;
 
+        $request = [
+            'name' => $fieldsetName,
+            'handle' => Str::slug($fieldsetName, '_'),
+            'fields' => $form->fieldset->sections,
+        ];
+
+        // fusion()->post('')
+
         $fieldset         = new Fieldset;
         $fieldset->name   = $fieldsetName;
         $fieldset->handle = Str::slug($fieldsetName, '_');
@@ -134,7 +142,8 @@ class FormObserver
         $fieldset = $old->fieldsets()->first();
 
         if ($old->name !== $new->name) {
-            $fieldsetName     = 'Form: '.$new->name;
+            $fieldsetName = 'Form: '.$new->name;
+
             $fieldset->name   = $fieldsetName;
             $fieldset->handle = Str::slug($fieldsetName, '_');
             $fieldset->save();

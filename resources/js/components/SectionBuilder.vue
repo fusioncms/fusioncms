@@ -69,26 +69,15 @@
             return {
                 active: 0,
                 total: 0,
-                default: [
-                    {
-                        name: 'General',
-                        handle: 'general',
-                        description: '',
-                        placement: 'body',
-                        order: 0,
-                        fields: [],
-                    },
-                ],
-                sections: [
-                    {
-                        name: 'General',
-                        handle: 'general',
-                        description: '',
-                        placement: 'body',
-                        order: 0,
-                        fields: [],
-                    },
-                ],
+                default: {
+                    name: 'General',
+                    handle: 'general',
+                    description: '',
+                    placement: 'body',
+                    order: 0,
+                    fields: [],
+                },
+                sections: [],
             }
         },
 
@@ -118,7 +107,7 @@
 
             value(value) {
                 if (! value.length) {
-                    this.sections = this.default
+                    this.sections.push(this.default)
                 } else {
                     this.sections = value
                 }
@@ -180,7 +169,7 @@
 
         mounted() {
             if (! this.sections.length) {
-                this.sections = this.default
+                this.sections.push(this.default)
             }
         }
     }
