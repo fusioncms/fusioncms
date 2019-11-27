@@ -24,9 +24,15 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-6">
             <div class="col w-full">
                 <redactor name="field-help" label="Help Instructions" v-model="value.help"></redactor>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w-full">
+                <p-input name="validation" label="Validation Rules" v-model="value.validation" monospaced></p-input>
             </div>
         </div>
 
@@ -80,12 +86,13 @@
                     }
                 }
             },
+
             errors: {
                 deep: true,
                 handler(val) {
                     this.value.has_errors = _.includes(this.errors, true)
                 }
             }
-        }
+        },
     }
 </script>

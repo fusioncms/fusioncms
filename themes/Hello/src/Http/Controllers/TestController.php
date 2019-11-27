@@ -15,6 +15,6 @@ class TestController extends Controller
 {
     public function __invoke()
     {
-        return view('testing');
+        return view('test');
     }
 }

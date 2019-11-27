@@ -82,7 +82,7 @@ class MatrixPageController extends Controller
         $relationships = $matrix->fieldset->relationships();
 
         foreach ($fields as $field) {
-            $rules[$field->handle] = 'sometimes';
+            $rules[$field->handle] = $field->validation ?: 'sometimes';
         }
 
         $attributes = $request->validate($rules);

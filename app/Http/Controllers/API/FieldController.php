@@ -27,7 +27,8 @@ class FieldController extends Controller
         'type'           => 'required',
         'placement'      => 'required',
         'section'        => 'sometimes',
-        'settings'        => 'required',
+        'settings'       => 'required',
+        'validation'     => 'sometimes',
         'status'         => 'required',
         'container_type' => 'required',
         'container_id'   => 'required',
@@ -91,9 +92,13 @@ class FieldController extends Controller
      */
     public function update(Request $request, Field $field)
     {
-        // $this->authorize('fields.update');
+        $this->authorize('fields.update');
 
-        $attributes = $request->validate($this->rules);
+        if ($field->locked) {
+            $attributes = $request->except('handle')->validate($this->rules);
+        } else {
+            $attributes = $request->validate($this->rules);
+        }
 
         $field->update($attributes);
 
@@ -102,7 +107,7 @@ class FieldController extends Controller
 
     public function reorder(Request $request)
     {
-        // $this->authorize('fields.update');
+        $this->authorize('fields.update');
 
         $fields = $request->get('fields');
 
@@ -124,8 +129,10 @@ class FieldController extends Controller
      */
     public function destroy(Field $field)
     {
-        // $this->authorize('fields.delete');
+        $this->authorize('fields.delete');
 
-        $field->delete();
+        if (! $field->locked) {
+            $field->delete();
+        }
     }
 }

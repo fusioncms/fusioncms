@@ -38,7 +38,7 @@
             </div>
 
             <!-- Content -->
-            <main class="page-content">
+            <main class="page-content flex flex-col">
                 <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
                     <div class="flex items-end flex-wrap">
                         <h1 class="leading-tight m-0 p-0">                            

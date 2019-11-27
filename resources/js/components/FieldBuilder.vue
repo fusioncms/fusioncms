@@ -70,10 +70,12 @@
 </template>
 
 <script>
+    import _ from 'lodash'
+
     export default {
         name: 'field-builder',
 
-        props: ['value', 'fieldHandles'],
+        props: ['value', 'fieldHandles', 'id'],
 
         data() {
             return {
@@ -98,17 +100,21 @@
 
                     return {}
                 },
+
                 set: function(value) {
                     return value
                 }      
-            }, 
+            },
+
             sectionFieldHandles() {
                 if(this.field.handle) {
                     let handles = _.pull(this.fieldHandles, this.field.handle)
                     return handles
                 }
+
                 return this.fieldHandles
             },
+
             total() {
                 return (this.fields.length + 1)
             }
@@ -127,14 +133,14 @@
         },
 
         methods: {
-            add(fieldtype) {
+            add(fieldtype, additional = {}) {
                 let field = {
                     type: fieldtype,
-                    name: 'Field ' + this.total,
-                    handle: this.getUniqueHandle('field_' + this.total),
-                    help: '',
-                    settings: _.cloneDeep(fieldtype.settings, true),
-                    order: 99,
+                    name: additional.name || 'Field ' + this.total,
+                    handle: additional.handle || this.getUniqueHandle('field_' + this.total),
+                    help: additional.help || '',
+                    settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
+                    order: additional.order || 99,
                 }
 
                 this.fields.push(field)
@@ -176,5 +182,51 @@
                 this.fieldtypes = fieldtypes.data.data
             }.bind(this)))
         },
+
+        created() {
+            let vm = this
+
+            this.$bus.$on('add-field-' + this.id, (adding) => {
+                let index = _.findIndex(vm.fields, function(field) {
+                    return field.handle == adding.handle
+                })
+
+                if (index == -1) {
+                    vm.add(adding.fieldtype, adding)
+                }
+            })
+
+            this.$bus.$on('remove-field-' + this.id, (handle) => {
+                let index = _.findIndex(this.fields, function(field) {
+                    return field.handle == handle
+                })
+
+                if (index > -1) {
+                    this.remove(index)
+                }
+            })
+        },
+
+        beforeDestroy() {
+            this.$bus.$off('add-field-' + this.id, (field) => {
+                let index = _.findIndex(this.fields, function(field) {
+                    return field.handle == handle
+                })
+
+                if (index == -1) {
+                    this.add(field.fieldtype, field)
+                }
+            })
+
+            this.$bus.$off('remove-field-' + this.id, (handle) => {
+                let index = _.findIndex(this.fields, function(field) {
+                    return field.handle == handle
+                })
+
+                if (index > -1) {
+                    this.remove(index)
+                }
+            })
+        }
     }
 </script>

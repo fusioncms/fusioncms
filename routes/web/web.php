@@ -38,6 +38,9 @@ Route::group(['prefix' => config('fusioncms.path')], function () {
     ])->where('any', '.*');
 });
 
+Route::post('form/{form}', 'ResponseController@store');
+Route::get('form/{form}/thankyou', 'ThankyouController');
+
 Route::fallback([
     'as'   => 'routes.handle',
     'uses' => 'RouterController@handle',

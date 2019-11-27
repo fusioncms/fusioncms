@@ -10,6 +10,12 @@ mix.setPublicPath('public')
     .js('resources/js/gravity.js', 'public/js')
     .sass('resources/scss/gravity.scss', 'public/css', { implementation: require('node-sass') })
     .version()
+    // .browserSync({
+    //     proxy: 'fusioncms.test',
+    //     files: [
+    //         'themes/**/*',
+    //     ]
+    // })
     .webpackConfig({
         devtool: sourceMap,
         output: {

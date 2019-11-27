@@ -7,14 +7,14 @@
         <form @input.once="form.onFirstChange">
             <p-card>
                 <div class="row">
-                    <div class="col xxl:text-right w-full xxl:w-1/3 xxxl:w-1/4">
+                    <div class="side-container">
                         <div class="xxl:mr-10">
                             <h3>General</h3>
                             <p class="text-sm">What will this fieldset be called?</p>
                         </div>
                     </div>
 
-                    <div class="col w-full xxl:w-2/3">
+                    <div class="content-container">
                         <p-input
                             name="name"
                             label="Name"

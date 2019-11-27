@@ -33,7 +33,7 @@ class WhenFieldsetIsAttached
         foreach ($fields as $field) {
             $fieldtype = fieldtypes()->get($field->type);
             $column    = $fieldtype->getColumn('type');
-            $settings   = $fieldtype->getColumn('settings') ?? [];
+            $settings  = $fieldtype->getColumn('settings') ?? [];
             $table     = $event->model->getTable();
 
             array_unshift($settings, $field->handle);
