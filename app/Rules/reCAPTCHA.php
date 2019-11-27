@@ -26,12 +26,9 @@ class reCAPTCHA implements Rule
     public function passes($attribute, $value)
     {
         $client   = new Client;
-        $response = $client->request('POST', "https://api.pwnedpasswords.com/range/{$range}", [
-            'headers' => [
-                'User-Agent' => 'FusionCMS',
-            ],
+        $response = $client->request('POST', 'https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
-                'secret'  => setting('recaptcha_site_key'),
+                'secret'   => setting('recaptcha_site_key'),
                 'response' => $value,
             ],
         ]);
