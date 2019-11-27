@@ -393,6 +393,16 @@ const router = new Router({
         },
 
         {
+            path: '/backups',
+            component: () => import('../views/Backups/Index'),
+            name: 'backups',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',

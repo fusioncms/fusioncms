@@ -5,7 +5,9 @@
 		</portal>
 
 		<portal to="actions">
-			<p-button v-modal:settings>Settings</p-button>
+			<p-button @click="runCleanup">Run cleanup</p-button>
+			<p-button @click="runBackup" class="button--primary">Run backup</p-button>
+			<p-button v-modal:settings class="button--info">Settings</p-button>
 		</portal>
 
         <div class="row">
@@ -52,6 +54,28 @@
 			return {
 				backups: [],
 				ready: false
+			}
+		},
+
+		methods: {
+			runCleanup() {
+				axios.get('/api/backups/cleanup').then(response => {
+					toast('Backup successfully created', 'success')
+
+					this.backups = response.data.data
+				}).catch((response) => {
+                    toast(response.response.data.message, 'failed')
+                })
+			},
+
+			runBackup() {
+				axios.get('/api/backups/run').then(response => {
+					toast('Backup successfully cleaned', 'success')
+
+					this.backups = response.data.data
+				}).catch((response) => {
+                    toast(response.response.data.message, 'failed')
+                })
 			}
 		},
 

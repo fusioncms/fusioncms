@@ -9,5 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
-Route::get('/backups', 'BackupController');
+Route::get('/backups', 'BackupController@index');
+Route::get('/backups/cleanup', 'BackupController@cleanup');
+Route::get('/backups/run', 'BackupController@run');
