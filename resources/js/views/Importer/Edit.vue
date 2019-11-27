@@ -19,7 +19,7 @@
 
 <script>
 	import Form from '../../forms/Form'
-	import EntryForm from './Form.vue'
+	import EntryForm from './SharedForm.vue'
 
 	export default {
 		data() {
