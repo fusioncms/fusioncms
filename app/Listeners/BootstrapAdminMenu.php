@@ -58,23 +58,21 @@ class BootstrapAdminMenu
             }
 
             $menu->add('Tools')->divide();
+
+            $menu->add('Inbox')->data([
+                'to' => '/inbox',
+                'icon' => 'inbox',
+            ]);
             
             $menu->add('File Manager')->data([
                 'to'   => '/files',
                 'icon' => 'images',
             ]);
                 
-            // $menu->add('Forms', '#')->data([
-            //     'icon' => 'paper-plane',
-            // ]);
-                    
-            // $menu->forms->add('Inbox')->data([
-            //     'to' => '/',
-            // ]);
-                        
-            // $menu->forms->add('Manage')->data([
-            //     'to' => '/',
-            // ]);
+            $menu->add('Forms')->data([
+                'to' => '/forms',
+                'icon' => 'paper-plane',
+            ]);
 
             $menu->add('SEO', '#')->data([
                 'icon'  => 'chart-bar',
@@ -87,10 +85,10 @@ class BootstrapAdminMenu
             $menu->add('System')->divide();
 
             $menu->add('Users', '#')->data([
-                'icon'  => 'users',
+                'icon'  => 'users-class',
             ]);
 
-            $menu->users->add('Manage Users')->data([
+            $menu->users->add('All Users')->data([
                 'to' => '/users',
             ]);
 

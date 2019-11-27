@@ -5,8 +5,7 @@
         "dev": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "hot": "NODE_ENV=development webpack-dev-server --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "test": "NODE_ENV=testing cypress open"
+        "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
@@ -38,6 +37,8 @@
         "@fortawesome/vue-fontawesome": "^0.1.0",
         "@proton-ui/proton": "https://github.com/proton-ui/proton#master",
         "axios": "^0.18.0",
+        "browser-sync": "^2.26.7",
+        "browser-sync-webpack-plugin": "^2.0.1",
         "glob-all": "^3.1.0",
         "laravel-mix": "^4.0.14",
         "lodash": "^4.17.11",

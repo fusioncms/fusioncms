@@ -83,6 +83,14 @@ return [
         ],
 
         [
+            'name'        => 'Google reCAPTCHA',
+            'handle'      => 'google_recaptcha',
+            'group'       => 'Services',
+            'icon'        => 'shield-alt',
+            'description' => 'Configure your Google reCAPTCHA settings.',
+        ],
+
+        [
             'name'        => 'Mail',
             'handle'      => 'mail',
             'group'       => 'Services',
@@ -186,6 +194,38 @@ return [
             'type'        => 'file',
             'default'     => '',
             'required'    => false,
+            'gui'         => true,
+            'order'       => 1,
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Google reCAPTCHA Settings
+        |--------------------------------------------------------------------------
+        */
+
+        [
+            'section'     => 'google_recaptcha',
+            'group'       => 'General',
+            'name'        => 'Site Key',
+            'handle'      => 'recaptcha_site_key',
+            'description' => 'Your Google reCAPTCHA site key.',
+            'type'        => 'text',
+            'default'     => '',
+            'required'    => true,
+            'gui'         => true,
+            'order'       => 0,
+        ],
+
+        [
+            'section'     => 'google_recaptcha',
+            'group'       => 'General',
+            'name'        => 'Secret Key',
+            'handle'      => 'recaptcha_secret_key',
+            'description' => 'Your Google reCAPTCHA secret key.',
+            'type'        => 'text',
+            'default'     => '',
+            'required'    => true,
             'gui'         => true,
             'order'       => 1,
         ],
