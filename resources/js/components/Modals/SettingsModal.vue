@@ -2,11 +2,12 @@
 	<p-modal v-model="show" name="settings" no-header>
         <div class="row">
             <div class="content-container">
-            	<settings-form :section="section"></settings-form>
+            	<settings-form ref="form" :section="section"></settings-form>
             </div>
         </div>
+
         <template slot="footer">
-            <p-button type="submit" theme="primary" @click.prevent="submit">Save Settings</p-button>
+            <p-button type="submit" theme="primary" @click.prevent="$refs.form.submit">Save Settings</p-button>
             <p-button type="button" @click.prevent="close" class="mr-3">Cancel</p-button>
         </template>
     </p-modal>
@@ -33,10 +34,6 @@
 		props: ['section'],
 
 		methods: {
-            submitted() {
-				
-            },
-
             close() {
             	this.show = false
             }
