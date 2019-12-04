@@ -28,10 +28,24 @@ class BackupResource extends JsonResource
     {
         $backupConfig = config('backup.monitor_backups');
         $statuses     = BackupDestinationStatusFactory::createForMonitorConfig($backupConfig);
-        
-        $rows = $statuses->map(function (BackupDestinationStatus $status) {
-            $destination  = $status->backupDestination();
-            $newestBackup = $destination->newestBackup();
+        $destinations = [];
+
+        $destinations = $statuses->map(function (BackupDestinationStatus $status) {
+            $isNewest    = true;
+            $destination = $status->backupDestination();
+            $backups     = [];
+
+            foreach ($destination->backups() as $backup)
+            {
+                $backups[] = [
+                    'name'     => basename($backup->path(), '.zip'),
+                    'happened' => Carbon::parse($backup->date())->diffForHumans(),
+                    'size'     => human_filesize($backup->size()),
+                    'isNewest' => $isNewest,
+                ];
+
+                $isNewest = false;
+            }
 
             return [
                 'name'        => $destination->backupName(),
@@ -39,11 +53,12 @@ class BackupResource extends JsonResource
                 'isReachable' => $destination->isReachable(),
                 'isHealthy'   => $status->isHealthy(),
                 'amount'      => $destination->backups()->count(),
-                'newest'      => $newestBackup ? \Illuminate\Support\Carbon::parse($newestBackup->date())->diffForHumans() : 'No backups present',
-                'usedStorage' => human_filesize($destination->usedStorage(), $decimals = 2)
+                'newest'      => isset($backups[0]) ? $backups[0]['happened'] : 'No backups present',
+                'size'        => human_filesize($destination->usedStorage(), $decimals = 2),
+                'backups'     => $backups,
             ];
         });
 
-        return $rows;
+        return $destinations;
     }
 }

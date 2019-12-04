@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/backups', 'BackupController@index');
-Route::get('/backups/cleanup', 'BackupController@cleanup');
-Route::get('/backups/run', 'BackupController@run');
+Route::get('/backups', 'Backups\BackupController@index');
+Route::post('/backups/store', 'Backups\BackupController@store');
+Route::delete('/backups/{backup}', 'Backups\BackupController@delete');
+
+Route::post('/backups/restore/{backup}', 'Backups\BackupRestoreController');

@@ -26,3 +26,5 @@ use League\Glide\Responses\LaravelResponseFactory;
 */
 
 Route::get('file/{uuid}/{filename}', 'FileController');
+
+Route::get('backups/{backup}', 'BackupController');

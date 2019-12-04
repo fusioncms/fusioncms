@@ -856,86 +856,25 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Fieldtype Settings
+        | Backup Settings
         |--------------------------------------------------------------------------
         */
+       
         [
             'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Keep all backups for days',
-            'handle'      => 'keep_all_backups_for_days',
-            'description' => 'The number of days for which backups must be kept.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.keep_all_backups_for_days'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 1,
-        ],
-
-        [
-            'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Keep daily backups for days',
-            'handle'      => 'keep_daily_backups_for_days',
-            'description' => 'The number of days for which daily backups must be kept.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.keep_daily_backups_for_days'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 2,
-        ],
-
-        [
-            'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Keep weekly backups for weeks',
-            'handle'      => 'keep_weekly_backups_for_weeks',
-            'description' => 'The number of days for which daily backups must be kept.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.keep_weekly_backups_for_weeks'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 3,
-        ],
-
-        [
-            'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Keep monthly backups for months',
-            'handle'      => 'keep_monthly_backups_for_months',
-            'description' => 'The number of months for which one monthly backup must be kept.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.keep_monthly_backups_for_months'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 4,
-        ],
-
-        [
-            'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Keep yearly backups for years',
-            'handle'      => 'keep_yearly_backups_for_years',
-            'description' => 'The number of years for which one yearly backup must be kept.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.keep_yearly_backups_for_years'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 5,
-        ],
-
-
-[
-            'section'     => 'backups',
-            'group'       => 'Cleanup Strategy',
-            'name'        => 'Delete oldest backups when using more megabytes than',
-            'handle'      => 'delete_oldest_backups_when_using_more_megabytes_than',
-            'description' => 'After cleaning up the backups remove the oldest backup until this amount of megabytes has been reached.',
-            'type'        => 'number',
-            'default'     => config('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than'),
-            'required'    => true,
-            'gui'         => true,
-            'order'       => 6,
+            'group'       => 'General',
+            'name'        => 'Scheduled Backups',
+            'handle'      => 'scheduled_backups',
+            'description' => 'Control whether backups will run on a regular schedule or not.',
+            'type'        => 'select',
+            'options'     => [
+                'enabled'  => 'Enabled',
+                'disabled' => 'Disabled',
+            ],
+            'default'    => 'enabled',
+            'required'   => true,
+            'gui'        => true,
+            'order'      => 0,
         ],
 
     ],
