@@ -10,7 +10,7 @@
  */
 
 Route::get('/backups', 'Backups\BackupController@index');
-Route::post('/backups/store', 'Backups\BackupController@store');
+Route::post('/backups', 'Backups\BackupController@store');
 Route::delete('/backups/{backup}', 'Backups\BackupController@delete');
 
 Route::post('/backups/restore/{backup}', 'Backups\BackupRestoreController');

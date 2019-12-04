@@ -65,6 +65,6 @@ class BackupRun
      */
     public function failed(Exception $exception)
     {
-        Log::error('There was an error trying to backup FusionCMS: ', $e->getMessage(), (array) $exception->getTrace()[0]);
+        Log::error('There was an error trying to backup FusionCMS: ', $exception->getMessage(), (array) $exception->getTrace()[0]);
     }
 }

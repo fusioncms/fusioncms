@@ -18,6 +18,8 @@ use Illuminate\Bus\Queueable;
 use Symfony\Component\Process\Process;
 use Spatie\Backup\Tasks\Backup\Manifest;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Events\Backups\DatabaseRestoreFailed;
+use App\Events\Backups\DatabaseRestoreSuccessful;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -53,40 +55,27 @@ class RestoreDatabase
      */
     public function handle()
     {
-    	if ($dbDumpPath = $this->fetchDBDump()) {
-            $default    = config('database.default');
-            $connection = 'database.connections.' . $default . '.';
-            
-            $dbUser = config($connection . 'username');
-            $dbPass = config($connection . 'password');
-            $dbHost = config($connection . 'host');
-            $dbName = config($connection . 'database');
-            
-            $contents = [
-                '[client]',
-                "user = '{$dbUser}'",
-                "password = '{$dbPass}'",
-                "host = '{$dbHost}'",
-            ];
+        try {
+        	if ($dbDumpPath = $this->fetchDBDump()) {
+                $process = new Process(
+                    $this->generateImportCommand($dbDumpPath)
+                );
 
-            $tempFile = tmpfile();
-            fwrite($tempFile, implode(PHP_EOL, $contents));
+                $process->run();
 
-            $command = sprintf('mysql --defaults-extra-file="%s" %s < %s',
-                stream_get_meta_data($tempFile)['uri'],
-                escapeshellarg($dbName),
-                escapeshellarg($dbDumpPath)
-            );
+                if (! $process->isSuccessful()) {
+                    throw new ProcessFailedException($process);
+                }
 
-            $process = new Process($command);
-            $process->run();
+                event(new DatabaseRestoreSuccessful($dbDumpPath));
+        	} else {
+        		throw new Exception('Failed to locate database dump from backup.');
+        	}
+        } catch (Exception $exception) {
+            event(new DatabaseRestoreFailed($exception, $dbDumpPath));
 
-            if (! $process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-            }
-    	} else {
-    		throw new Exception('Failed to locate database dump from backup.');
-    	}
+            Log::error('There was an error restoring database backup: ' . $exception->getMessage(), (array) $exception->getTrace()[0]);
+        }
     }
 
     /**
@@ -115,4 +104,42 @@ class RestoreDatabase
 
 		return false;
 	}
+
+    /**
+     * [generateImportCommand description]
+     * @param  string $dbDumpPath [description]
+     * @return [type]             [description]
+     */
+    private function generateImportCommand(string $dbDumpPath)
+    {
+        $default = config('database.default');
+        $dbUser  = config('database.connections.' . $default . '.username');
+        $dbPass  = config('database.connections.' . $default . '.password');
+        $dbHost  = config('database.connections.' . $default . '.host');
+        $dbName  = config('database.connections.' . $default . '.database');
+
+        switch ($default)
+        {
+            case 'mysql':
+                $tempFile = tmpfile();
+                fwrite($tempFile, implode(PHP_EOL, [
+                    '[client]',
+                    "user = '{$dbUser}'",
+                    "password = '{$dbPass}'",
+                    "host = '{$dbHost}'",
+                ]));
+
+                $command = sprintf('mysql --defaults-extra-file="%s" %s < %s',
+                    stream_get_meta_data($tempFile)['uri'],
+                    escapeshellarg($dbName),
+                    escapeshellarg($dbDumpPath)
+                );
+                break;
+            case 'sqlite':
+                $command = "sqlite3 {$dbName} < {$dbDumpPath}";
+                break;
+        }
+
+        return $command;
+    }
 }

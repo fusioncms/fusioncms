@@ -149,7 +149,7 @@
 			},
 
 			backup() {
-				axios.post('/api/backups/store').then(response => {
+				axios.post('/api/backups').then(response => {
 					toast('Backup successfully created!', 'success')
 
 					this.refresh()

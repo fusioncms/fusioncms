@@ -67,14 +67,14 @@ class RestoreFromBackup
         foreach ($jobs as $message => $instance) {
             try {
                 dispatch($instance);
-            } catch (Exception $ex) {
+            } catch (Exception $exception) {
                 $restoreDirectory->delete();
                 
-                throw new Exception('There was an error trying to restore from a backup: ' . $ex->getMessage());
+                throw new Exception('There was an error trying to restore from a backup: ' . $exception->getMessage());
             }
         }
         
-        $restoreDirectory->delete();
+        //$restoreDirectory->delete();
     }
 
     /**
