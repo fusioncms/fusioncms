@@ -74,7 +74,7 @@ class RestoreFromBackup
             }
         }
         
-        //$restoreDirectory->delete();
+        $restoreDirectory->delete();
     }
 
     /**

@@ -51,20 +51,17 @@ class RestoreDatabase
     /**
      * Execute the job.
      *
+     * @throws Exception
      * @return void
      */
     public function handle()
     {
         try {
         	if ($dbDumpPath = $this->fetchDBDump()) {
-                $process = new Process(
-                    $this->generateImportCommand($dbDumpPath)
-                );
-
-                $process->run();
-
-                if (! $process->isSuccessful()) {
-                    throw new ProcessFailedException($process);
+                if (config('database.default') == 'mysql') {
+                    $this->restoreFromMySqlFile($dbDumpPath);
+                } elseif (config('database.default') == 'sqlite') {
+                    $this->restoreFromSqliteFile($dbDumpPath);
                 }
 
                 event(new DatabaseRestoreSuccessful($dbDumpPath));
@@ -106,40 +103,60 @@ class RestoreDatabase
 	}
 
     /**
-     * [generateImportCommand description]
-     * @param  string $dbDumpPath [description]
-     * @return [type]             [description]
+     * Run command to restore mysql file.
+     * 
+     * @throws ProcessFailedException
+     * @return boolean
      */
-    private function generateImportCommand(string $dbDumpPath)
+    private function restoreFromMySqlFile($dbDumpPath)
     {
-        $default = config('database.default');
-        $dbUser  = config('database.connections.' . $default . '.username');
-        $dbPass  = config('database.connections.' . $default . '.password');
-        $dbHost  = config('database.connections.' . $default . '.host');
-        $dbName  = config('database.connections.' . $default . '.database');
+        $dbUser = config('database.connections.mysql.username');
+        $dbPass = config('database.connections.mysql.password');
+        $dbHost = config('database.connections.mysql.host');
+        $dbName = config('database.connections.mysql.database');
 
-        switch ($default)
-        {
-            case 'mysql':
-                $tempFile = tmpfile();
-                fwrite($tempFile, implode(PHP_EOL, [
-                    '[client]',
-                    "user = '{$dbUser}'",
-                    "password = '{$dbPass}'",
-                    "host = '{$dbHost}'",
-                ]));
+        $tempFile = tmpfile();
+        fwrite($tempFile, implode(PHP_EOL, [
+            '[client]',
+            "user = '{$dbUser}'",
+            "password = '{$dbPass}'",
+            "host = '{$dbHost}'",
+        ]));
 
-                $command = sprintf('mysql --defaults-extra-file="%s" %s < %s',
-                    stream_get_meta_data($tempFile)['uri'],
-                    escapeshellarg($dbName),
-                    escapeshellarg($dbDumpPath)
-                );
-                break;
-            case 'sqlite':
-                $command = "sqlite3 {$dbName} < {$dbDumpPath}";
-                break;
+        $command = sprintf('mysql --defaults-extra-file="%s" %s < %s',
+            stream_get_meta_data($tempFile)['uri'],
+            escapeshellarg($dbName),
+            escapeshellarg($dbDumpPath)
+        );
+
+        $process = new Process($command);
+        $process->run();
+
+        if (! $process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
 
-        return $command;
+        return true;
+    }
+
+    /**
+     * Run command to restore sqlite file.
+     * 
+     * @throws ProcessFailedException
+     * @return boolean
+     */
+    private function restoreFromSqliteFile($dbDumpPath)
+    {
+        $dbName  = config('database.connections.' . $default . '.database');
+        $command = "sqlite3 {$dbName} < {$dbDumpPath}";
+
+        $process = new Process($command);
+        $process->run();
+
+        if (! $process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        return true;
     }
 }

@@ -58,21 +58,27 @@ class RestoreFiles
         $includes    = config('backup.backup.source.files.include');
         $filesToCopy = $this->fetchFileToRestore();
 
-        // Clean out old files..
-        foreach ($includes as $include) {
-            if (File::isDirectory($include)) {
-                File::cleanDirectory($include);
-            } else {
-                File::delete($include);
+        try {
+            // Clean out old files..
+            foreach ($includes as $include) {
+                if (File::isDirectory($include)) {
+                    File::cleanDirectory($include);
+                } else {
+                    File::delete($include);
+                }
             }
-        }
 
-        // Restore backed up files..
-        foreach ($filesToCopy as $fileToCopy) {
-            File::copy($fileToCopy['path'], $fileToCopy['target']);
-        }
+            // Restore backed up files..
+            foreach ($filesToCopy as $fileToCopy) {
+                File::copy($fileToCopy['path'], $fileToCopy['target']);
+            }
 
-        event(new FileRestoreSuccessful($filesToCopy));
+            event(new FileRestoreSuccessful($filesToCopy));
+        } catch (Exception $exception) {
+            event(new FileRestoreFailed($exception, $filesToCopy));
+
+            Log::error('There was an error restoring files in backup: ' . $exception->getMessage(), (array) $exception->getTrace()[0]);
+        }
     }
 
     /**

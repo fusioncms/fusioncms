@@ -20,11 +20,9 @@ class BackupRestoreController extends Controller
     public function __invoke(Backup $backup, Request $request)
     {
         if ($request->input('saveBackup')) {
-            BackupRun::withChain([
-                new RestoreFromBackup($backup)
-            ])->dispatch();
-        } else {
-            RestoreFromBackup::dispatch($backup);
+            BackupRun::dispatch();
         }
+
+        RestoreFromBackup::dispatch($backup);
     }
 }

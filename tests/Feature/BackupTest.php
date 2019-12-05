@@ -11,7 +11,6 @@
 
 namespace Tests\Feature;
 
-use ZipArchive;
 use Tests\Foundation\TestCase;
 use App\Jobs\Backups\BackupRun;
 use App\Jobs\Backups\RestoreFromBackup;
@@ -97,10 +96,12 @@ class BackupTest extends TestCase
      */
 	public function a_request_to_restore_from_backup_will_restore_database_data()
 	{
+		Storage::fake('public');
+
 		//TODO: unable to dump sql database for testing
 		\Spatie\DbDumper\Databases\Sqlite::create()
-			->setDbName(':memory:')
-			->dumpToFile('dump.sql');
+			->setDbName(Storage::disk('public')->path('database.sqlite'))
+			->dumpToFile(Storage::disk('public')->path('database.sql'));
 
 		//TODO: need `$backup` to restore from
 
