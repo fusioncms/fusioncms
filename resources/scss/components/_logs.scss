@@ -13,22 +13,26 @@
 
   &__row {
     transition: background-color .15s ease;
-  }
-
-  &__row:nth-child(even) {
-    background-color: rgba(0,0,0,.025);
+    border-top: 1px solid #efefef;
   }
 
   &__row:hover {
     cursor: pointer;
-    background-color: rgba(0,0,0,.075);
+    background-color: rgba(0,0,0,.05);
   }
 
   &__stack-row, &__full-text {
     word-break: break-word;
   }
 
-  &__stack-row:nth-child(even) {
-    background-color: rgba(0,0,0,.1);
+  &__stack-trace {
+    max-height: 40vh;
+  }
+
+  &__stack-row {
+    border-top: 1px solid #efefef;
+    padding: .5rem 1.25rem;
+    background: #f1f7fa;
+    font-size: 15px;
   }
 }
