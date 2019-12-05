@@ -125,6 +125,11 @@ class BootstrapAdminMenu
                 'icon' => 'ship',
             ]);
 
+            $menu->add('Backups')->data([
+                'to'   => '/backups',
+                'icon' => 'save',
+            ]);
+
             $menu->add('Settings')->data([
                 'to'   => '/settings',
                 'icon' => 'cog',

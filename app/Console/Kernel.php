@@ -35,10 +35,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (app_installed()) {
-            $schedule->command('fusion:backup --quiet')
-                ->weekly()
-                ->timezone(setting('system.time_zone'));
+        if (app_installed() and setting('backups.scheduled_backups')) {
+            $schedule->job(new \App\Jobs\Backups\BackupRun)
+                ->daily()
+                ->timezone(setting('system.time_zone'))
+                ->environments(['production']);
         }
     }
 

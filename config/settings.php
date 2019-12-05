@@ -32,6 +32,15 @@ return [
             'description' => 'Configure access to your websites API.',
         ],
 
+
+        [
+            'name'        => 'Backups',
+            'handle'      => 'backups',
+            'group'       => 'Services',
+            'icon'        => 'save',
+            'description' => 'Configure backup schedule and cleanup strategy settings.',
+        ],
+
         [
             'name'        => 'Cache',
             'handle'      => 'cache',
@@ -843,6 +852,29 @@ return [
             'required'    => true,
             'gui'         => false,
             'order'       => 1,
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Backup Settings
+        |--------------------------------------------------------------------------
+        */
+       
+        [
+            'section'     => 'backups',
+            'group'       => 'General',
+            'name'        => 'Scheduled Backups',
+            'handle'      => 'scheduled_backups',
+            'description' => 'Control whether backups will run on a regular schedule or not.',
+            'type'        => 'select',
+            'options'     => [
+                'enabled'  => 'Enabled',
+                'disabled' => 'Disabled',
+            ],
+            'default'    => 'enabled',
+            'required'   => true,
+            'gui'        => true,
+            'order'      => 0,
         ],
 
     ],

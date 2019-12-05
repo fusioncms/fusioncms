@@ -9,19 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Jobs;
+namespace App\Events\Backups;
 
-use Artisan;
-
-class BackupSite
+class BackupExtractionSuccessful
 {
     /**
-     * Execute the command.
-     *
-     * @return void
+     * @var string
      */
-    public function handle()
+    public $extractionPath;
+
+    public function __construct(string $extractionPath)
     {
-        return Artisan::call('fusion:backup');
+        $this->extractionPath = $extractionPath;
     }
 }

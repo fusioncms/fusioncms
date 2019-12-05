@@ -5,7 +5,7 @@
 		</portal>
 
 		<form @submit.prevent="submit" enctype="multipart/form-data">
-		    <div class="col w-full xl:w-2/3 mx-auto">
+		    <div class="col w-full">
 		        <p-tabs replace>
 		            <p-tab v-for="(settings, group, index) in groups" :key="group" :name="group" :active="index === 0">
 		                <div v-for="setting in settings" :key="setting.handle" class="form__group">
@@ -41,10 +41,6 @@
 		            </p-tab>
 		        </p-tabs>
 		    </div>
-
-			<portal to="actions">
-	            <button type="submit" @click.prevent="submit" class="button button--primary">Save Settings</button>
-	        </portal>
 		</form>
 	</div>
 </template>

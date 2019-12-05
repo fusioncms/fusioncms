@@ -11,7 +11,9 @@
 
 namespace App\Providers;
 
+use Storage;
 use Illuminate\Support\Facades\Route;
+use Spatie\Backup\BackupDestination\Backup;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -36,6 +38,12 @@ class RouteServiceProvider extends ServiceProvider
         Route::pattern('handle', '[a-z0-9_]+');
 
         parent::boot();
+
+        // Note: route binding for backup removal
+        // TODO: point to correct disk if it changes from local storage
+        Route::bind('backup', function ($filename) {
+            return new Backup(Storage::disk('public'), "backups/{$filename}.zip");
+        });
     }
 
     /**
@@ -62,6 +70,7 @@ class RouteServiceProvider extends ServiceProvider
         // Map "api" route files
         $this->mapAPIRoutes(base_path('routes/api/api.php'));
         $this->mapAPIRoutes(base_path('routes/api/activity.php'));
+        $this->mapAPIRoutes(base_path('routes/api/backups.php'));
         $this->mapAPIRoutes(base_path('routes/api/fieldsets.php'));
         $this->mapAPIRoutes(base_path('routes/api/filemanager.php'));
         $this->mapAPIRoutes(base_path('routes/api/forms.php'));
