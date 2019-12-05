@@ -129,7 +129,6 @@ class BootstrapAdminMenu
                 'to'   => '/settings',
                 'icon' => 'cog',
             ]);
-            
             $menu->add('Logs')->data([
                 'to'   => '/logs',
                 'icon' => 'bug'
