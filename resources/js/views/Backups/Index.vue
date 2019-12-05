@@ -11,6 +11,14 @@
 
         <div class="row">
             <div class="content-container">
+            	<p-upload
+            		name="file-upload"
+            		ref="upload"
+            		accept="zip"
+            		:multiple="false"
+            		@input="upload"
+            	></p-upload>
+
             	<table v-if="ready">
 					<thead>
 						<th>Disk</th>
@@ -134,6 +142,24 @@
             		this.ready        = true
             		this.saveBackup   = true
             	})
+            },
+
+            upload(files) {
+            	if (typeof files == 'undefined') {
+            		return;
+            	}
+
+				const formData = new FormData()
+
+				formData.append('_method', 'POST')
+				formData.append('file-upload', files)
+
+				axios.post('/api/backups/upload', formData).then(() => {
+					toast('Backup successfully uploaded!', 'success')
+
+					this.$refs.upload.remove()
+					this.refresh()
+				})
             },
 
             download(backup) {
