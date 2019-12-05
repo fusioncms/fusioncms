@@ -19,6 +19,7 @@ use Illuminate\Bus\Queueable;
 use Symfony\Component\Process\Process;
 use Spatie\Backup\Tasks\Backup\Manifest;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Events\Backups\FileRestoreFailed;
 use App\Events\Backups\FileRestoreSuccessful;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\Process\Exception\ProcessFailedException;

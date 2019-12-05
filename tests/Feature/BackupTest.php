@@ -12,8 +12,6 @@
 namespace Tests\Feature;
 
 use Tests\Foundation\TestCase;
-use App\Jobs\Backups\BackupRun;
-use App\Jobs\Backups\RestoreFromBackup;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Event;
@@ -78,7 +76,7 @@ class BackupTest extends TestCase
 		Storage::fake('public');
 
 		// Create new backup..
-		(new BackupRun)->handle();
+		(new \App\Jobs\Backups\BackupRun)->handle();
 
 		// ...assert cleanup was successful.
 		Event::assertDispatched(\Spatie\Backup\Events\CleanupWasSuccessful::class);
@@ -94,14 +92,59 @@ class BackupTest extends TestCase
      * @group fusioncms
      * @group backups
      */
-	public function a_request_to_restore_from_backup_will_restore_database_data()
+	public function a_request_to_restore_from_backup_will_restore_files()
 	{
+		Event::fake();
 		Storage::fake('public');
 
-		//TODO: unable to dump sql database for testing
-		\Spatie\DbDumper\Databases\Sqlite::create()
-			->setDbName(Storage::disk('public')->path('database.sqlite'))
-			->dumpToFile(Storage::disk('public')->path('database.sql'));
+		// Set file include directory for backup..
+		config(['backup.backup.source.files.include' => [
+			Storage::disk('public')->path('files')
+		]]);
+
+		// Add multiple files..
+		Storage::disk('public')->put('files/testing-file1.txt', 'dummy content');
+		Storage::disk('public')->put('files/testing-file2.txt', 'dummy content');
+
+		// Create new backup..
+		(new \App\Jobs\Backups\BackupRun)->handle();
+
+		// Delete single file..
+		Storage::disk('public')->append('files/testing-file1.txt', 'more content');
+		Storage::disk('public')->delete('files/testing-file2.txt');
+
+		// Obtain the backup zip...
+		$backup = new \Spatie\Backup\BackupDestination\Backup(
+			Storage::disk('public'),
+			Storage::disk('public')->files('backups')[0]
+		);
+
+		// Restore backup..
+		(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
+
+		// Assert events were dispatched..
+		Event::assertDispatched(\App\Events\Backups\RestoreManifestWasCreated::class);
+		Event::assertDispatched(\App\Events\Backups\BackupExtractionSuccessful::class);
+		Event::assertDispatched(\App\Events\Backups\FileRestoreSuccessful::class, function($ev) {
+			foreach ($ev->filesToCopy as $file) {
+				Storage::disk('public')->assertExists('files/' . basename($file['target']));
+
+				$this->assertEquals(
+					Storage::disk('public')->get('files/' . basename($file['target'])),
+					'dummy content'
+				);
+			}
+
+			return true;
+		});
+	}
+
+	//TODO: unable to dump sql database for testing
+	public function a_request_to_restore_from_backup_will_restore_database()
+	{
+		// \Spatie\DbDumper\Databases\Sqlite::create()
+		// 	->setDbName(Storage::disk('public')->path('database.sqlite'))
+		// 	->dumpToFile(Storage::disk('public')->path('database.sql'));
 
 		//TODO: need `$backup` to restore from
 
