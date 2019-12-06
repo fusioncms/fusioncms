@@ -45,15 +45,30 @@
 
     methods: {
       emitEvent(selectedDates, dateStr, instance) {
+        this.$emit('input', this.format(dateStr, instance))
+      },
+
+      format(dateStr, instance) {
         let dateObject = instance.parseDate(dateStr)
         let formattedDate = instance.formatDate(dateObject, 'Y-m-d H:i:S')
 
-        this.$emit('input', formattedDate)
+        return formattedDate
+      },
+
+      adjustTimezone(dateStr) {
+        let localDate = new Date();
+        let minuteOffset = localDate.getTimezoneOffset(); 
+
+        let convertedDate = new Date(this.datetime)
+        convertedDate = new Date(convertedDate.getTime() + (minuteOffset * 60000))
+
+        return convertedDate
       }
     },
 
     mounted() {
       this.datetime = this.value
+
       this.flatpickr = flatpickr('#flatpickr_' + this.field.handle, {
         altInput: true,
         enableTime: this.field.settings.time,
@@ -61,10 +76,17 @@
         minuteIncrement: 1,
         allowInput: false,
         clickOpens: false,
-        defaultDate: this.value + '+00.00',
-        onChange: this.emitEvent,
-        onValueUpdate: this.inputChanged
+        defaultDate: this.value,
+        onChange: this.emitEvent
       })
+
+      if (this.value) {
+        let adjustedDate = this.adjustTimezone(this.datetime)
+        let formattedDate = this.format(adjustedDate, this.flatpickr)
+        this.flatpickr.setDate(formattedDate)
+        this.emitEvent(null, this.flatpickr.latestSelectedDateObj, this.flatpickr)
+      }
+        
     }
   }
 </script>
