@@ -13,10 +13,9 @@ namespace App\Http\Controllers\Web\Account;
 
 use Flash;
 use Exception;
-// use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Http\Requests\UpdateUserSecurity;
+use Illuminate\Validation\ValidationException;
 
 class SecurityController extends Controller
 {
@@ -36,25 +35,21 @@ class SecurityController extends Controller
     public function update(Request $request)
     {
         try {
-            fusion()->patch(
-                'api/users/' . auth()->user()->id . '/password',
+            fusion()->authorize()->post(
+                'users/' . auth()->user()->id . '/password',
                 $request->all()
             );
 
             Flash::success('Security settings have been updated.');
+        } catch(ValidationException $exception) {
+            // Display first error message..
+            foreach ($exception->errors() as $error) {
+                Flash::error(current($error));
+                break;
+            }
         } catch(Exception $exception) {
             Flash::error($exception->getMessage());
         }
-
-        // $user       = User::find(auth()->user()->id);
-        // $attributes = $request->only('password');
-
-        // $test = $user->update([
-        //     'password'            => bcrypt($attributes['password']),
-        //     'password_changed_at' => now(),
-        // ]);
-
-        // \Flash::success('Security settings have been updated.');
 
         return redirect()->back();
     }

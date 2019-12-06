@@ -22,12 +22,12 @@ class PasswordController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  UpdateUserSecurity $request
+     * @param  User               $user
+     * @return Response
      */
     public function __invoke(UpdateUserSecurity $request, User $user)
     {
-        dd($request);
         $this->authorize('users.update');
 
         $user->update([

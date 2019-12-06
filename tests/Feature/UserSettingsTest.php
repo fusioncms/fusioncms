@@ -96,7 +96,7 @@ class UserSettingsTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/settings/security', [
+        $response = $this->post('/account/security', [
             'password'              => $newPassword,
             'password_confirmation' => $newPassword,
         ]);

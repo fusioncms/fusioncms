@@ -99,11 +99,9 @@ class UserController extends Controller
         $this->authorize('users.update');
 
         $rules = [
-            'name'                  => 'required',
-            'email'                 => 'required|email|unique:users,email,' . $user->id,
-            'password'              => 'sometimes|string|min:8',
-            'password_confirmation' => 'sometimes|min:8|same:password',
-            'status'                => 'required|boolean',
+            'name'   => 'required',
+            'email'  => 'required|email|unique:users,email,' . $user->id,
+            'status' => 'required|boolean',
         ];
 
         if ($request->has('role')) {
@@ -112,17 +110,19 @@ class UserController extends Controller
 
         $attributes = $request->validate($rules);
 
-        $password = $attributes['password'];
-        unset($attributes['password']);
+        // ---------------------------
+        if (! empty($request->input('password'))) {
+            fusion()->authorize()->post(
+                'users/' . $user->id . '/password',
+                $request->only([
+                    'password',
+                    'password_confirmation'
+                ])
+            );
+        }
+        // ---------------------------
 
         $user->update($attributes);
-
-        if (! empty($password)) {
-            $user->password            = $password;
-            $user->password_changed_at = now();
-
-            $user->save();
-        }
 
         if ($request->has('role')) {
             $user->syncRoles($request->get('role'));
