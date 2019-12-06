@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Users;
 
 use App\Http\Controllers\Controller;
 
