@@ -17,14 +17,14 @@ Auth::routes([
 
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::group(['prefix' => 'settings', 'middleware' => ['auth', 'verified']], function () {
-    Route::get('/', 'Settings\AccountController@index');
+Route::group(['prefix' => 'account', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/', 'Account\SettingController@index');
 
-    Route::get('account', 'Settings\AccountController@edit');
-    Route::post('account', 'Settings\AccountController@update');
+    Route::get('settings', 'Account\SettingController@edit');
+    Route::post('settings', 'Account\SettingController@update');
 
-    Route::get('security', 'Settings\SecurityController@edit');
-    Route::post('security', 'Settings\SecurityController@update');
+    Route::get('security', 'Account\SecurityController@edit');
+    Route::post('security', 'Account\SecurityController@update');
 
-    Route::get('api', 'Settings\APIController@edit');
+    Route::get('api', 'Account\APIController@edit');
 });

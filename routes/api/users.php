@@ -20,5 +20,7 @@
 |
 */
 
-Route::apiResource('roles', 'RoleController');
-Route::apiResource('users', 'UserController');
+Route::apiResource('roles', 'Users\RoleController');
+Route::apiResource('users', 'Users\UserController');
+
+Route::post('users/{user}/password', 'Users\PasswordController');

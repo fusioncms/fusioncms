@@ -38,7 +38,7 @@
 
                     @auth
                         <li class="ml-6 my-2 md:my-0">
-                            <a href="/settings/account" class="group block py-1 md:py-4 px-2 align-middle text-gray-500 no-underline border-b-2 border-white hover:border-gray-900">
+                            <a href="/account/settings" class="group block py-1 md:py-4 px-2 align-middle text-gray-500 no-underline border-b-2 border-white hover:border-gray-900">
                                 <span class="pb-1 md:pb-0 text-sm group-hover:text-gray-900">Settings</span>
                             </a>
                         </li>
@@ -80,7 +80,7 @@
                     <li class="py-px border-b border-gray-800"></li>
 
                     @auth
-                        <li class="py-px"><a href="/settings/account" class="text-gray-500 hover:text-gray-700">Settings</a></li>
+                        <li class="py-px"><a href="/account/settings" class="text-gray-500 hover:text-gray-700">Settings</a></li>
                         <li class="py-px"><a href="/logout" class="text-gray-500 hover:text-gray-700">Logout</a></li>
                     @else
                         <li class="py-px"><a href="/login" class="text-gray-500 hover:text-gray-700">Login</a></li>
