@@ -24,7 +24,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
+                        <p-dropdown right :key="table.record.slug">
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
@@ -44,7 +44,7 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-entry" title="Delete Entry">
+            <p-modal name="delete-entry" title="Delete Entry" key="delete_entry">
                 <p>Are you sure you want to permenantly delete this entry?</p>
 
                 <template slot="footer" slot-scope="entry">
