@@ -16,7 +16,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeNewUser extends Mailable
+class WelcomeNewUser extends Mailable implements EditMailable
 {
     use Queueable, SerializesModels;
 
@@ -53,5 +53,14 @@ class WelcomeNewUser extends Mailable
                 )
             )
             ->markdown('emails.users.welcome');
+    }
+
+    /**
+     * Participates in online editing.
+     * 
+     * @return string
+     */
+    public function getHandle() {
+        return 'welcome-new-user';
     }
 }

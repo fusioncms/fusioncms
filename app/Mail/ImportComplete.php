@@ -38,4 +38,13 @@ class ImportComplete extends Mailable
     {
         return $this->markdown('emails.imports.complete');
     }
+
+    /**
+     * Participates in online editing.
+     * 
+     * @return string
+     */
+    public function getHandle() {
+        return 'import-complete';
+    }
 }
