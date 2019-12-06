@@ -36,11 +36,7 @@ trait HasCustomLogger
      */
     protected function createLogger($logPath)
     {
-        // Clear file..
-        $handle = fopen(storage_path($logPath), 'w+');
-        fclose($handle);
-
-    	$stream = new StreamHandler(storage_path($logPath));
+    	$stream = new StreamHandler(Storage::path($logPath));
     	$stream->setFormatter(new JsonFormatter());
 
         $this->logPath = $logPath;
