@@ -8,8 +8,11 @@
           :placeholder="field.settings.placeholder"
           v-model="datetime"
           class="datetime__input form__control mr-2">
-      <a href="#" class="datetime__button button button--primary px-4" @click.prevent="flatpickr.open()">
+      <a href="#" class="datetime__button button button--primary px-4 mr-2" @click.prevent="flatpickr.open()" title="Open date selector">
         <fa-icon icon="calendar-alt"></fa-icon>
+      </a>
+      <a v-if="datetime" href="#" class="datetime__clear button px-4" @click.prevent="flatpickr.clear()" title="Clear date">
+        <fa-icon icon="eraser"></fa-icon>
       </a>
     </div>
     <div class="form__control--meta" v-if="field.help">
@@ -49,10 +52,15 @@
       },
 
       format(dateStr, instance) {
-        let dateObject = instance.parseDate(dateStr)
-        let formattedDate = instance.formatDate(dateObject, 'Y-m-d H:i:S')
 
-        return formattedDate
+        if (dateStr != '') {
+          let dateObject = instance.parseDate(dateStr)
+          let formattedDate = instance.formatDate(dateObject, 'Y-m-d H:i:S')
+          return formattedDate
+        }
+
+        return null
+          
       },
 
       adjustTimezone(dateStr) {
