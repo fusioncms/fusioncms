@@ -20,7 +20,7 @@ class CreateImportLogsTable extends Migration
             $table->unsignedInteger('total_rows')->default(0);
             $table->text('processed')->default('');
             $table->unsignedInteger('progress')->default(0);
-            $table->string('log_file');
+            $table->string('log_file')->nullable();
             $table->string('status');
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
