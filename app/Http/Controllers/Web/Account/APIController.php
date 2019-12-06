@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Web\Settings;
+namespace App\Http\Controllers\Web\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,6 +29,6 @@ class APIController extends Controller
      */
     public function edit(Request $request)
     {
-        return view('settings.api');
+        return view('account.api');
     }
 }
