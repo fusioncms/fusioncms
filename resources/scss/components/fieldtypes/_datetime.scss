@@ -3,3 +3,28 @@
     flex: 0 0 200px;
   }
 }
+
+.flatpickr-calendar {
+  @apply .border-gray-400;
+  .flatpickr-months {
+    @apply .border-gray-400 .pb-1 .mt-1 .mb-2 .relative;
+    border-bottom-width: 1px;
+  }
+
+  .flatpickr-day.today {
+    border-bottom-color: inherit;
+    border-top-color: inherit;
+    background-color: rgba(0,0,0,.05);
+    font-weight: 800;
+  }
+  .flatpickr-day.selected {
+    @apply .bg-primary-500 .border-primary-500;
+  }
+
+  .flatpickr-monthDropdown-months {
+    appearance: none;
+    &:hover, &:focus {
+      background-color: transparent;
+    }
+  }
+}
