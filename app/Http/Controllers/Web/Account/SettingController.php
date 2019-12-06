@@ -9,35 +9,42 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Web\Settings;
+namespace App\Http\Controllers\Web\Account;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserSecurity;
+use App\Http\Requests\UpdateUserAccount;
 
-class SecurityController extends Controller
+class SettingController extends Controller
 {
+    /**
+     * Simple redirect to the edit route.
+     * 
+     * @return Response
+     */
+    public function index()
+    {
+        return redirect('account/settings');
+    }
+
     /**
      * @param  Request  $request
      * @return mixed
      */
     public function edit(Request $request)
     {
-        return view('settings.security');
+        return view('account.settings');
     }
 
-    public function update(UpdateUserSecurity $request)
+    public function update(UpdateUserAccount $request)
     {
         $user       = User::find(auth()->user()->id);
-        $attributes = $request->only('password');
+        $attributes = $request->validated();
 
-        $test = $user->update([
-            'password'            => bcrypt($attributes['password']),
-            'password_changed_at' => now(),
-        ]);
+        $user->update($attributes);
 
-        \Flash::success('Security settings have been updated.');
+        \Flash::success('Account settings have been updated.');
 
         return redirect()->back();
     }

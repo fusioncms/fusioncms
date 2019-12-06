@@ -9,10 +9,12 @@
 
 	<div class="row">
 		<div class="col w-1/5">
-			@include('settings.sidebar')
+			@include('account.sidebar')
 		</div>
 
-        <div class="col w-2/5">			
+        <div class="col w-2/5">
+        	<form method="POST">
+				@csrf		
 			<div class="mb-6">
 				<label for="password" class="block text-xs font-bold uppercase mb-1">Password</label>
 				<input type="password" name="password" class="form-input w-full" autocomplete="new-password">
@@ -29,5 +31,5 @@
         </div>
 	</div>
 	
-	@include('settings.footer')
+	@include('account.footer')
 @endsection

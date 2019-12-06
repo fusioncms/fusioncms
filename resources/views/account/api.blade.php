@@ -9,7 +9,7 @@
 
 	<div class="row">
 		<div class="col w-1/5">
-			@include('settings.sidebar')
+			@include('account.sidebar')
 		</div>
 
 		<div class="col w-3/5"> 
@@ -17,5 +17,5 @@
         </div>
 	</div>
 	
-	@include('settings.footer')
+	@include('account.footer')
 @endsection
