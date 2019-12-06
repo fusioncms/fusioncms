@@ -189,7 +189,7 @@
                     }
 
                     _.forEach(vm.collection.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.collection[handle])
+                        Vue.set(fields, handle, '')
                     })
 
                     vm.form = new Form(fields, true)
