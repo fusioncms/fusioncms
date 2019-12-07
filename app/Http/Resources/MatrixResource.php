@@ -49,12 +49,6 @@ class MatrixResource extends JsonResource
             'fieldset'         => new FieldsetResource($this->fieldset),
         ];
 
-        if ($this->fieldset) {
-            foreach ($this->fieldset->fields as $field) {
-                $resource['fields'][$field->handle] = $this->{$field->handle};
-            }
-        }
-
         return $resource;
     }
 }
