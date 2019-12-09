@@ -69,6 +69,10 @@ class UserImport extends BaseImport
      */
     protected function update(array $attributes)
     {
+        $attributes = array_merge($attributes, [
+            'password_confirmation' => $attributes['password']
+        ]);
+        
         fusion()
             ->authorize()
             ->patch("users/{$attributes['id']}", $attributes);
