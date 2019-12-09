@@ -25,6 +25,13 @@ class {class} extends Model
     protected $table = 'mx_{handle}';
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['name', 'handle', 'slug', 'fields'];
+
+    /**
      * Mass assignment protection.
      *
      * @var array
@@ -71,5 +78,35 @@ class {class} extends Model
     public function getFieldsAttribute()
     {
         return $this->matrix->fieldset->fields;
+    }
+
+    /**
+     * Proxy the name attribute from the owning matrix.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->matrix->name;
+    }
+
+    /**
+     * Proxy the handle attribute from the owning matrix.
+     *
+     * @return string
+     */
+    public function getHandleAttribute()
+    {
+        return $this->matrix->handle;
+    }
+
+    /**
+     * Proxy the slug attribute from the owning matrix.
+     *
+     * @return string
+     */
+    public function getSlugAttribute()
+    {
+        return $this->matrix->slug;
     }
 }
