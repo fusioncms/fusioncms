@@ -45,7 +45,7 @@ class BackupTest extends TestCase
         	->json('POST', '/api/backups')
         	->assertStatus(200);
 
-        Bus::assertDispatched(BackupRun::class);
+        Bus::assertDispatched(\App\Jobs\Backups\BackupRun::class);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class BackupTest extends TestCase
         $response = $this->json('POST', '/api/backups')
         	->assertStatus(422);
 
-        Bus::assertNotDispatched(BackupRun::class);
+        Bus::assertNotDispatched(\App\Jobs\Backups\BackupRun::class);
 	}
 
 	/**
