@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
-use App\Services\Builders\Collection;
 
 class MatrixController extends Controller
 {
@@ -82,7 +81,7 @@ class MatrixController extends Controller
     public function slug($matrix)
     {
         $this->authorize('matrices.show');
-        
+
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
 
         return new MatrixResource($matrix);
@@ -115,8 +114,10 @@ class MatrixController extends Controller
                 'link' => 'matrices/edit/' . $matrix->id,
             ])
             ->log('Created matrix (:subject.name)');
-
-        $model  = (new Collection($matrix->handle))->make();
+       
+        // Build model class
+        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
+        $model   = (new $builder($matrix->handle))->make();
 
         return new MatrixResource($matrix);
     }
@@ -144,7 +145,9 @@ class MatrixController extends Controller
             $matrix->detachFieldset();
         }
 
-        $model  = (new Collection($matrix->handle))->make();
+        // Build model class
+        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
+        $model   = (new $builder($matrix->handle))->make();
 
         activity()
             ->performedOn($matrix)
