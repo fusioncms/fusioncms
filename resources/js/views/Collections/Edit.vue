@@ -20,11 +20,31 @@
                                 <div class="col mb-6 form-content">
                                     <div class="row">
                                         <div class="col w-1/2">
-                                            <p-input name="name" label="Name" v-model="form.name"></p-input>
+                                            <p-input
+                                                name="name"
+                                                label="Name"
+                                                autocomplete="off"
+                                                autofocus
+                                                required
+                                                :has-error="form.errors.has('name')"
+                                                :error-message="form.errors.get('name')"
+                                                v-model="form.name">
+                                            </p-input>
                                         </div>
 
                                         <div class="col w-1/2">
-                                            <p-slug name="slug" label="Slug" monospaced v-model="form.slug" :watch="form.name"></p-slug>
+                                            <p-slug
+                                                name="slug"
+                                                label="Slug"
+                                                monospaced
+                                                autocomplete="off"
+                                                required
+                                                delimiter="_"
+                                                :watch="form.name"
+                                                :has-error="form.errors.has('slug')"
+                                                :error-message="form.errors.get('slug')"
+                                                v-model="form.slug">
+                                            </p-slug>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +149,7 @@
             return {
                 collection: {},
                 entry: {},
-                form: {},
+                form: new Form({}),
             }
         },
 
@@ -187,13 +207,17 @@
                         status: vm.entry.status,
                     }
 
-                    _.forEach(vm.collection.fields, function(value, handle) {
-                        if (vm.entry[handle + '_raw']) {
-                            Vue.set(fields, handle, vm.entry[handle + '_raw'])
-                        } else {
-                            Vue.set(fields, handle, vm.entry[handle])
-                        }
-                    })
+                    if (vm.collection.fieldset) {
+                        _.forEach(vm.collection.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                if (vm.entry[field.handle + '_raw']) {
+                                    Vue.set(fields, field.handle, vm.entry[field.handle + '_raw'])
+                                } else {
+                                    Vue.set(fields, field.handle, vm.entry[field.handle])
+                                }
+                            })
+                        })
+                    }
 
                     vm.form = new Form(fields, true)
                 }).catch(function(error) {

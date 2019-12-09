@@ -140,7 +140,7 @@
 
                     this.$router.push('/')
                 }).catch((response) => {
-                    toast(response.response.data.message, 'failed')
+                    toast(response.message, 'failed')
                 })
             },
 
@@ -148,16 +148,20 @@
                 let vm = this
 
                 axios.get('/api/pages/' + to.params.page).then((response) => {    
-                    vm.matrix  = response.data.data.matrix
-                    vm.page = response.data.data.page
+                    vm.matrix = response.data.data.matrix
+                    vm.page   = response.data.data.page
 
                     let fields = {
                         status: vm.page.status,
                     }
 
-                    _.forEach(vm.matrix.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.page[handle])
-                    })
+                    if (vm.matrix.fieldset) {
+                        _.forEach(vm.matrix.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                Vue.set(fields, field.handle, vm.page[field.handle])
+                            })
+                        })
+                    }
 
                     vm.form = new Form(fields, true)
                 })

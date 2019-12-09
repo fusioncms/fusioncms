@@ -65,7 +65,8 @@ class Matrix extends Model
 
     public function getBuilder()
     {
-        $builder = new \App\Services\Builders\Page($this->handle);
+        $builder = 'App\\Services\\Builders\\' . Str::studly($this->type);
+        $builder = new $builder($this->handle);
 
         return $builder->make();
     }
