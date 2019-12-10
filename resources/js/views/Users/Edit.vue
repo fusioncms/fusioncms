@@ -9,14 +9,14 @@
                 <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
-                            <div class="col xl:text-right w-full xl:w-1/3">
+                            <div class="col form-sidebar">
                                 <div class="xl:mr-10">
                                     <h3>Personal</h3>
                                     <p class="text-sm">Information to identify the user both within the CMS and by means of login.</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xl:w-2/3">
+                            <div class="col form-content">
                                 <p-input name="name" label="Name" autocomplete="off" :has-error="hasError('name')" :error-message="getError('name')" autofocus required v-model="name"></p-input>
 
                                 <p-input type="email" name="email" label="E-mail" autocomplete="off" :has-error="hasError('email')" :error-message="getError('email')" required v-model="email"></p-input>
@@ -26,14 +26,14 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col xl:text-right w-full xl:w-1/3">
+                            <div class="col form-sidebar">
                                 <div class="xl:mr-10">
                                     <h3>Security</h3>
                                     <p class="text-sm">Secure the account by specifying the role and setting a strong password.</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xl:w-2/3">
+                            <div class="col form-content">
                                 <p-select name="role" label="Role" :options="roleOptions" autocomplete="off" value="user" :has-error="hasError('role')" :error-message="getError('role')" required v-model="role"></p-select>
                                 
                                 <p-input type="password" name="password" label="Password" autocomplete="new-password" :has-error="hasError('password')" :error-message="getError('password')" required v-model="password"></p-input>
@@ -70,10 +70,6 @@
                         </portal>
                     </p-card>
                 </form>
-
-                <p-card class="text-center mb-6">
-                    <img src="/img/avatar.png" alt="Avatar">
-                </p-card>
 
                 <p-card class="text-sm" v-if="user">
                     <div class="flex justify-between">

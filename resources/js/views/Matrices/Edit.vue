@@ -9,14 +9,14 @@
                 <form @submit.prevent="submit" @input.once="form.onFirstChange">
                     <p-card>
                         <div class="row">
-                            <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
                                     <h3>General</h3>
                                     <p class="text-sm">What will this matrix be called and what will it manage?</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xxl:w-2/3">
+                            <div class="col form-content">
                                 <p-input
                                     name="name"
                                     label="Name"
@@ -87,14 +87,14 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
                                     <h3>Customize</h3>
                                     <p class="text-sm">Customize how your matrix will be found and displayed within the admin control panel.</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xxl:w-2/3">
+                            <div class="col form-content">
                                 <div class="row">
                                     <div class="col w-full xxl:w-1/2 mb-6">
                                         <p-select
@@ -157,14 +157,14 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col xxl:text-right w-full xxl:w-1/3">
-                                <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
                                     <h3>Route</h3>
                                     <p class="text-sm">If your matrix will be accessible from the frontend, you may define its route and template here.</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xxl:w-2/3">
+                            <div class="col form-content">
                                 <div class="row">
                                     <div class="col w-full xxl:w-1/2 xxl:mb-0 mb-6">
                                         <p-input
