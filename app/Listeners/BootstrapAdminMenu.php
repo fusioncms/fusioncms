@@ -88,7 +88,7 @@ class BootstrapAdminMenu
                 'icon'  => 'users-class',
             ]);
 
-            $menu->users->add('All Users')->data([
+            $menu->users->add('Users')->data([
                 'to' => '/users',
             ]);
 
