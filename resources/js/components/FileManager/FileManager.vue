@@ -315,7 +315,7 @@
             },
 
             lastModified(timestamp) {
-                return moment(timestamp).format('MMM Do, YYYY')
+                return $moment(timestamp).format('MMM Do, YYYY')
             },
 
             sortingIcon(by) {

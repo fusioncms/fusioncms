@@ -31,7 +31,6 @@ class UserController extends DataTableController
     public function getDisplayableColumns()
     {
         return [
-            'avatar',
             'name',
             'email',
             'status',
@@ -59,7 +58,6 @@ class UserController extends DataTableController
     public function getCustomColumnNames()
     {
         return [
-            'avatar' => ' ',
             'name'   => 'Name',
             'email'  => 'E-mail',
             'status' => 'Status',
