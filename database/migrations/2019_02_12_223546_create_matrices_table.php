@@ -24,6 +24,7 @@ class CreateMatricesTable extends Migration
     {
         Schema::create('matrices', function (Blueprint $table) {
             $table->increments('id');
+            $table->bigInteger('parent_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('handle')->unique();
             $table->string('slug')->unique();
