@@ -15,9 +15,30 @@ export default class Form {
         this.hasChanges = false
         this.preventNavigation = preventNavigation
 
+        let form = this
+
+        this.__data = {};
+
         for (let field in data) {
             this[field] = data[field]
+        
+            form.__data[field] = form[field];
+
+            (function(field_name) {
+                Object.defineProperty (form, field_name, {
+                    get: function () { 
+                        return form.__data[field_name];
+                    },
+                    set: function (new_value) {
+                        form.__data[field_name] = new_value;
+                        if (!form.hasChanges) {
+                            form.onFirstChange()
+                        }
+                    }
+                });
+            })(field);
         }
+
     }
 
     set(field, value) {

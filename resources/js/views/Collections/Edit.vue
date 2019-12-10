@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit" @input.once="form.onFirstChange">
+                <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
                                 <div class="col form-sidebar">
