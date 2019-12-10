@@ -28,7 +28,7 @@ class FieldObserver
     {
         $fieldset   = $field->section->fieldset;
         $containers = $this->getFieldsettables($fieldset);
-        
+
         $fieldtype    = fieldtypes()->get($field->type);
         $relationship = $fieldtype->getRelationship();
         $column       = $fieldtype->getColumn('type');
@@ -37,9 +37,9 @@ class FieldObserver
         array_unshift($settings, $field->handle);
 
         if (! is_null($column)) {
-            $containers->each(function($container) use ($column, $settings) {
-                Schema::table($container->getTable(), function ($table) use ($column, $settings, $container) {
-                    if (! Schema::hasColumn($container->getTable(), $column)) {
+            $containers->each(function($container) use ($field, $column, $settings) {
+                Schema::table($container->getTable(), function ($table) use ($field, $column, $settings) {
+                    if (! Schema::hasColumn($table->getTable(), $field->handle)) {
                         call_user_func_array([$table, $column], $settings)->nullable();
                     }
                 });
@@ -58,13 +58,19 @@ class FieldObserver
         $fieldset   = $field->section->fieldset;
         $containers = $this->getFieldsettables($fieldset);
 
-        $old = ['handle' => $field->getOriginal('handle'), 'column' => fieldtypes()->get($field->getOriginal('type'))->getColumn(), 'type' => $field->getOriginal('type')];
-        $new = ['handle' => $field->handle, 'column' => fieldtypes()->get($field->type)->getColumn(), 'type' => $field->type];
+        $old = [
+            'handle' => $field->getOriginal('handle'),
+            'column' => fieldtypes()->get($field->getOriginal('type'))->getColumn(),
+            'type'   => $field->getOriginal('type')
+        ];
 
-        $oldFieldtype = json_encode($old['type']);
-        $newFieldtype = json_encode($new['type']);
+        $new = [
+            'handle' => $field->handle,
+            'column' => fieldtypes()->get($field->type)->getColumn(),
+            'type'   => $field->type
+        ];
 
-        $containers->each(function($container) use($old, $new, $oldFieldtype, $newFieldtype) {
+        $containers->each(function($container) use($old, $new) {
             $table = $container->getTable();
 
             if ($old['handle'] !== $new['handle']) {
@@ -79,7 +85,7 @@ class FieldObserver
                 }
             }
 
-            if ($oldFieldtype !== $newFieldtype) {
+            if ($old['type'] !== $new['type']) {
                 $fieldtype = fieldtypes()->get($new['type']);
                 $column    = $fieldtype->getColumn('type');
                 $settings  = $fieldtype->getColumn('settings') ?? [];

@@ -96,8 +96,8 @@ class FieldsetSectionController extends Controller
                 $detached = $this->getDetachedFields($section, $fields);
 
                 $this->deleteFields($section, $detached);
-                $this->createFields($section, $attached);
                 $this->updateFields($section, $updated);
+                $this->createFields($section, $attached);
             });
         }
 
