@@ -4,7 +4,21 @@
             <h2>Fusion News</h2>
         </div>
 
-        <table v-if="feed.length">
+        <div class="card__body">
+            <a href="#" class="flex mb-3 border border-gray-200 text-gray-700 hover:bg-gray-900 hover:text-white rounded-lg p-3 overflow-hidden" v-for="entry in feed" :key="entry.id">
+                <div class="bg-gray-100 text-gray-700 p-3 rounded border border-gray-200 mr-6 flex-shrink-0 justify-center flex flex-col">
+                    <span class="block text-center font-bold text-3xl leading-none">{{ $moment(entry.date_published).format('DD') }}</span>
+                    <span class="block text-center text-sm text-gray-600">{{ $moment(entry.date_published).format('MMM Y') }}</span>
+                </div>
+
+                <div>
+                    <span class="block font-bold tracking-wide">Update</span>
+                    <span class="block">{{ entry.title }}</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- <table v-if="feed.length">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -18,9 +32,9 @@
                     <td><a :href="entry.url">Read More</a></td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
 
-        <div v-else class="card__body">
+        <!-- <div class="card__body">
             <div class="text-center mb-4 bg-gray-100 text-gray-800 rounded p-3">
                 The Fusion news feed will be implemented at launch.
             </div>
@@ -84,7 +98,7 @@
                     <p>FusionCMS 5.13.1 is now available.</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

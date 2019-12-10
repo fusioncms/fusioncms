@@ -35,8 +35,8 @@
                             <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
                         </router-link>
                     </td>
-                    <td>{{ moment(activity.created_at).format('L') }}</td>
-                    <td>{{ moment(activity.created_at).format('LT') }}</td>
+                    <td>{{ $moment(activity.created_at).format('L') }}</td>
+                    <td>{{ $moment(activity.created_at).format('LT') }}</td>
                 </tr>
             </tbody>
         </table>

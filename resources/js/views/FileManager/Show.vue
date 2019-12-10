@@ -102,7 +102,7 @@
 
                     <div class="flex justify-between">
                         <label class="form__label">Last Modified</label>
-                        <p>{{ moment(file.created_at.date).format('L') }}</p>
+                        <p>{{ $moment(file.created_at.date).format('L') }}</p>
                     </div>
                 </p-card>
             </div>
