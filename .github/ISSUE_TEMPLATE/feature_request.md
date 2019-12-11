@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea or improvement for FusionCMS
-title: ''
+title: 'Feature request: '
 labels: 'Enhancement'
 assignees: ''
 ---
