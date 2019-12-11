@@ -1,23 +1,11 @@
-Thanks for sending a pull request! Please fill out the sections below and then delete this comment.
-
-What does this implement or fix? Explain your changes.
-------------------------------------------------------
+### What does this implement or fix?
 ...
 
-Does this close any currently open issues?
-------------------------------------------
+### Does this close any currently open issues?
 - #123
-- #124
-- #125
 
-Any logs, error output, etc?
-----------------------------
-```
-If it’s long, please create a Gist [https://gist.github.com/] and insert the link here.
-```
-
-Any other comments?
--------------------
-...
+### Screenshots
+Screenshots showcasing your update (if its a visual UI update) are helpful for reviewers.
 
 - [ ] If merged, please delete my branch.
+- [ ] I have compiled any javascript/scss resources for production, because I don't like submitting hundreds of thousands of new lines of code.
