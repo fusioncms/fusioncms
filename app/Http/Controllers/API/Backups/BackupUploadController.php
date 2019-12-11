@@ -31,9 +31,7 @@ class BackupUploadController extends Controller
         $filename = Carbon::now()->format('Y-m-d-H-i-s').'.zip';
 
         // Save to backup destination disks..
-        $disks = config('backup.backup.destination.disks', ['public']);
-        
-        foreach ($disks as $disk) {
+        foreach (config('backup.backup.destination.disks') as $disk) {
             $file->storeAs('backups', $filename, [ $disk ]);
         }
 

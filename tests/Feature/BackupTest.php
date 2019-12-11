@@ -11,6 +11,9 @@
 
 namespace Tests\Feature;
 
+use File;
+use ZipArchive;
+use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
@@ -27,7 +30,25 @@ class BackupTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('public');
+        Storage::fake('temp');
+
+        // Establish fake db connection..
         config(['backup.backup.source.databases' => ['sqlite']]);
+        
+        // Establish backup `backup-temp`..
+        config(['backup.backup.temporary_directory' => Storage::disk('temp')->path('backup-temp')]);
+
+        // Establish included files to backup..
+		config(['backup.backup.source.files.include' => [
+			Storage::disk('public')->path('files'),
+			Storage::disk('temp')->path('env.json'),
+			storage_path('settings.json'),
+		]]);
+
+		// Add multiple files..
+		Storage::disk('public')->put('files/testing-file1.txt', 'dummy content');
+		Storage::disk('public')->put('files/testing-file2.txt', 'dummy content');
 
         $this->handleValidationExceptions();
     }
@@ -73,7 +94,6 @@ class BackupTest extends TestCase
 	public function a_request_to_backup_will_first_clean_then_create_a_backup()
 	{
 		Event::fake();
-		Storage::fake('public');
 
 		// Create new backup..
 		(new \App\Jobs\Backups\BackupRun)->handle();
@@ -83,8 +103,42 @@ class BackupTest extends TestCase
 
 		// ...assert backup was successful.
 		Event::assertDispatched(\Spatie\Backup\Events\BackupWasSuccessful::class, function($ev) use (&$backup) {
-			return $ev->backupDestination->backups()->count() == 1;
+			return Storage::disk('public')->assertExists($ev->backupDestination->newestBackup()->path());
 		});
+	}
+
+	/**
+     * @test
+     * @group fusioncms
+     * @group backups
+     */
+	public function a_request_to_backup_will_save_env_variables_with_the_backup_zip()
+	{
+		Event::fake();
+
+		// Create new backup..
+		(new \App\Jobs\Backups\BackupRun)->handle();
+
+		// ...assert backup was successful.
+		Event::assertDispatched(\Spatie\Backup\Events\BackupWasSuccessful::class, function($ev) {
+			$backupPath = Storage::disk('public')->path($ev->backupDestination->newestBackup()->path());
+			$zipArchive = new ZipArchive;
+
+			// Verify env variables were backed-up correctly..
+			if ($zipArchive->open($backupPath) === true) {
+				$contents  = $zipArchive->getFromName(ltrim(Storage::disk('temp')->path('env.json'), '/'));
+				$variables = json_decode($contents, true);
+				
+				foreach(config('backup.backup.source.env') as $key) {
+					if ($variables[$key] != env($key)) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		});
+
 	}
 
 	/**
@@ -95,44 +149,80 @@ class BackupTest extends TestCase
 	public function a_request_to_restore_from_backup_will_restore_files()
 	{
 		Event::fake();
-		Storage::fake('public');
-
-		// Set file include directory for backup..
-		config(['backup.backup.source.files.include' => [
-			Storage::disk('public')->path('files')
-		]]);
-
-		// Add multiple files..
-		Storage::disk('public')->put('files/testing-file1.txt', 'dummy content');
-		Storage::disk('public')->put('files/testing-file2.txt', 'dummy content');
 
 		// Create new backup..
 		(new \App\Jobs\Backups\BackupRun)->handle();
 
-		// Delete single file..
+		// Alter one of the test files..
+		// Delete another test file..
 		Storage::disk('public')->append('files/testing-file1.txt', 'more content');
 		Storage::disk('public')->delete('files/testing-file2.txt');
 
-		// Obtain the backup zip...
-		$backup = new \Spatie\Backup\BackupDestination\Backup(
-			Storage::disk('public'),
-			Storage::disk('public')->files('backups')[0]
-		);
+		// ...assert backup was successful.
+		Event::assertDispatched(\Spatie\Backup\Events\BackupWasSuccessful::class, function($ev) {
+			$backup = $ev->backupDestination->newestBackup();
 
-		// Restore backup..
-		(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
+			// Restore backup..
+			(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
 
-		// Assert events were dispatched..
-		Event::assertDispatched(\App\Events\Backups\RestoreManifestWasCreated::class);
-		Event::assertDispatched(\App\Events\Backups\BackupExtractionSuccessful::class);
-		Event::assertDispatched(\App\Events\Backups\FileRestoreSuccessful::class, function($ev) {
-			foreach ($ev->filesToCopy as $file) {
-				Storage::disk('public')->assertExists('files/' . basename($file['target']));
+			// Assert events were dispatched..
+			Event::assertDispatched(\App\Events\Backups\RestoreManifestWasCreated::class);
+			Event::assertDispatched(\App\Events\Backups\BackupExtractionSuccessful::class);
+			Event::assertDispatched(\App\Events\Backups\FileRestoreSuccessful::class, function($ev) {
+				foreach ($ev->filesToCopy as $file) {
+					if (Storage::disk('public')->exists('files/' . basename($file['target']))) {
+						$this->assertEquals(
+							Storage::disk('public')->get('files/' . basename($file['target'])),
+							'dummy content'
+						);
+					}
 
-				$this->assertEquals(
-					Storage::disk('public')->get('files/' . basename($file['target'])),
-					'dummy content'
-				);
+				}
+
+				return true;
+			});
+
+			return true;
+		});
+	}
+
+	/**
+     * @test
+     * @group fusioncms
+     * @group backups
+     */
+	public function a_request_to_restore_from_backup_will_restore_env_variables()
+	{
+		Event::fake();
+
+
+
+		// Create new backup..
+		(new \App\Jobs\Backups\BackupRun)->handle();
+
+		// Make edit to the .env.testing file..
+		// So we can restore the variables upon restoration..
+		$envContents = File::get(app()->environmentFilePath());
+		foreach(config('backup.backup.source.env') as $key) {
+			$envContents = preg_replace("/^({$key})=([^\r\n]*)$/m", "$1=" . Str::random(), $envContents);
+		}
+		File::put(app()->environmentFilePath(), $envContents);
+
+		// ...assert backup was successful.
+		Event::assertDispatched(\Spatie\Backup\Events\BackupWasSuccessful::class, function($ev) {
+			$backup = $ev->backupDestination->newestBackup();
+
+			// Restore backup..
+			(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
+
+			$envContents = File::get(app()->environmentFilePath());
+			$matches     = [];
+
+			foreach(config('backup.backup.source.env') as $key) {
+				preg_match("/^({$key})=([^\r\n]*)$/m", $envContents, $matches);
+				if ($matches[2] != env($key)) {
+					return false;
+				}
 			}
 
 			return true;

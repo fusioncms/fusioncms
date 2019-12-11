@@ -49,7 +49,7 @@ class RestoreFromBackup
     public function handle()
     {
         $backupPath       = Storage::disk('public')->path($this->backup->path());
-        $extractionPath   = storage_path('app/restore-temp');
+        $extractionPath   = Storage::disk('temp')->path('restore-temp');
         $restoreDirectory = (new TemporaryDirectory($extractionPath))
                 ->name('temp')
                 ->force()
@@ -61,6 +61,7 @@ class RestoreFromBackup
             'Unzip backup for processing....' => new \App\Jobs\Backups\UnzipBackup($restoreDirectory, $backupPath),
             'Restore database from backup...' => new \App\Jobs\Backups\RestoreDatabase($restoreDirectory),
             'Restore files from backup...'    => new \App\Jobs\Backups\RestoreFiles($restoreDirectory),
+            'Restore .env variables...'       => new \App\Jobs\Backups\RestoreEnvVariables(),
             'Exit maintenance mode...'        => new \App\Jobs\ExitMaintenanceMode,
         ];
         
