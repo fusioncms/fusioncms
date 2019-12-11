@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit" @input.once="form.onFirstChange">
+                <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
                                 <div class="col form-sidebar">
@@ -114,7 +114,7 @@
                         <portal to="actions">
                             <router-link v-if="collection.slug" :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-3">Go Back</router-link>
 
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
                         </portal>
                     </p-card>
 

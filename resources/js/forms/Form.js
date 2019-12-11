@@ -15,9 +15,30 @@ export default class Form {
         this.hasChanges = false
         this.preventNavigation = preventNavigation
 
+        let form = this
+
+        this.__data = {};
+
         for (let field in data) {
             this[field] = data[field]
+        
+            form.__data[field] = form[field];
+            (function(field_name) {
+                Object.defineProperty (form, field_name, {
+                    get: function () { 
+                        return form.__data[field_name];
+                    },
+                    set: function (new_value) {
+                        form.__data[field_name] = new_value;
+
+                        if (!form.hasChanges) {
+                            form.onFirstChange()
+                        }
+                    }
+                });
+            })(field);
         }
+
     }
 
     set(field, value) {
@@ -90,7 +111,7 @@ export default class Form {
      * @param {string} requestType
      * @param {string} url
      */
-    submit(requestType, url) {        
+    submit(requestType, url) {      
         return new Promise((resolve, reject) => {
             axios[requestType](url, this.data())
                 .then(response => {
@@ -139,6 +160,18 @@ export default class Form {
         if (this.preventNavigation) {
             store.commit('form/setPreventNavigation', true)
         }
-        
+    }
+
+     /** 
+     * Helper method to reset the form to appear as if
+     * it had no changes.
+     *
+     * @param {object} data
+     */
+    resetChangeListener(data) {
+        this.hasChanges = false
+        if (this.preventNavigation) {
+            store.commit('form/setPreventNavigation', false)
+        }
     }
 }

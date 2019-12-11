@@ -25,6 +25,7 @@ class MatrixResource extends JsonResource
     {
         $resource = [
             'id'               => $this->id,
+            'parent_id'        => $this->parent_id,
             'name'             => $this->name,
             'handle'           => $this->handle,
             'slug'             => $this->slug,
@@ -47,6 +48,8 @@ class MatrixResource extends JsonResource
             'status'           => $this->status,
 
             'fieldset'         => new FieldsetResource($this->fieldset),
+            'parent'           => new MatrixResource($this->parent),
+            'children'         => MatrixResource::collection($this->whenLoaded('children')),
         ];
 
         return $resource;
