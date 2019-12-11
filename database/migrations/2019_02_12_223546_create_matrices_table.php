@@ -24,12 +24,15 @@ class CreateMatricesTable extends Migration
     {
         Schema::create('matrices', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('parent_id')->nullable()->unsigned();
+            $table->bigInteger('parent_id')->unsigned()->default(0);
             $table->string('name');
             $table->string('handle')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('type');
+
+            $table->string('reference_singular')->default('');
+            $table->string('reference_plural')->default('');
 
             $table->boolean('sidebar')->default(true);
             $table->boolean('quicklink')->default(true);

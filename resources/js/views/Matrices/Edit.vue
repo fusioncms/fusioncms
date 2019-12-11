@@ -11,6 +11,7 @@
 <script>
     import SharedForm from './SharedForm'
     import Form from '../../forms/Form'
+    import pluralize from 'pluralize'
     import store from '../../vuex'
 
     export default {
@@ -27,6 +28,9 @@
                     description: '',
                     type: 'collection',
                     fieldset: null,
+
+                    reference_singular: '',
+                    reference_plural: '',
 
                     sidebar: '1',
                     quicklink: '1',
@@ -53,6 +57,14 @@
 
         methods: {
             submit() {
+                if (this.form.reference_singular == '') {
+                    this.form.reference_singular = pluralize.singular(this.form.name)
+                }
+
+                if (this.form.reference_plural == '') {
+                    this.form.reference_plural = pluralize(this.form.name)
+                }
+                
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
                     store.dispatch('navigation/fetchAdminNavigation')
                     
@@ -110,6 +122,9 @@
                     vm.form.description = matrix.data.data.description
                     vm.form.type = matrix.data.data.type
                     vm.form.fieldset = matrix.data.data.fieldset && matrix.data.data.fieldset.id ? matrix.data.data.fieldset.id : null
+
+                    vm.form.reference_singular = matrix.data.data.reference_singular
+                    vm.form.reference_plural = matrix.data.data.reference_plural
 
                     vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0'
                     vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0'
