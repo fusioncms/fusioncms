@@ -26,6 +26,7 @@ class MatrixController extends Controller
      * @var array
      */
     protected $rules = [
+        'parent_id'        => 'sometimes',
         'name'             => 'required|regex:/^[A-z]/i',
         'handle'           => 'required',
         'description'      => 'sometimes',

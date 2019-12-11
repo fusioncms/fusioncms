@@ -26,7 +26,7 @@ class BootstrapAdminMenu
      */
     public function handle()
     {
-        $matrices   = Matrix::where('sidebar', true)->orderBy('name')->get();
+        $matrices   = Matrix::where('sidebar', true)->where('parent_id', 0)->orderBy('name')->get();
         $taxonomies = Taxonomy::where('sidebar', true)->orderBy('name')->get();
 
         Menu::make('admin', function ($menu) use ($matrices, $taxonomies) {
@@ -39,10 +39,27 @@ class BootstrapAdminMenu
                 $menu->add('Content')->divide();
 
                 foreach ($matrices as $matrix) {
-                    $menu->add($matrix->name)->data([
-                        'to'   => $matrix->adminPath,
-                        'icon' => $matrix->icon ?: 'pencil',
-                    ]);
+                    if ($matrix->has('children') and $matrix->children->count()) {
+                        $menu->add($matrix->name, '#')->data([
+                            'icon'  => $matrix->icon ?: 'pencil',
+                        ]);
+
+                        $menu->{$matrix->slug}->add($matrix->name, '#')->data([
+                            'to' => $matrix->adminPath
+                        ]);
+
+                        foreach ($matrix->children as $child) {
+                            $menu->{$matrix->slug}->add($child->name)->data([
+                                'to' => $child->adminPath
+                            ]);
+                        }
+                    } else {
+                        $menu->add($matrix->name)->data([
+                            'to'   => $matrix->adminPath,
+                            'icon' => $matrix->icon ?: 'pencil',
+                        ]);
+                    }
+
                 }
             }
 
