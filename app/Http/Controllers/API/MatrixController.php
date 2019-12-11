@@ -26,23 +26,26 @@ class MatrixController extends Controller
      * @var array
      */
     protected $rules = [
-        'parent_id'        => 'sometimes',
-        'name'             => 'required|regex:/^[A-z]/i',
-        'handle'           => 'required',
-        'description'      => 'sometimes',
-        'type'             => 'required',
-        'fieldset'         => 'sometimes',
+        'parent_id'          => 'sometimes',
+        'name'               => 'required|regex:/^[A-z]/i',
+        'handle'             => 'required',
+        'description'        => 'sometimes',
+        'type'               => 'required',
+        'fieldset'           => 'sometimes',
 
-        'sidebar'          => 'required|boolean',
-        'quicklink'        => 'required|boolean',
-        'icon'             => 'sometimes',
+        'reference_singular' => 'sometimes',
+        'reference_plural'   => 'sometimes',
 
-        'route'            => 'sometimes',
-        'template'         => 'sometimes',
+        'sidebar'            => 'required|boolean',
+        'quicklink'          => 'required|boolean',
+        'icon'               => 'sometimes',
 
-        'revision_control' => 'required|boolean',
-        'creditable'       => 'required|boolean',
-        'publishable'      => 'required|boolean',
+        'route'              => 'sometimes',
+        'template'           => 'sometimes',
+
+        'revision_control'   => 'required|boolean',
+        'creditable'         => 'required|boolean',
+        'publishable'        => 'required|boolean',
     ];
 
     /**

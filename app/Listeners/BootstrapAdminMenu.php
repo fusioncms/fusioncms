@@ -14,6 +14,7 @@ namespace App\Listeners;
 use Menu;
 use App\Models\Matrix;
 use App\Models\Taxonomy;
+use Illuminate\Support\Str;
 use App\Events\ServingFusion;
 
 class BootstrapAdminMenu
@@ -44,12 +45,12 @@ class BootstrapAdminMenu
                             'icon'  => $matrix->icon ?: 'pencil',
                         ]);
 
-                        $menu->{$matrix->slug}->add($matrix->name, '#')->data([
+                        $menu->{Str::camel($matrix->name)}->add($matrix->reference_plural, '#')->data([
                             'to' => $matrix->adminPath
                         ]);
 
                         foreach ($matrix->children as $child) {
-                            $menu->{$matrix->slug}->add($child->name)->data([
+                            $menu->{Str::camel($matrix->name)}->add(($child->type == 'page' ? $child->reference_singular : $child->reference_plural))->data([
                                 'to' => $child->adminPath
                             ]);
                         }

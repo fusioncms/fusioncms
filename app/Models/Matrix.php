@@ -35,16 +35,13 @@ class Matrix extends Model
         'description',
         'type',
         'fieldset_id',
+        'reference_singular',
+        'reference_plural',
         'sidebar',
         'quicklink',
         'icon',
         'route',
         'template',
-        'revision_control',
-        'categorizable',
-        'creditable',
-        'publishable',
-        'seoable',
         'status',
     ];
 
