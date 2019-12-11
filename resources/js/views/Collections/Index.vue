@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <router-link v-if="collection.slug" :to="{ name: 'entries.create', params: {collection: collection.slug} }" class="button">Create {{ singular }}</router-link>
+            <router-link v-if="collection.slug" :to="{ name: 'entries.create', params: {collection: collection.slug} }" class="button">Create {{ collection.reference_singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">

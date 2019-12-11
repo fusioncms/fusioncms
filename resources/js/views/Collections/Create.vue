@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="collection.icon">Create {{ singular }}</app-title>
+            <app-title :icon="collection.icon">Create {{ collection.reference_singular }}</app-title>
         </portal>
         
         <portal to="subtitle">{{ collection.description }}</portal>
@@ -144,7 +144,6 @@
 </template>
 
 <script>
-    import pluralize from 'pluralize'
     import Form from '../../forms/Form'
 
     export default {
@@ -174,14 +173,6 @@
                     body: body,
                     sidebar: sidebar
                 }
-            },
-
-            singular() {
-                if (this.collection.name) {
-                    return pluralize.singular(this.collection.name)
-                }
-
-                return ''
             },
         },
 
