@@ -12,7 +12,7 @@ assignees: ''
 ### To reproduce
 Describe any details about the issue that we need to know that can help us reproduce the problem. The more information and/or detailed steps we have will help guarantee this getting resolved in a timely manner.
 
-### Expected bahavior
+### Expected behavior
 How would you expect this to work?
 
 ### Screenshots
