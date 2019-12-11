@@ -43,6 +43,11 @@ class BackupRun
      */
     public function handle()
     {
+        // Create file-manager folder if it doesn't exist..
+        if (!Storage::disk('public')->exists('files')){
+            Storage::disk('public')->makeDirectory('files');
+        }
+
         // Clean existing backup collection..
         Artisan::call('backup:clean', [
             '--no-interaction' => true,

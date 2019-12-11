@@ -10,7 +10,6 @@ export default class Form {
      * @param {object} data
      */
     constructor(data, preventNavigation = false) {
-console.log('form constructor')
         this.errors = new Errors
         this.originalData = data
         this.hasChanges = false
@@ -31,7 +30,7 @@ console.log('form constructor')
                     },
                     set: function (new_value) {
                         form.__data[field_name] = new_value;
-console.log('change: ' + field_name)
+
                         if (!form.hasChanges) {
                             form.onFirstChange()
                         }
@@ -112,8 +111,7 @@ console.log('change: ' + field_name)
      * @param {string} requestType
      * @param {string} url
      */
-    submit(requestType, url) {
-console.log('submit')        
+    submit(requestType, url) {      
         return new Promise((resolve, reject) => {
             axios[requestType](url, this.data())
                 .then(response => {
@@ -158,15 +156,19 @@ console.log('submit')
      * @param {object} data
      */
     onFirstChange(data) {
-console.log('firstchange:')
         this.hasChanges = true
         if (this.preventNavigation) {
             store.commit('form/setPreventNavigation', true)
         }
     }
 
+     /** 
+     * Helper method to reset the form to appear as if
+     * it had no changes.
+     *
+     * @param {object} data
+     */
     resetChangeListener(data) {
-console.log('reset')
         this.hasChanges = false
         if (this.preventNavigation) {
             store.commit('form/setPreventNavigation', false)

@@ -15,6 +15,7 @@ export default class Fusion {
         Vue.prototype.$bus = this.bus
 
         Vue.use(Proton)
+        Vue.use(require('vue-moment'))
 
         Vue.mixin({
             methods: {

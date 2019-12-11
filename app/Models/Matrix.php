@@ -28,6 +28,7 @@ class Matrix extends Model
      * @var array
      */
     protected $fillable = [
+        'parent_id',
         'name',
         'handle',
         'slug',
@@ -65,7 +66,8 @@ class Matrix extends Model
 
     public function getBuilder()
     {
-        $builder = new \App\Services\Builders\Page($this->handle);
+        $builder = 'App\\Services\\Builders\\' . Str::studly($this->type);
+        $builder = new $builder($this->handle);
 
         return $builder->make();
     }
@@ -87,5 +89,15 @@ class Matrix extends Model
     public function getTableAttribute()
     {
         return 'mx_' . $this->handle;
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Matrix::class, 'id', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Matrix::class, 'parent_id', 'id');
     }
 }

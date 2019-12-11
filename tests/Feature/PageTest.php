@@ -15,6 +15,7 @@ use App\Models\Matrix;
 use App\Models\Fieldset;
 use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
+use App\Services\Builders\Page;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PageTest extends TestCase
@@ -38,5 +39,19 @@ class PageTest extends TestCase
 
         $response = $this->json('PATCH', '/api/pages/' . $page->id, $formData);
         $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function name_handle_and_slug_values_are_proxied_from_the_owning_matrix()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $matrix = MatrixFactory::asPage()->withName('Example Page')->create();
+
+        $page = (new Page($matrix->handle))->get();
+
+        $this->assertEquals($page->name, 'Example Page');
+        $this->assertEquals($page->slug, 'example-page');
+        $this->assertEquals($page->handle, 'example_page');
     }
 }
