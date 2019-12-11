@@ -4,7 +4,7 @@
             <app-title icon="ballot">Edit Fieldset</app-title>
         </portal>
 
-        <form @input.once="form.onFirstChange">
+        <form>
             <p-card>
                 <div class="row">
                     <div class="side-container">
@@ -47,7 +47,7 @@
 
             <portal to="actions">
                 <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
-                <button type="submit" @click.prevent="submit" class="button button--primary">Save Fieldset</button>
+                <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Fieldset</button>
             </portal>
         </form>
     </div>
@@ -108,6 +108,7 @@
                     vm.form.name = fieldset.data.data.name
                     vm.form.handle = fieldset.data.data.handle
                     vm.loaded = true
+                    vm.form.resetChangeListener()
                 })
             })).catch(function(error) {
                 next('/fieldsets')

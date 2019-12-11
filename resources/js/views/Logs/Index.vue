@@ -36,7 +36,7 @@
                     </div>
                     <div class="container">
                         <div v-if="loaded" v-for="log in logs" class="logs__row flex flex-no-wrap py-2" @click="changeCurrentError(log)" v-modal:error-view>
-                            <div class="px-2 py-1 flex-no-shrink flex items-center">
+                            <div class="px-2 py-1 flex-shrink-0 flex items-center">
                                 <div :class="'d-flex whitespace-no-wrap text-' + log.level.status + '-600'" :title="log.level.name">
                                     <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
                                     <span class="sr-only">
@@ -44,7 +44,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="px-3 py-1 flex-no-shrink flex items-center text-xs whitespace-no-wrap">{{ log.date }}</div>
+                            <div class="px-3 py-1 flex-shrink-0 flex items-center text-xs whitespace-no-wrap">{{ log.date }}</div>
                             <div class="col px-3 py-1 leading-tight overflow-hidden">
                                 <div class="text-md" v-html="log.text"></div>
                                 <div v-if="log.inFile" class="truncate pt-2 text-xs text-gray-600">
