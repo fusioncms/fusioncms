@@ -12,70 +12,82 @@
                         </div>
 
                         <div class="col form-content">
-                            <p-input
-                                name="name"
-                                label="Name"
-                                help="What this matrix will be called."
-                                autocomplete="off"
-                                autofocus
-                                required
-                                :has-error="form.errors.has('name')"
-                                :error-message="form.errors.get('name')"
-                                v-model="form.name">
-                            </p-input>
+                            <div class="row">
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-input
+                                        name="name"
+                                        label="Name"
+                                        help="What this matrix will be called."
+                                        autocomplete="off"
+                                        autofocus
+                                        required
+                                        :has-error="form.errors.has('name')"
+                                        :error-message="form.errors.get('name')"
+                                        v-model="form.name">
+                                    </p-input>
+                                </div>
 
-                            <p-slug
-                                name="handle"
-                                label="Handle"
-                                help="A developer-friendly variant of the matrix's name."
-                                autocomplete="off"
-                                required
-                                delimiter="_"
-                                :watch="form.name"
-                                :has-error="form.errors.has('handle')"
-                                :error-message="form.errors.get('handle')"
-                                v-model="form.handle">
-                            </p-slug>
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-slug
+                                        name="handle"
+                                        label="Handle"
+                                        help="A developer-friendly variant of the matrix's name."
+                                        autocomplete="off"
+                                        required
+                                        delimiter="_"
+                                        :watch="form.name"
+                                        :has-error="form.errors.has('handle')"
+                                        :error-message="form.errors.get('handle')"
+                                        v-model="form.handle">
+                                    </p-slug>
+                                </div>
 
-                            <p-input
-                                name="description"
-                                label="Description"
-                                help="Give a short description of what this matrix will manage and store."
-                                autocomplete="off"
-                                required
-                                :has-error="form.errors.has('description')"
-                                :error-message="form.errors.get('description')"
-                                v-model="form.description">
-                            </p-input>
+                                <div class="col w-full mb-6">
+                                    <p-input
+                                        name="description"
+                                        label="Description"
+                                        help="Give a short description of what this matrix will manage and store."
+                                        autocomplete="off"
+                                        required
+                                        :has-error="form.errors.has('description')"
+                                        :error-message="form.errors.get('description')"
+                                        v-model="form.description">
+                                    </p-input>
+                                </div>                            
 
-                            <p-select
-                                name="type"
-                                label="Type"
-                                help="What type of matrix will this be?"
-                                :options="[
-                                    {
-                                        'label': 'Collection',
-                                        'value': 'collection',
-                                    },
-                                    {
-                                        'label': 'Page',
-                                        'value': 'page',
-                                    },
-                                ]"
-                                :has-error="form.errors.has('type')"
-                                :error-message="form.errors.get('type')"
-                                v-model="form.type">
-                            </p-select>
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-select
+                                        name="type"
+                                        label="Type"
+                                        help="What type of matrix will this be?"
+                                        :options="[
+                                            {
+                                                'label': 'Collection',
+                                                'value': 'collection',
+                                            },
+                                            {
+                                                'label': 'Page',
+                                                'value': 'page',
+                                            },
+                                        ]"
+                                        :has-error="form.errors.has('type')"
+                                        :error-message="form.errors.get('type')"
+                                        v-model="form.type">
+                                    </p-select>
+                                </div>
 
-                            <p-select
-                                name="fieldset"
-                                label="Fieldset"
-                                help="What fieldset would you like to attach?"
-                                :options="fieldsets"
-                                :has-error="form.errors.has('fieldset')"
-                                :error-message="form.errors.get('fieldset')"
-                                v-model="form.fieldset">
-                            </p-select>
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-select
+                                        name="fieldset"
+                                        label="Fieldset"
+                                        help="What fieldset would you like to attach?"
+                                        :options="fieldsets"
+                                        :has-error="form.errors.has('fieldset')"
+                                        :error-message="form.errors.get('fieldset')"
+                                        v-model="form.fieldset">
+                                    </p-select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -91,6 +103,30 @@
 
                         <div class="col form-content">
                             <div class="row">
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-input
+                                        name="reference_singular"
+                                        label="Singular Reference"
+                                        :placeholder="singularReference"
+                                        help="What would you like to reference this as in singular form? By default will try to guess from the name. Results may vary."
+                                        :has-error="form.errors.has('reference_singular')"
+                                        :error-message="form.errors.get('reference_singular')"
+                                        v-model="form.reference_singular">
+                                    </p-input>
+                                </div>
+
+                                <div class="col w-full xxl:w-1/2 mb-6">
+                                    <p-input
+                                        name="reference_plural"
+                                        label="Plural Reference"
+                                        :placeholder="pluralReference"
+                                        help="What would you like to reference this as in plural form? By default will try to guess from the name. Results may vary."
+                                        :has-error="form.errors.has('reference_plural')"
+                                        :error-message="form.errors.get('reference_plural')"
+                                        v-model="form.reference_plural">
+                                    </p-input>
+                                </div>
+
                                 <div class="col w-full xxl:w-1/2 mb-6">
                                     <p-select
                                         name="sidebar"
@@ -133,7 +169,7 @@
                                     </p-select>
                                 </div>
 
-                                <div class="col w-full">
+                                <div class="col w-full xxl:w-1/2 mb-6">
                                     <icon-picker
                                         name="icon"
                                         label="Icon"
@@ -237,6 +273,8 @@
 </template>
 
 <script>
+    import pluralize from 'pluralize'
+
     export default {
         props: {
             id: {
@@ -262,5 +300,15 @@
                 required: true,
             },
         },
+
+        computed: {
+            singularReference() {
+                return pluralize.singular(this.form.name)
+            },
+
+            pluralReference() {
+                return pluralize(this.form.name)
+            }
+        }
     }
 </script>

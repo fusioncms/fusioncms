@@ -26,6 +26,9 @@
                     type: 'collection',
                     fieldset: null,
 
+                    reference_singular: '',
+                    reference_plural: '',
+
                     sidebar: '1',
                     quicklink: '1',
                     icon: '',
@@ -51,6 +54,14 @@
 
         methods: {
             submit() {
+                if (this.form.reference_singular == '') {
+                    this.form.reference_singular = pluralize.singular(this.form.name)
+                }
+
+                if (this.form.reference_plural == '') {
+                    this.form.reference_plural = pluralize(this.form.name)
+                }
+
                 this.form.post('/api/matrices').then((response) => {
                     store.dispatch('navigation/fetchAdminNavigation')
                     
