@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit" @input.once="form.onFirstChange">
+                <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
                             <div class="col xxl:text-right w-full xxl:w-1/3">
@@ -248,7 +248,7 @@
 
                         <portal to="actions">
                             <router-link :to="{ name: 'matrices' }" class="button mr-3">Go Back</router-link>
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save Matrix</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Matrix</button>
                         </portal>
                     </p-card>
                 </form>
@@ -322,6 +322,8 @@
                         'label': 'None',
                         'value': null
                     })
+
+                    vm.form.resetChangeListener()
                 })
             }))
         }

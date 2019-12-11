@@ -10,6 +10,7 @@ export default class Form {
      * @param {object} data
      */
     constructor(data, preventNavigation = false) {
+console.log('form constructor')
         this.errors = new Errors
         this.originalData = data
         this.hasChanges = false
@@ -23,7 +24,6 @@ export default class Form {
             this[field] = data[field]
         
             form.__data[field] = form[field];
-
             (function(field_name) {
                 Object.defineProperty (form, field_name, {
                     get: function () { 
@@ -31,6 +31,7 @@ export default class Form {
                     },
                     set: function (new_value) {
                         form.__data[field_name] = new_value;
+console.log('change: ' + field_name)
                         if (!form.hasChanges) {
                             form.onFirstChange()
                         }
@@ -111,7 +112,8 @@ export default class Form {
      * @param {string} requestType
      * @param {string} url
      */
-    submit(requestType, url) {        
+    submit(requestType, url) {
+console.log('submit')        
         return new Promise((resolve, reject) => {
             axios[requestType](url, this.data())
                 .then(response => {
@@ -156,10 +158,18 @@ export default class Form {
      * @param {object} data
      */
     onFirstChange(data) {
+console.log('firstchange:')
         this.hasChanges = true
         if (this.preventNavigation) {
             store.commit('form/setPreventNavigation', true)
         }
-        
+    }
+
+    resetChangeListener(data) {
+console.log('reset')
+        this.hasChanges = false
+        if (this.preventNavigation) {
+            store.commit('form/setPreventNavigation', false)
+        }
     }
 }
