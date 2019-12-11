@@ -4,7 +4,7 @@
 			<app-title icon="paper-plane">Create Form</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit"></shared-form>
+        <shared-form :form="form" :submit="submit" @sectionBuilderInput="sectionChange()"></shared-form>
     </div>
 </template>
 
@@ -40,7 +40,7 @@
                     thankyou_template: '',
                     
                     status: true,
-                })
+                }, true)
             }
         },
 
@@ -58,6 +58,18 @@
                     toast(response.message, 'failed')
                 })
             },
+
+            sectionChange() {
+                if (!this.form.hasChanges) {
+                    this.form.onFirstChange()
+                }
+            }
         },
+
+        mounted() {
+            this.$nextTick(function(){
+                this.form.resetChangeListener()
+            })
+        }
     }
 </script>

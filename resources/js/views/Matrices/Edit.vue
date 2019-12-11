@@ -141,6 +141,8 @@
                     vm.form.seoable = matrix.data.data.seoable ? '1' : '0'
 
                     vm.form.status = matrix.data.data.status ? '1' : '0'
+
+                    vm.form.resetChangeListener()
                 })
             })).catch(function(error) {
                 next('/matrices')

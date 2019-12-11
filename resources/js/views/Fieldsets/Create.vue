@@ -4,7 +4,7 @@
             <app-title icon="ballot">Create Fieldset</app-title>
         </portal>
 
-        <form @submit.prevent="submit" @input.once="form.onFirstChange">
+        <form @submit.prevent="submit">
             <p-card>
                 <div class="row">
                     <div class="side-container">
@@ -47,7 +47,7 @@
 
             <portal to="actions">
                 <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
-                <button type="submit" @click.prevent="submit" class="button button--primary">Save Fieldset</button>
+                <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Fieldset</button>
             </portal>
         </form>
     </div>
@@ -67,6 +67,15 @@
             }
         },
 
+        watch: {
+            sections: {
+                deep: true,
+                handler: function(val) {
+                    this.form.onFirstChange()
+                }
+            }
+        },
+
         methods: {
             submit() {
                 this.form.post('/api/fieldsets').then((response) => {
@@ -78,11 +87,11 @@
                         toast('Fieldset successfully created', 'success')
                         
                         this.$router.push('/fieldsets')
-                    })                    
+                    })
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 })
             },
-        },
+        }
     }
 </script>

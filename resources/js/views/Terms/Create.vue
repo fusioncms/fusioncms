@@ -97,7 +97,7 @@
                         <portal to="actions" v-if="taxonomy.slug">
                             <router-link :to="{ name: 'taxonomies', params: {taxonomy: taxonomy.slug} }" class="button mr-3">Go Back</router-link>
 
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
                         </portal>
                     </p-card>
 
@@ -192,7 +192,11 @@
                         Vue.set(fields, handle, vm.taxonomy[handle])
                     })
 
-                    vm.form = new Form(fields)
+                    vm.form = new Form(fields, true)
+
+                    vm.$nextTick(function(){
+                        vm.form.resetChangeListener()
+                    })
                 })
             })
         },

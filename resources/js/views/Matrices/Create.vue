@@ -103,6 +103,9 @@
                         'label': 'None',
                         'value': 0
                     })
+
+                    vm.form.resetChangeListener()
+
                 })
             }))
         }
