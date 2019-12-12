@@ -23,4 +23,4 @@
 Route::apiResource('roles', 'Users\RoleController');
 Route::apiResource('users', 'Users\UserController');
 
-Route::post('users/{user}/password', 'Users\PasswordController');
+Route::post('users/{user}/password', 'Users\PasswordController@index');

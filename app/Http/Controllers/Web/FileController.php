@@ -12,7 +12,7 @@ use App\Http\Streamers\Video\LaravelStreamer as LaravelVideoStreamer;
 
 class FileController extends Controller
 {
-    public function __invoke($uuid, $filename)
+    public function index($uuid, $filename)
     {
         $file = File::where('uuid', $uuid)->first();
 

@@ -10,10 +10,10 @@
  */
 
 Route::group(['prefix' => 'insights'], function () {
-    Route::get('/check', 'Insights\CheckConfigurationController');
-    Route::get('/overview', 'Insights\OverviewController');
-    Route::get('/visitors', 'Insights\VisitorsController');
-    Route::get('/popular', 'Insights\PopularController');
-    Route::get('/referrers', 'Insights\ReferrersController');
-    Route::get('/browsers', 'Insights\BrowsersController');
+    Route::get('/check', 'Insights\CheckConfigurationController@index');
+    Route::get('/overview', 'Insights\OverviewController@index');
+    Route::get('/visitors', 'Insights\VisitorsController@index');
+    Route::get('/popular', 'Insights\PopularController@index');
+    Route::get('/referrers', 'Insights\ReferrersController@index');
+    Route::get('/browsers', 'Insights\BrowsersController@index');
 });

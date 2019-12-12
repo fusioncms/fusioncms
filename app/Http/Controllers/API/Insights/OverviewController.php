@@ -19,7 +19,7 @@ use App\Http\Resources\InsightResource;
 
 class OverviewController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         // $daily = Analytics::fetchTotalVisitorsAndPageViews(Period::days(30));
 

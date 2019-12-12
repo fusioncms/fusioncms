@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class ThankyouController extends Controller
 {
-    public function __invoke(Request $request, $form)
+    public function index(Request $request, $form)
     {
         $form = Form::where('slug', $form)->first();
 

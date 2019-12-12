@@ -17,7 +17,7 @@ class BackupRestoreController extends Controller
      * @param  Request  $request
      * @return void
      */
-    public function __invoke(Backup $backup, Request $request)
+    public function index(Backup $backup, Request $request)
     {
         if ($request->input('saveBackup')) {
             BackupRun::dispatch();

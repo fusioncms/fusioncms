@@ -18,7 +18,7 @@ use App\Http\Resources\InsightResource;
 
 class ReferrersController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $data = Analytics::fetchTopReferrers(Period::days(30));
 

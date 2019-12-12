@@ -16,7 +16,7 @@ class BackupUploadController extends Controller
      * @param  Request  $request
      * @return void
      */
-    public function __invoke(Request $request)
+    public function index(Request $request)
     {
         // Validation parameters..
         $maxFileUpload = byte_converter('50', 'MB', 'KB');
