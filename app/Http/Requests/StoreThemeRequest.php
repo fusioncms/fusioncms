@@ -11,6 +11,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidTheme;
+use App\Rules\UniqueThemeName;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreThemeRequest extends FormRequest
@@ -36,7 +38,13 @@ class StoreThemeRequest extends FormRequest
     public function rules()
     {
         return [
-            'file-upload' => 'required|file|mimes:' . implode(',', $this->acceptedMimes),
+            'file-upload' => [
+                'required',
+                'file',
+                'mimes:' . implode(',', $this->acceptedMimes),
+                new ValidTheme,
+                new UniqueThemeName,
+            ]
         ];
     }
 

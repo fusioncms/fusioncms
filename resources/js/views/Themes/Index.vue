@@ -82,6 +82,11 @@ export default {
 
                 this.$refs.upload.remove()
                 this.refresh()
+            }).catch((error) => {
+                toast(error.response.data.message, 'failed')
+
+                this.$refs.upload.setError(error.response.data.errors['file-upload'][0])
+                this.$refs.upload.remove()
             })
         },
     },
