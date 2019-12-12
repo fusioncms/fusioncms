@@ -16,7 +16,7 @@ class ImportLogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, ImportLog $importLog)
+    public function index(Request $request, ImportLog $importLog)
     {
         $this->authorize('importlog.show');
 

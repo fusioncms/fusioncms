@@ -24,4 +24,19 @@ return [
     */
 
     'theme' => 'dark',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ignored Solution Providers
+    |--------------------------------------------------------------------------
+    |
+    | You may specify a list of solution providers (as fully qualified class
+    | names) that shouldn't be loaded. Ignition will ignore these classes
+    | and possible solutions provided by them will never be displayed.
+    |
+    */
+
+    'ignored_solution_providers' => [
+        \Facade\Ignition\SolutionProviders\InvalidRouteActionSolutionProvider::class,
+    ],
 ];

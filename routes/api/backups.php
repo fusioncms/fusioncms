@@ -12,5 +12,5 @@
 Route::get('/backups',                   'Backups\BackupController@index');
 Route::post('/backups',                  'Backups\BackupController@store');
 Route::delete('/backups/{backup}',       'Backups\BackupController@delete');
-Route::post('/backups/upload/',          'Backups\BackupUploadController');
-Route::post('/backups/restore/{backup}', 'Backups\BackupRestoreController');
+Route::post('/backups/upload/',          'Backups\BackupUploadController@index');
+Route::post('/backups/restore/{backup}', 'Backups\BackupRestoreController@index');
