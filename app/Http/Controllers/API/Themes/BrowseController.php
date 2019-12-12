@@ -12,10 +12,13 @@
 namespace App\Http\Controllers\API\Themes;
 
 use Theme;
-use Illuminate\Support\Facades\File;
+use ZipArchive;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ThemeResource;
+use App\Http\Requests\StoreThemeRequest;
 
 class BrowseController extends Controller
 {
@@ -29,6 +32,30 @@ class BrowseController extends Controller
         $themes = collect(Theme::all());
 
         return ThemeResource::collection($themes);
+    }
+
+    /**
+     * Store a new theme in storage.
+     * 
+     * Note:
+     *   Run the following command line to remove
+     *   unwanted files (e.g. `__MACOSX`):
+     *   
+     *   zip -d your-archive.zip "__MACOSX*"
+     * 
+     * @param  StoreThemeRequest $request
+     * @return JsonResponse
+     */
+    public function store(StoreThemeRequest $request)
+    {
+        $zipArchive = new ZipArchive;
+
+        if ($zipArchive->open($request->file('file-upload')) === true) {
+            $zipArchive->extractTo(base_path('themes'));
+            $zipArchive->close();
+        }
+        
+        return response()->json([], 201);
     }
 
     /**
