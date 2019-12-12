@@ -39,7 +39,7 @@ Route::group(['prefix' => config('fusioncms.path')], function () {
 });
 
 Route::post('form/{form}', 'ResponseController@store');
-Route::get('form/{form}/thankyou', 'ThankyouController');
+Route::get('form/{form}/thankyou', 'ThankyouController@index');
 
 Route::fallback([
     'as'   => 'routes.handle',

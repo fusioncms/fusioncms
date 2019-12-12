@@ -8,7 +8,7 @@ use Spatie\Backup\BackupDestination\Backup;
 
 class BackupController extends Controller
 {
-    public function __invoke(Backup $backup)
+    public function index(Backup $backup)
     {
         $this->authorize('backups.download');
 

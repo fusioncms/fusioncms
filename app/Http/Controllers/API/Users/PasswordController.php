@@ -26,7 +26,7 @@ class PasswordController extends Controller
      * @param  User               $user
      * @return Response
      */
-    public function __invoke(UpdateUserSecurity $request, User $user)
+    public function index(UpdateUserSecurity $request, User $user)
     {
         $this->authorize('users.update');
 

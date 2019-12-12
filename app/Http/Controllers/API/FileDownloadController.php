@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileDownloadController extends Controller
 {
-    public function __invoke($uuid)
+    public function index($uuid)
     {
         $file = File::where('uuid', $uuid)->first();
 

@@ -13,7 +13,7 @@ namespace Themes\Hello\Http\Controllers;
 
 class TestController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('test');
     }

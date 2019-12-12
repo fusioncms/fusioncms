@@ -9,6 +9,6 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/test', 'TestController');
+Route::get('/test', 'TestController@index');
 
-Route::get('/feed.json', 'RSSController');
+Route::get('/feed.json', 'RSSController@index');

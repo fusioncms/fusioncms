@@ -18,7 +18,7 @@ use App\Http\Resources\InsightResource;
 
 class PopularController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $data = Analytics::fetchMostVisitedPages(Period::days(30), 10);
 
