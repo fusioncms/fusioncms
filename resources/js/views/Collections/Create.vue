@@ -152,7 +152,7 @@
         head: {
             title() {
                 return {
-                    inner: 'Create a ' + _.startCase(pluralize().singular(this.collection.name))
+                    inner: this.title
                 }
             }
         },
@@ -165,6 +165,14 @@
         },
 
         computed: {
+            title() {
+                if (typeof(this.collection.name) == 'undefined') {
+                    return 'Loading...'
+                } else {
+                    return 'Create a ' + this.collection.reference_singular
+                }
+            },
+
             sections() {
                 let body = []
                 let sidebar = []
@@ -219,9 +227,9 @@
 
                     vm.form = new Form(fields, true)
 
-                    vm.$emit('updateHead')
 
                     vm.$nextTick(function(){
+                        vm.$emit('updateHead')
                         vm.form.resetChangeListener()
                     })
                 })
