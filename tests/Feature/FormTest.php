@@ -67,18 +67,6 @@ class FormTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function when_a_form_collects_email_an_identifiable_email_field_should_be_created()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $form = FormFactory::withName('Contact Us')->thatCollectsEmails()->create();
-
-        $this->assertDatabaseHas('fields', [
-            'handle' => 'identifiable_email_address',
-        ]);
-    }
-
     /**
      * @test
      * @group fusioncms
