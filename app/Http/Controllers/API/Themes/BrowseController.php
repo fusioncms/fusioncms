@@ -13,6 +13,7 @@ namespace App\Http\Controllers\API\Themes;
 
 use Theme;
 use Storage;
+use Artisan;
 use ZipArchive;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -60,6 +61,8 @@ class BrowseController extends Controller
             $zipArchive->extractTo($themePath);
             $zipArchive->close();
         }
+
+        Artisan::call('optimize');
 
         return response()->json([], 201);
     }
