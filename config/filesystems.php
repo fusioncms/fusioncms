@@ -69,6 +69,11 @@ return [
             'root'   => storage_path('temp'),
         ],
 
+        'themes' => [
+            'driver' => 'local',
+            'root'   => base_path('themes'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key'    => env('AWS_ACCESS_KEY_ID'),

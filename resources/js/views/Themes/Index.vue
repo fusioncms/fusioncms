@@ -5,7 +5,19 @@
         </portal>
 
         <div class="row">
-            <div class="col mb-6 w-full md:w-1/2 xl:w-1/4" v-for="theme in themes" :key="theme.name">
+            <div class="content-container">
+                <p-upload
+                    name="file-upload"
+                    ref="upload"
+                    accept="zip"
+                    :multiple="false"
+                    @input="upload"
+                ></p-upload>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-6 md:w-1/2 xl:w-1/4" v-for="theme in themes" :key="theme.name">
                 <p-card no-body>
                     <img class="w-full rounded-t shadow" :src="theme.preview" :alt="theme.name">
 
@@ -54,16 +66,43 @@ export default {
                     })
                 })
         },
-    },
 
-    beforeRouteEnter(to, from, next) {
+        refresh() {
             axios.all([
                 axios.get('/api/themes'),
             ]).then(axios.spread(function (themes) {
-                next(function(vm) {
-                    vm.themes = themes.data.data
-                })
-            }))
+                this.themes = themes.data.data
+            }.bind(this)))
         },
+
+        upload(files) {
+            if (typeof files == 'undefined') {
+                return;
+            }
+
+            const formData = new FormData()
+
+            formData.append('_method', 'POST')
+            formData.append('file-upload', files)
+
+            axios.post('/api/themes', formData).then(() => {
+                toast('Theme successfully uploaded!', 'success')
+
+                this.$refs.upload.remove()
+                this.refresh()
+            }).catch((error) => {
+                toast(error.response.data.message, 'failed')
+
+                this.$refs.upload.setError(error.response.data.errors['file-upload'][0])
+                this.$refs.upload.remove()
+            })
+        },
+    },
+
+    beforeRouteEnter(to, from, next) {
+        next(function(vm) {
+            vm.refresh()
+        })
+    },
 }
 </script>
