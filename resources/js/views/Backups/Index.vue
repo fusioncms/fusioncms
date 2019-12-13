@@ -125,6 +125,14 @@
 
 <script>
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: 'Backups'
+                }
+            }
+		},
+		
 		data() {
 			return {
 				destinations: [],

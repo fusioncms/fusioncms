@@ -69,6 +69,14 @@
     import store from '../../vuex'
     
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Matrix'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/matrices',

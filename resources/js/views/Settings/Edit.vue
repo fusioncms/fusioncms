@@ -14,23 +14,35 @@
 </template>
 
 <script>
-import SettingsForm from './SharedForm.vue'
 
-export default {
-    components: {
-        'settings-form': SettingsForm
-    },
+    import SettingsForm from './SharedForm.vue'
+    import _ from 'lodash'
 
-    data() {
-        return {
-            section: ''
-        }
-    },
+    export default {
+        head: {
+            title() {
+                return {
+                    inner: _.startCase(this.section) + ' Settings' || 'Loading...'
+                }
+            }
+        },
 
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.section = to.params.section
-        })
-    },
-}
+        components: {
+            'settings-form': SettingsForm
+        },
+
+        data() {
+            return {
+                section: ''
+            }
+        },
+
+        beforeRouteEnter(to, from, next) {
+            next(vm => {
+                vm.section = to.params.section
+
+                vm.$emit('updateHead')
+            })
+        },
+    }
 </script>

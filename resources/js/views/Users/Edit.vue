@@ -123,9 +123,15 @@
 </template>
 
 <script>
-    // import moment from 'moment'
-
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 user: null,
@@ -147,7 +153,6 @@
                 let roles = _.filter(this.roles, (role) => {
                     return role.handle !== 'guest'
                 })
-
                 roles = _.map(roles, (role) => {
                     return {
                         label: role.name,
@@ -205,6 +210,8 @@
                     vm.email = vm.user.email
                     vm.role = vm.user.roles[0].slug
                     vm.status = vm.user.status ? '1' : '0'
+
+                    vm.$emit('updateHead');
                 })
             }))
         },

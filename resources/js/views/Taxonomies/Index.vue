@@ -65,6 +65,14 @@
     import store from '../../vuex'
     
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Taxonomy'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/taxonomies',

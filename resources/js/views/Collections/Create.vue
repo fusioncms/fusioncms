@@ -145,8 +145,18 @@
 
 <script>
     import Form from '../../forms/Form'
+    import pluralize from 'pluralize'
+    import _ from 'lodash'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a ' + _.startCase(pluralize().singular(this.collection.name))
+                }
+            }
+        },
+
         data() {
             return {
                 collection: {},
@@ -208,6 +218,8 @@
                     }
 
                     vm.form = new Form(fields, true)
+
+                    vm.$emit('updateHead')
 
                     vm.$nextTick(function(){
                         vm.form.resetChangeListener()

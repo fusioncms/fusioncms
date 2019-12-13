@@ -196,6 +196,14 @@
     import store from '../../vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Taxonomy'
+                }
+            }
+        },
+
         data() {
             return {
                 fieldsets: [],

@@ -81,6 +81,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a User'
+                }
+            }
+        },
+
         data() {
             return {
                 roles: null,

@@ -42,6 +42,14 @@
 
 <script>
 export default {
+    head: {
+        title() {
+            return {
+                inner: 'Themes'
+            }
+        }
+    },
+
     data() {
         return {
             themes: [],

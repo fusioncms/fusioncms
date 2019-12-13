@@ -77,6 +77,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Theme Settings'
+                }
+            }
+        },
+
         data() {
             return {
                 theme: {},

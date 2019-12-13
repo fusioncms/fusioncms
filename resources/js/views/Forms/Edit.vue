@@ -13,6 +13,14 @@
     import SharedForm from './SharedForm'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 id: null,
@@ -104,6 +112,8 @@
                     vm.form.thankyou_template = form.data.data.thankyou_template
                     
                     vm.form.status = form.data.data.status
+
+                    vm.$emit('updateHead')
 
                     vm.$nextTick(function(){
                         vm.form.resetChangeListener()

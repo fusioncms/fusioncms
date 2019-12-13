@@ -22,6 +22,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Permissions'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/permissions',

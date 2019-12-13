@@ -159,13 +159,13 @@ abstract class Builder implements BuilderContract
         $generated     = '';
 
         foreach ($relationships as $handle => list($field, $fieldtype)) {
-            $namespace = $fieldtype->namespace.'\\'.Str::studly($handle);
-            $stub      = File::get(resource_path('stubs/relationships/'.$fieldtype->relationship.'.stub'));
-
             // This value can't be hardcoded to querying the Taxonomy model
             // instance. We'll need to create a standard API as a means to
             // query the proper Eloquent model and retrievable value.
             $model = Taxonomy::find($field->settings['taxonomy']);
+
+            $namespace = $fieldtype->namespace.'\\'.Str::studly($model->handle);
+            $stub      = File::get(resource_path('stubs/relationships/'.$fieldtype->relationship.'.stub'));            
 
             if (! $model) continue;
 
