@@ -103,6 +103,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.matrix.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 matrix: {},
@@ -164,6 +172,8 @@
                     }
 
                     vm.form = new Form(fields, true)
+
+                    vm.$emit('updateHead')
                 })
             }
         },

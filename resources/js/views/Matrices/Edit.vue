@@ -15,6 +15,14 @@
     import store from '../../vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 id: null,
@@ -141,6 +149,8 @@
                     vm.form.seoable = matrix.data.data.seoable ? '1' : '0'
 
                     vm.form.status = matrix.data.data.status ? '1' : '0'
+
+                    vm.$emit('updateHead')
 
                     vm.form.resetChangeListener()
                 })

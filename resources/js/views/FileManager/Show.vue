@@ -118,6 +118,14 @@
     import Plyr from 'plyr'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 file: {},
@@ -230,6 +238,8 @@
                     vm.name = vm.file.name
                     vm.description = vm.file.description
                     vm.loaded = true
+
+                    vm.$emit('updateHead')
 
                     vm.$nextTick(() => {
                         vm.player = new Plyr(vm.$refs.player, {

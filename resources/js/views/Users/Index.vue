@@ -81,6 +81,14 @@
     import { mapGetters } from 'vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Users'
+                }
+            }
+        },
+
         data() {
             return {
                 roles: [],

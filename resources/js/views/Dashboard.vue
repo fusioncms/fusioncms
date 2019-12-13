@@ -26,6 +26,13 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Dashboard'
+                }
+            }
+        },
         data() {
             return {
                 matrices: [],

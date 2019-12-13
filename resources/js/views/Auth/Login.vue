@@ -23,6 +23,14 @@
 	import LoginForm from '../../components/Auth/Login'
 
 	export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Log In'
+                }
+            }
+        },
+
 		name: 'login',
 
 		components: {

@@ -41,6 +41,14 @@
 	import TaxonomyMapping from '../../components/Importer/TaxonomyMapping.vue'
 
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: 'Map Import'
+                }
+            }
+		},
+		
 		data() {
 			return {
 				id: null,

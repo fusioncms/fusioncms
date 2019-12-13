@@ -55,6 +55,14 @@
 <script>
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Fieldsets'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/fieldsets',

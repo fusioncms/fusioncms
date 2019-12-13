@@ -52,6 +52,14 @@
 
 <script>
 	export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Import'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/imports',

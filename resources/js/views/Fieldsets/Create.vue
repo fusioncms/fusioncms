@@ -57,6 +57,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Fieldset'
+                }
+            }
+        },
+
         data() {
             return {
                 sections: [],

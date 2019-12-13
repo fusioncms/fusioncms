@@ -22,6 +22,14 @@
 	import EntryForm from './SharedForm.vue'
 
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+		},
+		
 		data() {
 			return {
 				id: null,
@@ -66,6 +74,8 @@
 							vm.form[key] = value
 						}
 					})
+
+					vm.$emit('updateHead')
 				})
 			}))
 		}

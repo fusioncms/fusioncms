@@ -57,6 +57,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 id: null,
@@ -108,6 +116,9 @@
                     vm.form.name = fieldset.data.data.name
                     vm.form.handle = fieldset.data.data.handle
                     vm.loaded = true
+
+                    vm.$emit('updateHead')
+
                     vm.form.resetChangeListener()
                 })
             })).catch(function(error) {

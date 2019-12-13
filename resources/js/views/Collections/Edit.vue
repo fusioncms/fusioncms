@@ -144,6 +144,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.entry.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 collection: {},
@@ -211,6 +219,8 @@
                     }
 
                     vm.form = new Form(fields, true)
+
+                    vm.$emit('updateHead')
                 }).catch(function(error) {
                     vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
                     toast('The requested entry could not be found', 'warning')

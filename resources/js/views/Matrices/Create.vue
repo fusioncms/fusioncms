@@ -14,6 +14,14 @@
     import SharedForm from './SharedForm'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Matrix'
+                }
+            }
+        },
+
         data() {
             return {
                 fieldsets: [],

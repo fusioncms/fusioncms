@@ -126,8 +126,17 @@
 <script>
     import pluralize from 'pluralize'
     import Form from '../../forms/Form'
+    import _ from 'lodash'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a ' + _.startCase(pluralize().singular(this.taxonomy.name)) || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 taxonomy: {},
@@ -197,6 +206,8 @@
                     vm.$nextTick(function(){
                         vm.form.resetChangeListener()
                     })
+
+                    vm.$emit('updateHead')
                 })
             })
         },
