@@ -19,12 +19,11 @@ class BackupUploadController extends Controller
     public function index(Request $request)
     {
         // Validation parameters..
-        $maxFileUpload = byte_converter('50', 'MB', 'KB');
         $acceptedMimes = ['zip'];
 
         // Validate..
         $attributes  = $request->validate([
-            'file-upload' => 'required|file|mimes:' . implode(',', $acceptedMimes) . '|max:' . $maxFileUpload,
+            'file-upload' => 'required|file|mimes:' . implode(',', $acceptedMimes),
         ]);
 
         $file     = $attributes['file-upload'];
