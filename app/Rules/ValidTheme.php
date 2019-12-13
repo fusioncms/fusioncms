@@ -25,7 +25,7 @@ class ValidTheme implements Rule
     public function __construct()
     {
         $this->zipArchive    = new ZipArchive;
-        $this->requiredFiles = ['preview.png','theme.json'];
+        $this->requiredFiles = ['theme.json','preview.png'];
     }
     /**
      * Determine if the validation rule passes.
@@ -41,7 +41,7 @@ class ValidTheme implements Rule
 
         if ($canUnzip) {
             foreach ($this->requiredFiles as $requiredFile) {
-                if (! $this->zipArchive->locateName($requiredFile, ZipArchive::FL_NODIR)) {
+                if ($this->zipArchive->locateName($requiredFile, ZipArchive::FL_NODIR) === false) {
                     $validTheme = false;
                 }
             }
@@ -59,6 +59,6 @@ class ValidTheme implements Rule
      */
     public function message()
     {
-        return 'A theme requires the following files: ' . implode(',', $this->requiredFiles) . '.';
+        return 'A theme requires the following files: ' . implode(', ', $this->requiredFiles) . '.';
     }
 }

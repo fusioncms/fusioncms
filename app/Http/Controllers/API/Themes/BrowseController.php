@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\API\Themes;
 
 use Theme;
+use Storage;
 use ZipArchive;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -29,6 +30,8 @@ class BrowseController extends Controller
      */
     public function index()
     {
+        $this->authorize('themes.index');
+
         $themes = collect(Theme::all());
 
         return ThemeResource::collection($themes);
@@ -48,13 +51,16 @@ class BrowseController extends Controller
      */
     public function store(StoreThemeRequest $request)
     {
+        $this->authorize('themes.create');
+
         $zipArchive = new ZipArchive;
+        $themePath  = Storage::disk('themes')->path('');
 
         if ($zipArchive->open($request->file('file-upload')) === true) {
-            $zipArchive->extractTo(base_path('themes'));
+            $zipArchive->extractTo($themePath);
             $zipArchive->close();
         }
-        
+
         return response()->json([], 201);
     }
 
@@ -66,6 +72,8 @@ class BrowseController extends Controller
      */
     public function update(Request $request, $theme)
     {
+        $this->authorize('themes.update');
+
         $settingsFilePath = storage_path("/themes/{$theme}.json");
 
         File::put($settingsFilePath, json_encode($request->except('_method'), JSON_PRETTY_PRINT));

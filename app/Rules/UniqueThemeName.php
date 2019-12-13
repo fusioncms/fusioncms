@@ -50,8 +50,8 @@ class UniqueThemeName implements Rule
             $settings   = $this->parseStream($fileHandle);
            
             $validTheme = $this->themes->every(function ($theme) use ($settings) {
-                return $theme->pull('name') != $settings['name'] and
-                       $theme->pull('slug') != $settings['slug'];
+                return $theme->pull('name') != ($settings['name'] ?? null) and
+                       $theme->pull('slug') != ($settings['slug'] ?? null);
             });
 
             $this->zipArchive->close();
