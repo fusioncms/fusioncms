@@ -65,7 +65,7 @@
 
 		filters: {
 			capitalize: function(value) {
-				return _.capitalize(value)
+				return _.startCase(value)
 			}
 		},
 

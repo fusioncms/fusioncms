@@ -125,6 +125,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.entry.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 taxonomy: {},
@@ -196,6 +204,8 @@
                     vm.$nextTick(function(){
                         vm.form.resetChangeListener()
                     })
+
+                    vm.$emit('updateHead')
                 })
             },
         },
@@ -203,11 +213,15 @@
         beforeRouteEnter(to, from, next) {
             next(vm => {
                 vm.getEntry(to, from, next)
+
+                vm.$emit('updateHead')
             })
         },
 
         beforeRouteUpdate(to,from,next) {
             this.getEntry(to, from, next)
+
+            this.$emit('updateHead')
             
             next()
         }

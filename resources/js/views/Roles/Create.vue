@@ -53,6 +53,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Role'
+                }
+            }
+        },
+
         data() {
             return {
                 errors: {},

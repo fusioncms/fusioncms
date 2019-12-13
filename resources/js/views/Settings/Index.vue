@@ -28,6 +28,14 @@
 
 <script>
 export default {
+    head: {
+        title() {
+            return {
+                inner: 'Settings'
+            }
+        }
+    },
+
     data() {
         return {
             settings: {},

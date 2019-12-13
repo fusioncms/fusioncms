@@ -12,6 +12,14 @@
     import { mapActions } from 'vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'File Manager'
+                }
+            }
+        },
+
         methods: {
             ...mapActions({
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',

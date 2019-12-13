@@ -64,6 +64,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Forms'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/forms',

@@ -60,6 +60,14 @@
     import pluralize from 'pluralize'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.collection.name
+                }
+            }
+        },
+
         data() {
             return {
                 collection: {},
@@ -98,6 +106,8 @@
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 next(function(vm) {
                     vm.collection = response.data.data
+
+                    vm.$emit('updateHead')
                 })
             }).catch(function(error) {
                 next('/')
@@ -108,6 +118,8 @@
         beforeRouteUpdate(to, from, next) {
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 this.collection = response.data.data
+                
+                this.$emit('updateHead')
             })
             
             next()

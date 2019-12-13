@@ -32,7 +32,7 @@
 
                                 <p-dropdown-item
                                     @click.prevent
-                                    v-modal:delete-entry="table.record"
+                                    v-modal:delete-term="table.record"
                                 >
                                     Delete
                                 </p-dropdown-item>
@@ -44,12 +44,12 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-entry" title="Delete Entry">
-                <p>Are you sure you want to permenantly delete this entry?</p>
+            <p-modal name="delete-term" title="Delete Term">
+                <p>Are you sure you want to permenantly delete this term?</p>
 
-                <template slot="footer" slot-scope="entry">
-                    <p-button v-modal:delete-entry @click="destroy(entry.data.id)" theme="danger" class="ml-3">Delete</p-button>
-                    <p-button v-modal:delete-entry>Cancel</p-button>
+                <template slot="footer" slot-scope="term">
+                    <p-button v-modal:delete-term @click="destroy(term.data.id)" theme="danger" class="ml-3">Delete</p-button>
+                    <p-button v-modal:delete-term>Cancel</p-button>
                 </template>
             </p-modal>
         </portal>
@@ -60,6 +60,14 @@
     import pluralize from 'pluralize'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.taxonomy.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 taxonomy: {},
@@ -98,6 +106,8 @@
             axios.get('/api/taxonomies/slug/' + to.params.taxonomy).then((response) => {
                 next(function(vm) {
                     vm.taxonomy = response.data.data
+
+                    vm.$emit('updateHead')
                 })
             })
         },
@@ -105,6 +115,8 @@
         beforeRouteUpdate(to, from, next) {
             axios.get('/api/taxonomies/slug/' + to.params.taxonomy).then((response) => {
                 this.taxonomy = response.data.data
+
+                this.$emit('updateHead')
             })
             
             next()

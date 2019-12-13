@@ -22,6 +22,14 @@
 	import EntryForm from './SharedForm.vue'
 
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: 'Create a Import'
+                }
+            }
+		},
+		
 		data() {
 			return {
 				form: new Form({

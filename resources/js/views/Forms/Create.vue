@@ -13,6 +13,14 @@
     import SharedForm from './SharedForm'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Form'
+                }
+            }
+        },
+
         data() {
             return {
                 form: new Form({

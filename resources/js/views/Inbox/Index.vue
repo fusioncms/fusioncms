@@ -141,6 +141,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Inbox'
+                }
+            }
+        },
+
         data() {
             return {
                 forms: [],

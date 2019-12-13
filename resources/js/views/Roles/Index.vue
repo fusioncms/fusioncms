@@ -66,6 +66,14 @@
     import _ from 'lodash'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Roles'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/roles',

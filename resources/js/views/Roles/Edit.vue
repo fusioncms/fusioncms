@@ -53,6 +53,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 errors: {},
@@ -121,6 +129,8 @@
                     vm.name = role.data.data.name
                     vm.description = role.data.data.description
                     vm.special = role.data.data.special || ''
+
+                    vm.$emit('updateHead')
                 })
             }))
         },

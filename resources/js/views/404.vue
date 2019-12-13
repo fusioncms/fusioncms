@@ -5,3 +5,15 @@
         <router-link :to="{ name: 'dashboard' }" class="button">Back to Dashboard</router-link>
     </div>
 </template>
+
+<script>
+    export default {
+        head: {
+            title() {
+                return {
+                    inner: '404'
+                }
+            }
+        },
+    }
+</script>

@@ -196,6 +196,14 @@
     import store from '../../vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 id: null,
@@ -259,6 +267,8 @@
 
                     vm.form.route = taxonomy.data.data.route
                     vm.form.template = taxonomy.data.data.template
+
+                    vm.$emit('updateHead')
 
                     vm.$nextTick(function(){
                         vm.form.resetChangeListener()
