@@ -118,7 +118,7 @@ class FormObserver
         $fieldset = Fieldset::find($fieldset->data->id);
 
         // Then create the sections/fields
-        $sections = fusion()->post('fieldsets/'.$fieldset->id.'/sections', request()->fieldset);
+        $sections = fusion()->post('fieldsets/'.$fieldset->id.'/sections', $fieldset->toArray());
 
         $form->attachFieldset($fieldset);
         $form->save();
