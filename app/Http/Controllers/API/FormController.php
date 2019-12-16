@@ -88,6 +88,7 @@ class FormController extends Controller
         $this->authorize('forms.create');
 
         $attributes = collect($request->validate($this->rules));
+        
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
 
         $form = Form::create($attributes->all());
