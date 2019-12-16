@@ -39,7 +39,6 @@
                                                 monospaced
                                                 autocomplete="off"
                                                 required
-                                                delimiter="_"
                                                 :watch="form.name"
                                                 :has-error="form.errors.has('slug')"
                                                 :error-message="form.errors.get('slug')"
