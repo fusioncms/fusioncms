@@ -10,6 +10,7 @@
  */
 
 Route::apiResource('/themes', 'Themes\BrowseController');
+Route::post('/themes/verify', 'Themes\VerifyController@index');
 
 Route::get('/theme', 'Themes\ActiveController@show');
 Route::patch('/theme/{theme}', 'Themes\ActiveController@update');

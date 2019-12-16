@@ -67,7 +67,7 @@ class UniqueThemeName implements Rule
      */
     public function message()
     {
-        return 'Theme cannot have the same `name` or `slug` as an existing theme.';
+        return 'A Theme with matching name already exists.';
     }
 
     /**

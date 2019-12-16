@@ -15,7 +15,6 @@ use Theme;
 use Storage;
 use Artisan;
 use ZipArchive;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
@@ -47,10 +46,10 @@ class BrowseController extends Controller
      *   
      *   zip -d your-archive.zip "__MACOSX*"
      * 
-     * @param  StoreThemeRequest $request
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function store(StoreThemeRequest $request)
+    public function store(Request $request)
     {
         $this->authorize('themes.create');
 
@@ -58,7 +57,23 @@ class BrowseController extends Controller
         $themePath  = Storage::disk('themes')->path('');
 
         if ($zipArchive->open($request->file('file-upload')) === true) {
-            $zipArchive->extractTo($themePath);
+            $index      = $zipArchive->locateName('theme.json', ZipArchive::FL_NODIR);
+            $filename   = $zipArchive->getNameIndex($index);
+            $fileHandle = $zipArchive->getStream($filename);
+
+            $themeSettings = stream_get_contents($fileHandle);
+            $themeSettings = collect(json_decode($themeSettings));
+
+            $origName  = basename($request->file('file-upload')->getClientOriginalName(), '.zip');
+            $themeName = $themeSettings->get('name');
+
+            $files = [];
+            for ($i = 0; $i < $zipArchive->numFiles; ++$i) {
+                $zipArchive->renameIndex($i, str_replace($origName, $themeName, $zipArchive->getNameIndex($i)));
+                $files[] = $zipArchive->getNameIndex($i);
+            }
+            
+            $zipArchive->extractTo($themePath, $files);
             $zipArchive->close();
         }
 
