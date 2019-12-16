@@ -34,6 +34,30 @@ class MatrixTest extends TestCase
     }
 
     /** @test */
+    public function a_matrix_can_have_a_parent()
+    {
+        $parent = factory(Matrix::class)->create();
+        $matrix = factory(Matrix::class)->create();
+
+        $matrix->parent_id = $parent->id;
+        $matrix->save();
+
+        $this->assertInstanceOf(Matrix::class, $matrix->parent);
+    }
+
+    /** @test */
+    public function a_matrix_can_have_children()
+    {
+        $matrix = factory(Matrix::class)->create();
+        $child  = factory(Matrix::class)->create();
+
+        $child->parent_id = $matrix->id;
+        $child->save();
+
+        $this->assertInstanceOf(Matrix::class, $matrix->children->first());
+    }
+
+    /** @test */
     public function a_database_table_is_created_with_a_matrix()
     {
         MatrixFactory::withName('Posts')

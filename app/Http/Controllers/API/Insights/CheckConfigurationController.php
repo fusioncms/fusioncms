@@ -19,7 +19,7 @@ use App\Http\Resources\InsightResource;
 
 class CheckConfigurationController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $message = 'Credentials seem to be valid.';
         $status  = 'OK';

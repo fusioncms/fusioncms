@@ -11,6 +11,10 @@
         <div class="row">
             <div class="content-container">
                 <p-datatable :endpoint="endpoint" name="roles" sort-by="name" :per-page="10">
+                    <template slot="name" slot-scope="table">
+                        <router-link :to="{ name: 'roles.edit', params: {role: table.record.id} }">{{ table.record.name }}</router-link>
+                    </template>
+                    
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -62,6 +66,14 @@
     import _ from 'lodash'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Roles'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/roles',

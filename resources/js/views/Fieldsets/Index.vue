@@ -20,7 +20,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
+                        <p-dropdown right :key="table.record.handle">
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
@@ -55,6 +55,14 @@
 <script>
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Fieldsets'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/fieldsets',

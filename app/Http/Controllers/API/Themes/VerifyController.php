@@ -9,26 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Web\Settings;
+namespace App\Http\Controllers\API\Themes;
 
+use Theme;
+use Storage;
+use ZipArchive;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VerifyThemeRequest;
 
-class APIController extends Controller
+class VerifyController extends Controller
 {
-	public function __construct()
-	{
-		if (setting('api.personal_access_tokens') !== 'enabled') {
-			abort(404);
-		}
-	}
-
     /**
-     * @param  Request  $request
-     * @return mixed
+     * Return all available themes.
+     * 
+     * @return Response
      */
-    public function edit(Request $request)
+    public function index(VerifyThemeRequest $request)
     {
-        return view('settings.api');
+        $this->authorize('themes.create');
     }
 }

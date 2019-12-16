@@ -26,6 +26,13 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Dashboard'
+                }
+            }
+        },
         data() {
             return {
                 matrices: [],
@@ -49,19 +56,18 @@
             axios.all([
                 axios.get('/api/matrices'),
                 axios.get('/api/activity'),
-                // axios.get('//getfusioncms.com/feed.json').catch(function() {
-                //     return {
-                //         data: {
-                //             items: [],
-                //         },
-                //     }
-                // })
+                axios.get(process.env.MIX_NEWS_FEED || 'https://getfusioncms.efelle.co/blog.json').catch(function() {
+                    return {
+                        data: {
+                            items: [],
+                        },
+                    }
+                })
             ]).then(axios.spread(function (matrices, activity, feed) {
                 next(function(vm) {
                     vm.matrices = matrices.data.data
                     vm.activities = activity.data.data
-                    // vm.feed = feed.data.items
-                    vm.feed = []
+                    vm.feed = feed.data.items
                 })
             }))
         },

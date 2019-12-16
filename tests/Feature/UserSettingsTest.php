@@ -23,7 +23,7 @@ class UserSettingsTest extends TestCase
      */
     public function a_visitor_can_not_access_account_settings()
     {
-        $response = $this->get('/settings/account');
+        $response = $this->get('/account/settings');
 
         $response->assertRedirect('login');
     }
@@ -35,7 +35,7 @@ class UserSettingsTest extends TestCase
     {
         $user = $this->actingAsUser();
 
-        $response = $this->get('/settings/account');
+        $response = $this->get('/account/settings');
 
         $response->assertStatus(200);
     }
@@ -49,7 +49,7 @@ class UserSettingsTest extends TestCase
 
         $name = 'John Doe';
 
-        $this->post('/settings/account', [
+        $this->post('/account/settings', [
             'name'  => $name,
             'email' => $user->email,
         ]);
@@ -68,7 +68,7 @@ class UserSettingsTest extends TestCase
         $user  = $this->actingAsUser();
         $email = 'john.doe@example.com';
 
-        $this->post('/settings/account', [
+        $this->post('/account/settings', [
             'name'  => $user->name,
             'email' => $email,
         ]);
@@ -96,7 +96,7 @@ class UserSettingsTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/settings/security', [
+        $response = $this->post('/account/security', [
             'password'              => $newPassword,
             'password_confirmation' => $newPassword,
         ]);

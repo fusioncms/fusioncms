@@ -183,7 +183,7 @@
 
                     <portal to="actions">
                         <router-link :to="{ name: 'taxonomies' }" class="button mr-3">Go Back</router-link>
-                        <button type="submit" @click.prevent="submit" class="button button--primary">Save Taxonomy</button>
+                        <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Taxonomy</button>
                     </portal>
                 </form>
             </div>
@@ -196,6 +196,14 @@
     import store from '../../vuex'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Taxonomy'
+                }
+            }
+        },
+
         data() {
             return {
                 fieldsets: [],
@@ -246,6 +254,10 @@
                     vm.fieldsets.unshift({
                         'label': 'None',
                         'value': null
+                    })
+
+                    vm.$nextTick(function(){
+                        vm.form.resetChangeListener()
                     })
                 })
             }))

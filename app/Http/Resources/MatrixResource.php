@@ -24,36 +24,36 @@ class MatrixResource extends JsonResource
     public function toArray($request)
     {
         $resource = [
-            'id'               => $this->id,
-            'name'             => $this->name,
-            'handle'           => $this->handle,
-            'slug'             => $this->slug,
-            'description'      => $this->description,
-            'type'             => $this->type,
-            'admin_path'       => $this->adminPath,
-            'table'            => $this->table,
+            'id'                 => $this->id,
+            'parent_id'          => $this->parent_id,
+            'name'               => $this->name,
+            'handle'             => $this->handle,
+            'slug'               => $this->slug,
+            'description'        => $this->description,
+            'type'               => $this->type,
+            'admin_path'         => $this->adminPath,
+            'table'              => $this->table,
 
-            'sidebar'          => $this->sidebar,
-            'quicklink'        => $this->quicklink,
-            'icon'             => $this->icon,
+            'reference_singular' => $this->reference_singular,
+            'reference_plural'   => $this->reference_plural,
 
-            'route'            => $this->route,
-            'template'         => $this->template,
+            'sidebar'            => $this->sidebar,
+            'quicklink'          => $this->quicklink,
+            'icon'               => $this->icon,
 
-            'revision_control' => $this->revision_control,
-            'creditable'       => $this->creditable,
-            'publishable'      => $this->publishable,
+            'route'              => $this->route,
+            'template'           => $this->template,
 
-            'status'           => $this->status,
+            'revision_control'   => $this->revision_control,
+            'creditable'         => $this->creditable,
+            'publishable'        => $this->publishable,
+
+            'status'             => $this->status,
 
             'fieldset'         => new FieldsetResource($this->fieldset),
+            'parent'           => new MatrixResource($this->parent),
+            'children'         => MatrixResource::collection($this->whenLoaded('children')),
         ];
-
-        if ($this->fieldset) {
-            foreach ($this->fieldset->fields as $field) {
-                $resource['fields'][$field->handle] = $this->{$field->handle};
-            }
-        }
 
         return $resource;
     }

@@ -226,7 +226,7 @@
                     </p-tab>
 
                     <p-tab name="Fields">
-                        <section-builder v-model="form.fieldset.sections"></section-builder>
+                        <section-builder v-model="form.fieldset.sections" @input="$emit('sectionBuilderInput')"></section-builder>
                     </p-tab>
                 </p-tabs>
             </form>
@@ -257,7 +257,7 @@
 
                     <portal to="actions">
                         <router-link :to="{ name: 'forms' }" class="button mr-3">Go Back</router-link>
-                        <button type="submit" @click.prevent="submit" class="button button--primary">Save Form</button>
+                        <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Form</button>
                     </portal>
                 </p-card>
             </form>

@@ -72,6 +72,8 @@
         "pluralize": "^8.0.0",
         "plyr": "^3.5.6",
         "popper.js": "^1.16.0",
+        "vue-head": "^2.1.2",
+        "vue-moment": "^4.0.0",
         "vue2-dropzone": "^3.6.0"
     }
 }

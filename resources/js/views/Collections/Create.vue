@@ -1,14 +1,14 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="collection.icon">Create {{ singular }}</app-title>
+            <app-title :icon="collection.icon">Create {{ collection.reference_singular }}</app-title>
         </portal>
         
         <portal to="subtitle">{{ collection.description }}</portal>
 
         <div class="row">
             <div class="content-container">
-                <form @submit.prevent="submit" @input.once="form.onFirstChange">
+                <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
                                 <div class="col form-sidebar">
@@ -20,11 +20,30 @@
                                 <div class="col mb-6 form-content">
                                     <div class="row">
                                         <div class="col w-1/2">
-                                            <p-input name="name" label="Name" v-model="form.name"></p-input>
+                                            <p-input
+                                                name="name"
+                                                label="Name"
+                                                autocomplete="off"
+                                                autofocus
+                                                required
+                                                :has-error="form.errors.has('name')"
+                                                :error-message="form.errors.get('name')"
+                                                v-model="form.name">
+                                            </p-input>
                                         </div>
 
                                         <div class="col w-1/2">
-                                            <p-slug name="slug" label="Slug" monospaced v-model="form.slug" :watch="form.name"></p-slug>
+                                            <p-slug
+                                                name="slug"
+                                                label="Slug"
+                                                monospaced
+                                                autocomplete="off"
+                                                required
+                                                :watch="form.name"
+                                                :has-error="form.errors.has('slug')"
+                                                :error-message="form.errors.get('slug')"
+                                                v-model="form.slug">
+                                            </p-slug>
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +116,7 @@
                         <portal to="actions">
                             <router-link :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-3">Go Back</router-link>
 
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
                         </portal>
                     </p-card>
 
@@ -124,18 +143,35 @@
 </template>
 
 <script>
-    import pluralize from 'pluralize'
     import Form from '../../forms/Form'
+    import pluralize from 'pluralize'
+    import _ from 'lodash'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.title
+                }
+            }
+        },
+
         data() {
             return {
                 collection: {},
-                form: {},
+                form: new Form({})
             }
         },
 
         computed: {
+            title() {
+                if (typeof(this.collection.name) == 'undefined') {
+                    return 'Loading...'
+                } else {
+                    return 'Create a ' + this.collection.reference_singular
+                }
+            },
+
             sections() {
                 let body = []
                 let sidebar = []
@@ -155,14 +191,6 @@
                     sidebar: sidebar
                 }
             },
-
-            singular() {
-                if (this.collection.name) {
-                    return pluralize.singular(this.collection.name)
-                }
-
-                return ''
-            },
         },
 
         methods: {
@@ -172,7 +200,7 @@
 
                     this.$router.push('/collections/' + this.collection.slug)
                 }).catch((response) => {
-                    toast(response.response.data.message, 'failed')
+                    toast(response.message, 'failed')
                 })
             },
         },
@@ -188,11 +216,21 @@
                         status: 1,
                     }
 
-                    _.forEach(vm.collection.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.collection[handle])
-                    })
+                    if (vm.collection.fieldset) {
+                        _.forEach(vm.collection.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                Vue.set(fields, field.handle, '')
+                            })
+                        })
+                    }
 
                     vm.form = new Form(fields, true)
+
+
+                    vm.$nextTick(function(){
+                        vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
+                    })
                 })
             })
         },

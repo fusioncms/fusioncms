@@ -58,6 +58,14 @@
 	import LogModal from '../../components/Importer/LogModal.vue'
 
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: 'View Import'
+                }
+            }
+		},
+		
 		data() {
 			return {
 				data: {},

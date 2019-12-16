@@ -248,4 +248,78 @@ class FieldsetTest extends TestCase
 
         $this->assertDatabaseTableColumnHasType($table, $field->handle, 'text');
     }
+
+    /** @test */
+    public function when_a_field_is_retyped_the_associated_database_column_should_also_be_retyped()
+    {
+        $section  = SectionFactory::times(1)->withoutFields()->create();
+        $fieldOne = FieldFactory::withName('Foo')->withSection($section)->create();
+        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
+
+        $matrix = MatrixFactory::asPage()->withFieldset($fieldset)->create();
+        $table  = $matrix->getBuilder()->getTable();
+
+        // Assert column & type are correct..
+        $this->assertDatabaseTableColumnHasType(
+            $table,
+            $fieldOne->handle,
+            $fieldOne->type()->cast
+        );
+
+        // Remove old field..
+        $section->fields()->find($fieldOne->id)->delete();
+
+        // Create new field in it's place..
+        $fieldTwo = FieldFactory::withName('Foo')->withType('number')->create();
+        $section->fields()->save($fieldTwo);
+
+        // Assert column & type are correct..
+        $this->assertDatabaseTableColumnHasType(
+            $table,
+            $fieldTwo->handle,
+            $fieldTwo->type()->cast
+        );
+    }
+
+    /** @test */
+    public function when_a_field_is_renamed_and_new_field_created_in_its_name_database_should_have_both_columns()
+    {
+        // Create fieldset..
+        $section  = SectionFactory::times(1)->withoutFields()->create();
+        $field    = FieldFactory::withName('Foo')->withSection($section)->create();
+        $fieldset = FieldsetFactory::withSections([$section])->create();
+        
+        // Assign to matrix..
+        $matrix   = MatrixFactory::asPage()->withFieldset($fieldset)->create();
+        $table    = $matrix->getBuilder()->getTable();
+
+        // origial field - updated
+        $field->name   = 'Bar';
+        $field->handle = 'bar';
+        $field->type   = ['handle' => 'textarea'];
+
+        $section->fields = [
+            $field,
+            factory(\App\Models\Field::class)->make([
+                'section_id' => $section->id,
+                'name'       => 'Foo',
+                'handle'     => 'foo',
+                'type'       => 'input'
+            ])
+        ];
+
+        // Save fieldset through API..
+        $this->actingAs($this->admin, 'api')
+            ->json(
+                'POST',
+                '/api/fieldsets/' . $fieldset->id . '/sections',
+                [ 'sections' => [ $section ] ]
+            );
+
+        // original field - updated
+        $this->assertDatabaseTableHasColumn($table, 'bar');
+        $this->assertDatabaseTableColumnHasType($table, 'bar', 'text');
+        $this->assertDatabaseTableHasColumn($table, 'foo');
+        $this->assertDatabaseTableColumnHasType($table, 'foo', 'string');
+    }
 }

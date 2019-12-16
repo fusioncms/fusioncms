@@ -13,14 +13,14 @@
                         <!-- Loop through each section -->
                         <div v-for="(section, index) in sections.body" :key="section.handle">
                             <div class="row">
-                                <div class="col xxl:text-right w-full xxl:w-1/3">
+                                <div class="col form-sidebar">
                                     <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                         <h3>{{ section.name }}</h3>
                                         <p class="text-sm">{{ section.description }}</p>
                                     </div>
                                 </div>
 
-                                <div class="col w-full xxl:w-2/3">
+                                <div class="col form-content">
                                     <!-- Loop through each section field -->
                                     <div v-for="field in section.fields" :key="field.handle" class="form__group">
                                         <component
@@ -73,7 +73,7 @@
                         <portal to="actions">
                             <router-link :to="{ name: 'dashboard' }" class="button mr-3">Go Back</router-link>
 
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
                         </portal>
                     </p-card>
 
@@ -103,6 +103,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.matrix.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 matrix: {},
@@ -140,7 +148,7 @@
 
                     this.$router.push('/')
                 }).catch((response) => {
-                    toast(response.response.data.message, 'failed')
+                    toast(response.message, 'failed')
                 })
             },
 
@@ -148,18 +156,24 @@
                 let vm = this
 
                 axios.get('/api/pages/' + to.params.page).then((response) => {    
-                    vm.matrix  = response.data.data.matrix
-                    vm.page = response.data.data.page
+                    vm.matrix = response.data.data.matrix
+                    vm.page   = response.data.data.page
 
                     let fields = {
                         status: vm.page.status,
                     }
 
-                    _.forEach(vm.matrix.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.page[handle])
-                    })
+                    if (vm.matrix.fieldset) {
+                        _.forEach(vm.matrix.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                Vue.set(fields, field.handle, vm.page[field.handle])
+                            })
+                        })
+                    }
 
                     vm.form = new Form(fields, true)
+
+                    vm.$emit('updateHead')
                 })
             }
         },

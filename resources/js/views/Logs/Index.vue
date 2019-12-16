@@ -35,20 +35,22 @@
                         <h3 class="text-xs">Click an entry to view full error and stack trace</h3>
                     </div>
                     <div class="container">
-                        <div v-if="loaded" v-for="log in logs" class="logs__row flex flex-no-wrap py-2" @click="changeCurrentError(log)" v-modal:error-view>
-                            <div class="px-2 py-1 flex-no-shrink flex items-center">
-                                <div :class="'d-flex whitespace-no-wrap text-' + log.level.status + '-600'" :title="log.level.name">
-                                    <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
-                                    <span class="sr-only">
-                                        {{ log.level.name }}
-                                    </span>
+                        <div v-if="loaded">
+                            <div v-for="log in logs" :key="log" class="logs__row flex flex-no-wrap py-2" @click="changeCurrentError(log)" v-modal:error-view>
+                                <div class="px-2 py-1 flex-shrink-0 flex items-center">
+                                    <div :class="'d-flex whitespace-no-wrap text-' + log.level.status + '-600'" :title="log.level.name">
+                                        <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
+                                        <span class="sr-only">
+                                            {{ log.level.name }}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="px-3 py-1 flex-no-shrink flex items-center text-xs whitespace-no-wrap">{{ log.date }}</div>
-                            <div class="col px-3 py-1 leading-tight overflow-hidden">
-                                <div class="text-md" v-html="log.text"></div>
-                                <div v-if="log.inFile" class="truncate pt-2 text-xs text-gray-600">
-                                    {{log.inFile}}
+                                <div class="px-3 py-1 flex-shrink-0 flex items-center text-xs whitespace-no-wrap">{{ log.date }}</div>
+                                <div class="col px-3 py-1 leading-tight overflow-hidden">
+                                    <div class="text-md" v-html="log.text"></div>
+                                    <div v-if="log.inFile" class="truncate pt-2 text-xs text-gray-600">
+                                        {{log.inFile}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +89,7 @@
                 <div class="px-2">
                     <h3 class="text-sm">Stack Trace:</h3>
                     <div class="logs__stack-trace overflow-auto">
-                        <div v-for="row in currentError.stackTrace" class="logs__stack-row" v-if="row.length">
+                        <div v-for="row in currentError.stackTrace" :key="row" class="logs__stack-row" v-if="row.length">
                             {{row}}
                         </div>
                     </div>
@@ -99,6 +101,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Logs'
+                }
+            }
+        },
+
         data() {
             return {
                 endpoint: '/datatable/matrices',

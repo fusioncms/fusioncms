@@ -43,6 +43,8 @@ class BackupRun
      */
     public function handle()
     {
+        $this->setup();
+
         // Clean existing backup collection..
         Artisan::call('backup:clean', [
             '--no-interaction' => true,
@@ -55,6 +57,40 @@ class BackupRun
             '--no-interaction' => true,
             '--quiet'          => true
         ]);
+
+        $this->tearDown();
+    }
+
+    /**
+     * Setup procedures before backup is run.
+     * 
+     * @return void
+     */
+    private function setup()
+    {
+        // Create file-manager folder if it doesn't exist..
+        // TODO: maybe create this upon fusion:install?
+        if (! Storage::disk('public')->exists('files')) {
+            Storage::disk('public')->makeDirectory('files');
+        }
+
+        // Store .env variables for backing up..
+        Storage::disk('temp')->put('env.json',
+            collect(config('backup.backup.source.env'))
+                ->mapWithKeys(function($item) {
+                    return [$item => env($item)];
+                })->toJson()
+        );
+    }
+
+    /**
+     * Tear down procedures after backup is run.
+     * 
+     * @return void
+     */
+    private function tearDown()
+    {
+        Storage::disk('temp')->delete('env.json');
     }
 
     /**

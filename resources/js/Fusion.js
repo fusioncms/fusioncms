@@ -1,6 +1,7 @@
 import router from './router'
 import store from './vuex'
 import Vue from 'vue'
+import VueHead from 'vue-head'
 import Proton from '@proton-ui/proton'
 import forms from './mixins/forms'
 
@@ -15,6 +16,8 @@ export default class Fusion {
         Vue.prototype.$bus = this.bus
 
         Vue.use(Proton)
+        Vue.use(require('vue-moment'))
+        Vue.use(VueHead)
 
         Vue.mixin({
             methods: {

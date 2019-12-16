@@ -76,4 +76,8 @@
             @apply .bg-danger-600 .text-white;
         }
     }
+
+    &--disabled {
+        @apply .opacity-50 .pointer-events-none;
+    }
 }

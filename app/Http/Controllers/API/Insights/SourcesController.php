@@ -18,7 +18,7 @@ use App\Http\Resources\InsightResource;
 
 class SourcesController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $response = Analytics::performQuery(
             Period::days(30),

@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 
 class RSSController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $news = matrix_entries('news')
             ->orderBy('publish_at', 'desc')

@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <router-link v-if="collection.slug" :to="{ name: 'entries.create', params: {collection: collection.slug} }" class="button">Create {{ singular }}</router-link>
+            <router-link v-if="collection.slug" :to="{ name: 'entries.create', params: {collection: collection.slug} }" class="button">Create {{ collection.reference_singular }}</router-link>
         </portal>
 
         <div class="row" v-if="endpoint">
@@ -24,7 +24,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
+                        <p-dropdown right :key="table.record.slug">
                             <fa-icon icon="bars"></fa-icon>
                             
                             <template slot="options">
@@ -44,7 +44,7 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-entry" title="Delete Entry">
+            <p-modal name="delete-entry" title="Delete Entry" key="delete_entry">
                 <p>Are you sure you want to permenantly delete this entry?</p>
 
                 <template slot="footer" slot-scope="entry">
@@ -60,6 +60,14 @@
     import pluralize from 'pluralize'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.collection.name
+                }
+            }
+        },
+
         data() {
             return {
                 collection: {},
@@ -98,6 +106,8 @@
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 next(function(vm) {
                     vm.collection = response.data.data
+
+                    vm.$emit('updateHead')
                 })
             }).catch(function(error) {
                 next('/')
@@ -108,6 +118,8 @@
         beforeRouteUpdate(to, from, next) {
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 this.collection = response.data.data
+                
+                this.$emit('updateHead')
             })
             
             next()

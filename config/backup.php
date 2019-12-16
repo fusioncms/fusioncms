@@ -12,6 +12,13 @@ return [
 
         'source' => [
 
+            /*
+             * List of .env variables to backup
+             */
+            'env' => [
+                'APP_KEY'
+            ],
+
             'files' => [
 
                 /*
@@ -19,6 +26,7 @@ return [
                  */
                 'include' => [
                     storage_path('app/public/files'),
+                    storage_path('temp/env.json'),
                     storage_path('settings.json'),
                 ],
 
@@ -104,7 +112,7 @@ return [
         /*
          * The directory where the temporary files will be stored.
          */
-        'temporary_directory' => storage_path('app/backup-temp'),
+        'temporary_directory' => storage_path('temp/backup-temp'),
     ],
 
     /*

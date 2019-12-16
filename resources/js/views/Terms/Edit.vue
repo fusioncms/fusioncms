@@ -94,7 +94,7 @@
                         <portal to="actions">
                             <router-link v-if="taxonomy.slug" :to="{ name: 'taxonomies', params: {taxonomy: taxonomy.slug} }" class="button mr-3">Go Back</router-link>
 
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+                            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
                         </portal>
                     </p-card>
 
@@ -125,6 +125,14 @@
     import Form from '../../forms/Form'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.entry.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 taxonomy: {},
@@ -191,7 +199,13 @@
                         Vue.set(fields, handle, vm.entry[handle])
                     })
 
-                    vm.form = new Form(fields)
+                    vm.form = new Form(fields, true)
+
+                    vm.$nextTick(function(){
+                        vm.form.resetChangeListener()
+                    })
+
+                    vm.$emit('updateHead')
                 })
             },
         },
@@ -199,11 +213,15 @@
         beforeRouteEnter(to, from, next) {
             next(vm => {
                 vm.getEntry(to, from, next)
+
+                vm.$emit('updateHead')
             })
         },
 
         beforeRouteUpdate(to,from,next) {
             this.getEntry(to, from, next)
+
+            this.$emit('updateHead')
             
             next()
         }

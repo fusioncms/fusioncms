@@ -22,9 +22,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-//        \App\Console\Commands\ReleaseCommand::class,
-//        \App\Console\Commands\SuspendCommand::class,
-//        \App\Console\Commands\TailCommand::class,
+    //    \App\Console\Commands\ReleaseCommand::class,
+    //    \App\Console\Commands\SuspendCommand::class,
+    //    \App\Console\Commands\TailCommand::class,
     ];
 
     /**

@@ -9,14 +9,14 @@
                 <form @submit.prevent="submit">
                     <p-card>
                         <div class="row">
-                            <div class="col xl:text-right w-full xl:w-1/3">
+                            <div class="col form-sidebar">
                                 <div class="xl:mr-10">
                                     <h3>Basic Information</h3>
                                     <p class="text-sm">What is the name and description of this role?</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xl:w-2/3">
+                            <div class="col form-content">
                                 <p-input name="name" label="Name" autocomplete="off" :has-error="hasError('name')" :error-message="getError('name')" autofocus required v-model="name"></p-input>
 
                                 <p-slug name="slug" label="Slug" autocomplete="off" :has-error="hasError('slug')" :error-message="getError('slug')" required :watch="name" v-model="slug"></p-slug>
@@ -28,14 +28,14 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col xl:text-right w-full xl:w-1/3">
+                            <div class="col form-sidebar">
                                 <div class="xl:mr-10">
                                     <h3>Attributes</h3>
                                     <p class="text-sm">Assign any additional attribute values for your role.</p>
                                 </div>
                             </div>
 
-                            <div class="col w-full xl:w-2/3">
+                            <div class="col form-content">
                                 <p-select name="special" label="Special Flag" :options="flags" autocomplete="off" :has-error="hasError('special')" :error-message="getError('special')" required v-model="special"></p-select>
                             </div>
                         </div>
@@ -53,6 +53,14 @@
 
 <script>
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Create a Role'
+                }
+            }
+        },
+
         data() {
             return {
                 errors: {},

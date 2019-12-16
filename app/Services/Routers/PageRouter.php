@@ -13,25 +13,29 @@ namespace App\Services\Routers;
 
 use App\Models\Matrix;
 use Illuminate\Http\Request;
+use App\Services\Builders\Page;
 
 class PageRouter extends Router
 {
     public function handle(Request $request)
     {
-        $pages = Matrix::where('type', 'page')->get();
+        $matrices = Matrix::where('type', 'page')->get();
 
-        foreach ($pages as $page) {
-            $found = $this->matchRoute($page->route, $request);
+        foreach ($matrices as $matrix) {
+            $found = $this->matchRoute($matrix->route, $request);
 
-            if ($found === false or empty($page->template)) {
+            if ($found === false or empty($matrix->template)) {
                 continue 1;
             }
 
+            $page = (new Page($matrix->handle))->get();
+            
             $data = $this->bindRouteData($page->route, $request, [
-                'page' => $page,
+                'matrix' => $matrix,
+                'page'   => $page,
             ]);
 
-            return view($page->template, $data);
+            return view($matrix->template, $data);
         }
     }
 }

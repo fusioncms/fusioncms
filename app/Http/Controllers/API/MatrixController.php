@@ -16,35 +16,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
-use App\Services\Builders\Collection;
 
 class MatrixController extends Controller
 {
-    /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name'             => 'required|regex:/^[A-z]/i',
-        'handle'           => 'required',
-        'description'      => 'sometimes',
-        'type'             => 'required',
-        'fieldset'         => 'sometimes',
-
-        'sidebar'          => 'required|boolean',
-        'quicklink'        => 'required|boolean',
-        'icon'             => 'sometimes',
-
-        'route'            => 'sometimes',
-        'template'         => 'sometimes',
-
-        'revision_control' => 'required|boolean',
-        'creditable'       => 'required|boolean',
-        'publishable'      => 'required|boolean',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -82,7 +56,7 @@ class MatrixController extends Controller
     public function slug($matrix)
     {
         $this->authorize('matrices.show');
-        
+
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
 
         return new MatrixResource($matrix);
@@ -98,7 +72,7 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.create');
 
-        $attributes = collect($request->validate($this->rules));
+        $attributes = collect($request->validate($this->rules()));
         
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
         
@@ -115,8 +89,10 @@ class MatrixController extends Controller
                 'link' => 'matrices/edit/' . $matrix->id,
             ])
             ->log('Created matrix (:subject.name)');
-
-        $model  = (new Collection($matrix->handle))->make();
+       
+        // Build model class
+        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
+        $model   = (new $builder($matrix->handle))->make();
 
         return new MatrixResource($matrix);
     }
@@ -132,7 +108,7 @@ class MatrixController extends Controller
     {
         $this->authorize('matrices.update');
 
-        $attributes = collect($request->validate($this->rules));
+        $attributes = collect($request->validate($this->rules($matrix->id)));
 
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
 
@@ -144,7 +120,9 @@ class MatrixController extends Controller
             $matrix->detachFieldset();
         }
 
-        $model  = (new Collection($matrix->handle))->make();
+        // Build model class
+        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
+        $model   = (new $builder($matrix->handle))->make();
 
         activity()
             ->performedOn($matrix)
@@ -175,5 +153,36 @@ class MatrixController extends Controller
             ->log('Deleted matrix (:subject.name)');
 
         $matrix->delete();
+    }
+
+    /**
+     * Validation rules used for create and update actions.
+     *
+     * @return array
+     */
+    protected function rules($id = null)
+    {
+        return [
+            'parent_id'          => 'sometimes|not_in:'.$id,
+            'name'               => 'required|regex:/^[A-z]/i',
+            'handle'             => 'required',
+            'description'        => 'sometimes',
+            'type'               => 'required',
+            'fieldset'           => 'sometimes',
+
+            'reference_singular' => 'sometimes',
+            'reference_plural'   => 'sometimes',
+
+            'sidebar'            => 'required|boolean',
+            'quicklink'          => 'required|boolean',
+            'icon'               => 'sometimes',
+
+            'route'              => 'sometimes',
+            'template'           => 'sometimes',
+
+            'revision_control'   => 'required|boolean',
+            'creditable'         => 'required|boolean',
+            'publishable'        => 'required|boolean',
+        ];
     }
 }

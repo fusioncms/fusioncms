@@ -91,6 +91,14 @@
     import moment from 'moment-timezone';
     
     export default {
+        head: {
+            title() {
+                return {
+                    inner: 'Insight'
+                }
+            }
+        },
+
         data() {
             return {
                 isValid: null,

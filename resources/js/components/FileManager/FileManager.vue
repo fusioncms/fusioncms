@@ -174,7 +174,6 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
-    import moment from 'moment-timezone'
     import _ from 'lodash'
     import FileUploader from './FileUploader.vue'
 
@@ -315,7 +314,7 @@
             },
 
             lastModified(timestamp) {
-                return moment(timestamp).format('MMM Do, YYYY')
+                return this.$moment(timestamp).format('MMM Do, YYYY')
             },
 
             sortingIcon(by) {

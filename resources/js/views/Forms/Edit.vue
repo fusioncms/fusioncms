@@ -4,7 +4,7 @@
 			<app-title icon="paper-plane">Edit Form</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit" :id="id" :fieldset="fieldset"></shared-form>
+        <shared-form :form="form" :submit="submit" :id="id" :fieldset="fieldset" @sectionBuilderInput="sectionChange()"></shared-form>
     </div>
 </template>
 
@@ -13,6 +13,14 @@
     import SharedForm from './SharedForm'
 
     export default {
+        head: {
+            title() {
+                return {
+                    inner: this.form.name || 'Loading...'
+                }
+            }
+        },
+
         data() {
             return {
                 id: null,
@@ -42,7 +50,7 @@
                     thankyou_template: '',
                     
                     status: true,
-                })
+                }, true)
             }
         },
 
@@ -65,6 +73,12 @@
                     })
                 })                
             },
+
+            sectionChange() {
+                if (!this.form.hasChanges) {
+                    this.form.onFirstChange()
+                }
+            }
         },
 
         beforeRouteEnter(to, from, next) {
@@ -98,6 +112,12 @@
                     vm.form.thankyou_template = form.data.data.thankyou_template
                     
                     vm.form.status = form.data.data.status
+
+                    vm.$emit('updateHead')
+
+                    vm.$nextTick(function(){
+                        vm.form.resetChangeListener()
+                    })
                 })
             }))
         },

@@ -18,7 +18,7 @@ use App\Http\Resources\InsightResource;
 
 class BrowsersController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $response = Analytics::performQuery(
             Period::days(30),
