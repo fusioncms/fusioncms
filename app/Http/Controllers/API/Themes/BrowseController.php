@@ -57,7 +57,23 @@ class BrowseController extends Controller
         $themePath  = Storage::disk('themes')->path('');
 
         if ($zipArchive->open($request->file('file-upload')) === true) {
-            $zipArchive->extractTo($themePath);
+            $index      = $zipArchive->locateName('theme.json', ZipArchive::FL_NODIR);
+            $filename   = $zipArchive->getNameIndex($index);
+            $fileHandle = $zipArchive->getStream($filename);
+
+            $themeSettings = stream_get_contents($fileHandle);
+            $themeSettings = collect(json_decode($themeSettings));
+
+            $origName  = basename($request->file('file-upload')->getClientOriginalName(), '.zip');
+            $themeName = $themeSettings->get('name');
+
+            $files = [];
+            for ($i = 0; $i < $zipArchive->numFiles; ++$i) {
+                $zipArchive->renameIndex($i, str_replace($origName, $themeName, $zipArchive->getNameIndex($i)));
+                $files[] = $zipArchive->getNameIndex($i);
+            }
+            
+            $zipArchive->extractTo($themePath, $files);
             $zipArchive->close();
         }
 

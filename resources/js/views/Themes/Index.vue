@@ -11,7 +11,7 @@
                     ref="upload"
                     accept="zip"
                     :multiple="false"
-                    @input="upload"
+                    @input="verifyUpload"
                 ></p-upload>
             </div>
         </div>
@@ -37,6 +37,14 @@
         <portal to="actions">
             <router-link :to="{ name: 'themes.settings' }" class="button mr-3">Go Back</router-link>
         </portal>
+
+        <p-modal name="confirm" title="Confirm override" key="confirm_modal" v-model="confirmModal">
+            <p>Are you sure you want to override this theme? The existing theme will be discarded.</p>
+            <template slot="footer">
+                <p-button @click="submitUpload" type="button" class="button button--primary">Yes, please!</p-button>
+                <p-button @click="cancelUpload" type="button" class="mr-3">Leave and Discard Changes</p-button>
+            </template>
+        </p-modal>
     </div>
 </template>
 
@@ -53,6 +61,8 @@ export default {
     data() {
         return {
             themes: [],
+            confirmModal: false,
+            uploadForm: null
         }
     },
 
@@ -71,30 +81,52 @@ export default {
             axios.all([
                 axios.get('/api/themes'),
             ]).then(axios.spread(function (themes) {
-                this.themes = themes.data.data
+                this.themes       = themes.data.data
+                this.uploadForm   = null
+                this.confirmModal = false
             }.bind(this)))
         },
 
-        upload(files) {
+        submitUpload() {
+            axios.post('/api/themes', this.uploadForm).then((response) => {
+                toast('Theme successfully uploaded!', 'success')
+
+                this.confirmModal = false
+                this.$refs.upload.remove()
+                this.refresh()
+            })
+        },
+
+        confirmUpload() {
+            this.confirmModal = true
+        },
+
+        cancelUpload() {
+            this.confirmModal = false
+            this.$refs.upload.remove()
+        },
+
+        verifyUpload(files) {
             if (typeof files == 'undefined') {
                 return;
             }
 
-            const formData = new FormData()
+            // Create upload form..
+            this.uploadForm = new FormData()
+            this.uploadForm.append('_method', 'POST')
+            this.uploadForm.append('file-upload', files)
 
-            formData.append('_method', 'POST')
-            formData.append('file-upload', files)
-
-            axios.post('/api/themes', formData).then(() => {
-                toast('Theme successfully uploaded!', 'success')
-
-                this.$refs.upload.remove()
-                this.refresh()
+            axios.post('/api/themes/verify', this.uploadForm).then((response) => {
+                this.submitUpload()
             }).catch((error) => {
-                toast(error.response.data.message, 'failed')
+                if (error.response.data.errors['file-upload'][0] == 'A Theme with matching name already exists.') {
+                    this.confirmUpload()
+                } else {
+                    toast(error.response.data.message, 'failed')
 
-                this.$refs.upload.setError(error.response.data.errors['file-upload'][0])
-                this.$refs.upload.remove()
+                    this.$refs.upload.remove()
+                    this.$refs.upload.setError(error.response.data.errors['file-upload'][0])
+                }
             })
         },
     },

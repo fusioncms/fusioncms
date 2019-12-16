@@ -80,7 +80,7 @@ class ThemeTest extends TestCase
 
 		$response = $this->json(
 		    'POST',
-		    '/api/themes',
+		    '/api/themes/verify',
 		    [
 		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, null, true)
 		    ]
@@ -102,13 +102,13 @@ class ThemeTest extends TestCase
 
 		$response = $this->json(
 		    'POST',
-		    '/api/themes',
+		    '/api/themes/verify',
 		    [
 		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, null, true)
 		    ]
 		)
 		->assertStatus(422)
-		->assertJsonValidationErrors(['file-upload' => 'Theme cannot have the same `name` or `slug` as an existing theme.']);
+		->assertJsonValidationErrors(['file-upload' => 'A Theme with matching name already exists.']);
 	}
 
 	/**
