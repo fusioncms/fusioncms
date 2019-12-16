@@ -15,7 +15,6 @@ use Theme;
 use Storage;
 use Artisan;
 use ZipArchive;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
@@ -47,10 +46,10 @@ class BrowseController extends Controller
      *   
      *   zip -d your-archive.zip "__MACOSX*"
      * 
-     * @param  StoreThemeRequest $request
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function store(StoreThemeRequest $request)
+    public function store(Request $request)
     {
         $this->authorize('themes.create');
 

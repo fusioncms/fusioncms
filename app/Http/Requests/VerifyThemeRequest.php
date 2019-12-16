@@ -15,7 +15,7 @@ use App\Rules\ValidTheme;
 use App\Rules\UniqueThemeName;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreThemeRequest extends FormRequest
+class VerifyThemeRequest extends FormRequest
 {
     /**
      * @var array
