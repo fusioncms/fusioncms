@@ -1,48 +1,42 @@
 <template>
-	<div>
-		<portal to="title">
-			<app-title icon="cog">{{ section | capitalize }} Settings</app-title>
-		</portal>
+	<form @submit.prevent="submit" enctype="multipart/form-data">
+	    <div class="col w-full">
+	        <p-tabs replace>
+	            <p-tab v-for="(settings, group, index) in groups" :key="group" :name="group" :active="index === 0">
+	                <div v-for="setting in settings" :key="setting.handle" class="form__group">
+	                    <p-input
+	                        v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
+	                        :name="setting.handle"
+	                        :ref="setting.handle"
+	                        :label="setting.name"
+	                        :type="setting.type"
+	                        :help="setting.description"
+	                        v-model="setting.value"
+	                    ></p-input>
 
-		<form @submit.prevent="submit" enctype="multipart/form-data">
-		    <div class="col w-full">
-		        <p-tabs replace>
-		            <p-tab v-for="(settings, group, index) in groups" :key="group" :name="group" :active="index === 0">
-		                <div v-for="setting in settings" :key="setting.handle" class="form__group">
-		                    <p-input
-		                        v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
-		                        :name="setting.handle"
-		                        :ref="setting.handle"
-		                        :label="setting.name"
-		                        :type="setting.type"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                    ></p-input>
+	                    <p-select
+	                        v-if="setting.type === 'select'"
+	                        :name="setting.handle"
+	                        :ref="setting.handle"
+	                        :label="setting.name"
+	                        :options="mapOptions(setting.options)"
+	                        :help="setting.description"
+	                        v-model="setting.value"
+	                    ></p-select>
 
-		                    <p-select
-		                        v-if="setting.type === 'select'"
-		                        :name="setting.handle"
-		                        :ref="setting.handle"
-		                        :label="setting.name"
-		                        :options="mapOptions(setting.options)"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                    ></p-select>
-
-		                    <p-upload
-		                        v-if="setting.type === 'file'"
-		                        :name="setting.handle"
-		                        :label="setting.name"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                        accept="json"
-		                    ></p-upload>
-		                </div>
-		            </p-tab>
-		        </p-tabs>
-		    </div>
-		</form>
-	</div>
+	                    <p-upload
+	                        v-if="setting.type === 'file'"
+	                        :name="setting.handle"
+	                        :label="setting.name"
+	                        :help="setting.description"
+	                        v-model="setting.value"
+	                        accept="json"
+	                    ></p-upload>
+	                </div>
+	            </p-tab>
+	        </p-tabs>
+	    </div>
+	</form>
 </template>
 
 <script>
@@ -60,12 +54,6 @@
 			section: {
 				type: String,
 				required: true
-			}
-		},
-
-		filters: {
-			capitalize: function(value) {
-				return _.startCase(value)
 			}
 		},
 
