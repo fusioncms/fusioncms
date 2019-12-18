@@ -77,6 +77,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAPIRoutes(base_path('routes/api/importer.php'));
         $this->mapAPIRoutes(base_path('routes/api/insights.php'));
         $this->mapAPIRoutes(base_path('routes/api/matrix.php'));
+        $this->mapAPIRoutes(base_path('routes/api/mailables.php'));
         $this->mapAPIRoutes(base_path('routes/api/settings.php'));
         $this->mapAPIRoutes(base_path('routes/api/taxonomy.php'));
         $this->mapAPIRoutes(base_path('routes/api/themes.php'));

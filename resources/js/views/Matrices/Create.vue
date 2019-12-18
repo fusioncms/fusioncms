@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import pluralize from 'pluralize'
     import store from '../../vuex'
     import Form from '../../forms/Form'
     import SharedForm from './SharedForm'

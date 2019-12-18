@@ -148,6 +148,11 @@ class BootstrapAdminMenu
                 'icon' => 'save',
             ]);
 
+            $menu->add('Mailables')->data([
+                'to'   => '/mailables',
+                'icon' => 'mail-bulk',
+            ]);
+
             $menu->add('Settings')->data([
                 'to'   => '/settings',
                 'icon' => 'cog',
