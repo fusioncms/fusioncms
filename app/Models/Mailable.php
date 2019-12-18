@@ -33,10 +33,10 @@ class Mailable extends Model
     ];
 
     /**
-     * Get resolved DBMailable class.
+     * Get resolved DatabaseMailable class.
      * [Derived]
      * 
-     * @return DBMailable
+     * @return DatabaseMailable
      */
     public function getMailableAttribute()
     {
@@ -85,7 +85,7 @@ class Mailable extends Model
             if ($reflection->isSubclassOf('App\Mail\DatabaseMailable')) {
                 $mailable = resolve($namespace);
 
-                MailableModel::firstOrCreate([
+                static::firstOrCreate([
                     'name'      => $mailable->getName(),
                     'handle'    => $mailable->getHandle(),
                     'namespace' => $namespace,
