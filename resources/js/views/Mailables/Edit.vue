@@ -47,6 +47,7 @@
                                 <div class="col w-full xxl:w-1/2 mb-6">
                                     <markdown-field
                                         v-if="ready"
+                                        ref="markdown"
                                         v-on:input="updateMarkdown"
                                         :field="{
                                             'name': 'Content',
@@ -84,6 +85,24 @@
                     </div>
                 </div>
             </p-card>
+
+            <p-card class="mt-5">
+                <div class="row">
+                    <div class="col w-full">
+                        <label class="form__label">Placeholders</label>
+
+                        <p-dropdown v-for="(items, key) in placeholders" :key="key">
+                            {{ key }}
+
+                            <template slot="options">
+                                <p-dropdown-item v-for="(item, key) in items" :key="key" @click="addPlaceholder(item)">
+                                    {{ item }}
+                                </p-dropdown-item>
+                            </template>
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-card>
         </div>
     </div>
 </template>
@@ -109,6 +128,7 @@
             return {
                 id: null,
                 ready: false,
+                placeholders: {},
                 form: new Form({
                     name: '',
                     handle: '',
@@ -119,6 +139,14 @@
         },
 
         methods: {
+            addPlaceholder(value) {
+                const codemirror = this.$refs.markdown.codemirror
+                const doc        = codemirror.getDoc()
+                const cursor     = doc.getCursor()
+
+                doc.replaceSelection(value, doc.getSelection())
+            },
+
             updateMarkdown(markdown) {
                 this.form.markdown = markdown
             },
@@ -147,6 +175,15 @@
                     vm.form.markdown = mailable.data.data.markdown
                     vm.form.resetChangeListener()
 
+                    _.forEach(mailable.data.data.placeholders, (values, key) => {
+                        let group = []
+
+                        _.forEach(values, (value) => {
+                            group.push(`{{ \$${key}->${value} }}`)
+                        })
+                        vm.placeholders[key] = group
+                    })
+
                     vm.$emit('updateHead')
                 })
            	})).catch(function(error) {
@@ -156,3 +193,9 @@
         }
 	}
 </script>
+
+<style>
+    .dropdown__options {
+        @apply w-full
+    }
+</style>
