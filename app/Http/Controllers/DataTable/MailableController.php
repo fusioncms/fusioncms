@@ -11,6 +11,8 @@
 
 namespace App\Http\Controllers\DataTable;
 
+use File;
+use ReflectionClass;
 use App\Models\Mailable;
 use App\Http\Controllers\DataTableController;
 
@@ -18,6 +20,8 @@ class MailableController extends DataTableController
 {
     public function builder()
     {
+        Mailable::registerNewMailables();
+
         return Mailable::query();
     }
 

@@ -23,6 +23,10 @@ class MailableResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $result = parent::toArray($request);
+        
+        $result['placeholders'] = $this->placeholders;
+
+        return $result;
     }
 }

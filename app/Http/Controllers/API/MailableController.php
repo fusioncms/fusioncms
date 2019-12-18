@@ -12,8 +12,8 @@
 namespace App\Http\Controllers\API;
 
 use File;
-use Mailable;
 use ReflectionClass;
+use App\Models\Mailable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MailableResource;
@@ -28,12 +28,7 @@ class MailableController extends Controller
      */
     public function index(Request $request)
     {
-    	$this->authorize('mailable.show');
-    	$this->updateMailables();
-
-    	$mailables = Mailable::orderBy('name')->paginate(25);
-
-    	return MailableResource::collection($mailables);
+    	$this->authorize('mailable.index');
     }
 
     /**
@@ -87,44 +82,5 @@ class MailableController extends Controller
     	$this->authorize('mailable.delete');
 
     	$mailable->delete();
-    }
-
-    /**
-     * ...
-     *
-     * @return void
-     */
-    private function updateMailables()
-    {
-    	$files = File::files(app_path('Mail'));
-
-		foreach ($files as $file) {
-			$className  = pathinfo($file->getBasename(), PATHINFO_FILENAME);
-			$namespace  = '\\App\\Mail\\' . $className;
-
-			if ($mailable = $this->resolveMailable($namespace)) {
-				$handle = $mailable->getHandle();
-
-				//TODO: create new record in storage
-				//TODO: destroy non-existent records in storage
-			}
-		}
-    }
-
-    /**
-     * ...
-     *
-     * @param  string $namespace
-     * @return Mailable|boolean
-     */
-    private function resolveMailable($namespace)
-    {
-    	$reflection = new ReflectionClass($namespace);
-
-    	if (! $reflection->isInterface() and $reflection->implementsInterface('App\Mail\EditMailable')) {
-    		return resolve($namespace);
-    	}
-    	
-    	return false;
     }
 }

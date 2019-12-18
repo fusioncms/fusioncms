@@ -13,10 +13,11 @@ class CreateMailableTable extends Migration
      */
     public function up()
     {
-        Schema::create('mailable', function (Blueprint $table) {
+        Schema::create('mailables', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('handle')->unique();
+            $table->string('namespace');
             $table->text('markdown')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
@@ -30,6 +31,6 @@ class CreateMailableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mailable');
+        Schema::dropIfExists('mailables');
     }
 }
