@@ -45,24 +45,19 @@
 
 <script>
 	export default {
+		head: {
+            title() {
+                return {
+                    inner: 'Mailables'
+                }
+            }
+        },
+
 		data() {
-			return {
-				mailables: []
-			}
-		},
+            return {
+                endpoint: '/datatable/mailables',
+            }
+        },
 
-		// methods: {
-
-		// },
-
-		beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/mailables'),
-            ]).then(axios.spread(function (response) {
-                next(function(vm) {
-					vm.mailables = response.data.data
-				})
-			}))
-		}
 	}
 </script>

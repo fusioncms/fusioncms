@@ -9,4 +9,4 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('mailables', 'MailableController');
+Route::apiResource('mailables', 'MailableController')->except(['store', 'destroy']);

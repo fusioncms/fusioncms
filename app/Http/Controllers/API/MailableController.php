@@ -45,19 +45,6 @@ class MailableController extends Controller
     }
 
     /**
-     * Store a new record in storage.
-     *
-     * @param  Request  $request
-     * @return MailableResource
-     */
-    public function store(Request $request)
-    {
-    	$this->authorize('mailable.create');
-
-    	return new MailableResource($mailable);
-    }
-
-    /**
      * Update an existing record in storage.
      *
      * @param  Request  $request
@@ -68,19 +55,23 @@ class MailableController extends Controller
     {
     	$this->authorize('mailable.update');
 
+        // Validate..
+        $attributes = $request->validate([
+            'name'     => 'required',
+            'handle'   => 'required|unique:mailables,id,' . $mailable->id,
+            'markdown' => 'required'
+        ]);
+
+        $mailable->update($attributes);
+
+        activity()
+            ->performedOn($mailable)
+            ->withProperties([
+                'icon' => 'mail-bulk',
+                'link' => 'mailables/edit/' . $mailable->id,
+            ])
+            ->log('Updated mailable (:subject.name)');
+
     	return new MailableResource($mailable);
-    }
-
-    /**
-     * Destroy an existing user.
-     *
-     * @param  Mailable $mailable
-     * @return void
-     */
-    public function destroy(Mailable $mailable)
-    {
-    	$this->authorize('mailable.delete');
-
-    	$mailable->delete();
     }
 }

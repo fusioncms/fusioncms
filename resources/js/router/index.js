@@ -458,6 +458,16 @@ const router = new Router({
         },
 
         {
+            path: '/mailables/edit/:mailable',
+            component: () => import('../views/Mailables/Edit'),
+            name: 'mailables.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',
