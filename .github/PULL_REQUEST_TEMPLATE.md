@@ -8,4 +8,4 @@
 Screenshots showcasing your update (if its a visual UI update) are helpful for reviewers.
 
 - [ ] If merged, please delete my branch.
-- [ ] I have compiled any javascript/scss resources for production, because I don't like submitting hundreds of thousands of new lines of code.
+- [ ] I have compiled my javascript/scss resources for production, because I don't like submitting hundreds of thousands of new lines of code.
