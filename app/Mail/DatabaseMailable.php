@@ -25,7 +25,7 @@ abstract class DatabaseMailable extends BaseMailable
      * 
      * @var string
      */
-    public $layout = 'emails.layouts.default';
+    protected $layout = 'emails.layouts.default';
 
 	/**
 	 * Get mailable name.
@@ -65,16 +65,20 @@ abstract class DatabaseMailable extends BaseMailable
      */
     public function build()
     {
-		// Setup..
-		$mailable = $this->getMailable();
+		// Setup
+		$mailable = $this->getMailableModel();
 		$path     = Storage::disk('temp')->path("views/emails");
 		$template = "views/emails/{$mailable->handle}.blade.php";
 		
-		// Register template path..
+		// Register temporary template path..
     	app('view.finder')->addLocation($path);
 
+    	// Layout contents
+    	$contents = File::get(view($this->layout)->getPath());
+    	$contents = str_replace('--markdown--', $mailable->markdown, $contents);
+
 		// Temporarily store email template..
-		Storage::disk('temp')->put($template, $mailable->markdown);
+		Storage::disk('temp')->put($template, $contents);
     	
 		// Remove after finished..
 		register_shutdown_function(function () use ($template) {
@@ -89,7 +93,7 @@ abstract class DatabaseMailable extends BaseMailable
      * 
      * @return Mailable
      */
-    protected function getMailable()
+    protected function getMailableModel()
     {
     	return Mailable::where('handle', $this->getHandle())->firstOrFail();
     }
