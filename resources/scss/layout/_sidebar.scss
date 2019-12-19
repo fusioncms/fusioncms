@@ -1,33 +1,32 @@
 .sidebar {
-    @apply .hidden .fixed .bg-white .text-gray-500 .h-full;
+    @apply .hidden .fixed .bg-white .text-gray-500 .h-full w-full .flex .flex-col z-50 overflow-hidden;
+
+    transition: all 0.3s ease;
 
     @screen lg {
-        @apply .flex .flex-col;
+        left: -250px;
+        width: 250px !important;
     }
 
     &--opened {
-        @screen lg {
-            width: 250px !important;
-        }
+        @apply visible;
+
+        left: 0;
     }
 
     &--closed {
-        @screen lg {
-            width: 90px !important;
-        }
+        @apply invisible;
     }
 
     .router-link-active {
-        @apply text-gray-100 bg-black;
+        @apply text-gray-100 bg-gray-900;
     }
 
     &__logo {
-        @apply flex-shrink-0 flex items-center justify-center uppercase;
-
-        height: 100px;
+        @apply flex-shrink-0 flex items-center justify-center uppercase text-gray-900 text-xl leading-none;
 
         &.router-link-active {
-            @apply bg-white border-none;
+            @apply bg-white border-none text-gray-900;
         }
 
         img {
@@ -48,10 +47,10 @@
     }
 
     &__menu-link {
-        @apply .flex .flex-1 .no-underline .text-gray-800 .justify-between .text-sm .font-semibold;
+        @apply .flex .flex-1 .no-underline .text-gray-700 .justify-between .text-sm .font-semibold;
 
         &:hover {
-            @apply .text-gray-100 bg-black .cursor-pointer;
+            @apply .text-gray-100 bg-gray-900 .cursor-pointer;
         }
     }
 

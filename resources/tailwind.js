@@ -26,7 +26,7 @@ const spacing = {
     '400px': '400px',
 
     'full-sidebar-open': 'calc(100% - 250px)',
-    'full-sidebar-collapsed': 'calc(100% - 90px)',
+    'full-sidebar-collapsed': 'calc(100%)',
 }
 
 module.exports = {
