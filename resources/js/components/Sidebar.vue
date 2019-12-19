@@ -6,12 +6,15 @@
             'sidebar--closed': !this.isOpen
         }"
     >
-        <router-link to="/" class="sidebar__logo">
-            <!-- <img src="/img/logo.svg" alt="logo"> -->
-            
-            <h1 v-if="this.isOpen"><span class="font-normal">Fusion</span>CMS</h1>
-            <h1 v-else>FU</h1>
-        </router-link>
+        <div class="flex items-center justify-between md:justify-center px-6 border-b border-gray-300" style="height: 55px;">
+            <router-link to="/" class="sidebar__logo">
+                Fusion<span class="font-bold">CMS</span>
+            </router-link>
+
+            <div class="p-3 -mr-3 md:hidden md:p-0">
+                <sidebar-toggle></sidebar-toggle>
+            </div>
+        </div>
 
         <div class="sidebar__container overflow-auto">
             <nav class="sidebar__nav">
@@ -28,6 +31,7 @@
 <script>
     import { mapGetters } from 'vuex'
     import SidebarItem from './SidebarItem.vue'
+    import SidebarToggle from './SidebarToggle.vue'
 
     export default {
         name: 'sidebar',
@@ -39,7 +43,8 @@
         },
 
         components: {
-            'sidebar-item': SidebarItem
+            'sidebar-item': SidebarItem,
+            'sidebar-toggle': SidebarToggle,
         },
 
         computed: {

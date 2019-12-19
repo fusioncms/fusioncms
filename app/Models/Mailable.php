@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use File;
+use Theme;
 use ReflectionClass;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mailable as MailableModel;
@@ -35,6 +37,13 @@ class Mailable extends Model
     ];
 
     /**
+     * Appends custom attributes.
+     * 
+     * @var array
+     */
+    protected $appends = ['theme'];
+
+    /**
      * Get resolved DatabaseMailable class.
      * [Derived]
      * 
@@ -43,6 +52,21 @@ class Mailable extends Model
     public function getMailableAttribute()
     {
         return resolve($this->namespace);
+    }
+
+    /**
+     * Get which Theme this Mailable comes from.
+     * [Derived]
+     * 
+     * @return DatabaseMailable
+     */
+    public function getThemeAttribute()
+    {
+        if (Str::startsWith($this->namespace, 'Themes')) {
+            return explode('\\', $this->namespace)[1];
+        }
+
+        return false;
     }
 
     /**
@@ -85,21 +109,39 @@ class Mailable extends Model
      */
     public static function registerNewMailables()
     {
-        $files = File::files(app_path('Mail'));
-    
-        foreach ($files as $file) {
-            $namespace  = 'App\\Mail\\' . $file->getFilenameWithoutExtension();
-            $reflection = new ReflectionClass($namespace);
+        $fusionMailFiles = File::files(app_path('Mail'));
+        $themeMailFiles  = File::files(Theme::path('src/Mail'));
 
-            if ($reflection->isSubclassOf('App\Mail\DatabaseMailable')) {
-                $mailable = resolve($namespace);
+        // Resolve fusion mailables..
+        foreach ($fusionMailFiles as $file) {
+            self::resolveNewMailable('App\\Mail\\' . $file->getFilenameWithoutExtension());
+        }
 
-                static::firstOrCreate([
-                    'name'      => $mailable->getName(),
-                    'handle'    => $mailable->getHandle(),
-                    'namespace' => $namespace,
-                ]);
-            }
+        // Resolve theme mailables..
+        foreach ($themeMailFiles as $file) {
+            self::resolveNewMailable('Themes\\' . basename(Theme::path()) . '\\Mail\\' . $file->getFilenameWithoutExtension());
+        }
+    }
+
+    /**
+     * Resolve and create new Database Mailable.
+     * [Helper]
+     * 
+     * @param  string $namespace
+     * @return void
+     */
+    private static function resolveNewMailable($namespace)
+    {
+        $reflection = new ReflectionClass($namespace);
+
+        if ($reflection->isSubclassOf('App\Mail\DatabaseMailable')) {
+            $mailable = resolve($namespace);
+
+            static::firstOrCreate([
+                'name'      => $mailable->getName(),
+                'handle'    => $mailable->getHandle(),
+                'namespace' => $namespace,
+            ]);
         }
     }
 }

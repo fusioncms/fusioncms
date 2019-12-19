@@ -19,6 +19,11 @@
                         <code>{{ table.record.handle }}</code>
                     </template>
 
+                    <template slot="theme" slot-scope="table">
+                        <span class="badge badge--info" v-if="table.record.theme !== false">{{ table.record.theme }}</span>
+                        <span v-else></span>
+                    </template>
+
                     <template slot="status" slot-scope="table">
                         <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
                         <span class="badge badge--danger" v-else>Disabled</span>

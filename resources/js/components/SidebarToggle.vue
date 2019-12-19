@@ -1,5 +1,5 @@
 <template>
-    <a href="#" @click.prevent="onClick()" class="text-gray-400 hover:text-white">
+    <a href="#" @click.prevent="onClick" class="text-gray-400 hover:text-gray-900 p-3 -m-3">
         <fa-icon :icon="['far', 'bars']"></fa-icon>
     </a>
 </template>
