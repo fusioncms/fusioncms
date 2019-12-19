@@ -30,6 +30,7 @@ class MailableController extends DataTableController
         return [
             'name',
             'handle',
+            'theme',
             'status'
         ];
     }
@@ -39,6 +40,7 @@ class MailableController extends DataTableController
         return [
             'name',
             'handle',
+            'theme',
             'status'
         ];
     }
@@ -48,6 +50,7 @@ class MailableController extends DataTableController
         return [
             'name',
             'handle',
+            'theme',
             'status'
         ];
     }
@@ -57,6 +60,7 @@ class MailableController extends DataTableController
         return [
             'name'   => 'Name',
             'handle' => 'Handle',
+            'theme'  => 'Theme',
             'status' => 'Status',
         ];
     }
