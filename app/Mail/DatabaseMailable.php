@@ -13,19 +13,28 @@ namespace App\Mail;
 
 use File;
 use Storage;
+use Exception;
 use App\Models\Mailable;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable as BaseMailable;
 
 abstract class DatabaseMailable extends BaseMailable
 {
 	/**
-     * Email template.
+     * Default outer template.
      * 
      * @var string
      */
     protected $layout = 'emails.layouts.default';
+
+    /**
+     * Default inner template.
+     * 
+     * @var string
+     */
+    protected $template = 'emails.templates.default';
 
 	/**
 	 * Get mailable name.
@@ -56,6 +65,24 @@ abstract class DatabaseMailable extends BaseMailable
     	}
 
     	return Str::slug($this->getName(), '_');
+    }
+
+    /**
+     * Get mailable default template.
+     * 
+     * @return View
+     */
+    public function getView()
+    {
+        if (! property_exists($this, 'template')) {
+            throw new Exception('Undefined property: `template` not defined in class: ' . get_class($this));
+        }
+
+        try {
+            return view($this->template);
+        } catch (InvalidArgumentException $exception) {
+            throw new InvalidArgumentException($exception->getMessage());
+        }
     }
 
     /**

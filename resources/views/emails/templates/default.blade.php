@@ -1,7 +1,4 @@
-@component('mail::message')
-# Welcome, {{ $user->fullName }}!
-
-Thank you for becoming a member.
+Hello World!
 
 @component('mail::button', ['url' => config('app.url')])
 Please visit us again :)
@@ -9,4 +6,3 @@ Please visit us again :)
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent

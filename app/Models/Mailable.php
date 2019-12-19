@@ -4,6 +4,7 @@ namespace App\Models;
 
 use File;
 use Theme;
+use Exception;
 use ReflectionClass;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
@@ -150,11 +151,16 @@ class Mailable extends Model
         if ($reflection->isSubclassOf('App\Mail\DatabaseMailable')) {
             $mailable = resolve($namespace);
 
-            static::firstOrCreate([
-                'name'      => $mailable->getName(),
-                'handle'    => $mailable->getHandle(),
-                'namespace' => $namespace,
-            ]);
+            try {
+                static::firstOrCreate([
+                    'name'      => $mailable->getName(),
+                    'handle'    => $mailable->getHandle(),
+                    'namespace' => $namespace,
+                    'markdown'  => File::get($mailable->getView()->getPath()),
+                ]);
+            } catch (Exception $exception) {
+                logger()->error($exception->getMessage());
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ class HelloNewUser extends DatabaseMailable
      * @var User
      */
     public $user;
-
+    
     /**
      * Create a new message instance.
      *
