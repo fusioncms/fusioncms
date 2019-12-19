@@ -209,14 +209,3 @@
         }
 	}
 </script>
-
-<style>
-    .button,
-    .dropdown__button {
-        @apply w-1/2 p-2 mb-2
-    }
-
-    .dropdown__options {
-        @apply w-full
-    }
-</style>

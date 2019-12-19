@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\DataTable;
 
 use File;
+use Theme;
 use ReflectionClass;
 use App\Models\Mailable;
 use App\Http\Controllers\DataTableController;
@@ -22,7 +23,7 @@ class MailableController extends DataTableController
     {
         Mailable::registerNewMailables();
 
-        return Mailable::query();
+        return Mailable::active();
     }
 
     public function getDisplayableColumns()

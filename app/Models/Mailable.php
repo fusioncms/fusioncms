@@ -70,6 +70,19 @@ class Mailable extends Model
     }
 
     /**
+     * Scope a query to only include active mailables.
+     * AKA Fusion and Current Theme
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('namespace', 'like', 'Themes\\\\'. Theme::getCurrent() . '%')
+                     ->orWhere('namespace', 'like', "App\\\Mail%");
+    }
+
+    /**
      * Get `placeholder` attribute.
      * [Derived]
      * 
