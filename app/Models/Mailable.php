@@ -35,6 +35,13 @@ class Mailable extends Model
     ];
 
     /**
+     * Appends custom attributes.
+     * 
+     * @var array
+     */
+    protected $appends = ['theme'];
+
+    /**
      * Get resolved DatabaseMailable class.
      * [Derived]
      * 
