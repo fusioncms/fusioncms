@@ -114,7 +114,7 @@ abstract class Builder implements BuilderContract
      */
     public function getDates()
     {
-        return [];
+        return ['created_at', 'updated_at'];
     }
 
     /**

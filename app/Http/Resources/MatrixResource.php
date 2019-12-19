@@ -44,8 +44,11 @@ class MatrixResource extends JsonResource
             'route'              => $this->route,
             'template'           => $this->template,
 
+            'show_title_field'   => $this->show_title_field,
+            'title_label'        => $this->title_label,
+            'title_format'       => $this->title_format,
+
             'revision_control'   => $this->revision_control,
-            'creditable'         => $this->creditable,
             'publishable'        => $this->publishable,
 
             'status'             => $this->status,

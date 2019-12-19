@@ -42,6 +42,8 @@ class EntryResource extends JsonResource
             }
         }
 
+        $resource['entry']['created_at'] = $this->created_at;
+        $resource['entry']['updated_at'] = $this->updated_at;
         $resource['entry']['status'] = $this->status;
 
         return $resource;

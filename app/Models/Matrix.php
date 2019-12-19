@@ -40,6 +40,9 @@ class Matrix extends Model
         'sidebar',
         'quicklink',
         'icon',
+        'show_title_field',
+        'title_label',
+        'title_format',
         'route',
         'template',
         'status',
@@ -59,6 +62,7 @@ class Matrix extends Model
         'publishable'      => 'boolean',
         'seoable'          => 'boolean',
         'status'           => 'boolean',
+        'show_title_field' => 'boolean',
     ];
 
     public function getBuilder()

@@ -38,13 +38,15 @@ class CreateMatricesTable extends Migration
             $table->boolean('quicklink')->default(true);
             $table->string('icon')->nullable();
 
+            $table->boolean('show_title_field')->default(true);
+            $table->string('title_label')->nullable();
+            $table->string('title_format')->nullable();
+
             $table->string('route')->nullable();
             $table->string('template')->nullable();
 
             $table->boolean('revision_control')->default(true);
-            $table->boolean('creditable')->default(true);
             $table->boolean('publishable')->default(true);
-
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

@@ -54,7 +54,7 @@ class CollectionController extends Controller
         
         $relationships = [];
         $rules         = [
-            'name'   => 'required|regex:/^[A-z]/i',
+            'name'   => 'sometimes|regex:/^[A-z]/i',
             'slug'   => 'sometimes',
             'status' => 'required|boolean',
         ];
@@ -75,6 +75,18 @@ class CollectionController extends Controller
 
         foreach ($relationships as $relationship) {
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
+
+        // Autogenerate name/slug
+        if (! $matrix->show_title_field) {
+            $find    = ['{', '}'];
+            $replace = ['{{ $entry->', ' }}'];
+            $format  = str_replace($find, $replace, $matrix->title_format);
+
+            $entry->name = $this->compileBladeString($format, $entry);
+            $entry->slug = Str::slug($entry->name);
+
+            $entry->save();
         }
 
         activity()
@@ -103,9 +115,9 @@ class CollectionController extends Controller
         $entry  = (new Collection($matrix->handle))->make()->find($id);
         $relationships = [];
         $rules         = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-            'status'    => 'required|boolean',
+            'name'     => 'sometimes',
+            'slug'     => 'sometimes',
+            'status'   => 'required|boolean',
         ];
 
         if(isset($matrix->fieldset)) {
@@ -129,6 +141,18 @@ class CollectionController extends Controller
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
         }
 
+        // Autogenerate name/slug
+        if (! $matrix->show_title_field) {
+            $find    = ['{', '}'];
+            $replace = ['{{ $entry->', ' }}'];
+            $format  = str_replace($find, $replace, $matrix->title_format);
+
+            $entry->name = $this->compileBladeString($format, $entry);
+            $entry->slug = Str::slug($entry->name);
+
+            $entry->save();
+        }
+
         return new EntryResource($entry);
     }
 
@@ -148,5 +172,23 @@ class CollectionController extends Controller
             ->log('Deleted entry (:subject.name)');
 
         $entry->delete();
+    }
+
+    protected function compileBladeString($string, $entry)
+    {
+        $generated = \Blade::compileString($string);
+
+        ob_start();
+
+        try {
+            eval('?>' . $generated);
+        } catch (\Exception $e) {
+            ob_get_clean();
+            throw $e;
+        }
+
+        $compiled = ob_get_clean();
+
+        return $compiled;
     }
 }
