@@ -27,11 +27,8 @@ class MailableTest extends TestCase
      */
     public function a_request_to_register_mailables_will_update_the_database()
     {
-        $this->assertDatabaseMissing('mailables', [
-            'name'      => 'Welcome New User',
-            'handle'    => 'welcome_new_user',
-            'namespace' => 'App\Mail\WelcomeNewUser'
-        ]);
+        $this->assertDatabaseMissing('mailables', [ 'name' => 'Welcome New User' ]);
+        $this->assertDatabaseMissing('mailables', [ 'name' => 'Hello New User'   ]);
 
         Mailable::registerNewMailables();
 
@@ -39,6 +36,12 @@ class MailableTest extends TestCase
             'name'      => 'Welcome New User',
             'handle'    => 'welcome_new_user',
             'namespace' => 'App\Mail\WelcomeNewUser'
+        ]);
+
+        $this->assertDatabaseHas('mailables', [
+            'name'      => 'Hello New User',
+            'handle'    => 'hello_new_user',
+            'namespace' => 'Themes\Hello\Mail\HelloNewUser'
         ]);
     }
 

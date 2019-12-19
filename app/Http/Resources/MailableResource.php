@@ -25,6 +25,7 @@ class MailableResource extends JsonResource
     {
         $result = parent::toArray($request);
         
+        $result['theme']        = $this->theme;
         $result['placeholders'] = $this->placeholders;
 
         return $result;
