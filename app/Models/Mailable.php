@@ -5,6 +5,8 @@ namespace App\Models;
 use File;
 use ReflectionClass;
 use ReflectionProperty;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mailable as MailableModel;
 
@@ -56,16 +58,23 @@ class Mailable extends Model
 
         return collect($properties)->map(function ($property) {
             if ($property->getDeclaringClass()->getName() == $this->namespace) {
-                $name  = $property->getName();
-                $value = $property->getValue($this->mailable);
-
-                if ($value instanceOf Model) {
-                    return [$name => $value->getFillable()];
-                } else {
-                    return [$name => $value];
-                }
+                return [ $property->getName() => $property->getValue($this->mailable) ];
             }
-        })->collapse()->filter();
+        })->collapse()->filter()->map(function ($value, $name) {
+            if ($value instanceOf Model) {
+                return $value->getFillable();
+            } elseif ($value instanceOf Collection) {
+                return $value->keys();
+            } elseif (is_array($value)) {
+                if (Arr::isAssoc($value)) {
+                    return array_keys($value);
+                } else {
+                    return array_values($value);
+                }
+            } else {
+                return $name;
+            }
+        });
     }
 
     /**
