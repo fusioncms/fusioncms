@@ -13,10 +13,9 @@ namespace App\Mail;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeNewUser extends Mailable
+class WelcomeNewUser extends DatabaseMailable
 {
     use Queueable, SerializesModels;
 
@@ -36,22 +35,5 @@ class WelcomeNewUser extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this
-            ->subject(
-                setting(
-                    'mail.mail_subject_user_registered',
-                    "Welcome, {$this->user->name}!"
-                )
-            )
-            ->markdown('emails.users.welcome');
     }
 }
