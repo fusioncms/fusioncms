@@ -6,28 +6,30 @@
 
         <div
             class="flex flex-col flex-1"
-            :class="{'lg:pl-250px': isSidebarOpen, 'lg:pl-90px': !isSidebarOpen}"
-            style="margin-top: 55px;"
+            :class="{'pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
+            style="margin-top: 55px; transition: all 0.3s ease;"
+            :style="{'left: 0;': isSidebarOpen, 'left: -250px;': !isSidebarOpen}"
         >
             <!-- Header -->
             <div
                 class="header"
-                :class="{'lg:w-full-sidebar-open': isSidebarOpen, 'lg:w-full-sidebar-collapsed': !isSidebarOpen}"
-                >
-                    <div class="header__account">
-                        <p-dropdown right>
-                            <fa-icon icon="circle" class="fa-xs mr-1 text-success-500"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
+                :class="{'w-full-sidebar-open': isSidebarOpen, 'w-full-sidebar-collapsed': !isSidebarOpen}"
+                style="transition: all 0.3s ease;"
+            >
+                <div class="header__account">
+                    <p-dropdown right>
+                        <fa-icon icon="circle" class="fa-xs mr-1 text-success-500"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
 
-                            <template slot="options">
-                                <!-- <div class="flex justify-center p-6 mb-4">
-                                    <img src="/img/avatar.png" alt="Avatar" class="w-20 h-20">
-                                </div> -->
+                        <template slot="options">
+                            <p-dropdown-item :href="'/admin/users/edit/' + user.id">Account</p-dropdown-item>
+                            <p-dropdown-item href="/logout">Log Out</p-dropdown-item>
+                        </template>
+                    </p-dropdown>
+                </div>
 
-                                <p-dropdown-item :href="'/admin/users/edit/' + user.id">Account</p-dropdown-item>
-                                <p-dropdown-item href="/logout">Log Out</p-dropdown-item>
-                            </template>
-                        </p-dropdown>
-                    </div>
+                <div>
+                    <sidebar-toggle></sidebar-toggle>
+                </div>
             </div>
 
             <!-- Local Environment Warning -->
