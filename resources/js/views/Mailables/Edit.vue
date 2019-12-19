@@ -90,16 +90,32 @@
                 <div class="row">
                     <div class="col w-full">
                         <label class="form__label">Placeholders</label>
-
-                        <p-dropdown v-for="(items, key) in placeholders" :key="key">
-                            {{ key }}
-
-                            <template slot="options">
-                                <p-dropdown-item v-for="(item, key) in items" :key="key" @click="addPlaceholder(item)">
-                                    {{ item }}
-                                </p-dropdown-item>
+                            
+                        <template v-for="(values, name) in placeholders">
+                            <template v-if="! isArray(values)">
+                                <p-button
+                                    size="small"
+                                    class="font-semibold text-black"
+                                    @click="addPlaceholder(values)">
+                                        {{ values }}
+                                </p-button>
                             </template>
-                        </p-dropdown>
+                            <template v-else>
+                                <p-dropdown>
+                                    {{ name }}
+                                    <fa-icon icon="caret-down" class="float-right"></fa-icon>
+                                    
+                                    <template slot="options">
+                                        <p-dropdown-item
+                                            v-for="(value, key) in values"
+                                            :key="key"
+                                            @click="addPlaceholder(value, name)">
+                                                {{ value }}
+                                        </p-dropdown-item>
+                                    </template>
+                                </p-dropdown>
+                            </template>
+                        </template>
                     </div>
                 </div>
             </p-card>
@@ -139,12 +155,20 @@
         },
 
         methods: {
-            addPlaceholder(value) {
+            isArray(value) {
+                return _.isArray(value)
+            },
+
+            addPlaceholder(value, name) {
                 const codemirror = this.$refs.markdown.codemirror
                 const doc        = codemirror.getDoc()
                 const cursor     = doc.getCursor()
 
-                doc.replaceSelection(value, doc.getSelection())
+                if (name) {
+                    doc.replaceSelection(`{{ $${name}->${value} }}`, doc.getSelection())
+                } else {
+                    doc.replaceSelection(`{{ $${value} }}`, doc.getSelection())
+                }
             },
 
             updateMarkdown(markdown) {
@@ -167,22 +191,14 @@
                 axios.get(`/api/mailables/${to.params.mailable}`),
             ]).then(axios.spread(function (mailable) {
                 next(function(vm) {
-                    vm.id    = mailable.data.data.id
-                    vm.ready = true
+                    vm.id           = mailable.data.data.id
+                    vm.placeholders = mailable.data.data.placeholders
+                    vm.ready        = true
 
                     vm.form.name     = mailable.data.data.name
                     vm.form.handle   = mailable.data.data.handle
                     vm.form.markdown = mailable.data.data.markdown
                     vm.form.resetChangeListener()
-
-                    _.forEach(mailable.data.data.placeholders, (values, key) => {
-                        let group = []
-
-                        _.forEach(values, (value) => {
-                            group.push(`{{ \$${key}->${value} }}`)
-                        })
-                        vm.placeholders[key] = group
-                    })
 
                     vm.$emit('updateHead')
                 })
@@ -193,9 +209,3 @@
         }
 	}
 </script>
-
-<style>
-    .dropdown__options {
-        @apply w-full
-    }
-</style>
