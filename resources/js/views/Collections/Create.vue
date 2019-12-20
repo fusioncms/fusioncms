@@ -22,7 +22,7 @@
                                     <div class="col w-1/2">
                                         <p-input
                                             name="name"
-                                            label="Name"
+                                            :label="collection.name_label || 'Name'"
                                             autocomplete="off"
                                             autofocus
                                             required
