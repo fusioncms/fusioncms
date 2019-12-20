@@ -156,7 +156,7 @@ class Mailable extends Model
                     'name'      => $mailable->getName(),
                     'handle'    => $mailable->getHandle(),
                     'namespace' => $namespace,
-                    'markdown'  => File::get($mailable->getView()->getPath()),
+                    'markdown'  => File::get($mailable->getTemplate()->getPath()),
                 ]);
             } catch (Exception $exception) {
                 logger()->error($exception->getMessage());

@@ -72,7 +72,7 @@ abstract class DatabaseMailable extends BaseMailable
      * 
      * @return View
      */
-    public function getView()
+    public function getTemplate()
     {
         if (! property_exists($this, 'template')) {
             throw new Exception('Undefined property: `template` not defined in class: ' . get_class($this));
