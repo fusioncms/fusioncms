@@ -7,6 +7,8 @@
 
 **FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework. **This repository contains the source code for version 6 of FusionCMS, which is under heavy active development.**
 
+**FusionCMS is source-available software owned by efelle creative.** Please see the [license](LICENSE.md) for full details, but in short, you are free to modify and alter the code for your project as long as it does not impede on our license. **While FusionCMS is in open beta, it is completely free to use.** Once it hits a stable release, we may require paid licenses under certain circumstances. Rest assured, information surrounding this will be announced on our official website.
+
 Modular at heart, FusionCMS provides the necessary launching platform to build out any type of web or mobile application. It's intuitive and easy for content editors to use on a daily basis, while still maintaining the power and flexibility for developers and designers to dig into the heart of the platform to build and design whatever comes to mind.
 
 ![preview screenshot](fusioncms.png)
