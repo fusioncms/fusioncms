@@ -12,6 +12,7 @@
 namespace Tests\Foundation;
 
 use File;
+use Theme;
 use Module;
 use Artisan;
 use Shinobi;
@@ -53,6 +54,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         // $this->withoutExceptionHandling();
+
+        Theme::set('hello');
 
         // ----------------------------
         // FusionCMS - MiniInstall!
