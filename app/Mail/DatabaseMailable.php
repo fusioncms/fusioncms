@@ -29,13 +29,6 @@ abstract class DatabaseMailable extends BaseMailable
      */
     protected $layout = 'emails.layouts.default';
 
-    /**
-     * Default inner template.
-     * 
-     * @var string
-     */
-    protected $template = 'emails.templates.default';
-
 	/**
 	 * Get mailable name.
 	 * 
