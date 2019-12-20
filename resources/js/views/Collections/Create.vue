@@ -10,44 +10,44 @@
             <div class="content-container">
                 <form @submit.prevent="submit">
                     <p-card>
-                        <div class="row">
-                                <div class="col form-sidebar">
-                                    <div class="xxl:mr-10">
-                                        <!--  -->
-                                    </div>
+                        <div class="row" v-if="collection.show_name_field">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
+                                    <!--  -->
                                 </div>
+                            </div>
 
-                                <div class="col mb-6 form-content">
-                                    <div class="row">
-                                        <div class="col w-1/2">
-                                            <p-input
-                                                name="name"
-                                                label="Name"
-                                                autocomplete="off"
-                                                autofocus
-                                                required
-                                                :has-error="form.errors.has('name')"
-                                                :error-message="form.errors.get('name')"
-                                                v-model="form.name">
-                                            </p-input>
-                                        </div>
+                            <div class="col mb-6 form-content">
+                                <div class="row">
+                                    <div class="col w-1/2">
+                                        <p-input
+                                            name="name"
+                                            label="Name"
+                                            autocomplete="off"
+                                            autofocus
+                                            required
+                                            :has-error="form.errors.has('name')"
+                                            :error-message="form.errors.get('name')"
+                                            v-model="form.name">
+                                        </p-input>
+                                    </div>
 
-                                        <div class="col w-1/2">
-                                            <p-slug
-                                                name="slug"
-                                                label="Slug"
-                                                monospaced
-                                                autocomplete="off"
-                                                required
-                                                :watch="form.name"
-                                                :has-error="form.errors.has('slug')"
-                                                :error-message="form.errors.get('slug')"
-                                                v-model="form.slug">
-                                            </p-slug>
-                                        </div>
+                                    <div class="col w-1/2">
+                                        <p-slug
+                                            name="slug"
+                                            label="Slug"
+                                            monospaced
+                                            autocomplete="off"
+                                            required
+                                            :watch="form.name"
+                                            :has-error="form.errors.has('slug')"
+                                            :error-message="form.errors.get('slug')"
+                                            v-model="form.slug">
+                                        </p-slug>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
                         <div v-if="sections.body.length > 0">
                             <!-- Loop through each section -->

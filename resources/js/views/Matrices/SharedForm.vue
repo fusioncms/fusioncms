@@ -104,7 +104,7 @@
                         <div class="col form-content">
                             <div class="row mb-6">
                                 <div class="col mb-3 w-full">
-                                    <p-checkbox name="show_name_field" :native-value="true" v-model="form.show_name_field">Show Name Field</p-checkbox>
+                                    <p-checkbox name="show_name_field" v-model="form.show_name_field">Show Name Field</p-checkbox>
                                 </div>
 
                                 <div class="col w-full">

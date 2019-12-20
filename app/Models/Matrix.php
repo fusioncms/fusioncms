@@ -62,7 +62,7 @@ class Matrix extends Model
         'publishable'      => 'boolean',
         'seoable'          => 'boolean',
         'status'           => 'boolean',
-        'show_name_field' => 'boolean',
+        'show_name_field'  => 'boolean',
     ];
 
     public function getBuilder()
