@@ -27,6 +27,14 @@ class WelcomeNewUser extends DatabaseMailable
     public $user;
 
     /**
+     * Default inner template.
+     * 
+     * @var string
+     */
+    protected $template = 'emails.templates.welcome';
+
+
+    /**
      * Create a new message instance.
      *
      * @param  User  $user
