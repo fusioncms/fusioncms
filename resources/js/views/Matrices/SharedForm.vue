@@ -104,31 +104,31 @@
                         <div class="col form-content">
                             <div class="row mb-6">
                                 <div class="col mb-3 w-full">
-                                    <p-checkbox name="show_title_field" :native-value="true" v-model="form.show_title_field">Show Title Field</p-checkbox>
+                                    <p-checkbox name="show_name_field" :native-value="true" v-model="form.show_name_field">Show Name Field</p-checkbox>
                                 </div>
 
                                 <div class="col w-full">
-                                    <div v-if="form.show_title_field">
+                                    <div v-if="form.show_name_field">
                                         <p-input
-                                            name="title_label"
-                                            label="Title Label"
+                                            name="name_label"
+                                            label="Name Label"
                                             placeholder="Name"
-                                            help="You may customize the label of the title field."
-                                            :has-error="form.errors.has('title_label')"
-                                            :error-message="form.errors.get('title_label')"
-                                            v-model="form.title_label">
+                                            help="If you'd like, you may customize the label used for your entry names."
+                                            :has-error="form.errors.has('name_label')"
+                                            :error-message="form.errors.get('name_label')"
+                                            v-model="form.name_label">
                                         </p-input>
                                     </div>
 
                                     <div v-else>
                                         <p-input
                                             monospaced
-                                            name="title_format"
-                                            label="Title Format"
-                                            help="What format would you like your generated titles and slugs to follow?"
-                                            :has-error="form.errors.has('title_format')"
-                                            :error-message="form.errors.get('title_format')"
-                                            v-model="form.title_format">
+                                            name="name_format"
+                                            label="Name Format"
+                                            help="What format would you like your generated names and slugs to follow?"
+                                            :has-error="form.errors.has('name_format')"
+                                            :error-message="form.errors.get('name_format')"
+                                            v-model="form.name_format">
                                         </p-input>
                                     </div>
                                 </div>

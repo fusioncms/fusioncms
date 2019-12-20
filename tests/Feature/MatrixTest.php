@@ -98,21 +98,21 @@ class MatrixTest extends TestCase
     }
 
     /** @test */
-    public function matrix_title_labels_can_be_customized()
+    public function matrix_name_labels_can_be_customized()
     {
         $this->actingAs($this->admin, 'api');
 
         $matrix = MatrixFactory::create();
         
         $data                = $matrix->toArray();
-        $data['title_label'] = 'Custom Title';
+        $data['name_label'] = 'Custom Title';
 
         $response = $this->json('PATCH', '/api/matrices/'.$matrix->id, $data);
         
         $response->assertStatus(200);
         $this->assertDatabaseHas('matrices', [
             'id'          => $matrix->id,
-            'title_label' => $data['title_label'],
+            'name_label' => $data['name_label'],
         ]);
     }
 
@@ -124,16 +124,16 @@ class MatrixTest extends TestCase
         $matrix = MatrixFactory::create();
         
         $data                     = $matrix->toArray();
-        $data['show_title_field'] = false;
-        $data['title_format']     = '{id}-{name}';
+        $data['show_name_field'] = false;
+        $data['name_format']     = '{id}-{name}';
 
         $response = $this->json('PATCH', '/api/matrices/'.$matrix->id, $data);
         
         $response->assertStatus(200);
         $this->assertDatabaseHas('matrices', [
             'id'               => $matrix->id,
-            'show_title_field' => $data['show_title_field'],
-            'title_format'     => $data['title_format'],
+            'show_name_field' => $data['show_name_field'],
+            'name_format'     => $data['name_format'],
         ]);
     }
 
@@ -148,8 +148,8 @@ class MatrixTest extends TestCase
         $model = $matrix->getBuilder();
         
         $data                     = $matrix->toArray();
-        $data['show_title_field'] = false;
-        $data['title_format']     = "{id} {created_at->format('Y')}";
+        $data['show_name_field'] = false;
+        $data['name_format']     = "{id} {created_at->format('Y')}";
 
         $this->json('PATCH', '/api/matrices/'.$matrix->id, $data);
 

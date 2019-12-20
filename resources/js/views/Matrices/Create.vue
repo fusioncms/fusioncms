@@ -42,9 +42,9 @@
                     quicklink: '1',
                     icon: '',
 
-                    show_title_field: true,
-                    title_label: '',
-                    title_format: '',
+                    show_name_field: true,
+                    name_label: '',
+                    name_format: '',
 
                     route: '',
                     template: '',

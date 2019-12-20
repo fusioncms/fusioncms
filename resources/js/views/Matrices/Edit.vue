@@ -44,9 +44,9 @@
                     quicklink: '1',
                     icon: '',
 
-                    show_title_field: true,
-                    title_label: '',
-                    title_format: '',
+                    show_name_field: true,
+                    name_label: '',
+                    name_format: '',
 
                     route: '',
                     template: '',
@@ -142,9 +142,9 @@
                     vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0'
                     vm.form.icon = matrix.data.data.icon
 
-                    vm.show_title_field = matrix.data.data.show_title_field
-                    vm.title_label = matrix.data.data.title_label
-                    vm.title_format = matrix.data.data.title_format
+                    vm.show_name_field = matrix.data.data.show_name_field
+                    vm.name_label = matrix.data.data.name_label
+                    vm.name_format = matrix.data.data.name_format
 
                     vm.form.route = matrix.data.data.route
                     vm.form.template = matrix.data.data.template

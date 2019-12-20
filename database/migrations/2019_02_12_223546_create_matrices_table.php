@@ -38,9 +38,9 @@ class CreateMatricesTable extends Migration
             $table->boolean('quicklink')->default(true);
             $table->string('icon')->nullable();
 
-            $table->boolean('show_title_field')->default(true);
-            $table->string('title_label')->nullable();
-            $table->string('title_format')->nullable();
+            $table->boolean('show_name_field')->default(true);
+            $table->string('name_label')->nullable();
+            $table->string('name_format')->nullable();
 
             $table->string('route')->nullable();
             $table->string('template')->nullable();

@@ -177,9 +177,9 @@ class MatrixController extends Controller
             'quicklink'          => 'required|boolean',
             'icon'               => 'sometimes',
 
-            'show_title_field'   => 'required|boolean',
-            'title_label'        => 'sometimes',
-            'title_format'       => 'required_if:show_title_field,false',
+            'show_name_field'   => 'required|boolean',
+            'name_label'        => 'sometimes',
+            'name_format'       => 'required_if:show_name_field,false',
 
             'route'              => 'sometimes',
             'template'           => 'sometimes',

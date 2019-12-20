@@ -79,8 +79,8 @@ class CollectionController extends Controller
         }
 
         // Autogenerate name/slug
-        if (! $matrix->show_title_field) {
-            $entry->name = $this->compileBladeString($matrix->title_format, $entry);
+        if (! $matrix->show_name_field) {
+            $entry->name = $this->compileBladeString($matrix->name_format, $entry);
             $entry->slug = Str::slug($entry->name);
             
             $entry->save();
@@ -138,8 +138,8 @@ class CollectionController extends Controller
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
         }
 
-        if (! $matrix->show_title_field) {
-            $entry->name = $this->compileBladeString($matrix->title_format, $entry);
+        if (! $matrix->show_name_field) {
+            $entry->name = $this->compileBladeString($matrix->name_format, $entry);
             $entry->slug = Str::slug($entry->name);
             
             $entry->save();
