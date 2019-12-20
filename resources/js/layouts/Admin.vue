@@ -125,6 +125,10 @@
 
         created() {
             this.listenForSidebarEvent()
+        },
+
+        mounted() {
+            this.isSidebarOpen = _.includes(['lg', 'xl', 'xxl', 'xxxl'], this.$mq)
         }
     }
 </script>

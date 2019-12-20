@@ -74,6 +74,7 @@
         "popper.js": "^1.16.0",
         "vue-head": "^2.1.2",
         "vue-moment": "^4.0.0",
+        "vue-mq": "^1.0.1",
         "vue2-dropzone": "^3.6.0"
     }
 }

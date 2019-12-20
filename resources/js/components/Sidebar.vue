@@ -81,5 +81,10 @@
         created() {
             this.listenForEvent()
         },
+
+        mounted() {
+            this.isOpen = _.includes(['lg', 'xl', 'xxl', 'xxxl'], this.$mq)
+            console.log(this.$mq)
+        }
     }
 </script>
