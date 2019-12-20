@@ -52,7 +52,7 @@ class MatrixObserver
             $table->unsignedInteger('parent_id')->nullable();
 
             if ($matrix->type === 'collection') {
-                $table->string('name');
+                $table->string('name')->nullable();
                 $table->string('slug')->nullable();
             }
 

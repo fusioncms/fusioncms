@@ -42,6 +42,10 @@
                     quicklink: '1',
                     icon: '',
 
+                    show_name_field: true,
+                    name_label: '',
+                    name_format: '',
+
                     route: '',
                     template: '',
 

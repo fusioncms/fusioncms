@@ -177,11 +177,14 @@ class MatrixController extends Controller
             'quicklink'          => 'required|boolean',
             'icon'               => 'sometimes',
 
+            'show_name_field'   => 'required|boolean',
+            'name_label'        => 'sometimes',
+            'name_format'       => 'required_if:show_name_field,false',
+
             'route'              => 'sometimes',
             'template'           => 'sometimes',
 
             'revision_control'   => 'required|boolean',
-            'creditable'         => 'required|boolean',
             'publishable'        => 'required|boolean',
         ];
     }
