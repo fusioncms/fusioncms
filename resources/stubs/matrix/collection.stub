@@ -52,6 +52,11 @@ class {class} extends Model
      */
     protected $dates = {dates};
 
+    /**
+     * Mass reference protection.
+     *
+     * @var array
+     */
     public function getReferences()
     {
         return $this->references;

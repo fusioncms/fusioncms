@@ -174,6 +174,13 @@ class CollectionController extends Controller
         $entry->delete();
     }
     
+    /**
+     * Compile a blade string in a safe and controlled manner.
+     * 
+     * @param  string  $string
+     * @param  Entry  $entry
+     * @return string
+     */
     protected function compileBladeString($string, $entry)
     {
         preg_match_all('/\{(.*?)\}/', $string, $matches);
@@ -184,7 +191,9 @@ class CollectionController extends Controller
 
                 if (in_array($reference, $entry->getReferences())) {
                     ob_start();
+
                     eval('echo $entry->'.$match.';');
+                    
                     $replace[$index] = ob_get_clean();
                 } else {
                     $replace[$index] = $matches[0][$index];
