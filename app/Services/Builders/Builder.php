@@ -109,6 +109,26 @@ abstract class Builder implements BuilderContract
         return [];
     }
 
+    public function getReferences($fields)
+    {
+        $references = [
+            'id',
+            'matrix',
+            'created_at',
+            'updated_at',
+        ];
+
+        foreach ($fields as $field) {
+            $references[] = $field->handle;
+        }
+
+        foreach ($this->getRelationships() as $relationship => $value) {
+            $references[] = $relationship;
+        }
+
+        return $references;
+    }
+
     /**
      * @return array
      */

@@ -39,11 +39,23 @@ class {class} extends Model
     protected $fillable = {fillable};
 
     /**
+     * Mass reference protection.
+     *
+     * @var array
+     */
+    protected $references = {references};
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = {dates};
+
+    public function getReferences()
+    {
+        return $this->references;
+    }
 
     /**
      * Get the Matrix Type relationship.

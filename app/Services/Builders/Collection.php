@@ -52,6 +52,7 @@ class Collection extends Builder implements BuilderContract
         $traits        = [];
         $fillable      = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
         $casts         = [];
+        $fields        = [];
 
         if ($this->matrix->fieldset) {
             $fields = $this->matrix->fieldset->fields->reject(function ($field) {
@@ -82,6 +83,7 @@ class Collection extends Builder implements BuilderContract
             '{casts}'         => '[\'' . implode('\', \'', $casts) . '\']',
             '{with}'          => '[\'' . implode('\', \'', $this->getWith()) . '\']',
             '{dates}'         => '[\'' . implode('\', \'', $this->getDates()) . '\']',
+            '{references}'    => '[\'' . implode('\', \'', $this->getReferences($fields)) . '\']',
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
             '{relationships}' => $this->generateRelationships(),

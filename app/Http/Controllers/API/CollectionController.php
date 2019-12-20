@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers\API;
 
+use ParseError;
 use App\Models\Matrix;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -79,13 +80,9 @@ class CollectionController extends Controller
 
         // Autogenerate name/slug
         if (! $matrix->show_title_field) {
-            $find    = ['{', '}'];
-            $replace = ['{{ $entry->', ' }}'];
-            $format  = str_replace($find, $replace, $matrix->title_format);
-
-            $entry->name = $this->compileBladeString($format, $entry);
+            $entry->name = $this->compileBladeString($matrix->title_format, $entry);
             $entry->slug = Str::slug($entry->name);
-
+            
             $entry->save();
         }
 
@@ -141,17 +138,20 @@ class CollectionController extends Controller
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
         }
 
-        // Autogenerate name/slug
         if (! $matrix->show_title_field) {
-            $find    = ['{', '}'];
-            $replace = ['{{ $entry->', ' }}'];
-            $format  = str_replace($find, $replace, $matrix->title_format);
-
-            $entry->name = $this->compileBladeString($format, $entry);
+            $entry->name = $this->compileBladeString($matrix->title_format, $entry);
             $entry->slug = Str::slug($entry->name);
-
+            
             $entry->save();
         }
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
+            ])
+            ->log('Updated '.Str::singular($matrix->name).' (:subject.name)');
 
         return new EntryResource($entry);
     }
@@ -173,21 +173,30 @@ class CollectionController extends Controller
 
         $entry->delete();
     }
-
+    
     protected function compileBladeString($string, $entry)
     {
-        $generated = \Blade::compileString($string);
+        preg_match_all('/\{(.*?)\}/', $string, $matches);
+        
+        foreach ($matches[1] as $index => $match) {
+            try {
+                $reference = explode('->', $match)[0];
 
-        ob_start();
+                if (in_array($reference, $entry->getReferences())) {
+                    ob_start();
+                    eval('echo $entry->'.$match.';');
+                    $replace[$index] = ob_get_clean();
+                } else {
+                    $replace[$index] = $matches[0][$index];
+                }
+            } catch (ParseError $e) {
+                ob_get_clean();
 
-        try {
-            eval('?>' . $generated);
-        } catch (\Exception $e) {
-            ob_get_clean();
-            throw $e;
+                $replace[$index] = $match;
+            }
         }
 
-        $compiled = ob_get_clean();
+        $compiled = str_replace($matches[0], $replace, $string);
 
         return $compiled;
     }
