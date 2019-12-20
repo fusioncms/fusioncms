@@ -1,7 +1,9 @@
 # License
 
+FusionCMS is not free open source software. It is source-available software. Permission is hereby granted to any person obtaining a copy of FusionCMS (the "Software") to use, copy, modify, merge, publish and/or distribute copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 1. **Free to use while in open beta.** Pricing and licensing may change once FusionCMS has reached a stable release.
-2. **Don't redistribute or plagiarize.** All copies of FusionCMS must come from official channels. FusionCMS may not be redistributed or resold for any reason unless specific written permission is granted by efelle creative.
+2. **Don't plagiarize.** FusionCMS cannot be forked for purposes of rebranding and redistributing outside of official channels. The above copyright notice and this license shall be included in all copies or substantial portions of the Software.
 3. **Don't mess with the licensing features.** Software features related to licensing shall not be altered or circumvented in any way, including (but not limited to) license validation, payment prompts, and feature restrictions.
 4. **Modifications to the source code for specific projects is allowed**, as long as the changes do not impede on or prevent any licensing feature as part of FusionCMS. If you wish to redistribute or share your changes, these should be done as part of an add-on module or theme.
 5. **Payments.** Payment shall be made immediately upon receipt of any notice, prompt, reminder, or other message indicating that a payment is owed.
