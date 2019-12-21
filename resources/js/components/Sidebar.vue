@@ -6,12 +6,12 @@
             'sidebar--closed': !this.isOpen
         }"
     >
-        <div class="flex items-center justify-between md:justify-center px-6 border-b border-gray-300" style="height: 55px;">
+        <div class="flex flex-row-reverse lg:flex-row items-center justify-between lg:justify-center px-6 border-b border-gray-300" style="height: 55px;">
             <router-link to="/" class="sidebar__logo">
                 Fusion<span class="font-bold">CMS</span>
             </router-link>
 
-            <div class="p-3 -mr-3 md:hidden md:p-0">
+            <div class="p-3 -mr-3 lg:hidden md:p-0">
                 <sidebar-toggle></sidebar-toggle>
             </div>
         </div>
@@ -81,5 +81,9 @@
         created() {
             this.listenForEvent()
         },
+
+        mounted() {
+            this.isOpen = !_.includes(['sm', 'md'], this.$mq)
+        }
     }
 </script>

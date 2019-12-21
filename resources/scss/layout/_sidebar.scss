@@ -1,9 +1,14 @@
 .sidebar {
-    @apply .hidden .fixed .bg-white .text-gray-500 .h-full w-full .flex .flex-col z-50 overflow-hidden;
+    @apply .hidden .fixed .bg-white .text-gray-500 w-full .flex .flex-col z-50 overflow-hidden;
 
     transition: all 0.3s ease;
-
-    @screen lg {
+    left: -100%;
+    width: 100%!important;
+    bottom: 0;
+    top: 0;
+    
+    @screen md {
+        @apply .h-full;
         left: -250px;
         width: 250px !important;
     }

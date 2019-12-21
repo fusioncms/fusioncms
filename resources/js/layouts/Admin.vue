@@ -6,14 +6,14 @@
 
         <div
             class="flex flex-col flex-1"
-            :class="{'pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
+            :class="{'lg:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
             style="margin-top: 55px; transition: all 0.3s ease;"
             :style="{'left: 0;': isSidebarOpen, 'left: -250px;': !isSidebarOpen}"
         >
             <!-- Header -->
             <div
-                class="header"
-                :class="{'w-full-sidebar-open': isSidebarOpen, 'w-full-sidebar-collapsed': !isSidebarOpen}"
+                class="header w-full"
+                :class="{'lg:w-full-sidebar-open': isSidebarOpen, 'lg:w-full-sidebar-collapsed': !isSidebarOpen}"
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
@@ -125,6 +125,10 @@
 
         created() {
             this.listenForSidebarEvent()
+        },
+
+        mounted() {
+            this.isSidebarOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>
