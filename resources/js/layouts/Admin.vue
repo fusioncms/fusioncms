@@ -12,8 +12,8 @@
         >
             <!-- Header -->
             <div
-                class="header"
-                :class="{'w-full-sidebar-open': isSidebarOpen, 'w-full-sidebar-collapsed': !isSidebarOpen}"
+                class="header w-full"
+                :class="{'lg:w-full-sidebar-open': isSidebarOpen, 'lg:w-full-sidebar-collapsed': !isSidebarOpen}"
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
@@ -128,7 +128,7 @@
         },
 
         mounted() {
-            this.isSidebarOpen = _.includes(['lg', 'xl', 'xxl', 'xxxl'], this.$mq)
+            this.isSidebarOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>

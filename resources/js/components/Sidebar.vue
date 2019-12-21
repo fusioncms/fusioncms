@@ -83,8 +83,7 @@
         },
 
         mounted() {
-            this.isOpen = _.includes(['lg', 'xl', 'xxl', 'xxxl'], this.$mq)
-            console.log(this.$mq)
+            this.isOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>
