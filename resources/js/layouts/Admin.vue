@@ -6,7 +6,7 @@
 
         <div
             class="flex flex-col flex-1"
-            :class="{'pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
+            :class="{'lg:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
             style="margin-top: 55px; transition: all 0.3s ease;"
             :style="{'left: 0;': isSidebarOpen, 'left: -250px;': !isSidebarOpen}"
         >

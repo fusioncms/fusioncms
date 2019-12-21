@@ -7,13 +7,14 @@
             v-if="! hasChildren && ! divider"
             :to="to"
             class="sidebar__menu-link"
+            @click.native="mobileToggle()"
         >
             <div class="flex">
                 <span class="sidebar__menu-icon" v-if="icon">
                     <fa-icon :icon="['far', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
                 </span>
 
-                <span class="sidebar__menu-text" v-if="isSidebarOpen"><slot></slot></span>
+                <span class="sidebar__menu-text"><slot></slot></span>
             </div>
         </router-link>
 
@@ -23,7 +24,7 @@
                     <fa-icon :icon="['far', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
                 </span>
 
-                <span class="sidebar__menu-text" v-if="isSidebarOpen"><slot></slot></span>
+                <span class="sidebar__menu-text"><slot></slot></span>
             </div>
 
             <span class="sidebar__menu-toggle" v-if="hasChildren">
@@ -38,10 +39,11 @@
                     exact
                     :to="child.to"
                     class="sidebar__menu-link"
+                    @click.native="mobileToggle()"
                 >
                     <div class="flex items-center">
                         <fa-icon icon="chevron-double-right" class="fa-xs mr-2 text-gray-600" style="font-size: .5rem;"></fa-icon>
-                        <span class="sidebar__menu-text" v-if="isSidebarOpen">{{ child.title }}</span>
+                        <span class="sidebar__menu-text">{{ child.title }}</span>
                     </div>
                 </router-link>
             </li>
@@ -102,6 +104,13 @@
 
             toggle() {
                 this.isSidebarOpen = ! this.isSidebarOpen
+            },
+
+            mobileToggle() {
+                if (_.includes(['sm', 'md'], this.$mq)) {
+                    this.toggle()
+                    this.$parent.toggle()
+                }
             },
 
             listenForSidebarEvent() {
