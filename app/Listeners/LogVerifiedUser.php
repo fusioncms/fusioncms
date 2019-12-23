@@ -12,6 +12,7 @@
 namespace App\Listeners;
 
 use Mail;
+use Exception;
 use App\Mail\WelcomeNewUser;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,7 +27,9 @@ class LogVerifiedUser implements ShouldQueue
      */
     public function handle(Verified $verified)
     {
-        Mail::to($verified->user)->send(new WelcomeNewUser($verified->user));
+        if (setting('users.user_email_welcome') === 'enabled') {
+            Mail::to($verified->user)->send(new WelcomeNewUser($verified->user));
+        }
     }
 
     /**

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Users;
 
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

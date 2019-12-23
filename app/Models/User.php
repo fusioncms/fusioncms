@@ -14,14 +14,18 @@ namespace App\Models;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\HasDynamicRelationships;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Concerns\MustVerifyEmail as UserMustVerifyEmail;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasRolesAndPermissions, HasApiTokens, Notifiable, HasDynamicRelationships;
+    use HasRolesAndPermissions,
+        UserMustVerifyEmail,
+        HasApiTokens,
+        Notifiable,
+        HasDynamicRelationships;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -145,35 +149,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activity()
     {
         return $this->hasMany(config('activitylog.activity_model'), 'causer_id');
-    }
-
-    /**
-     * Determine if the user has verified their email address.
-     * [override from `MustVerifyEmail`].
-     *
-     * @return bool
-     */
-    public function hasVerifiedEmail()
-    {
-        if (setting('user.user_email_verification') === 'disabled') {
-            return true;
-        }
-
-        return ! is_null($this->email_verified_at);
-    }
-
-    /**
-     * Send the email verification notification.
-     * [override from `MustVerifyEmail`].
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification()
-    {
-        if (setting('user.user_email_verification') === 'disabled') {
-            return;
-        }
-
-        $this->notify(new VerifyEmail);
     }
 }
