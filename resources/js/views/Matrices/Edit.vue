@@ -44,6 +44,10 @@
                     quicklink: '1',
                     icon: '',
 
+                    show_name_field: true,
+                    name_label: '',
+                    name_format: '',
+
                     route: '',
                     template: '',
 
@@ -137,6 +141,10 @@
                     vm.form.sidebar = matrix.data.data.sidebar ? '1' : '0'
                     vm.form.quicklink = matrix.data.data.quicklink ? '1' : '0'
                     vm.form.icon = matrix.data.data.icon
+
+                    vm.form.show_name_field = matrix.data.data.show_name_field
+                    vm.form.name_label = matrix.data.data.name_label
+                    vm.form.name_format = matrix.data.data.name_format
 
                     vm.form.route = matrix.data.data.route
                     vm.form.template = matrix.data.data.template

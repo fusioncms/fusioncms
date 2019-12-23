@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers\API;
 
+use ParseError;
 use App\Models\Matrix;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class CollectionController extends Controller
         
         $relationships = [];
         $rules         = [
-            'name'   => 'required|regex:/^[A-z]/i',
+            'name'   => 'sometimes|regex:/^[A-z]/i',
             'slug'   => 'sometimes',
             'status' => 'required|boolean',
         ];
@@ -75,6 +76,14 @@ class CollectionController extends Controller
 
         foreach ($relationships as $relationship) {
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+        }
+
+        // Autogenerate name/slug
+        if (! $matrix->show_name_field) {
+            $entry->name = $this->compileBladeString($matrix->name_format, $entry);
+            $entry->slug = Str::slug($entry->name);
+            
+            $entry->save();
         }
 
         activity()
@@ -103,9 +112,9 @@ class CollectionController extends Controller
         $entry  = (new Collection($matrix->handle))->make()->find($id);
         $relationships = [];
         $rules         = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-            'status'    => 'required|boolean',
+            'name'     => 'sometimes',
+            'slug'     => 'sometimes',
+            'status'   => 'required|boolean',
         ];
 
         if(isset($matrix->fieldset)) {
@@ -129,6 +138,21 @@ class CollectionController extends Controller
             $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
         }
 
+        if (! $matrix->show_name_field) {
+            $entry->name = $this->compileBladeString($matrix->name_format, $entry);
+            $entry->slug = Str::slug($entry->name);
+            
+            $entry->save();
+        }
+
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
+            ])
+            ->log('Updated '.Str::singular($matrix->name).' (:subject.name)');
+
         return new EntryResource($entry);
     }
 
@@ -148,5 +172,41 @@ class CollectionController extends Controller
             ->log('Deleted entry (:subject.name)');
 
         $entry->delete();
+    }
+    
+    /**
+     * Compile a blade string in a safe and controlled manner.
+     * 
+     * @param  string  $string
+     * @param  Entry  $entry
+     * @return string
+     */
+    protected function compileBladeString($string, $entry)
+    {
+        preg_match_all('/\{(.*?)\}/', $string, $matches);
+        
+        foreach ($matches[1] as $index => $match) {
+            try {
+                $reference = explode('->', $match)[0];
+
+                if (in_array($reference, $entry->getReferences())) {
+                    ob_start();
+
+                    eval('echo $entry->'.$match.';');
+                    
+                    $replace[$index] = ob_get_clean();
+                } else {
+                    $replace[$index] = $matches[0][$index];
+                }
+            } catch (ParseError $e) {
+                ob_get_clean();
+
+                $replace[$index] = $match;
+            }
+        }
+
+        $compiled = str_replace($matches[0], $replace, $string);
+
+        return $compiled;
     }
 }

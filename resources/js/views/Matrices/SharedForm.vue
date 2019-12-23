@@ -102,6 +102,38 @@
                         </div>
 
                         <div class="col form-content">
+                            <div class="row mb-6">
+                                <div class="col mb-3 w-full">
+                                    <p-checkbox name="show_name_field" v-model="form.show_name_field">Show Name Field</p-checkbox>
+                                </div>
+
+                                <div class="col w-full">
+                                    <div v-if="form.show_name_field">
+                                        <p-input
+                                            name="name_label"
+                                            label="Name Label"
+                                            placeholder="Name"
+                                            help="If you'd like, you may customize the label used for your entry names."
+                                            :has-error="form.errors.has('name_label')"
+                                            :error-message="form.errors.get('name_label')"
+                                            v-model="form.name_label">
+                                        </p-input>
+                                    </div>
+
+                                    <div v-else>
+                                        <p-input
+                                            monospaced
+                                            name="name_format"
+                                            label="Name Format"
+                                            help="What format would you like your generated names and slugs to follow?"
+                                            :has-error="form.errors.has('name_format')"
+                                            :error-message="form.errors.get('name_format')"
+                                            v-model="form.name_format">
+                                        </p-input>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col w-full xxl:w-1/2 mb-6">
                                     <p-input

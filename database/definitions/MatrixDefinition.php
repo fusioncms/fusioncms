@@ -35,10 +35,12 @@ $factory->define(App\Models\Matrix::class, function (Faker $faker) {
         'sidebar'          => $faker->boolean(50),
         'quicklink'        => $faker->boolean(50),
         'icon'             => $faker->randomElement(['pencil', 'airplane', 'book', 'brain']),
+        'show_name_field'  => true,
+        'name_label'       => '',
+        'name_format'      => '',
         'route'            => 'test/{slug}',
         'template'         => 'test.' . Str::slug($name),
         'revision_control' => $faker->boolean(50),
-        'creditable'       => $faker->boolean(50),
         'publishable'      => $faker->boolean(50),
         'status'           => $faker->boolean(50),
     ];
