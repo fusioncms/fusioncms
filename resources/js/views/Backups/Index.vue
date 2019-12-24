@@ -5,59 +5,32 @@
 		</portal>
 
 		<portal to="actions">
-			<p-button v-modal:settings class="button mr-3">Settings</p-button>
-			<p-button @click.prevent v-modal:confirm-form class="button--primary">Run Backup</p-button>
+			<p-button v-modal:settings class="button mr-1">Settings</p-button>
+			<p-button v-modal:upload class="button mr-3">Upload</p-button>
+
+			<p-button @click.prevent v-modal:confirm-form class="button--primary">Backup Now</p-button>
 		</portal>
 
-        <div class="row">
-            <div class="content-container">
-            	<p-upload
-            		name="file-upload"
-            		ref="upload"
-            		accept="zip"
-            		:multiple="false"
-            		@input="upload"
-            	></p-upload>
+		<p-card no-body>
+			<div class="card__body text-center" v-if="! ready">
+				<fa-icon :icon="['fas', 'spinner-third']" class="fa-spin mr-3"></fa-icon> Loading backups...
+			</div>
 
-            	<table v-if="ready">
-					<thead>
-						<th>Disk</th>
-						<th># Backups</th>
-						<th>Newest</th>
-						<th>Storage Used</th>
-						<th>Status</th>
-					</thead>
-					<tbody>
-						<tr v-for="destination in destinations">
-							<td>
-								<code>{{ destination.disk }}</code>
-							</td>
-							<td>{{ destination.amount }}</td>
-							<td>{{ destination.newest }}</td>
-							<td>{{ destination.size }}</td>
-							<td>
-								<span v-if="destination.isReachable" class="badge badge--success">Reachable</span>
-								<span v-else class="badge badge--danger">Reachable</span>
-								<span v-if="destination.isHealthy" class="badge badge--success">Healthy</span>
-								<span v-else class="badge badge--danger">Healthy</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table v-if="ready" v-for="destination in destinations">
+			<div v-else>
+				<table v-for="destination in destinations" :key="destination.name">
 					<thead>
 						<th>Name</th>
-						<th>Happened</th>
-						<th>Storage Used</th>
+						<th>Created</th>
+						<th>Size</th>
 						<th></th>
 					</thead>
+
 					<tbody>
-						<tr v-for="backup in destination.backups">
+						<tr v-for="backup in destination.backups" :key="backup.name">
 							<td>{{ backup.name }}</td>
 							<td>{{ backup.happened }}</td>
 							<td>{{ backup.size }}</td>
-							<td>
+							<td class="text-right">
 								<p-dropdown right>
 									<fa-icon icon="bars"></fa-icon>
 
@@ -79,39 +52,38 @@
 						</tr>
 					</tbody>
 				</table>
-            </div>
-        </div>
+			</div>
+		</p-card>
 
         <portal to="modals">
             <settings-modal section="backups"></settings-modal>
 
             <!-- Restore from existing backup -->
-            <p-modal name="restore-form" title="Restore Confirmation Form" key="restore_form">
-                <p>Are you sure you wish to restore from this backup?</p>
+            <p-modal name="restore-form" title="Restore Backup" key="restore_form">
+                <p>Restoring a backup will <b>replace all files and the database with the contents of the backup.</b> Unless you specify to create a new backup during this process, there will be no way to undo your changes if you change your mind.</p>
 
         		<p-checkbox name="saveBackup" v-model="saveBackup">
-        			Backup before restoring
+        			Create a backup before restoring
         		</p-checkbox>
                 
                 <template slot="footer" slot-scope="form">
-                    <p-button v-modal:restore-form @click="restore(form.data.name)" theme="warning" class="ml-3">Restore</p-button>
+                    <p-button v-modal:restore-form @click="restore(form.data.name)" theme="primary" class="ml-3">Restore</p-button>
                     <p-button v-modal:restore-form>Cancel</p-button>
                 </template>
             </p-modal>
 
             <!-- Run manual backup process -->
-			<p-modal name="confirm-form" title="Confirmation Form" key="confirm_form">
-                <p>Are you sure you wish to perform a manual backup?</p>
-				<p>It is also possible to enable scheduled backups from the Settings interface.</p>
+			<p-modal name="confirm-form" title="Backup Now" key="confirm_form">
+                <p>This will perform a full backup of your website. Backups can take up to one minute per GB of data.</p>
 
-                <template slot="footer" slot-scope="form">
-                    <p-button v-modal:confirm-form @click="backup()" theme="info" class="ml-3">Backup</p-button>
+                <template slot="footer">
+                    <p-button v-modal:confirm-form @click="backup()" theme="primary" class="ml-3">Backup</p-button>
                     <p-button v-modal:confirm-form>Cancel</p-button>
                 </template>
             </p-modal>
 
             <!-- Delete existing backup -->
-			<p-modal name="delete-form" title="Delete Form" key="delete_form">
+			<p-modal name="delete-form" title="Delete Backup" key="delete_form">
                 <p>Are you sure you want to permenantly delete this backup?</p>
 
                 <template slot="footer" slot-scope="form">
@@ -119,6 +91,17 @@
                     <p-button v-modal:delete-form>Cancel</p-button>
                 </template>
             </p-modal>
+
+			<!-- Upload backup -->
+			<p-modal name="upload" title="Upload Backup" key="upload-backup">
+				<p-upload
+					name="file-upload"
+					ref="upload"
+					accept="zip"
+					:multiple="false"
+					@input="upload"
+				></p-upload>
+			</p-modal>
         </portal>
 	</div>
 </template>
