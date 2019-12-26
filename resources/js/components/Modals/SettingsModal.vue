@@ -1,10 +1,8 @@
 <template>
-	<p-modal v-model="show" name="settings" no-header>
-        <div class="row">
-            <div class="content-container">
-            	<settings-form ref="form" :section="section"></settings-form>
-            </div>
-        </div>
+	<p-modal v-model="show" name="settings" no-header flush>
+        <div class="-m-3 mb-3">
+            <settings-form ref="form" :section="section"></settings-form>
+		</div>
 
         <template slot="footer">
             <p-button type="submit" theme="primary" @click.prevent="$refs.form.submit">Save Settings</p-button>
