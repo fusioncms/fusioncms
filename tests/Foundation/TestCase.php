@@ -90,7 +90,6 @@ abstract class TestCase extends BaseTestCase
             'name'              => 'Ducky Consumer',
             'email'             => 'guest@example.com',
             'password'          => bcrypt('secret'),
-            'email_token'       => 'lorem_ipsum',
             'email_verified_at' => null
         ]);
 

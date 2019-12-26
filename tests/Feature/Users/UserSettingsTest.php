@@ -88,7 +88,6 @@ class UserSettingsTest extends TestCase
         $newPassword = 'super-secure-password';
 
         $user = factory(\App\Models\User::class)->create([
-            'email_token'       => '',
             'verified'          => true,
             'email_verified_at' => now(),
             'password'          => bcrypt($oldPassword),

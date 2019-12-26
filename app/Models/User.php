@@ -42,7 +42,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password_changed_at',
         'email_verified_at',
         'invalid_logins',
-        'email_token',
         'fields',
         'settings',
     ];
@@ -65,7 +64,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-        'email_token',
     ];
 
     /**
