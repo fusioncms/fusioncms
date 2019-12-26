@@ -87,10 +87,11 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         $this->user = factory('App\Models\User')->create([
-            'name'       => 'Ducky Consumer',
-            'email'      => 'guest@example.com',
-            'password'   => bcrypt('secret'),
-            'email_token' => 'lorem_ipsum',
+            'name'              => 'Ducky Consumer',
+            'email'             => 'guest@example.com',
+            'password'          => bcrypt('secret'),
+            'email_token'       => 'lorem_ipsum',
+            'email_verified_at' => null
         ]);
 
         $this->guest = app()->make(\App\Models\User::class);

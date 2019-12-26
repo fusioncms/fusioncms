@@ -73,25 +73,21 @@ class RegisterController extends Controller
             'name'     => $attributes['name'],
             'email'    => $attributes['email'],
             'password' => Hash::make($attributes['password']),
-            'verified' => false,
         ]);
 
         Shinobi::assign(setting('user.default_user_role', 'user'))->to($user);
 
         if (setting('users.user_email_verification') === 'disabled') {
         // Automatically verify registration
-            event(new Verified($user));
-
-            $this->guard()->login($user);
-
-            $user->update([
-                'verified'          => true,
-                'email_verified_at' => now()
-            ]);
+            if ($user->markEmailAsVerified()) {
+                event(new Verified($user));
+            }
         } else {
         // Requires email verification
             event(new Registered($user));
         }
+
+        $this->guard()->login($user);
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());

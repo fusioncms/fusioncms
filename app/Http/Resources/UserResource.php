@@ -29,7 +29,6 @@ class UserResource extends JsonResource
             'roles'                  => RoleResource::collection($this->roles()->get()),
             'email'                  => $this->email,
             'status'                 => $this->status,
-            'verified'               => $this->verified,
             'logged_in_at'           => $this->logged_in_at,
             'invalidly_logged_in_at' => $this->invalidly_logged_in_at,
             'password_changed_at'    => $this->password_changed_at,

@@ -79,11 +79,11 @@ class RegisterTest extends TestCase
             ->assertViewIs('auth.register');
     }
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group auth
-     */
+    // /**
+    //  * @test
+    //  * @group fusioncms
+    //  * @group auth
+    //  */
     // public function register_route_is_disabled_if_the_setting_is_disabled()
     // {
     //     // TODO: Remove the registration route before Routes loaded
@@ -93,6 +93,11 @@ class RegisterTest extends TestCase
     //     $this->get(route('register'));
     // }
 
+    /**
+     * @test
+     * @group fusioncms
+     * @group auth
+     */
     public function a_newly_registered_user_will_not_receive_a_welcome_email_if_setting_is_disabled()
     {
         Mail::fake();
@@ -167,7 +172,7 @@ class RegisterTest extends TestCase
      * @group fusioncms
      * @group auth
      */
-    public function a_newly_registered_user_must_verify_their_email_if_setting_is_enabled()
+    public function a_newly_registered_user_will_receive_verification_email_if_setting_is_enabled()
     {
         Notification::fake();
 
@@ -187,16 +192,6 @@ class RegisterTest extends TestCase
             ->from(route('register'))
             ->post(route('register'), $attributes)
             ->assertRedirect('/');
-        
-        // Assert #3 - verification required before being logged in..
-        $this->assertGuest();
-        
-        // Assert #4 - user was created, with false verification..
-        $this->assertDatabaseHas('users', [
-            'name'     => $attributes['name'],
-            'email'    => $attributes['email'],
-            'verified' => false,
-        ]);
 
         $user = User::where(['email' => $attributes['email']])->first();
 

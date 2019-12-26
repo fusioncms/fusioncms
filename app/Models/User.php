@@ -43,7 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'invalid_logins',
         'email_token',
-        'verified',
         'fields',
         'settings',
     ];
@@ -107,16 +106,6 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var bool
      */
     protected $searchable = false;
-
-    /**
-     * Return state of User.
-     *
-     * @return bool
-     */
-    public function getIsActiveAttribute()
-    {
-        return $this->verified and $this->status;
-    }
 
     /**
      * Returns the age of the account.

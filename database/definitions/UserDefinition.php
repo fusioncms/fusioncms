@@ -27,13 +27,13 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     static $password;
 
     return [
-        'name'           => $faker->name,
-        'email'          => $faker->unique()->safeEmail,
-        'password'       => $password ?: $password = bcrypt('secret'),
-        'status'         => true,
-        'email_token'    => Str::random(10),
-        'verified'       => true,
-        'remember_token' => Str::random(10),
+        'name'              => $faker->name,
+        'email'             => $faker->unique()->safeEmail,
+        'password'          => $password ?: $password = bcrypt('secret'),
+        'status'            => true,
+        'email_token'       => Str::random(10),
+        'remember_token'    => Str::random(10),
+        'email_verified_at' => now(),
     ];
 });
 
