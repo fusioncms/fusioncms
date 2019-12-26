@@ -28,6 +28,8 @@ class EmailVerificationTest extends TestCase
     {
         parent::setUp();
 
+        $this->instance('settings', new MockSettings(setting()->all()));
+
         $this->handleValidationExceptions();
     }
 
@@ -57,6 +59,22 @@ class EmailVerificationTest extends TestCase
             ->get(route('verification.notice'))
             ->assertStatus(200)
             ->assertViewIs('auth.verify');
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group auth
+     */
+    public function an_unverified_user_will_not_see_verification_notice_if_user_email_verification_setting_disabled()
+    {
+        app('settings')->set('users.user_email_verification', 'disabled');
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('verification.notice'))
+            ->assertStatus(302)
+            ->assertRedirect('/');
     }
 
     /**
