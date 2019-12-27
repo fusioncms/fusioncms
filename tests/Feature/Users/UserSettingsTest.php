@@ -20,6 +20,8 @@ class UserSettingsTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
+     * @group auth
      */
     public function a_visitor_can_not_access_account_settings()
     {
@@ -30,6 +32,8 @@ class UserSettingsTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
+     * @group auth
      */
     public function a_user_can_access_account_settings()
     {
@@ -42,6 +46,8 @@ class UserSettingsTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
+     * @group auth
      */
     public function a_user_can_update_their_name()
     {
@@ -62,6 +68,8 @@ class UserSettingsTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
+     * @group auth
      */
     public function a_user_can_update_their_email()
     {
@@ -81,35 +89,66 @@ class UserSettingsTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
+     * @group auth
      */
     public function a_user_can_update_their_password()
     {
+        $this->withoutMiddleware([
+            \Illuminate\Auth\Middleware\RequirePassword::class
+        ]);
+
         $oldPassword = 'secret123';
         $newPassword = 'super-secure-password';
 
         $user = factory(\App\Models\User::class)->create([
-            'verified'          => true,
             'email_verified_at' => now(),
             'password'          => bcrypt($oldPassword),
         ]);
 
         $this->actingAs($user);
 
-        $response = $this->post('/account/security', [
-            'password'              => $newPassword,
-            'password_confirmation' => $newPassword,
+        $this
+            ->from('account/security')
+            ->post('account/security', [
+                'password'              => $newPassword,
+                'password_confirmation' => $newPassword,
+            ]);
+
+        $user->refresh();
+
+        $this->assertTrue(\Hash::check($newPassword, $user->password));
+        $this->assertFalse(\Hash::check($oldPassword, $user->password));
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group auth
+     */
+    public function a_user_will_need_to_confirm_their_password_before_updating_their_password()
+    {
+        $password = 'secret123';
+
+        $user = factory(\App\Models\User::class)->create([
+            'email_verified_at' => now(),
+            'password'          => bcrypt($password),
         ]);
 
-        $this->post('/logout')
-            ->assertRedirect('/');
+        $this->actingAs($user);
 
-        $this->assertGuest();
+        // Assert redirect to confirm password..
+        $this
+            ->get('account/security')
+            ->assertStatus(302)
+            ->assertRedirect(route('password.confirm'));
 
-        $this->from('/login')
-            ->post('/login', [
-                'email'    => $user->email,
-                'password' => $newPassword,
+        // Assert redirect after confirming password..
+        $this
+            ->post(route('password.confirm'), [
+                'password' => $password
             ])
-            ->assertRedirect('/');
+            ->assertStatus(302)
+            ->assertRedirect('account/security');
     }
 }

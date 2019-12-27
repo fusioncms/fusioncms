@@ -52,10 +52,10 @@ class UserHasPermission
                 abort(403, 'Unauthorized action.');
             }
         } else {
-            $guest = Role::whereHandle('guest')->first();
+            $guest = Role::whereSlug('guest')->first();
 
             if ($guest) {
-                if (! $guest->can($permissions)) {
+                if (! $guest->hasPermissionTo($permissions)) {
                     if ($request->ajax()) {
                         return response('Unauthorized.', 403);
                     }

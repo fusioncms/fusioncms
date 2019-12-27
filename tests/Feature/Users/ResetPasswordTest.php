@@ -50,14 +50,15 @@ class ResetPasswordTest extends TestCase
      * @group fusioncms
      * @group auth
      */
-    public function an_authenticated_user_cannot_visit_password_reset_form()
+    public function an_authenticated_user_can_visit_password_reset_form()
     {
         $validToken = Password::broker()->createToken($this->user);
 
         $this
-            ->actingAs($this->user)
             ->get(route('password.reset', $validToken))
-            ->assertRedirect('/');
+            ->assertSuccessful()
+            ->assertViewIs('auth.passwords.reset')
+            ->assertViewHas('token', $validToken);
     }
 
     /**

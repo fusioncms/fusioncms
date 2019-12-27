@@ -12,7 +12,7 @@
 Auth::routes([
     'verify'   => setting('users.user_email_verification') === 'enabled',
     'register' => setting('users.public_registration') === 'enabled',
-    'confirm' => false
+    'confirm'  => true
 ]);
 
 Route::get('logout', 'Auth\LoginController@logout');
@@ -23,8 +23,10 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth', 'verified']], func
     Route::get('settings', 'Account\SettingController@edit');
     Route::post('settings', 'Account\SettingController@update');
 
-    Route::get('security', 'Account\SecurityController@edit');
-    Route::post('security', 'Account\SecurityController@update');
-
+    Route::group(['prefix' => 'security', 'middleware' => ['password.confirm']], function () {
+    	Route::get('', 'Account\SecurityController@edit');
+    	Route::post('', 'Account\SecurityController@update');
+    });
+    
     Route::get('api', 'Account\APIController@edit');
 });
