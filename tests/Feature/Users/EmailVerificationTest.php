@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Users;
 
 use URL;
 use Auth;
+use App\Mail\WelcomeNewUser;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,6 +27,8 @@ class EmailVerificationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->instance('settings', new MockSettings(setting()->all()));
 
         $this->handleValidationExceptions();
     }
@@ -55,6 +59,22 @@ class EmailVerificationTest extends TestCase
             ->get(route('verification.notice'))
             ->assertStatus(200)
             ->assertViewIs('auth.verify');
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group auth
+     */
+    public function an_unverified_user_will_not_see_verification_notice_if_user_email_verification_setting_disabled()
+    {
+        app('settings')->set('users.user_email_verification', 'disabled');
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('verification.notice'))
+            ->assertStatus(302)
+            ->assertRedirect('/');
     }
 
     /**
@@ -140,6 +160,7 @@ class EmailVerificationTest extends TestCase
      */
     public function a_user_can_verify_themselves()
     {
+        Mail::fake();
         // $this->withExceptionHandling();
 
         // Manually create email verify route for user..
@@ -153,6 +174,11 @@ class EmailVerificationTest extends TestCase
 
         $this
             ->assertNotNull($this->user->fresh()->email_verified_at);
+
+        // Assert - email was sent to user..
+        Mail::assertSent(WelcomeNewUser::class, function ($mail) {
+            return $mail->user->id === $this->user->id;
+        });
     }
 
     /**

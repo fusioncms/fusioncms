@@ -16,8 +16,6 @@ trait SignsIn
     protected function actingAsUser()
     {
         $user = factory(\App\Models\User::class)->create([
-            'email_token'       => '',
-            'verified'          => true,
             'email_verified_at' => now(),
         ]);
 

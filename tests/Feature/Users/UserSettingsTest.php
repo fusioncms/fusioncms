@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Users;
 
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -88,7 +88,6 @@ class UserSettingsTest extends TestCase
         $newPassword = 'super-secure-password';
 
         $user = factory(\App\Models\User::class)->create([
-            'email_token'       => '',
             'verified'          => true,
             'email_verified_at' => now(),
             'password'          => bcrypt($oldPassword),

@@ -35,7 +35,9 @@ Route::group(['prefix' => config('fusioncms.path')], function () {
     Route::get('/{any?}', [
         'as'   => 'admin',
         'uses' => 'AdminController@index',
-    ])->where('any', '.*');
+    ])
+    ->where('any', '.*')
+    ->middleware(['can:access.admin','verified']);
 });
 
 Route::post('form/{form}', 'ResponseController@store');
