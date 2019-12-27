@@ -46,12 +46,11 @@ class ForgetPasswordTest extends TestCase
      * @group fusioncms
      * @group auth
      */
-    public function an_authenticated_user_cannot_access_password_reset_page()
+    public function an_authenticated_user_can_access_password_reset_page()
     {
         $this
-            ->actingAs($this->user)
             ->get('/password/reset')
-            ->assertRedirect('/');
+            ->assertViewIs('auth.passwords.email');
     }
 
     /**
