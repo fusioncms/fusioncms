@@ -27,17 +27,10 @@ Route::pattern('username', '[a-z0-9_-]{3,16}');
 Route::get('/themes/{theme}/preview.png', 'Themes\ScreenshotController@show');
 
 Route::group(['prefix' => config('fusioncms.path')], function () {
-    Route::post('/login', [
-        'as'   => 'admin.post.login',
-        'uses' => 'Admin\LoginController@authenticate',
-    ]);
-
     Route::get('/{any?}', [
         'as'   => 'admin',
         'uses' => 'AdminController@index',
-    ])
-    ->where('any', '.*')
-    ->middleware(['can:access.admin','verified']);
+    ])->where('any', '.*');
 });
 
 Route::post('form/{form}', 'ResponseController@store');
