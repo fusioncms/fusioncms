@@ -59,7 +59,14 @@
         methods: {
             submit() {
                 this.form.post('/api/forms').then((response) => {
-                    toast('Form successfully saved', 'success')
+                    let fieldsetForm = {}
+                    fieldsetForm.sections = this.form.fieldset.sections
+
+                    axios.post(`/api/fieldsets/${response.data.fieldset.id}/sections`, fieldsetForm).then((response) => {
+                        toast('Form successfully saved', 'success')
+                    }).catch((response) => {
+                        toast(response.message, 'failed')
+                    })
 
                     this.$router.push('/forms')
                 }).catch((response) => {
