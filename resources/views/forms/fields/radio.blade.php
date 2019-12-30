@@ -13,7 +13,8 @@
         <input type="radio"
           name="{{ $field->handle }}"
           id="{{ $id }}"
-          value="{{ $option['value']}}">
+          value="{{ $option['value']}}"
+          class="form__radio">
         <label for="{{ $id }}">{{ $option['label'] }}</label>
       </div>
     @endforeach
