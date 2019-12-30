@@ -34,7 +34,7 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (! file_exists(settings_path())) {
+        if (! File::exists(settings_path()) or File::lastModified(config_path('settings.php')) > File::lastModified(settings_path())) {
             $this->initializeSettingsFile();
         }
 
