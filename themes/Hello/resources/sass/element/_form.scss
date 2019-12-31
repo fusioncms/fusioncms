@@ -36,6 +36,14 @@ select {
     }
 }
 
+.form__field {
+    @apply mb-6;
+}
+
+.form__help {
+    @apply text-xs px-1 pt-1;
+}
+
 .form__select {
     &-button.form__error {
         @apply .border-red-200 .border-2;
@@ -43,76 +51,51 @@ select {
 }
 
 .form__checkbox {
-    @apply text-blue-500 border-2 border-gray-400 bg-white inline-block appearance-none shadow-none align-middle flex-shrink-0 mr-1;
 
     &-label {
         @apply ml-2 text-sm;
     }
 
-    &-container {
-        @apply flex items-center flex-grow-0 flex-shrink-0 p-0 m-0;
+    &-box {
+        @apply text-blue-500 border-2 border-gray-400 bg-white inline-block appearance-none shadow-none align-middle flex-shrink-0 mr-1;
 
-        > label {
-            @apply flex items-center px-2 py-1 cursor-pointer select-none;
-
-            &:hover {
-                @apply bg-blue-100 text-blue-700;
-            }
-        }
-    }
-
-    height: 1em;
-    width: 1em;
-    background-origin: border-box;
-    user-select: none;
-    color-adjust: exact;
-
-    &-group {
-        @apply flex flex-wrap items-center w-full mb-6;
-
-        &--block {
-            @apply my-3;
-        }
-
-        &--inline {
-            @apply .inline-flex my-3;
-
-            label {
-                @apply mr-4;
-            }
-        }
-    }
-
-    &-container > label {
-        @apply align-middle;
+        height: 1em;
+        width: 1em;
+        background-origin: border-box;
+        user-select: none;
+        color-adjust: exact;
 
         &:focus {
             @apply outline-none;
         }
+
+        &:focus:not(:checked) {
+            @apply border-blue-400;
+        }
+
+        &:checked {
+            background-color: currentColor;
+            border-color: currentColor;
+            background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9IiNmZmYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUuNzA3IDcuMjkzYTEgMSAwIDAgMC0xLjQxNCAxLjQxNGwyIDJhMSAxIDAgMCAwIDEuNDE0IDBsNC00YTEgMSAwIDAgMC0xLjQxNC0xLjQxNEw3IDguNTg2IDUuNzA3IDcuMjkzeiIvPjwvc3ZnPg==");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        &::-ms-check {
+            @media not print {
+                @apply text-transparent rounded-none;
+                background: inherit;
+                border-color: inherit;
+            }
+        }
     }
 
-    &:focus {
-        @apply outline-none;
-    }
+    &-group {
+        @apply flex flex-wrap w-full mb-6;
 
-    &:focus:not(:checked) {
-        @apply border-blue-400;
-    }
-
-    &:checked {
-        background-color: currentColor;
-        border-color: currentColor;
-        background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9IiNmZmYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUuNzA3IDcuMjkzYTEgMSAwIDAgMC0xLjQxNCAxLjQxNGwyIDJhMSAxIDAgMCAwIDEuNDE0IDBsNC00YTEgMSAwIDAgMC0xLjQxNC0xLjQxNEw3IDguNTg2IDUuNzA3IDcuMjkzeiIvPjwvc3ZnPg==");
-        background-size: 100% 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    &::-ms-check {
-        @media not print {
-            @apply text-transparent rounded-none;
-            background: inherit;
-            border-color: inherit;
+        &--column {
+            @apply flex-col;
         }
     }
 }
@@ -129,13 +112,15 @@ select {
     }
 }
 
-.form__number {
-    @apply .flex;
-    &-decrease {
-        @apply .button .mr-2;
+.form__radio, .form__checkbox {
+    &--help {
+        label {
+            @apply mb-1;
+        }
     }
-    &-increase {
-        @apply .button .ml-2;
+
+    .form__help {
+        @apply mb-2 pl-0 pt-0;
     }
 }
 
@@ -168,6 +153,17 @@ select {
 
     &:last-child {
         @apply .mb-0;
+    }
+}
+
+.form__select-group {
+    @apply relative;
+
+    &:after {
+        @apply pointer-events-none absolute inset-y-0 flex items-center px-2 mr-3 right-0 text-gray-700 bg-no-repeat bg-center;
+
+        content: '';
+        background-image: url("data:image/svg+xml,%3Csvg class='fill-current' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'%3E%3C/path%3E%3C/svg%3E");
     }
 }
 
