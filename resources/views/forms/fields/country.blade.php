@@ -1,7 +1,7 @@
 @php
   use App\Fieldtypes\CountryFieldtype;
-  $ct = new CountryFieldtype;
-  $countries = $ct->data;
+  $fieldtype = new CountryFieldtype;
+  $countries = $fieldtype->data;
 @endphp
 
 <div class="form__field form__country">

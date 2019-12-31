@@ -1,7 +1,7 @@
 @php
   use App\Fieldtypes\USStateFieldtype;
-  $st = new USStateFieldtype;
-  $states = $st->data;
+  $fieldtype = new USStateFieldtype;
+  $states = $fieldtype->data;
 @endphp
 
 <div class="form__field form__state">
