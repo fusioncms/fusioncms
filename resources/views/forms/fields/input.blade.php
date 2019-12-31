@@ -3,5 +3,9 @@
         {{ $field->name }}
     </label>
     
-    <input type="{{ $field->settings['type'] }}" name="{{ $field->handle }}" id="{{ $field->handle }}" class="form__control w-full">
+    <input type="{{ $field->settings['type'] }}" name="{{ $field->handle }}" id="{{ $field->handle }}" class="form__control w-full" placeholder="{{ $field->settings['placeholder'] }}">
+
+    @if($field->help)
+      @include('forms.components.help', ['field' => $field])
+    @endif
 </div>

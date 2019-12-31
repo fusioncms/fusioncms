@@ -21,4 +21,8 @@
       </svg>
     </div>
   </div>
+
+  @if($field->help)
+    @include('forms.components.help', ['field' => $field])
+  @endif
 </div>
