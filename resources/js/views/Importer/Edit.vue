@@ -6,12 +6,12 @@
 
 		<portal to="actions">
 			<router-link :to="{ name: 'importer' }" class="button mr-3">Go Back</router-link>
-			<button type="submit" @click.prevent="submit" class="button button--primary">Save &amp; Continue</button>
+			<button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save &amp; Continue</button>
 		</portal>
 
 		<div class="row">
 			<div class="content-container">
-				<entry-form :form="form"></entry-form>
+				<shared-form :form="form"></shared-form>
 			</div>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 
 <script>
 	import Form from '../../forms/Form'
-	import EntryForm from './SharedForm.vue'
+	import SharedForm from './SharedForm.vue'
 
 	export default {
 		head: {
@@ -42,12 +42,12 @@
 					group: 0,
 					strategy: [],
 					backup: false
-				})
+				}, true)
 			}
 		},
 
 		components: {
-			'entry-form': EntryForm
+			'shared-form': SharedForm
 		},
 
 		methods: {
@@ -76,6 +76,8 @@
 					})
 
 					vm.$emit('updateHead')
+					
+					vm.form.resetChangeListener()
 				})
 			}))
 		}
