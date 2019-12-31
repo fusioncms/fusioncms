@@ -35,6 +35,8 @@ trait HasFieldset
         
         event(new FieldsetAttached($this));
         
+        $fieldset = Fieldset::findOrFail($fieldset);
+
         if (! is_null($previous)) {
             $table    = $this->getBuilder()->getTable();
             $current = $fieldset->fields->map(function($field) {

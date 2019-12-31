@@ -20,8 +20,32 @@ class WhenFieldsetIsReplaced
     {
         $columns = $event->previous->diff($event->current)->toArray();
 
-        Schema::table($event->table, function ($blueprint) use ($columns) {
-            $blueprint->dropColumn($columns);
-        });
+        foreach ($columns as $column) {
+            if ($this->shouldDeleteTableColumn($event->table, $column)){
+                Schema::table($event->table, function ($blueprint) use ($column) {
+                    $blueprint->dropColumn($column);
+                });
+            }
+        }
+    }
+
+    /**
+     * Determine if the column should be deleted or not.
+     * 
+     * @param 
+     * @return boolean
+     */
+    protected function shouldDeleteTableColumn($table, $column)
+    {
+
+        if (is_null($column)) {
+            return false;
+        }
+
+        if (Schema::hasColumn($table, $column)) {
+            return true;
+        }
+
+        return true;
     }
 }
