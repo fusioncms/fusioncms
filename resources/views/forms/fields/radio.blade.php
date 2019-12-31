@@ -7,18 +7,19 @@
     @include('forms.components.help', ['field' => $field, 'class' => 'mb-2'])
   @endif
 
-  <div class="">
+  <div class="flex flex-{{ $field->settings['display'] == 'row' ? 'row' : 'col' }}">
     @foreach($field->settings['options'] as $option)
       @php
         $id = $field->handle . '_' . $field->id . '_' . $loop->iteration
       @endphp
 
-      <div>
+      <div class="{{ $field->settings['display'] == 'row' ? 'mr-3' : null}}">
         <input type="radio"
           name="{{ $field->handle }}"
           id="{{ $id }}"
           value="{{ $option['value']}}"
-          class="mr-1">
+          class="mr-1"
+          {{ ((isset($option['checked']) and $option['checked']) ? 'checked' : '') }}>
         <label for="{{ $id }}">{{ $option['label'] }}</label>
       </div>
     @endforeach
