@@ -6,7 +6,7 @@
 
         <portal to="actions">
             <router-link :to="{ name: 'mailables' }" class="button mr-3">Go Back</router-link>
-            <button type="submit" @click.prevent="submit" class="button button--primary">Save Form</button>
+            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Mailable</button>
         </portal>
 
         <div class="content-container">
