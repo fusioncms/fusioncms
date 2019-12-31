@@ -70,6 +70,8 @@ class UserController extends Controller
 
         $attributes = $request->validate($rules);
 
+        $attributes['password'] = bcrypt($attributes['password']);
+
         $user = User::create($attributes);
 
         if (! empty($request->get('role'))) {
