@@ -64,7 +64,7 @@ class RoleController extends Controller
         ];
 
         $attributes            = $request->validate($rules);
-        $attributes['special'] = ($attributes['special'] === '') ?: null;
+        $attributes['special'] = $attributes['special'] ?? null;
 
         $role = Role::create($attributes);
 
