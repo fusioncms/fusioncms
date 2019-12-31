@@ -296,7 +296,7 @@
 
                     <portal to="actions">
                         <router-link :to="{ name: 'matrices' }" class="button mr-3">Go Back</router-link>
-                        <button type="submit" @click.prevent="submit" class="button button--primary">Save Matrix</button>
+                        <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Matrix</button>
                     </portal>
                 </p-card>
             </form>
