@@ -1,1 +1,1 @@
-<div id="{{ $field->id }}_help" class="text-xs {{ $class ?? 'px-1 pt-1'}}">{!! $field->help !!}</div>
+<div id="{{ $field->id }}_help" class="form__help">{!! $field->help !!}</div>

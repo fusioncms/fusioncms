@@ -1,5 +1,5 @@
-<div class="mb-6">
-  <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold {{$field->help != '' ? 'mb-1' : 'mb-2'}}" for="{{ $field->handle }}">
+<div class="form__field form__radio {{$field->help != '' ? 'form__radio--help' : ''}}">
+  <label class="form__label" for="{{ $field->handle }}">
       {{ $field->name }}
   </label>
 
@@ -7,20 +7,20 @@
     @include('forms.components.help', ['field' => $field, 'class' => 'mb-2'])
   @endif
 
-  <div class="flex flex-{{ $field->settings['display'] == 'row' ? 'row' : 'col' }}">
+  <div class="form__radio-group form__radio-group--{{ $field->settings['display'] ?? 'column' }}">
     @foreach($field->settings['options'] as $option)
       @php
         $id = $field->handle . '_' . $field->id . '_' . $loop->iteration
       @endphp
 
-      <div class="{{ $field->settings['display'] == 'row' ? 'mr-3' : null}}">
+      <div class="form__radio-option form__radio-option--{{ $field->settings['display'] ?? 'column'}}">
         <input type="radio"
           name="{{ $field->handle }}"
           id="{{ $id }}"
           value="{{ $option['value']}}"
-          class="mr-1"
+          class="form__radio-box"
           {{ ((isset($option['checked']) and $option['checked']) ? 'checked' : '') }}>
-        <label for="{{ $id }}">{{ $option['label'] }}</label>
+        <label for="{{ $id }}" class="form__radio-label">{{ $option['label'] }}</label>
       </div>
     @endforeach
   </div>

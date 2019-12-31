@@ -1,3 +1,3 @@
-<div class="mb-6">
+<div class="form__field form__information">
   {!! $field->help !!}
 </div>

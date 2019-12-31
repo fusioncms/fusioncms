@@ -1,9 +1,9 @@
-<div class="mb-6">
-    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="{{ $field->handle }}">
+<div class="form__field form__input">
+    <label class="form__label" for="{{ $field->handle }}">
         {{ $field->name }}
     </label>
     
-    <input type="{{ $field->settings['type'] }}" name="{{ $field->handle }}" id="{{ $field->handle }}" class="form__control w-full" placeholder="{{ $field->settings['placeholder'] }}">
+    <input type="{{ $field->settings['type'] }}" name="{{ $field->handle }}" id="{{ $field->handle }}" class="form__control" placeholder="{{ $field->settings['placeholder'] }}">
 
     @if($field->help)
       @include('forms.components.help', ['field' => $field])
