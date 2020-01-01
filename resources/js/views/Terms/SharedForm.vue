@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
 		<portal to="actions">
-            <router-link :to="{ name: 'terms.index', params: { taxonomy: taxonomy.slug }}" class="button mr-3">Go Back</router-link>
+            <router-link v-if="taxonomy.slug" :to="{ name: 'terms.index', params: { taxonomy: taxonomy.slug }}" class="button mr-3">Go Back</router-link>
             <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Term</button>
         </portal>
 
@@ -71,8 +71,7 @@
 
 		            <div v-else class="text-center">
 		                <p>You should configure your Taxonomy with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
-
-		                <router-link class="button items-center" :to="'/matrices/manage/' + taxonomy.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your taxonomy</router-link>
+		                <router-link v-if="taxonomy.id" class="button items-center" :to="{ name: 'taxonomies.edit', params: { taxonomy: taxonomy.id }}"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your taxonomy</router-link>
 		            </div>
 		        </p-card>
 		    </form>
@@ -128,7 +127,7 @@
 		props: {
 			taxonomy: {
 				type: Object,
-				required: true
+				required: true,
 			},
 
 			form: {
