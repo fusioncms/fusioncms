@@ -78,7 +78,7 @@
                                 :has-error="form.errors.has('password_confirmation')"
                                 :error-message="form.errors.get('password_confirmation')"
                                 required
-                                v-model="form.passwordConfirmation">
+                                v-model="form.password_confirmation">
                             </p-input>
                         </div>
                     </div>

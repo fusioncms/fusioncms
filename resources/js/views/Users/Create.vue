@@ -31,7 +31,7 @@
                     email: '',
                     role: null,
                     password: '',
-                    passwordConfirmation: '',
+                    password_confirmation: '',
                     status: '1',
                 }, true)
             }
