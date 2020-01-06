@@ -4,9 +4,7 @@
             <app-title icon="user-alt">Create User</app-title>
         </portal>
 
-        <div class="row">
-            <shared-form :form="form" :roleOptions="roleOptions"></shared-form>               
-        </div>
+        <shared-form :form="form" :roleOptions="roleOptions"></shared-form>               
     </div>
 </template>
 
