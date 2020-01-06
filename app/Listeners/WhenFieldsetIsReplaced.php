@@ -37,15 +37,10 @@ class WhenFieldsetIsReplaced
      */
     protected function shouldDeleteTableColumn($table, $column)
     {
-
         if (is_null($column)) {
             return false;
         }
-
-        if (Schema::hasColumn($table, $column)) {
-            return true;
-        }
-
-        return false;
+        
+        return Schema::hasColumn($table, $column);
     }
 }

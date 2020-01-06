@@ -46,15 +46,10 @@ class WhenFieldsetIsDetached
      */
     protected function shouldDeleteTableColumn($table, $column, $name)
     {
-
         if (is_null($column)) {
             return false;
         }
 
-        if (Schema::hasColumn($table, $name)) {
-            return true;
-        }
-
-        return true;
+        return Schema::hasColumn($table, $name);
     }
 }

@@ -60,10 +60,6 @@ class WhenFieldsetIsAttached
             return false;
         }
 
-        if (Schema::hasColumn($table, $name)) {
-            return false;
-        }
-
-        return true;
+        return !Schema::hasColumn($table, $name);
     }
 }
