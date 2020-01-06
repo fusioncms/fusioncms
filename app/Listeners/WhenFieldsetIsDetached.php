@@ -19,15 +19,37 @@ class WhenFieldsetIsDetached
     {
         if($event->fieldset) {
             $fields = $event->fieldset->fields;
-            $table  = $event->model->getTable();
+            $table     = $event->model->getTable();
 
-            $columns = $fields->map(function($field) {
-                return $field->handle;
-            })->toArray();
+            foreach($fields as $field) {
+                $fieldtype = fieldtypes()->get($field->type);
+                $column    = $fieldtype->getColumn('type');
+                $settings  = $fieldtype->getColumn('settings') ?? [];
+                $name      = $field->handle;
 
-            Schema::table($table, function ($blueprint) use ($columns) {
-                $blueprint->dropColumn($columns);
-            });
+                array_unshift($settings, $field->handle);
+
+                if ($this->shouldDeleteTableColumn($table, $column, $name)) {
+                    Schema::table($table, function ($blueprint) use ($name) {
+                        $blueprint->dropColumn($name);
+                    });
+                }
+            }
         }  
+    }
+
+    /**
+     * Determine if the column should be deleted or not.
+     * 
+     * @param 
+     * @return boolean
+     */
+    protected function shouldDeleteTableColumn($table, $column, $name)
+    {
+        if (is_null($column)) {
+            return false;
+        }
+
+        return Schema::hasColumn($table, $name);
     }
 }
