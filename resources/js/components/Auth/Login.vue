@@ -63,7 +63,7 @@
 
         methods: {
             submit() {
-                this.form.post('/admin/login')
+                this.form.post('/login')
                     .then(response => {
                         this.$store.commit('user/setUser', response.data)
 
