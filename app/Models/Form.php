@@ -35,7 +35,7 @@ class Form extends Model
         'send_to',
         'reply_to',
         'form_template',
-        'form_thankyou',
+        'thankyou_template',
         'status'
     ];
 
