@@ -1,6 +1,11 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
-        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click.stop="select" @dblclick="open">
+        <div
+            class="gallery-item gallery-directory" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}"
+            @dragenter.self.passive="dragenter"
+            @dragleave.self.passive="dragleave"
+            @click.stop="select"
+            @dblclick="open">
             <p-img src="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="name" background-color="#ffffff" class="gallery-image"></p-img>
         </div>
 
@@ -72,6 +77,15 @@
                 clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
             }),
+
+            dragenter(e) {
+                console.log('Enter', this.name, e.target)
+            },
+
+            dragleave(e) {
+                console.log('Leave', this.name, e.target)
+                //
+            },
 
             select() {
                 if (! this.unselectable) {

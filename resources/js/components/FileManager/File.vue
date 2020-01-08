@@ -1,6 +1,6 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
-        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click.stop="select" @dblclick="preview">
+        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click="select" @dblclick="preview">
             <div v-if="isImage">
                 <p-img
                     v-if="! small"
@@ -160,6 +160,7 @@
         methods: {
             ...mapActions({
                 toggleSelection: 'filemanager/toggleFileSelection',
+                toggleDropzone: 'filemanager/toggleDropzone',
             }),
 
             select() {

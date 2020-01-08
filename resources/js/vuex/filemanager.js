@@ -4,6 +4,7 @@ export default {
     namespaced: true,
 
     state: {
+        dropzoneEnabled: true,
         loading: true,
         files: [],
         directories: [],
@@ -24,7 +25,7 @@ export default {
         uploadsVisible: false,
         uploadsMinimized: false,
         fileUploads: [],
-        dropzoneVisibile: false
+        dropzoneVisible: false
     },
 
     getters: {
@@ -104,8 +105,8 @@ export default {
             return state.fileUploads
         },
 
-        getDropzoneVisibile(state) {
-            return state.dropzoneVisibile
+        getDropzoneVisible(state) {
+            return state.dropzoneVisible
         }
     },
 
@@ -211,10 +212,12 @@ export default {
         addFileUpload(state, file) {
             state.fileUploads.push(file)
         },
-
-        setDropzoneVisibile(state, value) {
-            state.dropzoneVisibile = value
-        }
+        setDropzoneVisible(state, value) {
+            state.dropzoneVisible = state.dropzoneEnabled && value
+        },
+        toggleDropzone(state, value) {
+            state.dropzoneEnabled = value
+        },
     },
 
     actions: {
@@ -360,8 +363,12 @@ export default {
             context.commit('addFileUpload', file)
         },
 
-        setDropzoneVisibile(context, value) {
-            context.commit('setDropzoneVisibile', value)
+        setDropzoneVisible(context, value) {
+            context.commit('setDropzoneVisible', value)
+        },
+
+        toggleDropzone(context, value) {
+            context.commit('toggleDropzone', value)
         },
 
         toggleView(context) {

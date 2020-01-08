@@ -1,6 +1,6 @@
 <template>
-    <div class="file-manager__wrap" @dragenter="setDropzoneVisibile(true)">
-        <file-uploader></file-uploader>
+    <div class="file-manager__wrap" @dragenter="setDropzoneVisible(true)">
+        <file-uploader ref="uploader"></file-uploader>
         
         <portal to="actions" v-if="! inline">
 
@@ -18,7 +18,7 @@
             </div>
             
             <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" @click="openDropzone">Upload</p-button>
+            <p-button theme="primary" @click="$refs.uploader.openDZ()">Upload</p-button>
         </portal>
 
         <div class="row">
@@ -249,7 +249,7 @@
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
                 clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 setUploadsMinimized: 'filemanager/setUploadsMinimized',
-                setDropzoneVisibile: 'filemanager/setDropzoneVisibile',
+                setDropzoneVisible: 'filemanager/setDropzoneVisible',
                 clearFileSelection: 'filemanager/clearFileSelection',
                 setUploadProgress: 'filemanager/setUploadProgress',
                 setUploadsVisible: 'filemanager/setUploadsVisible',
@@ -327,11 +327,7 @@
                 }
 
                 return 'bars'
-            },
-            openDropzone() {
-                let dzInput = document.querySelector('.dz-hidden-input')
-                dzInput.click()
-            },
+            }
         }
     }
 </script>
