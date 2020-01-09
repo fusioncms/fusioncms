@@ -74,7 +74,7 @@
                     </div>
 
                     <list-view v-if="view == 'list'"></list-view>
-                    <tile-view v-if="view == 'grid'"></tile-view>
+                    <grid-view v-if="view == 'grid'"></grid-view>
 
                     <div class="card__body text-right" v-if="totalPages > 1">
                         <p-pagination
@@ -100,7 +100,7 @@
     import { mapGetters, mapActions } from 'vuex'
     import _ from 'lodash'
     import FileUploader from './FileUploader.vue'
-    import TileView from './Views/Tile.vue'
+    import GridView from './Views/Grid.vue'
     import ListView from './Views/List.vue'
 
     export default {
@@ -108,7 +108,7 @@
 
         components: {
             'file-uploader': FileUploader,
-            'tile-view': TileView,
+            'grid-view': GridView,
             'list-view': ListView,
         },
 

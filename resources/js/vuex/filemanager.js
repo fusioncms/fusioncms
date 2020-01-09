@@ -303,6 +303,26 @@ export default {
             }))
         }, 500),
 
+        moveFileToDirectory({ commit, state }, payload) {
+            commit('setLoading', true)
+
+            axios.all([
+                axios.post('/api/files/move', {
+                    directory: payload.directory,
+                    files:     payload.files
+                })
+            ]).then(axios.spread(function (directory) {
+                commit('setLoading', false)
+
+                // update file count
+                _.find(state.directories, (o) => {
+                    if (o.id == payload.directory) {
+                        o.files_count += payload.files.length
+                    }
+                })
+            }))
+        },
+
         setSearch(context, query) {
             context.commit('setSearch', query)
         },
