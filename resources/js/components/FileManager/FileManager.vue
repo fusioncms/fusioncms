@@ -10,7 +10,7 @@
                 </div>
                 
                 <p-button @click.prevent="clearSelection">Uncheck All</p-button>
-                <p-button>Move</p-button>
+                <!-- <p-button>Move</p-button> -->
             </div>
 
             <div class="inline-block mr-4">

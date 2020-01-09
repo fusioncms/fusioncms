@@ -56,7 +56,7 @@
             axios.all([
                 axios.get('/api/matrices'),
                 axios.get('/api/activity'),
-                axios.get(process.env.MIX_NEWS_FEED || 'https://getfusioncms.efelle.co/blog.json').catch(function() {
+                axios.get(process.env.MIX_NEWS_FEED || 'https://beta.getfusioncms.com/blog.json').catch(function() {
                     return {
                         data: {
                             items: [],
