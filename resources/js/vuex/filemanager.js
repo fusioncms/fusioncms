@@ -24,7 +24,7 @@ export default {
         uploadsVisible: false,
         uploadsMinimized: false,
         fileUploads: [],
-        dropzoneVisibile: false
+        dropzoneVisible: false
     },
 
     getters: {
@@ -104,8 +104,8 @@ export default {
             return state.fileUploads
         },
 
-        getDropzoneVisibile(state) {
-            return state.dropzoneVisibile
+        getDropzoneVisible(state) {
+            return state.dropzoneVisible
         }
     },
 
@@ -211,10 +211,9 @@ export default {
         addFileUpload(state, file) {
             state.fileUploads.push(file)
         },
-
-        setDropzoneVisibile(state, value) {
-            state.dropzoneVisibile = value
-        }
+        setDropzoneVisible(state, value) {
+            state.dropzoneVisible = value
+        },
     },
 
     actions: {
@@ -304,6 +303,26 @@ export default {
             }))
         }, 500),
 
+        moveFileToDirectory({ commit, state }, payload) {
+            commit('setLoading', true)
+
+            axios.all([
+                axios.post('/api/files/move', {
+                    directory: payload.directory,
+                    files:     payload.files
+                })
+            ]).then(axios.spread(function (directory) {
+                commit('setLoading', false)
+
+                // update file count
+                _.find(state.directories, (o) => {
+                    if (o.id == payload.directory) {
+                        o.files_count += payload.files.length
+                    }
+                })
+            }))
+        },
+
         setSearch(context, query) {
             context.commit('setSearch', query)
         },
@@ -360,8 +379,8 @@ export default {
             context.commit('addFileUpload', file)
         },
 
-        setDropzoneVisibile(context, value) {
-            context.commit('setDropzoneVisibile', value)
+        setDropzoneVisible(context, value) {
+            context.commit('setDropzoneVisible', value)
         },
 
         toggleView(context) {

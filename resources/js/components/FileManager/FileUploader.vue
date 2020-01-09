@@ -1,6 +1,6 @@
 <template>
     <div class="file-uploader">
-      <div class="file-manager__dropzone" :class="[dropzoneVisibile ? 'file-manager__dropzone--visible' : '']" @click.self="setDropzoneVisibile(false)">
+      <div class="file-manager__dropzone" :class="[dropzoneVisible ? 'file-manager__dropzone--visible' : '']" @click.self="setDropzoneVisible(false)">
           <div class="file-manager__prompt">
               <div class="file-manager__prompt-content">
                   <fa-icon icon="upload">
@@ -12,7 +12,7 @@
           <vue-dropzone ref="dropzone_element" id="dropzone" 
               :options="dropzoneOptions" 
               @vdropzone-mounted="configureDZ"
-              @vdropzone-drag-leave="setDropzoneVisibile(false)" 
+              @vdropzone-drag-leave="setDropzoneVisible(false)" 
               @vdropzone-success="dzUploaded" 
               @vdropzone-queue-complete="dzComplete"
               @vdropzone-file-added="addFileUpload"
@@ -54,7 +54,7 @@
     computed: {
       ...mapGetters({
             currentDirectory: 'filemanager/getCurrentDirectory',
-            dropzoneVisibile: 'filemanager/getDropzoneVisibile',
+            dropzoneVisible: 'filemanager/getDropzoneVisible',
             parentDirectory: 'filemanager/getParentDirectory',
             currentPage: 'filemanager/getCurrentPage',
             directories: 'filemanager/getDirectories',
@@ -84,7 +84,7 @@
           fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
           clearDirectorySelection: 'filemanager/clearDirectorySelection',
           setUploadsMinimized: 'filemanager/setUploadsMinimized',
-          setDropzoneVisibile: 'filemanager/setDropzoneVisibile',
+          setDropzoneVisible: 'filemanager/setDropzoneVisible',
           clearFileSelection: 'filemanager/clearFileSelection',
           setUploadProgress: 'filemanager/setUploadProgress',
           setUploadsVisible: 'filemanager/setUploadsVisible',
@@ -99,6 +99,9 @@
           addFile: 'filemanager/addFile',
           setSort: 'filemanager/setSort',
       }),
+      openDZ() {
+        document.querySelector('.dz-hidden-input').click()
+      },
       configureDZ() {
         let dz = this.$refs.dropzone_element
         dz.options.headers['X-CSRF-TOKEN'] = this.csrf
@@ -115,7 +118,7 @@
         let vm = this
         vm.configureDZ()
         vm.showUploads()
-        vm.setDropzoneVisibile(false)
+        vm.setDropzoneVisible(false)
       },
       showUploads() {
         this.setUploadsVisible(true)
