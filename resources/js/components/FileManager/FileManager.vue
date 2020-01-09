@@ -73,91 +73,15 @@
                         </span> -->
                     </div>
 
-                    <table class="table text-sm" v-show="view == 'list'">
-                        <thead>
-                            <tr>
-                                <th class="text-center w-100px"></th>
-                                <th>Name</th>
-                                <th class="text-right">File size</th>
-                                <th class="text-right">Mimetype</th>
-                                <th class="text-right">Last modified</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr v-if="currentDirectory" :key="'directory-' + currentDirectory">
-                                <td class="text-center w-100px"><file-manager-directory small :directory="{id: parentDirectory, name: 'Go up'}" unselectable></file-manager-directory></td>
-                                <td>..</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr v-if="! currentDirectory" :key="'directory-' + currentDirectory">
-                                <td class="text-center w-100px"><file-manager-directory small :directory="{id: null, name: ''}" unselectable></file-manager-directory></td>
-                                <td>.</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr v-for="directory in directories" :key="directory.id">
-                                <td class="text-center w-100px"><file-manager-directory small :directory="directory"></file-manager-directory></td>
-                                <td>{{ directory.name}}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-right">{{ lastModified(directory.updated_ad) }}</td>
-                            </tr>
-                            <tr v-for="file in files" :key="file.uuid">
-                                <td class="text-center w-100px"><file-manager-file small :file="file"></file-manager-file></td>
-                                <td>{{ file.name }}</td>
-                                <td class="text-right">{{ bytes(file.bytes) }}</td>
-                                <td class="text-right">{{ file.mimetype }}</td>
-                                <td class="text-right">{{ lastModified(file.updated_at) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="card__body" v-show="view == 'grid'">
-                        <div class="gallery mb-12" v-if="search === ''">
-                            <file-manager-directory
-                                v-if="currentDirectory"
-                                :key="'directory-' + currentDirectory"
-                                :directory="{id: parentDirectory, name: 'Go up'}"
-                                subtitle=".."
-                                unselectable>
-                            </file-manager-directory>
-
-                            <file-manager-directory
-                                v-if="! currentDirectory"
-                                :key="'directory-' + currentDirectory"
-                                :directory="{id: null, name: ''}"
-                                subtitle="."
-                                unselectable>
-                            </file-manager-directory>
-
-                            <file-manager-directory
-                                v-for="directory in directories"
-                                :key="directory.id"
-                                :directory="directory"
-                                :subtitle="directory.files_count + ' items'">
-                            </file-manager-directory>
-                        </div>
-
-                        <div class="gallery" v-if="files.length">
-                            <file-manager-file
-                                v-for="file in files"
-                                :key="file.uuid"
-                                :file="file">
-                            </file-manager-file>
-                        </div>
-                    </div>
+                    <list-view v-if="view == 'list'"></list-view>
+                    <tile-view v-if="view == 'grid'"></tile-view>
 
                     <div class="card__body text-right" v-if="totalPages > 1">
                         <p-pagination
                             @input="setCurrentPage($event)"
                             :total="totalPages"
                             :value="currentPage"
-                            :max-visible-pages="3"
-                            >
+                            :max-visible-pages="3">
                         </p-pagination>
                     </div>
                 </div>
@@ -176,12 +100,16 @@
     import { mapGetters, mapActions } from 'vuex'
     import _ from 'lodash'
     import FileUploader from './FileUploader.vue'
+    import TileView from './Views/Tile.vue'
+    import ListView from './Views/List.vue'
 
     export default {
         name: 'file-manager',
 
         components: {
-            'file-uploader': FileUploader
+            'file-uploader': FileUploader,
+            'tile-view': TileView,
+            'list-view': ListView,
         },
 
         props: {
@@ -193,20 +121,15 @@
 
         computed: {
             ...mapGetters({
-                currentDirectory: 'filemanager/getCurrentDirectory',
-                parentDirectory: 'filemanager/getParentDirectory',
                 currentPage: 'filemanager/getCurrentPage',
-                directories: 'filemanager/getDirectories',
                 fileUploads: 'filemanager/getFileUploads',
                 hasSelection: 'filemanager/hasSelection',
                 totalPages: 'filemanager/getTotalPages',
                 direction: 'filemanager/getDirection',
                 display: 'filemanager/getDisplay',
                 loading: 'filemanager/getLoading',
-                files: 'filemanager/getFiles',
                 sort: 'filemanager/getSort',
                 view: 'filemanager/getView',
-                
             }),
 
             search: {
@@ -218,8 +141,6 @@
                     this.$store.commit('filemanager/setSearch', value)
                 }
             },
-
-            
         },
 
         watch: {

@@ -4,7 +4,6 @@ export default {
     namespaced: true,
 
     state: {
-        dropzoneEnabled: true,
         loading: true,
         files: [],
         directories: [],
@@ -213,10 +212,7 @@ export default {
             state.fileUploads.push(file)
         },
         setDropzoneVisible(state, value) {
-            state.dropzoneVisible = state.dropzoneEnabled && value
-        },
-        toggleDropzone(state, value) {
-            state.dropzoneEnabled = value
+            state.dropzoneVisible = value
         },
     },
 
@@ -365,10 +361,6 @@ export default {
 
         setDropzoneVisible(context, value) {
             context.commit('setDropzoneVisible', value)
-        },
-
-        toggleDropzone(context, value) {
-            context.commit('toggleDropzone', value)
         },
 
         toggleView(context) {

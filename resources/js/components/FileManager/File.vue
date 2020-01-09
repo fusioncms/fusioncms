@@ -160,7 +160,6 @@
         methods: {
             ...mapActions({
                 toggleSelection: 'filemanager/toggleFileSelection',
-                toggleDropzone: 'filemanager/toggleDropzone',
             }),
 
             select() {
