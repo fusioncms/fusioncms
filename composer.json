@@ -1,12 +1,42 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "fusioncms/fusioncms",
+    "description": "Create bespoke website experiences.",
+    "type": "project",
     "keywords": [
-        "framework",
+        "cms",
+        "fusioncms",
         "laravel"
     ],
-    "license": "MIT",
-    "type": "project",
+    "homepage": "https://beta.getfusioncms.com",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Shea Lewis",
+            "email": "shea@efelle.com",
+            "homepage": "https://kaidesu.com",
+            "role": "Lead Developer"
+        },
+
+        {
+            "name": "Shane Krolikowski",
+            "email": "sk@efelle.com",
+            "homepage": "https://shanekrolikowski.com",
+            "role": "Developer"
+        },
+
+        {
+            "name": "Robert Harvey",
+            "email": "robert@efelle.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/fusioncms/fusioncms/issues",
+        "source": "https://github.com/fusioncms/fusioncms",
+        "docs": "https://beta.getfusioncms.com/docs",
+        "rss": "https://beta.getfusioncms.com/releases.json",
+        "chat": "https://beta.getfusioncms.com/discord"
+    },
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
