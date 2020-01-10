@@ -1,12 +1,12 @@
 <template>
     <div>
         <p-checkbox-group 
-            :name="field.name"
             :label="field.name"
             :help="field.help"
             :inline="field.settings.display == 'row'">
-                <p-checkbox :key="field.name + option.label"
+                <p-checkbox
                     v-for="option in field.settings.options"
+                    :key="option.value"
                     :name="field.name"
                     :id="option.value"
                     :native-value="option.value"
