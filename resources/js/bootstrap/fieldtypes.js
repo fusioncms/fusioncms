@@ -42,8 +42,8 @@ Vue.component('toggle-fieldtype-settings', () => import('../fieldtypes/Toggle/Se
 Vue.component('datetime-fieldtype', () => import('../fieldtypes/DateTime/Field'))
 Vue.component('datetime-fieldtype-settings', () => import('../fieldtypes/DateTime/Settings'))
 
-Vue.component('us_state-fieldtype', () => import('../fieldtypes/USState/Field'))
-Vue.component('us_state-fieldtype-settings', () => import('../fieldtypes/USState/Settings'))
+Vue.component('us-state-fieldtype', () => import('../fieldtypes/USState/Field'))
+Vue.component('us-state-fieldtype-settings', () => import('../fieldtypes/USState/Settings'))
 
 Vue.component('address-fieldtype', () => import('../fieldtypes/Address/Field'))
 Vue.component('address-fieldtype-settings', () => import('../fieldtypes/Address/Settings'))
