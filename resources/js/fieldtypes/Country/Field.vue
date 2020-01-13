@@ -14,7 +14,7 @@
 
 <script>
     export default {
-        name: 'us_state-fieldtype',
+        name: 'country-fieldtype',
 
         props: {
             field: {
