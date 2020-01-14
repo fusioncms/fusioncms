@@ -17,6 +17,7 @@
               @vdropzone-queue-complete="dzComplete"
               @vdropzone-file-added="addFileUpload"
               @vdropzone-files-added="startUpload"
+              @vdropzone-sending="dzPreSend"
               @vdropzone-total-upload-progress="updateProgress"
               @vdropzone-error="showError">
           </vue-dropzone>
@@ -55,18 +56,7 @@
       ...mapGetters({
             currentDirectory: 'filemanager/getCurrentDirectory',
             dropzoneVisible: 'filemanager/getDropzoneVisible',
-            parentDirectory: 'filemanager/getParentDirectory',
-            currentPage: 'filemanager/getCurrentPage',
-            directories: 'filemanager/getDirectories',
             fileUploads: 'filemanager/getFileUploads',
-            hasSelection: 'filemanager/hasSelection',
-            totalPages: 'filemanager/getTotalPages',
-            direction: 'filemanager/getDirection',
-            display: 'filemanager/getDisplay',
-            loading: 'filemanager/getLoading',
-            files: 'filemanager/getFiles',
-            sort: 'filemanager/getSort',
-            view: 'filemanager/getView',
       }),
       csrf() {
         let token = document.head.querySelector('meta[name="csrf-token"]')
@@ -82,22 +72,13 @@
     methods: {
       ...mapActions({
           fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-          clearDirectorySelection: 'filemanager/clearDirectorySelection',
           setUploadsMinimized: 'filemanager/setUploadsMinimized',
           setDropzoneVisible: 'filemanager/setDropzoneVisible',
-          clearFileSelection: 'filemanager/clearFileSelection',
           setUploadProgress: 'filemanager/setUploadProgress',
           setUploadsVisible: 'filemanager/setUploadsVisible',
-          toggleDirection: 'filemanager/toggleDirection',
-          setCurrentPage: 'filemanager/setCurrentPage',
           setFileUploads: 'filemanager/setFileUploads',
           addFileUpload: 'filemanager/addFileUpload',
-          setDirection: 'filemanager/setDirection',
-          setDisplay: 'filemanager/setDisplay',
-          toggleView: 'filemanager/toggleView',
-          setFiles: 'filemanager/setFiles',
           addFile: 'filemanager/addFile',
-          setSort: 'filemanager/setSort',
       }),
       openDZ() {
         document.querySelector('.dz-hidden-input').click()
@@ -105,7 +86,9 @@
       configureDZ() {
         let dz = this.$refs.dropzone_element
         dz.options.headers['X-CSRF-TOKEN'] = this.csrf
-        dz.options.headers['directory_id'] = this.currentDirectory
+      },
+      dzPreSend(file, xhr, formData) {
+        formData.append('directory_id', this.currentDirectory)
       },
       dzUploaded(response) {
         toast(response.name + ' uploaded', 'success')
@@ -116,7 +99,6 @@
       },
       startUpload(files) {
         let vm = this
-        vm.configureDZ()
         vm.showUploads()
         vm.setDropzoneVisible(false)
       },
