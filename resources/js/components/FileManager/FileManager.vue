@@ -73,8 +73,7 @@
                         </span> -->
                     </div>
 
-                    <list-view v-if="view == 'list'"></list-view>
-                    <grid-view v-if="view == 'grid'"></grid-view>
+                    <component :is="view + '-view'"/>
 
                     <div class="card__body text-right" v-if="totalPages > 1">
                         <p-pagination
