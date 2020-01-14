@@ -11,14 +11,17 @@ export default {
 	},
 
 	mounted() {
-	   const container = document.querySelectorAll('.gallery-container')
+	   const container = document.querySelector('.gallery-container')
 
         this.droppable = new Droppable(container, {
             draggable: '.gallery--draggable',
             dropzone:  '.gallery--dropzone',
+            delay: 250,
             mirror: {
                 constrainDimensions: true,
                 xAxis: (this.view == 'grid'),
+                cursorOffsetX: 50,
+                cursorOffsetY: 57,
             },
         })
 
@@ -27,17 +30,36 @@ export default {
             this.drag = evt.originalSource.dataset.draggable
             this.drop = false
         })
-        this.droppable.on('drag:move',  (evt) => this.drop = false)
+        this.droppable.on('drag:move', (evt) => {
+            if (this.drop != false) {
+                this.drop.querySelector('.gallery-item').classList.remove('dropzone-over')
+                this.drop = false
+            }
+        })
         this.droppable.on('drag:stop',  (evt) => {
             if (this.drop != false) {
-                this.moveFileToDirectory({ directory: this.drop, files: [this.drag] })
+                this.moveFileToDirectory({ directory: this.drop.dataset.dropzone, files: [this.drag] })
+                
+                // Confirmation display
+                this.drop.querySelector('.gallery-item').classList.add('dropzone-highlight')
+                this.drop.querySelector('.gallery-item').classList.remove('dropzone-over')
+                setTimeout(() => {
+                    this.drop.querySelector('.gallery-item').classList.remove('dropzone-highlight')
+                }, 1000);
             }
+        })
+
+        // Mirror events..
+        this.droppable.on('mirror:created', (evt) => {
+            console.log(evt)
+            evt.mirror.setAttribute('style', `width: ${evt.originalSource.offsetWidth}px;`)
         })
 
         // Droppable events..
         this.droppable.on('droppable:dropped',  (evt) => {
             evt.cancel()  // don't prematurely move draggable to dropzone!!
-            this.drop = evt.dropzone.dataset.dropzone
+            this.drop = evt.dropzone
+            this.drop.querySelector('.gallery-item').classList.add('dropzone-over')
         })
 	},
 
