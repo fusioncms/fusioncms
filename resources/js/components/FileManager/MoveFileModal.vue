@@ -1,15 +1,13 @@
 <template>
     <p-modal name="move-file" title="Move file(s) to directory">
-        <p-select
-            name="directory"
-            :options="options"
-            v-model="directory_id"
-            filterable>
-        </p-select>
+        <p-treeview
+                v-model="directory"
+                :items="directories"
+        ></p-treeview>
 
         <template v-slot:footer>
             <p-button v-modal:move-file>Close</p-button>
-            <p-button theme="primary" @click="submit" v-modal:move-file class="mr-1">Save</p-button>
+            <p-button theme="primary" @click="submit" v-modal:move-file class="mr-1">Move</p-button>
         </template>
     </p-modal>
 </template>
@@ -22,8 +20,8 @@
 
         data() {
             return {
-                directory_id: '',
-                options: []
+                directory: null,
+                directories: []
             }
         },
 
@@ -37,7 +35,6 @@
 
         computed: {
             ...mapGetters({
-                currentDirectory: 'filemanager/getCurrentDirectory',
                 selectedFiles: 'filemanager/getSelectedFiles',
                 loading: 'filemanager/getLoading',
             })
@@ -51,43 +48,32 @@
             }),
 
             submit() {
-                this.moveFileToDirectory({
-                    directory: this.directory_id,
-                    files: this.selectedFiles
-                })
+                if (this.directory) {
+                    this.moveFileToDirectory({
+                        directory: this.directory.id,
+                        files: this.selectedFiles
+                    })
 
-                this.clearSelection()
-                toast('File has been moved successfully!', 'success')
+                    this.clearSelection()
+
+                    toast('File has been moved successfully!', 'success')
+                } else {
+                    toast('No directory selected.', 'failed')
+                }
             },
 
             clearSelection() {
                 this.clearFileSelection()
                 this.clearDirectorySelection()
+                
+                this.directory = null
             },
 
             gatherOptions() {
-                this.options = []
-
-                axios.get('/api/directories?recursive=true').then((directories) => {
-                    this.buildOptions(directories.data.data)
-
-                    this.options.unshift({ 'label': '.',  'value': null })
+                axios.get('/api/directories?recursive=true').then(({data}) => {
+                    this.directories = data.data
                 })
             },
-
-            buildOptions(directories, label = '') {
-                _.forEach(directories, (directory) => {
-                    let _label = (label ? label + '/' : '') + directory.name
-
-                    // Don't list current directory
-                    if (directory.id != this.currentDirectory) {
-                        this.options.push({ 'label': _label, 'value': directory.id })
-                    }
-
-                    // Recursively call children
-                    this.buildOptions(directory.children, _label)
-                })
-            }
         },
 
         created() {
