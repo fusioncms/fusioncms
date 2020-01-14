@@ -39,7 +39,6 @@
             ...mapGetters({
                 currentDirectory: 'filemanager/getCurrentDirectory',
                 selectedFiles: 'filemanager/getSelectedFiles',
-                parentDirectory: 'filemanager/getParentDirectory',
                 loading: 'filemanager/getLoading',
             })
         },
@@ -58,6 +57,7 @@
                 })
 
                 this.clearSelection()
+                toast('File has been moved successfully!', 'success')
             },
 
             clearSelection() {
@@ -71,7 +71,6 @@
                 axios.get('/api/directories?recursive=true').then((directories) => {
                     this.buildOptions(directories.data.data)
 
-                    this.options.unshift({ 'label': '..', 'value': this.parentDirectory })
                     this.options.unshift({ 'label': '.',  'value': null })
                 })
             },
@@ -89,6 +88,10 @@
                     this.buildOptions(directory.children, _label)
                 })
             }
+        },
+
+        created() {
+            this.gatherOptions()
         }
     }
 </script>
