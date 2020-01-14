@@ -78,7 +78,9 @@
 
                     let values = JSON.parse(settings.items[0].value)
 
-                    if (_.isEmpty(values)) {
+                    if (_.isEmpty(values) || value === null) {
+                        values = {}
+                        
                         _.each(fieldtypes, function(fieldtype) {
                             let enabled = _.reject(structures, function(structure) {
                                 return _.includes(fieldtype.exclude, structure.handle)
