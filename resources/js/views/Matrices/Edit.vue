@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="chart-network">Edit Matrix</app-title>
+            <app-title icon="hashtag">Edit Matrix</app-title>
         </portal>
 
         <shared-form :id="id" :form="form" :submit="submit" :fieldsets="fieldsets" :matrices="matrices"></shared-form>

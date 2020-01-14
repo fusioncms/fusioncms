@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="ballot">Edit Fieldset</app-title>
+            <app-title icon="list">Edit Fieldset</app-title>
         </portal>
 
         <div class="row">

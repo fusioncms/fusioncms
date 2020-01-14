@@ -103,7 +103,7 @@ class BootstrapAdminMenu
             $menu->add('System')->divide();
 
             $menu->add('Users', '#')->data([
-                'icon'  => 'users-class',
+                'icon'  => 'users',
             ]);
 
             $menu->users->add('Users')->data([
@@ -120,7 +120,7 @@ class BootstrapAdminMenu
 
             $menu->add('Matrix')->data([
                 'to'   => '/matrices',
-                'icon' => 'chart-network',
+                'icon' => 'hashtag',
             ]);
 
             $menu->add('Taxonomy')->data([
@@ -130,7 +130,7 @@ class BootstrapAdminMenu
 
             $menu->add('Fieldsets')->data([
                 'to'   => '/fieldsets',
-                'icon' => 'ballot',
+                'icon' => 'list',
             ]);
 
             $menu->add('Theme')->data([
@@ -166,7 +166,7 @@ class BootstrapAdminMenu
                 $menu->add('Telescope')->data([
                     'to' => '/telescope',
                     'target' => '_blank',
-                    'icon' => 'moon-stars'
+                    'icon' => 'satellite'
                 ]);
             }            
 

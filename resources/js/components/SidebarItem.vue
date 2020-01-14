@@ -11,7 +11,7 @@
         >
             <div class="flex">
                 <span class="sidebar__menu-icon" v-if="icon">
-                    <fa-icon :icon="['far', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
+                    <fa-icon :icon="['fas', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
                 </span>
 
                 <span class="sidebar__menu-text"><slot></slot></span>
@@ -21,15 +21,15 @@
         <a href="#" v-if="hasChildren && ! divider" @click.prevent="onClick($event)" class="sidebar__menu-link">
             <div class="flex">
                 <span class="sidebar__menu-icon" v-if="icon">
-                    <fa-icon :icon="['far', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
+                    <fa-icon :icon="['fas', icon]" class="fa-inverse! fa-fw fa-lg"></fa-icon>
                 </span>
 
                 <span class="sidebar__menu-text"><slot></slot></span>
             </div>
 
             <span class="sidebar__menu-toggle" v-if="hasChildren">
-                <fa-icon v-if="! showChildren" :icon="['far', 'plus']" class="fa-inverse! fa-fw"></fa-icon>
-                <fa-icon v-else :icon="['far', 'minus']" class="fa-inverse! fa-fw"></fa-icon>
+                <fa-icon v-if="! showChildren" :icon="['fas', 'plus']" class="fa-inverse! fa-fw"></fa-icon>
+                <fa-icon v-else :icon="['fas', 'minus']" class="fa-inverse! fa-fw"></fa-icon>
             </span>
         </a>
 
