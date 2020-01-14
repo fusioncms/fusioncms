@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+define('FUSION_VERSION', '6.0.0-beta.2');
+
 $app = new App\Application(
     realpath(__DIR__ . '/../')
 );

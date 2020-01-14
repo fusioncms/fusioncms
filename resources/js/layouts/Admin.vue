@@ -62,7 +62,7 @@
 
             <!-- Footer -->
             <footer class="page-footer">
-                <div>v6.0.0</div>
+                <div>{{ version }}</div>
                 <div>Built with <fa-icon :icon="['fas', 'heart']" class="text-primary-500"></fa-icon> & <fa-icon :icon="['fas', 'coffee']" class="text-gray-900"></fa-icon> by the efelle team</div>
                 <div>
                     <a href="#" @click.prevent v-modal:privacy-policy class="mr-3">Privacy Policy</a>
@@ -104,6 +104,7 @@
             ...mapGetters({
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
+                version: 'fusion/getVersion',
             }),
 
             environment() {

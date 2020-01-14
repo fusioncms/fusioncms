@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import fusion from './fusion'
 import auth from './auth'
 import user from './user'
 import settings from './settings'
@@ -12,6 +13,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
+        fusion,
         auth,
         user,
         mapper,
