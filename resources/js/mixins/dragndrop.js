@@ -31,12 +31,6 @@ export default {
         this.droppable.on('drag:stop',  (evt) => {
             if (this.drop != false) {
                 this.moveFileToDirectory({ directory: this.drop, files: [this.drag] })
-
-                setTimeout(() => {
-                    // Hack
-                    // https://github.com/Shopify/draggable/issues/92
-                    evt.originalSource.remove()
-                }, 0)
             }
         })
 
