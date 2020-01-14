@@ -2,8 +2,8 @@
 
 @section('content')
 	@auth
-		<app :user="{{ auth()->user() }}" />
+		<app :user="{{ auth()->user() }}" version="{{ FUSION_VERSION }}"></app>
 	@else
-		<app />
+		<app version="{{ FUSION_VERSION }}"></app>
 	@endauth
 @endsection
