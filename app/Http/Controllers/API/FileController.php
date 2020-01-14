@@ -85,9 +85,8 @@ class FileController extends Controller
      * Persist a new resource in storage.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @param  integer|null  $directory
      */
-    public function store(Request $request, $directory = null)
+    public function store(Request $request)
     {
         $request->validate([
             'file'         => 'file',
@@ -95,11 +94,7 @@ class FileController extends Controller
         ]);
 
         $directory = $request->input('directory_id', null);
-
-        
-        if ($directory == 0) {
-            $directory = null;
-        }
+        $directory = $directory == 0 ? null : $directory;
 
         $upload    = $request->file('file');
         $extension = $upload->extension();
