@@ -51,7 +51,6 @@ export default {
 
         // Mirror events..
         this.droppable.on('mirror:created', (evt) => {
-            console.log(evt)
             evt.mirror.setAttribute('style', `width: ${evt.originalSource.offsetWidth}px;`)
         })
 
