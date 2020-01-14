@@ -5,15 +5,13 @@
 <a href="https://discord.gg/bZKyvrc"><img alt="Discord" src="https://img.shields.io/discord/588839859884392487.svg?style=flat-square"></a>
 </p>
 
-**FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework. **This repository contains the source code for version 6 of FusionCMS, which is under heavy active development.**
-
-**FusionCMS is source-available software owned by efelle creative.** Please see the [license](LICENSE.md) for full details, but in short, you are free to modify and alter the code for your project as long as it does not impede on our license. **While FusionCMS is in open beta, it is completely free to use.** Once it hits a stable release, we may require paid licenses under certain circumstances. Rest assured, information surrounding this will be announced on our official website.
+**FusionCMS** is an open source, modern, intuitive, and flexible content management system (CMS) built on the Laravel framework developed in Seattle, WA by [efelle creative](https://seattlewebdesign.com).
 
 Modular at heart, FusionCMS provides the necessary launching platform to build out any type of web or mobile application. It's intuitive and easy for content editors to use on a daily basis, while still maintaining the power and flexibility for developers and designers to dig into the heart of the platform to build and design whatever comes to mind.
 
 ![preview screenshot](fusioncms.png)
 
-## Installing
+## Requirements
 FusionCMS has a few system requirements. You will need to ensure your server meets the following requirements:
 
 - PHP >= 7.2.0
@@ -27,6 +25,7 @@ FusionCMS has a few system requirements. You will need to ensure your server mee
 
 FusionCMS utilizes Composer to manage its dependencies. So, before using FusionCMS, make sure you have Composer installed on your machine.
 
+## Installing
 From the root directory of FusionCMS, run `composer install` to download and install the required dependencies from your terminal:
 
 ```
@@ -50,6 +49,9 @@ The installer will walk you through the steps required to configure FusionCMS. T
 - **--charset[=CHARSET]:** Assign the database charset to be used during installation. Can be used in combination with the `--quick` flag.
 - **--collation[=COLLATION]:** Assign the database collation to be used during installation. Can be used in combination with the `--quick` flag.
 
+## Versioning
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/fusioncms/fusioncms/tags).
+
 ## Contributing
 Thank you for considering contributing to FusionCMS! The contribution guide can be found in the [CONTRIBUTING.md](CONTRIBUTING.md) file here in the repository.
 
@@ -57,4 +59,4 @@ Thank you for considering contributing to FusionCMS! The contribution guide can 
 If you discover a security Vulnerability within FusionCMS, please send a message to **Kai** on our Discord server. All security vulnerabilities will be promptly addressed.
 
 ## License
-For a quick summary, FusionCMS is **not open source** but rather _source-available_ software. We require a paid license if you intend on using FusionCMS for commercial purposes. You are free to modify and alter the CMS as needed as long as it does not impede on our licensing or means of enforcing the licensing. For the complete license, please refer to the [LICENSE.md](LICENSE.md) file here in the repository.
+FusionCMS is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
