@@ -251,3 +251,24 @@
         }
     }
 </script>
+
+<style>
+    .dropzone-highlight {
+        animation: pulse 1s infinite;
+    }
+
+    .dropzone-over {
+        border-color: rgba(255, 87, 34, 0.5);
+    }
+
+    .draggable-mirror {
+        border: 2px solid rgba(255, 87, 34, 0.25);
+        background-color: rgba(255, 87, 34, 0.10);
+    }
+
+    @keyframes pulse {
+      0%   { border-color: rgba(255, 87, 34, 0.0); }
+      50%  { border-color: rgba(255, 87, 34, 1.0); }
+      100% { border-color: rgba(255, 87, 34, 0.0); }
+    }
+</style>
