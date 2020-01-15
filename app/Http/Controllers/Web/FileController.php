@@ -20,12 +20,16 @@ class FileController extends Controller
             abort(404);
         }
 
+        // Append last modified date
+        $params      = request()->all();
+        $params['t'] = $file->updated_at->format('U');
+
         if ($filename !== $file->original) {
-            return redirect()->to('/file/'.$uuid.'/'.$file->original.'?'.request()->getQueryString());
+            return redirect()->to('/file/' . $uuid . '/' . $file->original . '?' . http_build_query($params));
         }
 
         if (Str::startsWith($file->mimetype, 'image') and $file->mimetype !== 'image/gif') {
-            return $this->imageResponse($file->location);
+            return $this->imageResponse($file->location, $params);
         }
 
         if (Str::startsWith($file->mimetype, 'video')) {
@@ -35,7 +39,7 @@ class FileController extends Controller
         return Storage::drive('public')->response($file->location);
     }
 
-    protected function imageResponse($path)
+    protected function imageResponse($path, $params)
     {
         $filesystem = app('filesystem')->getDriver();
 
@@ -46,7 +50,7 @@ class FileController extends Controller
             'cache_path_prefix' => '.cache',
         ]);
 
-        return $server->getImageResponse($path, request()->all());
+        return $server->getImageResponse($path, $params);
     }
 
     protected function videoResponse($path, $mimetype)

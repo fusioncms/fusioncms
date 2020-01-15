@@ -6,7 +6,7 @@
                     v-if="! small"
                     src="/img/image-small.svg"
                     background-color="#ffffff"
-                    :lazySrc="lgFileSrc"
+                    :lazySrc="largeFileSrc"
                     :width="200"
                     :height="200"
                     :alt="file.description"
@@ -17,7 +17,7 @@
                     v-else
                     src="/img/image-large.svg"
                     background-color="#ffffff"
-                    :lazySrc="smFileSrc"
+                    :lazySrc="smallFileSrc"
                     :width="75"
                     :height="75"
                     :alt="file.description"
@@ -91,11 +91,11 @@
                 selected: 'filemanager/getSelectedFiles'
             }),
 
-            lgFileSrc(file) {
+            largeFileSrc(file) {
                 return this.file.url + '?w=200&h=200&fit=crop&t=' + this.$moment.utc(this.file.updated_at)
             },
 
-            smFileSrc(file) {
+            smallFileSrc(file) {
                 return this.file.url + '?w=75&h=75&fit=crop&t=' + this.$moment.utc(this.file.updated_at)
             },
 
