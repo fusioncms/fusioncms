@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="crown">Edit Role</app-title>
+            <app-title icon="user-shield">Edit Role</app-title>
         </portal>
 
         <div class="row">

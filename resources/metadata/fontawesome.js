@@ -1,7 +1,7 @@
 export default [
     {
-        icons:
-        [
+        label: 'Accessibility',
+        icons: [
             'american-sign-language-interpreting',
             'assistive-listening-systems',
             'audio-description',
@@ -15,24 +15,26 @@ export default [
             'sign-language',
             'tty',
             'universal-access',
-            'wheelchair'],
-            label: 'Accessibility'
+            'wheelchair'
+        ]
     },
     {
-        icons:
-        ['bell',
+        label: 'Alert',
+        icons: [
+            'bell',
             'bell-slash',
             'exclamation',
             'exclamation-circle',
             'exclamation-triangle',
             'radiation',
             'radiation-alt',
-            'skull-crossbones'],
-            label: 'Alert'
+            'skull-crossbones'
+        ],    
     },
     {
-        icons:
-        ['cat',
+        label: 'Animals',
+        icons: [
+            'cat',
             'crow',
             'dog',
             'dove',
@@ -47,12 +49,13 @@ export default [
             'kiwi-bird',
             'otter',
             'paw',
-            'spider'],
-            label: 'Animals'
+            'spider'
+        ],    
     },
     {
-        icons:
-        ['angle-double-down',
+        label: 'Arrows',
+        icons: [
+            'angle-double-down',
             'angle-double-left',
             'angle-double-right',
             'angle-double-up',
@@ -95,9 +98,11 @@ export default [
             'chevron-up',
             'cloud-download-alt',
             'cloud-upload-alt',
+            'compress-alt',
             'compress-arrows-alt',
             'download',
             'exchange-alt',
+            'expand-alt',
             'expand-arrows-alt',
             'external-link-alt',
             'external-link-square-alt',
@@ -148,12 +153,13 @@ export default [
             'text-width',
             'undo',
             'undo-alt',
-            'upload'],
-            label: 'Arrows'
+            'upload'
+        ],
     },
     {
-        icons:
-        ['audio-description',
+        label: 'Audio & Video',
+        icons: [
+            'audio-description',
             'backward',
             'broadcast-tower',
             'circle',
@@ -201,12 +207,12 @@ export default [
             'volume-mute',
             'volume-off',
             'volume-up',
-            ],
-            label: 'Audio & Video'
+        ],
     },
     {
-        icons:
-        ['air-freshener',
+        label: 'Automotive',
+        icons: [
+            'air-freshener',
             'ambulance',
             'bus',
             'bus-alt',
@@ -224,12 +230,13 @@ export default [
             'taxi',
             'truck',
             'truck-monster',
-            'truck-pickup'],
-            label: 'Automotive'
+            'truck-pickup'
+        ],
     },
     {
-        icons:
-        ['apple-alt',
+        label: 'Autumn',
+        icons: [
+            'apple-alt',
             'campground',
             'cloud-sun',
             'drumstick-bite',
@@ -239,12 +246,13 @@ export default [
             'tractor',
             'tree',
             'wind',
-            'wine-bottle'],
-            label: 'Autumn'
+            'wine-bottle'
+        ],
     },
     {
-        icons:
-        ['beer',
+        label: 'Beverage',
+        icons: [
+            'beer',
             'blender',
             'cocktail',
             'coffee',
@@ -256,12 +264,13 @@ export default [
             'mug-hot',
             'wine-bottle',
             'wine-glass',
-            'wine-glass-alt'],
-            label: 'Beverage'
+            'wine-glass-alt'
+        ],
     },
     {
-        icons:
-        ['archway',
+        label: 'Buildings',
+        icons: [
+            'archway',
             'building',
             'campground',
             'church',
@@ -288,12 +297,13 @@ export default [
             'torii-gate',
             'university',
             'vihara',
-            'warehouse'],
-            label: 'Buildings'
+            'warehouse'
+        ],    
     },
     {
-        icons:
-        ['address-book',
+        label: 'Business',
+        icons: [
+            'address-book',
             'address-card',
             'archive',
             'balance-scale',
@@ -369,12 +379,13 @@ export default [
             'tasks',
             'thumbtack',
             'trademark',
-            'wallet'],
-            label: 'Business'
+            'wallet'
+        ],
     },
     {
-        icons:
-        ['binoculars',
+        label: 'Camping',
+        icons: [
+            'binoculars',
             'campground',
             'compass',
             'fire',
@@ -389,12 +400,14 @@ export default [
             'mountain',
             'route',
             'toilet-paper',
-            'tree'],
-            label: 'Camping'
+            'trailer',
+            'tree'
+        ],
     },
     {
-        icons:
-        ['dollar-sign',
+        label: 'Charity',
+        icons: [
+            'dollar-sign',
             'donate',
             'dove',
             'gift',
@@ -408,12 +421,13 @@ export default [
             'parachute-box',
             'piggy-bank',
             'ribbon',
-            'seedling'],
-            label: 'Charity'
+            'seedling'
+        ],
     },
     {
-        icons:
-        ['comment',
+        label: 'Chat',
+        icons: [
+            'comment',
             'comment-alt',
             'comment-dots',
             'comment-medical',
@@ -431,12 +445,13 @@ export default [
             'smile',
             'sms',
             'video',
-            'video-slash'],
-            label: 'Chat'
+            'video-slash'
+        ],
     },
     {
-        icons:
-        ['chess',
+        label: 'Chess',
+        icons: [
+            'chess',
             'chess-bishop',
             'chess-board',
             'chess-king',
@@ -444,12 +459,13 @@ export default [
             'chess-pawn',
             'chess-queen',
             'chess-rook',
-            'square-full'],
-            label: 'Chess'
+            'square-full'
+        ],
     },
     {
-        icons:
-        ['apple-alt',
+        label: 'Childhood',
+        icons: [
+            'apple-alt',
             'baby',
             'baby-carriage',
             'bath',
@@ -463,12 +479,13 @@ export default [
             'robot',
             'school',
             'shapes',
-            'snowman'],
-            label: 'Childhood'
+            'snowman'
+        ],
     },
     {
-        icons:
-        ['graduation-cap',
+        label: 'Clothing',
+        icons: [
+            'graduation-cap',
             'hat-cowboy',
             'hat-cowboy-side',
             'hat-wizard',
@@ -476,12 +493,13 @@ export default [
             'shoe-prints',
             'socks',
             'tshirt',
-            'user-tie'],
-            label: 'Clothing'
+            'user-tie'
+        ],
     },
     {
-        icons:
-        ['archive',
+        label: 'Code',
+        icons: [
+            'archive',
             'barcode',
             'bath',
             'bug',
@@ -508,12 +526,13 @@ export default [
             'window-close',
             'window-maximize',
             'window-minimize',
-            'window-restore'],
-            label: 'Code'
+            'window-restore'
+        ],
     },
     {
-        icons:
-        ['address-book',
+        label: 'Communication',
+        icons: [
+            'address-book',
             'address-card',
             'american-sign-language-interpreting',
             'assistive-listening-systems',
@@ -549,12 +568,13 @@ export default [
             'rss-square',
             'tty',
             'voicemail',
-            'wifi'],
-            label: 'Communication'
+            'wifi'
+        ],
     },
     {
-        icons:
-        ['database',
+        label: 'Computers',
+        icons: [
+            'database',
             'desktop',
             'download',
             'ethernet',
@@ -580,12 +600,13 @@ export default [
             'tablet',
             'tablet-alt',
             'tv',
-            'upload'],
-            label: 'Computers'
+            'upload'
+        ],
     },
     {
-        icons:
-        ['brush',
+        label: 'Construction',
+        icons: [
+            'brush',
             'drafting-compass',
             'dumpster',
             'hammer',
@@ -601,10 +622,11 @@ export default [
             'toolbox',
             'tools',
             'truck-pickup',
-            'wrench'],
-            label: 'Construction'
+            'wrench'
+        ],
     },
     {
+        label: 'Currency',
         icons:
         [
             'dollar-sign',
@@ -623,12 +645,13 @@ export default [
             'shekel-sign',
             'tenge',
             'won-sign',
-            'yen-sign'],
-            label: 'Currency'
+            'yen-sign'
+        ],
     },
     {
-        icons:
-        ['bell',
+        label: 'Date & Time',
+        icons: [
+            'bell',
             'bell-slash',
             'calendar',
             'calendar-alt',
@@ -641,12 +664,13 @@ export default [
             'hourglass-end',
             'hourglass-half',
             'hourglass-start',
-            'stopwatch'],
-            label: 'Date & Time'
+            'stopwatch'
+        ],
     },
     {
-        icons:
-        ['adjust',
+        label: 'Design',
+        icons: [
+            'adjust',
             'bezier-curve',
             'brush',
             'clone',
@@ -691,12 +715,13 @@ export default [
             'swatchbook',
             'tint',
             'tint-slash',
-            'vector-square'],
-            label: 'Design'
+            'vector-square'
+        ],
     },
     {
-        icons:
-        ['align-center',
+        label: 'Editors',
+        icons: [
+            'align-center',
             'align-justify',
             'align-left',
             'align-right',
@@ -769,12 +794,13 @@ export default [
             'undo',
             'undo-alt',
             'unlink',
-            'wrench'],
-            label: 'Editors'
+            'wrench'
+        ],
     },
     {
-        icons:
-        ['apple-alt',
+        label: 'Education',
+        icons: [
+            'apple-alt',
             'atom',
             'award',
             'bell',
@@ -790,12 +816,13 @@ export default [
             'school',
             'shapes',
             'theater-masks',
-            'user-graduate'],
-            label: 'Education'
+            'user-graduate'
+        ],
     },
     {
-        icons:
-        ['angry',
+        label: 'Emoji',
+        icons: [
+            'angry',
             'dizzy',
             'flushed',
             'frown',
@@ -830,12 +857,13 @@ export default [
             'smile-beam',
             'smile-wink',
             'surprise',
-            'tired'],
-            label: 'Emoji'
+            'tired'
+        ],
     },
     {
-        icons:
-        ['atom',
+        label: 'Energy',
+        icons: [
+            'atom',
             'battery-empty',
             'battery-full',
             'battery-half',
@@ -859,12 +887,13 @@ export default [
             'solar-panel',
             'sun',
             'water',
-            'wind'],
-            label: 'Energy'
+            'wind'
+        ],
     },
     {
-        icons:
-        ['archive',
+        label: 'Files',
+        icons: [
+            'archive',
             'clone',
             'copy',
             'cut',
@@ -884,12 +913,13 @@ export default [
             'paste',
             'photo-video',
             'save',
-            'sticky-note'],
-            label: 'Files'
+            'sticky-note'
+        ],
     },
     {
-        icons:
-        ['balance-scale',
+        label: 'Finance',
+        icons: [
+            'balance-scale',
             'balance-scale-left',
             'balance-scale-right',
             'book',
@@ -915,12 +945,13 @@ export default [
             'piggy-bank',
             'receipt',
             'stamp',
-            'wallet'],
-            label: 'Finance'
+            'wallet'
+        ],
     },
     {
-        icons:
-        ['bicycle',
+        label: 'Fitness',
+        icons: [
+            'bicycle',
             'biking',
             'burn',
             'fire-alt',
@@ -935,12 +966,13 @@ export default [
             'snowboarding',
             'spa',
             'swimmer',
-            'walking'],
-            label: 'Fitness'
+            'walking'
+        ],
     },
     {
-        icons:
-        ['apple-alt',
+        label: 'Food',
+        icons: [
+            'apple-alt',
             'bacon',
             'bone',
             'bread-slice',
@@ -959,16 +991,24 @@ export default [
             'pepper-hot',
             'pizza-slice',
             'seedling',
-            'stroopwafel'],
-            label: 'Food'
+            'stroopwafel'
+        ],
     },
     {
-        icons: ['apple-alt', 'carrot', 'leaf', 'lemon', 'pepper-hot', 'seedling'],
-            label: 'Fruits & Vegetables'
+        label: 'Fruits & Vegetables',
+        icons: [
+            'apple-alt',
+            'carrot',
+            'leaf',
+            'lemon',
+            'pepper-hot',
+            'seedling'
+        ],
     },
     {
-        icons:
-        ['chess',
+        label: 'Games',
+        icons: [
+            'chess',
             'chess-bishop',
             'chess-board',
             'chess-king',
@@ -991,11 +1031,10 @@ export default [
             'heart',
             'puzzle-piece'
         ],
-            label: 'Games'
     },
     {
-        icons:
-        [
+        label: 'Tabletop Gaming',
+        icons: [
             'book-dead',
             'dice-d20',
             'dice-d6',
@@ -1005,12 +1044,13 @@ export default [
             'hat-wizard',
             'ring',
             'scroll',
-            'skull-crossbones'],
-            label: 'Tabletop Gaming'
+            'skull-crossbones'
+        ],
     },
     {
-        icons:
-        ['genderless',
+        label: 'Genders',
+        icons: [
+            'genderless',
             'mars',
             'mars-double',
             'mars-stroke',
@@ -1022,12 +1062,13 @@ export default [
             'transgender-alt',
             'venus',
             'venus-double',
-            'venus-mars'],
-            label: 'Genders'
+            'venus-mars'
+        ],
     },
     {
-        icons:
-        ['book-dead',
+        label: 'Halloween',
+        icons: [
+            'book-dead',
             'broom',
             'cat',
             'cloud-moon',
@@ -1037,12 +1078,13 @@ export default [
             'mask',
             'skull-crossbones',
             'spider',
-            'toilet-paper'],
-            label: 'Halloween'
+            'toilet-paper'
+        ],
     },
     {
-        icons:
-        ['allergies',
+        label: 'Hands',
+        icons: [
+            'allergies',
             'fist-raised',
             'hand-holding',
             'hand-holding-heart',
@@ -1064,12 +1106,12 @@ export default [
             'handshake',
             'praying-hands',
             'thumbs-down',
-            'thumbs-up'],
-            label: 'Hands'
+            'thumbs-up'
+        ],
     },
     {
-        icons:
-        [
+        label: 'Health',
+        icons: [
             'ambulance',
             'h-square',
             'heart',
@@ -1080,12 +1122,13 @@ export default [
             'prescription',
             'stethoscope',
             'user-md',
-            'wheelchair'],
-            label: 'Health'
+            'wheelchair'
+        ],
     },
     {
-        icons:
-        ['candy-cane',
+        label: 'Holiday',
+        icons: [
+            'candy-cane',
             'carrot',
             'cookie-bite',
             'gift',
@@ -1094,12 +1137,13 @@ export default [
             'holly-berry',
             'mug-hot',
             'sleigh',
-            'snowman'],
-            label: 'Holiday'
+            'snowman'
+        ],
     },
     {
-        icons:
-        ['baby-carriage',
+        label: 'Hotel',
+        icons: [
+            'baby-carriage',
             'bath',
             'bed',
             'briefcase',
@@ -1133,12 +1177,13 @@ export default [
             'umbrella-beach',
             'utensils',
             'wheelchair',
-            'wifi'],
-            label: 'Hotel'
+            'wifi'
+        ],
     },
     {
-        icons:
-        ['bath',
+        label: 'Household',
+        icons: [
+            'bath',
             'bed',
             'blender',
             'chair',
@@ -1149,12 +1194,13 @@ export default [
             'fan',
             'shower',
             'toilet-paper',
-            'tv'],
-            label: 'Household'
+            'tv'
+        ],
     },
     {
-        icons:
-        ['adjust',
+        label: 'Images',
+        icons: [
+            'adjust',
             'bolt',
             'camera',
             'camera-retro',
@@ -1175,12 +1221,13 @@ export default [
             'photo-video',
             'portrait',
             'sliders-h',
-            'tint'],
-            label: 'Images'
+            'tint'
+        ],
     },
     {
-        icons:
-        ['award',
+        label: 'Interfaces',
+        icons: [
+            'award',
             'ban',
             'barcode',
             'bars',
@@ -1344,12 +1391,13 @@ export default [
             'volume-off',
             'volume-up',
             'wifi',
-            'wrench'],
-            label: 'Interfaces'
+            'wrench'
+        ],
     },
     {
-        icons:
-        ['box',
+        label: 'Logistics',
+        icons: [
+            'box',
             'boxes',
             'clipboard-check',
             'clipboard-list',
@@ -1359,12 +1407,13 @@ export default [
             'pallet',
             'shipping-fast',
             'truck',
-            'warehouse'],
-            label: 'Logistics'
+            'warehouse'
+        ],
     },
     {
-        icons:
-        ['ambulance',
+        label: 'Maps',
+        icons: [
+            'ambulance',
             'anchor',
             'balance-scale',
             'balance-scale-left',
@@ -1487,12 +1536,13 @@ export default [
             'wheelchair',
             'wifi',
             'wine-glass',
-            'wrench'],
-            label: 'Maps'
+            'wrench'
+        ],
     },
     {
-        icons:
-        ['anchor',
+        label: 'Maritime',
+        icons: [
+            'anchor',
             'binoculars',
             'compass',
             'dharmachakra',
@@ -1501,12 +1551,13 @@ export default [
             'skull-crossbones',
             'swimmer',
             'water',
-            'wind'],
-            label: 'Maritime'
+            'wind'
+        ],
     },
     {
-        icons:
-        ['ad',
+        label: 'Marketing',
+        icons: [
+            'ad',
             'bullhorn',
             'bullseye',
             'comment-dollar',
@@ -1518,12 +1569,13 @@ export default [
             'poll',
             'poll-h',
             'search-dollar',
-            'search-location'],
-            label: 'Marketing'
+            'search-location'
+        ],
     },
     {
-        icons:
-        ['calculator',
+        label: 'Mathematics',
+        icons: [
+            'calculator',
             'divide',
             'equals',
             'greater-than',
@@ -1539,12 +1591,13 @@ export default [
             'subscript',
             'superscript',
             'times',
-            'wave-square'],
-            label: 'Mathematics'
+            'wave-square'
+        ],
     },
     {
-        icons:
-        ['allergies',
+        label: 'Medical',
+        icons: [
+            'allergies',
             'ambulance',
             'band-aid',
             'biohazard',
@@ -1601,12 +1654,13 @@ export default [
             'vial',
             'vials',
             'weight',
-            'x-ray'],
-            label: 'Medical'
+            'x-ray'
+        ],
     },
     {
-        icons:
-        ['archive',
+        label: 'Moving',
+        icons: [
+            'archive',
             'box-open',
             'couch',
             'dolly',
@@ -1617,12 +1671,13 @@ export default [
             'tape',
             'truck-loading',
             'truck-moving',
-            'wine-glass'],
-            label: 'Moving'
+            'wine-glass'
+        ],
     },
     {
-        icons:
-        ['drum',
+        label: 'Music',
+        icons: [
+            'drum',
             'drum-steelpan',
             'file-audio',
             'guitar',
@@ -1639,12 +1694,13 @@ export default [
             'volume-down',
             'volume-mute',
             'volume-off',
-            'volume-up'],
-            label: 'Music'
+            'volume-up'
+        ],
     },
     {
-        icons:
-        ['ambulance',
+        label: 'Objects',
+        icons: [
+            'ambulance',
             'anchor',
             'archive',
             'award',
@@ -1866,12 +1922,12 @@ export default [
             'weight',
             'wheelchair',
             'wine-glass',
-            'wrench'],
-            label: 'Objects'
+            'wrench'
+        ],
     },
     {
-        icons:
-        [
+        label: 'Payments & Shopping',
+        icons: [
             'bell',
             'bookmark',
             'bullhorn',
@@ -1897,12 +1953,13 @@ export default [
             'tags',
             'thumbs-down',
             'thumbs-up',
-            'trophy'],
-            label: 'Payments & Shopping'
+            'trophy'
+        ],
     },
     {
-        icons:
-        ['band-aid',
+        label: 'Pharmacy',
+        icons: [
+            'band-aid',
             'book-medical',
             'cannabis',
             'capsules',
@@ -1927,12 +1984,13 @@ export default [
             'tablets',
             'thermometer',
             'vial',
-            'vials'],
-            label: 'Pharmacy'
+            'vials'
+        ],
     },
     {
-        icons:
-        ['award',
+        label: 'Political',
+        icons: [
+            'award',
             'balance-scale',
             'balance-scale-left',
             'balance-scale-right',
@@ -1947,13 +2005,15 @@ export default [
             'person-booth',
             'piggy-bank',
             'republican',
-            'vote-yea'],
-            label: 'Political'
+            'vote-yea'
+        ],
     },
     {
-        icons:
-        ['ankh',
+        label: 'Religion',
+        icons: [
+            'ankh',
             'atom',
+            'bahai',
             'bible',
             'church',
             'cross',
@@ -1982,12 +2042,13 @@ export default [
             'torah',
             'torii-gate',
             'vihara',
-            'yin-yang'],
-            label: 'Religion'
+            'yin-yang'
+        ],
     },
     {
-        icons:
-        ['atom',
+        label: 'Science',
+        icons: [
+            'atom',
             'biohazard',
             'brain',
             'burn',
@@ -2014,13 +2075,15 @@ export default [
             'temperature-high',
             'temperature-low',
             'vial',
-            'vials'],
-            label: 'Science'
+            'vials'
+        ],
     },
     {
-        icons:
-        [
+        label: 'Science Fiction',
+        icons: [
+            'atom',
             'globe',
+            'hand-spock',
             'jedi',
             'journal-whills',
             'meteor',
@@ -2030,12 +2093,13 @@ export default [
             'satellite',
             'satellite-dish',
             'space-shuttle',
-            'user-astronaut'],
-            label: 'Science Fiction'
+            'user-astronaut'
+        ],
     },
     {
-        icons:
-        ['ban',
+        label: 'Security',
+        icons: [
+            'ban',
             'bug',
             'door-closed',
             'door-open',
@@ -2058,12 +2122,13 @@ export default [
             'unlock-alt',
             'user-lock',
             'user-secret',
-            'user-shield'],
-            label: 'Security'
+            'user-shield'
+        ],
     },
     {
-        icons:
-        ['bookmark',
+        label: 'Shapes',
+        icons: [
+            'bookmark',
             'calendar',
             'certificate',
             'circle',
@@ -2077,12 +2142,13 @@ export default [
             'play',
             'shapes',
             'square',
-            'star'],
-            label: 'Shapes'
+            'star'
+        ],
     },
     {
-        icons:
-        ['barcode',
+        label: 'Shopping',
+        icons: [
+            'barcode',
             'cart-arrow-down',
             'cart-plus',
             'cash-register',
@@ -2097,12 +2163,13 @@ export default [
             'store',
             'store-alt',
             'truck',
-            'tshirt'],
-            label: 'Shopping'
+            'tshirt'
+        ],
     },
     {
-        icons:
-        ['bell',
+        label: 'Social',
+        icons: [
+            'bell',
             'birthday-cake',
             'camera',
             'comment',
@@ -2131,12 +2198,13 @@ export default [
             'user-friends',
             'user-plus',
             'users',
-            'video'],
-            label: 'Social'
+            'video'
+        ],
     },
     {
-        icons:
-        ['asterisk',
+        label: 'Spinners',
+        icons: [
+            'asterisk',
             'atom',
             'certificate',
             'circle-notch',
@@ -2157,12 +2225,13 @@ export default [
             'sun',
             'sync',
             'sync-alt',
-            'yin-yang'],
-            label: 'Spinners'
+            'yin-yang'
+        ],
     },
     {
-        icons:
-        ['baseball-ball',
+        label: 'Sports',
+        icons: [
+            'baseball-ball',
             'basketball-ball',
             'biking',
             'bowling-ball',
@@ -2179,24 +2248,26 @@ export default [
             'snowboarding',
             'swimmer',
             'table-tennis',
-            'volleyball-ball'],
-            label: 'Sports'
+            'volleyball-ball'
+        ],
     },
     {
-        icons:
-        ['allergies',
+        label: 'Spring',
+        icons: [
+            'allergies',
             'broom',
             'cloud-sun',
             'cloud-sun-rain',
             'frog',
             'rainbow',
             'seedling',
-            'umbrella'],
-            label: 'Spring'
+            'umbrella'
+        ],
     },
     {
-        icons:
-        ['ban',
+        label: 'Status',
+        icons: [
+            'ban',
             'battery-empty',
             'battery-full',
             'battery-half',
@@ -2287,12 +2358,13 @@ export default [
             'volume-mute',
             'volume-off',
             'volume-up',
-            'wifi'],
-            label: 'Status'
+            'wifi'
+        ],
     },
     {
-        icons:
-        ['anchor',
+        label: 'Summer',
+        icons: [
+            'anchor',
             'biking',
             'fish',
             'hotdog',
@@ -2303,12 +2375,13 @@ export default [
             'swimming-pool',
             'umbrella-beach',
             'volleyball-ball',
-            'water'],
-            label: 'Summer'
+            'water'
+        ],
     },
     {
-        icons:
-        ['bullseye',
+        label: 'Toggle',
+        icons: [
+            'bullseye',
             'check-circle',
             'circle',
             'dot-circle',
@@ -2319,16 +2392,18 @@ export default [
             'star-half-alt',
             'toggle-off',
             'toggle-on',
-            'wifi'],
-            label: 'Toggle'
+            'wifi'
+        ],
     },
     {
-        icons:
-        ['archway',
+        label: 'Travel',
+        icons: [
+            'archway',
             'atlas',
             'bed',
             'bus',
             'bus-alt',
+            'caravan',
             'cocktail',
             'concierge-bell',
             'dumbbell',
@@ -2360,12 +2435,12 @@ export default [
             'tv',
             'umbrella-beach',
             'wine-glass',
-            'wine-glass-alt'],
-            label: 'Travel'
+            'wine-glass-alt'
+        ],
     },
     {
-        icons:
-        [
+        label: 'Users & People',
+        icons: [
             'address-book',
             'address-card',
             'baby',
@@ -2424,12 +2499,12 @@ export default [
             'users',
             'users-cog',
             'walking',
-            'wheelchair'],
-            label: 'Users & People'
+            'wheelchair'
+        ],
     },
     {
-        icons:
-        [
+        label: 'Vehicles',
+        icons: [
             'ambulance',
             'baby-carriage',
             'bicycle',
@@ -2460,12 +2535,13 @@ export default [
             'truck',
             'truck-monster',
             'truck-pickup',
-            'wheelchair'],
-            label: 'Vehicles'
+            'wheelchair'
+        ],
     },
     {
-        icons:
-        ['bolt',
+        label: 'Weather',
+        icons: [
+            'bolt',
             'cloud',
             'cloud-meatball',
             'cloud-moon',
@@ -2485,12 +2561,13 @@ export default [
             'temperature-low',
             'umbrella',
             'water',
-            'wind'],
-            label: 'Weather'
+            'wind'
+        ],
     },
     {
-        icons:
-        ['glass-whiskey',
+        label: 'Winter',
+        icons: [
+            'glass-whiskey',
             'icicles',
             'igloo',
             'mitten',
@@ -2499,12 +2576,13 @@ export default [
             'skiing-nordic',
             'snowboarding',
             'snowplow',
-            'tram'],
-            label: 'Winter'
+            'tram'
+        ],
     },
     {
-        icons:
-        ['archive',
+        label: 'Writing',
+        icons: [
+            'archive',
             'blog',
             'book',
             'bookmark',
@@ -2528,7 +2606,7 @@ export default [
             'quote-left',
             'quote-right',
             'sticky-note',
-            'thumbtack'],
-            label: 'Writing'
+            'thumbtack'
+        ],
     }
 ]

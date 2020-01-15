@@ -13,11 +13,11 @@
                 <p-card>
                     <div class="list">
                         <span class="list--separator pt-0">Inboxes</span>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'inbox']" fixed-width class="mr-2"></fa-icon> Inbox</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'star']" fixed-width class="mr-2"></fa-icon> Starred</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'inbox-in']" fixed-width class="mr-2"></fa-icon> Archived</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['far', 'trash-alt']" fixed-width class="mr-2"></fa-icon> Trash</a>
+                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'inbox']" fixed-width class="mr-2"></fa-icon> Inbox</a>
+                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'star']" fixed-width class="mr-2"></fa-icon> Starred</a>
+                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>
+                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'history']" fixed-width class="mr-2"></fa-icon> Archived</a>
+                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'trash-alt']" fixed-width class="mr-2"></fa-icon> Trash</a>
                     </div>
 
                     <div class="list" v-if="forms.length == 0">
@@ -29,7 +29,7 @@
                     <div class="list" v-else>
                         <span class="list--separator">Forms</span>
 
-                        <a href="#" class="list--item leading-loose" v-for="form in forms" :key="form.handle"><fa-icon :icon="['far', 'paper-plane']" fixed-width class="mr-2"></fa-icon> {{ form.name }}</a>
+                        <a href="#" class="list--item leading-loose" v-for="form in forms" :key="form.handle"><fa-icon :icon="['fas', 'paper-plane']" fixed-width class="mr-2"></fa-icon> {{ form.name }}</a>
                     </div>
                 </p-card>
             </div>
@@ -66,14 +66,14 @@
                         <div class="leading-none flex-1">
                             <div class="flex flex-row-reverse border-b py-4 px-6 justify-between items-center">
                                 <div>
-                                    <fa-icon :icon="['far', 'check-circle']" fixed-width class="mr-3"></fa-icon>
-                                    <fa-icon :icon="['far', 'star']" fixed-width class="mr-3"></fa-icon>
-                                    <fa-icon :icon="['far', 'inbox-in']" fixed-width class="mr-3"></fa-icon>
-                                    <fa-icon :icon="['far', 'trash-alt']" fixed-width></fa-icon>
+                                    <fa-icon :icon="['fas', 'check-circle']" fixed-width class="mr-3"></fa-icon>
+                                    <fa-icon :icon="['fas', 'star']" fixed-width class="mr-3"></fa-icon>
+                                    <fa-icon :icon="['fas', 'history']" fixed-width class="mr-3"></fa-icon>
+                                    <fa-icon :icon="['fas', 'trash-alt']" fixed-width></fa-icon>
                                 </div>
 
                                 <div class="text-gray-500 flex items-center">
-                                    <fa-icon :icon="['far', 'server']" fixed-width></fa-icon> <span class="text-xs font-mono ml-2">192.168.10.10</span>
+                                    <fa-icon :icon="['fas', 'server']" fixed-width></fa-icon> <span class="text-xs font-mono ml-2">192.168.10.10</span>
                                 </div>
                             </div>
 

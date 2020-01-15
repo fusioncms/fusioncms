@@ -7,7 +7,7 @@
         <div class="row" v-if="isValid === null">
             <div class="col md:w-full">
                 <p-card class="text-center">
-                    <fa-icon :icon="['fas', 'spinner-third']" class="fa-spin mr-3"></fa-icon> Loading...
+                    <fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading...
                 </p-card>
             </div>
         </div>

@@ -13,7 +13,7 @@
 
 		<p-card no-body>
 			<div class="card__body text-center" v-if="! ready">
-				<fa-icon :icon="['fas', 'spinner-third']" class="fa-spin mr-3"></fa-icon> Loading backups...
+				<fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading backups...
 			</div>
 
 			<div v-else>
@@ -32,7 +32,7 @@
 							<td>{{ backup.size }}</td>
 							<td class="text-right">
 								<p-dropdown right>
-									<fa-icon icon="bars"></fa-icon>
+									<fa-icon :icon="['fas', 'bars']"></fa-icon>
 
 									<template slot="options">
 										<p-dropdown-item @click.prevent v-modal:restore-form="backup">
