@@ -148,11 +148,12 @@ class FieldsetSectionController extends Controller
         if (count($fields)) {
             foreach ($fields as $field) {
                 $fieldset->fields()->create([
-                    'name'    => $field['name'],
-                    'handle'  => $field['handle'],
-                    'help'    => $field['help'],
-                    'settings' => $field['settings'],
-                    'type'    => $field['type']['handle'],
+                    'name'      => $field['name'],
+                    'handle'    => $field['handle'],
+                    'help'      => $field['help'],
+                    'settings'  => $field['settings'],
+                    'type'      => $field['type']['handle'],
+                    'order'     => $field['order']
                 ]);
             }
         }
