@@ -14,7 +14,7 @@
 					class="p-2 flex items-center justify-center rounded border border-gray-400 text-gray-600 mr-3 text-2xl focus:outline-none"
 					:class="{'pattern-checkers': ! selected}"
 					@click.prevent="open">
-					<fa-icon v-if="selected" :icon="['far', selected]" fixed-width></fa-icon>
+					<fa-icon v-if="selected" :icon="['fas', selected]" fixed-width></fa-icon>
 				</button>
 				
 				<div class="flex-1">
@@ -46,7 +46,7 @@
 
 								<div class="px-3 py-4 text-2xl">
 									<a href="#" @click.prevent="select(icon)" class="inline-flex bg-white p-2 m-1 rounded border-2 border-gray-300 text-gray-600 hover:text-gray-900" v-for="icon in category.icons" :key="icon">
-										<fa-icon :icon="['far', icon]" fixed-width></fa-icon>
+										<fa-icon :icon="['fas', icon]" fixed-width></fa-icon>
 
 										<span class="text-xs ml-2">{{ icon }}</span>
 									</a>

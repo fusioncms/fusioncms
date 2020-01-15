@@ -64,7 +64,7 @@
 		</div>
 
 		<div v-if="! ready" class="w-full text-center p-5">
-			<fa-icon :icon="['fas', 'spinner-third']" class="fa-spin mr-3"></fa-icon> Loading logs...
+			<fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading logs...
 		</div>
 	</p-modal>
 </template>

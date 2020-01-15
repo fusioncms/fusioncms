@@ -101,7 +101,7 @@
         </div>
 
         <div class="card__body text-center" v-if="isValid === null">
-            <fa-icon :icon="['fas', 'spinner-third']" class="fa-spin mr-3"></fa-icon> Loading overview...
+            <fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading overview...
         </div>
     </div>
 </template>
