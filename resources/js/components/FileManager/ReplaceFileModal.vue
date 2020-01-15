@@ -1,6 +1,7 @@
 <template>
     <p-modal name="replace-file" title="Replace current file with another">
         <p-upload
+            ref="upload"
             name="file"
             :multiple="false"
             @input="uploadFile"
@@ -40,6 +41,7 @@
                 if (this.uploadForm) {
                     axios.post(`/api/files/replace/${this.file.id}`, this.uploadForm).then((response) => {
                         this.uploadForm = null
+                        this.$refs.upload.remove()
                         this.$emit('replaced', response.data.data)
 
                         toast('File has been replaced successfully!', 'success')
