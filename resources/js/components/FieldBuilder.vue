@@ -140,7 +140,7 @@
                     handle: additional.handle || this.getUniqueHandle('field_' + this.total),
                     help: additional.help || '',
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
-                    order: additional.order || 99,
+                    order: this.fields.length
                 }
 
                 this.fields.push(field)
