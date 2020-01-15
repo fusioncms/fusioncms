@@ -21,7 +21,7 @@ class DividerFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $icon = 'horizontal-rule';
+    public $icon = 'window-minimize';
 
     /**
      * @var string
