@@ -51,7 +51,7 @@
                         <portal to="actions">
                             <p-button theme="danger" class="mr-4" v-modal:delete>Delete</p-button>
 
-                            <p-button>Move</p-button>
+                            <p-button v-modal:move-file>Move</p-button>
                             <p-button>Replace</p-button>
                             <p-button @click.prevent="download" class="mr-4">Download</p-button>
                             
@@ -109,6 +109,8 @@
         </div>
 
         <portal to="modals">
+            <move-file-modal></move-file-modal>
+
             <delete-file-modal :file="file"></delete-file-modal>
         </portal>
     </div>
@@ -116,6 +118,7 @@
 
 <script>
     import Plyr from 'plyr'
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         head: {
@@ -230,6 +233,10 @@
         },
 
         methods: {
+            ...mapActions({
+                toggleSelection: 'filemanager/toggleFileSelection',
+            }),
+
             getFile(to, from, next) {
                 let vm = this
 
@@ -238,6 +245,8 @@
                     vm.name = vm.file.name
                     vm.description = vm.file.description
                     vm.loaded = true
+
+                    this.toggleSelection(vm.file.id)
 
                     vm.$emit('updateHead')
 

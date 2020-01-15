@@ -10,7 +10,7 @@
                 </div>
                 
                 <p-button @click.prevent="clearSelection">Uncheck All</p-button>
-                <!-- <p-button>Move</p-button> -->
+                <p-button v-modal:move-file>Move</p-button>
             </div>
 
             <div class="inline-block mr-4">
@@ -89,6 +89,8 @@
 
         <portal to="modals">
             <new-folder-modal></new-folder-modal>
+            
+            <move-file-modal></move-file-modal>
 
             <delete-selected-files-modal></delete-selected-files-modal>
         </portal>
