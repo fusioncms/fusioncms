@@ -21,7 +21,7 @@
 
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right :key="table.record.handle">
-                            <fa-icon icon="bars"></fa-icon>
+                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'fieldsets.edit', params: {fieldset: table.record.id} }">Edit</p-dropdown-item>

@@ -26,7 +26,7 @@ class LogActivityWhenUserLogsIn implements ShouldQueue
     {
         activity('sign-ins')
             ->withProperties([
-                'icon' => 'sign-in',
+                'icon' => 'sign-in-alt',
             ])
             ->log('Signed in');
     }

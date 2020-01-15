@@ -42,7 +42,7 @@
                     @click.native="mobileToggle()"
                 >
                     <div class="flex items-center">
-                        <fa-icon icon="chevron-double-right" class="fa-xs mr-2 text-gray-600" style="font-size: .5rem;"></fa-icon>
+                        <fa-icon :icon="['fas', 'chevron-right']" class="fa-xs mr-2 text-gray-600" style="font-size: .5rem;"></fa-icon>
                         <span class="sidebar__menu-text">{{ child.title }}</span>
                     </div>
                 </router-link>

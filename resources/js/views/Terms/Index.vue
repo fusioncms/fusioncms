@@ -25,7 +25,7 @@
 
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
-                            <fa-icon icon="bars"></fa-icon>
+                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'terms.edit', params: {taxonomy: taxonomy.slug, id: table.record.id} }">Edit</p-dropdown-item>
