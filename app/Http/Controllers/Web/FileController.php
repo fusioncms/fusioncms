@@ -24,7 +24,7 @@ class FileController extends Controller
             return redirect()->to('/file/'.$uuid.'/'.$file->original.'?'.request()->getQueryString());
         }
 
-        if (Str::startsWith($file->mimetype, 'image')) {
+        if (Str::startsWith($file->mimetype, 'image') and $file->mimetype !== 'image/gif') {
             return $this->imageResponse($file->location);
         }
 

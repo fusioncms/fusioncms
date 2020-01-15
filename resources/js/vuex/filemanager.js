@@ -309,7 +309,7 @@ export default {
                     directory: payload.directory,
                     files:     payload.files
                 })
-            ]).then(axios.spread(function (directory) {
+            ]).then(axios.spread((response) =>  {
                 dispatch('fetchFilesAndDirectories')
             }))
         },

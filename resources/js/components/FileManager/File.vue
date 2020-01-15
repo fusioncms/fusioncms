@@ -6,7 +6,7 @@
                     v-if="! small"
                     src="/img/image-small.svg"
                     background-color="#ffffff"
-                    :lazySrc="file.url + '?w=200&h=200&fit=crop'"
+                    :lazySrc="lgFileSrc"
                     :width="200"
                     :height="200"
                     :alt="file.description"
@@ -17,7 +17,7 @@
                     v-else
                     src="/img/image-large.svg"
                     background-color="#ffffff"
-                    :lazySrc="file.url + '?w=75&h=75&fit=crop'"
+                    :lazySrc="smFileSrc"
                     :width="75"
                     :height="75"
                     :alt="file.description"
@@ -90,6 +90,14 @@
             ...mapGetters({
                 selected: 'filemanager/getSelectedFiles'
             }),
+
+            lgFileSrc(file) {
+                return this.file.url + '?w=200&h=200&fit=crop&t=' + this.$moment.utc(this.file.updated_at)
+            },
+
+            smFileSrc(file) {
+                return this.file.url + '?w=75&h=75&fit=crop&t=' + this.$moment.utc(this.file.updated_at)
+            },
 
             isSelected() {
                 return _.includes(this.selected, this.file.id)

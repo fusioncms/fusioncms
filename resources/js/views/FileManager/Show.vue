@@ -10,10 +10,9 @@
                     <div class="flex items-center justify-center">
                         <div v-if="isImage">
                             <p-img
-                                src="/img/placeholder-large.svg"
-                                background-color="#ffffff"
-                                :lazySrc="file.url + '?w=1500&h=1500&fit=max'"
+                                :src="fileSrc"
                                 :alt="file.description"
+                                background-color="#ffffff"
                                 class="rounded">
                             </p-img>
                         </div>
@@ -52,7 +51,7 @@
                             <p-button theme="danger" class="mr-4" v-modal:delete>Delete</p-button>
 
                             <p-button v-modal:move-file>Move</p-button>
-                            <p-button>Replace</p-button>
+                            <p-button v-modal:replace-file>Replace</p-button>
                             <p-button @click.prevent="download" class="mr-4">Download</p-button>
                             
                             <p-button @click.prevent="goBack">Go Back</p-button>
@@ -111,6 +110,8 @@
         <portal to="modals">
             <move-file-modal></move-file-modal>
 
+            <replace-file-modal :file="file" @replaced="replacement => file = replacement"></replace-file-modal>
+
             <delete-file-modal :file="file"></delete-file-modal>
         </portal>
     </div>
@@ -140,6 +141,10 @@
         },
 
         computed: {
+            fileSrc(file) {
+                return this.file.url + '?w=1500&h=1500&fit=max&t=' + this.$moment.utc(this.file.updated_at)
+            },
+
             isImage() {
                 return this.type === 'image'
             },
