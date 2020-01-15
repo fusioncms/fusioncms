@@ -10,6 +10,7 @@
  */
 
 define('LARAVEL_START', microtime(true));
+define('FUSION_VERSION', '6.0.0-beta.2');
 
 /*
 |--------------------------------------------------------------------------

@@ -110,16 +110,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.132.4",
+            "version": "3.132.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5dcf2fb87a3cde87a5fa0b9df03b8688dcfc4f19"
+                "reference": "276241cf558f883b639ecdefd0e9912f0df20b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5dcf2fb87a3cde87a5fa0b9df03b8688dcfc4f19",
-                "reference": "5dcf2fb87a3cde87a5fa0b9df03b8688dcfc4f19",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/276241cf558f883b639ecdefd0e9912f0df20b8e",
+                "reference": "276241cf558f883b639ecdefd0e9912f0df20b8e",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-01-13T19:11:21+00:00"
+            "time": "2020-01-14T19:16:27+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -1929,16 +1929,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.10.1",
+            "version": "v6.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14"
+                "reference": "17af23842c259edcfd8c5b9e6a7c86596e040034"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14",
-                "reference": "fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/17af23842c259edcfd8c5b9e6a7c86596e040034",
+                "reference": "17af23842c259edcfd8c5b9e6a7c86596e040034",
                 "shasum": ""
             },
             "require": {
@@ -2072,7 +2072,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-01-08T21:17:42+00:00"
+            "time": "2020-01-14T15:12:09+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2461,16 +2461,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "2533c389fd2a7573d4f7be279b1c33cf941c8dfc"
+                "reference": "74e08793c41c72c8ed7a22df803f2ffcaf77efb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2533c389fd2a7573d4f7be279b1c33cf941c8dfc",
-                "reference": "2533c389fd2a7573d4f7be279b1c33cf941c8dfc",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/74e08793c41c72c8ed7a22df803f2ffcaf77efb7",
+                "reference": "74e08793c41c72c8ed7a22df803f2ffcaf77efb7",
                 "shasum": ""
             },
             "require": {
@@ -2528,7 +2528,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2020-01-09T22:41:09+00:00"
+            "time": "2020-01-15T03:32:39+00:00"
         },
         {
             "name": "league/commonmark-ext-table",
@@ -7065,16 +7065,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.7.0",
+            "version": "2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "4c97f814aa2f0dd4d5bedc89181c10ef12c004c5"
+                "reference": "fff6f1e4f36be0e0d0b84d66b413d9dcb0c49130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/4c97f814aa2f0dd4d5bedc89181c10ef12c004c5",
-                "reference": "4c97f814aa2f0dd4d5bedc89181c10ef12c004c5",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/fff6f1e4f36be0e0d0b84d66b413d9dcb0c49130",
+                "reference": "fff6f1e4f36be0e0d0b84d66b413d9dcb0c49130",
                 "shasum": ""
             },
             "require": {
@@ -7122,7 +7122,7 @@
                 "throwable",
                 "whoops"
             ],
-            "time": "2019-12-29T10:00:00+00:00"
+            "time": "2020-01-15T10:00:00+00:00"
         },
         {
             "name": "fzaninotto/faker",
