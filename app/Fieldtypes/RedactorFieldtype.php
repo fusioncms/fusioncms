@@ -21,7 +21,7 @@ class RedactorFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $icon = 'h1';
+    public $icon = 'text-height';
 
     /**
      * @var string
