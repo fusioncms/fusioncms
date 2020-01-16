@@ -1,6 +1,6 @@
 <template>
     
-    <div class="card">
+    <div class="analytics card">
         <div class="card__body" v-if="isValid">
             <div class="flex flex-wrap justify-around">
                 <div>

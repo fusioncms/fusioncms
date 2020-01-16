@@ -73,7 +73,7 @@ class FieldsetController extends Controller
         activity()
             ->performedOn($fieldset)
             ->withProperties([
-                'icon' => 'ballot',
+                'icon' => 'list',
                 'link' => 'fieldsets/edit/' . $fieldset->id,
             ])
             ->log('Created fieldset (:subject.name)');
@@ -99,7 +99,7 @@ class FieldsetController extends Controller
         activity()
             ->performedOn($fieldset)
             ->withProperties([
-                'icon' => 'ballot',
+                'icon' => 'list',
                 'link' => 'fieldsets/edit/' . $fieldset->id,
             ])
             ->log('Updated fieldset (:subject.name)');
@@ -120,7 +120,7 @@ class FieldsetController extends Controller
         activity()
             ->performedOn($fieldset)
             ->withProperties([
-                'icon' => 'ballot',
+                'icon' => 'list',
             ])
             ->log('Deleted fieldset (:subject.name)');
 
