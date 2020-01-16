@@ -20,16 +20,6 @@ use App\Services\Builders\Form as Builder;
 
 class ResponseController extends Controller
 {
-    /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        //
-    ];
-
     public function index($slug = null)
     {
         if (! is_null($slug)) {
@@ -43,10 +33,10 @@ class ResponseController extends Controller
         $responses = collect();
 
         foreach ($forms as $form) {
-            $responses->merge($form->responses);
+            $responses = $responses->merge($form->responses);
         }
 
-        return AllResponseResource::collection($responses);
+        return ResponseResource::collection($responses);
     }
 
     /**

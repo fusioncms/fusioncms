@@ -18,6 +18,7 @@ use Facades\FieldFactory;
 use Facades\SectionFactory;
 use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -27,11 +28,6 @@ class FormTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Called before each test is run...
-     *
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -39,11 +35,7 @@ class FormTest extends TestCase
         $this->handleValidationExceptions();
     }
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group form
-     */
+    /** @test */
     public function a_user_with_permissions_can_create_a_form()
     {        
         $this->actingAs($this->admin, 'api');
@@ -53,6 +45,12 @@ class FormTest extends TestCase
         $response = $this->json('POST', '/api/forms', $form);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseHas('forms', [
+            'name'   => $form['name'],
+            'handle' => $form['handle'],
+            'slug'   => $form['slug'],
+        ]);
     }
 
     /** @test */
@@ -67,11 +65,7 @@ class FormTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group form
-     */
+    /** @test */
     public function a_user_without_permissions_can_not_create_a_form()
     {
         $this->expectException(AuthenticationException::class);
@@ -79,16 +73,19 @@ class FormTest extends TestCase
         $response = $this->json('POST', '/api/forms', [
             'name'   => 'Test',
             'handle' => 'test',
+            'slug'   => 'test',
         ]);
 
         $response->assertStatus(422);
+
+        $this->assertDatabaseMissing('forms', [
+            'name'   => 'Test',
+            'handle' => 'test',
+            'slug'   => 'test',
+        ]);
     }
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group form
-     */
+    /** @test */
     public function a_user_with_permissions_can_update_an_existing_form()
     {
         $this->actingAs($this->admin, 'api');
@@ -101,5 +98,44 @@ class FormTest extends TestCase
         $response = $this->json('PATCH', '/api/forms/'.$form->id, $data);
 
         $response->assertStatus(200);
+
+        $this->assertDatabaseHas('forms', [
+            'name'        => $data['name'],
+            'description' => $data['description']
+        ]);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_delete_an_existing_form()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form = FormFactory::create();
+
+        $response = $this->json('DELETE', '/api/forms/'.$form->id);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('forms', [
+            'name' => $form->name
+        ]);
+    }
+
+    /** @test */
+    public function a_guest_can_submit_a_form_response()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form = FormFactory::withName('Contact Us')->thatCollectsIPs()->create();
+
+        // This request is not authenticated as the admin, as the admin
+        // login was issued through the api guard
+        $response = $this->post($form->path());
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('form_'.$form->handle, [
+            'identifiable_ip_address' => '127.0.0.1'
+        ]);
     }
 }

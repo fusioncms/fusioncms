@@ -3,6 +3,7 @@
 use App\Models\Form;
 use App\Models\Fieldset;
 use App\Contracts\Factory;
+use Illuminate\Support\Str;
 
 class FormFactory implements Factory
 {
@@ -33,7 +34,8 @@ class FormFactory implements Factory
 
         if ($this->name) {
             $overrides['name']   = $this->name;
-            $overrides['handle'] = str_handle($this->name);
+            $overrides['handle'] = Str::snake($this->name);
+            $overrides['slug']   = Str::slug($this->name);
         }
 
         $form = factory(Form::class)->create($overrides);

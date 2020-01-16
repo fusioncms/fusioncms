@@ -13,11 +13,11 @@
                 <p-card>
                     <div class="list">
                         <span class="list--separator pt-0">Inboxes</span>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'inbox']" fixed-width class="mr-2"></fa-icon> Inbox</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'star']" fixed-width class="mr-2"></fa-icon> Starred</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'history']" fixed-width class="mr-2"></fa-icon> Archived</a>
-                        <a href="#" class="list--item leading-loose"><fa-icon :icon="['fas', 'trash-alt']" fixed-width class="mr-2"></fa-icon> Trash</a>
+                        <a href="#" class="list--item leading-loose" :class="{'router-link-active': inbox == 'all'}" @click.prevent="inbox = 'all'"><fa-icon :icon="['fas', 'inbox']" fixed-width class="mr-2"></fa-icon> Inbox</a>
+                        <a href="#" class="list--item leading-loose" :class="{'router-link-active': inbox == 'starred'}" @click.prevent="inbox = 'starred'"><fa-icon :icon="['fas', 'star']" fixed-width class="mr-2"></fa-icon> Starred</a>
+                        <a href="#" class="list--item leading-loose" :class="{'router-link-active': inbox == 'closed'}" @click.prevent="inbox = 'closed'"><fa-icon :icon="['fas', 'check-circle']" fixed-width class="mr-2"></fa-icon> Closed</a>
+                        <a href="#" class="list--item leading-loose" :class="{'router-link-active': inbox == 'archived'}" @click.prevent="inbox = 'archived'"><fa-icon :icon="['fas', 'history']" fixed-width class="mr-2"></fa-icon> Archived</a>
+                        <a href="#" class="list--item leading-loose" :class="{'router-link-active': inbox == 'trash'}" @click.prevent="inbox = 'trash'"><fa-icon :icon="['fas', 'trash-alt']" fixed-width class="mr-2"></fa-icon> Trash</a>
                     </div>
 
                     <div class="list" v-if="forms.length == 0">
@@ -29,7 +29,7 @@
                     <div class="list" v-else>
                         <span class="list--separator">Forms</span>
 
-                        <a href="#" class="list--item leading-loose" v-for="form in forms" :key="form.handle"><fa-icon :icon="['fas', 'paper-plane']" fixed-width class="mr-2"></fa-icon> {{ form.name }}</a>
+                        <a href="#" class="list--item leading-loose" v-for="form in forms" :key="form.handle" :class="{'router-link-active': inbox == 'form-' + form.slug}" @click.prevent="inbox = 'form-' + form.slug"><fa-icon :icon="['fas', 'paper-plane']" fixed-width class="mr-2"></fa-icon> {{ form.name }}</a>
                     </div>
                 </p-card>
             </div>
@@ -38,7 +38,7 @@
                 <p-card no-body>
                     <div class="flex">
                         <div class="border-r leading-none" style="width: 350px;">
-                            <div class="border-r-4" v-for="n in 10" :key="n" :class="{'border-primary-400': (n == 1), 'border-gray-200': (n > 1)}">
+                            <div class="border-r-4" v-for="(response, index) in responses" :key="response.id" :class="{'border-primary-400': (index === 0), 'border-gray-200': (index > 0)}">
                                 <div class="pl-3 pr-4 py-6 border-t border-gray-200">
                                     <div class="flex">
 
@@ -47,15 +47,15 @@
                                             <fa-icon :icon="['far', 'check-circle']" fixed-width></fa-icon>
                                         </div>
 
-                                        <div>
+                                        <div class="w-full">
                                             <div class="flex justify-between items-center mb-2">
-                                                <b>space.is.kinda.cool@spac...</b>
-                                                <span class="text-gray-600 text-sm">1 day ago</span>
+                                                <b>{{ response.identifiable_email_address }}</b>
+                                                <span class="block text-gray-600 text-sm">1 day ago</span>
                                             </div>
 
                                             <div>
-                                                <span class="block text-gray-800 mb-2">Re: Request A Quote</span>
-                                                <span class="block text-gray-500 leading-tight text-sm">Lorem ipsum dolor sit amet consectetur elit adipisicing. Voluptates nostrum ut labore et...</span>
+                                                <span class="block text-gray-800">Re: {{ response.form.name }}</span>
+                                                <!-- <span class="block text-gray-500 leading-tight text-sm">Lorem ipsum dolor sit amet consectetur elit adipisicing. Voluptates nostrum ut labore et...</span> -->
                                             </div>
                                         </div>
                                     </div>
@@ -151,17 +151,35 @@
 
         data() {
             return {
+                inbox: 'all',
                 forms: [],
                 responses: [],
+                response: {},
+                selected: {
+                    id: null,
+                    form_id: null,
+                },
             }
+        },
+
+        methods: {
+            fetchResponses() {
+                
+            },
+
+            fetchResponse() {
+
+            },
         },
 
         beforeRouteEnter(to, from, next) {
             axios.all([
                 axios.get('/api/forms'),
-            ]).then(axios.spread(function (forms) {
+                axios.get('/api/inbox'),
+            ]).then(axios.spread(function (forms, inbox) {
                 next(function(vm) {
-                    vm.forms = forms.data.data
+                    vm.forms = forms.data.data,
+                    vm.responses = inbox.data.data
                 })
             }))
         },
