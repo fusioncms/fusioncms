@@ -21,7 +21,7 @@ class TextareaFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $icon = 'pencil';
+    public $icon = 'pencil-alt';
 
     /**
      * @var string

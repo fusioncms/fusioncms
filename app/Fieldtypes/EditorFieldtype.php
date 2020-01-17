@@ -21,7 +21,7 @@ class EditorFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $icon = 'plus-hexagon';
+    public $icon = 'plus-square';
 
     /**
      * @var string
