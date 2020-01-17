@@ -37,13 +37,13 @@ class InboxController extends Controller
                 $responses = $form->responses;
                 break;
             default:
-                $forms     = Form::get();
+                $forms = Form::get();
 
                 foreach ($forms as $form) {
                     $responses = $responses->merge($form->responses);
                 }
         }
 
-        return InboxResource::collection($responses);
+        return InboxResource::collection($responses->sortByDesc('created_at'));
     }
 }

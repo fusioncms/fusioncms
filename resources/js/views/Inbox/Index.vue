@@ -38,8 +38,8 @@
                 <p-card no-body>
                     <div class="flex">
                         <div class="border-r leading-none" style="width: 350px;">
-                            <div class="border-r-4" v-for="(response, index) in responses" :key="response.id" :class="{'border-primary-400': (index === 0), 'border-gray-200': (index > 0)}">
-                                <div class="pl-3 pr-4 py-6 border-t border-gray-200">
+                            <a href="#" @click.prevent="select(response)" class="border-r-4 block hover:bg-gray-100 text-gray-700 hover:text-gray-900" v-for="response in responses" :key="response.id" :class="{'border-primary-400': isSelected(response), 'border-gray-200': ! isSelected(response)}">
+                                <div class="pl-3 pr-4 py-6 border-b border-gray-200">
                                     <div class="flex">
 
                                         <div class="mr-3 flex flex-col">
@@ -60,10 +60,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
-                        <div class="leading-none flex-1">
+                        <div class="leading-none flex-1" v-if="response.id">
                             <div class="flex flex-row-reverse border-b py-4 px-6 justify-between items-center">
                                 <div>
                                     <fa-icon :icon="['fas', 'check-circle']" fixed-width class="mr-3"></fa-icon>
@@ -73,14 +73,14 @@
                                 </div>
 
                                 <div class="text-gray-500 flex items-center">
-                                    <fa-icon :icon="['fas', 'server']" fixed-width></fa-icon> <span class="text-xs font-mono ml-2">192.168.10.10</span>
+                                    <fa-icon :icon="['fas', 'server']" fixed-width></fa-icon> <span class="text-xs font-mono ml-2">{{ response.identifiable_ip_address }}</span>
                                 </div>
                             </div>
 
                             <div class="flex border-b p-6 tracking-wide justify-between items-center">
                                 <div class="flex flex-col text-lg">
-                                    <b class="mb-2">space.is.kinda.cool@spacex.com</b>
-                                    <span>Re: Request A Quote</span>
+                                    <b class="mb-2">{{ response.identifiable_email_address }}</b>
+                                    <span>Re: {{ response.form.name }}</span>
                                 </div>
 
                                 <div class="text-sm">
@@ -89,48 +89,17 @@
                             </div>
                             
                             <div class="p-6 leading-loose">
-                                <div class="form__group">
-                                    <label for="email" class="form__label">Email</label>
-                                    <div id="email">
-                                        <p><a href="#">space.is.kinda.cool@spacex.com</a></p>
-                                    </div>
-                                </div>
-
-                                <div class="form__group">
-                                    <label for="name" class="form__label">Name</label>
-                                    <div id="name">
-                                        <p>Elon Musk</p>
-                                    </div>
-                                </div>
-
-                                <div class="form__group">
-                                    <label for="website" class="form__label">Existing Website (if applicable)</label>
-                                    <div id="website">
-                                        <p><a href="https://spacex.com">https://spacex.com</a></p>
-                                    </div>
-                                </div>
-
-                                <div class="form__group">
-                                    <label for="budget" class="form__label">Budget</label>
-                                    <div id="budget">
-                                        <p>$100,000 — $300,000</p>
-                                    </div>
-                                </div>
-
-                                <div class="form__group">
-                                    <label for="industry" class="form__label">Industry</label>
-                                    <div id="industry">
-                                        <p>Aerospace</p>
-                                    </div>
-                                </div>
-
-                                <div class="form__group">
-                                    <label for="message" class="form__label">Message</label>
-                                    <div id="message">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A erat nam at lectus urna. Morbi tristique senectus et netus et. Aliquet nec ullamcorper sit amet risus nullam eget. Mauris sit amet massa vitae. Quis auctor elit sed vulputate mi sit. Massa ultricies mi quis hendrerit. Proin fermentum leo vel orci porta non pulvinar neque laoreet. Nisi vitae suscipit tellus mauris a diam maecenas. Hac habitasse platea dictumst quisque sagittis purus sit. Augue lacus viverra vitae congue. Elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Nunc aliquet bibendum enim facilisis gravida neque convallis a cras. Facilisis gravida neque convallis a.</p>
+                                <div class="form__group" v-for="field in fields" :key="field.handle">
+                                    <label :for="field.handle" class="form__label">{{ field.name }}</label>
+                                    <div :id="field.handle">
+                                        <p>{{ response[field.handle] }}</p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="leading-none flex-1 p-6" v-else>
+                            <p>Select a response to get started</p>
                         </div>
                     </div>
                 </p-card>
@@ -155,6 +124,7 @@
                 forms: [],
                 responses: [],
                 response: {},
+                fields: [],
                 selected: {
                     id: null,
                     form_id: null,
@@ -163,19 +133,63 @@
         },
 
         methods: {
-            fetchResponses() {
-                
+            select(response) {
+                this.selected = {
+                    id: response.id,
+                    form_id: response.form.id
+                }
+
+                this.fetchResponse()
+            },
+
+            isSelected(response) {
+                return this.selected.id == response.id && this.selected.form_id == response.form.id
             },
 
             fetchResponse() {
+                console.log('fetching response...')
 
+                let form = _.find(this.forms, (form) => {
+                    return form.id == this.selected.form_id
+                })
+
+                console.log(form)
+
+                axios.get('/api/forms/' + form.slug + '/responses/' + this.selected.id).then((response) => {
+                    this.response = response.data.data
+                    this.fields   = []
+
+                    let sections = this.response.form.fieldset.sections
+
+                    _.each(sections, (section) => {
+                        _.each(section.fields, (field) => {
+                            this.fields.push(field)
+                        })
+                    })
+
+                    console.log(this.fields)
+                })
+
+                    // this.fields = _.flatMap(this.response, (response) => {
+                    //     let fields = []
+
+                    //     _.each(response.form.fieldset.sections, (section) => {
+                    //         console.log('section', section)
+                    //         // _.each(section.fields, (field) => {
+                    //         //     fields.push(field)
+                    //         // })
+                    //     })
+
+                    //     return fields
+                    // })
+                // })
             },
         },
 
         beforeRouteEnter(to, from, next) {
             axios.all([
                 axios.get('/api/forms'),
-                axios.get('/api/inbox'),
+                axios.get('/api/inbox')
             ]).then(axios.spread(function (forms, inbox) {
                 next(function(vm) {
                     vm.forms = forms.data.data,

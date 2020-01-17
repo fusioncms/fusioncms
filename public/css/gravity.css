@@ -5360,9 +5360,22 @@ table td::before {
   width: 2.5em;
 }
 
-.datetime__input {
+.datetime__input.form-control {
   -webkit-box-flex: 0;
           flex: 0 0 200px;
+  padding-left: 2.25rem;
+}
+
+.datetime__input.form-control:-moz-read-only {
+  background-color: inherit !important;
+}
+
+.datetime__input.form-control:read-only {
+  background-color: inherit !important;
+}
+
+.datetime__clear-text {
+  display: none;
 }
 
 .flatpickr-calendar {

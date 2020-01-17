@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="title">
-            <app-title :icon="collection.icon || 'pencil'">Edit {{ collection.reference_singular }}</app-title>
+            <app-title :icon="collection.icon || 'pencil-alt'">Edit {{ collection.reference_singular }}</app-title>
         </portal>
         
         <portal to="subtitle">{{ collection.description }}</portal>
@@ -80,7 +80,7 @@
                         <div v-else class="text-center">
                             <p>You should configure your Matrix Collection with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
 
-                            <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your collection</router-link>
+                            <router-link class="button items-center" :to="'/matrices/manage/' + collection.id"><fa-icon :icon="['fas', 'edit']" class="mr-2 text-sm"></fa-icon> Manage your collection</router-link>
                         </div>
                     </p-card>
                 </form>

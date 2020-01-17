@@ -71,7 +71,7 @@
 
 		            <div v-else class="text-center">
 		                <p>You should configure your Taxonomy with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
-		                <router-link v-if="taxonomy.id" class="button items-center" :to="{ name: 'taxonomies.edit', params: { taxonomy: taxonomy.id }}"><fa-icon :icon="['fas', 'atom-alt']" class="mr-2 text-sm"></fa-icon> Manage your taxonomy</router-link>
+		                <router-link v-if="taxonomy.id" class="button items-center" :to="{ name: 'taxonomies.edit', params: { taxonomy: taxonomy.id }}"><fa-icon :icon="['fas', 'edit']" class="mr-2 text-sm"></fa-icon> Manage your taxonomy</router-link>
 		            </div>
 		        </p-card>
 		    </form>

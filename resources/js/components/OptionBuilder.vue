@@ -40,7 +40,7 @@
                                     <b>{{ option.label }}</b> <span class="ml-3 text-xs text-gray-600 bg-gray-200 px-2 py-1">{{ option.value }}</span>
                                 </div>
 
-                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="edit(index)"><fa-icon icon="pencil"></fa-icon></button>
+                                <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="edit(index)"><fa-icon icon="pencil-alt"></fa-icon></button>
                                 <button class="p-2 text-gray-400 focus:outline-none" @click.prevent="destroy(index)"><fa-icon icon="trash-alt"></fa-icon></button>
                             </div>
 

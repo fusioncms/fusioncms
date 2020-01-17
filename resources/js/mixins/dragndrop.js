@@ -10,11 +10,17 @@ export default {
 		}
 	},
 
+    computed: {
+        ...mapGetters({
+            view: 'filemanager/getView',
+        })
+    },
+
 	mounted() {
 	   const container = document.querySelector('.gallery-container')
 
         this.droppable = new Droppable(container, {
-            draggable: '.gallery--draggable',
+            draggable: '.gallery--draggable .gallery-item--selected',
             dropzone:  '.gallery--dropzone',
             delay: 250,
             mirror: {
@@ -64,16 +70,6 @@ export default {
 
     destroy() {
         this.droppable.destroy()
-    },
-
-    computed: {
-        ...mapGetters({
-            currentDirectory: 'filemanager/getCurrentDirectory',
-            parentDirectory:  'filemanager/getParentDirectory',
-            directories:      'filemanager/getDirectories',
-            files:            'filemanager/getFiles',
-            view:             'filemanager/getView',
-        })
     },
 
     methods: {
