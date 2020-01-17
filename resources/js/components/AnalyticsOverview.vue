@@ -3,7 +3,7 @@
     <div class="analytics card">
         <div class="card__body" v-if="isValid">
             <div class="flex flex-wrap justify-around">
-                <div>
+                <div class="w-1/2 md:w-auto">
                     <p-tooltip>
                         <template>
                             <span class="border-b-4 block">Unique Visitors</span>
@@ -13,10 +13,10 @@
                             all pages of the site.
                         </template>
                     </p-tooltip>
-                    <span class="block text-5xl font-bold">{{ totalVisitors }}</span>
+                    <span class="block text-3xl xl:text-5xl font-bold">{{ totalVisitors }}</span>
                 </div>
                 
-                <div>
+                <div class="w-1/2 md:w-auto">
                     <p-tooltip>
                         <template>
                             <span class="border-b-4 block">Total Page Views</span>
@@ -25,10 +25,10 @@
                             Total number of pages viewed by all visitors
                         </template>
                     </p-tooltip>
-                    <span class="block text-5xl font-bold">{{ totalPageViews }}</span>
+                    <span class="block text-3xl xl:text-5xl font-bold">{{ totalPageViews }}</span>
                 </div>
 
-                <div>
+                <div class="w-1/2 md:w-auto">
                     <p-tooltip>
                         <template>
                             <span class="border-b-4 block">Bounce Rate</span>
@@ -38,10 +38,10 @@
                             leaves after viewing a single page
                         </template>
                     </p-tooltip>
-                    <span class="block text-5xl font-bold">{{ bounceRate }}</span>
+                    <span class="block text-3xl xl:text-5xl font-bold">{{ bounceRate }}</span>
                 </div>
 
-                <div>
+                <div class="w-1/2 md:w-auto">
                     <p-tooltip>
                         <template>
                             <span class="border-b-4 block">Session Duration</span>
@@ -51,7 +51,7 @@
                             spends on the site before leaving
                         </template>
                     </p-tooltip>
-                    <span class="block text-5xl font-bold">{{ sessionDuration }}</span>
+                    <span class="block text-3xl xl:text-5xl font-bold">{{ sessionDuration }}</span>
                 </div>
             </div>
         </div>
