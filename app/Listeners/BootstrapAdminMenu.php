@@ -42,7 +42,7 @@ class BootstrapAdminMenu
                 foreach ($matrices as $matrix) {
                     if ($matrix->has('children') and $matrix->children->count()) {
                         $menu->add($matrix->name, '#')->data([
-                            'icon'  => $matrix->icon ?: 'pencil',
+                            'icon'  => $matrix->icon ?: 'pencil-alt',
                         ]);
 
                         $menu->{Str::camel($matrix->name)}->add($matrix->reference_plural, '#')->data([
@@ -57,7 +57,7 @@ class BootstrapAdminMenu
                     } else {
                         $menu->add($matrix->name)->data([
                             'to'   => $matrix->adminPath,
-                            'icon' => $matrix->icon ?: 'pencil',
+                            'icon' => $matrix->icon ?: 'pencil-alt',
                         ]);
                     }
 
