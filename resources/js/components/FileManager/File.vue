@@ -1,6 +1,12 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
-        <div class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click="select" @dblclick="preview">
+        <div
+            class="gallery-item"
+            :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}"
+            @dblclick="preview"
+            :draggable="true"
+            :data-file="file.id"
+        >
             <div v-if="isImage">
                 <p-img
                     v-if="! small"
@@ -10,6 +16,7 @@
                     :width="200"
                     :height="200"
                     :alt="file.description"
+                    :draggable="false"
                     class="gallery-image">
                 </p-img>
 
@@ -21,6 +28,7 @@
                     :width="75"
                     :height="75"
                     :alt="file.description"
+                    :draggable="false"
                     class="gallery-image">
                 </p-img>
             </div>
@@ -33,6 +41,7 @@
                     :width="200"
                     :height="200"
                     :alt="file.description"
+                    :draggable="false"
                     class="gallery-image">
                 </p-img>
 
@@ -43,6 +52,7 @@
                     :width="75"
                     :height="75"
                     :alt="file.description"
+                    :draggable="false"
                     class="gallery-image">
                 </p-img>
             </div>
@@ -61,7 +71,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'file-manager-file',
@@ -166,14 +176,6 @@
         },
 
         methods: {
-            ...mapActions({
-                toggleSelection: 'filemanager/toggleFileSelection',
-            }),
-
-            select() {
-                this.toggleSelection(this.file.id)
-            },
-
             preview() {
                 this.$router.push({ path: '/files/preview/' + this.file.uuid })
             },
@@ -200,10 +202,6 @@
 
                         toast('The file\'s name is required', 'warning')
                     } else {
-                        // let form = new FormData()
-
-                        // form.append('name', this.file.name)
-
                         axios.patch('/api/files/' + this.file.id, {
                             name: this.file.name
                         }).then((response) => {

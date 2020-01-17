@@ -24,7 +24,8 @@ export default {
         uploadsVisible: false,
         uploadsMinimized: false,
         fileUploads: [],
-        dropzoneVisible: false
+        dropzoneVisible: false,
+        dropzoneEnabled: true
     },
 
     getters: {
@@ -105,7 +106,7 @@ export default {
         },
 
         getDropzoneVisible(state) {
-            return state.dropzoneVisible
+            return state.dropzoneVisible && state.dropzoneEnabled
         }
     },
 
@@ -211,8 +212,13 @@ export default {
         addFileUpload(state, file) {
             state.fileUploads.push(file)
         },
+        
         setDropzoneVisible(state, value) {
             state.dropzoneVisible = value
+        },
+
+        setDropzoneEnabled(state, value) {
+            state.dropzoneEnabled = value
         },
     },
 
@@ -307,7 +313,7 @@ export default {
             axios.all([
                 axios.post('/api/files/move', {
                     directory: payload.directory,
-                    files:     payload.files
+                    moving:    payload.moving
                 })
             ]).then(axios.spread((response) =>  {
                 dispatch('fetchFilesAndDirectories')
@@ -372,6 +378,10 @@ export default {
 
         setDropzoneVisible(context, value) {
             context.commit('setDropzoneVisible', value)
+        },
+
+        setDropzoneEnabled(context, value) {
+            context.commit('setDropzoneEnabled', value)
         },
 
         toggleView(context) {
