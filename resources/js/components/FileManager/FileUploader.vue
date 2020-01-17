@@ -12,7 +12,7 @@
           <vue-dropzone ref="dropzone_element" id="dropzone" 
               :options="dropzoneOptions" 
               @vdropzone-mounted="configureDZ"
-              @vdropzone-drag-leave="setDropzoneVisible(false)" 
+              @vdropzone-drag-leave="setDropzoneVisible(false)"
               @vdropzone-success="dzUploaded" 
               @vdropzone-queue-complete="dzComplete"
               @vdropzone-file-added="addFileUpload"

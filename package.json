@@ -59,6 +59,7 @@
         "brace": "^0.11.1",
         "codemirror": "^5.49.2",
         "cronstrue": "^1.84.0",
+        "dragselect": "^1.13.1",
         "dropzone": "^5.5.1",
         "flatpickr": "^4.6.2",
         "form-data": "^2.3.3",

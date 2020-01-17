@@ -255,6 +255,14 @@
 </script>
 
 <style>
+    .gallery-container {
+        /* Disable text selection */
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
     .dropzone-highlight {
         animation: pulse 1s infinite;
     }
