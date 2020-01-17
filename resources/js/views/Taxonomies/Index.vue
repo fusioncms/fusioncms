@@ -29,7 +29,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="table.record.slug">
+                        <p-dropdown right :key="'taxonomy_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">
