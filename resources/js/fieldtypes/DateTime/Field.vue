@@ -2,7 +2,7 @@
   <div class="datetime">
     <label :for="field.handle" class="form__label">{{field.name}}</label>
     <div class="flex items-center relative">
-      <fa-icon icon="calendar-alt" class="ml-3 absolute z-10"></fa-icon>
+      <fa-icon icon="calendar-alt" class="ml-3 absolute z-10 pointer-events-none"></fa-icon>
       <input :id="'flatpickr_' + field.handle"
           :name="field.handle"
           :help="field.help"
