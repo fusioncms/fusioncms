@@ -11,18 +11,6 @@
   }
 }
 
-.side-container .datetime {
-  &__input {
-    flex: 1 1 100%;
-  }
-  &__button {
-    display: none;
-  }
-  &__clear-text {
-    display: inline;
-  }
-}
-
 .flatpickr-calendar {
   @apply .border-gray-400;
   .flatpickr-months {
