@@ -9,7 +9,7 @@
         </div>
 
         <!-- Directory -->
-        <div v-if="currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3 gallery--dropzone" :data-dropzone="parentDirectory">
+        <div v-if="currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3">
             <div class="w-1/5">
                 <file-manager-directory
                     small
@@ -22,7 +22,7 @@
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
         </div>
-        <div v-if="! currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3 gallery--dropzone" :data-dropzone="false">
+        <div v-if="! currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3">
             <div class="w-1/5">
                 <file-manager-directory
                     small
@@ -35,7 +35,7 @@
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
         </div>
-        <div v-for="directory in directories" :key="directory.id" class="flex p-3 gallery--dropzone" :data-dropzone="directory.id">
+        <div v-for="directory in directories" :key="directory.id" class="flex p-3">
             <div class="w-1/5">
                 <file-manager-directory
                     small
@@ -49,8 +49,8 @@
         </div>
 
         <!-- Files -->
-        <div v-for="file in files" :key="file.uuid" class="flex p-3 gallery--dropzone draggable-dropzone--occupied">
-            <div class="flex w-full gallery--draggable" :data-draggable="file.id">
+        <div v-for="file in files" :key="file.uuid" class="flex p-3">
+            <div class="flex w-full">
                 <div class="w-1/5"><file-manager-file small :file="file"></file-manager-file></div>
                 <div class="w-1/5">{{ file.name }}</div>
                 <div class="w-1/5">{{ bytes(file.bytes) }}</div>
@@ -63,7 +63,10 @@
 
 <script>
     export default {
-        mixins: [ require('../../../mixins/dragndrop').default ],
+        mixins: [
+            require('../../../mixins/fileview').default,
+            require('../../../mixins/dragnselect').default
+        ],
 
         methods: {
             lastModified(timestamp) {

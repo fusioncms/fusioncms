@@ -1,20 +1,18 @@
 <template>
   <div class="datetime">
     <label :for="field.handle" class="form__label">{{field.name}}</label>
-    <div class="flex">
+    <div class="flex items-center relative">
+      <fa-icon icon="calendar-alt" class="ml-3 absolute z-10 pointer-events-none"></fa-icon>
       <input :id="'flatpickr_' + field.handle"
           :name="field.handle"
           :help="field.help"
           :placeholder="field.settings.placeholder"
           v-model="datetime"
-          class="datetime__input form__control mr-2">
-      <a href="#" class="datetime__button button button--primary px-4 mr-2" @click.prevent="flatpickr.open()" title="Open date selector">
-        <fa-icon icon="calendar-alt"></fa-icon>
-      </a>
-      <a v-if="datetime" href="#" class="datetime__clear button px-4" @click.prevent="flatpickr.clear()" title="Clear date">
-        <fa-icon icon="eraser"></fa-icon>
-      </a>
+          class="datetime__input form__control mr-2 background-inherit">
     </div>
+    <a v-if="datetime" href="#" class="datetime__clear text-sm pl-1" @click.prevent="flatpickr.clear()" title="Clear date">
+      Clear date
+    </a>
     <div class="form__control--meta" v-if="field.help">
       <div class="form__help">
         <span v-html="field.help"></span>
@@ -83,7 +81,7 @@
         altFormat: this.field.settings.format || 'Y-m-d',
         minuteIncrement: 1,
         allowInput: false,
-        clickOpens: false,
+        clickOpens: true,
         defaultDate: this.value,
         onChange: this.emitEvent
       })
