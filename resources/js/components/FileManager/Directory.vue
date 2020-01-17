@@ -1,8 +1,21 @@
 <template>
     <div class="gallery-wrapper flex-auto" :class="{'gallery-wrapper--small': small}">
         <div
-            class="gallery-item" :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}" @click="select" @dblclick="open">
-            <p-img src="/img/folder.svg" :width="200" :height="200" aspect-ratio :alt="name" background-color="#ffffff" class="gallery-image"></p-img>
+            class="gallery-item"
+            :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}"
+            @dblclick="open"
+            :data-directory="directory.id"
+            :draggable="true">
+            <p-img
+                src="/img/folder.svg"
+                :width="200"
+                :height="200"
+                aspect-ratio
+                :alt="name"
+                background-color="#ffffff"
+                class="gallery-image gallery--dropzone"
+                :draggable="false">
+            </p-img>
         </div>
 
         <div class="leading-tight mt-2" v-if="! small">
@@ -66,19 +79,12 @@
 
         methods: {
             ...mapActions({
-                toggleSelection: 'filemanager/toggleDirectorySelection',
                 setCurrentDirectory: 'filemanager/setCurrentDirectory',
                 setParentDirectory: 'filemanager/setParentDirectory',
                 clearFileSelection: 'filemanager/clearFileSelection',
                 clearDirectorySelection: 'filemanager/clearDirectorySelection',
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
             }),
-
-            select() {
-                if (! this.unselectable) {
-                    this.toggleSelection(this.directory.id)
-                }
-            },
 
             open() {
                 this.setCurrentDirectory(this.directory.id)
