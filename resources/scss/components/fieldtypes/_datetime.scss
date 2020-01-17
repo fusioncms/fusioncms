@@ -1,6 +1,25 @@
 .datetime {
-  &__input {
+  &__input.form-control {
     flex: 0 0 200px;
+    padding-left: 2.25rem;
+    &:read-only {
+      background-color: inherit!important;
+    }
+  }
+  &__clear-text {
+    display: none;
+  }
+}
+
+.side-container .datetime {
+  &__input {
+    flex: 1 1 100%;
+  }
+  &__button {
+    display: none;
+  }
+  &__clear-text {
+    display: inline;
   }
 }
 
