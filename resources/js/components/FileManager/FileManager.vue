@@ -11,6 +11,8 @@
                 
                 <p-button @click.prevent="clearSelection">Uncheck All</p-button>
                 <p-button v-modal:move-file>Move</p-button>
+                <p-button @click.stop v-show="selectedDirectory" v-modal:rename-directory>Rename</p-button>
+                <p-button @click.self v-show="selectedFile" v-modal:rename-file>Rename</p-button>
             </div>
 
             <div class="inline-block mr-4">
@@ -89,9 +91,11 @@
 
         <portal to="modals">
             <new-folder-modal></new-folder-modal>
-            
             <move-file-modal></move-file-modal>
-
+            
+            <rename-directory-modal :directory="selectedDirectory"></rename-directory-modal>
+            <rename-file-modal :file="selectedFile"></rename-file-modal>
+            
             <delete-selected-files-modal></delete-selected-files-modal>
         </portal>
     </div>
@@ -122,13 +126,17 @@
 
         computed: {
             ...mapGetters({
+                selectedDirectories: 'filemanager/getSelectedDirectories',
+                selectedFiles: 'filemanager/getSelectedFiles',
                 currentPage: 'filemanager/getCurrentPage',
                 fileUploads: 'filemanager/getFileUploads',
+                directories: 'filemanager/getDirectories',
                 hasSelection: 'filemanager/hasSelection',
                 totalPages: 'filemanager/getTotalPages',
                 direction: 'filemanager/getDirection',
                 display: 'filemanager/getDisplay',
                 loading: 'filemanager/getLoading',
+                files: 'filemanager/getFiles',
                 sort: 'filemanager/getSort',
                 view: 'filemanager/getView',
             }),
@@ -141,6 +149,22 @@
                 set(value) {
                     this.$store.commit('filemanager/setSearch', value)
                 }
+            },
+
+            selectedDirectory() {
+                if (this.selectedDirectories.length == 1 && this.selectedFiles.length == 0) {
+                    return _.find(this.directories, ['id', this.selectedDirectories[0]])
+                }
+
+                return false
+            },
+
+            selectedFile() {
+                if (this.selectedFiles.length == 1 && this.selectedDirectories.length == 0) {
+                    return _.find(this.files, ['id', this.selectedFiles[0]])
+                }
+
+                return false
             },
         },
 
