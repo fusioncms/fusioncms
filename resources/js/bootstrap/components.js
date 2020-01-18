@@ -29,7 +29,6 @@ Vue.component('new-folder-modal', require('../components/FileManager/Modals/NewF
 Vue.component('move-file-modal', require('../components/FileManager/Modals/MoveFileModal').default)
 Vue.component('replace-file-modal', require('../components/FileManager/Modals/ReplaceFileModal').default)
 Vue.component('rename-file-modal', require('../components/FileManager/Modals/RenameFileModal').default)
-Vue.component('rename-directory-modal', require('../components/FileManager/Modals/RenameDirectoryModal').default)
 Vue.component('file-manager-directory', require('../components/FileManager/Directory').default)
 Vue.component('delete-file-modal', require('../components/FileManager/Modals/DeleteFileModal').default)
 Vue.component('delete-selected-files-modal', require('../components/FileManager/Modals/DeleteSelectedFilesModal').default)

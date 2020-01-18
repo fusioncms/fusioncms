@@ -1,6 +1,6 @@
 <template>
-    <p-modal name="rename-file" title="Rename current file">
-        <p-input name="name" label="Rename this file" placeholder="File name" v-model="name"></p-input>
+    <p-modal name="rename-file" title="Rename current item">
+        <p-input name="name" label="Rename this item" placeholder="File name" v-model="selection.name"></p-input>
 
         <template v-slot:footer>
             <p-button v-modal:rename-file>Close</p-button>
@@ -10,44 +10,67 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'rename-file-modal',
 
-        data() {
-            return {
-                name: this.file.name
-            }
-        },
-
         props: {
-            file: {
+            selection: {
                 required: true,
             },
         },
 
+        computed: {
+            ...mapGetters({
+                directories: 'filemanager/getDirectories',
+                files: 'filemanager/getFiles',
+            }),
+
+            isFile: function() {
+                return ! _.has(this.selection, 'files_count')
+            },
+
+            endpoint: function() {
+                if (this.isFile) {
+                    return `/api/files/${this.selection.id}`
+                } else {
+                    return `/api/directories/${this.selection.id}`
+                }
+            }
+        },
+
+        watch: {
+            selection: function(selection) {
+                this.name = selection.name
+            }
+        },
+
         methods: {
             ...mapActions({
-                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+                setDirectories: 'filemanager/setDirectories',
+                setFiles: 'filemanager/setFiles',
             }),
 
             submit() {
-                if (this.file.name === '') {
-                    this.file.name = this.name
+                if (this.selection.name === '') {
+                    this.selection.name = this.name
 
-                    toast('The file\'s name is required', 'warning')
+                    toast('The items\'s name is required', 'warning')
                 } else {
-                    axios.patch('/api/files/' + this.file.id, {
-                        name: this.file.name
+                    axios.patch(this.endpoint, {
+                        name: this.selection.name
                     }).then((response) => {
-                        this.name = this.file.name
-                        this.fetchFilesAndDirectories()
+                        if (this.isFile) {
+                            let index = _.findIndex(this.files, { 'id': this.selection.id })
+                            this.setFiles(_.merge(this.files, { [index]: response.data.data }))
+                        } else {
+                            let index = _.findIndex(this.directories, { 'id': this.selection.id })
+                            this.setDirectories(_.merge(this.directories, { [index]: response.data.data }))
+                        }
 
-                        toast('The file\'s name was successfully updated', 'success')
+                        toast('The items\'s name was successfully updated', 'success')
                     }).catch((error) => {
-                        this.file.name = this.name
-
                         toast(error.message, 'danger')
                     })
                 }

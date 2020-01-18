@@ -11,8 +11,7 @@
                 
                 <p-button @click.prevent="clearSelection">Uncheck All</p-button>
                 <p-button v-modal:move-file>Move</p-button>
-                <p-button @click.stop v-show="selectedDirectory" v-modal:rename-directory>Rename</p-button>
-                <p-button @click.self v-show="selectedFile" v-modal:rename-file>Rename</p-button>
+                <p-button v-if="singleSelection" v-modal:rename-file>Rename</p-button>
             </div>
 
             <div class="inline-block mr-4">
@@ -92,10 +91,7 @@
         <portal to="modals">
             <new-folder-modal></new-folder-modal>
             <move-file-modal></move-file-modal>
-            
-            <rename-directory-modal :directory="selectedDirectory"></rename-directory-modal>
-            <rename-file-modal :file="selectedFile"></rename-file-modal>
-            
+            <rename-file-modal :selection="singleSelection"></rename-file-modal>
             <delete-selected-files-modal></delete-selected-files-modal>
         </portal>
     </div>
@@ -151,16 +147,11 @@
                 }
             },
 
-            selectedDirectory() {
+            singleSelection() {
                 if (this.selectedDirectories.length == 1 && this.selectedFiles.length == 0) {
                     return _.find(this.directories, ['id', this.selectedDirectories[0]])
                 }
-
-                return false
-            },
-
-            selectedFile() {
-                if (this.selectedFiles.length == 1 && this.selectedDirectories.length == 0) {
+                else if (this.selectedDirectories.length == 0 && this.selectedFiles.length == 1) {
                     return _.find(this.files, ['id', this.selectedFiles[0]])
                 }
 
