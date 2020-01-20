@@ -20,7 +20,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="table.record.handle">
+                        <p-dropdown right :key="'fieldset_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">

@@ -231,10 +231,6 @@ export default {
             context.commit('setFiles', files)
         },
 
-        setDirectory(context, directory) {
-            context.commit('setDirectory', directory)
-        },
-
         addFile(context, file) {
             context.commit('addFile', file)
         },
@@ -293,7 +289,7 @@ export default {
             if (context.state.search !== '') {
                 params.search = context.state.search
             }
-            
+
             axios.all([
                 axios.get('/api/files', {params: params}),
                 axios.get('/api/directories', {params: params}),

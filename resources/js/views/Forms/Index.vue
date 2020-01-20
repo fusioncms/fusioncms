@@ -30,7 +30,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
+                        <p-dropdown right :key="'form_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">
