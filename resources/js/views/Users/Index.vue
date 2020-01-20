@@ -24,7 +24,7 @@
             </div>
             
             <div class="content-container">
-                <p-datatable name="users" :endpoint="endpoint" sort-by="name" :per-page="10">
+                <p-datatable name="users" :endpoint="endpoint" sort-by="name" :per-page="10" key="users_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'users.edit', params: {user: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>

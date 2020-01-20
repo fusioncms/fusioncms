@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle">
+                <p-datatable :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
