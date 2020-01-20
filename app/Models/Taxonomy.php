@@ -57,7 +57,7 @@ class Taxonomy extends Model
 
     public function getAdminPathAttribute()
     {
-        return '/taxonomies/' . $this->handle;
+        return '/taxonomies/' . $this->slug;
     }
 
     /**
