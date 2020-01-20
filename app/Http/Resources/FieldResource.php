@@ -35,6 +35,7 @@ class FieldResource extends JsonResource
             'section'    => $this->section ?: 'General',
             'settings'   => $this->settings,
             'validation' => $this->validation,
+            'default'    => $this->default,
 
             'order'     => $this->order,
             'status'    => $this->status,
