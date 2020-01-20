@@ -1,9 +1,9 @@
 <template>
-    <p-modal name="rename-file" title="Rename current item">
-        <p-input name="name" label="Rename this item" placeholder="File name" v-model="selection.name"></p-input>
+    <p-modal name="rename-file" :title="title">
+        <p-input name="name" label="current name" placeholder="New name" v-model="selection.name"></p-input>
 
         <template v-slot:footer>
-            <p-button v-modal:rename-file>Close</p-button>
+            <p-button  @click="cancel" v-modal:rename-file>Cancel</p-button>
             <p-button theme="primary" @click="submit" v-modal:rename-file class="mr-1">Rename</p-button>
         </template>
     </p-modal>
@@ -26,6 +26,10 @@
                 directories: 'filemanager/getDirectories',
                 files: 'filemanager/getFiles',
             }),
+
+            title: function() {
+                return 'Rename current ' + (this.isFile ? 'file' : 'directory')
+            },
 
             isFile: function() {
                 return ! _.has(this.selection, 'files_count')
@@ -74,6 +78,10 @@
                         toast(error.message, 'danger')
                     })
                 }
+            },
+
+            cancel() {
+                this.selection.name = this.name
             }
         }
     }
