@@ -23,6 +23,7 @@ class FieldResource extends JsonResource
      */
     public function toArray($request)
     {
+        $fieldtype = new FieldtypeResource(fieldtypes()->get($this->type));
         return [
             'id'         => $this->id,
             'name'       => $this->name,
@@ -30,11 +31,12 @@ class FieldResource extends JsonResource
             'help'       => $this->help,
             'required'   => $this->required,
 
-            'type'       => new FieldtypeResource(fieldtypes()->get($this->type)),
+            'type'       => $fieldtype,
             'placement'  => $this->placement,
             'section'    => $this->section ?: 'General',
             'settings'   => $this->settings,
             'validation' => $this->validation,
+            'default'    => $fieldtype->getDefault(),
 
             'order'     => $this->order,
             'status'    => $this->status,
