@@ -32,6 +32,11 @@
 	                        v-model="setting.value"
 	                        accept="json"
 	                    ></p-upload>
+
+	                    <component
+	                    	v-if="setting.type === 'component'"
+	                    	:is="setting.handle"
+	                    	:settings="settings"/>
 	                </div>
 	            </p-tab>
 	        </p-tabs>

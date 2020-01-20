@@ -24,7 +24,15 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Merge mail settings into mail configurations..
+        collect(setting('mail'))->each(function($value, $key) {
+            $configKey = str_replace('_', '.', $key);
+            $envKey    = strtoupper($value);
+
+            if (\Config::has($configKey) && !empty($value)) {
+                \Config::set($configKey, env($envKey, $value));
+            }
+        });
     }
 
     /**
