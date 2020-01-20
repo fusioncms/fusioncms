@@ -39,7 +39,8 @@ export default {
     },
 
     mounted() {
-    	const container = document.querySelector('.gallery-container')
+    	const container   = document.querySelector('.gallery-container')
+    	const selectables = document.getElementsByClassName('gallery-item')
 
 		// Drag Start
 		container.addEventListener('dragstart', (ev) => {
@@ -105,7 +106,8 @@ export default {
 		})
 
 		this.selector = new DragSelect({
-			selectables: document.getElementsByClassName('gallery-item'),
+			selectables: selectables,
+			area: container,
             callback: (elements) => {
             	this.clearSelections()
 

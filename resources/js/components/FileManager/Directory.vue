@@ -19,7 +19,7 @@
         </div>
 
         <div class="leading-tight mt-2" v-if="! small">
-            <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ name }}</span>
+            <span class="block text-sm truncate" v-show="! isEditing" @dblclick="edit">{{ directory.name }}</span>
             <input type="text" class="form__control form__control--sm text-center" v-model="directory.name" ref="edit" v-show="isEditing" @blur="update" @keyup.enter="update" @keyup.esc="done">
 
             <div class="flex flex-col text-center text-xs text-gray-600 mt-2 font-mono">

@@ -25,12 +25,13 @@ Vue.component('cron-scheduler', require('../components/CronScheduler').default)
 // File Manager
 Vue.component('file-manager-file', require('../components/FileManager/File').default)
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)
-Vue.component('new-folder-modal', require('../components/FileManager/NewFolderModal').default)
-Vue.component('move-file-modal', require('../components/FileManager/MoveFileModal').default)
-Vue.component('replace-file-modal', require('../components/FileManager/ReplaceFileModal').default)
+Vue.component('new-folder-modal', require('../components/FileManager/Modals/NewFolderModal').default)
+Vue.component('move-file-modal', require('../components/FileManager/Modals/MoveFileModal').default)
+Vue.component('replace-file-modal', require('../components/FileManager/Modals/ReplaceFileModal').default)
+Vue.component('rename-file-modal', require('../components/FileManager/Modals/RenameFileModal').default)
 Vue.component('file-manager-directory', require('../components/FileManager/Directory').default)
-Vue.component('delete-file-modal', require('../components/FileManager/DeleteFileModal').default)
-Vue.component('delete-selected-files-modal', require('../components/FileManager/DeleteSelectedFilesModal').default)
+Vue.component('delete-file-modal', require('../components/FileManager/Modals/DeleteFileModal').default)
+Vue.component('delete-selected-files-modal', require('../components/FileManager/Modals/DeleteSelectedFilesModal').default)
 
 // Matrix
 Vue.component('field-editor', require('../components/FieldEditor').default)
