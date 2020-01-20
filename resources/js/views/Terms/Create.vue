@@ -91,7 +91,6 @@
                     if (vm.taxonomy.fieldset) {
                         _.forEach(vm.taxonomy.fieldset.sections, function(section) {
                             _.forEach(section.fields, function(field) {
-console.log(field)
                                 Vue.set(fields, field.handle, field.default)
                             })
                         })

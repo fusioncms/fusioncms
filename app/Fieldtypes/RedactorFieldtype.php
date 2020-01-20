@@ -40,8 +40,6 @@ class RedactorFieldtype extends Fieldtype
         'placeholder' => ''
     ];
 
-    protected $default = "test";
-
     /**
      * @var array
      */
