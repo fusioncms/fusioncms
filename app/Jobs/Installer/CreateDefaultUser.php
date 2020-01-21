@@ -9,41 +9,48 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Console\Commands;
+namespace App\Jobs\Installer;
 
-use File;
-use Artisan;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Shinobi;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class Install extends Command
+class CreateDefaultUser
 {
     /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Runs all the required migrations to get up and running with FusionCMS';
-
-    /**
-     * Array to store the configuration details.
-     *
      * @var array
      */
     protected $container;
 
     /**
-     * Server requirements.
+     * Create a new command instance.
      *
-     * @var array
+     * @return void
+     */
+    public function __construct(array $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $user = User::create([
+            'name'              => $this->container['user_name'],
+            'email'             => $this->container['user_email'],
+            'password'          => Hash::make($this->container['user_password']),
+            'status'            => true,
+            'email_verified_at' => now(),
+        ]);
+
+        Shinobi::assign('admin')->to($user);
+    }
+}
+rray
      */
     protected $requirements = [
         'php'        => '7.1.3',
