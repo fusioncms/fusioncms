@@ -24,15 +24,21 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Merge mail settings into mail configurations..
-        collect(setting('mail'))->each(function($value, $key) {
-            $configKey = str_replace('_', '.', $key);
-            $envKey    = strtoupper($value);
+        /**
+         * Merge FusionCMS Settings into System Configurations
+         */
+        collect(config('settings.settings'))
+            ->filter(function ($value, $key) {
+                return isset($value['override']);
+            })->each(function ($setting) {
+                $configKey = str_replace('_', '.', $setting['override']);
+                $envKey    = strtoupper($setting['override']);
+                $value     = setting($setting['section'] . '.' . $setting['handle']);
 
-            if (\Config::has($configKey) && !empty($value)) {
-                \Config::set($configKey, env($envKey, $value));
-            }
-        });
+                if (\Config::has($configKey) && !empty($value)) {
+                    \Config::set($configKey, env($envKey, $value));
+                }
+            });
     }
 
     /**
