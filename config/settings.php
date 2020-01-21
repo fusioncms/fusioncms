@@ -715,7 +715,7 @@ return [
             'section'     => 'mail',
             'group'       => 'SMTP',
             'name'        => 'Port',
-            'handle'      => 'mail_port',
+            'handle'      => 'mail_smtp_port',
             'description' => 'The port number of your SMTP server.',
             'type'        => 'text',
             'default'     => '587',
