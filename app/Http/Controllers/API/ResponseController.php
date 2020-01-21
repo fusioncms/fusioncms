@@ -20,22 +20,14 @@ use App\Services\Builders\Form as Builder;
 
 class ResponseController extends Controller
 {
-    public function index($slug = null)
+    public function index($slug)
     {
-        if (! is_null($slug)) {
-            $form      = Form::where('slug', $slug)->firstOrFail();
-            $responses = $form->responses;
-
-            return ResponseResource::collection($responses);
-        }
+        $responses = Form::where('slug', $slug)
+            ->firstOrFail()
+            ->responses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
         
-        $forms     = Form::get();
-        $responses = collect();
-
-        foreach ($forms as $form) {
-            $responses = $responses->merge($form->responses);
-        }
-
         return ResponseResource::collection($responses);
     }
 
