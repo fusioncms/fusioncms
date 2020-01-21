@@ -24,7 +24,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=secret} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
+    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
 
     /**
      * The console command description.
@@ -128,7 +128,7 @@ class Install extends Command
         $this->container['db_host']      = $this->ask('Please enter the database host:', $this->container['db_host']);
         $this->container['db_name']      = $this->ask('Please enter the database name:', $this->container['db_name']);
         $this->container['db_username']  = $this->ask('Please enter the database username:', $this->container['db_username']);
-        $this->container['db_password']  = $this->ask('Please enter the database password:', $this->container['db_password']);
+        $this->container['db_password']  = $this->secret('Please enter the database password:', $this->container['db_password']);
         $this->container['db_charset']   = $this->ask('Please enter the database charset:', $this->container['db_charset']);
         $this->container['db_collation'] = $this->ask('Please enter the database collation:', $this->container['db_collation']);
 
