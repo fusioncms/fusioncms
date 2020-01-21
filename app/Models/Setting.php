@@ -11,8 +11,8 @@
 
 namespace App\Models;
 
+use App\Database\Eloquent\Model;
 use App\Foundation\Concerns\CachesQueries;
-use App\Foundation\Database\Eloquent\Model;
 use App\Foundation\Support\SettingCollection;
 
 class Setting extends Model

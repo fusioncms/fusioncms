@@ -49,7 +49,7 @@ class SettingsController extends Controller
 
     public function show(Request $request, $section)
     {
-        $items = collect(config('settings.settings'))
+        $settings = collect(config('settings.settings'))
             ->map(function ($item) {
                 $item['value'] = setting($item['section'] . '.' . $item['handle']);
 
@@ -59,14 +59,7 @@ class SettingsController extends Controller
             ->get($section)
             ->sortBy('order');
 
-        $section = collect(config('settings.sections'))
-            ->where('handle', $section)
-            ->first();
-
-        return new SettingResource([
-            'section' => $section,
-            'items'   => $items,
-        ]);
+        return new SettingResource($settings);
     }
 
     /**
@@ -78,8 +71,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $section)
     {
-        $settingsFilePath = settings_path();
-        $settings         = json_decode(File::get($settingsFilePath), true);
+        $settings = json_decode(File::get(settings_path()), true);
 
         foreach ($settings[$section] as $handle => $setting) {
             if ($request->has($handle)) {
@@ -89,8 +81,10 @@ class SettingsController extends Controller
                     $path      = $file->storeAs('/', $handle . '.' . $extension, 'settings');
 
                     $settings[$section][$handle] = $path;
+                    app('settings')->set($section . '.' . $handle, $path);
                 } else {
                     $settings[$section][$handle] = $request->get($handle);
+                    app('settings')->set($section . '.' . $handle, $request->get($handle));
                 }
             }
         }
@@ -104,6 +98,16 @@ class SettingsController extends Controller
             ])
             ->log('Updated CMS settings');
 
-        return response(['data' => $settings[$section]]);
+        $settings = collect(config('settings.settings'))
+            ->map(function ($item) {
+                $item['value'] = setting($item['section'] . '.' . $item['handle']);
+
+                return $item;
+            })
+            ->groupBy('section')
+            ->get($section)
+            ->sortBy('order');
+
+        return new SettingResource($settings);
     }
 }

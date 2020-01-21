@@ -3,17 +3,41 @@
 	    <div class="side-container">
 	        <div class="xxl:mr-10 xxl:mb-0 mb-6">
 	            <h3>Test Mail</h3>
-	            <p class="text-sm">Run test on the following settings:</p>
+	            <p class="text-sm">Run test on the following credentials:</p>
 	        </div>
 	    </div>
+
 	    <div class="content-container">
-	    	<p-input name="driver" label="Driver" v-model="settings['Driver']" readonly></p-input>
-	    	<p-input name="host" label="Host" v-model="settings['Host']" readonly></p-input>
-	    	<p-input name="port" label="Port" v-model="settings['Port']" readonly></p-input>
-	    	<p-input name="username" label="Username" v-model="settings['SMTP Username']" readonly></p-input>
-	    	<p-input type="password" name="password" label="Password" v-model="settings['SMTP Password']" readonly></p-input>
-	    	<p-input name="from_name" label="From Name" v-model="settings['From Name']" readonly></p-input>
-	    	<p-input name="from_address" label="From Address" v-model="settings['From Address']" readonly></p-input>
+			<!-- SMTP -->
+			<template v-show="credentials.mail_driver == 'smtp'">
+				<p-input name="stmp_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
+				<p-input name="stmp_host" label="Host" v-model="credentials.mail_smtp_host" readonly></p-input>
+				<p-input name="stmp_port" label="Port" v-model="credentials.mail_smtp_port" readonly></p-input>
+				<p-input name="stmp_username" label="Username" v-model="credentials.mail_smtp_username" readonly></p-input>
+				<p-input name="stmp_password" type="password" label="Password" v-model="credentials.mail_smtp_password" readonly></p-input>
+				<p-input name="stmp_from_name" label="From Name" v-model="credentials.mail_name" readonly></p-input>
+				<p-input name="stmp_from_address" label="From Address" v-model="credentials.mail_server" readonly></p-input>
+			</template>
+
+			<!-- Sparkpost -->
+			<template v-show="credentials.mail_driver == 'sparkpost'">
+				<p-input name="sparkpost_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
+				<p-input name="sparkpost_scret" type="password" label="Secret" v-model="credentials.mail_sparkpost_secret" readonly></p-input>
+			</template>
+
+			<!-- Mailgun -->
+			<template v-show="credentials.mail_driver == 'mailgun'">
+				<p-input name="mailgun_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
+				<p-input name="mailgun_domain" label="Domain" v-model="credentials.mail_mailgun_domain" readonly></p-input>
+				<p-input name="mailgun_secret" type="password" label="Secret" v-model="credentials.mail_mailgun_secret" readonly></p-input>
+			</template>
+
+			<!-- Mandrill -->
+			<template v-show="credentials.mail_driver == 'mandrill'">
+				<p-input name="mandrill_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
+				<p-input name="mandrill_scret" type="password" label="Secret" v-model="credentials.mail_mandrill_secret" readonly></p-input>
+			</template>
+
 			<p-button theme="primary" @click="submit">Run Test</p-button>
 		</div>
 	</div>
@@ -23,9 +47,22 @@
 	export default {
 		name: 'settings-mail-test',
 
-		data() {
-			return {
-				settings: {}
+		props: {
+			settings: {
+				type: Array,
+				required: true
+			}
+		},
+
+		computed: {
+			credentials() {
+				let credentials = {}
+
+				_.forEach(this.settings, function(item) {
+					credentials[item.handle] = item.value
+				})
+
+				return credentials
 			}
 		},
 
@@ -37,18 +74,6 @@
                     toast(response.response.data.message, 'failed')
                 })
 			}
-		},
-
-		created() {
-			axios.get('/api/settings/mail').then((response) => {
-				let settings = {}
-
-				_.forEach(response.data.data.items, function(item) {
-					settings[item.name] = item.value
-				})
-
-				this.settings = settings
-	        })
 		}
 	}
 </script>

@@ -652,7 +652,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 1,
-            'override'    => 'mail_driver',
+            'override'    => 'mail.driver',
         ],
 
         [
@@ -666,7 +666,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 2,
-            'override'    => 'mail_from_address',
+            'override'    => 'mail.from.address',
         ],
 
         [
@@ -680,7 +680,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 3,
-            'override'    => 'mail_from_name',
+            'override'    => 'mail.from.name',
         ],
 
         [
@@ -708,7 +708,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 5,
-            'override'    => 'mail_host',
+            'override'    => 'mail.host',
         ],
 
         [
@@ -722,7 +722,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 6,
-            'override'    => 'mail_port',
+            'override'    => 'mail.port',
         ],
 
         [
@@ -736,7 +736,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 7,
-            'override'    => 'mail_username',
+            'override'    => 'mail.username',
         ],
 
         [
@@ -750,7 +750,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 8,
-            'override'    => 'mail_password',
+            'override'    => 'mail.password',
         ],
 
         [
