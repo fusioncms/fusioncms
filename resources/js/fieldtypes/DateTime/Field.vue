@@ -40,7 +40,7 @@
 
       value: {
         required: false,
-        default: '',
+        default: null,
       }
     },
 

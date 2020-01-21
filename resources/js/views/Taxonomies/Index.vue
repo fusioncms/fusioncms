@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="taxonomies" sort-by="name" :per-page="10" primary-key="handle">
+                <p-datatable :endpoint="endpoint" name="taxonomies" sort-by="name" :per-page="10" primary-key="handle" key="taxonomies_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'taxonomies.edit', params: {taxonomy: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>

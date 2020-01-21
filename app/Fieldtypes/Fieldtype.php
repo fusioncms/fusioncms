@@ -173,7 +173,7 @@ abstract class Fieldtype
         return null;
     }
 
-    public function getDefault(Field $field)
+    public function getDefault()
     {
         return $this->default;
     }

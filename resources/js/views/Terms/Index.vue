@@ -10,7 +10,7 @@
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10">
+                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="taxonomy.handle + '_table'">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'terms.edit', params: {taxonomy: taxonomy.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
