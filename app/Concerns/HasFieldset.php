@@ -24,18 +24,22 @@ trait HasFieldset
     /**
      * Attach a fieldset to the model.
      * 
-     * @param  \App\Models\Fieldset  $fieldset
+     * @param  Fieldset|int  $value
      * @return void
      */
-    public function attachFieldset($fieldset)
+    public function attachFieldset($value)
     {
+        if ($value instanceof Fieldset) {
+            $value = $value->id;
+        }
+
         $previous = $this->fieldset();
         
-        $this->fieldsets()->sync($fieldset);
+        $this->fieldsets()->sync($value);
         
         event(new FieldsetAttached($this));
         
-        $fieldset = Fieldset::findOrFail($fieldset);
+        $fieldset = Fieldset::findOrFail($value);
 
         if (! is_null($previous)) {
             $table    = $this->getBuilder()->getTable();
