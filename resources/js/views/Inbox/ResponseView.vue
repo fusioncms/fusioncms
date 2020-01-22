@@ -1,5 +1,5 @@
 <template>
-    <div class="leading-none flex-1">
+    <div class="leading-none flex-1 flex">
         <div v-if="response.id">
             <div class="flex flex-row-reverse border-b py-4 px-6 justify-between items-center" style="height: 52px;">
                 <div>

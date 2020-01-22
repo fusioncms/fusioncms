@@ -1,6 +1,6 @@
 <template>
-    <div class="response-list">
-        <div class="response-list__pagination">
+    <div class="inbox__response-list">
+        <div class="inbox__response-list__pagination">
             <a href="#" @click.prevent="firstPage" class="text-gray-700 hover:text-gray-900 text-lg m-1 p-3 hover:bg-gray-100 rounded"><fa-icon :icon="['fas', 'angle-double-left']" class="fa-fw"></fa-icon></a>
             <a href="#" @click.prevent="prevPage" class="text-gray-700 hover:text-gray-900 text-lg m-1 p-3 hover:bg-gray-100 rounded"><fa-icon :icon="['fas', 'angle-left']" class="fa-fw"></fa-icon></a>
 
@@ -14,7 +14,7 @@
             <fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading responses...
         </div>
 
-        <a href="#" @click.prevent="select(response)" class="border-r-4 block hover:bg-gray-100 text-gray-700 hover:text-gray-900" v-for="response in responses" :key="response.id" :class="{'border-primary-400': isSelected(response), 'border-gray-200': ! isSelected(response)}">
+        <a href="#" @click.prevent="select(response)" class="lg:border-r-4 block hover:bg-gray-100 text-gray-700 hover:text-gray-900" v-for="response in responses" :key="response.id" :class="{'border-primary-400': isSelected(response), 'border-gray-200': ! isSelected(response)}">
             <div class="px-4 py-6 border-b border-gray-200">
                 <div class="flex">
 
@@ -81,8 +81,6 @@
                     })
                 }
 
-                console.log(options)
-
                 return options
             }
         },
@@ -95,14 +93,20 @@
 
         methods: {
             ...mapActions({
-                fetchResponses: 'inbox/fetchResponses',
-                select: 'inbox/selectResponse',
                 prevPage: 'inbox/prevPage',
                 nextPage: 'inbox/nextPage',
                 firstPage: 'inbox/firstPage',
                 lastPage: 'inbox/lastPage',
                 jumpPage: 'inbox/jumpPage',
             }),
+
+            fetchResponses() {
+                this.$store.dispatch('inbox/fetchResponses')
+            },
+
+            select(response) {
+                this.$store.dispatch('inbox/selectResponse', response)
+            },
 
             isSelected(response) {
                 if (this.response) {

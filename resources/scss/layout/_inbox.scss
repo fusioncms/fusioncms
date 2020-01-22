@@ -1,15 +1,29 @@
-.response-list {
-    @apply border-r leading-none relative;
+.inbox {
+    &__filter-sidebar {
+        @apply px-3 mb-6 w-full;
 
-    width: 350px;
+        @screen xl {
+            @apply mb-0;
 
-    &__pagination {
-        @apply flex justify-between items-center border-b;
-
-        height: 52px;
+            width: 350px;
+        }
     }
 
-    .form__select-button span {
-        @apply flex flex-1 items-center justify-center;
+    &__response-list {
+        @apply border-r leading-none relative w-full;
+
+        @screen lg {
+            width: 350px;
+        }
+
+        &__pagination {
+            @apply flex justify-between items-center border-b;
+
+            height: 52px;
+        }
+
+        .form__select-button span {
+            @apply flex flex-1 items-center justify-center;
+        }
     }
 }

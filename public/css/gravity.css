@@ -16813,14 +16813,34 @@ table td::before {
           transform-origin: right;
 }
 
-.response-list {
+.inbox__filter-sidebar {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 1280px) {
+  .inbox__filter-sidebar {
+    margin-bottom: 0;
+    width: 350px;
+  }
+}
+
+.inbox__response-list {
   border-right-width: 1px;
   line-height: 1;
   position: relative;
-  width: 350px;
+  width: 100%;
 }
 
-.response-list__pagination {
+@media (min-width: 1024px) {
+  .inbox__response-list {
+    width: 350px;
+  }
+}
+
+.inbox__response-list__pagination {
   display: -webkit-box;
   display: flex;
   -webkit-box-pack: justify;
@@ -16831,7 +16851,7 @@ table td::before {
   height: 52px;
 }
 
-.response-list .form__select-button span {
+.inbox__response-list .form__select-button span {
   display: -webkit-box;
   display: flex;
   -webkit-box-flex: 1;

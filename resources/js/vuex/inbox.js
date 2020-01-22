@@ -96,7 +96,6 @@ export default {
                 context.commit('setResponses', response.data.data)
                 context.commit('setTotalPages', response.data.meta.last_page)
 
-                context.dispatch('selectFirstResponse')
                 context.dispatch('doneLoading')
             })
         },
