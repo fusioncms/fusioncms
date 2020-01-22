@@ -26,15 +26,6 @@ class SettingsServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * Maintain settings.json
-         */
-        if (! File::exists(settings_path())) {
-            $this->createSettingsFile();
-        } elseif (File::lastModified(config_path('settings.php')) > File::lastModified(settings_path())) {
-            $this->updateSettingsFile();
-        }
-
-        /**
          * Merge FusionCMS Settings into System Configurations
          */
         collect(config('settings.settings'))
@@ -58,6 +49,15 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        /**
+         * Maintain settings.json
+         */
+        if (! File::exists(settings_path())) {
+            $this->createSettingsFile();
+        } elseif (File::lastModified(config_path('settings.php')) > File::lastModified(settings_path())) {
+            $this->updateSettingsFile();
+        }
+        
         $this->app->singleton('settings', function ($app) {
             $settings = json_decode(file_get_contents(settings_path()), true);
 
