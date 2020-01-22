@@ -9,8 +9,5 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/inbox/{slug?}', 'InboxController@index');
-
-Route::get('/forms/responses', 'ResponseController@index');
 Route::apiResource('/forms/{slug}/responses', 'ResponseController');
 Route::apiResource('/forms', 'FormController');

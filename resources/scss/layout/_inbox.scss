@@ -1,0 +1,15 @@
+.response-list {
+    @apply border-r leading-none relative;
+
+    width: 350px;
+
+    &__pagination {
+        @apply flex justify-between items-center border-b;
+
+        height: 52px;
+    }
+
+    .form__select-button span {
+        @apply flex flex-1 items-center justify-center;
+    }
+}

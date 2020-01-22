@@ -26,8 +26,8 @@ class ResponseController extends Controller
             ->firstOrFail()
             ->responses()
             ->orderBy('created_at', 'desc')
-            ->paginate(15);
-        
+            ->paginate(10);
+
         return ResponseResource::collection($responses);
     }
 
@@ -53,7 +53,7 @@ class ResponseController extends Controller
         $form          = Form::where('slug', $slug)->firstOrFail();
         $collection    = (new Builder($form->handle))->make();
         $relationships = [];
-        
+
         $rules = [
             'name'   => 'required',
             'handle' => 'sometimes',
@@ -66,7 +66,7 @@ class ResponseController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes              = $request->validate($rules);
         $attributes['form_id'] = $form->id;
@@ -114,7 +114,7 @@ class ResponseController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes = $request->validate($rules);
 

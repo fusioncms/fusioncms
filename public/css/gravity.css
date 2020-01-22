@@ -4758,8 +4758,7 @@ table td::before {
 }
 
 .form__select-option {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem;
 }
 
 .form__select-option:hover {
@@ -16812,6 +16811,35 @@ table td::before {
           transform: scale(0.9);
   -webkit-transform-origin: right;
           transform-origin: right;
+}
+
+.response-list {
+  border-right-width: 1px;
+  line-height: 1;
+  position: relative;
+  width: 350px;
+}
+
+.response-list__pagination {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
+  border-bottom-width: 1px;
+  height: 52px;
+}
+
+.response-list .form__select-button span {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-flex: 1;
+          flex: 1 1 0%;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
 }
 
 .navbar {
