@@ -24,7 +24,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
+    protected $signature = 'fusion:install {--homestead} {--valet} {--force} {--url=http://localhost} {--host=localhost} {--database=} {--username=} {--password=} {--charset=utf8} {--collation=utf8_unicode_ci}';
 
     /**
      * The console command description.
@@ -64,18 +64,35 @@ class Install extends Command
     {
         $name = $this->generateName();
 
+        if ($this->option('homestead')) {
+            $dev      = true;
+            $database = $this->option('database') ?? 'fusioncms';
+            $username = $this->option('username') ?? 'homestead';
+            $password = $this->option('password') ?? 'secret';
+        } elseif ($this->option('valet')) {
+            $dev      = true;
+            $database = $this->option('database') ?? 'fusioncms';
+            $username = $this->option('username') ?? 'root';
+            $password = $this->option('password') ?? '';
+        } else {
+            $dev      = false;
+            $database = $this->option('database');
+            $username = $this->option('username');
+            $password = $this->option('password');
+        }
+
         $this->container = [
             'app_url'         => $this->option('url'),
             'db_host'         => $this->option('host'),
-            'db_name'         => $this->option('test') ? 'fusioncms_testing' : $this->option('database'),
-            'db_username'     => $this->option('username'),
-            'db_password'     => $this->option('password'),
+            'db_name'         => $database,
+            'db_username'     => $username,
+            'db_password'     => $password,
             'db_charset'      => $this->option('charset'),
             'db_collation'    => $this->option('collation'),
             'user_email'      => 'admin@example.com',
             'user_password'   => 'secret',
             'user_name'       => $name,
-            'dev'             => $this->option('dev'),
+            'dev'             => $dev,
         ];
 
         if (app_installed() and ! $this->option('force')) {
@@ -84,7 +101,7 @@ class Install extends Command
 
         $this->checkServerRequirements();
 
-        if ($this->option('quick')) {
+        if ($dev) {
             $this->comment('Relax while FusionCMS proceeds with the installation process.');
 
             return $this->install();
