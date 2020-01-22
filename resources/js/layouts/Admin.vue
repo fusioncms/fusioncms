@@ -40,7 +40,7 @@
             </div>
 
             <!-- Content -->
-            <main class="page-content flex flex-col">
+            <main class="page-content flex flex-col bg-danger-200">
                 <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
                     <div class="flex items-end flex-wrap">
                         <h1 class="leading-tight m-0 p-0">                            
@@ -57,7 +57,9 @@
                     </div>
                 </div>
 
-                <slot></slot>
+                <div class="h-full">
+                    <slot></slot>
+                </div>
             </main>
 
             <!-- Footer -->

@@ -20,33 +20,15 @@ use App\Services\Builders\Form as Builder;
 
 class ResponseController extends Controller
 {
-    /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        //
-    ];
-
-    public function index($slug = null)
+    public function index($slug)
     {
-        if (! is_null($slug)) {
-            $form      = Form::where('slug', $slug)->firstOrFail();
-            $responses = $form->responses;
+        $responses = Form::where('slug', $slug)
+            ->firstOrFail()
+            ->responses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
-            return ResponseResource::collection($responses);
-        }
-        
-        $forms     = Form::get();
-        $responses = collect();
-
-        foreach ($forms as $form) {
-            $responses->merge($form->responses);
-        }
-
-        return AllResponseResource::collection($responses);
+        return ResponseResource::collection($responses);
     }
 
     /**
@@ -71,7 +53,7 @@ class ResponseController extends Controller
         $form          = Form::where('slug', $slug)->firstOrFail();
         $collection    = (new Builder($form->handle))->make();
         $relationships = [];
-        
+
         $rules = [
             'name'   => 'required',
             'handle' => 'sometimes',
@@ -84,7 +66,7 @@ class ResponseController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes              = $request->validate($rules);
         $attributes['form_id'] = $form->id;
@@ -132,7 +114,7 @@ class ResponseController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes = $request->validate($rules);
 
