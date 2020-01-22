@@ -76,93 +76,106 @@ class CollectionTest extends TestCase
             ->assertDatabaseTableHasColumn('mx_blog', 'slug');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_with_permissions_can_create_a_new_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $data = [
-            'name' => 'Example',
-            'slug' => 'example',
+        $attributes = [
+            'name'    => 'Example',
+            'slug'    => 'example',
             'excerpt' => 'This is an excerpt of the blog post.',
             'content' => 'This is the content of the blog post.',
+            'status'  => true,
         ];
 
-        $form = $data;
-        $form['status'] = true;
+        $this
+            ->json('POST', '/api/collections/posts', $attributes)
+            ->assertStatus(201);
 
-        $response = $this->json('POST', '/api/collections/posts', $form);
-
-        $response->assertStatus(201);
-
-        $data['id'] = '1';
-
-        $this->assertDatabaseHas('mx_posts', $data);
+        $this->assertDatabaseHas('mx_posts', $attributes);
     }
 
-    /** @test */
-    public function a_name_and_status_is_required_for_every_entry()
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_status_is_required_for_every_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-
-        $response = $this->json('POST', '/api/collections/posts', $form);
-
-        $response->assertStatus(422)    
-            ->assertJsonValidationErrors(['name', 'status']);
+        $response = $this
+            ->json('POST', '/api/collections/posts', [
+                'excerpt' => 'This is an excerpt of the blog post.',
+                'content' => 'This is the content of the blog post.',
+            ])
+            ->assertStatus(422)    
+            ->assertJsonValidationErrors(['status']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_with_permissions_can_update_an_existing_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
+        $entry = $this
+            ->json('POST', '/api/collections/posts', [
+                'name'    => 'Example',
+                'slug'    => 'example',
+                'excerpt' => 'This is an excerpt of the blog post.',
+                'content' => 'This is the content of the blog post.',
+                'status'  => true,
+            ])->getData()->data->entry;
 
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+        $this
+            ->json('PATCH', '/api/collections/posts/'. $entry->id, [
+                'name'   => 'New Post Title',
+                'status' => true,
+            ])
+            ->assertStatus(200);
 
-        $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
-            'name'   => 'New Post Title',
-            'status' => true,
-        ]);
-
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas('mx_posts', [
-            'name' => 'New Post Title',
-        ])
-        ->assertDatabaseMissing('mx_posts', [
-            'name' => 'Example',
-        ]);
+        $this->assertDatabaseHas('mx_posts', [ 'name' => 'New Post Title' ]);
+        $this->assertDatabaseMissing('mx_posts', [ 'name' => 'Example' ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_with_permissions_can_delete_an_existing_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
+        $entry = $this
+            ->json('POST', '/api/collections/posts', [
+                'name'    => 'Example',
+                'slug'    => 'example',
+                'excerpt' => 'This is an excerpt of the blog post.',
+                'content' => 'This is the content of the blog post.',
+                'status'  => true,
+            ])->getData()->data->entry;
 
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
-
-        $response = $this->json('DELETE', '/api/collections/posts/'.$data->entry->id);
+        $this
+            ->json('DELETE', '/api/collections/posts/' . $entry->id);
         
-        $this->assertDatabaseMissing('mx_posts', [
-            'id' => $data->entry->id
-        ]);
+        $this->assertDatabaseMissing('mx_posts', [ 'id' => $entry->id ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_without_permissions_cannot_create_new_entries()
     {
         $this->expectException(AuthorizationException::class);
@@ -184,7 +197,11 @@ class CollectionTest extends TestCase
         $this->assertDatabaseMissing('mx_posts', $data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_without_permissions_cannot_update_existing_entries()
     {
         $this->expectException(AuthorizationException::class);
@@ -206,7 +223,11 @@ class CollectionTest extends TestCase
         ])->assertUnauthorized();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_without_permissions_cannot_delete_existing_entries()
     {
         $this->expectException(AuthorizationException::class);
