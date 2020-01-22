@@ -9,7 +9,7 @@
 
 	    <div class="content-container">
 			<!-- SMTP -->
-			<template v-show="credentials.mail_driver == 'smtp'">
+			<div v-show="credentials.mail_driver == 'smtp'">
 				<p-input name="stmp_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
 				<p-input name="stmp_host" label="Host" v-model="credentials.mail_smtp_host" readonly></p-input>
 				<p-input name="stmp_port" label="Port" v-model="credentials.mail_smtp_port" readonly></p-input>
@@ -17,28 +17,28 @@
 				<p-input name="stmp_password" type="password" label="Password" v-model="credentials.mail_smtp_password" readonly></p-input>
 				<p-input name="stmp_from_name" label="From Name" v-model="credentials.mail_name" readonly></p-input>
 				<p-input name="stmp_from_address" label="From Address" v-model="credentials.mail_server" readonly></p-input>
-			</template>
+			</div>
 
 			<!-- Sparkpost -->
-			<template v-show="credentials.mail_driver == 'sparkpost'">
+			<div v-show="credentials.mail_driver == 'sparkpost'">
 				<p-input name="sparkpost_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
 				<p-input name="sparkpost_scret" type="password" label="Secret" v-model="credentials.mail_sparkpost_secret" readonly></p-input>
-			</template>
+			</div>
 
 			<!-- Mailgun -->
-			<template v-show="credentials.mail_driver == 'mailgun'">
+			<div v-show="credentials.mail_driver == 'mailgun'">
 				<p-input name="mailgun_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
 				<p-input name="mailgun_domain" label="Domain" v-model="credentials.mail_mailgun_domain" readonly></p-input>
 				<p-input name="mailgun_secret" type="password" label="Secret" v-model="credentials.mail_mailgun_secret" readonly></p-input>
-			</template>
+			</div>
 
 			<!-- Mandrill -->
-			<template v-show="credentials.mail_driver == 'mandrill'">
+			<div v-show="credentials.mail_driver == 'mandrill'">
 				<p-input name="mandrill_driver" label="Driver" v-model="credentials.mail_driver" readonly></p-input>
 				<p-input name="mandrill_scret" type="password" label="Secret" v-model="credentials.mail_mandrill_secret" readonly></p-input>
-			</template>
+			</div>
 
-			<p-button theme="primary" @click="submit">Run Test</p-button>
+			<p-button theme="primary" @click="submit" class="mt-5">Run Test</p-button>
 		</div>
 	</div>
 </template>

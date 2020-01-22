@@ -11,11 +11,10 @@
 
 namespace Tests\Feature\Settings;
 
+use Mail;
 use Storage;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
-// use Illuminate\Validation\ValidationException;
-// use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MailTest extends TestCase
@@ -31,7 +30,16 @@ class MailTest extends TestCase
     {
         parent::setUp();
 
+        $settings = collect(config('settings.settings'))
+            ->groupBy('section')
+            ->map(function ($items) {
+                return $items->mapWithKeys(function ($item) {
+                    return [$item['handle'] => $item['default'] ?? null];
+                });
+        })->toArray();
+
         Storage::fake('settings');
+        Storage::disk('settings')->put('settings.json', json_encode($settings, JSON_PRETTY_PRINT));
 
         $this->handleValidationExceptions();
     }
@@ -64,17 +72,52 @@ class MailTest extends TestCase
             ->assertStatus(422);
     }
 
-    // /**
-    //  * @test
-    //  * @group fusioncms
-    //  * @group settings
-    //  */
-    // public function an_update_to_mail_settings_will_reflect_in_the_settings_file()
-    // {
-    //     $this->actingAs($this->admin, 'api');
+    /**
+     * @test
+     * @group fusioncms
+     * @group settings
+     */
+    public function an_update_to_mail_settings_will_reflect_in_the_settings_file()
+    {
+        $this->actingAs($this->admin, 'api');
 
-    //     $this->json('PATCH', 'api/settings/mail', [
+        $this->json('PATCH', 'api/settings/mail', [
+            'mail_driver'    => 'smtp',
+            'mail_smtp_host' => 'smtp.mailtrap.io',
+            'mail_smtp_port' => 2525,
+        ])->assertStatus(200);
 
-    //     ])->assertStatus(200);
-    // }
+        $this->assertTrue(setting('mail.mail_driver')    === 'smtp');
+        $this->assertTrue(setting('mail.mail_smtp_host') === 'smtp.mailtrap.io');
+        $this->assertTrue(setting('mail.mail_smtp_port') === 2525);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group settings
+     */
+    public function a_user_with_permissions_can_send_a_test_email()
+    {
+        Mail::fake();
+
+        $this->actingAs($this->admin, 'api');
+        $this->json('GET', 'api/mail/test', []);
+
+        Mail::assertSent(\App\Mail\WelcomeNewUser::class, function($mail) {
+            return $mail->user->id === $this->admin->id;
+        });
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group settings
+     */
+    public function a_user_without_permissions_can_not_send_a_test_email()
+    {
+        $this->expectException(AuthenticationException::class);
+
+        $this->json('GET', 'api/settings/mail', []);
+    }
 }

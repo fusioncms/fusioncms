@@ -12,6 +12,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Services\Settings\Repository;
 use Illuminate\Support\ServiceProvider;
 

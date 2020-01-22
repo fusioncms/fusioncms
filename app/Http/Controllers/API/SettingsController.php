@@ -13,7 +13,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\SettingResource;
 
 class SettingsController extends Controller
@@ -71,7 +71,8 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $section)
     {
-        $settings = json_decode(File::get(settings_path()), true);
+        $settings = Storage::disk('settings')->get('settings.json');
+        $settings = json_decode($settings, true);
 
         foreach ($settings[$section] as $handle => $setting) {
             if ($request->has($handle)) {
@@ -89,7 +90,7 @@ class SettingsController extends Controller
             }
         }
 
-        File::put(settings_path(), json_encode($settings, JSON_PRETTY_PRINT));
+        Storage::disk('settings')->put('settings.json', json_encode($settings, JSON_PRETTY_PRINT));
 
         activity()
             ->withProperties([
