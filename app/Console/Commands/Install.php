@@ -24,7 +24,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=secret} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
+    protected $signature = 'fusion:install {--dev} {--quick} {--force} {--url=http://localhost} {--host=localhost} {--database=fusioncms} {--username=homestead} {--password=} {--charset=utf8} {--collation=utf8_unicode_ci} {--test}';
 
     /**
      * The console command description.
@@ -128,7 +128,7 @@ class Install extends Command
         $this->container['db_host']      = $this->ask('Please enter the database host:', $this->container['db_host']);
         $this->container['db_name']      = $this->ask('Please enter the database name:', $this->container['db_name']);
         $this->container['db_username']  = $this->ask('Please enter the database username:', $this->container['db_username']);
-        $this->container['db_password']  = $this->ask('Please enter the database password:', $this->container['db_password']);
+        $this->container['db_password']  = $this->secret('Please enter the database password:', $this->container['db_password']);
         $this->container['db_charset']   = $this->ask('Please enter the database charset:', $this->container['db_charset']);
         $this->container['db_collation'] = $this->ask('Please enter the database collation:', $this->container['db_collation']);
 
@@ -136,7 +136,7 @@ class Install extends Command
         $this->comment('Database Host:      ' . $this->container['db_host']);
         $this->comment('Database Name:      ' . $this->container['db_name']);
         $this->comment('Database Username:  ' . $this->container['db_username']);
-        $this->comment('Database Password:  ' . $this->container['db_password']);
+        $this->comment('Database Password: ******');
         $this->comment('Database Charset:   ' . $this->container['db_charset']);
         $this->comment('Database Collation: ' . $this->container['db_collation']);
 
@@ -166,7 +166,7 @@ class Install extends Command
         $this->comment('You have provided the following user details:');
         $this->comment('Name: ' . $this->container['user_name']);
         $this->comment('E-Mail:    ' . $this->container['user_email']);
-        $this->comment('Password:  ' . $this->container['user_password']);
+        $this->comment('Password: ******');
 
         if ($this->confirm('Do you wish to continue?')) {
             $this->comment('Thanks! That\'s all we need.');
@@ -262,8 +262,8 @@ class Install extends Command
      */
     protected function askForUserPassword()
     {
-        $password     = $this->ask('Please enter the user\'s password:', 'secret');
-        $confirmation = $this->ask('Please confirm the user\'s password:', 'secret');
+        $password     = $this->secret('Please enter the user\'s password:', 'secret');
+        $confirmation = $this->secret('Please confirm the user\'s password:', 'secret');
 
         if ($password !== $confirmation) {
             $this->error('Sorry, your password and password confirmation do not match. Please try again.');
