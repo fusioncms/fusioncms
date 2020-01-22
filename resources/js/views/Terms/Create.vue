@@ -88,9 +88,13 @@
                         status: 1,
                     }
 
-                    _.forEach(vm.taxonomy.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.taxonomy[handle])
-                    })
+                    if (vm.taxonomy.fieldset) {
+                        _.forEach(vm.taxonomy.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                Vue.set(fields, field.handle, field.default)
+                            })
+                        })
+                    }
 
                     vm.form = new Form(fields, true)
                     vm.$emit('updateHead')

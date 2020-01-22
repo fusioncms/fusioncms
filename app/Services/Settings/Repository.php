@@ -12,6 +12,7 @@
 namespace App\Services\Settings;
 
 use File;
+use Storage;
 use Illuminate\Support\Arr;
 
 class Repository
@@ -97,7 +98,10 @@ class Repository
             Arr::set($this->items, $key, $value);
         }
 
-        File::put(storage_path('settings.json'), json_encode($this->items, JSON_PRETTY_PRINT));
+        File::put(
+            Storage::disk('settings')->path('settings.json'),
+            json_encode($this->items, JSON_PRETTY_PRINT)
+        );
     }
 
     /**

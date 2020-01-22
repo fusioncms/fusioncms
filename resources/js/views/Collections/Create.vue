@@ -219,7 +219,7 @@
                     if (vm.collection.fieldset) {
                         _.forEach(vm.collection.fieldset.sections, function(section) {
                             _.forEach(section.fields, function(field) {
-                                Vue.set(fields, field.handle, '')
+                                Vue.set(fields, field.handle, field.default)
                             })
                         })
                     }

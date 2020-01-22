@@ -114,6 +114,10 @@ export default {
             context.dispatch('extractFields', response)
         },
 
+        clearResponse(context) {
+            context.commit('setResponse', {})
+        },
+
         selectFirstResponse(context) {
             if (context.state.responses.length) {
                 context.dispatch('selectResponse', _.head(context.state.responses))

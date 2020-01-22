@@ -10,7 +10,7 @@
 
 		<div class="row">
 			<div class="content-container">
-				<p-datatable :endpoint="endpoint" name="imports" sort-by="name" :per-page="10" primary-key="handle">
+				<p-datatable :endpoint="endpoint" name="imports" sort-by="name" :per-page="10" primary-key="handle" key="importer_table">
 					<template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'importer.view', params: {importer: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>

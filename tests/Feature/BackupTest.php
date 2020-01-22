@@ -43,7 +43,7 @@ class BackupTest extends TestCase
 		config(['backup.backup.source.files.include' => [
 			Storage::disk('public')->path('files'),
 			Storage::disk('temp')->path('env.json'),
-			storage_path('settings.json'),
+			Storage::disk('settings')->path('settings.json'),
 		]]);
 
 		// Add multiple files..

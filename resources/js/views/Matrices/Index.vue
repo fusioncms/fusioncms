@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle">
+                <p-datatable :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle" key="matrices_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -33,7 +33,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="table.record.slug">
+                        <p-dropdown right :key="'matrix_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">

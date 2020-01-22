@@ -10,7 +10,7 @@
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10">
+                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -24,7 +24,7 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="table.record.slug">
+                        <p-dropdown right :key="'entry_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
                             
                             <template slot="options">

@@ -10,3 +10,5 @@
  */
 
 Route::apiResource('mailables', 'MailableController')->except(['store', 'destroy']);
+
+Route::get('mail/test', 'MailController@index');

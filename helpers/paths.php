@@ -17,6 +17,6 @@ if (! function_exists('settings_path')) {
      */
     function settings_path()
     {
-        return storage_path('settings.json');
+    	return Storage::disk('settings')->path('settings.json');
     }
 }

@@ -10,7 +10,7 @@
 
 		<div class="row">
 			<div class="content-container">
-				<p-datatable :endpoint="endpoint" name="mailables" sort-by="name" :per-page="10" primary-key="handle">
+				<p-datatable :endpoint="endpoint" name="mailables" sort-by="name" :per-page="10" primary-key="handle" key="mailables_table">
 					<template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>

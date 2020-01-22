@@ -35,6 +35,7 @@
 
         computed: {
             ...mapGetters({
+                selectedDirectories: 'filemanager/getSelectedDirectories',
                 selectedFiles: 'filemanager/getSelectedFiles',
                 loading: 'filemanager/getLoading',
             })
@@ -51,7 +52,10 @@
                 if (this.directory) {
                     this.moveFileToDirectory({
                         directory: this.directory.id,
-                        files: this.selectedFiles
+                        moving: {
+                            files: this.selectedFiles,
+                            directories: this.selectedDirectories
+                        }
                     })
 
                     this.clearSelection()

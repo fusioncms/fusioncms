@@ -8,14 +8,22 @@
             <router-link :to="{ name: 'forms' }" class="button">Manage Forms</router-link>
         </portal>
 
-        <div class="row h-full">
-            <filter-sidebar></filter-sidebar>
+        <div v-if="$mq == 'sm' && response.id" class="row mb-6">
+            <div class="col w-full">
+                <p-card class="flex items-center justify-between">
+                    <a href="#" @click.prevent="clear" class="rounded p-2 hover:bg-gray-100 text-gray-900 border border-gray-300"><fa-icon :icon="['fas', 'arrow-left']" class="fa-fw"></fa-icon></a>
+                </p-card>
+            </div>
+        </div>
+
+        <div class="row md:h-full">
+            <filter-sidebar v-if="($mq == 'sm' && ! response.id) || $mq != 'sm'"></filter-sidebar>
 
             <div class="content-container" style="margin-bottom: 0 !important;">
-                <div class="card h-full flex flex-1">
-                    <response-list v-if="$mq == 'sm' && ! response.id"></response-list>
+                <div class="card md:h-full flex flex-1">
+                    <response-list v-if="($mq == 'sm' && ! response.id) || $mq != 'sm'"></response-list>
 
-                    <response-view v-if="$mq == 'sm' && response.id"></response-view>
+                    <response-view v-if="($mq == 'sm' && response.id) || $mq != 'sm'"></response-view>
                 </div>
             </div>
         </div>
@@ -25,7 +33,7 @@
 <script>
     import _ from 'lodash'
     import store from '../../vuex'
-    import { mapGetters } from 'vuex'
+    import { mapActions, mapGetters } from 'vuex'
     import ResponseList from './ResponseList.vue'
     import ResponseView from './ResponseView.vue'
     import FilterSidebar from './FilterSidebar.vue'
@@ -48,6 +56,12 @@
         computed: {
             ...mapGetters({
                 response: 'inbox/getResponse'
+            }),
+        },
+
+        methods: {
+            ...mapActions({
+                clear: 'inbox/clearResponse'
             }),
         },
 

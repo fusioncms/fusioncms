@@ -10,7 +10,7 @@
             <a href="#" @click.prevent="lastPage" class="text-gray-700 hover:text-gray-900 text-lg m-1 p-3 hover:bg-gray-100 rounded"><fa-icon :icon="['fas', 'angle-double-right']" class="fa-fw"></fa-icon></a>
         </div>
 
-        <div class="absolute w-full pin-t p-2 text-sm flex justify-center items-center bg-gray-900 text-gray-100" v-if="loading">
+        <div class="absolute w-full pin-t p-2 text-sm flex justify-center items-center bg-gray-900 text-gray-100 rounded-b" v-if="loading">
             <fa-icon :icon="['fas', 'circle-notch']" class="fa-spin mr-3"></fa-icon> Loading responses...
         </div>
 
