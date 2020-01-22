@@ -652,12 +652,13 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 1,
+            'override'    => 'mail.driver',
         ],
 
         [
             'section'     => 'mail',
             'group'       => 'General',
-            'name'        => 'From',
+            'name'        => 'From Address',
             'handle'      => 'mail_server',
             'description' => 'All e-mails to users will come from this e-mail address.',
             'type'        => 'text',
@@ -665,6 +666,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 2,
+            'override'    => 'mail.from.address',
         ],
 
         [
@@ -678,6 +680,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 3,
+            'override'    => 'mail.from.name',
         ],
 
         [
@@ -705,6 +708,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 5,
+            'override'    => 'mail.host',
         ],
 
         [
@@ -718,6 +722,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 6,
+            'override'    => 'mail.port',
         ],
 
         [
@@ -731,6 +736,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 7,
+            'override'    => 'mail.username',
         ],
 
         [
@@ -744,6 +750,7 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 8,
+            'override'    => 'mail.password',
         ],
 
         [
@@ -835,6 +842,15 @@ return [
             'required'    => true,
             'gui'         => true,
             'order'       => 2,
+        ],
+
+        [
+            'section'     => 'mail',
+            'group'       => 'Test',
+            'type'        => 'component',
+            'handle'      => 'settings-mail-test',
+            'gui'         => true,
+            'order'       => 1,
         ],
 
         /*

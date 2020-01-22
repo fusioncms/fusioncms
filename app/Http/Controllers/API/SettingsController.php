@@ -13,7 +13,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\SettingResource;
 
 class SettingsController extends Controller
@@ -49,7 +49,7 @@ class SettingsController extends Controller
 
     public function show(Request $request, $section)
     {
-        $items = collect(config('settings.settings'))
+        $settings = collect(config('settings.settings'))
             ->map(function ($item) {
                 $item['value'] = setting($item['section'] . '.' . $item['handle']);
 
@@ -59,14 +59,7 @@ class SettingsController extends Controller
             ->get($section)
             ->sortBy('order');
 
-        $section = collect(config('settings.sections'))
-            ->where('handle', $section)
-            ->first();
-
-        return new SettingResource([
-            'section' => $section,
-            'items'   => $items,
-        ]);
+        return new SettingResource($settings);
     }
 
     /**
@@ -78,8 +71,8 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $section)
     {
-        $settingsFilePath = settings_path();
-        $settings         = json_decode(File::get($settingsFilePath), true);
+        $settings = Storage::disk('settings')->get('settings.json');
+        $settings = json_decode($settings, true);
 
         foreach ($settings[$section] as $handle => $setting) {
             if ($request->has($handle)) {
@@ -89,13 +82,15 @@ class SettingsController extends Controller
                     $path      = $file->storeAs('/', $handle . '.' . $extension, 'settings');
 
                     $settings[$section][$handle] = $path;
+                    app('settings')->set($section . '.' . $handle, $path);
                 } else {
                     $settings[$section][$handle] = $request->get($handle);
+                    app('settings')->set($section . '.' . $handle, $request->get($handle));
                 }
             }
         }
 
-        File::put(settings_path(), json_encode($settings, JSON_PRETTY_PRINT));
+        Storage::disk('settings')->put('settings.json', json_encode($settings, JSON_PRETTY_PRINT));
 
         activity()
             ->withProperties([
@@ -104,6 +99,16 @@ class SettingsController extends Controller
             ])
             ->log('Updated CMS settings');
 
-        return response(['data' => $settings[$section]]);
+        $settings = collect(config('settings.settings'))
+            ->map(function ($item) {
+                $item['value'] = setting($item['section'] . '.' . $item['handle']);
+
+                return $item;
+            })
+            ->groupBy('section')
+            ->get($section)
+            ->sortBy('order');
+
+        return new SettingResource($settings);
     }
 }

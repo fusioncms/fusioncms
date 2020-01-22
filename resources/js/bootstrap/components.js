@@ -37,3 +37,6 @@ Vue.component('delete-selected-files-modal', require('../components/FileManager/
 Vue.component('field-editor', require('../components/FieldEditor').default)
 Vue.component('field-builder', require('../components/FieldBuilder').default)
 Vue.component('section-builder', require('../components/SectionBuilder').default)
+
+// Settings
+Vue.component('settings-mail-test', require('../components/Settings/MailTest').default)
