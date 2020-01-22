@@ -12,9 +12,9 @@
                     </div>
                     <hr>
                     <div class="card-body">
-                        <router-link 
-                            v-for="(file, index) in files" 
-                            :to="{ path: 'logs?', query: {file: file} }" 
+                        <router-link
+                            v-for="(file, index) in files"
+                            :to="{ path: 'logs?', query: {file: file} }"
                             :key="index"
                             class="block px-3 py-2 text-gray-900">
                             {{file}}
@@ -39,7 +39,7 @@
                             <div v-for="log in logs" :key="log" class="logs__row flex flex-no-wrap py-2" @click="changeCurrentError(log)" v-modal:error-view>
                                 <div class="px-2 py-1 flex-shrink-0 flex items-center">
                                     <div :class="'d-flex whitespace-no-wrap text-' + log.level.status + '-600'" :title="log.level.name">
-                                        <fa-icon :icon="['far', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
+                                        <fa-icon :icon="['fas', log.level.icon]" class="fa-inverse! fa-fw"></fa-icon>
                                         <span class="sr-only">
                                             {{ log.level.name }}
                                         </span>
