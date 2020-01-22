@@ -36,8 +36,8 @@
             <div class="content-container">
                 <p-card no-body>
                     <div class="w-full p-2 bg-gray-700 rounded-t flex">
-                        <button class="ml-2 mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reload"><fa-icon :icon="['far', 'redo']" class="fa-fw text-white"></fa-icon></button>
-                        <button class="mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reset"><fa-icon :icon="['far', 'home']" class="fa-fw text-white"></fa-icon></button>
+                        <button class="ml-2 mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reload"><fa-icon :icon="['fas', 'redo']" class="fa-fw text-white"></fa-icon></button>
+                        <button class="mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reset"><fa-icon :icon="['fas', 'home']" class="fa-fw text-white"></fa-icon></button>
 
                         <div class="px-6 bg-gray-800 rounded-full text-gray-400 flex flex-1">
                             <span>{{ baseUrl }}</span>

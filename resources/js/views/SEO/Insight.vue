@@ -70,7 +70,7 @@
                                 <tr v-for="browser in browsers" :key="browser.browser">
                                     <td>
                                         <span class="text-gray-800 hover:text-gray-900 mr-4">
-                                            <fa-icon v-if="browser.icon == 'default'" :icon="['far', 'globe']" class="fa-fw"></fa-icon>
+                                            <fa-icon v-if="browser.icon == 'default'" :icon="['fas', 'globe']" class="fa-fw"></fa-icon>
                                             <fa-icon v-else :icon="['fab', browser.icon]" class="fa-fw"></fa-icon>
                                         </span>
 
@@ -89,7 +89,7 @@
 
 <script>
     import moment from 'moment-timezone';
-    
+
     export default {
         head: {
             title() {

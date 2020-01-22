@@ -17,7 +17,7 @@
                                     <fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
                                 </p-sortable-handle>
 
-                                <fa-icon :icon="['far', field.type.icon]" class="fa-fw mr-3"></fa-icon>
+                                <fa-icon :icon="['fas', field.type.icon]" class="fa-fw mr-3"></fa-icon>
                                 <span class="mr-6 font-bold">{{ field.name }}</span>
                                 <span class="mr-6 font-mono text-xs">{{ field.handle }}</span>
                                 <span class="font-mono text-xs uppercase">{{ field.type.name }}</span>
@@ -26,7 +26,7 @@
                             <div>
                                 <p-dropdown right>
                                     <fa-icon icon="bars"></fa-icon>
-                                    
+
                                     <template slot="options">
                                         <p-dropdown-item @click.prevent="edit(index)" v-modal:edit-field>Edit</p-dropdown-item>
                                         <p-dropdown-item @click.prevent="remove(index)">Delete</p-dropdown-item>
@@ -103,7 +103,7 @@
 
                 set: function(value) {
                     return value
-                }      
+                }
             },
 
             sectionFieldHandles() {
