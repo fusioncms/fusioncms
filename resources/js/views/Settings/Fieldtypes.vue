@@ -12,7 +12,7 @@
                             <div v-for="(fieldtype) in fieldtypes" :key="fieldtype.handle">
                                 <div class="flex flex-col lg:flex-row lg:justify-between">
                                     <div class="mb-6 lg:mb-0">
-                                        <h3><fa-icon :icon="['far', fieldtype.icon]" class="fa-fw mr-2"></fa-icon> {{ fieldtype.name }}</h3>
+                                        <h3><fa-icon :icon="['fas', fieldtype.icon]" class="fa-fw mr-2"></fa-icon> {{ fieldtype.name }}</h3>
 
                                         <p class="text-sm">{{ fieldtype.description }}</p>
                                     </div>
@@ -59,7 +59,7 @@
 
                 axios.post('/api/settings/fieldtypes', formData).then(() => {
                     toast('Settings have been updated.', 'success')
-                    
+
                     this.$router.push('/settings')
                 })
             }
@@ -80,7 +80,7 @@
 
                     if (_.isEmpty(values) || value === null) {
                         values = {}
-                        
+
                         _.each(fieldtypes, function(fieldtype) {
                             let enabled = _.reject(structures, function(structure) {
                                 return _.includes(fieldtype.exclude, structure.handle)

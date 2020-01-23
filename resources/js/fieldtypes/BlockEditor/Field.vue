@@ -3,7 +3,7 @@
         <label :for="field.handle" class="form__label">{{field.name}}</label>
         <div class="block-editor" :id="field.handle">
             <a href="#" class="block-editor__add" @click.prevent="addBlock" name="Add block">
-                <fa-icon :icon="['far', 'plus-circle']"></fa-icon>
+                <fa-icon :icon="['fas', 'plus-circle']"></fa-icon>
             </a>
         </div>
     </div>
@@ -11,7 +11,7 @@
 
 <script>
     import EditorJS from '@editorjs/editorjs'
-    
+
     const Checklist = require('@editorjs/checklist')
     const Code = require('@editorjs/code')
     const Delimiter = require('@editorjs/delimiter')
@@ -47,7 +47,7 @@
                 editor: {
                     type: Object
                 }
-            }   
+            }
         },
 
         mounted() {
