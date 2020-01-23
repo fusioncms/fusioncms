@@ -15,22 +15,23 @@ use Analytics;
 use Exception;
 use Spatie\Analytics\Period;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\InsightResource;
 
 class CheckConfigurationController extends Controller
 {
     public function index()
     {
-        $message = 'Credentials seem to be valid.';
-        $status  = 'OK';
-
         try {
             Analytics::fetchTotalVisitorsAndPageViews(Period::days(1));
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            $status  = 'Failed';
-        }
 
-        return new InsightResource(['status' => $status, 'message' => $message]);
+            return response()->json(['status' => 'OK']);
+        } catch (Exception $e) {
+            $error = json_decode($e->getMessage());
+
+            return response()->json([
+                'status'  => 'failed',
+                'code'    => $error->error,
+                'message' => $error->error_description,
+            ]);
+        }
     }
 }
