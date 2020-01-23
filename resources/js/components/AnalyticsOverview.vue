@@ -151,7 +151,9 @@
 
         mounted() {
             axios.get('/api/insights/check').then((response) => {
-                if (response.data.status == 'OK') {
+                this.isValid = response.data.status === 'OK'
+
+                if (this.isValid) {
                     axios.all([
                         axios.get('/api/insights/overview'),
                     ]).then(axios.spread(function (insight) {
