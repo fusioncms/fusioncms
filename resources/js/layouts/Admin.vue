@@ -17,7 +17,11 @@
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <p-dropdown right>
+                    <router-link to="/settings" class="mr-4"><fa-icon :icon="['fas', 'cog']" class="fa-fw"></fa-icon> <span class="hidden md:inline">Settings</span></router-link>
+
+                    <a href="/" target="_blank"><fa-icon :icon="['fas', 'external-link-alt']" class="fa-fw"></fa-icon> <span class="hidden md:inline">View site</span></a>
+
+                    <p-dropdown class="ml-6" right>
                         <fa-icon icon="circle" class="fa-xs mr-1 text-success-500"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
 
                         <template slot="options">
@@ -35,7 +39,7 @@
             <!-- Local Environment Warning -->
             <div class="w-full bg-warning-100 flex flex-col items-center justify-between text-gray-900 shadow border-l text-center" v-if="environment == 'local'">
                 <span class="text-sm font-bold py-2 px-6">Your website is currently in the local development environment.</span>
-            
+
                 <div class="w-full" style="height: 4px; background: repeating-linear-gradient(-45deg, #F2D024, #F2D024 12px, #22292F 10px, #22292F 23px);"></div>
             </div>
 
@@ -43,7 +47,7 @@
             <main class="page-content flex flex-col bg-danger-200">
                 <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
                     <div class="flex items-end flex-wrap">
-                        <h1 class="leading-tight m-0 p-0">                            
+                        <h1 class="leading-tight m-0 p-0">
                             <portal-target name="title" slim></portal-target>
                         </h1>
 

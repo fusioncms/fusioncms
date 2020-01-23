@@ -3,8 +3,20 @@
 
     height: 55px;
 
-  &__account .dropdown__options {
-    margin-top: 0;
+  &__account {
+    @apply flex items-center text-sm;
+
+    a {
+      @apply text-gray-600;
+
+      &:hover {
+        @apply text-gray-900;
+      }
+    }
+
+    .dropdown__options {
+      margin-top: 0;
+    }
   }
 }
 
