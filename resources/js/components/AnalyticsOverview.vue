@@ -151,9 +151,7 @@
 
         mounted() {
             axios.get('/api/insights/check').then((response) => {
-                this.isValid = response.data.data.status === 'OK'
-
-                if (this.isValid) {
+                if (response.data.status == 'OK') {
                     axios.all([
                         axios.get('/api/insights/overview'),
                     ]).then(axios.spread(function (insight) {
@@ -172,6 +170,8 @@
 
                         this.isReady = true
                     }.bind(this)))      
+                } else {
+                    toast('Insights error: ' + response.data.message, 'failed')
                 }
             })
         }
