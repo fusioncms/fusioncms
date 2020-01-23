@@ -192,6 +192,7 @@ return [
             'required'    => false,
             'gui'         => true,
             'order'       => 0,
+            'override'    => 'analytics.view_id',
         ],
 
         [
