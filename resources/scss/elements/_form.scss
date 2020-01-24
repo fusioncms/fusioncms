@@ -1,5 +1,4 @@
-input, select, textarea {
-    &.form__control {
+.form__control {
         @apply .appearance-none .block .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded .px-3 .py-1 .leading-loose;
 
         &--sm {
@@ -28,7 +27,7 @@ input, select, textarea {
             }
         }
     }
-}
+
 
 select {
     &.form__control {
@@ -194,7 +193,7 @@ select {
         &:focus {
             @apply .border-r-0;
         }
-    }   
+    }
 }
 
 .input__group--append {

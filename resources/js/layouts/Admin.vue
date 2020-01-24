@@ -22,7 +22,8 @@
                     <a href="/" target="_blank"><fa-icon :icon="['fas', 'external-link-alt']" class="fa-fw"></fa-icon> <span class="hidden md:inline">View site</span></a>
 
                     <p-dropdown class="ml-6" right>
-                        <fa-icon icon="circle" class="fa-xs mr-1 text-success-500"></fa-icon> Hey there, {{ user.name }} <fa-icon icon="caret-down" class="fa-xs ml-1"></fa-icon>
+                        <fa-icon icon="circle" class="fa-xs mr-2 text-success-500"></fa-icon> Hey there, {{ user.name }}
+                        <div class="-mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-4 w-4"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
 
                         <template slot="options">
                             <p-dropdown-item :href="'/admin/users/edit/' + user.id">Account</p-dropdown-item>

@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div>
         <portal to="title">
             <app-title icon="mail-bulk">Edit Mailable</app-title>
         </portal>
@@ -9,121 +9,126 @@
             <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Mailable</button>
         </portal>
 
-        <div class="content-container">
-            <form @submit.prevent="submit" @input.once="form.onFirstChange">
-                <p-card>
-                    <div class="row">
-                        <div class="col form-content">
-                            <div class="row">
-                                <div class="col w-full xxl:w-1/2 mb-6">
-                                    <p-input
-                                        name="name"
-                                        label="Name"
-                                        help="What this mailable will be called."
-                                        autocomplete="off"
-                                        autofocus
-                                        required
-                                        :has-error="form.errors.has('name')"
-                                        :error-message="form.errors.get('name')"
-                                        v-model="form.name">
-                                    </p-input>
+        <div class="row">
+            <div class="content-container">
+                <form @submit.prevent="submit">
+                    <p-card>
+                        <div class="row">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
+                                    <!--  -->
+                                </div>
+                            </div>
+
+                            <div class="col form-content">
+                                <div class="row mb-6">
+                                    <div class="col w-full xxl:w-1/2 mb-6">
+                                        <p-input
+                                            name="name"
+                                            label="Name"
+                                            help="What this mailable will be called."
+                                            autocomplete="off"
+                                            autofocus
+                                            required
+                                            :has-error="form.errors.has('name')"
+                                            :error-message="form.errors.get('name')"
+                                            v-model="form.name">
+                                        </p-input>
+                                    </div>
+
+                                    <div class="col w-full xxl:w-1/2 mb-6">
+                                        <p-slug
+                                            name="handle"
+                                            label="Handle"
+                                            help="A developer-friendly variant of the mailable's name."
+                                            autocomplete="off"
+                                            required
+                                            delimiter="_"
+                                            :watch="form.name"
+                                            :has-error="form.errors.has('handle')"
+                                            :error-message="form.errors.get('handle')"
+                                            v-model="form.handle">
+                                        </p-slug>
+                                    </div>
                                 </div>
 
-                                <div class="col w-full xxl:w-1/2 mb-6">
-                                    <p-slug
-                                        name="handle"
-                                        label="Handle"
-                                        help="A developer-friendly variant of the mailable's name."
-                                        autocomplete="off"
-                                        required
-                                        delimiter="_"
-                                        :watch="form.name"
-                                        :has-error="form.errors.has('handle')"
-                                        :error-message="form.errors.get('handle')"
-                                        v-model="form.handle">
-                                    </p-slug>
-                                </div>
-
-                                <div class="col w-full xxl:w-1/2 mb-6">
-                                    <markdown-field
-                                        v-if="ready"
-                                        ref="markdown"
-                                        v-on:input="updateMarkdown"
-                                        :field="{
-                                            'name': 'Content',
-                                            'handle': 'markdown'
-                                        }"
-                                        :value="form.markdown">
-                                    </markdown-field>
+                                <div class="row">
+                                    <div class="col w-full">
+                                        <markdown-field
+                                            v-if="ready"
+                                            ref="markdown"
+                                            v-on:input="updateMarkdown"
+                                            :field="{
+                                                'name': 'Content',
+                                                'handle': 'markdown'
+                                            }"
+                                            :value="form.markdown">
+                                        </markdown-field>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </p-card>
+                </form>
+            </div>
+
+            <div class="side-container">
+                <p-card>
+                    <div class="row">
+                        <div class="col w-full">
+                            <p-select
+                                name="status"
+                                label="Status"
+                                :options="[
+                                    {
+                                        'label': 'Enabled',
+                                        'value': '1',
+                                    },
+                                    {
+                                        'label': 'Disabled',
+                                        'value': '0',
+                                    },
+                                ]"
+                                v-model="form.status">
+                            </p-select>
+                        </div>
                     </div>
                 </p-card>
-            </form>
-        </div>
 
-        <div class="side-container">
-            <p-card>
-                <div class="row">
-                    <div class="col w-full">
-                        <p-select
-                            name="status"
-                            label="Status"
-                            :options="[
-                                {
-                                    'label': 'Enabled',
-                                    'value': '1',
-                                },
-                                {
-                                    'label': 'Disabled',
-                                    'value': '0',
-                                },
-                            ]"
-                            v-model="form.status">
-                        </p-select>
-                    </div>
-                </div>
-            </p-card>
+                <p-card class="mt-5">
+                    <div class="row">
+                        <div class="col w-full mailable__placeholders">
+                            <label class="form__label">Placeholders</label>
+                            <p class="text-sm">Below you will find a variety of values you may reference within your template.</p>
 
-            <p-card class="mt-5">
-                <div class="row">
-                    <div class="col w-full">
-                        <label class="form__label">Placeholders</label>
-                            
-                        <template v-for="(values, name) in placeholders">
-                            <template v-if="! isArray(values)">
-                                <p-button
-                                    size="small"
-                                    class="font-semibold text-black"
-                                    @click="addPlaceholder(values)">
-                                        {{ values }}
-                                </p-button>
-                            </template>
-                            <template v-else>
+                            <div v-for="(options, name) in placeholders" :key="name">
+                                <p-button v-if="! isArray(options)" @click="addPlaceholder(options)" class="w-full mb-3 text-xs font-mono">${{ options }}</p-button>
+
                                 <p-dropdown>
-                                    {{ name }}
-                                    <fa-icon icon="caret-down" class="float-right"></fa-icon>
-                                    
+                                    <div class="font-mono text-sm">${{ name }}</div>
+                                    <div class="form__select-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-4 w-4"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+
                                     <template slot="options">
                                         <p-dropdown-item
-                                            v-for="(value, key) in values"
+                                            class="text-xs font-mono"
+                                            v-for="(value, key) in options"
                                             :key="key"
                                             @click="addPlaceholder(value, name)">
                                                 {{ value }}
                                         </p-dropdown-item>
                                     </template>
                                 </p-dropdown>
-                            </template>
-                        </template>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </p-card>
+                </p-card>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import _ from 'lodash'
     import Form from '../../forms/Form'
     import MarkdownField from '../../fieldtypes/Markdown/Field'
 
@@ -183,7 +188,20 @@
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
-            }
+            },
+
+            placeholderOptions(placeholders) {
+                let options = []
+
+                _.each(placeholders, (option) => {
+                    options.push({
+                        label: option,
+                        value: option
+                    })
+                })
+
+                return options
+            },
         },
 
         beforeRouteEnter(to, from, next) {

@@ -1,24 +1,31 @@
 <template>
-  <div class="datetime">
-    <label :for="field.handle" class="form__label">{{field.name}}</label>
-    <div class="flex items-center relative">
-      <fa-icon icon="calendar-alt" class="ml-3 absolute z-10 pointer-events-none"></fa-icon>
-      <input :id="'flatpickr_' + field.handle"
-          :name="field.handle"
-          :help="field.help"
-          :placeholder="field.settings.placeholder"
-          v-model="datetime"
-          class="datetime__input form__control mr-2 background-inherit">
+    <div class="form__group">
+        <label :for="field.handle" class="form__label">{{field.name}}</label>
+
+        <div class="form__datetime">
+            <input :id="'flatpickr_' + field.handle"
+                class="w-full focus:outline-none"
+                :name="field.handle"
+                :help="field.help"
+                :placeholder="field.settings.placeholder"
+                v-model="datetime"
+                >
+
+            <div class="form__datetime--icon">
+                <fa-icon icon="calendar-alt"></fa-icon>
+            </div>
     </div>
+
     <a v-if="datetime" href="#" class="datetime__clear text-sm pl-1" @click.prevent="flatpickr.clear()" title="Clear date">
       Clear date
     </a>
+
     <div class="form__control--meta" v-if="field.help">
       <div class="form__help">
         <span v-html="field.help"></span>
       </div>
     </div>
-        
+
   </div>
 </template>
 
@@ -58,12 +65,12 @@
         }
 
         return null
-          
+
       },
 
       adjustTimezone(dateStr) {
         let localDate = new Date();
-        let minuteOffset = localDate.getTimezoneOffset(); 
+        let minuteOffset = localDate.getTimezoneOffset();
 
         let convertedDate = new Date(this.datetime)
         convertedDate = new Date(convertedDate.getTime() + (minuteOffset * 60000))
@@ -92,7 +99,7 @@
         this.flatpickr.setDate(formattedDate)
         this.emitEvent(null, this.flatpickr.latestSelectedDateObj, this.flatpickr)
       }
-        
+
     }
   }
 </script>

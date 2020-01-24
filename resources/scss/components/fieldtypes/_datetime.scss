@@ -1,15 +1,32 @@
-.datetime {
-  &__input.form-control {
-    flex: 0 0 200px;
-    padding-left: 2.25rem;
-    &:read-only {
-      background-color: inherit!important;
+.form__datetime {
+    @apply form__control p-0 bg-white flex items-center w-full;
+
+    input {
+        @apply px-3 py-1 rounded;
     }
-  }
-  &__clear-text {
-    display: none;
-  }
+
+    &--icon {
+        @apply px-3 py-1 text-gray-700 pointer-events-none;
+    }
 }
+
+// .datetime {
+//   &__input.form-control {
+//     @apply flex;
+//     // flex: 0 0 200px;
+//     // padding-left: 2.25rem;
+
+//     &:read-only {
+//       @apply bg-white;
+//       // background-color: inherit!important;
+//     }
+//   }
+
+//   &__clear-text {
+//     @apply hidden;
+//     // display: none;
+//   }
+// }
 
 .flatpickr-calendar {
   @apply .border-gray-400;
