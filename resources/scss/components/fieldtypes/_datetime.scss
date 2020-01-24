@@ -10,24 +10,6 @@
     }
 }
 
-// .datetime {
-//   &__input.form-control {
-//     @apply flex;
-//     // flex: 0 0 200px;
-//     // padding-left: 2.25rem;
-
-//     &:read-only {
-//       @apply bg-white;
-//       // background-color: inherit!important;
-//     }
-//   }
-
-//   &__clear-text {
-//     @apply hidden;
-//     // display: none;
-//   }
-// }
-
 .flatpickr-calendar {
   @apply .border-gray-400;
   .flatpickr-months {
