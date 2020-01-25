@@ -5,7 +5,7 @@
 .dropdown__button {
     @apply inline-flex items-center cursor-pointer py-2 px-3 rounded text-sm no-underline bg-white border border-gray-400 text-gray-700 appearance-none leading-tight;
 
-    height: 42px;
+    // min-height: 42px;
 
     &:hover {
         @apply .bg-gray-200 .text-black;

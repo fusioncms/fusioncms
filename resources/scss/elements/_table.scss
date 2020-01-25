@@ -11,12 +11,16 @@ table {
         width: 1px;
     }
 
+    th {
+        @apply border-b-4 border-gray-300;
+    }
+
     th, td {
-        @apply .py-3 .px-6;
+        @apply .py-2 .px-6;
     }
 
     tr {
-        @apply border-b-4 border-gray-400 block mb-3;
+        @apply block mb-3;
     }
 
     td {
@@ -92,7 +96,7 @@ table {
         border-right: 4px solid transparent;
         border-top: 4px solid #222;
     }
-    
+
     &--desc {
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
