@@ -30,13 +30,14 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">Edit</p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown right>
+                                <fa-icon :icon="['fas', 'bars']"></fa-icon>
+
+                                <template slot="options">
+                                    <p-dropdown-item @click.prevent :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">Edit</p-dropdown-item>
+                                </template>
+                            </p-dropdown>
+
                     </template>
 				</p-datatable>
 			</div>

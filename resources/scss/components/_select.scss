@@ -2,7 +2,9 @@
     @apply .relative .w-full;
 
     &-button {
-        @apply .appearance-none .flex .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded .px-3 .py-1 .leading-loose;
+        @apply .appearance-none .flex .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded .px-3 .py-2 .leading-tight;
+
+        height: 42px;
 
         &:focus {
             @apply .outline-none .shadow;

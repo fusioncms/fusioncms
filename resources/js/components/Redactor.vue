@@ -51,7 +51,6 @@
                 default: function() {
                     return {
                         toolbarFixed: false,
-                        buttonsTextLabeled: true,
                         maxHeight: '500px',
                     }
                 },
