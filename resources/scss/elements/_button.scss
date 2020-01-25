@@ -13,8 +13,6 @@
 .button {
     @apply .cursor-pointer .inline-flex .py-2 .px-3 .rounded .no-underline .bg-white .border .border-gray-400 .text-gray-700 .appearance-none .leading-tight .items-center;
 
-    height: 42px;
-
     &:hover {
         @apply .bg-gray-200 .text-black;
     }
