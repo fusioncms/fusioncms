@@ -17,8 +17,6 @@
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <router-link to="/settings" class="mr-4"><fa-icon :icon="['fas', 'cog']" class="fa-fw"></fa-icon> <span class="hidden md:inline">Settings</span></router-link>
-
                     <a href="/" target="_blank"><fa-icon :icon="['fas', 'external-link-alt']" class="fa-fw"></fa-icon> <span class="hidden md:inline">View site</span></a>
 
                     <p-dropdown class="ml-6" right>
