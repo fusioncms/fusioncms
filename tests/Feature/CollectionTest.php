@@ -27,29 +27,6 @@ class CollectionTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Called before each test is run...
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->handleValidationExceptions();
-        
-        $this->section  = SectionFactory::times(1)->withoutFields()->create();
-        $this->fields[] = FieldFactory::withName('Excerpt')->create();
-        $this->fields[] = FieldFactory::withName('Content')->create();
-
-        foreach ($this->fields as $field) {
-            $this->section->fields()->save($field);
-        }
-
-        $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
-        $this->posts    = MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
-    }
-
-    /**
      * @test
      * @group fusioncms
      * @group matrix
@@ -66,7 +43,7 @@ class CollectionTest extends TestCase
         ])->toArray();
 
         $collection['fieldset'] = $fieldset->id;
-        
+
         $response = $this->json('POST', '/api/matrices', $collection);
 
         $response->assertStatus(201);
@@ -84,6 +61,8 @@ class CollectionTest extends TestCase
     public function a_user_with_permissions_can_create_a_new_entry()
     {
         $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
 
         $attributes = [
             'name'    => 'Example',
@@ -109,12 +88,14 @@ class CollectionTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
+        $this->generatePostsMatrix();
+
         $response = $this
             ->json('POST', '/api/collections/posts', [
                 'excerpt' => 'This is an excerpt of the blog post.',
                 'content' => 'This is the content of the blog post.',
             ])
-            ->assertStatus(422)    
+            ->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
     }
 
@@ -126,6 +107,8 @@ class CollectionTest extends TestCase
     public function a_user_with_permissions_can_update_an_existing_entry()
     {
         $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
 
         $entry = $this
             ->json('POST', '/api/collections/posts', [
@@ -156,6 +139,8 @@ class CollectionTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
+        $this->generatePostsMatrix();
+
         $entry = $this
             ->json('POST', '/api/collections/posts', [
                 'name'    => 'Example',
@@ -167,7 +152,7 @@ class CollectionTest extends TestCase
 
         $this
             ->json('DELETE', '/api/collections/posts/' . $entry->id);
-        
+
         $this->assertDatabaseMissing('mx_posts', [ 'id' => $entry->id ]);
     }
 
@@ -178,8 +163,9 @@ class CollectionTest extends TestCase
      */
     public function a_user_without_permissions_cannot_create_new_entries()
     {
-        $this->expectException(AuthorizationException::class);
         $this->actingAs($this->user, 'api');
+
+        $this->generatePostsMatrix();
 
         $data = [
             'name' => 'Example',
@@ -192,7 +178,7 @@ class CollectionTest extends TestCase
         $form['status'] = true;
 
         $response = $this->json('POST', '/api/collections/posts', $form)
-            ->assertUnauthorized();
+            ->assertForbidden();
 
         $this->assertDatabaseMissing('mx_posts', $data);
     }
@@ -204,8 +190,9 @@ class CollectionTest extends TestCase
      */
     public function a_user_without_permissions_cannot_update_existing_entries()
     {
-        $this->expectException(AuthorizationException::class);
         $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
 
         $form['name']    = 'Example';
         $form['slug']    = 'example';
@@ -220,7 +207,7 @@ class CollectionTest extends TestCase
         $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
             'name'   => 'New Post Title',
             'status' => true,
-        ])->assertUnauthorized();
+        ])->assertForbidden();
     }
 
     /**
@@ -230,8 +217,9 @@ class CollectionTest extends TestCase
      */
     public function a_user_without_permissions_cannot_delete_existing_entries()
     {
-        $this->expectException(AuthorizationException::class);
-        $this->actingAs($this->user, 'api');
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
 
         $form['name']    = 'Example';
         $form['slug']    = 'example';
@@ -239,13 +227,30 @@ class CollectionTest extends TestCase
         $form['content'] = 'This is the content of the blog post.';
         $form['status'] = true;
 
-        $entry = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
+        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
 
-        $response = $this->json('DELETE', '/api/collections/posts/'.$entry->id)
-            ->assertUnauthorized();;
-        
+        $this->actingAs($this->user, 'api');
+
+        $response = $this->json('DELETE', '/api/collections/posts/'.$data->entry->id)
+            ->assertForbidden();
+
         $this->assertDatabaseHas('mx_posts', [
-            'id' => $entry->id
+            'id' => $data->entry->id
         ]);
+    }
+
+    protected function generatePostsMatrix()
+    {
+        $section  = SectionFactory::times(1)->withoutFields()->create();
+        $fields[] = FieldFactory::withName('Excerpt')->create();
+        $fields[] = FieldFactory::withName('Content')->create();
+
+        foreach ($fields as $field) {
+            $section->fields()->save($field);
+        }
+
+        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
+
+        return MatrixFactory::withName('Posts')->asCollection()->withFieldset($fieldset)->create();
     }
 }
