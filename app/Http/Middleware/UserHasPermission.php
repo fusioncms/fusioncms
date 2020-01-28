@@ -46,10 +46,10 @@ class UserHasPermission
         if ($this->auth->check()) {
             if (! $this->auth->user()->can($permissions)) {
                 if ($request->ajax()) {
-                    return response('Unauthorized.', 403);
+                    return response('Forbidden.', 403);
                 }
 
-                abort(403, 'Unauthorized action.');
+                abort(403, 'Forbidden action.');
             }
         } else {
             $guest = Role::whereSlug('guest')->first();
@@ -57,10 +57,10 @@ class UserHasPermission
             if ($guest) {
                 if (! $guest->hasPermissionTo($permissions)) {
                     if ($request->ajax()) {
-                        return response('Unauthorized.', 403);
+                        return response('Forbidden.', 403);
                     }
 
-                    abort(403, 'Unauthorized action.');
+                    abort(403, 'Forbidden action.');
                 }
             }
         }

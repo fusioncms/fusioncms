@@ -38,12 +38,12 @@ class UserTest extends TestCase
 		$this->actingAs($this->admin, 'api');
 
 		$user = [
-			'name'     => $this->faker->name,
-			'email'    => $this->faker->unique()->safeEmail,
-			'password' => $password = $this->faker->password,
-			'password_confirmation' => $password,
-			'role'     => 'user',
-			'status'   => 1
+			'name'                  => 'John Doe',
+			'email'                 => 'john.doe@example.com',
+			'password'              => 'supersecret123',
+			'password_confirmation' => 'supersecret123',
+			'role'                  => 'user',
+			'status'                => true
 		];
 
 		$this
