@@ -36,6 +36,24 @@ class BootstrapAdminMenu
                 'icon'  => 'grip-horizontal',
             ]);
 
+            $menu->add('File Manager')->data([
+                'to'   => '/files',
+                'icon' => 'images',
+            ]);
+
+            $menu->add('Inbox')->data([
+                'to' => '/inbox',
+                'icon' => 'inbox',
+            ]);
+
+            $menu->add('SEO', '#')->data([
+                'icon'  => 'chart-bar',
+            ]);
+
+            $menu->seo->add('Insight')->data([
+                'to'    => '/insight',
+            ]);
+
             if ($matrices->count()) {
                 $menu->add('Content')->divide();
 
@@ -75,32 +93,73 @@ class BootstrapAdminMenu
                 }
             }
 
-            $menu->add('Tools')->divide();
+            $menu->add('System')->divide();
 
-            $menu->add('Inbox')->data([
-                'to' => '/inbox',
-                'icon' => 'inbox',
+            $menu->add('Configure', '#')->data([
+                'icon'  => 'sliders-h',
             ]);
-            
-            $menu->add('File Manager')->data([
-                'to'   => '/files',
-                'icon' => 'images',
+
+            $menu->configure->add('Fieldsets')->data([
+                'to'   => '/fieldsets',
+                'icon' => 'list',
             ]);
-                
-            $menu->add('Forms')->data([
+
+            $menu->configure->add('Forms')->data([
                 'to' => '/forms',
                 'icon' => 'paper-plane',
             ]);
 
-            $menu->add('SEO', '#')->data([
-                'icon'  => 'chart-bar',
+            $menu->configure->add('Mail')->data([
+                'to'   => '/mailables',
+                'icon' => 'mail-bulk',
             ]);
 
-            $menu->seo->add('Insight')->data([
-                'to'    => '/insight',
+            $menu->configure->add('Matrix')->data([
+                'to'   => '/matrices',
+                'icon' => 'hashtag',
             ]);
 
-            $menu->add('System')->divide();
+            $menu->configure->add('Taxonomy')->data([
+                'to'   => '/taxonomies',
+                'icon' => 'sitemap',
+            ]);
+
+            $menu->configure->add('Theme')->data([
+                'to'   => '/themes/settings',
+                'icon' => 'paint-roller',
+            ]);
+
+            $menu->add('Settings')->data([
+                'to'   => '/settings',
+                'icon' => 'cog',
+            ]);
+
+            $menu->add('Tools', '#')->data([
+                'icon'  => 'tools',
+            ]);
+
+            $menu->tools->add('Backups')->data([
+                'to'   => '/backups',
+                'icon' => 'save',
+            ]);
+
+            $menu->tools->add('Import')->data([
+                'to'   => '/importer',
+                'icon' => 'ship',
+            ]);
+
+            $menu->tools->add('Logs')->data([
+                'to'   => '/logs',
+                'icon' => 'bug'
+            ]);
+
+            if (app()->isLocal()) {
+                $menu->tools->add('Telescope')->data([
+                    'to' => '/telescope',
+                    'target' => '_blank',
+                    'icon' => 'satellite'
+                ]);
+            }
 
             $menu->add('Users', '#')->data([
                 'icon'  => 'users',
@@ -117,63 +176,6 @@ class BootstrapAdminMenu
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
             ]);
-
-            $menu->add('Matrix')->data([
-                'to'   => '/matrices',
-                'icon' => 'hashtag',
-            ]);
-
-            $menu->add('Taxonomy')->data([
-                'to'   => '/taxonomies',
-                'icon' => 'sitemap',
-            ]);
-
-            $menu->add('Fieldsets')->data([
-                'to'   => '/fieldsets',
-                'icon' => 'list',
-            ]);
-
-            $menu->add('Theme')->data([
-                'to'   => '/themes/settings',
-                'icon' => 'paint-roller',
-            ]);
-
-            $menu->add('Importer')->data([
-                'to'   => '/importer',
-                'icon' => 'ship',
-            ]);
-
-            $menu->add('Backups')->data([
-                'to'   => '/backups',
-                'icon' => 'save',
-            ]);
-
-            $menu->add('Mailables')->data([
-                'to'   => '/mailables',
-                'icon' => 'mail-bulk',
-            ]);
-
-            $menu->add('Settings')->data([
-                'to'   => '/settings',
-                'icon' => 'cog',
-            ]);
-            $menu->add('Logs')->data([
-                'to'   => '/logs',
-                'icon' => 'bug'
-            ]);
-
-            if (app()->isLocal()) {
-                $menu->add('Telescope')->data([
-                    'to' => '/telescope',
-                    'target' => '_blank',
-                    'icon' => 'satellite'
-                ]);
-            }            
-
-            // $menu->add('Playground')->data([
-            //     'to'   => '/playground',
-            //     'icon' => 'robot'
-            // ]);
         });
     }
 }
