@@ -119,6 +119,11 @@ class BootstrapAdminMenu
                 'icon' => 'hashtag',
             ]);
 
+            $menu->configure->add('Navigation')->data([
+                'to'   => '/navigation',
+                'icon' => 'anchor',
+            ]);
+
             $menu->configure->add('Taxonomy')->data([
                 'to'   => '/taxonomies',
                 'icon' => 'sitemap',
