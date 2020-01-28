@@ -46,7 +46,7 @@
 
         watch: {
             selection: function(selection) {
-                this.name = selection.name
+                this.name = selection.name || ''
             }
         },
 

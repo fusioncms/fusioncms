@@ -17,7 +17,6 @@
 
         data() {
             return {
-                show: false,
                 name: '',
             }
         },
