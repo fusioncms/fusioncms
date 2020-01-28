@@ -59,6 +59,17 @@ export default {
 			ev.preventDefault()
 		})
 
+		// Drag Watch
+		container.addEventListener('drag', (ev) => {
+			ev.preventDefault()
+
+			if (ev.screenY < 200) {
+				scrollBy(0, -1)
+			} else if (ev.screenY > window.innerHeight - 200) {
+				scrollBy(0,  1)
+			}
+		})
+
     	// Drag Enter
     	// Looking to enter a Dropzone - unhightlight
     	container.addEventListener('dragenter', (ev) => {
