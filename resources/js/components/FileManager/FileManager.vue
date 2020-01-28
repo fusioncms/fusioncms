@@ -14,12 +14,14 @@
                 <p-button v-if="singleSelection" v-modal:rename-file>Rename</p-button>
             </div>
 
-            <div class="inline-block mr-4">
-                <p-button @click.prevent="toggleView"> {{ (view === 'list' ? 'View Grid' : 'View List') }}</p-button>
+            <div class="inline-block">
+                <p-button v-modal:new-folder>New Folder</p-button>
             </div>
-            
-            <p-button v-modal:new-folder>New Folder</p-button>
-            <p-button theme="primary" @click="$refs.uploader.openDZ()">Upload</p-button>
+
+            <div class="inline-block ml-4">
+                <p-button @click.prevent="toggleView"> {{ (view === 'list' ? 'View Grid' : 'View List') }}</p-button>
+                <p-button theme="primary" @click="$refs.uploader.openDZ()">Upload</p-button>
+            </div>
         </portal>
 
         <div class="row">
