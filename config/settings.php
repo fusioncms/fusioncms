@@ -47,7 +47,6 @@ return [
             'group'       => 'General',
             'icon'        => 'bolt',
             'description' => 'Flush your websites cache.',
-            // 'to'          => 'settings.cache',
         ],
 
         [
@@ -72,7 +71,6 @@ return [
             'group'       => 'General',
             'icon'        => 'box-full',
             'description' => 'Manage fieldtypes and where they can be utilized.',
-            // 'to'          => 'settings.fieldtypes',
         ],
 
         [
@@ -161,6 +159,25 @@ return [
     */
 
     'settings' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cache Settings
+        |--------------------------------------------------------------------------
+        */
+
+        [
+            'section'     => 'cache',
+            'group'       => 'General',
+            'name'        => 'Clear Cache',
+            'handle'      => 'clear_cache_component',
+            'description' => 'Clear the cache files.',
+            'type'        => 'component',
+            'required'    => false,
+            'gui'         => true,
+            'order'       => 0,
+            'component'   => 'settings-cache',
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -850,9 +867,11 @@ return [
             'group'       => 'Test',
             'type'        => 'component',
             'name'        => 'Mail Test',
-            'handle'      => 'settings-mail-test',
+            'handle'      => 'mail_test_component',
+            'required'    => false,
             'gui'         => true,
-            'order'       => 1,
+            'order'       => 0,
+            'component'   => 'settings-mail-test',
         ],
 
         /*
@@ -867,9 +886,22 @@ return [
             'name'        => 'Structures',
             'handle'      => 'structures',
             'type'        => 'json',
-            'required'    => true,
+            'required'    => false,
             'gui'         => false,
-            'order'       => 1,
+            'order'       => 0,
+            'component'   => 'settings-fieldtypes',
+        ],
+
+        [
+            'section'     => 'fieldtypes',
+            'group'       => 'General',
+            'type'        => 'component',
+            'name'        => 'Structures',
+            'handle'      => 'structures_component',
+            'required'    => false,
+            'gui'         => true,
+            'order'       => 0,
+            'component'   => 'settings-fieldtypes',
         ],
 
         /*

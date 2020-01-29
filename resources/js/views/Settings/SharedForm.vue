@@ -1,47 +1,49 @@
 <template>
-	<form @submit.prevent="submit" enctype="multipart/form-data">
-	    <div class="col w-full">
-	        <p-tabs>
-	            <p-tab v-for="(groupSettings, group, index) in groups" :key="group" :name="group" :active="index === 0">
-	                <div v-for="setting in groupSettings" :key="setting.handle" class="form__group">
-	                    <p-input
-	                        v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
-	                        :name="setting.handle"
-	                        :ref="setting.handle"
-	                        :label="setting.name"
-	                        :type="setting.type"
-	                        :help="setting.description"
-	                        v-model="setting.value"
-	                    ></p-input>
+	<div>
+		<form @submit.prevent="submit" enctype="multipart/form-data">
+		    <div class="col w-full">
+		        <p-tabs>
+		            <p-tab v-for="(groupSettings, group, index) in groups" :key="group" :name="group" :active="index === 0">
+		                <div v-for="setting in groupSettings" :key="setting.handle" class="form__group">
+		                    <p-input
+		                        v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
+		                        :name="setting.handle"
+		                        :ref="setting.handle"
+		                        :label="setting.name"
+		                        :type="setting.type"
+		                        :help="setting.description"
+		                        v-model="setting.value"
+		                    ></p-input>
 
-	                    <p-select
-	                        v-if="setting.type === 'select'"
-	                        :name="setting.handle"
-	                        :ref="setting.handle"
-	                        :label="setting.name"
-	                        :options="mapOptions(setting.options)"
-	                        :help="setting.description"
-	                        v-model="setting.value"
-	                    ></p-select>
+		                    <p-select
+		                        v-if="setting.type === 'select'"
+		                        :name="setting.handle"
+		                        :ref="setting.handle"
+		                        :label="setting.name"
+		                        :options="mapOptions(setting.options)"
+		                        :help="setting.description"
+		                        v-model="setting.value"
+		                    ></p-select>
 
-	                    <p-upload
-	                        v-if="setting.type === 'file'"
-	                        :name="setting.handle"
-	                        :label="setting.name"
-	                        :help="setting.description"
-	                        v-model="setting.value"
-	                        accept="json"
-	                    ></p-upload>
+		                    <p-upload
+		                        v-if="setting.type === 'file'"
+		                        :name="setting.handle"
+		                        :label="setting.name"
+		                        :help="setting.description"
+		                        v-model="setting.value"
+		                        accept="json"
+		                    ></p-upload>
 
-	                    <component
-	                    	v-if="setting.type === 'component'"
-	                    	:is="setting.handle"
-	                    	:settings="settings"/>
-	                </div>
-	            </p-tab>
-	        </p-tabs>
-	    </div>
-	</form>
+		                    <component
+		                    	v-if="setting.type === 'component'"
+		                    	:is="setting.component"
+		                    	:settings="settings"/>
+		                </div>
+		            </p-tab>
+		        </p-tabs>
+		    </div>
+		</form>
+	</div>
 </template>
 
 <script>
@@ -62,16 +64,14 @@
 				sections: 'settings/getSections'
 			}),
 
-			items: function() {
-				return this.sections[this.section] ? this.sections[this.section].items : {}
-			},
-
 			settings: function() {
-				return _.filter(this.items, (item) => { return Boolean(item.gui) })
+				return this.sections[this.section] ? this.sections[this.section].items : {}
 			},
 			
 			groups: function() {
-				return _.groupBy(this.settings, 'group')
+				let settings = _.filter(this.settings, (setting) => { return Boolean(setting.gui) })
+
+				return _.groupBy(settings, 'group')
 			},
 		},
 

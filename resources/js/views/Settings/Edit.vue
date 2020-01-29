@@ -9,9 +9,9 @@
                 <settings-form v-if="section" ref="form" :section="section"></settings-form>
             </div>
         </div>
-
-        <portal to="actions">
-            <router-link :to="{ name: 'settings' }" class="button mr-3">Cancel</router-link>
+        
+        <portal name="setting-actions" to="actions">
+            <router-link :to="{ name: 'settings' }" class="button mr-3">Go Back</router-link>
             <button type="submit" @click.prevent="$refs.form.submit" class="button button--primary">Save Settings</button>
         </portal>
     </div>

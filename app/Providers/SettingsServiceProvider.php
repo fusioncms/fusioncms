@@ -24,6 +24,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // TODO: detect config/settings change??
+        
         /**
          * Merge FusionCMS Settings into System Configurations
          */

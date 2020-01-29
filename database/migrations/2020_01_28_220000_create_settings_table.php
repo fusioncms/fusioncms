@@ -29,6 +29,7 @@ class CreateSettingsTable extends Migration
             $table->string('handle');
             $table->string('group');
             $table->string('override');
+            $table->string('component');
             $table->string('description');
             $table->string('type');
             $table->text('options')->nullable();

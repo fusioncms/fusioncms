@@ -42,6 +42,7 @@ class CreateSystemSettings
                     'handle'      => $setting['handle'],
                     'group'       => $setting['group']            ?? '',
                     'override'    => $setting['override']         ?? '',
+                    'component'   => $setting['component']        ?? '',
                     'description' => $setting['description']      ?? '',
                     'type'        => $setting['type']             ?? 'text',
                     'options'     => $setting['options']          ?? null,
