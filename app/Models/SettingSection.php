@@ -11,34 +11,22 @@
 
 namespace App\Models;
 
-use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 
-class Setting extends Model
+class SettingSection extends Model
 {
-    use CachesQueries;
-
-    /**
+	/**
      * The attributes that are guarded via mass assignment.
      *
      * @var array
      */
     protected $guarded = [];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'options' => 'collection',
-    ];
-
-    /**
-     * SettingSection Relationship.
+   	/**
+     * Setting Relationship.
      * @return mixed
      */
-    public function section() {
-        return $this->belongsTo(SettingSection::class);
+    public function settings() {
+        return $this->hasMany(Setting::class, 'section_id', 'id');
     }
 }

@@ -18,9 +18,7 @@
 </template>
 
 <script>
-
     import SettingsForm from './SharedForm.vue'
-    import _ from 'lodash'
 
     export default {
         head: {

@@ -12,8 +12,8 @@
 namespace App\Jobs\Installer;
 
 use Module;
-
-// use App\Models\Setting;
+use App\Models\Setting;
+use App\Models\SettingSection;
 
 class CreateSystemSettings
 {
@@ -24,32 +24,35 @@ class CreateSystemSettings
      */
     public function handle()
     {
-        // $modules = Module::all();
+        // Create section 
+        $sections = [];
 
-        // foreach ($modules as $key => $module) {
-        //     if (isset($module['settings'])) {
-        //         $this->createSettings($module['settings']);
-        //     }
-        // }
-    }
+        foreach(config('settings.sections') as $section) {
+            $model = SettingSection::firstOrCreate($section);
 
-    protected function createSettings($settings)
-    {
-        foreach ($settings as $setting => $details) {
-            $data = [
-                'handle'      => $setting,
-                'name'        => $details['name'],
-                'description' => $details['description'],
-                'group'       => ($details['group'] ?? ''),
-                'type'        => ($details['type'] ?? 'text'),
-                'options'     => ($details['options'] ?? []),
-                'value'       => ($details['value'] ?? ''),
-                'is_required' => ($details['is_required'] ?? 1),
-                'is_gui'      => ($details['is_gui'] ?? 1),
-                'order'       => ($details['order'] ?? 0),
-            ];
-
-            Setting::create($data);
+            $sections[$section['handle']] = $model->id;;
         }
+
+        // Create settings
+        foreach(config('settings.settings') as $setting) {
+            if (isset($sections[$setting['section']])) {
+                Setting::firstOrCreate([
+                    'section_id'  => $sections[$setting['section']],
+                    'name'        => $setting['name'],
+                    'handle'      => $setting['handle'],
+                    'group'       => $setting['group']            ?? '',
+                    'override'    => $setting['override']         ?? '',
+                    'description' => $setting['description']      ?? '',
+                    'type'        => $setting['type']             ?? 'text',
+                    'options'     => $setting['options']          ?? null,
+                    'default'     => $setting['default']          ?? '',
+                    'value'       => $setting['value'] ?? $setting['default'] ?? '',
+                    'required'    => (bool) ($setting['required'] ?? true),
+                    'gui'         => (bool) ($setting['gui']      ?? true),
+                    'order'       => (int)  ($setting['order']    ?? 0),
+                ]);
+            }
+        }
+        
     }
 }

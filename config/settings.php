@@ -47,7 +47,7 @@ return [
             'group'       => 'General',
             'icon'        => 'bolt',
             'description' => 'Flush your websites cache.',
-            'to'          => 'settings.cache',
+            // 'to'          => 'settings.cache',
         ],
 
         [
@@ -72,7 +72,7 @@ return [
             'group'       => 'General',
             'icon'        => 'box-full',
             'description' => 'Manage fieldtypes and where they can be utilized.',
-            'to'          => 'settings.fieldtypes',
+            // 'to'          => 'settings.fieldtypes',
         ],
 
         [
@@ -849,6 +849,7 @@ return [
             'section'     => 'mail',
             'group'       => 'Test',
             'type'        => 'component',
+            'name'        => 'Mail Test',
             'handle'      => 'settings-mail-test',
             'gui'         => true,
             'order'       => 1,

@@ -1,7 +1,7 @@
 <template>
 	<form @submit.prevent="submit" enctype="multipart/form-data">
 	    <div class="col w-full">
-	        <p-tabs replace>
+	        <p-tabs>
 	            <p-tab v-for="(groupSettings, group, index) in groups" :key="group" :name="group" :active="index === 0">
 	                <div v-for="setting in groupSettings" :key="setting.handle" class="form__group">
 	                    <p-input
@@ -45,14 +45,10 @@
 </template>
 
 <script>
+	import { mapGetters, mapActions } from 'vuex'
+
 	export default {
 		name: 'settings-form',
-
-		data() {
-			return {
-				items: {}
-			}
-		},
 
 		props: {
 			section: {
@@ -62,16 +58,28 @@
 		},
 
 		computed: {
-			groups: function() {
-				return _.groupBy(this.items, 'group')
+			...mapGetters({
+				sections: 'settings/getSections'
+			}),
+
+			items: function() {
+				return this.sections[this.section] ? this.sections[this.section].items : {}
 			},
 
 			settings: function() {
-				return _.filter(this.items, (item) => { return item.gui === true })
-			}
+				return _.filter(this.items, (item) => { return Boolean(item.gui) })
+			},
+			
+			groups: function() {
+				return _.groupBy(this.settings, 'group')
+			},
 		},
 
 		methods: {
+			...mapActions({
+				setSection: 'settings/setSection'
+			}),
+
 			mapOptions(options) {
 	            let mapped = []
 
@@ -97,17 +105,16 @@
 				})
 
 				axios.post(`/api/settings/${this.section}`, formData).then((response) => {
-					this.items = response.data.data
+					this.setSection({
+						handle: this.section,
+						section: response.data.data
+					})
 
 					toast('Settings have been updated.', 'success')
-				})
+				}).catch(error => {
+					toast(error.message, 'failed')
+                })
             },
-		},
-
-		created() {
-			axios.get(`/api/settings/${this.section}`).then((response) => {
-				this.items = response.data.data
-	        })
 		}
 	}
 </script>

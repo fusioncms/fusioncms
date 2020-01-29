@@ -18,31 +18,28 @@
  */
 function setting($key = null, $default = null)
 {
-    if (! $key) {
-        return app('settings');
-    }
+	if (app_installed()) {
+		$settings = \App\Models\Setting::with('section:id,handle')
+			->get()
+			->mapWithKeys(function($item) {
+			    $key   = $item->section->handle . '.' . $item->handle;
+			    $value = ! empty($item->value) ? $item->value :  $item->default;
 
-    return app('settings')->get($key, $default);
-}
+			    return [ $key => $value ];
+			});
+	} else {
+		// App hasn't been installed yet..
+		// Use flat file instead
+		$settings = collect(config('settings.settings'))
+            ->groupBy('section')
+            ->map(function ($items) {
+                return $items->mapWithKeys(function ($item) {
+                    return [$item['handle'] => $item['default'] ?? null];
+                });
+        })->toArray();
+        
+        $settings = \Illuminate\Support\Arr::dot($settings);
+	}
 
-/**
- * Get the given setting value from the database formatted as a field path.
- *
- * @param  string  $handle
- * @param  mixed  $default
- * @return null|string
- */
-function setting_file($handle, $default = null)
-{
-    if (app_installed()) {
-        $setting = app()->make(App\Models\Setting::class)
-            ->where(['handle' => $handle])
-            ->first();
-
-        if (! empty($setting->value)) {
-            return storage_path('settings/' . $setting->value);
-        }
-    }
-
-    return $default;
+    return !$key ? $settings : $settings[$key] ?? $default;
 }
