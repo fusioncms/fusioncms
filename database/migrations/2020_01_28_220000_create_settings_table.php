@@ -22,20 +22,26 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('system_settings', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('section_id');
             $table->string('name');
-            $table->string('handle')->default('');
-            $table->text('description')->nullable();
-            $table->enum('type', ['text', 'textarea', 'password', 'number', 'select', 'radio', 'checkbox', 'file', 'partial'])->default('text');
+            $table->string('handle');
+            $table->string('group');
+            $table->string('override');
+            $table->string('description');
+            $table->string('type');
             $table->text('options')->nullable();
             $table->text('default')->nullable();
             $table->text('value')->nullable();
-            $table->boolean('is_required');
-            $table->boolean('is_gui');
-            $table->string('group');
+            $table->boolean('required');
+            $table->boolean('gui');
             $table->unsignedInteger('order');
             $table->timestamps();
+
+            $table->foreign('section_id')
+                ->references('id')->on('setting_sections')
+                ->onDelete('cascade');
         });
     }
 
@@ -46,6 +52,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('system_settings');
+        Schema::drop('settings');
     }
 }
