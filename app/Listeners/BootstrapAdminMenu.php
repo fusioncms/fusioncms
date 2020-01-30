@@ -119,8 +119,8 @@ class BootstrapAdminMenu
                 'icon' => 'hashtag',
             ]);
 
-            $menu->configure->add('Navigation')->data([
-                'to'   => '/navigation',
+            $menu->configure->add('Menus')->data([
+                'to'   => '/menus',
                 'icon' => 'anchor',
             ]);
 
@@ -180,6 +180,11 @@ class BootstrapAdminMenu
 
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
+            ]);
+
+            $menu->add('Playground')->data([
+                'to'   => '/playground',
+                'icon' => 'robot',
             ]);
         });
     }

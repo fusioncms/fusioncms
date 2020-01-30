@@ -6,9 +6,6 @@ Vue.component('color-picker-fieldtype-settings', () => import('../fieldtypes/Col
 Vue.component('divider-fieldtype', () => import('../fieldtypes/Divider/Field'))
 Vue.component('divider-fieldtype-settings', () => import('../fieldtypes/Divider/Settings'))
 
-Vue.component('block-editor-fieldtype', () => import('../fieldtypes/BlockEditor/Field'))
-Vue.component('block-editor-fieldtype-settings', () => import('../fieldtypes/BlockEditor/Settings'))
-
 Vue.component('information-fieldtype', () => import('../fieldtypes/Information/Field'))
 Vue.component('information-fieldtype-settings', () => import('../fieldtypes/Information/Settings'))
 

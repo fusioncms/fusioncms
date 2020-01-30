@@ -94,6 +94,33 @@ const router = new Router({
             }
         },
         {
+            path: '/menus',
+            component: () => import('../views/Menus/Index'),
+            name: 'menus',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/menus/create',
+            component: () => import('../views/Menus/Create'),
+            name: 'menus.create',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/menus/edit/:menu',
+            component: () => import('../views/Menus/Edit'),
+            name: 'menus.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',
