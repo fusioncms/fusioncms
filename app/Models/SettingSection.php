@@ -16,11 +16,11 @@ use App\Database\Eloquent\Model;
 class SettingSection extends Model
 {
 	/**
-     * The attributes that are guarded via mass assignment.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [ 'name', 'handle', 'group', 'icon', 'description' ];
 
    	/**
      * Setting Relationship.

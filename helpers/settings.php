@@ -14,32 +14,35 @@
  *
  * @param null $key
  * @param null $default
- * @return \App\Services\Settings\Repository|mixed
+ * @return 
  */
 function setting($key = null, $default = null)
 {
 	if (app_installed()) {
-		$settings = \App\Models\Setting::with('section:id,handle')
-			->get()
-			->mapWithKeys(function($item) {
-			    $key   = $item->section->handle . '.' . $item->handle;
-			    $value = ! empty($item->value) ? $item->value :  $item->default;
+		$settings = \Cache::rememberForever('settings', function () {
+			return \App\Models\Setting::get()->mapWithKeys(function ($item) {
+				$key   = $item->section->handle . '.' . $item->handle;
+				$value = ! empty($item->value) ? $item->value :  $item->default;
 
-			    return [ $key => $value ];
+				return [ $key => $value ];
 			});
+		});
 	} else {
-		// App hasn't been installed yet..
-		// Use flat file instead
-		$settings = collect(config('settings.settings'))
-            ->groupBy('section')
-            ->map(function ($items) {
-                return $items->mapWithKeys(function ($item) {
-                    return [$item['handle'] => $item['default'] ?? null];
-                });
-        })->toArray();
-        
-        $settings = \Illuminate\Support\Arr::dot($settings);
+		$settingPath = realpath(base_path('settings'));
+		$files       = \Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
+		$settings    = [];
+
+		foreach ($files as $file) {
+			$section    = basename($file, '.php');
+			$attributes = require $file->getRealPath();
+
+			foreach ($attributes['settings'] as $group => $values) {
+				foreach ($values as $setting) {
+					$settings[$section . '.' . $setting['handle']] = $setting['value'] ?? $setting['default'] ?? '';
+				}
+			}
+		}
 	}
 
-    return !$key ? $settings : $settings[$key] ?? $default;
+	return !$key ? $settings : $settings[$key] ?? $default;
 }

@@ -11,6 +11,8 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
+use App\Models\SettingSection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -24,30 +26,11 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // TODO: detect config/settings change??
-        
-        /**
-         * Merge FusionCMS Settings into System Configurations
-         */
-        if (app_installed()) {
-            collect(config('settings.settings'))
-                ->filter(function ($value, $key) {
-                    return isset($value['override']);
-                })->each(function ($setting) {
-                    $configKey = $setting['override'];
-                    $envKey    = strtoupper(str_replace('.', '_', $setting['override']));
-                    $value     = setting($setting['section'] . '.' . $setting['handle']);
-
-                    if (Config::has($configKey) && !empty($value)) {
-                        Config::set($configKey, env($envKey, $value));
-                    }
-                });
-        }
-
-        // Explicit route binding for settings..
         Route::bind('section', function($handle) {
-            return \App\Models\SettingSection::where('handle', $handle)->first() ?? abort(404);
+            return SettingSection::where('handle', $handle)->first() ?? abort(404);
         });
+
+        $this->overrideConfigurations();
     }
 
     /**
@@ -58,5 +41,27 @@ class SettingsServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Override existing configurations
+     * with FusionCMS System Settings.
+     *
+     * *Requires `app_installed` = true
+     * 
+     * @return void
+     */
+    protected function overrideConfigurations()
+    {
+        if (app_installed()) {
+            Setting::whereNotNull('override')
+                ->each(function ($setting) {
+                    $envKey = strtoupper(str_replace('.', '_', $setting->override));
+
+                    if (Config::has($setting->override) && !empty($setting->value)) {
+                        Config::set($setting->override, env($envKey, $setting->value));
+                    }
+                });
+        }
     }
 }
