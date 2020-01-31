@@ -12,37 +12,50 @@
 /**
  * Get a settings value.
  *
- * @param null $key
- * @param null $default
+ * @param mixed $key
+ * @param mixed $default
  * @return 
  */
 function setting($key = null, $default = null)
 {
-	if (app_installed()) {
-		$settings = \Cache::rememberForever('settings', function () {
-			return \App\Models\Setting::get()->mapWithKeys(function ($item) {
-				$key   = $item->section->handle . '.' . $item->handle;
-				$value = ! empty($item->value) ? $item->value :  $item->default;
+	if (Schema::hasTable('settings')) {
+		if (is_array($key)) {
+			// Set
+			foreach ($key as $moniker => $value) {
+				App\Models\Setting::withMoniker($moniker)->first()->update(['value' => $value]);
+			}
 
-				return [ $key => $value ];
-			});
-		});
+			Cache::forget('settings');
+            return;
+        } else {
+        	// Get
+        	$settings = Cache::rememberForever('settings', function () {
+	        	return App\Models\SettingSection::all()->mapWithKeys(function($section) {
+					$settings = $section->settings->mapWithKeys(function ($setting) {
+						return [ $setting->handle => $setting->value ?? $setting->default ];
+					});
+
+					return [ $section->handle => $settings ];
+				});
+	        });
+		}
 	} else {
 		$settingPath = realpath(base_path('settings'));
-		$files       = \Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
+		$files       = Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
 		$settings    = [];
 
 		foreach ($files as $file) {
-			$section    = basename($file, '.php');
-			$attributes = require $file->getRealPath();
+			$section            = basename($file, '.php');
+			$attributes         = require $file->getRealPath();
+			$settings[$section] = [];
 
 			foreach ($attributes['settings'] as $group => $values) {
 				foreach ($values as $setting) {
-					$settings[$section . '.' . $setting['handle']] = $setting['value'] ?? $setting['default'] ?? '';
+					$settings[$section][$setting['handle']] = $setting['value'] ?? $setting['default'] ?? '';
 				}
 			}
 		}
 	}
 
-	return !$key ? $settings : $settings[$key] ?? $default;
+	return Illuminate\Support\Arr::get($settings, $key, $default);
 }

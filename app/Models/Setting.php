@@ -36,9 +36,25 @@ class Setting extends Model
 
     /**
      * SettingSection Relationship.
-     * @return mixed
+     * 
+     * @return Builder|SettingSection
      */
     public function section() {
         return $this->belongsTo(SettingSection::class);
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeWithMoniker($query, $moniker)
+    {
+        list($section, $handle) = explode('.', $moniker);
+
+        return $this->whereHas('section', function($query) use ($section) {
+                $query->where('handle', $section);
+            })->where('handle', $handle);
     }
 }

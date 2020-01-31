@@ -11,6 +11,7 @@
 
 namespace App\Providers;
 
+use Schema;
 use App\Models\Setting;
 use App\Models\SettingSection;
 use Illuminate\Support\Facades\Route;
@@ -53,8 +54,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     protected function overrideConfigurations()
     {
-        if (app_installed()) {
-            Setting::whereNotNull('override')
+        if (Schema::hasTable('settings')) {
+            Setting::where('override', '<>', '')
                 ->each(function ($setting) {
                     $envKey = strtoupper(str_replace('.', '_', $setting->override));
 

@@ -27,7 +27,6 @@ return [
                 'include' => [
                     storage_path('app/public/files'),
                     storage_path('temp/env.json'),
-                    storage_path('settings/settings.json'),
                 ],
 
                 /*
