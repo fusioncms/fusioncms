@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="items-center justify-center flex flex-col flex-1">
-        <form method="POST" action="{{ route('password.email') }}" class="p-6 w-full md:max-w-lg">            
+        <form method="POST" action="{{ route('password.email') }}" class="p-6 w-full md:max-w-lg">
             @csrf
 
-            <h2 class="m-0 mb-10 text-center text-4xl font-thin tracking-wider leading-tight">Reset Password</h2>
+            <h2 class="m-0 mb-10 text-center text-4xl font-bold tracking-wider leading-tight">Reset Password</h2>
 
             @if (session('status'))
                 <div class="text-sm mb-3 mt-1 flex justify-between">

@@ -19,21 +19,6 @@
             "fieldtype": "input",
             "default": "We think you'll enjoy your time here ✌️",
             "required": false
-        },
-
-        "say_hello": {
-            "name": "Say Hello",
-            "fieldtype": "toggle",
-            "default": true,
-            "help": "Should we say hello?",
-            "required": true
-        },
-
-        "primary_color": {
-            "name": "Primary Color",
-            "fieldtype": "color-picker",
-            "default": "#FF5722",
-            "required": true
         }
     }
 }

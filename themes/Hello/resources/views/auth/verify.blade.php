@@ -5,7 +5,7 @@
         <form method="POST" action="{{ route('verification.resend') }}" class="p-6 w-full md:max-w-lg">
             @csrf
 
-            <h2 class="m-0 mb-10 text-center text-4xl font-thin tracking-wider leading-tight">
+            <h2 class="m-0 mb-10 text-center text-4xl font-bold tracking-wider leading-tight">
                 {{ __('Verify Your Email Address') }}
             </h2>
 
