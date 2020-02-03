@@ -3656,7 +3656,7 @@ select.form__control {
   box-shadow: none;
   vertical-align: middle;
   flex-shrink: 0;
-  margin-right: 0.25rem;
+  cursor: pointer;
   height: 1em;
   width: 1em;
   background-origin: border-box;
@@ -3669,7 +3669,6 @@ select.form__control {
 }
 
 .form__checkbox-label {
-  margin-left: 0.5rem;
   font-size: 0.875rem;
 }
 
@@ -3869,6 +3868,12 @@ select.form__control {
   margin-bottom: 0.5rem;
 }
 
+.form__help {
+  font-size: 0.875rem;
+  color: #4a5568;
+  font-style: italic;
+}
+
 .form__control--meta {
   font-size: 0.875rem;
   margin-top: 0.25rem;
@@ -3884,11 +3889,6 @@ select.form__control {
 
 .form__control--meta .form__error--message {
   color: #9f7aea;
-}
-
-.form__control--meta > .form__help {
-  color: #4a5568;
-  font-style: italic;
 }
 
 .form__control--meta > .form__password {

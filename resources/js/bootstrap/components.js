@@ -40,3 +40,7 @@ Vue.component('section-builder', require('../components/SectionBuilder').default
 
 // Settings
 Vue.component('settings-mail-test', require('../components/Settings/MailTest').default)
+
+// Playground
+Vue.component('renderless-data-table', require('../components/RenderlessDataTable').default)
+Vue.component('data-table', require('../components/DataTable').default)

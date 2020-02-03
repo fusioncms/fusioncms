@@ -47,6 +47,10 @@ class MenuObserver
         $this->migration->schema->create($menu->table, function (Blueprint $table) use ($menu) {
             $table->increments('id');
             $table->integer('menu_id')->unsigned();
+            $table->string('name');
+            $table->string('url')->nullable();
+            $table->boolean('new_window')->default(false);
+            $table->float('order', 65, 30)->index();
 
             $table->timestamps();
         });

@@ -11,7 +11,7 @@
         </div>
 
         <portal to="actions">
-            <router-link :to="{ name: 'settings' }" class="button mr-3">Cancel</router-link>
+            <router-link :to="{ name: 'settings' }" class="button mr-3">Go back</router-link>
             <button type="submit" @click.prevent="$refs.form.submit" class="button button--primary">Save Settings</button>
         </portal>
     </div>

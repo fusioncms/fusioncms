@@ -58,7 +58,7 @@ const router = new Router({
             }
         },
         {
-            path: '/fieldsets/edit/:fieldset',
+            path: '/fieldsets/:fieldset/edit',
             component: () => import('../views/Fieldsets/Edit'),
             name: 'fieldsets.edit',
             meta: {
@@ -85,7 +85,7 @@ const router = new Router({
             }
         },
         {
-            path: '/taxonomies/edit/:taxonomy',
+            path: '/taxonomies/:taxonomy/edit',
             component: () => import('../views/Taxonomies/Edit'),
             name: 'taxonomies.edit',
             meta: {
@@ -112,9 +112,18 @@ const router = new Router({
             },
         },
         {
-            path: '/menus/edit/:menu',
+            path: '/menus/:menu/edit',
             component: () => import('../views/Menus/Edit'),
             name: 'menus.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
+            path: '/menus/:menu/nodes',
+            component: () => import('../views/Nodes/Index'),
+            name: 'menu.nodes',
             meta: {
                 requiresAuth: true,
                 layout: 'admin',
@@ -139,7 +148,7 @@ const router = new Router({
             }
         },
         {
-            path: '/matrices/edit/:matrix',
+            path: '/matrices/:matrix/edit',
             component: () => import('../views/Matrices/Edit'),
             name: 'matrices.edit',
             meta: {
@@ -175,7 +184,7 @@ const router = new Router({
             },
         },
         {
-            path: '/collections/:collection/edit/:id',
+            path: '/collections/:collection/:id/edit',
             component: () => import('../views/Collections/Edit'),
             name: 'entries.edit',
             meta: {
@@ -202,7 +211,7 @@ const router = new Router({
             },
         },
         {
-            path: '/taxonomies/:taxonomy/edit/:id',
+            path: '/taxonomies/:taxonomy/:id/edit',
             component: () => import('../views/Terms/Edit'),
             name: 'terms.edit',
             meta: {
@@ -229,7 +238,7 @@ const router = new Router({
             },
         },
         {
-            path: '/forms/edit/:form',
+            path: '/forms/:form/edit',
             component: () => import('../views/Forms/Edit'),
             name: 'forms.edit',
             meta: {
@@ -265,7 +274,7 @@ const router = new Router({
             }
         },
         {
-            path: '/users/edit/:user',
+            path: '/users/:user/edit',
             component: () => import('../views/Users/Edit'),
             name: 'users.edit',
             meta: {
@@ -301,7 +310,7 @@ const router = new Router({
             }
         },
         {
-            path: '/roles/edit/:role',
+            path: '/roles/:role/edit',
             component: () => import('../views/Roles/Edit'),
             name: 'roles.edit',
             meta: {
@@ -382,7 +391,7 @@ const router = new Router({
             }
         },
         {
-            path: '/files/preview/:uuid',
+            path: '/files/:uuid/preview',
             component: () => import('../views/FileManager/Show'),
             name: 'file-manager.show',
             meta: {
@@ -410,6 +419,7 @@ const router = new Router({
             component: () => import('../views/Playground'),
             name: 'playground',
             meta: {
+                requiresAuth: true,
                 layout: 'admin'
             }
         },
@@ -435,7 +445,7 @@ const router = new Router({
         },
 
         {
-            path: '/importer/edit/:importer',
+            path: '/importer/:importer/edit',
             component: () => import('../views/Importer/Edit'),
             name: 'importer.edit',
             meta: {
@@ -445,7 +455,7 @@ const router = new Router({
         },
 
         {
-            path: '/importer/view/:importer',
+            path: '/importer/:importer/view',
             component: () => import('../views/Importer/View'),
             name: 'importer.view',
             meta: {
@@ -455,7 +465,7 @@ const router = new Router({
         },
 
         {
-            path: '/importer/mapping/:importer',
+            path: '/importer/:importer/mapping',
             component: () => import('../views/Importer/Mapping'),
             name: 'importer.mapping',
             meta: {
@@ -485,7 +495,7 @@ const router = new Router({
         },
 
         {
-            path: '/mailables/edit/:mailable',
+            path: '/mailables/:mailable/edit',
             component: () => import('../views/Mailables/Edit'),
             name: 'mailables.edit',
             meta: {
