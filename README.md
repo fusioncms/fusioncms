@@ -11,43 +11,13 @@ Modular at heart, FusionCMS provides the necessary launching platform to build o
 
 ![preview screenshot](fusioncms.png)
 
-## Requirements
-FusionCMS has a few system requirements. You will need to ensure your server meets the following requirements:
+## Documentation
+You will find robust, user friendly, and updated [documentation](https://beta.getfusiomcms.com/docs) on our website. Some pages of interest to get started with are:
 
-- PHP >= 7.2.0
-- BCMath PHP Extension
-- Ctype PHP Extension
-- JSON PHP Extension
-- Mbstring PHP Extension
-- OpenSSL PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
-
-FusionCMS utilizes Composer to manage its dependencies. So, before using FusionCMS, make sure you have Composer installed on your machine.
-
-## Installing
-From the root directory of FusionCMS, run `composer install` to download and install the required dependencies from your terminal:
-
-```
-$ composer install
-```
-
-Finally, use the following command to run the FusionCMS installer from your project's root directory:
-
-```
-php artisan fusion:install
-```
-
-The installer will walk you through the steps required to configure FusionCMS. There are also a handful of useful tags at your disposal. These can help speed up the installation process.
-
-- **--dev:** Enables debug mode, which will display detailed error pages during local development.
-- **--quick:** Utilizes the default values for the installation process and skips the installation wizard.
-- **--host[=HOST]:** Assign the database host to be used during installation. Can be used in combination with the `--quick` flag.
-- **--database[=DATABASE]:** Assign the database name to be used during installation. Can be used in combination with the `--quick` flag.
-- **--username[=USERNAME]:** Assign the database username to be used during installation. Can be used in combination with the `--quick` flag.
-- **--password[=PASSWORD]:** Assign the database password to be used during installation. Can be used in combination with the `--quick` flag.
-- **--charset[=CHARSET]:** Assign the database charset to be used during installation. Can be used in combination with the `--quick` flag.
-- **--collation[=COLLATION]:** Assign the database collation to be used during installation. Can be used in combination with the `--quick` flag.
+- [Requirements](https://beta.getfusioncms.com/docs/requirements)
+- [Installing](https://beta.getfusioncms.com/docs/installing)
+- [Introduction To Themes](https://beta.getfusioncms.com/docs/themes)
+- [Introduction To Modules](https://beta.getfusioncms.com/docs/modules)
 
 ## Versioning
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/fusioncms/fusioncms/tags).

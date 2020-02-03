@@ -4,8 +4,8 @@
 	<div class="items-center justify-center flex flex-col flex-1">
 		<form method="POST" action="{{ route('login') }}" class="p-6 w-full md:max-w-lg">
 			@csrf
-			
-            <h2 class="m-0 mb-10 text-center text-4xl font-thin tracking-wider leading-tight">Login</h2>
+
+            <h2 class="m-0 mb-10 text-center text-4xl font-bold tracking-wider leading-tight">Login</h2>
 
 			<div class="mb-6">
 				<label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="email">
@@ -22,14 +22,14 @@
 					</div>
 		        @endif
 			</div>
-			
+
 			<div class="mb-6">
 				<label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="password">
 					Password
 				</label>
 
 				<input type="password" id="password" name="password" class="form__control w-full {{ $errors->has('password') ? 'border-red-500 border-2' : '' }}" required>
-				
+
 				@if ($errors->has('password'))
 					<div class="text-sm mb-3 mt-1 flex justify-between">
 						<div class="text-grey-darker italic">
@@ -46,7 +46,7 @@
 				</label>
 			</div>
 
-			
+
             <button type="submit" class="button w-full block mb-6">Login</button>
 
             @if (Route::has('password.request'))
@@ -56,7 +56,7 @@
                 </a>
             </div>
             @endif
-			
+
 		</form>
 	</div>
 @endsection
