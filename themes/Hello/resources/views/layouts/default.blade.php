@@ -26,10 +26,8 @@
                     @yield('content')
                 </div>
             </main>
-
-            @include('partials.footer')
         </div>
-        
+
         <script src="{{ theme_mix('js/theme.js') }}"></script>
         @yield('javascript')
     </body>
