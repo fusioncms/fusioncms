@@ -10,7 +10,17 @@
  */
 
 /**
- * Get a settings value.
+ * Determine if Settings have been officially loaded.
+ * 
+ * @return bool
+ */
+function setting_installed()
+{
+	return app_installed() and Schema::hasTable('settings');
+}
+
+/**
+ * Get/set FusionCMS system settings.
  *
  * @param mixed $key
  * @param mixed $default
@@ -18,28 +28,7 @@
  */
 function setting($key = null, $default = null)
 {
-	if (Schema::hasTable('settings')) {
-		if (is_array($key)) {
-			// Set
-			foreach ($key as $moniker => $value) {
-				App\Models\Setting::withMoniker($moniker)->first()->update(['value' => $value]);
-			}
-
-			Cache::forget('settings');
-            return;
-        } else {
-        	// Get
-        	$settings = Cache::rememberForever('settings', function () {
-	        	return App\Models\SettingSection::all()->mapWithKeys(function($section) {
-					$settings = $section->settings->mapWithKeys(function ($setting) {
-						return [ $setting->handle => $setting->value ?? $setting->default ];
-					});
-
-					return [ $section->handle => $settings ];
-				});
-	        });
-		}
-	} else {
+	if (! setting_installed()) {
 		$settingPath = realpath(base_path('settings'));
 		$files       = Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
 		$settings    = [];
@@ -55,7 +44,15 @@ function setting($key = null, $default = null)
 				}
 			}
 		}
+
+		return Illuminate\Support\Arr::get($settings, $key, $default);
 	}
 
-	return Illuminate\Support\Arr::get($settings, $key, $default);
+	// -----
+
+	if (is_array($key)) {
+		return App\Services\Settings::set($key);
+	} else {
+		return App\Services\Settings::get($key, $default);
+	}
 }

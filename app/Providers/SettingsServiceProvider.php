@@ -27,11 +27,9 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::bind('section', function($handle) {
-            return SettingSection::where('handle', $handle)->first() ?? abort(404);
-        });
-
-        $this->overrideConfigurations();
+        if (setting_installed()) {
+            \App\Services\Settings::registerOverrides();
+        }
     }
 
     /**
@@ -41,28 +39,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
-    }
-
-    /**
-     * Override existing configurations
-     * with FusionCMS System Settings.
-     *
-     * *Requires `app_installed` = true
-     * 
-     * @return void
-     */
-    protected function overrideConfigurations()
-    {
-        if (Schema::hasTable('settings')) {
-            Setting::where('override', '<>', '')
-                ->each(function ($setting) {
-                    $envKey = strtoupper(str_replace('.', '_', $setting->override));
-
-                    if (Config::has($setting->override) && !empty($setting->value)) {
-                        Config::set($setting->override, env($envKey, $setting->value));
-                    }
-                });
-        }
+        Route::bind('section', function($handle) {
+            return SettingSection::where('handle', $handle)->first() ?? abort(404);
+        });
     }
 }
