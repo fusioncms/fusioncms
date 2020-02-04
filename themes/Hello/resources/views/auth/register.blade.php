@@ -5,7 +5,7 @@
 		<form method="POST" action="{{ route('register') }}" class="p-6 w-full md:max-w-lg">
             @csrf
 
-            <h2 class="m-0 mb-10 text-center text-4xl font-thin tracking-wider leading-tight">Register</h2>
+            <h2 class="m-0 mb-10 text-center text-4xl font-bold tracking-wider leading-tight">Register</h2>
 
 			<div class="mb-6">
 				<label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
