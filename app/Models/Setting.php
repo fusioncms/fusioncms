@@ -23,7 +23,22 @@ class Setting extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'section_id',
+        'name',
+        'handle',
+        'group',
+        'override',
+        'component',
+        'description',
+        'type',
+        'options',
+        'default',
+        'value',
+        'required',
+        'gui',
+        'order'
+    ];
 
     /**
      * The attributes that should be casted to native types.
@@ -31,7 +46,9 @@ class Setting extends Model
      * @var array
      */
     protected $casts = [
-        'options' => 'collection',
+        'required' => 'boolean',
+        'gui'      => 'boolean',
+        'options'  => 'collection',
     ];
 
     /**

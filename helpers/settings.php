@@ -10,16 +10,6 @@
  */
 
 /**
- * Determine if Settings have been officially loaded.
- * 
- * @return bool
- */
-function setting_installed()
-{
-	return app_installed() and Schema::hasTable('settings');
-}
-
-/**
  * Get/set FusionCMS system settings.
  *
  * @param mixed $key
@@ -28,7 +18,7 @@ function setting_installed()
  */
 function setting($key = null, $default = null)
 {
-	if (! setting_installed()) {
+	if (! app_installed()) {
 		$settingPath = realpath(base_path('settings'));
 		$files       = Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
 		$settings    = [];
@@ -49,10 +39,10 @@ function setting($key = null, $default = null)
 	}
 
 	// -----
-
+	// 
 	if (is_array($key)) {
-		return App\Services\Settings::set($key);
+		return Setting::set($key);
 	} else {
-		return App\Services\Settings::get($key, $default);
+		return Setting::get($key, $default);
 	}
 }

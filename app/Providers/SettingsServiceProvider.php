@@ -11,11 +11,8 @@
 
 namespace App\Providers;
 
-use Schema;
-use App\Models\Setting;
 use App\Models\SettingSection;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider
@@ -27,8 +24,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (setting_installed()) {
-            \App\Services\Settings::registerOverrides();
+        if (app_installed()) {
+            \Setting::registerOverrides();
         }
     }
 
@@ -39,8 +36,14 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Explicit model binding..
         Route::bind('section', function($handle) {
             return SettingSection::where('handle', $handle)->first() ?? abort(404);
+        });
+
+        // Settings facade..
+        $this->app->bind('setting', function() {
+            return new \App\Services\Settings;
         });
     }
 }
