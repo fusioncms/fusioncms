@@ -213,7 +213,6 @@ class Install extends Command
             'Creating environment config...'    => new \App\Jobs\Installer\CreateEnvironmentConfig($this->container),
             'Creating database tables...'       => new \App\Jobs\Installer\CreateDatabaseTables,
             'Publishing module assets...'       => new \App\Jobs\Installer\PublishModuleAssets,
-            'Creating system settings...'       => new \App\Jobs\Installer\CreateSystemSettings,
             'Creating storage link...'          => new \App\Jobs\Installer\CreateStorageLink,
             'Creating user permissions...'      => new \App\Jobs\Installer\CreatePermissions,
             'Creating default user roles...'    => new \App\Jobs\Installer\CreateDefaultUserRoles($this->container),
@@ -261,6 +260,7 @@ class Install extends Command
             }
         }
 
+        Artisan::call('fusion:settings');
         Artisan::call('config:clear');
         Artisan::call('module:optimize');
 

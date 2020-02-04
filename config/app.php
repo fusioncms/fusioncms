@@ -245,6 +245,7 @@ return [
         'Bonsai'       => Caffeinated\Bonsai\Facades\Bonsai::class,
         'Flash'        => Caffeinated\Flash\Facades\Flash::class,
         'Shinobi'      => Caffeinated\Shinobi\Facades\Shinobi::class,
+        'Setting'     => App\Support\Facades\Setting::class
     ],
 
 ];

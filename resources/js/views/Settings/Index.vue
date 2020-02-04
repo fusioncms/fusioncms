@@ -4,13 +4,13 @@
             <app-title icon="sliders-h">Settings</app-title>
         </portal>
 
-        <div class="row flex-1 flex-wrap" v-for="(sections, group) in settings" :key="group">
+        <div class="row flex-1 flex-wrap" v-for="(sections, group) in groups" :key="group">
             <div class="col mb-2 w-full">
                 <span class="font-semibold">{{ group }}</span>
             </div>
 
             <div class="col mb-6 w-full md:w-1/2 xl:w-1/3 xxl:w-1/4 xxxl:w-1/5" v-for="section in sections" :key="section.handle">
-                <router-link :to="sectionPath(section)" class="no-underline text-black hover:text-black bg-white rounded shadow hover:shadow-md p-3 flex h-full items-center">
+                <router-link :to="{ name: 'setting.section', params: { section: section.handle } }" class="no-underline text-black hover:text-black bg-white rounded shadow hover:shadow-md p-3 flex h-full items-center">
                     <span class="fa-layers fa-fw fa-3x mr-2 flex-shrink-0">
                         <fa-icon :icon="['fas', 'circle']" class="fa-fw text-primary-500"></fa-icon>
                         <fa-icon :icon="['fas', (section.icon || 'cog')]" class="fa-fw fa-inverse" transform="shrink-8"></fa-icon>
@@ -27,44 +27,21 @@
 </template>
 
 <script>
-export default {
-    head: {
-        title() {
-            return {
-                inner: 'Settings'
-            }
-        }
-    },
+    import { mapGetters } from 'vuex'
 
-    data() {
-        return {
-            settings: {},
-        }
-    },
-
-    methods: {
-        sectionPath(section) {
-            if (section.to === undefined) {
+    export default {
+        head: {
+            title() {
                 return {
-                    name: 'setting.section',
-                    params: {
-                        'section': section.handle
-                    },
+                    inner: 'Settings'
                 }
             }
+        },
 
-            return {
-                name: section.to,
-            }
+        computed: {
+            ...mapGetters({
+                groups: 'settings/getSectionGroups'
+            }),
         }
-    },
-
-    beforeRouteEnter(to, from, next) {
-        axios.get('/api/settings').then((response) => {
-            next((vm) => {
-                vm.settings = response.data.data
-            })
-        })
-    },
-}
+    }
 </script>

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Settings;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

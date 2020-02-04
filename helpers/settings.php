@@ -10,39 +10,39 @@
  */
 
 /**
- * Get a settings value.
+ * Get/set FusionCMS system settings.
  *
- * @param null $key
- * @param null $default
- * @return \App\Services\Settings\Repository|mixed
+ * @param mixed $key
+ * @param mixed $default
+ * @return 
  */
 function setting($key = null, $default = null)
 {
-    if (! $key) {
-        return app('settings');
-    }
+	if (! app_installed()) {
+		$settingPath = realpath(base_path('settings'));
+		$files       = Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
+		$settings    = [];
 
-    return app('settings')->get($key, $default);
-}
+		foreach ($files as $file) {
+			$section            = basename($file, '.php');
+			$attributes         = require $file->getRealPath();
+			$settings[$section] = [];
 
-/**
- * Get the given setting value from the database formatted as a field path.
- *
- * @param  string  $handle
- * @param  mixed  $default
- * @return null|string
- */
-function setting_file($handle, $default = null)
-{
-    if (app_installed()) {
-        $setting = app()->make(App\Models\Setting::class)
-            ->where(['handle' => $handle])
-            ->first();
+			foreach ($attributes['settings'] as $group => $values) {
+				foreach ($values as $setting) {
+					$settings[$section][$setting['handle']] = $setting['value'] ?? $setting['default'] ?? '';
+				}
+			}
+		}
 
-        if (! empty($setting->value)) {
-            return storage_path('settings/' . $setting->value);
-        }
-    }
+		return Illuminate\Support\Arr::get($settings, $key, $default);
+	}
 
-    return $default;
+	// -----
+	// 
+	if (is_array($key)) {
+		return Setting::set($key);
+	} else {
+		return Setting::get($key, $default);
+	}
 }

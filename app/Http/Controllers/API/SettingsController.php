@@ -11,104 +11,70 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\SettingSection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\SettingResource;
+use App\Http\Resources\Settings\SettingResource;
+use App\Http\Resources\Settings\SettingSectionResource;
 
 class SettingsController extends Controller
 {
     /**
-     * Get settings fieldtypes and values.
+     * Request collection from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return JsonResource
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = collect(config('settings.settings'))
-            ->map(function ($item) {
-                $item['value'] = setting($item['section'] . '.' . $item['handle']);
+        $sections = SettingSection::all();
 
-                return $item;
-            })
-            ->groupBy('section')
-            ->sortBy('order');
-
-        $settings = collect(config('settings.sections'))
-            ->map(function ($section) use ($items) {
-                $section['items'] = $items->get($section['handle']);
-
-                return $section;
-            })
-            ->sortBy('name')
-            ->sortBy('group')
-            ->groupBy('group');
-
-        return SettingResource::collection($settings);
+        return SettingSectionResource::collection($sections);
     }
 
-    public function show(Request $request, $section)
+     /**
+      * Request specific resource from storage.
+      *
+      * @param  Request        $request
+      * @param  SettingSection $section
+      * @return JsonResponse
+      */
+    public function show(Request $request, SettingSection $section)
     {
-        $settings = collect(config('settings.settings'))
-            ->map(function ($item) {
-                $item['value'] = setting($item['section'] . '.' . $item['handle']);
-
-                return $item;
-            })
-            ->groupBy('section')
-            ->get($section)
-            ->sortBy('order');
-
-        return new SettingResource($settings);
+        return new SettingSectionResource($section);
     }
 
     /**
      * Update settings.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string $section
-     * @return \Illuminate\Http\Response
+     * @param  Request        $request
+     * @param  SettingSection $section
+     * @return JsonResponse
      */
-    public function update(Request $request, $section)
+    public function update(Request $request, SettingSection $section)
     {
-        $settings = Storage::disk('settings')->get('settings.json');
-        $settings = json_decode($settings, true);
-
-        foreach ($settings[$section] as $handle => $setting) {
-            if ($request->has($handle)) {
-                if ($request->hasFile($handle)) {
-                    $file      = $request->file($handle);
+        $section->settings->each(function($setting) use ($request) {
+            if ($request->has($setting->handle)) {
+                if ($request->hasFile($setting->handle)) {
+                    $file      = $request->file($setting->handle);
                     $extension = $file->getClientOriginalExtension();
-                    $path      = $file->storeAs('/', $handle . '.' . $extension, 'settings');
+                    $path      = $file->storeAs('/', $setting->handle . '.' . $extension, 'settings');
 
-                    $settings[$section][$handle] = $path;
-                    app('settings')->set($section . '.' . $handle, $path);
+                    $setting->update([ 'value' => $path ]);
                 } else {
-                    $settings[$section][$handle] = $request->get($handle);
-                    app('settings')->set($section . '.' . $handle, $request->get($handle));
+                    $setting->update([ 'value' => $request->get($setting->handle) ]);
                 }
             }
-        }
-
-        Storage::disk('settings')->put('settings.json', json_encode($settings, JSON_PRETTY_PRINT));
+        });
 
         activity()
             ->withProperties([
                 'icon' => 'cog',
                 'link' => 'settings',
             ])
-            ->log('Updated CMS settings');
+            ->log('Updated ' . $section->name . ' settings');
 
-        $settings = collect(config('settings.settings'))
-            ->map(function ($item) {
-                $item['value'] = setting($item['section'] . '.' . $item['handle']);
-
-                return $item;
-            })
-            ->groupBy('section')
-            ->get($section)
-            ->sortBy('order');
-
-        return new SettingResource($settings);
+        return new SettingSectionResource($section);
     }
 }

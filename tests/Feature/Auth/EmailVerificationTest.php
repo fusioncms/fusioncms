@@ -28,8 +28,6 @@ class EmailVerificationTest extends TestCase
     {
         parent::setUp();
 
-        $this->instance('settings', new MockSettings(setting()->all()));
-
         $this->handleValidationExceptions();
     }
 
@@ -68,7 +66,7 @@ class EmailVerificationTest extends TestCase
      */
     public function an_unverified_user_will_not_see_verification_notice_if_user_email_verification_setting_disabled()
     {
-        app('settings')->set('users.user_email_verification', 'disabled');
+        setting(['users.user_email_verification' => 'disabled']);
 
         $this
             ->actingAs($this->user)

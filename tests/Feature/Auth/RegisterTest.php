@@ -23,23 +23,8 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Settings\Repository as SettingsRepository;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-// ------------------
-
-class MockSettings extends SettingsRepository {
-    public function set($key, $value = null)
-    {
-        $keys = is_array($key) ? $key : [$key => $value];
-
-        foreach ($keys as $key => $value) {
-            Arr::set($this->items, $key, $value);
-        }
-    }
-}
-
-// ------------------
 
 class RegisterTest extends TestCase
 {
@@ -48,8 +33,6 @@ class RegisterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->instance('settings', new MockSettings(setting()->all()));
 
         $this->handleValidationExceptions();
     }
@@ -103,8 +86,10 @@ class RegisterTest extends TestCase
         Mail::fake();
 
         // Enable settings for by-passing email verification..
-        app('settings')->set('users.user_email_welcome', 'disabled');
-        app('settings')->set('users.user_email_verification', 'disabled');
+        setting([
+            'users.user_email_welcome'      => 'disabled',
+            'users.user_email_verification' => 'disabled',
+        ]);
 
         $attributes = [
             'name'                  => $this->faker->name,
@@ -140,8 +125,10 @@ class RegisterTest extends TestCase
         Mail::fake();
 
         // Enable settings for by-passing email verification..
-        app('settings')->set('users.user_email_welcome', 'enabled');
-        app('settings')->set('users.user_email_verification', 'disabled');
+        setting([
+            'users.user_email_welcome'      => 'enabled',
+            'users.user_email_verification' => 'disabled',
+        ]);
 
         $attributes = [
             'name'                  => $this->faker->name,
@@ -176,8 +163,10 @@ class RegisterTest extends TestCase
     {
         Notification::fake();
 
-        app('settings')->set('users.user_email_welcome', 'enabled');
-        app('settings')->set('users.user_email_verification', 'enabled');
+        setting([
+            'users.user_email_welcome'      => 'enabled',
+            'users.user_email_verification' => 'enabled',
+        ]);
 
         // Generate new user attributes..
         $attributes = [
