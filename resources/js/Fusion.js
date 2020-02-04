@@ -32,7 +32,7 @@ export default class Fusion {
     Vue.mixin({
       methods: {
         setting (key) {
-          return this.$store.getters['settings/getSettingByKey'](key)
+          return this.$store.getters['settings/getSetting'](key)
         }
       }
     })

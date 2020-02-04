@@ -98,7 +98,10 @@ abstract class TestCase extends BaseTestCase
         Shinobi::assign('admin')->to($this->admin);
         // Shinobi::assign('user')->to($this->user);
 
-        // 6) Empty cache..
+        // 6) Import settings..
+        Artisan::call('fusion:settings');
+
+        // 7) Empty cache..
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         // Artisan::call('module:optimize');

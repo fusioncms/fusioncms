@@ -30,17 +30,6 @@ class MailTest extends TestCase
     {
         parent::setUp();
 
-        $settings = collect(config('settings.settings'))
-            ->groupBy('section')
-            ->map(function ($items) {
-                return $items->mapWithKeys(function ($item) {
-                    return [$item['handle'] => $item['default'] ?? null];
-                });
-        })->toArray();
-
-        Storage::fake('settings');
-        Storage::disk('settings')->put('settings.json', json_encode($settings, JSON_PRETTY_PRINT));
-
         $this->handleValidationExceptions();
     }
 
@@ -89,7 +78,7 @@ class MailTest extends TestCase
 
         $this->assertTrue(setting('mail.mail_driver')    === 'smtp');
         $this->assertTrue(setting('mail.mail_smtp_host') === 'smtp.mailtrap.io');
-        $this->assertTrue(setting('mail.mail_smtp_port') === 2525);
+        $this->assertTrue(setting('mail.mail_smtp_port') === '2525');
     }
 
     /**
