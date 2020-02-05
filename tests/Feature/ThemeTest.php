@@ -55,6 +55,22 @@ class ThemeTest extends TestCase
 	}
 
 	/**
+	 * @test
+	 * @group fusioncms
+	 * @group themes
+	 */
+	public function a_user_with_permission_can_set_currently_active_theme()
+	{
+		$this->actingAs($this->admin, 'api');
+
+		$this
+			->json('PATCH', '/api/theme/beta')
+			->assertStatus(200);
+
+		$this->assertEquals(setting('system.theme'), 'beta');
+	}
+
+	/**
      * @test
      * @group fusioncms
      * @group themes
