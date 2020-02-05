@@ -11,20 +11,34 @@
 
 namespace App\Models;
 
+use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
-use App\Foundation\Concerns\CachesQueries;
-use App\Foundation\Support\SettingCollection;
 
 class Setting extends Model
 {
     use CachesQueries;
 
     /**
-     * The attributes that are fillable via mass assignment.
+     * The attributes that are guarded via mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['handle', 'name', 'description', 'type', 'options', 'default', 'value', 'is_required', 'is_gui', 'order', 'group'];
+    protected $fillable = [
+        'section_id',
+        'name',
+        'handle',
+        'group',
+        'override',
+        'component',
+        'description',
+        'type',
+        'options',
+        'default',
+        'value',
+        'required',
+        'gui',
+        'order'
+    ];
 
     /**
      * The attributes that should be casted to native types.
@@ -32,29 +46,17 @@ class Setting extends Model
      * @var array
      */
     protected $casts = [
-        'options' => 'array',
+        'required' => 'boolean',
+        'gui'      => 'boolean',
+        'options'  => 'collection',
     ];
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
+     * SettingSection Relationship.
+     * 
+     * @return Builder|SettingSection
      */
-    protected $table = 'system_settings';
-
-    /**
-     * @var bool
-     */
-    protected $searchable = false;
-
-    /**
-     * Create a new Eloquent Collection instance.
-     *
-     * @param  array  $Models
-     * @return SettingCollection
-     */
-    public function newCollection(array $models = [])
-    {
-        return new SettingCollection($models);
+    public function section() {
+        return $this->belongsTo(SettingSection::class);
     }
 }

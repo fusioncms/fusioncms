@@ -11,7 +11,7 @@
 
 function app_installed()
 {
-    return File::exists(storage_path('.installed'));
+    return File::exists(storage_path('.installed')) and Schema::hasTable('settings');;
 }
 
 function app_version()

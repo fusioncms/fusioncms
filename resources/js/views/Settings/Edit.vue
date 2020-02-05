@@ -10,17 +10,15 @@
             </div>
         </div>
 
-        <portal to="actions">
-            <router-link :to="{ name: 'settings' }" class="button mr-3">Go back</router-link>
+        <portal name="setting-actions" to="actions">
+            <router-link :to="{ name: 'settings' }" class="button mr-3">Go Back</router-link>
             <button type="submit" @click.prevent="$refs.form.submit" class="button button--primary">Save Settings</button>
         </portal>
     </div>
 </template>
 
 <script>
-
     import SettingsForm from './SharedForm.vue'
-    import _ from 'lodash'
 
     export default {
         head: {

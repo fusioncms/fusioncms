@@ -52,11 +52,6 @@ return [
 
     'disks' => [
 
-        'settings' => [
-            'driver' => 'local',
-            'root'   => storage_path('app/settings'),
-        ],
-
         'public' => [
             'driver'     => 'local',
             'root'       => storage_path('app/public'),
