@@ -18,6 +18,11 @@ use App\Http\Resources\ThemeResource;
 
 class ActiveController extends Controller
 {
+    /**
+     * Display the specified resource.
+     *
+     * @return JsonResponse
+     */
     public function show()
     {
         $theme = Theme::where('slug', setting('system.theme'))->first();
@@ -25,9 +30,20 @@ class ActiveController extends Controller
         return new ThemeResource($theme);
     }
 
+    /**
+     * Update the currently active theme.
+     * 
+     * @param  Request  $request
+     * @param  String   $theme
+     * @return JsonResponse
+     */
     public function update(Request $request, $theme)
     {
         $theme = Theme::where('slug', $theme)->first();
+        
+        setting([
+            'system.theme' => $theme->get('slug')
+        ]);
 
         activity()
             ->withProperties([
@@ -35,9 +51,5 @@ class ActiveController extends Controller
                 'link' => 'themes',
             ])
             ->log('Set theme to ' . $theme->get('name') . ' (' . $theme->get('version') . ')');
-
-        setting()->set('system.theme', $theme->get('slug'));
     }
-
-    
 }
