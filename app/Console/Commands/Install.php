@@ -204,7 +204,6 @@ class Install extends Command
     {
         $jobs = [
             'Entering maintenance mode...'      => new \App\Jobs\EnterMaintenanceMode,
-            'Deleting installation lock...'     => new \App\Jobs\Uninstaller\DeleteInstallationLock,
             'Deleting database...'              => new \App\Jobs\Uninstaller\DeleteDatabase,
             'Creating database...'              => new \App\Jobs\Installer\CreateDatabase($this->container),
             'Deleting environment config...'    => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
@@ -219,16 +218,8 @@ class Install extends Command
             'Creating default user account...'  => new \App\Jobs\Installer\CreateDefaultUser($this->container),
             'Creating OAuth keys...'            => new \App\Jobs\Installer\CreateOAuthKeys,
             'Creating Passport clients...'      => new \App\Jobs\Installer\CreatePassportClients,
-            'Creating installation lock...'     => new \App\Jobs\Installer\CreateInstallationLock,
             'Exiting maintenance mode...'       => new \App\Jobs\ExitMaintenanceMode,
         ];
-
-        if (app()->environment('testing')) {
-            unset($jobs['Entering maintenance mode...']);
-            unset($jobs['Deleting environment config...']);
-            unset($jobs['Creating environment config...']);
-            unset($jobs['Exiting maintenance mode...']);
-        }
 
         $progressBar = new ProgressBar($this->output, count($jobs));
 
