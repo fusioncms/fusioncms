@@ -79,7 +79,6 @@ class Uninstall extends Command
             'Entering maintenance mode...'   => new \App\Jobs\EnterMaintenanceMode,
             'Deleting module assets...'      => new \App\Jobs\Uninstaller\DeleteModuleAssets,
             'Deleting database...'           => new \App\Jobs\Uninstaller\DeleteDatabase,
-            'Deleting installation lock...'  => new \App\Jobs\Uninstaller\DeleteInstallationLock,
             'Deleting environment config...' => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
             'Deleting module cache...'       => new \App\Jobs\Uninstaller\DeleteModuleCache,
             'Deleting composer lock...'      => new \App\Jobs\Uninstaller\DeleteComposerLock,

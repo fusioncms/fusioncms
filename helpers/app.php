@@ -11,16 +11,9 @@
 
 function app_installed()
 {
-    return File::exists(storage_path('.installed')) and Schema::hasTable('settings');;
-}
-
-function app_version()
-{
-    if (app_installed()) {
-        $version = File::get(storage_path('.installed'));
-
-        return trim($version);
-    }
+    try {
+        return DB::table('settings')->count() > 0;
+    } catch (Exception $exception) { }
 
     return false;
 }

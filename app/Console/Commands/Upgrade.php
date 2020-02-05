@@ -95,7 +95,6 @@ class Upgrade extends Command
             'Syncing permissions...'                => new \App\Jobs\Upgrader\SyncPermissions,
             'Syncing system settings...'            => new \App\Jobs\Upgrader\SyncSettings,
             'Syncing system notifications'          => new \App\Jobs\SyncSystemNotifications,
-            'Updating installation lock...'         => new \App\Jobs\Upgrader\UpdateInstallationLock,
             'Cleaning up files...'                  => new \App\Jobs\Upgrader\CleanUpFiles,
             'Clearing cache...'                     => new \App\Jobs\Upgrader\ClearCache,
             'Exiting maintenance mode...'           => new \App\Jobs\ExitMaintenanceMode,
