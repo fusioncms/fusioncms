@@ -101,7 +101,6 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
-    import _ from 'lodash'
     import FileUploader from './FileUploader.vue'
     import GridView from './Views/Grid.vue'
     import ListView from './Views/List.vue'

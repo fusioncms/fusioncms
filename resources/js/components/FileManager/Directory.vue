@@ -3,8 +3,8 @@
         <div
             class="gallery-item"
             :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}"
-            @dblclick="open"
-            :data-directory="directory.id"
+            @dblclick="openDirectory(directory)"
+            :data-directory="directory"
             :draggable="true">
             <p-img
                 src="/img/folder.svg"
@@ -34,6 +34,10 @@
 
     export default {
         name: 'file-manager-directory',
+
+        mixins: [
+            require('../../mixins/fileview').default,
+        ],
 
         data() {
             return {
@@ -79,22 +83,22 @@
 
         methods: {
             ...mapActions({
-                setCurrentDirectory: 'filemanager/setCurrentDirectory',
-                setParentDirectory: 'filemanager/setParentDirectory',
-                clearFileSelection: 'filemanager/clearFileSelection',
-                clearDirectorySelection: 'filemanager/clearDirectorySelection',
-                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
+                // setCurrentDirectory: 'filemanager/setCurrentDirectory',
+                // setParentDirectory: 'filemanager/setParentDirectory',
+                // clearFileSelection: 'filemanager/clearFileSelection',
+                // clearDirectorySelection: 'filemanager/clearDirectorySelection',
+                // fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
             }),
 
-            open() {
-                this.setCurrentDirectory(this.directory.id)
-                this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
+            // open() {
+            //     this.setCurrentDirectory(this.directory.id)
+            //     this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
                 
-                this.clearFileSelection()
-                this.clearDirectorySelection()
+            //     this.clearFileSelection()
+            //     this.clearDirectorySelection()
 
-                this.fetchFilesAndDirectories()
-            },
+            //     this.fetchFilesAndDirectories()
+            // },
 
             edit() {
                 this.isEditing = true

@@ -9,6 +9,7 @@
                 unselectable>
             </file-manager-directory>
 
+            <!--
             <file-manager-directory
                 v-if="! currentDirectory"
                 :key="'directory-' + currentDirectory"
@@ -16,6 +17,7 @@
                 subtitle="."
                 unselectable>
             </file-manager-directory>
+            -->
 
             <file-manager-directory
                 v-for="directory in directories"

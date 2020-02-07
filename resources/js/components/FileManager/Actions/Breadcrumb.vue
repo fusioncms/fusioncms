@@ -1,0 +1,43 @@
+<template>
+	<div class="inline-flex">
+		<p-button
+			@click="openDirectory(null)"
+			:disabled="currentDirectory == null"
+			:class="{ 'rounded-r-none': breadcrumbs.length > 0 }">
+			<fa-icon :icon="['fas', 'home']" class="fa-fw"></fa-icon>
+		</p-button>
+		
+		<template v-for="(breadcrumb, index) in breadcrumbs">
+			<p-button
+				@click="openDirectory(breadcrumb)"
+				:disabled="currentDirectory == breadcrumb.id"
+				class="py-3 rounded-none"
+				:class="{ 'rounded-r': index == breadcrumbs.length - 1 }">
+				{{ breadcrumb.name }}
+			</p-button>
+		</template>
+	</div>
+</template>
+
+<script>
+	import { mapGetters } from 'vuex'
+
+	export default {
+		name: 'file-manager-breadcrumb-action',
+
+		mixins: [
+            require('../../../mixins/fileview').default,
+        ],
+
+		computed: {
+			...mapGetters({
+				currentDirectory: 'filemanager/getCurrentDirectory',
+				breadcrumbs: 'filemanager/getBreadcrumbs'
+			}),
+
+			last() {
+				return Object.keys(this.breadcrumbs).length - 1
+			}
+		}
+	}
+</script>

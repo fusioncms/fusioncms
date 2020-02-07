@@ -22,6 +22,8 @@
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
         </div>
+        
+        <!--
         <div v-if="! currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3">
             <div class="w-1/5">
                 <file-manager-directory
@@ -35,6 +37,8 @@
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
         </div>
+        -->
+
         <div v-for="directory in directories" :key="directory.id" class="flex p-3">
             <div class="w-1/5">
                 <file-manager-directory
@@ -45,7 +49,7 @@
             <div class="w-1/5">{{ directory.name}}</div>
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
-            <div class="w-1/5">{{ lastModified(directory.updated_ad) }}</div>
+            <div class="w-1/5">{{ $moment(directory.updated_at).format('MMM Do, YYYY') }}</div>
         </div>
 
         <!-- Files -->
@@ -53,9 +57,9 @@
             <div class="flex w-full">
                 <div class="w-1/5"><file-manager-file small :file="file"></file-manager-file></div>
                 <div class="w-1/5">{{ file.name }}</div>
-                <div class="w-1/5">{{ bytes(file.bytes) }}</div>
+                <div class="w-1/5">{{ file.bytes | bytes }}</div>
                 <div class="w-1/5">{{ file.mimetype }}</div>
-                <div class="w-1/5">{{ lastModified(file.updated_at) }}</div>
+                <div class="w-1/5">{{ $moment(file.updated_at).format('MMM Do, YYYY') }}</div>
             </div>
         </div>
     </div>
@@ -66,30 +70,6 @@
         mixins: [
             require('../../../mixins/fileview').default,
             require('../../../mixins/dragnselect').default
-        ],
-
-        methods: {
-            lastModified(timestamp) {
-                return this.$moment(timestamp).format('MMM Do, YYYY')
-            },
-
-            bytes(bytes) {
-                let thresh = 1000
-
-                if (Math.abs(bytes) < thresh) {
-                    return bytes + ' B'
-                }
-
-                let index = -1
-                let units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-                
-                do {
-                    bytes /= thresh
-                    ++index
-                } while (Math.abs(bytes) >= thresh && index < units.length - 1)
-
-                return bytes.toFixed(1) + ' ' + units[index]
-            },
-        }
+        ]
     }
 </script>

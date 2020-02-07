@@ -6,6 +6,7 @@ export default {
     state: {
         loading: true,
         files: [],
+        directory: null,
         directories: [],
         selected: {
             files: [],
@@ -13,6 +14,7 @@ export default {
         },
         currentDirectory: null,
         parentDirectory: null,
+        breadcrumbs: [],
         search: '',
         display: 'everything',
         sort: 'name',
@@ -39,6 +41,10 @@ export default {
 
         getDirectories(state) {
             return state.directories
+        },
+
+        getBreadcrumbs(state) {
+            return state.breadcrumbs
         },
 
         getView(state) {
@@ -119,6 +125,10 @@ export default {
             state.files = files
         },
 
+        setDirectory(state, directory) {
+            state.directory = directory
+        },
+
         setDirectories(state, directories) {
             state.directories = directories
         },
@@ -129,6 +139,10 @@ export default {
 
         setParentDirectory(state, directory) {
             state.parentDirectory = directory
+        },
+
+        setBreadcrumbs(state, breadcrumbs) {
+            state.breadcrumbs = breadcrumbs
         },
 
         setView(state, view) {
@@ -223,6 +237,15 @@ export default {
     },
 
     actions: {
+        reset({ dispatch }) {
+            dispatch('setCurrentDirectory', null)
+            dispatch('setParentDirectory', null)
+
+            dispatch('clearFileSelection')
+            dispatch('clearDirectorySelection')
+            dispatch('fetchFilesAndDirectories')
+        },
+
         setLoading(context, loading) {
             context.commit('setLoading', loading)
         },
@@ -269,38 +292,42 @@ export default {
             context.commit('clearDirectorySelection')
         },
 
-        fetchFilesAndDirectories: _.throttle(function(context) {
-            context.commit('setLoading', true)
+        fetchFilesAndDirectories: _.throttle(function({ state, commit, dispatch }) {
+            commit('setLoading', true)
 
             let params = {
-                sort: context.state.sort,
-                direction: context.state.direction,
-                page: context.state.currentPage,
+                sort: state.sort,
+                direction: state.direction,
+                page: state.currentPage,
             }
 
-            if (context.state.currentDirectory !== null) {
-                params.directory = context.state.currentDirectory
+            if (state.currentDirectory !== null) {
+                params.directory = state.currentDirectory
             }
             
-            if (context.state.display !== 'everything') {
-                params.filter = context.state.display
+            if (state.display !== 'everything') {
+                params.filter = state.display
             }
             
-            if (context.state.search !== '') {
-                params.search = context.state.search
+            if (state.search !== '') {
+                params.search = state.search
             }
 
             axios.all([
-                axios.get('/api/files', {params: params}),
-                axios.get('/api/directories', {params: params}),
-            ]).then(axios.spread(function (files, directories) {
-                context.commit('setFiles', files.data.data)
-                context.commit('setDirectories', directories.data.data)
+                    axios.get('/api/files', {params: params}),
+                    axios.get('/api/directories', {params: params}),
+                    axios.get(`/api/directories/${state.currentDirectory}`),
+                ].map(promise => promise.catch(error => ({ error })))
+            ).then(axios.spread(function (files, directories, directory) {
+                commit('setFiles', files.data.data)
+                commit('setTotalPages', files.data.meta.last_page)
+                commit('setDirectories', directories.data.data)
 
-                context.commit('setTotalPages', files.data.meta.last_page)
+                commit('setDirectory', _.has(directory, 'error') ? null : directory.data.data)
+                dispatch('setBreadcrumbs')
 
                 setTimeout(() => {
-                    context.commit('setLoading', false)
+                    commit('setLoading', false)
                 }, 25)
             }))
         }, 500),
@@ -330,6 +357,20 @@ export default {
 
         setDirection(context, direction) {
             context.commit('setDirection', direction)
+        },
+
+        setBreadcrumbs(context) {
+            let breadcrumbs = []
+            let directory   = context.state.directory
+
+            if (directory) {
+                while (directory) {
+                    breadcrumbs.unshift(directory)
+                    directory = directory.parent
+                }
+            }
+
+            context.commit('setBreadcrumbs', breadcrumbs)
         },
 
         setDirectories(context, directories) {

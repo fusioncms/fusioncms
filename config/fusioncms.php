@@ -42,6 +42,7 @@ return [
 
     'fieldtypes' => [
 
+        \App\Fieldtypes\AssetFieldtype::class,
         \App\Fieldtypes\AddressFieldtype::class,
         \App\Fieldtypes\CheckboxFieldtype::class,
         \App\Fieldtypes\CodeFieldtype::class,
