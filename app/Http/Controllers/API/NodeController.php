@@ -15,7 +15,7 @@ use App\Models\Menu;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TermResource;
+use App\Http\Resources\NodeResource;
 use App\Services\Builders\Menu as Builder;
 
 class NodeController extends Controller
@@ -42,7 +42,7 @@ class NodeController extends Controller
         $model = (new Builder($menu->handle))->make();
         $node  = $model->find($id);
 
-        return new TermResource($node);
+        return new NodeResource($node);
     }
 
     public function store(Request $request, $menu)
@@ -83,9 +83,9 @@ class NodeController extends Controller
                 'icon' => 'anchor',
                 // 'link' => 'menus/'.$menu->handle.'//edit/' . $node->id,
             ])
-            ->log('Created '.Str::singular($menu->name).' (:subject.name)');
+            ->log('Created '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
-        return new TermResource($node);
+        return new NodeResource($node);
     }
 
     /**
@@ -134,9 +134,9 @@ class NodeController extends Controller
                 'icon' => $menu->icon,
                 'link' => 'taxonomies/'.$menu->handle.'//edit/' . $node->id,
             ])
-            ->log('Updated '.Str::singular($menu->name).' (:subject.name)');
+            ->log('Updated '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
-        return new TermResource($node);
+        return new NodeResource($node);
     }
 
     public function destroy(Request $request, $menu, $id)
@@ -152,7 +152,7 @@ class NodeController extends Controller
             ->withProperties([
                 'icon' => $menu->icon,
             ])
-            ->log('Deleted '.Str::singular($menu->name).' (:subject.name)');
+            ->log('Deleted '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
         $node->delete();
     }

@@ -56,7 +56,19 @@ class {class} extends Model
     }
 
     /**
+     * Get the owning related model.
+     *
+     * @return mixed
+     */
+    public function related()
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * Get all of the fields for the menu.
+     *
+     * @return mixed
      */
     public function getFieldsAttribute()
     {

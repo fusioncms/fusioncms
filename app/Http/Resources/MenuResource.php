@@ -31,7 +31,7 @@ class MenuResource extends JsonResource
 
             'table'       => $this->table,
             'fieldset'    => new FieldsetResource($this->fieldset),
-            'nodes'       => $this->nodes,
+            'nodes'       => NodeResource::collection($this->nodes),
         ];
 
         if ($this->fieldset) {

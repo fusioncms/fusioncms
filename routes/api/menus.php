@@ -9,5 +9,5 @@
  * file that was distributed with this source code.
  */
 
-// Route::apiResource('/menus/{slug}/nodes', 'ResponseController');
+Route::apiResource('/menus/{menu}/nodes', 'NodeController');
 Route::apiResource('/menus', 'MenuController');

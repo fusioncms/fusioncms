@@ -130,6 +130,15 @@ const router = new Router({
             },
         },
         {
+            path: '/menus/:menu/nodes/:node/edit',
+            component: () => import('../views/Nodes/Edit'),
+            name: 'menu.nodes.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin',
+            },
+        },
+        {
             path: '/matrices',
             component: () => import('../views/Matrices/Index'),
             name: 'matrices',
