@@ -22,22 +22,6 @@
             <div class="w-1/5"></div>
             <div class="w-1/5"></div>
         </div>
-        
-        <!--
-        <div v-if="! currentDirectory" :key="'directory-' + currentDirectory" class="flex p-3">
-            <div class="w-1/5">
-                <file-manager-directory
-                    small
-                    unselectable
-                    :directory="{ id: null, name: '' }">
-                </file-manager-directory>
-            </div>
-            <div class="w-1/5">.</div>
-            <div class="w-1/5"></div>
-            <div class="w-1/5"></div>
-            <div class="w-1/5"></div>
-        </div>
-        -->
 
         <div v-for="directory in directories" :key="directory.id" class="flex p-3">
             <div class="w-1/5">

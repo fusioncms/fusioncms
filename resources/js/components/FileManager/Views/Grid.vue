@@ -9,16 +9,6 @@
                 unselectable>
             </file-manager-directory>
 
-            <!--
-            <file-manager-directory
-                v-if="! currentDirectory"
-                :key="'directory-' + currentDirectory"
-                :directory="{id: null, name: ''}"
-                subtitle="."
-                unselectable>
-            </file-manager-directory>
-            -->
-
             <file-manager-directory
                 v-for="directory in directories"
                 :key="directory.id"

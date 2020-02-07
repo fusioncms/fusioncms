@@ -4,7 +4,7 @@
             class="gallery-item"
             :class="{'gallery-item--selected': isSelected, 'gallery-item--small': small}"
             @dblclick="openDirectory(directory)"
-            :data-directory="directory"
+            :data-directory="directory.id"
             :draggable="true">
             <p-img
                 src="/img/folder.svg"
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'file-manager-directory',
@@ -82,24 +82,6 @@
         },
 
         methods: {
-            ...mapActions({
-                // setCurrentDirectory: 'filemanager/setCurrentDirectory',
-                // setParentDirectory: 'filemanager/setParentDirectory',
-                // clearFileSelection: 'filemanager/clearFileSelection',
-                // clearDirectorySelection: 'filemanager/clearDirectorySelection',
-                // fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-            }),
-
-            // open() {
-            //     this.setCurrentDirectory(this.directory.id)
-            //     this.setParentDirectory(this.directory.parent ? this.directory.parent.id : null)
-                
-            //     this.clearFileSelection()
-            //     this.clearDirectorySelection()
-
-            //     this.fetchFilesAndDirectories()
-            // },
-
             edit() {
                 this.isEditing = true
 
