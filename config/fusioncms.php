@@ -43,6 +43,7 @@ return [
     'fieldtypes' => [
 
         \App\Fieldtypes\AddressFieldtype::class,
+        \App\Fieldtypes\ButtonFieldtype::class,
         \App\Fieldtypes\CheckboxFieldtype::class,
         \App\Fieldtypes\CodeFieldtype::class,
         \App\Fieldtypes\ColorPickerFieldtype::class,
