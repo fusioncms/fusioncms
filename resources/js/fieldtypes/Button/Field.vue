@@ -2,7 +2,7 @@
     <div class="px-2 mb-4">
         <div class="form__label">{{field.name}}</div>
         <div class="row px-2">
-            <div class="w-1/2">
+            <div class="w-full md:w-1/2">
                 <p-input
                     :name="field.handle + '_text'"
                     placeholder="Text"
@@ -20,7 +20,7 @@
                 <p-select
                     :name="field.handle + '_target'"
                     autocomplete="off"
-                    v-model="value.target"
+                    v-model="data.target"
                     @input="updateValue($event, 'target')"
                     :options="[
                         {
