@@ -11,9 +11,9 @@
                 v-model="datetime"
                 >
 
-            <div class="form__datetime--icon">
+            <a href="#" class="form__datetime--icon block" title="Select date" @click="flatpickr.open()">
                 <fa-icon icon="calendar-alt"></fa-icon>
-            </div>
+            </a>
     </div>
 
     <a v-if="datetime" href="#" class="datetime__clear text-sm pl-1" @click.prevent="flatpickr.clear()" title="Clear date">
