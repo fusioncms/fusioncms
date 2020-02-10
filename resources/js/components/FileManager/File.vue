@@ -117,22 +117,6 @@
                 return this.type === 'image'
             },
 
-            isVideo() {
-                return this.type === 'video'
-            },
-
-            isAudio() {
-                return this.type === 'audio'
-            },
-
-            isDocument() {
-                return this.type === 'document'
-            },
-
-            isMisc() {
-                return this.type === 'misc'
-            },
-
             type() {
                 let type = (_.split(this.file.mimetype, '/', 1))[0]
 

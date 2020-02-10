@@ -84,10 +84,10 @@
 	import { mapGetters, mapActions } from 'vuex'
 
 	import BreadcrumbAction from '../../components/FileManager/Actions/Breadcrumb.vue'
-	import DisplayAction from '../../components/FileManager/Actions/Display.vue'
-	import SearchAction from '../../components/FileManager/Actions/Search.vue'
-	import SortAction from '../../components/FileManager/Actions/Sort.vue'
-	import ViewAction from '../../components/FileManager/Actions/View.vue'
+	import DisplayAction    from '../../components/FileManager/Actions/Display.vue'
+	import SearchAction     from '../../components/FileManager/Actions/Search.vue'
+	import SortAction       from '../../components/FileManager/Actions/Sort.vue'
+	import ViewAction       from '../../components/FileManager/Actions/View.vue'
 
 	import GridView from '../../components/FileManager/Views/Grid.vue'
     import ListView from '../../components/FileManager/Views/List.vue'

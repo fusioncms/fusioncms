@@ -1,5 +1,5 @@
 <template>
-    <div class="card__body gallery-container">
+    <div class="gallery-container">
         <div class="gallery mb-12">
             <file-manager-directory
                 v-if="currentDirectory"
@@ -28,7 +28,7 @@
 <script>
     export default {
         mixins: [
-            require('../../../mixins/fileview').default,
+            // require('../../../mixins/fileview').default,
             require('../../../mixins/dragnselect').default
         ]
     }

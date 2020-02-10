@@ -36,7 +36,7 @@
         name: 'file-manager-directory',
 
         mixins: [
-            require('../../mixins/fileview').default,
+            // require('../../mixins/fileview').default,
         ],
 
         data() {

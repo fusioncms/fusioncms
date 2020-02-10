@@ -24,10 +24,11 @@
                     </div>
 
                     <div class="flex items-center border-b border-gray-200 px-3 py-2">
-                        <breadcrumb-action></breadcrumb-action>
+                        <breadcrumb-action
+                        @click=""></breadcrumb-action>
                     </div>
 
-                    <component :is="view + '-view'"/>
+                    <file-browser></file-browser>
 
                     <div class="card__body text-right" v-if="totalPages > 1">
                         <p-pagination
@@ -51,6 +52,7 @@
     import { mapGetters, mapActions } from 'vuex'
 
     import FileUploader from './FileUploader.vue'
+    import FileBrowser  from './FileBrowser.vue'
 
     import BreadcrumbAction from './Actions/Breadcrumb.vue'
     import ControlAction    from './Actions/Control.vue'
@@ -59,15 +61,12 @@
     import SortAction       from './Actions/Sort.vue'
     import ViewAction       from './Actions/View.vue'
 
-    import GridView from './Views/Grid.vue'
-    import ListView from './Views/List.vue'
-
-
     export default {
         name: 'file-manager',
 
         components: {
             'file-uploader': FileUploader,
+            'file-browser' : FileBrowser,
 
             'control-action':    ControlAction,
             'display-action':    DisplayAction,
@@ -75,9 +74,6 @@
             'search-action':     SearchAction,
             'sort-action':       SortAction,
             'view-action':       ViewAction,
-
-            'grid-view': GridView,
-            'list-view': ListView,
         },
 
         props: {
