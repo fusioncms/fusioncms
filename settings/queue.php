@@ -12,7 +12,7 @@
 return [
 	'name'        => 'Queue',
     'group'       => 'Services',
-    'icon'        => 'inbox-out',
+    'icon'        => 'inbox',
     'description' => 'Configure your desired queue provider.',
     'settings'    => [
         'General' => [
