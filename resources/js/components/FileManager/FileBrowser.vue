@@ -37,6 +37,12 @@
 		components: {
 			'directory': Directory,
 			'file':      File,
+		},
+
+		computed: {
+			...mapGetters({
+				view: 'filemanager/getView',
+			})
 		}
 	}
 </script>

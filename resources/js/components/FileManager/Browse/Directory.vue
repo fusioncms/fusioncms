@@ -9,7 +9,6 @@
 
 			<p-img
 				src="/img/folder.svg"
-				background-color="white"
 				class="gallery-image gallery--dropzone"
 				:width="100"
 				:height="100"

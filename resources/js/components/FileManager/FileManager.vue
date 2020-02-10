@@ -24,8 +24,7 @@
                     </div>
 
                     <div class="flex items-center border-b border-gray-200 px-3 py-2">
-                        <breadcrumb-action
-                        @click=""></breadcrumb-action>
+                        <breadcrumb-action></breadcrumb-action>
                     </div>
 
                     <file-browser></file-browser>
@@ -87,7 +86,7 @@
             ...mapGetters({
                 currentPage: 'filemanager/getCurrentPage',
                 totalPages: 'filemanager/getTotalPages',
-                view: 'filemanager/getView',
+                
             })
         },
 
