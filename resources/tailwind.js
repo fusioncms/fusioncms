@@ -1,6 +1,16 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const { colors } = require('tailwindcss/defaultTheme')
 
+const cursors = {
+    auto: 'auto',
+    default: 'default',
+    pointer: 'pointer',
+    wait: 'wait',
+    text: 'text',
+    move: 'move',
+    'row-resize': 'row-resize',
+}
+
 const screens = {
     'xs': '320px',
     'sm': '640px',
@@ -31,6 +41,10 @@ const spacing = {
 
 module.exports = {
     theme: {
+        cursors: {
+            ...cursors
+        },
+
         screens: screens,
 
         colors: {

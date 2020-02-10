@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <div class="inline-block mr-4">
+            <!-- <div class="inline-block mr-4">
                 <p-button>Uncheck All</p-button>
             </div>
 
@@ -15,48 +15,57 @@
 
             <div class="inline-block ml-4 mr-4">
                 <p-button theme="danger">Delete</p-button>
-            </div>
+            </div> -->
 
             <div class="inline-block">
                 <router-link :to="{ name: 'menus' }" class="button mr-3">Go back</router-link>
+                <p-button theme="primary">Save Ordering</p-button>
             </div>
         </portal>
 
         <div class="row">
             <div class="content-container">
                 <p-card>
-                    <div class="w-full flex justify-between items-center border rounded px-3 py-2 mb-1" v-for="node in nodes" :key="node.id">
-                        <div class="flex items-center">
-                            <p-checkbox name="select" class="mr-6"></p-checkbox>
+                    <p-sortable-list v-model="nodes" class="sortable-list">
+                        <div>
+                            <p-sortable-item v-for="node in nodes" :key="node.id" class="w-full border rounded px-3 py-2 mb-1">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <p-checkbox name="select" class="mr-6"></p-checkbox>
 
-                            <div class="mr-6 text-gray-400">
-                                <fa-icon :icon="['fas', 'grip-lines']" class="fa-fw"></fa-icon>
-                            </div>
+                                        <p-sortable-handle class="mr-6 text-gray-400">
+                                            <div class="w-6 h-6 flex items-center justify-center">
+                                                <fa-icon :icon="['fas', 'grip-lines']" class="fa-fw"></fa-icon>
+                                            </div>
+                                        </p-sortable-handle>
 
-                            <div>
-                                <fa-icon class="fa-fw text-xs mr-3" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}" :icon="['fas', 'circle']"></fa-icon>
-                                <router-link :to="{ name: 'menu.nodes.edit', params: {menu: node.menu_id, node: node.id} }">{{ node.name }}</router-link>
-                                <fa-icon v-if="node.new_window" class="fa-fw text-gray-500 text-xs" :icon="['fas', 'external-link-alt']"></fa-icon>
-                                <span class="ml-6 text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span>
-                            </div>
+                                        <div>
+                                            <fa-icon class="fa-fw text-xs mr-3" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}" :icon="['fas', 'circle']"></fa-icon>
+                                            <router-link :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">{{ node.name }}</router-link>
+                                            <fa-icon v-if="node.new_window" class="fa-fw text-gray-500 text-xs" :icon="['fas', 'external-link-alt']"></fa-icon>
+                                            <span class="ml-6 text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="min-width: 150px;" class="text-right draggable__actions">
+                                        <p-dropdown right>
+                                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+
+                                            <template slot="options">
+                                                <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
+                                                <p-dropdown-item></p-dropdown-item>
+                                                <p-dropdown-item>Assign parent...</p-dropdown-item>
+                                                <p-dropdown-item>Move before...</p-dropdown-item>
+                                                <p-dropdown-item>Move after...</p-dropdown-item>
+                                                <p-dropdown-item></p-dropdown-item>
+                                                <p-dropdown-item>Delete</p-dropdown-item>
+                                            </template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </p-sortable-item>
                         </div>
-
-                        <div style="min-width: 150px;" class="text-right draggable__actions">
-                            <p-dropdown right>
-                                <fa-icon :icon="['fas', 'bars']"></fa-icon>
-
-                                <template slot="options">
-                                    <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: node.menu_id, node: node.id} }">Edit</p-dropdown-item>
-                                    <p-dropdown-item></p-dropdown-item>
-                                    <p-dropdown-item>Assign parent...</p-dropdown-item>
-                                    <p-dropdown-item>Move before...</p-dropdown-item>
-                                    <p-dropdown-item>Move after...</p-dropdown-item>
-                                    <p-dropdown-item></p-dropdown-item>
-                                    <p-dropdown-item>Delete</p-dropdown-item>
-                                </template>
-                            </p-dropdown>
-                        </div>
-                    </div>
+                    </p-sortable-list>
 
                     <!-- <data-table></data-table> -->
                 </p-card>
@@ -133,6 +142,14 @@
                 this.form.name = ''
                 this.form.url  = ''
                 this.form.new_window = false
+            },
+
+            destroy(id) {
+                axios.delete('/api/menus/' + this.menu.id + '/nodes/' + id).then((response) => {
+                    this.fetchNodes().then(() => {
+                        toast('Menu node successfully deleted.', 'success')
+                    })
+                })
             }
         },
 

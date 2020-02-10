@@ -23,7 +23,7 @@ class NodeResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $menu   = new MenuResource($this->resource['menu']);
+        $menu   = new MenuResource($this->menu);
         $fields = $menu->fieldset->fields ?? null;
 
         // $resource['menu']       = $menu;

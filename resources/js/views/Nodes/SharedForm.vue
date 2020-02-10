@@ -38,7 +38,7 @@
                     </div>
 
                     <portal to="actions">
-                        <router-link :to="{ name: 'menus' }" class="button mr-3">Go Back</router-link>
+                        <router-link :to="{ name: 'menu.nodes', params: {menu: menu.id} }" class="button mr-3">Go Back</router-link>
                         <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Node</button>
                     </portal>
                 </form>
@@ -83,7 +83,7 @@
                 </div>
             </p-card>
 
-            <p-card class="text-sm" v-if="node">
+            <p-card class="text-sm mt-6" v-if="node">
                 <dl class="flex flex-wrap">
                     <dt class="w-1/3">Status</dt>
                     <dd class="w-2/3"><fa-icon :icon="['fas', 'circle']" class="fa-fw text-xs" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}"></fa-icon> {{ node.status ? 'Enabled' : 'Disabled' }}</dd>
@@ -102,13 +102,11 @@
 <script>
     export default {
         props: {
-            id: {
-                type: Number,
-                required: false,
-                default: 0
+            node: {
+                type: Object,
             },
 
-            node: {
+            menu: {
                 type: Object,
             },
 

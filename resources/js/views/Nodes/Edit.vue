@@ -4,7 +4,7 @@
 			<app-title icon="anchor">Edit Node</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit" :id="id" :node="node"></shared-form>
+        <shared-form :form="form" :submit="submit" :menu="menu" :node="node"></shared-form>
     </div>
 </template>
 
@@ -23,7 +23,6 @@
 
         data() {
             return {
-                id: null,
                 menu: {},
                 node: {},
                 form: new Form({
@@ -58,9 +57,11 @@
         beforeRouteEnter(to, from, next) {
             axios.all([
                 axios.get('/api/menus/' + to.params.menu + '/nodes/' + to.params.node),
-            ]).then(axios.spread(function (node) {
+                axios.get('/api/menus/' + to.params.menu),
+            ]).then(axios.spread(function (node, menu) {
                 next(function(vm) {
                     vm.id   = node.data.data.id
+                    vm.menu = menu.data.data
                     vm.node = node.data.data
 
                     vm.form.name       = node.data.data.name
@@ -68,7 +69,6 @@
                     vm.form.new_window = node.data.data.new_window
                     vm.form.parent_id  = node.data.data.parent_id
                     vm.form.status     = node.data.data.status
-                    // vm.menu            = node.data.data.menu
 
                     vm.$emit('updateHead')
                 })
