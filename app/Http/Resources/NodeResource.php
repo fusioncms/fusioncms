@@ -31,6 +31,7 @@ class NodeResource extends JsonResource
         $resource['name']       = $this->name;
         $resource['url']        = $this->url;
         $resource['new_window'] = $this->new_window;
+        $resource['order']      = $this->order;
 
         if ($fields) {
             foreach ($fields as $field) {

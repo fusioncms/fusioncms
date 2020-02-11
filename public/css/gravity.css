@@ -17192,21 +17192,16 @@ table td::before {
   opacity: .4;
 }
 
-.draggable-mirror {
-  position: absolute;
-  padding: 0.5rem;
+.sortable-ghost {
   background-color: #ffffff;
-  z-index: 10;
-  cursor: move;
-  opacity: 1;
 }
 
 .sortable-list-item :focus, .sortable-list-item:focus, .sortable-list :focus, .sortable-list:focus {
   outline: 0;
 }
 
-.sortable-list-handle :hover {
-  cursor: move;
+.sortable-list-handle {
+  cursor: row-resize;
 }
 
 :root {

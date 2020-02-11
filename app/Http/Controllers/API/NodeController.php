@@ -97,13 +97,13 @@ class NodeController extends Controller
      */
     public function update(Request $request, $menu, $id)
     {
-        $this->authorize('term.update');
+        $this->authorize('node.update');
 
-        $menu      = Menu::where('handle', $menu)->firstOrFail();
+        $menu          = Menu::where('handle', $menu)->firstOrFail();
         $node          = (new Builder($menu->handle))->make()->find($id);
         $relationships = [];
         $rules         = [
-            'name' => 'required',
+            'name'   => 'required',
             'handle' => 'sometimes',
         ];
 
@@ -141,7 +141,7 @@ class NodeController extends Controller
 
     public function destroy(Request $request, $menu, $id)
     {
-        $this->authorize('term.destroy');
+        $this->authorize('node.destroy');
 
         $menu = Menu::where('handle', $menu)->firstOrFail();
         $model    = (new Builder($menu->handle))->make();

@@ -8,7 +8,8 @@ const cursors = {
     wait: 'wait',
     text: 'text',
     move: 'move',
-    'row-resize': 'row-resize',
+    'not-allowed': 'not-allowed',
+    'ns-resize': 'ns-resize',
 }
 
 const screens = {
@@ -41,9 +42,7 @@ const spacing = {
 
 module.exports = {
     theme: {
-        cursors: {
-            ...cursors
-        },
+        cursors: cursors,
 
         screens: screens,
 

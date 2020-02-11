@@ -57,6 +57,6 @@ class Menu extends Model
         $model = $this->getBuilder();
         $class = new \ReflectionClass($model);
 
-        return $this->hasMany('\\'.$class->getName());
+        return $this->hasMany('\\'.$class->getName())->orderBy('order', 'asc');
     }
 }

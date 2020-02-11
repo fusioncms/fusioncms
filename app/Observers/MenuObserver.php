@@ -51,7 +51,7 @@ class MenuObserver
             $table->string('name');
             $table->string('url')->nullable();
             $table->boolean('new_window')->default(false);
-            $table->float('order', 65, 4)->index();
+            $table->bigInteger('order')->unsigned()->index();
 
             $table->integer('related_id')->unsigned()->index();
             $table->string('related_type')->index();

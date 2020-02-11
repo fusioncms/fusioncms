@@ -19,7 +19,7 @@
 
             <div class="inline-block">
                 <router-link :to="{ name: 'menus' }" class="button mr-3">Go back</router-link>
-                <p-button theme="primary">Save Ordering</p-button>
+                <p-button theme="primary" @click.prevent="save" :disabled="saving">{{ saving ? 'Saving...' : 'Save Ordering' }}</p-button>
             </div>
         </portal>
 
@@ -66,8 +66,6 @@
                             </p-sortable-item>
                         </div>
                     </p-sortable-list>
-
-                    <!-- <data-table></data-table> -->
                 </p-card>
             </div>
 
@@ -85,7 +83,7 @@
                             help="Whether or not this link should open in a new window."
                         ></p-toggle>
 
-                        <p-button theme="primary" @click.prevent="submit('custom')">Add</p-button>
+                        <p-button theme="primary" @click.prevent="add('custom')">Add</p-button>
                     </div>
                 </p-card>
             </div>
@@ -109,6 +107,7 @@
             return {
                 menu: {},
                 nodes: [],
+                saving: false,
                 form: new Form({
                     name: '',
                     url: '',
@@ -118,17 +117,31 @@
         },
 
         methods: {
-            submit(type) {
-                let vm = this
+            add(type) {
+                this.saving = true
 
                 this.form.post('/api/menus/' + this.menu.id + '/nodes').then((response) => {
-                    vm.fetchNodes().then((response) => {
-                        vm.reset()
+                    this.fetchNodes().then((response) => {
+                        this.reset()
+                        this.saving = false
 
                         toast('Menu node successfully added', 'success')
                     })
                 }).catch((response) => {
                     toast(response.message, 'failed')
+                })
+            },
+
+            save() {
+                this.saving = true
+
+                _.each(this.nodes, (node, index) => {
+                    node.order = index + 1
+                })
+
+                axios.post('/api/menus/' + this.menu.id + '/reorder', this.nodes).then((response) => {
+                    this.saving = false
+                    toast('Menu nodes successfully reordered.', 'success')
                 })
             },
 
