@@ -76,23 +76,11 @@
             },
         },
 
-        computed: {
-
-        },
-
-        watch: {
-
-        },
-
         methods: {
             updateValue(event, handle) {
                 this.data[handle] = event
                 this.$emit('input', this.data)
             },
-        },
-
-        mounted() {
-            
         }
     }
 </script>
