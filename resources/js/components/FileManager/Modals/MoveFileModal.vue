@@ -1,8 +1,8 @@
 <template>
     <p-modal name="move-file" title="Move file(s) to directory">
         <p-treeview
-                v-model="directory"
-                :items="directories"
+            v-model="directory"
+            :items="directories"
         ></p-treeview>
 
         <template v-slot:footer>
@@ -76,6 +76,8 @@
             gatherOptions() {
                 axios.get('/api/directories?recursive=true').then(({data}) => {
                     this.directories = data.data
+                    
+                    this.directories.unshift({ id: null, name: 'Root' })
                 })
             },
         },

@@ -1,5 +1,5 @@
 <template>
-	<div class="gallery-wrapper flex-auto">
+	<div :class="[ view == 'grid' ? 'gallery-wrapper' : 'gallery-wrapper--row' ]">
 		<div
             class="gallery-item"
             :class="{ 'gallery-item--selected': isSelected }"
@@ -24,9 +24,17 @@
 			:endpoint="'/api/files/' + file.id">
 		</quick-edit>
 
-		<div class="flex flex-col text-center text-xs text-gray-600 mt-2 font-mono">
+		<div class="gallery-subtitle">
 			<span>{{ file.bytes | bytes }}</span>
 			<span>{{ file.extension }}</span>
+		</div>
+
+		<div class="gallery-text" v-if="view == 'list'">
+			{{ file.mimetype }}
+		</div>
+
+		<div class="gallery-text" v-if="view == 'list'">
+			{{ $moment(file.updated_at).format('MMM Do, YYYY') }}
 		</div>
     </div>
 </template>
@@ -54,7 +62,8 @@
 
 		computed: {
             ...mapGetters({
-                selected: 'filemanager/getSelectedFiles'
+                selected: 'filemanager/getSelectedFiles',
+                view:     'filemanager/getView',
             }),
 
             isSelected() {

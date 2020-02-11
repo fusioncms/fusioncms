@@ -28,15 +28,7 @@
                     </div>
 
                     <file-browser></file-browser>
-
-                    <div class="card__body text-right" v-if="totalPages > 1">
-                        <p-pagination
-                            @input="setCurrentPage($event)"
-                            :total="totalPages"
-                            :value="currentPage"
-                            :max-visible-pages="3">
-                        </p-pagination>
-                    </div>
+                    <file-paginator></file-paginator>
                 </div>
             </div>
         </div>
@@ -48,10 +40,11 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapActions } from 'vuex'
 
-    import FileUploader from './FileUploader.vue'
-    import FileBrowser  from './FileBrowser.vue'
+    import FileBrowser   from './FileBrowser.vue'
+    import FilePaginator from './FilePaginator.vue'
+    import FileUploader  from './FileUploader.vue'
 
     import BreadcrumbAction from './Actions/Breadcrumb.vue'
     import ControlAction    from './Actions/Control.vue'
@@ -64,43 +57,21 @@
         name: 'file-manager',
 
         components: {
-            'file-uploader': FileUploader,
-            'file-browser' : FileBrowser,
+            'file-browser':   FileBrowser,
+            'file-paginator': FilePaginator,
+            'file-uploader':  FileUploader,
 
+            'breadcrumb-action': BreadcrumbAction,
             'control-action':    ControlAction,
             'display-action':    DisplayAction,
-            'breadcrumb-action': BreadcrumbAction,
             'search-action':     SearchAction,
             'sort-action':       SortAction,
             'view-action':       ViewAction,
         },
 
-        props: {
-            inline: {
-                type: Boolean,
-                default: false,
-            },
-        },
-
-        computed: {
-            ...mapGetters({
-                currentPage: 'filemanager/getCurrentPage',
-                totalPages: 'filemanager/getTotalPages',
-                
-            })
-        },
-
-        watch: {
-            currentPage(value) {
-                this.fetchFilesAndDirectories()
-            }
-        },
-
         methods: {
             ...mapActions({
-                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
                 setDropzoneVisible: 'filemanager/setDropzoneVisible',
-                setCurrentPage: 'filemanager/setCurrentPage',               
             })
         }
     }

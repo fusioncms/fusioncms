@@ -1,5 +1,5 @@
 <template>
-	<div class="leading-tight mt-2">
+	<div class="gallery-text">
 		<span v-if="isEditing">
 			<input
 				ref="edit"
@@ -11,7 +11,7 @@
 				@keyup.esc="revert"/>
 		</span>
 
-		<span v-else class="block text-sm truncate" @dblclick="edit">{{ name }}</span>
+		<span v-else class="truncate" @dblclick="edit">{{ name }}</span>
 	</div>
 </template>
 

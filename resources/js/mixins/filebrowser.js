@@ -7,6 +7,7 @@ export default {
 			parentDirectory:  'filemanager/getParentDirectory',
 			directories:      'filemanager/getDirectories',
 			files:            'filemanager/getFiles',
+			view:             'filemanager/getView',
 		}),
 	},
 

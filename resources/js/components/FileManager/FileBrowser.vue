@@ -21,8 +21,6 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters } from 'vuex'
-
 	import Directory from './Browse/Directory.vue'
 	import File      from './Browse/File.vue'
 	
@@ -30,6 +28,8 @@
 		name: 'file-manager-browser',
 
 		mixins: [
+			// require('../../mixins/fileselector').default,
+			// require('../../mixins/filedragdrop').default,
             require('../../mixins/dragnselect').default,
             require('../../mixins/filebrowser').default,
         ],
@@ -37,12 +37,6 @@
 		components: {
 			'directory': Directory,
 			'file':      File,
-		},
-
-		computed: {
-			...mapGetters({
-				view: 'filemanager/getView',
-			})
 		}
 	}
 </script>

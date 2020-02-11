@@ -58,6 +58,12 @@
 									<p-button @click="add" theme="success"><fa-icon :icon="['fas', 'arrow-alt-circle-left']" class="mr-1"></fa-icon></p-button>
 								</li>
 							</ul>
+							<ul>
+                            	<li class="inline-flex mr-2">
+	                                <p-button class="rounded-r-none" theme="primary" @click="$refs.uploader.openDZ()"><fa-icon :icon="['fas', 'upload']"></fa-icon></p-button>
+	                                <p-button class="rounded-l-none" v-modal:new-folder><fa-icon :icon="['fas', 'folder-plus']"></fa-icon></p-button>
+	                            </li>
+	                        </ul>
 							<ul class="flex w-full">
 							    <li class="mr-2 w-full"><search-action></search-action></li>
 							</ul>
@@ -72,38 +78,38 @@
 							<breadcrumb-action></breadcrumb-action>
 						</div>
 
-						<component :is="view + '-view'"/>
+						<file-browser></file-browser>
             		</div>
             	</div>
             </div>
         </p-modal>
+
+        <portal to="modals">
+            <new-folder-modal></new-folder-modal>
+        </portal>
 	</div>
 </template>
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
 
+	import FileBrowser      from '../../components/FileManager/FileBrowser.vue'
 	import BreadcrumbAction from '../../components/FileManager/Actions/Breadcrumb.vue'
 	import DisplayAction    from '../../components/FileManager/Actions/Display.vue'
 	import SearchAction     from '../../components/FileManager/Actions/Search.vue'
 	import SortAction       from '../../components/FileManager/Actions/Sort.vue'
 	import ViewAction       from '../../components/FileManager/Actions/View.vue'
 
-	import GridView from '../../components/FileManager/Views/Grid.vue'
-    import ListView from '../../components/FileManager/Views/List.vue'
-
 	export default {
 		name: 'asset-fieldtype',
 
 		components: {
+			'file-browser':      FileBrowser,
 			'display-action':    DisplayAction,
 			'breadcrumb-action': BreadcrumbAction,
 			'search-action':     SearchAction,
 			'sort-action':       SortAction,
 			'view-action':       ViewAction,
-
-			'grid-view': GridView,
-            'list-view': ListView,
 		},
 
 		data() {
@@ -130,7 +136,6 @@
             ...mapGetters({
             	selectedFiles: 'filemanager/getSelectedFiles',
 				files:         'filemanager/getFiles',
-				view:          'filemanager/getView',
         	}),
 
         	hasSelection() {

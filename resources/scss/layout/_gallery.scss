@@ -2,30 +2,18 @@
     @apply flex flex-wrap justify-start;
 
     &-wrapper {
-        @apply flex-initial m-3 text-center;
+        @apply m-2 text-center;
 
         width: 100px;
         min-width: 100px;
 
-        @screen xxl {
-            width: 175px;
-            min-width: 175px;
-        }
-
-        &--small {
-            @apply m-0;
-
-            width: 75px;
-            min-width: 75px;
+        &--row {
+            @apply flex flex-row w-full m-2 items-center justify-between;
         }
     }
 
     &-item {
-        @apply w-full rounded-lg overflow-hidden border-4 border-gray-200 p-2 bg-white;
-
-        &--small {
-            @apply p-1;
-        }
+        @apply rounded-lg overflow-hidden border-4 border-gray-200 p-2;
         
         &--selected {
             @apply border-secondary-500 bg-secondary-200;
@@ -45,5 +33,13 @@
         &:hover {
             transform: scale(1.05);
         }
+    }
+
+    &-text {
+        @apply w-full text-center text-sm text-gray-800
+    }
+
+    &-subtitle {
+        @apply w-full text-center text-xs text-gray-600 font-mono
     }
 }

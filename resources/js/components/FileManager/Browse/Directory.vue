@@ -1,5 +1,5 @@
 <template>
-	<div class="gallery-wrapper flex-auto">
+	<div class="gallery-wrapper">
 		<div
 			class="gallery-item"
 			:class="{ 'gallery-item--selected': isSelected }"
@@ -9,9 +9,10 @@
 
 			<p-img
 				src="/img/folder.svg"
+				background-color="white"
 				class="gallery-image gallery--dropzone"
-				:width="100"
-				:height="100"
+				:width="150"
+				:height="150"
 				:alt="directory.name"
 				:draggable="false"
 				aspect-ratio>
@@ -23,7 +24,7 @@
 			:endpoint="'/api/directories/' + directory.id">
 		</quick-edit>
 
-		<div class="flex flex-col text-center text-xs text-gray-600 mt-2 font-mono">
+		<div class="gallery-subtitle">
 			<span v-html="fileCount"></span>
 		</div>
 	</div>
@@ -48,7 +49,7 @@
 
         computed: {
 			...mapGetters({
-				selected: 'filemanager/getSelectedDirectories'
+				selected: 'filemanager/getSelectedDirectories',
 			}),
 
 			fileCount() {
