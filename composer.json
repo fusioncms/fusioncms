@@ -90,6 +90,7 @@
             "helpers/forms.php",
             "helpers/integers.php",
             "helpers/matrix.php",
+            "helpers/menus.php",
             "helpers/misc.php",
             "helpers/paths.php",
             "helpers/relationships.php",

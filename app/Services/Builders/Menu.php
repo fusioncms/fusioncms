@@ -55,7 +55,7 @@ class Menu extends Builder implements BuilderContract
     {
         $className = Str::studly($this->menu->handle);
         $traits    = [];
-        $fillable  = ['menu_id', 'name', 'url', 'new_window', 'order', 'status'];
+        $fillable  = ['menu_id', 'name', 'url', 'new_window', 'sort_order', 'status'];
         $casts     = [];
 
         if ($this->menu->fieldset) {
@@ -90,13 +90,13 @@ class Menu extends Builder implements BuilderContract
 
         File::put($path, $contents);
 
-        if (! config('app.debug')) {
-            register_shutdown_function(function () use ($path) {
-                if (file_exists($path)) {
-                    unlink($path);
-                }
-            });
-        }
+        // if (! config('app.debug')) {
+        //     register_shutdown_function(function () use ($path) {
+        //         if (file_exists($path)) {
+        //             unlink($path);
+        //         }
+        //     });
+        // }
 
         return app()->make('App\Models\Menus\\'. $className);
     }

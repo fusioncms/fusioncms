@@ -33,15 +33,13 @@ class NodeReorderController extends Controller
 
         $menu  = Menu::find($menu)->firstOrFail();
         $model = (new Builder($menu->handle))->make();
+        $nodes = $request->nodes;
 
-        $nodes = $request->all();
-
-        foreach ($nodes as $node) {
-            $record = $model->find($node['id'])->first();
+        foreach ($nodes as $id => $node) {
+            $record        = $model->find($id);
             $record->order = $node['order'];
-            $record->save();
 
-            $record = null;
+            $record->save();
         }
 
         activity()

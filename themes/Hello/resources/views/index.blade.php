@@ -13,6 +13,15 @@
                 <a href="https://github.com/fusioncms/fusioncms" target="_blank" class="text-gray-600 hover:text-black">GitHub</a>
                 <a href="https://beta.getfusioncms.com/discord" target="_blank" class="text-gray-600 hover:text-black">Discord</a>
             </div>
+
+            <div class="flex w-full max-w-xl justify-center items-center mt-10 p-6 uppercase tracking-wider">
+
+                <ul>
+                    @foreach (menu('header')->roots() as $node)
+                        <li><a href="{{ $node->url() }}">{{ $node->title }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     @endif
 @endsection

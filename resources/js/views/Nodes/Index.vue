@@ -134,12 +134,15 @@
 
             save() {
                 this.saving = true
+                let nodes = {}
 
                 _.each(this.nodes, (node, index) => {
-                    node.order = index + 1
+                    nodes[node.id] = {
+                        order: index + 1
+                    }
                 })
 
-                axios.post('/api/menus/' + this.menu.id + '/reorder', this.nodes).then((response) => {
+                axios.post('/api/menus/' + this.menu.id + '/reorder', {nodes: nodes}).then((response) => {
                     this.saving = false
                     toast('Menu nodes successfully reordered.', 'success')
                 })
