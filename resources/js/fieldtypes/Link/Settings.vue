@@ -8,7 +8,7 @@
     import fieldtype from '../../mixins/fieldtype'
 
     export default {
-        name: 'button-fieldtype-settings',
+        name: 'link-fieldtype-settings',
 
         mixins: [fieldtype],
     }

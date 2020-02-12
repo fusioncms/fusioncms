@@ -40,7 +40,7 @@
 
 <script>
     export default {
-        name: 'button-fieldtype',
+        name: 'link-fieldtype',
 
         data() {
             let data = {}

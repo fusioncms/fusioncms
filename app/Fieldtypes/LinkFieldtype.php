@@ -11,12 +11,12 @@
 
 namespace App\Fieldtypes;
 
-class ButtonFieldtype extends Fieldtype
+class LinkFieldtype extends Fieldtype
 {
     /**
      * @var string
      */
-    public $name = 'Button';
+    public $name = 'Link';
 
     /**
      * @var string
