@@ -43,3 +43,27 @@
         @apply w-full text-center text-xs text-gray-600 font-mono
     }
 }
+
+.selectables {
+    /* Disable text selection */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.dropzone {
+    &--highlight {
+        animation: pulse 3s linear infinite;
+    }
+
+    &--over {
+        @apply border-4 border-primary-500;
+    }
+}
+
+@keyframes pulse {
+    0%   { @apply border-transparent; }
+    50%  { @apply border-primary-500; }
+    100% { @apply border-transparent; }
+}

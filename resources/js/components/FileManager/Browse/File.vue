@@ -2,10 +2,10 @@
 	<div :class="[ view == 'grid' ? 'gallery-wrapper' : 'gallery-wrapper--row' ]">
 		<div
             class="gallery-item"
-            :class="{ 'gallery-item--selected': isSelected }"
+            :class="{ 'gallery-item--selected selectable--selected': isSelected, 'selectable': isSelectable }"
             @dblclick="$emit('dblclick')"
-            :data-file="file.id"
-            :draggable="true">
+            :data-selection="file.id"
+            :draggable="isDraggable">
 
 			<p-img
 				src="/img/image-large.svg"
@@ -57,7 +57,17 @@
 			file: {
 				type: Object,
 				required: true,
-			}
+			},
+
+			isDraggable: {
+            	type: Boolean,
+            	default: true
+            },
+
+            isSelectable: {
+            	type: Boolean,
+            	default: true
+            }
 		},
 
 		computed: {
@@ -70,29 +80,14 @@
                 return _.includes(this.selected, this.file.id)
             },
 
-			type() {
-				return (_.split(this.file.mimetype, '/', 1))[0]
-			},
-
 			fileSrc() {
-				switch(this.type) {
+				switch(this.file.category) {
 					case 'image':
 						return `${this.file.url}?w=100&h=100&fit=crop&t=${this.$moment.utc(this.file.updated_at)}`
-					case 'audio':
-					case 'video':
-						return `/img/${this.type}-large.svg`
-					case 'application':
-					case 'text':
-						return '/img/document-large.svg'
 					default:
-						return '/img/misc-large.svg'
+						return `/img/${this.file.category}-large.svg`
 				}
 			}
-        },
-        methods:{
-        	foo(){
-        		console.log('click')
-        	}
         }
     }
 </script>

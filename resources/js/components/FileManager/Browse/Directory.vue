@@ -2,15 +2,16 @@
 	<div class="gallery-wrapper">
 		<div
 			class="gallery-item"
-			:class="{ 'gallery-item--selected': isSelected }"
-			@dblclick="$emit('dblclick')"
-			:data-directory="directory.id"
-			:draggable="true">
+			:class="{ 'gallery-item--selected selectable--selected': isSelected, 'selectable': isSelectable }"
+			:data-dropzone="directory.id"
+			:draggable="isDraggable"
+			@dblclick="$emit('dblclick')">
 
 			<p-img
 				src="/img/folder.svg"
 				background-color="white"
-				class="gallery-image gallery--dropzone"
+				class="gallery-image"
+				:class="{ 'draggable--dropzone': isDropzone }"
 				:width="150"
 				:height="150"
 				:alt="directory.name"
@@ -25,7 +26,7 @@
 		</quick-edit>
 
 		<div class="gallery-subtitle">
-			<span v-html="fileCount"></span>
+			<span v-text="fileCount"></span>
 		</div>
 	</div>
 </template>
@@ -44,6 +45,21 @@
             directory: {
                 type: Object,
                 required: true,
+            },
+
+            isDropzone: {
+            	type: Boolean,
+            	default: false
+            },
+
+            isDraggable: {
+            	type: Boolean,
+            	default: true
+            },
+
+            isSelectable: {
+            	type: Boolean,
+            	default: true
             }
         },
 

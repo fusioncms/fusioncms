@@ -28,29 +28,28 @@ export default {
 		    } while (Math.abs(value) >= thresh && index < units.length - 1)
 
 		    return value.toFixed(1) + ' ' + units[index]
+		},
+
+		size(value) {
+			return _.size(value)
 		}
 	},
 
 	methods: {
 		...mapActions({
 			fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-			clearDirectorySelection:  'filemanager/clearDirectorySelection',
-			clearFileSelection:       'filemanager/clearFileSelection',
-			setCurrentDirectory:      'filemanager/setCurrentDirectory',
-			setParentDirectory:       'filemanager/setParentDirectory',
+			setCurrentDirectory: 'filemanager/setCurrentDirectory',
+			setParentDirectory:  'filemanager/setParentDirectory',
+			reset:               'filemanager/reset',
 		}),
 
 		navigate(directory) {
+			this.reset()
+
 			if (directory) {
 				this.setCurrentDirectory(directory.id)
 				this.setParentDirectory(directory.parent_id)
-			} else {
-				this.setCurrentDirectory(null)
-				this.setParentDirectory(null)
 			}
-
-			this.clearFileSelection()
-			this.clearDirectorySelection()
 
 			this.fetchFilesAndDirectories()
 		},

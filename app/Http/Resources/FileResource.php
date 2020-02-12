@@ -28,6 +28,19 @@ class FileResource extends JsonResource
         $resource['url']          = url($resource['url']);
         $resource['directory_id'] = (int) $resource['directory_id'];
 
+
+        $category = explode('/', $resource['mimetype'])[0];
+
+        switch($category) {
+            case 'image':
+            case 'audio':
+            case 'video':
+                $resource['category'] = $category;
+            break;
+            default:
+                $resource['category'] = 'document';
+        }
+
         return $resource;
     }
 }

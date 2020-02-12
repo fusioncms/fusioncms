@@ -237,13 +237,11 @@ export default {
     },
 
     actions: {
-        reset({ dispatch }) {
-            dispatch('setCurrentDirectory', null)
-            dispatch('setParentDirectory', null)
-
-            dispatch('clearFileSelection')
-            dispatch('clearDirectorySelection')
-            dispatch('fetchFilesAndDirectories')
+        reset({ commit }) {
+            commit('setCurrentDirectory', null)
+            commit('setParentDirectory', null)
+            commit('clearFileSelection')
+            commit('clearDirectorySelection')
         },
 
         setLoading(context, loading) {
