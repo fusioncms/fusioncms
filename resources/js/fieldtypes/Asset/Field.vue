@@ -4,14 +4,14 @@
 
 		<div class="flex items-start justify-between">
 			<div class="w-1/2">
-				<p-button @click="open">
+				<p-button :disabled="requestOpen" @click="open">
 					<fa-icon :icon="['fas', 'plus-circle']" class="mr-1"></fa-icon> Manage Assets
 				</p-button>
 			</div>
 
 			<file-selection
 				class="w-1/2"
-				:limitReached="limitReached"
+				:limit="selectionLimit"
 				:hasHeader="false"
 				v-model="selected">
 			</file-selection>
@@ -24,7 +24,7 @@
 			<div class="row" @dragenter="setDropzoneVisible(true)">
 				<div class="side-container">
 					<file-selection
-						:limitReached="limitReached"
+						:limit="selectionLimit"
 						@reject="reject"
 						@accept="accept"
 						v-model="selection">
@@ -36,7 +36,7 @@
 						<div class="flex items-center justify-between px-3 pt-2">
 							<ul>
 								<li class="mr-4">
-									<p-button @click="push" theme="success" :disabled="limitReached">
+									<p-button @click="push" theme="success">
 										<fa-icon :icon="['fas', 'arrow-alt-circle-left']" class="mr-1"></fa-icon>
 									</p-button>
 								</li>
@@ -133,53 +133,46 @@
 
 		data() {
             return {
+            	requestOpen: false,
             	modalOpen: false,
             	selection: [],
             }
         },
 
-        props: {
-            field: {
-                type: Object,
-                required: true,
-            },
+		props: {
+			field: {
+			    type: Object,
+			    required: true,
+			},
 
-            value: {
-            	type: Array,
-                required: false,
-                default: () => [],
-            },
-        },
+			value: {
+				type: Array,
+				required: false,
+				default: () => [],
+			},
+		},
 
-        watch: {
-        	modalOpen(isOpen) {
-        		this.reset()
+		watch: {
+			loading(isLoading) {
+				this.$nextTick(() => {
+					if (isLoading) {
+						this.destroySelector()
+					} else {
+						this.loadSelector(this.$el.querySelector('.selectables'))
 
-        		if (isOpen) {
-        			this.selection = [...this.selected]
-        			this.setCurrentDirectory(this.field.settings.root_directory)
-        			this.setRootDirectory(this.field.settings.root_directory)
-        			this.fetchFilesAndDirectories()
-        			this.loadSelector(this.$el.querySelector('.selectables'))
-        		} else {
-        			this.selection = []
-        			this.destroySelector()
-        		}
-        	},
-
-        	loading(isLoading) {
-        		if (isLoading) {
-					this.destroySelector()
-				} else {
-					this.loadSelector(this.$el.querySelector('.selectables'))
-				}
-        	}
-        },
+						if (this.requestOpen) {
+							this.modalOpen   = true
+							this.requestOpen = false
+						}
+					}
+				})
+			}
+		},
 
         computed: {
 			selected: {
 				get() {
-					return this.value
+					return this.value || []
 				},
 				
 				set(value) {
@@ -187,8 +180,12 @@
 				}
 			},
 
-			limitReached() {
-				return this.field.settings.limit && this.field.settings.limit <= this.selection.length
+			selectionLimit() {
+				return Number(this.field.settings.limit) || Infinity
+			},
+
+			addLimit() {
+				return this.selectionLimit - this.selection.length
 			},
 
 			typeRestriction() {
@@ -210,7 +207,7 @@
 			},
 
 			add(id) {
-				if (! this.limitReached) {
+				if (this.addLimit > 0) {
 					let exists = _.find(this.selection, [ 'id', id ])
 					let file   = _.find(this.files, [ 'id', id ])
 
@@ -221,10 +218,19 @@
 			},
 
 			open() {
-				this.modalOpen = true
+				this.reset()
+				this.setCurrentDirectory(this.field.settings.root_directory)
+        		this.setRootDirectory(this.field.settings.root_directory)
+				this.fetchFilesAndDirectories()
+
+				this.selection = [...this.selected]
+				this.requestOpen = true
 			},
 
 			close() {
+				this.reset()
+
+				this.selection = []
 				this.modalOpen = false
 			},
 

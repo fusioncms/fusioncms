@@ -38,7 +38,7 @@ class AssetFieldtype extends Fieldtype
      */
     public $settings = [
         'limit'                 => null,
-        'root_directory'        => [],
+        'root_directory'        => null,
         'filetype_restrictions' => [],
     ];
 

@@ -57,7 +57,9 @@ export default {
 		},
 
 		destroySelector() {
-			if (this.selector) this.selector.stop()
+			if (this.selector) {
+				this.selector.stop()
+			}
 		}
     }
 }

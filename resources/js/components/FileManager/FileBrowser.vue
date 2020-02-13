@@ -43,11 +43,13 @@
 
 		watch: {
 			loading: function(isLoading) {
-				if (isLoading) {
-					this.destroySelector()
-				} else {
-					this.loadSelector(this.$el)
-				}
+				this.$nextTick(() => {
+					if (isLoading) {
+						this.destroySelector()
+					} else {
+						this.loadSelector(this.$el)
+					}
+				})
 			}
 		},	
 
@@ -58,11 +60,12 @@
 		},
 
 		mounted() {
+			this.setCurrentDirectory(null)
+        	this.setRootDirectory(null)
+
 			this.$on('drag-n-drop', ({ dropzone, selection }) => {
 				this.moveFileToDirectory({ directory: dropzone, moving: selection })
 			})
-
-        	this.setRootDirectory(null)
 		}
 	}
 </script>

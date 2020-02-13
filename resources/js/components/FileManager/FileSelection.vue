@@ -30,7 +30,7 @@
 				</div>
 			</p-sortable-list>
 
-			<div v-if="limitReached" class="text-sm italic text-danger-600 text-center">
+			<div v-if="addLimit <= 0" class="text-sm italic text-danger-600 text-center">
 				File limit reached
 			</div>
 		</div>
@@ -53,7 +53,11 @@
 				set(value) {
 					this.$emit('input', value)
 				}
-			}
+			},
+
+			addLimit() {
+				return this.limit - this.selection.length
+			},
 		},
 
 		props: {
@@ -62,9 +66,9 @@
 				required: true
 			},
 
-			limitReached: {
-				type: Boolean,
-				default: false
+			limit: {
+				type: Number,
+				default: Infinity
 			},
 
 			hasHeader: {
