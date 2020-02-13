@@ -60,9 +60,6 @@
 		},
 
 		mounted() {
-			this.setCurrentDirectory(null)
-        	this.setRootDirectory(null)
-
 			this.$on('drag-n-drop', ({ dropzone, selection }) => {
 				this.moveFileToDirectory({ directory: dropzone, moving: selection })
 			})
