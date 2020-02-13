@@ -3,8 +3,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
 	computed: {
 		...mapGetters({
+			rootDirectory:    'filemanager/getRootDirectory',
 			currentDirectory: 'filemanager/getCurrentDirectory',
 			parentDirectory:  'filemanager/getParentDirectory',
+			breadcrumbs:      'filemanager/getBreadcrumbs',
 			directories:      'filemanager/getDirectories',
 			files:            'filemanager/getFiles',
 			view:             'filemanager/getView',
@@ -38,9 +40,10 @@ export default {
 	methods: {
 		...mapActions({
 			fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-			setCurrentDirectory: 'filemanager/setCurrentDirectory',
-			setParentDirectory:  'filemanager/setParentDirectory',
-			reset:               'filemanager/reset',
+			setCurrentDirectory:      'filemanager/setCurrentDirectory',
+			setParentDirectory:       'filemanager/setParentDirectory',
+			setRootDirectory:         'filemanager/setRootDirectory',
+			reset:                    'filemanager/reset',
 		}),
 
 		navigate(directory) {

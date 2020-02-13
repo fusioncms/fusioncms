@@ -1,14 +1,14 @@
 <template>
 	<div class="card h-full">
 		<div v-if="hasHeader" class="flex items-center justify-between border-b border-gray-200 p-3">
-			<p-button @click="$emit('clear')"><fa-icon :icon="['fas', 'eject']" class="mr-2"></fa-icon> Clear</p-button>
-			<p-button @click="$emit('close')">Close <fa-icon :icon="['fas', 'times']" class="ml-2"></fa-icon></p-button>
+			<p-button @click="$emit('reject')" theme="warning"><fa-icon :icon="['fas', 'times']" class="mr-2"></fa-icon> Reject</p-button>
+			<p-button @click="$emit('accept')" theme="info">Accept <fa-icon :icon="['fas', 'check']" class="ml-2"></fa-icon></p-button>
 		</div>
 
-		<div v-if="selected.length > 0">
+		<div v-if="selection.length > 0">
 			<p-sortable-list v-model="selection" class="sortable-list">
 				<div class="w-full p-3">
-					<p-sortable-item v-for="file in selected" :key="file.id">
+					<p-sortable-item v-for="file in selection" :key="file.id">
 						<div class="flex items-center py-2">
 							<div class="w-1/12">
 								<p-sortable-handle class="cursor-move">
@@ -23,7 +23,7 @@
 								<div>{{ file.name }}</div>
 							</div>
 							<div class="w-2/12 text-right">
-								<p-button v-show="canDelete" @click="$emit('remove', file.id)" theme="danger"><fa-icon :icon="['fas', 'trash']"></fa-icon></p-button>
+								<p-button @click="remove(file.id)" theme="danger"><fa-icon :icon="['fas', 'trash']"></fa-icon></p-button>
 							</div>
 						</div>
 					</p-sortable-item>
@@ -47,9 +47,9 @@
 		computed: {
 			selection: {
 				get() {
-					return this.selected
+					return this.value
 				},
-				
+
 				set(value) {
 					this.$emit('input', value)
 				}
@@ -57,7 +57,7 @@
 		},
 
 		props: {
-			selected: {
+			value: {
 				type: Array,
 				required: true
 			},
@@ -70,11 +70,12 @@
 			hasHeader: {
 				type: Boolean,
 				default: true
-			},
+			}
+		},
 
-			canDelete: {
-				type: Boolean,
-				default: true
+		methods: {
+			remove(id) {
+				this.selection = _.filter(this.selection, (item) => { return item.id !== id })
 			}
 		}
 	}

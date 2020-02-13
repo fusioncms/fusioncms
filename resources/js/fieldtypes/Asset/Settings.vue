@@ -23,19 +23,17 @@
 
     	<div class="col w-1/2">
 			<p-select
-				name="directory_restrictions"
-				label="Directory restrictions"
-				help="Restrict which folders are accessible for this field."
-				:options="directoryOptions"
-				v-model="value.directory_restrictions">
+				name="root_directory"
+				label="Root directory"
+				help="Select root folder for this field; default root will be used if None selected."
+				:options="directories"
+				v-model="value.root_directory">
 			</p-select>
 	    </div>
     </div>
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
-
     export default {
         name: 'asset-fieldtype-settings',
 
@@ -50,20 +48,19 @@
 	                video:    'Videos',
 	                audio:    'Audio',
 	                document: 'Documents',
-	        	}
+	        	},
+	        	directories: []
 	        }
         },
 
-        computed: {
-        	...mapGetters({
-        		directories: 'filemanager/getDirectories'
-        	}),
+        created() {
+        	axios.get('/api/directories').then(response => {
+				this.directories = _.map(response.data.data, (directory) => {
+					return { 'label': directory.name, 'value': directory.id }
+				})
 
-        	directoryOptions() {
-        		return _.map(this.directories, (directory) => {
-        			return { 'label': directory.name, 'value': directory.id }
-        		})
-        	}
+				this.directories.unshift({ 'label': 'None', 'value': null })
+        	})
         }
     }
 </script>

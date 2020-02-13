@@ -12,6 +12,7 @@ export default {
             files: [],
             directories: [],
         },
+        rootDirectory: null,
         currentDirectory: null,
         parentDirectory: null,
         breadcrumbs: [],
@@ -53,6 +54,10 @@ export default {
 
         getSearch(state) {
             return state.search
+        },
+
+        getRootDirectory(state) {
+            return state.rootDirectory
         },
 
         getCurrentDirectory(state) {
@@ -131,6 +136,10 @@ export default {
 
         setDirectories(state, directories) {
             state.directories = directories
+        },
+
+        setRootDirectory(state, directory) {
+            state.rootDirectory = directory
         },
 
         setCurrentDirectory(state, directory) {
@@ -373,6 +382,10 @@ export default {
 
         setDirectories(context, directories) {
             context.commit('setDirectories', directories)
+        },
+
+        setRootDirectory(context, directory) {
+            context.commit('setRootDirectory', directory)
         },
 
         setCurrentDirectory(context, directory) {

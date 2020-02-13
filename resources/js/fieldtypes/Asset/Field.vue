@@ -4,19 +4,15 @@
 
 		<div class="flex items-start justify-between">
 			<div class="w-1/2">
-				<p-button @click="modalOpen = true" theme="secondary">
+				<p-button @click="open">
 					<fa-icon :icon="['fas', 'plus-circle']" class="mr-1"></fa-icon> Manage Assets
 				</p-button>
 			</div>
 
 			<file-selection
 				class="w-1/2"
-				:selected="selected"
 				:limitReached="limitReached"
 				:hasHeader="false"
-				@clear="selected = []"
-				@close="modalOpen = false"
-				@remove="remove"
 				v-model="selected">
 			</file-selection>
 		</div>
@@ -26,14 +22,12 @@
 			<file-uploader ref="uploader"></file-uploader>
 
 			<div class="row" @dragenter="setDropzoneVisible(true)">
-
 				<div class="side-container">
 					<file-selection
-						:selected="selected"
 						:limitReached="limitReached"
-						@clear="selected = []"
-						@close="modalOpen = false"
-						@remove="remove">
+						@reject="reject"
+						@accept="accept"
+						v-model="selection">
 					</file-selection>
 			   	</div>
 
@@ -42,7 +36,7 @@
 						<div class="flex items-center justify-between px-3 pt-2">
 							<ul>
 								<li class="mr-4">
-									<p-button @click="add" theme="success" :disabled="limitReached">
+									<p-button @click="push" theme="success" :disabled="limitReached">
 										<fa-icon :icon="['fas', 'arrow-alt-circle-left']" class="mr-1"></fa-icon>
 									</p-button>
 								</li>
@@ -83,7 +77,7 @@
 									v-for="file in files"
 									:key="file.id"
 									:file="file"
-									@dblclick="addById(file.id)">
+									@dblclick="add(file.id)">
 								</file>
 							</div>
 						</div>
@@ -140,7 +134,7 @@
 		data() {
             return {
             	modalOpen: false,
-            	selected: [],
+            	selection: [],
             }
         },
 
@@ -158,17 +152,17 @@
         },
 
         watch: {
-        	selected(value) {
-        		this.$emit('input', value)
-        	},
-
         	modalOpen(isOpen) {
         		this.reset()
 
         		if (isOpen) {
+        			this.selection = [...this.selected]
+        			this.setCurrentDirectory(this.field.settings.root_directory)
+        			this.setRootDirectory(this.field.settings.root_directory)
         			this.fetchFilesAndDirectories()
         			this.loadSelector(this.$el.querySelector('.selectables'))
         		} else {
+        			this.selection = []
         			this.destroySelector()
         		}
         	},
@@ -183,8 +177,18 @@
         },
 
         computed: {
+			selected: {
+				get() {
+					return this.value
+				},
+				
+				set(value) {
+					this.$emit('input', value)
+				}
+			},
+
 			limitReached() {
-				return this.field.settings.limit && this.field.settings.limit <= this.selected.length
+				return this.field.settings.limit && this.field.settings.limit <= this.selection.length
 			},
 
 			typeRestriction() {
@@ -201,28 +205,37 @@
             	return this.typeRestriction.length == 0 || _.includes(this.typeRestriction, file.type)
             },
 
-			add() {
-				_.forEach(this.selectedFiles, (id) => this.addById(id))
+			push() {
+				_.forEach(this.selectedFiles, (id) => this.add(id))
 			},
 
-			addById(id) {
+			add(id) {
 				if (! this.limitReached) {
-					let exists = _.find(this.selected, [ 'id', id ])
+					let exists = _.find(this.selection, [ 'id', id ])
 					let file   = _.find(this.files, [ 'id', id ])
 
 					if (! exists && this.isValidSelection(file)) {
-						this.selected.push(file)
+						this.selection.push(file)
 					}
 				}
 			},
 
-			remove(id) {
-				this.selected = _.filter(this.selected, (item) => { return item.id !== id })
-			}
-		},
+			open() {
+				this.modalOpen = true
+			},
 
-		mounted() {
-			this.selected = this.value || []
+			close() {
+				this.modalOpen = false
+			},
+
+			reject() {
+				this.close()
+			},
+
+			accept() {
+				this.selected = this.selection
+				this.close()
+			}
 		}
 	}
 </script>

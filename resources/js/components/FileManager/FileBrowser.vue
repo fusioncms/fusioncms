@@ -61,6 +61,8 @@
 			this.$on('drag-n-drop', ({ dropzone, selection }) => {
 				this.moveFileToDirectory({ directory: dropzone, moving: selection })
 			})
+
+        	this.setRootDirectory(null)
 		}
 	}
 </script>
