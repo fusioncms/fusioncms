@@ -41,13 +41,23 @@
 			'file':      File,
 		},
 
+		watch: {
+			loading: function(isLoading) {
+				if (isLoading) {
+					this.destroySelector()
+				} else {
+					this.loadSelector(this.$el)
+				}
+			}
+		},	
+
 		methods: {
 			...mapActions({
 				moveFileToDirectory: 'filemanager/moveFileToDirectory',
 			})
 		},
 
-		created() {
+		mounted() {
 			this.$on('drag-n-drop', ({ dropzone, selection }) => {
 				this.moveFileToDirectory({ directory: dropzone, moving: selection })
 			})

@@ -7,85 +7,63 @@
 				placeholder=""
 				v-model="value.limit">
 			</p-number>
-			
-			<p-checkbox-group label="Directory restrictions" help="Restrict which folders are accessible for this selection.">
+
+			<p-checkbox-group label="File type restrictions" help="Restrict which file types are selectable for this field; leave blank if no retriction is desired.">
 				<p-checkbox
-					v-for="(directory, index) in directories"
-					name="directory_restrictions"
-					:id="directory.slug"
-					:key="directory.slug"
-					:native-value="directory.slug"
-					v-model="value.directory_restrictions">{{ directory.name }}</p-checkbox>
+					v-for="(filetype, index) in filetypes"
+					name="filetype_restrictions"
+					:id="index"
+					:key="index"
+					:native-value="index"
+					v-model="value.filetype_restrictions">
+					{{ filetype }}
+				</p-checkbox>
 			</p-checkbox-group>
 		</div>
 
     	<div class="col w-1/2">
 			<p-select
-				name="default_upload_location"
-				label="Default upload location"
-				:options="defaultUploadOptions"
-				v-model="value.default_upload_location">
+				name="directory_restrictions"
+				label="Directory restrictions"
+				help="Restrict which folders are accessible for this field."
+				:options="directoryOptions"
+				v-model="value.directory_restrictions">
 			</p-select>
-
-			<p-checkbox-group label="File type restrictions" help="Restrict which folders are accessible for this selection.">
-			    <p-checkbox
-			    	v-for="(filetype, index) in filetypes"
-			    	name="filetype_restrictions"
-			    	:id="index"
-			    	:key="index"
-			    	:native-value="index"
-			    	v-model="value.filetype_restrictions">{{ filetype }}</p-checkbox>
-			</p-checkbox-group>
 	    </div>
     </div>
 </template>
 
 <script>
-	import { mapGetters, mapActions } from 'vuex'
-    import fieldtype from '../../mixins/fieldtype'
+	import { mapGetters } from 'vuex'
 
     export default {
         name: 'asset-fieldtype-settings',
 
-        mixins: [fieldtype],
+        mixins: [
+        	require ('../../mixins/fieldtype').default
+        ],
 
         data() {
         	return {
         		filetypes: {
-	        		everything: 'Everything',
-	                images:     'Images',
-	                videos:     'Videos',
-	                audio:      'Audio',
-	                documents:  'Documents',
-	        	},
-	        	defaultUploadOptions: []
+	                image:    'Images',
+	                video:    'Videos',
+	                audio:    'Audio',
+	                document: 'Documents',
+	        	}
 	        }
         },
 
         computed: {
-            ...mapGetters({
-                directories: 'filemanager/getDirectories',
-            })
-        },
+        	...mapGetters({
+        		directories: 'filemanager/getDirectories'
+        	}),
 
-        watch: {
-        	directories(values) {
-        		this.defaultUploadOptions = _.map(values, function(value) {
-					return { 'label': value.name, 'value': value.id }
-				})
-
-				this.defaultUploadOptions.unshift({ 'label': 'root', 'value' : null })
+        	directoryOptions() {
+        		return _.map(this.directories, (directory) => {
+        			return { 'label': directory.name, 'value': directory.id }
+        		})
         	}
-        },
-
-        methods: {
-            ...mapActions({
-                fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-            })
-        },
-
-        mounted() {
-        	this.fetchFilesAndDirectories()
         }
     }
 </script>

@@ -2,17 +2,23 @@
 	<div>
 		<label :for="field.handle" class="form__label">{{ field.name }}</label>
 
-		<!-- Launcher -->
-		<p-button @click="open" theme="secondary">
-			<fa-icon :icon="['fas', 'plus-circle']" class="mr-1"></fa-icon> Manage Assets
-		</p-button>
-		
-		<!-- Current Selection -->
-		<div class="flex flex-wrap items-center justify-start">
-			<p-button v-for="(file, index) in value" :key="file.id" @click="remove(file.id)" class="m-2">
-				{{ file.name }}
-				<fa-icon :icon="['fas', 'times']" class="ml-2"></fa-icon>
-			</p-button>
+		<div class="flex items-start justify-between">
+			<div class="w-1/2">
+				<p-button @click="modalOpen = true" theme="secondary">
+					<fa-icon :icon="['fas', 'plus-circle']" class="mr-1"></fa-icon> Manage Assets
+				</p-button>
+			</div>
+
+			<file-selection
+				class="w-1/2"
+				:selected="selected"
+				:limitReached="limitReached"
+				:hasHeader="false"
+				@clear="selected = []"
+				@close="modalOpen = false"
+				@remove="remove"
+				v-model="selected">
+			</file-selection>
 		</div>
 
 		<!-- File Manager Modal -->
@@ -20,51 +26,15 @@
 			<file-uploader ref="uploader"></file-uploader>
 
 			<div class="row" @dragenter="setDropzoneVisible(true)">
+
 				<div class="side-container">
-					<div class="card h-full">
-
-						<div class="flex items-center justify-between border-b border-gray-200 px-3 py-2 text-right">
-							<p-button @click="clear">
-								<fa-icon :icon="['fas', 'eject']" class="mr-2"></fa-icon>
-								Clear
-							</p-button>
-							<p-button @click="close">
-								Close
-								<fa-icon :icon="['fas', 'times']" class="ml-2"></fa-icon>
-							</p-button>
-						</div>
-
-						<div v-if="selected.length > 0" class="row">
-							<p-sortable-list v-model="selected" class="sortable-list">
-								<div class="col mb-6 w-full">
-									<p-sortable-item v-for="(file, index) in selected" :key="file.id" class="flex items-center justify-between">
-										<div class="py-2 px-3">
-											<p-sortable-handle class="cursor-move w-1/5">
-												<fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400"></fa-icon>
-											</p-sortable-handle>
-
-											<p-img v-if="file.category == 'image'" :src="file.url + '?w=50&h=50&fit=crop'" background-color="white" :width="50" :height="50"></p-img>
-											<p-img v-else :src="'/img/' + file.category + '-large.svg'" background-color="white" :width="50" :height="50"></p-img>
-
-											<div>{{ file.name }}</div>
-											
-											<p-button @click="remove(file.id)" theme="danger"><fa-icon :icon="['fas', 'trash']"></fa-icon></p-button>
-										</div>
-									</p-sortable-item>
-								</div>
-							</p-sortable-list>
-
-							<div v-if="limitReached" class="flex w-full items-center justify-center">
-								<span class="text-sm italic text-danger-600">File limit reached</span>
-							</div>
-						</div>
-
-						<div v-else class="h-full flex flex-col justify-center items-center text-5xl text-gray-300">
-				            <fa-icon :icon="['far', 'copy']" class="fa-fw fa-3x"></fa-icon>
-				            <span class="text-lg py-2 text-gray-500">Select some files...</span>
-				        </div>
-
-					</div>
+					<file-selection
+						:selected="selected"
+						:limitReached="limitReached"
+						@clear="selected = []"
+						@close="modalOpen = false"
+						@remove="remove">
+					</file-selection>
 			   	</div>
 
 				<div class="content-container">
@@ -103,6 +73,7 @@
 									v-for="directory in directories"
 									:key="directory.id"
 									:directory="directory"
+									:isDropzone="true"
 									@dblclick="navigate(directory)">
 								</directory>
 							</div>
@@ -131,7 +102,8 @@
 <script>
 	import { mapActions } from 'vuex'
 
-	import FileUploader from '../../components/FileManager/FileUploader.vue'
+	import FileUploader  from '../../components/FileManager/FileUploader.vue'
+	import FileSelection from '../../components/FileManager/FileSelection.vue'
 
 	import BreadcrumbAction from '../../components/FileManager/Actions/Breadcrumb.vue'
 	import DisplayAction    from '../../components/FileManager/Actions/Display.vue'
@@ -146,7 +118,8 @@
 		name: 'asset-fieldtype',
 
 		components: {
-			'file-uploader': FileUploader,
+			'file-uploader':  FileUploader,
+			'file-selection': FileSelection,
 
 			'display-action':    DisplayAction,
 			'breadcrumb-action': BreadcrumbAction,
@@ -160,6 +133,7 @@
 
 		mixins: [
 			require('../../mixins/fileselector').default,
+			require('../../mixins/filedragdrop').default,
             require('../../mixins/filebrowser').default,
         ],
 
@@ -186,13 +160,36 @@
         watch: {
         	selected(value) {
         		this.$emit('input', value)
+        	},
+
+        	modalOpen(isOpen) {
+        		this.reset()
+
+        		if (isOpen) {
+        			this.fetchFilesAndDirectories()
+        			this.loadSelector(this.$el.querySelector('.selectables'))
+        		} else {
+        			this.destroySelector()
+        		}
+        	},
+
+        	loading(isLoading) {
+        		if (isLoading) {
+					this.destroySelector()
+				} else {
+					this.loadSelector(this.$el.querySelector('.selectables'))
+				}
         	}
         },
 
         computed: {
 			limitReached() {
-				return this.field.settings.limit != '' && this.field.settings.limit <= this.selected.length
+				return this.field.settings.limit && this.field.settings.limit <= this.selected.length
 			},
+
+			typeRestriction() {
+				return this.field.settings.filetype_restrictions
+			}
         },
 
 		methods: {
@@ -201,9 +198,7 @@
             }),
 
             isValidSelection(file) {
-            	let category_restriction = this.field.settings.filetype_restrictions
-
-            	return _.includes(category_restriction, 'everything') || _.includes(category_restriction, file.category)
+            	return this.typeRestriction.length == 0 || _.includes(this.typeRestriction, file.type)
             },
 
 			add() {
@@ -223,24 +218,11 @@
 
 			remove(id) {
 				this.selected = _.filter(this.selected, (item) => { return item.id !== id })
-			},
-
-			clear() {
-				this.selected = []
-			},
-
-			open() {
-				this.modalOpen = true
-				this.selected  = this.value || []
-
-				this.reset()
-				this.fetchFilesAndDirectories()
-			},
-
-			close() {
-				this.modalOpen = false
-				this.reset()
 			}
+		},
+
+		mounted() {
+			this.selected = this.value || []
 		}
 	}
 </script>

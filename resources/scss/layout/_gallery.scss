@@ -1,6 +1,15 @@
 .gallery {
     @apply flex flex-wrap justify-start;
 
+
+    &-container {
+        /* Disable text selection */
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
     &-wrapper {
         @apply m-2 text-center;
 
@@ -42,14 +51,6 @@
     &-subtitle {
         @apply w-full text-center text-xs text-gray-600 font-mono
     }
-}
-
-.selectables {
-    /* Disable text selection */
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
 .dropzone {

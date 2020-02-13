@@ -23,8 +23,7 @@ export default {
     },
 
     mounted() {
-    	const container   = document.querySelector('.selectables')
-    	const selectables = document.getElementsByClassName('selectable')
+    	const container = document.querySelector('.gallery-container')
 
     	// Drag Start
 		container.addEventListener('dragstart', (ev) => {

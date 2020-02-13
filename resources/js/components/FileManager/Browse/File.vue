@@ -81,11 +81,11 @@
             },
 
 			fileSrc() {
-				switch(this.file.category) {
+				switch(this.file.type) {
 					case 'image':
 						return `${this.file.url}?w=100&h=100&fit=crop&t=${this.$moment.utc(this.file.updated_at)}`
 					default:
-						return `/img/${this.file.category}-large.svg`
+						return `/img/${this.file.type}-large.svg`
 				}
 			}
         }

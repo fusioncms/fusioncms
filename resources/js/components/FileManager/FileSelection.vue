@@ -1,0 +1,81 @@
+<template>
+	<div class="card h-full">
+		<div v-if="hasHeader" class="flex items-center justify-between border-b border-gray-200 p-3">
+			<p-button @click="$emit('clear')"><fa-icon :icon="['fas', 'eject']" class="mr-2"></fa-icon> Clear</p-button>
+			<p-button @click="$emit('close')">Close <fa-icon :icon="['fas', 'times']" class="ml-2"></fa-icon></p-button>
+		</div>
+
+		<div v-if="selected.length > 0">
+			<p-sortable-list v-model="selection" class="sortable-list">
+				<div class="w-full p-3">
+					<p-sortable-item v-for="file in selected" :key="file.id">
+						<div class="flex items-center py-2">
+							<div class="w-1/12">
+								<p-sortable-handle class="cursor-move">
+									<fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400"></fa-icon>
+								</p-sortable-handle>
+							</div>
+							<div class="w-3/12">
+								<p-img v-if="file.type == 'image'" :src="file.url + '?w=50&h=50&fit=crop'" background-color="white" :width="50" :height="50"></p-img>
+								<p-img v-else :src="'/img/' + file.type + '-large.svg'" background-color="white" :width="50" :height="50"></p-img>
+							</div>
+							<div class="w-6/12">
+								<div>{{ file.name }}</div>
+							</div>
+							<div class="w-2/12 text-right">
+								<p-button v-show="canDelete" @click="$emit('remove', file.id)" theme="danger"><fa-icon :icon="['fas', 'trash']"></fa-icon></p-button>
+							</div>
+						</div>
+					</p-sortable-item>
+				</div>
+			</p-sortable-list>
+
+			<div v-if="limitReached" class="text-sm italic text-danger-600 text-center">
+				File limit reached
+			</div>
+		</div>
+
+		<div v-else class="h-full flex flex-col justify-center items-center text-5xl text-gray-300">
+			<fa-icon :icon="['far', 'copy']" class="fa-fw fa-3x"></fa-icon>
+			<span class="text-lg py-2 text-gray-500">Select some files...</span>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		computed: {
+			selection: {
+				get() {
+					return this.selected
+				},
+				
+				set(value) {
+					this.$emit('input', value)
+				}
+			}
+		},
+
+		props: {
+			selected: {
+				type: Array,
+				required: true
+			},
+
+			limitReached: {
+				type: Boolean,
+				default: false
+			},
+
+			hasHeader: {
+				type: Boolean,
+				default: true
+			},
+
+			canDelete: {
+				type: Boolean,
+				default: true
+			}
+		}
+	}
+</script>
