@@ -4,7 +4,7 @@
 			<app-title icon="anchor">Edit Node</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit" :menu="menu" :node="node"></shared-form>
+        <shared-form :form="form" :submit="submit" :menu="menu" :node="node" :nodes="nodes"></shared-form>
     </div>
 </template>
 
@@ -25,6 +25,7 @@
             return {
                 menu: {},
                 node: {},
+                nodes: [],
                 form: new Form({
                     name: '',
                     url: '',
@@ -41,16 +42,13 @@
 
         methods: {
             submit() {
-                toast('Submitted')
-                // axios.post(`/api/fieldsets/${this.form.fieldset.id}/sections`, fieldsetForm).then((response) => {
-                //     this.form.patch('/api/menus/' + this.id).then((response) => {
-                //         toast('Menu successfully saved', 'success')
+                this.form.patch('/api/menus/' + this.menu.id + '/nodes/' + this.node.id).then((response) => {
+                    toast('Node saved successfully', 'success')
 
-                //         this.$router.push('/menus')
-                //     }).catch((response) => {
-                //         toast(response.message, 'failed')
-                //     })
-                // })
+                    this.$router.push('/menus/' + this.menu.id + '/nodes')
+                }).catch((response) => {
+                    toast(response.response.data.message, 'failed')
+                })
             },
         },
 
@@ -69,6 +67,18 @@
                     vm.form.new_window = node.data.data.new_window
                     vm.form.parent_id  = node.data.data.parent_id
                     vm.form.status     = node.data.data.status
+
+                    vm.nodes = _.map(menu.data.data.nodes, function(parent) {
+                        return {
+                            'label': parent.name,
+                            'value': parent.id
+                        }
+                    })
+
+                    vm.nodes.unshift({
+                        'label': 'None',
+                        'value': 0
+                    })
 
                     vm.$emit('updateHead')
                 })

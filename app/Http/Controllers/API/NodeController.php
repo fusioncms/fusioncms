@@ -57,6 +57,7 @@ class NodeController extends Controller
             'name'       => 'required',
             'url'        => 'sometimes',
             'new_window' => 'sometimes',
+            'parent_id'  => 'sometimes',
         ];
 
         if(isset($menu->fieldset)) {
@@ -99,12 +100,14 @@ class NodeController extends Controller
     {
         $this->authorize('node.update');
 
-        $menu          = Menu::where('handle', $menu)->firstOrFail();
-        $node          = (new Builder($menu->handle))->make()->find($id);
+        $menu          = Menu::findOrFail($menu);
+        $node          = (new Builder($menu->handle))->make()->findOrFail($id);
         $relationships = [];
         $rules         = [
-            'name'   => 'required',
-            'handle' => 'sometimes',
+            'name'       => 'required',
+            'url'        => 'sometimes',
+            'new_window' => 'sometimes',
+            'parent_id'  => 'sometimes',
         ];
 
         if(isset($menu->fieldset)) {

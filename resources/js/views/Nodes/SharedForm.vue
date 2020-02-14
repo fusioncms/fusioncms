@@ -67,17 +67,29 @@
 
                         <p-select
                             name="parent_id"
-                            label="Parent"
+                            label="Parent Node"
                             help="Should this node belong to another?"
-                            :options="[
-                                {
-                                    'label': 'Node 1',
-                                    'value': 1,
-                                }
-                            ]"
+                            :options="nodes"
                             :has-error="form.errors.has('parent_id')"
                             :error-message="form.errors.get('parent_id')"
                             v-model="form.parent_id">
+                        </p-select>
+
+                        <p-select
+                            name="new_window"
+                            label="Open link where"
+                            help="Determine where the link should open."
+                            :options="[
+                                {
+                                    'label': 'New Window',
+                                    'value': 1,
+                                },
+                                {
+                                    'label': 'Same Window',
+                                    'value': 0,
+                                },
+                            ]"
+                            v-model="form.new_window">
                         </p-select>
                     </div>
                 </div>
@@ -104,6 +116,11 @@
         props: {
             node: {
                 type: Object,
+            },
+
+            nodes: {
+                type: Array,
+                required: true,
             },
 
             menu: {

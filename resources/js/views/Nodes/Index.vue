@@ -24,6 +24,37 @@
         </portal>
 
         <div class="row">
+            <div class="side-container">
+                <p-card>
+                    <h3>Custom URL</h3>
+
+                    <div>
+                        <p-input name="name" label="Name" v-model="form.name"></p-input>
+
+                        <p-input name="url" label="URL" v-model="form.url"></p-input>
+
+                        <p-select
+                            name="new_window"
+                            label="Open link where"
+                            help="Determine where the link should open."
+                            :options="[
+                                {
+                                    'label': 'New Window',
+                                    'value': 1,
+                                },
+                                {
+                                    'label': 'Same Window',
+                                    'value': 0,
+                                },
+                            ]"
+                            v-model="form.new_window">
+                        </p-select>
+
+                        <p-button theme="primary" @click.prevent="add('custom')">Add</p-button>
+                    </div>
+                </p-card>
+            </div>
+
             <div class="content-container">
                 <p-card>
                     <p-sortable-list v-model="nodes" class="sortable-list">
@@ -53,12 +84,15 @@
 
                                             <template slot="options">
                                                 <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
-                                                <p-dropdown-item></p-dropdown-item>
                                                 <p-dropdown-item>Assign parent...</p-dropdown-item>
                                                 <p-dropdown-item>Move before...</p-dropdown-item>
                                                 <p-dropdown-item>Move after...</p-dropdown-item>
-                                                <p-dropdown-item></p-dropdown-item>
-                                                <p-dropdown-item>Delete</p-dropdown-item>
+                                                <p-dropdown-item
+                                                    @click.prevent
+                                                    v-modal:delete-node="node"
+                                                >
+                                                    Delete
+                                                </p-dropdown-item>
                                             </template>
                                         </p-dropdown>
                                     </div>
@@ -68,26 +102,18 @@
                     </p-sortable-list>
                 </p-card>
             </div>
-
-            <div class="side-container">
-                <p-card>
-                    <h3>Custom URL</h3>
-
-                    <div>
-                        <p-input name="name" label="Name" v-model="form.name"></p-input>
-
-                        <p-input name="url" label="URL" v-model="form.url"></p-input>
-
-                        <p-toggle name="new_window" v-model="form.new_window"
-                            label="Open link in new window"
-                            help="Whether or not this link should open in a new window."
-                        ></p-toggle>
-
-                        <p-button theme="primary" @click.prevent="add('custom')">Add</p-button>
-                    </div>
-                </p-card>
-            </div>
         </div>
+
+        <portal to="modals">
+            <p-modal name="delete-node" title="Delete Node" key="delete_node">
+                <p>Are you sure you want to permenantly delete this node?</p>
+
+                <template slot="footer" slot-scope="node">
+                    <p-button v-modal:delete-node @click="destroy(node.id)" theme="danger" class="ml-3">Delete</p-button>
+                    <p-button v-modal:delete-node>Cancel</p-button>
+                </template>
+            </p-modal>
+        </portal>
     </div>
 </template>
 
@@ -111,7 +137,7 @@
                 form: new Form({
                     name: '',
                     url: '',
-                    new_window: false,
+                    new_window: 0,
                 }),
             }
         },
