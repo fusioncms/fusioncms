@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+Vue.component('asset-fieldtype', () => import('../fieldtypes/Asset/Field'))
+Vue.component('asset-fieldtype-settings', () => import('../fieldtypes/Asset/Settings'))
+
 Vue.component('color-picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
 Vue.component('color-picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
 
