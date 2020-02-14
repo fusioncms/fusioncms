@@ -96,7 +96,7 @@
             },
 
             fetchTaxonomy() {
-                axios.get('/api/taxonomies/' + this.field.settings.taxonomy).then((response) => {
+                axios.get('/api/taxonomies/' + this.field.settings.model).then((response) => {
                     this.taxonomy = response.data.data
                 })
             }

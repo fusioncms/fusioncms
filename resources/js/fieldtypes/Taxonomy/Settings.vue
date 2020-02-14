@@ -1,11 +1,11 @@
 <template>
     <div>
         <p-select
-            name="settings.taxonomy"
+            name="settings.model"
             label="Taxonomy"
             help="The taxonomy from which to show terms."
             autocomplete="off"
-            v-model="value.taxonomy"
+            v-model="value.model"
             :options="taxonomies"
         >
         </p-select>
