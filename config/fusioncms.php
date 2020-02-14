@@ -42,6 +42,7 @@ return [
 
     'fieldtypes' => [
 
+        \App\Fieldtypes\AssetFieldtype::class,
         \App\Fieldtypes\AddressFieldtype::class,
         \App\Fieldtypes\CheckboxFieldtype::class,
         \App\Fieldtypes\CodeFieldtype::class,
@@ -52,6 +53,7 @@ return [
         \App\Fieldtypes\EditorFieldtype::class,
         \App\Fieldtypes\InformationFieldtype::class,
         \App\Fieldtypes\InputFieldtype::class,
+        \App\Fieldtypes\LinkFieldtype::class,
         \App\Fieldtypes\MarkdownFieldtype::class,
         \App\Fieldtypes\NumberFieldtype::class,
         \App\Fieldtypes\RadioFieldtype::class,

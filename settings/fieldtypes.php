@@ -12,7 +12,7 @@
 return [
 	'name'        => 'Fieldtypes',
     'group'       => 'General',
-    'icon'        => 'box-full',
+    'icon'        => 'box-open',
     'description' => 'Manage fieldtypes and where they can be utilized.',
     'settings'    => [
         'General' => [

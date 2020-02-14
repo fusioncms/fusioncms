@@ -5380,7 +5380,7 @@ table td::before {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   color: #4a5568;
-  pointer-events: none;
+  display: block;
 }
 
 .flatpickr-calendar {
@@ -16697,40 +16697,41 @@ table td::before {
           justify-content: flex-start;
 }
 
+.gallery-container {
+  /* Disable text selection */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .gallery-wrapper {
-  -webkit-box-flex: 0;
-          flex: 0 1 auto;
-  margin: 0.75rem;
+  margin: 0.5rem;
   text-align: center;
   width: 100px;
   min-width: 100px;
 }
 
-@media (min-width: 1600px) {
-  .gallery-wrapper {
-    width: 175px;
-    min-width: 175px;
-  }
-}
-
-.gallery-wrapper--small {
-  margin: 0;
-  width: 75px;
-  min-width: 75px;
+.gallery-wrapper--row {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  width: 100%;
+  margin: 0.5rem;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
 }
 
 .gallery-item {
-  width: 100%;
   border-radius: 0.5rem;
   overflow: hidden;
   border-width: 4px;
   border-color: #edf2f7;
   padding: 0.5rem;
-  background-color: #ffffff;
-}
-
-.gallery-item--small {
-  padding: 0.25rem;
 }
 
 .gallery-item--selected {
@@ -16758,6 +16759,59 @@ table td::before {
 .gallery-image:hover {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
+}
+
+.gallery-text {
+  width: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #2d3748;
+}
+
+.gallery-subtitle {
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #718096;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.dropzone--highlight {
+  -webkit-animation: pulse 3s linear infinite;
+          animation: pulse 3s linear infinite;
+}
+
+.dropzone--over {
+  border-width: 4px;
+  border-color: #FF5722;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    border-color: rgba(0, 0, 0, 0);
+  }
+
+  50% {
+    border-color: #FF5722;
+  }
+
+  100% {
+    border-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    border-color: rgba(0, 0, 0, 0);
+  }
+
+  50% {
+    border-color: #FF5722;
+  }
+
+  100% {
+    border-color: rgba(0, 0, 0, 0);
+  }
 }
 
 .row {

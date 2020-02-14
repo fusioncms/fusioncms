@@ -1,4 +1,7 @@
-import Vue from 'vue';
+import Vue from 'vue'
+
+Vue.component('asset-fieldtype', () => import('../fieldtypes/Asset/Field'))
+Vue.component('asset-fieldtype-settings', () => import('../fieldtypes/Asset/Settings'))
 
 Vue.component('color-picker-fieldtype', () => import('../fieldtypes/ColorPicker/Field'))
 Vue.component('color-picker-fieldtype-settings', () => import('../fieldtypes/ColorPicker/Settings'))
@@ -53,3 +56,6 @@ Vue.component('radio-fieldtype-settings', () => import('../fieldtypes/Radio/Sett
 
 Vue.component('markdown-fieldtype', () => import('../fieldtypes/Markdown/Field'))
 Vue.component('markdown-fieldtype-settings', () => import('../fieldtypes/Markdown/Settings'))
+
+Vue.component('link-fieldtype', () => import('../fieldtypes/Link/Field'))
+Vue.component('link-fieldtype-settings', () => import('../fieldtypes/Link/Settings'))
