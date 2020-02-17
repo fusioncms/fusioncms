@@ -5,7 +5,7 @@
      */
     public function {handle}()
     {
-        return $this->morphToMany('{related_namespace}', 'pivot', '{related_table}');
+        return $this->morphToMany('{related_namespace}', 'pivot', '{related_table}', 'pivot_id', '{related_pivot_key}');
     }
 
     /**

@@ -11,6 +11,10 @@
 
 namespace App\Fieldtypes;
 
+use File;
+use App\Models\Taxonomy;
+use Illuminate\Support\Str;
+
 class TaxonomyFieldtype extends Fieldtype
 {
     /**
@@ -58,4 +62,37 @@ class TaxonomyFieldtype extends Fieldtype
      * @var string
      */
     public $namespace = 'App\Models\Taxonomies';
+
+    /**
+     * Generate relationship methods for associated Model.
+     *
+     * @param  App\Models\Field $field
+     * @return string
+     */
+    public function generateRelationship($field)
+    {
+        $model     = Taxonomy::find($field->settings['taxonomy']);
+        $namespace = 'App\Models\Taxonomies\\' . Str::studly($model->handle);
+        $stub      = File::get(resource_path('stubs/relationships/morphToMany.stub'));
+
+        return strtr($stub, [
+            '{handle}'            => $field->handle,
+            '{studly_handle}'     => Str::studly($field->handle),
+            '{related_pivot_key}' => $field->handle . '_id',
+            '{related_namespace}' => 'App\Models\Taxonomy',
+            '{related_table}'     => $model->pivot_table,
+        ]);
+    }
+
+    /**
+     * Update relationship data in storage.
+     * 
+     * @param  Illuminate\Eloquent\Model  $model
+     * @param  App\Models\Field           $field
+     * @return void
+     */
+    public function updateRelationship($model, $field)
+    {
+        $model->{$field->handle}()->sync(request()->input($field->handle));
+    }
 }

@@ -48,4 +48,44 @@ class AssetFieldtype extends Fieldtype
     public $column = [
         'type' => 'text',
     ];
+
+    /**
+     * @var string
+     */
+    public $relationship = 'hasMany';
+
+    /**
+     * @var string
+     */
+    public $namespace = 'App\Models\File';
+
+    /**
+     * Generate relationship methods for associated Model.
+     *
+     * @param  App\Models\Field $field
+     * @return string
+     */
+    public function generateRelationship($field)
+    {
+        $stub = \File::get(resource_path('stubs/relationships/hasMany.stub'));
+
+        return strtr($stub, [
+            '{handle}'            => $field->handle,
+            '{related_namespace}' => 'App\Models\File',
+            '{foreign_key}'       => 'id',
+            '{local_key}'         => $field->handle,
+        ]);
+    }
+
+    /**
+     * Update relationship data in storage.
+     * 
+     * @param  Illuminate\Eloquent\Model  $model
+     * @param  App\Models\Field           $field
+     * @return void
+     */
+    public function updateRelationship($model, $field)
+    {
+        $model->update([$field->handle => request()->input($field->handle)]);
+    }
 }

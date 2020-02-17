@@ -75,7 +75,9 @@ class CollectionController extends Controller
         $entry = $collection->create($attributes);
 
         foreach ($relationships as $relationship) {
-            $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+            fieldtypes()
+                ->get($relationship->type)
+                ->updateRelationship($entry, $relationship);
         }
 
         // Autogenerate name/slug
@@ -135,7 +137,9 @@ class CollectionController extends Controller
         $entry->update($attributes);
 
         foreach ($relationships as $relationship) {
-            $entry->{$relationship->handle}()->sync($request->input($relationship->handle));
+            fieldtypes()
+                ->get($relationship->type)
+                ->updateRelationship($entry, $relationship);
         }
 
         if (! $matrix->show_name_field) {
