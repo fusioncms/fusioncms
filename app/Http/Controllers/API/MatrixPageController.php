@@ -93,9 +93,7 @@ class MatrixPageController extends Controller
         $page->update($attributes);
 
         foreach ($relationships as $relationship) {
-            fieldtypes()
-                ->get($relationship->type)
-                ->updateRelationship($page, $relationship);
+            $relationship->type()->persistRelationship($page, $relationship);
         }
 
         return new MatrixPageResource([

@@ -80,10 +80,9 @@ class TaxonomyFieldtype extends Fieldtype
      * @param  App\Models\Field           $field
      * @return void
      */
-    public function updateRelationship($model, Field $field)
+    public function persistRelationship($model, Field $field)
     {
         $model->{$field->handle}()->sync(request()->input($field->handle));
-        $model->save();
     }
 
     /**
@@ -96,24 +95,17 @@ class TaxonomyFieldtype extends Fieldtype
     public function destroyRelationship($model, Field $field)
     {
         $model->{$field->handle}()->detach();
-        $model->save();
     }
 
     /**
-     * Returns value of field.
+     * Returns resource object of field.
      *
      * @param  Illuminate\Eloquent\Model  $model
      * @param  App\Models\Field           $field
      * @return TermResource
      */
-    public function getValue($model, Field $field)
+    public function getResource($model, Field $field)
     {
-        $value = parent::getValue($model, $field);
-
-        if ($value instanceOf Collection) {
-            return TermResource::collection($value);
-        } else {
-            return new TermResource($value);
-        }
+        return TermResource::collection($this->getValue($model, $field));
     }
 }

@@ -30,7 +30,7 @@ class EntryResource extends JsonResource
 
         if ($this->fields) {
             foreach ($this->fields as $field) {
-                $resource['entry'][$field->handle] = $field->type()->getValue($this->resource, $field);
+                $resource['entry'][$field->handle] = $field->type()->getResource($this->resource, $field);
             }
         }
 

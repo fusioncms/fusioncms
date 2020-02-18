@@ -75,7 +75,7 @@ class CollectionController extends Controller
         $entry = $collection->create($attributes);
 
         foreach ($relationships as $relationship) {
-            fieldtypes()->get($relationship->type)->updateRelationship($entry, $relationship);
+            $relationship->type()->persistRelationship($entry, $relationship);
         }
 
         // Autogenerate name/slug
@@ -110,18 +110,14 @@ class CollectionController extends Controller
 
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $entry  = (new Collection($matrix->handle))->make()->find($id);
-        $relationships = [];
-        $rules         = [
+        $rules  = [
             'name'     => 'sometimes',
             'slug'     => 'sometimes',
             'status'   => 'required|boolean',
         ];
 
         if(isset($matrix->fieldset)) {
-            $fields        = $matrix->fieldset->database();
-            $relationships = $matrix->fieldset->relationships();
-
-            foreach ($fields as $field) {
+            foreach ($matrix->fieldset->database() as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
         }
@@ -134,10 +130,12 @@ class CollectionController extends Controller
 
         $entry->update($attributes);
 
-        foreach ($relationships as $relationship) {
-            fieldtypes()->get($relationship->type)->updateRelationship($entry, $relationship);
+        if (isset($matrix->fieldset)) {
+            foreach ($matrix->fieldset->relationships() as $relationship) {
+                $relationship->type()->persistRelationship($entry, $relationship);
+            }
         }
-
+        
         if (! $matrix->show_name_field) {
             $entry->name = $this->compileBladeString($matrix->name_format, $entry);
             $entry->slug = Str::slug($entry->name);

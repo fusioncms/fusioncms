@@ -79,10 +79,19 @@ class AssetFieldtype extends Fieldtype
      * @param  App\Models\Field           $field
      * @return void
      */
-    public function updateRelationship($model, Field $field)
+    public function persistRelationship($model, Field $field)
     {
-        $model->{$field->handle}()->sync(collect(request()->input($field->handle))->pluck('id'));
-        $model->save();
+        $oldValues = $model->{$field->handle}()->where('field_id', $field->id)->pluck('id');
+        $newValues = collect(request()->input($field->handle))->mapWithKeys(function($item, $key) use ($field) {
+            return [
+                $item['id'] => [
+                    'field_id' => $field->id,
+                    'order'    => $key + 1
+                ]];
+        });
+
+        $model->{$field->handle}()->detach($oldValues);
+        $model->{$field->handle}()->attach($newValues);
     }
 
     /**
@@ -95,24 +104,31 @@ class AssetFieldtype extends Fieldtype
     public function destroyRelationship($model, Field $field)
     {
         $model->{$field->handle}()->detach();
-        $model->save();
     }
 
     /**
      * Returns value of field.
+     * 
+     * @return mixed
+     */
+    public function getValue($model, Field $field)
+    {
+        return $model
+            ->{$field->handle}()
+            ->where('field_id', $field->id)
+            ->orderBy('order')
+            ->get();
+    }
+
+    /**
+     * Returns resource object of field.
      *
      * @param  Illuminate\Eloquent\Model  $model
      * @param  App\Models\Field           $field
      * @return FileResource
      */
-    public function getValue($model, Field $field)
+    public function getResource($model, Field $field)
     {
-        $value = parent::getValue($model, $field);
-
-        if ($value instanceOf Collection) {
-            return FileResource::collection($value);
-        } else {
-            return new FileResource($value);
-        }
+        return FileResource::collection($this->getValue($model, $field));
     }
 }

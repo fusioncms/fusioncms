@@ -14,11 +14,17 @@ class CreateFilesPivot extends Migration
     public function up()
     {
         Schema::create('files_pivot', function (Blueprint $table) {
-            $table->bigIncrements('file_id');
+            $table->unsignedBigInteger('file_id');
+            $table->unsignedInteger('field_id');
             $table->morphs('pivot');
+            $table->unsignedInteger('order')->default(0);
 
             $table->foreign('file_id')
                 ->references('id')->on('files')
+                ->onDelete('cascade');
+
+            $table->foreign('field_id')
+                ->references('id')->on('fields')
                 ->onDelete('cascade');
         });
     }

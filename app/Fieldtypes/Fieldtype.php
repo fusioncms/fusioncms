@@ -316,4 +316,14 @@ abstract class Fieldtype
     {
         return $model->{$field->handle};
     }
+
+    /**
+     * Returns resource object of field.
+     * 
+     * @return JsonResource
+     */
+    public function getResource($model, Field $field)
+    {
+        return $this->getValue($model, $field);
+    }
 }
