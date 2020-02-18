@@ -55,8 +55,9 @@ class Menu extends Builder implements BuilderContract
     {
         $className = Str::studly($this->menu->handle);
         $traits    = [];
-        $fillable  = ['menu_id', 'name', 'url', 'new_window', 'sort_order', 'status'];
+        $fillable  = ['menu_id', 'name', 'url', 'new_window', 'order', 'status'];
         $casts     = [
+            'order'      => 'integer',
             'new_window' => 'boolean',
             'status'     => 'boolean',
         ];

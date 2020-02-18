@@ -1,25 +1,13 @@
 <template>
     <div>
         <portal to="title">
-            <app-title icon="anchor">{{ menu.name }} Nodes</app-title>
+            <app-title icon="anchor">{{ menu.name }}</app-title>
         </portal>
 
         <portal to="actions">
-            <!-- <div class="inline-block mr-4">
-                <p-button>Uncheck All</p-button>
-            </div>
-
-            <p-button>Assign parent...</p-button>
-            <p-button>Move before...</p-button>
-            <p-button>Move after...</p-button>
-
-            <div class="inline-block ml-4 mr-4">
-                <p-button theme="danger">Delete</p-button>
-            </div> -->
-
             <div class="inline-block">
                 <router-link :to="{ name: 'menus' }" class="button mr-3">Go back</router-link>
-                <p-button theme="primary" @click.prevent="save" :disabled="saving">{{ saving ? 'Saving...' : 'Save Ordering' }}</p-button>
+                <p-button theme="primary" @click.prevent="save" :disabled="saving">{{ saving ? 'Saving...' : 'Save' }}</p-button>
             </div>
         </portal>
 
@@ -56,50 +44,69 @@
             </div>
 
             <div class="content-container">
-                <p-card>
-                    <p-sortable-list v-model="nodes" class="sortable-list">
-                        <div>
-                            <p-sortable-item v-for="node in nodes" :key="node.id" class="w-full border rounded px-3 py-2 mb-1">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <p-checkbox name="select" class="mr-6"></p-checkbox>
+                <p-card no-body>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>URL</th>
+                                <th>Type</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                                        <p-sortable-handle class="mr-6 text-gray-400">
-                                            <div class="w-6 h-6 flex items-center justify-center">
-                                                <fa-icon :icon="['fas', 'grip-lines']" class="fa-fw"></fa-icon>
-                                            </div>
-                                        </p-sortable-handle>
+                        <p-sortable-list v-model="nodes" class="sortable-list">
+                            <tbody>
+                                <p-sortable-item v-for="node in nodes" :key="node.id">
+                                    <tr>
+                                        <td class="w-8">
+                                            <p-sortable-handle class="mr-6 text-gray-400">
+                                                <div class="w-6 h-6 flex items-center justify-center">
+                                                    <fa-icon :icon="['fas', 'grip-vertical']" class="fa-fw"></fa-icon>
+                                                </div>
+                                            </p-sortable-handle>
+                                        </td>
 
-                                        <div>
-                                            <fa-icon class="fa-fw text-xs mr-3" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}" :icon="['fas', 'circle']"></fa-icon>
+                                        <td>
+                                            <fa-icon class="fa-fw text-xs mr-1" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}" :icon="['fas', 'circle']"></fa-icon>
                                             <router-link :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">{{ node.name }}</router-link>
                                             <fa-icon v-if="node.new_window" class="fa-fw text-gray-500 text-xs" :icon="['fas', 'external-link-alt']"></fa-icon>
-                                            <span class="ml-6 text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span>
-                                        </div>
-                                    </div>
+                                        </td>
 
-                                    <div style="min-width: 150px;" class="text-right draggable__actions">
-                                        <p-dropdown right>
-                                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                                        <td>
+                                            <span class="text-sm text-gray-600">
+                                                {{ node.url }}
+                                            </span>
+                                        </td>
 
-                                            <template slot="options">
-                                                <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
-                                                <p-dropdown-item>Assign parent...</p-dropdown-item>
-                                                <p-dropdown-item>Move before...</p-dropdown-item>
-                                                <p-dropdown-item>Move after...</p-dropdown-item>
-                                                <p-dropdown-item
-                                                    @click.prevent
-                                                    v-modal:delete-node="node"
-                                                >
-                                                    Delete
-                                                </p-dropdown-item>
-                                            </template>
-                                        </p-dropdown>
-                                    </div>
-                                </div>
-                            </p-sortable-item>
-                        </div>
-                    </p-sortable-list>
+                                        <td><span class="text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span></td>
+
+                                        <td>
+                                            <div style="min-width: 150px;" class="text-right draggable__actions">
+                                                <p-dropdown right>
+                                                    <fa-icon :icon="['fas', 'bars']"></fa-icon>
+
+                                                    <template slot="options">
+                                                        <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
+                                                        <p-dropdown-item>Assign parent...</p-dropdown-item>
+                                                        <p-dropdown-item>Move before...</p-dropdown-item>
+                                                        <p-dropdown-item>Move after...</p-dropdown-item>
+                                                        <p-dropdown-item
+                                                            @click.prevent
+                                                            v-modal:delete-node="node"
+                                                        >
+                                                            Delete
+                                                        </p-dropdown-item>
+                                                    </template>
+                                                </p-dropdown>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </p-sortable-item>
+                            </tbody>
+                        </p-sortable-list>
+                    </table>
                 </p-card>
             </div>
         </div>
@@ -109,7 +116,7 @@
                 <p>Are you sure you want to permenantly delete this node?</p>
 
                 <template slot="footer" slot-scope="node">
-                    <p-button v-modal:delete-node @click="destroy(node.id)" theme="danger" class="ml-3">Delete</p-button>
+                    <p-button v-modal:delete-node @click="destroy(node.data.id)" theme="danger" class="ml-3">Delete</p-button>
                     <p-button v-modal:delete-node>Cancel</p-button>
                 </template>
             </p-modal>

@@ -27,6 +27,6 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth', 'verified']], func
     	Route::get('', 'Account\SecurityController@edit');
     	Route::post('', 'Account\SecurityController@update');
     });
-    
+
     Route::get('api', 'Account\APIController@edit');
 });

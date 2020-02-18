@@ -82,7 +82,7 @@ class NodeController extends Controller
             ->performedOn($node)
             ->withProperties([
                 'icon' => 'anchor',
-                // 'link' => 'menus/'.$menu->handle.'//edit/' . $node->id,
+                'link' => 'menus/'.$menu->handle.'//edit/' . $node->id,
             ])
             ->log('Created '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
@@ -134,7 +134,7 @@ class NodeController extends Controller
         activity()
             ->performedOn($node)
             ->withProperties([
-                'icon' => $menu->icon,
+                'icon' => 'anchor',
                 'link' => 'taxonomies/'.$menu->handle.'//edit/' . $node->id,
             ])
             ->log('Updated '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
@@ -146,14 +146,14 @@ class NodeController extends Controller
     {
         $this->authorize('node.destroy');
 
-        $menu = Menu::where('handle', $menu)->firstOrFail();
-        $model    = (new Builder($menu->handle))->make();
-        $node    = $model->findOrFail($id);
+        $menu  = Menu::findOrFail($menu);
+        $model = (new Builder($menu->handle))->make();
+        $node  = $model->findOrFail($id);
 
         activity()
             ->performedOn($node)
             ->withProperties([
-                'icon' => $menu->icon,
+                'icon' => 'anchor',
             ])
             ->log('Deleted '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 

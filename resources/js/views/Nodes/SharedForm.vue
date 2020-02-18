@@ -67,7 +67,7 @@
 
                         <p-select
                             name="parent_id"
-                            label="Parent Node"
+                            label="Parent"
                             help="Should this node belong to another?"
                             :options="nodes"
                             :has-error="form.errors.has('parent_id')"

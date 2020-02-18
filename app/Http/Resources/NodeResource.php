@@ -26,7 +26,6 @@ class NodeResource extends JsonResource
         $menu   = new MenuResource($this->menu);
         $fields = $menu->fieldset->fields ?? null;
 
-        // $resource['menu']       = $menu;
         $resource['id']         = $this->id;
         $resource['name']       = $this->name;
         $resource['url']        = $this->url;
@@ -43,6 +42,9 @@ class NodeResource extends JsonResource
                 }
             }
         }
+
+        $resource['parent']   = new NodeResource($this->parent);
+        $resource['children'] = NodeResource::collection($this->children);
 
         $resource['created_at'] = $this->created_at;
         $resource['updated_at'] = $this->updated_at;
