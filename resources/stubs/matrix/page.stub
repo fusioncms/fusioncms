@@ -77,7 +77,7 @@ class {class} extends Model
      */
     public function getFieldsAttribute()
     {
-        return $this->matrix->fieldset->fields;
+        return $this->matrix->fieldset->fields ??  null;
     }
 
     /**

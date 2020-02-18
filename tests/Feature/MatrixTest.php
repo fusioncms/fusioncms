@@ -145,7 +145,7 @@ class MatrixTest extends TestCase
         $this->actingAs($this->admin, 'api');
 
         $matrix = MatrixFactory::asCollection()->create();
-        $model = $matrix->getBuilder();
+        // $model = $matrix->getBuilder();
         
         $data                     = $matrix->toArray();
         $data['show_name_field'] = false;

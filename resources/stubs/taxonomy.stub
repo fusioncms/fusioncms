@@ -60,7 +60,7 @@ class {class} extends Model
      */
     public function getFieldsAttribute()
     {
-        return $this->taxonomy->fieldset->fields;
+        return $this->taxonomy->fieldset->fields ?? null;
     }
 
     /**
