@@ -11,6 +11,7 @@
 
 namespace App\Fieldtypes;
 
+use App\Models\Field;
 use Illuminate\Support\Str;
 
 abstract class Fieldtype
@@ -36,6 +37,11 @@ abstract class Fieldtype
      * @var string
      */
     public $cast = '';
+
+    /**
+     * @var null
+     */
+    public $column = null;
 
     /**
      * @var array
@@ -299,5 +305,15 @@ abstract class Fieldtype
     public function shouldEagerLoad()
     {
         return $this->eagerLoad;
+    }
+
+    /**
+     * Returns value of field.
+     * 
+     * @return mixed
+     */
+    public function getValue($model, Field $field)
+    {
+        return $model->{$field->handle};
     }
 }

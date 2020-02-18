@@ -13,9 +13,7 @@
                 :name="field.handle"
                 :id="term.id"
                 :native-value="term.id"
-                v-model="values"
-                @input="$emit('input', values)"
-            >
+                v-model="values">
                 <template>
                     {{ term.name }}
                 </template>
@@ -42,7 +40,6 @@
         data() {
             return {
                 taxonomy: {},
-                values: [],
                 form: {},
             }
         },
@@ -59,6 +56,16 @@
             singular() {
                 return pluralize.singular(this.term)
             },
+
+            values: {
+                get() {
+                    return this.value || []
+                },
+
+                set(value) {
+                    this.$emit('input', value)
+                }
+            }
         },
 
         props: {
@@ -104,16 +111,9 @@
 
         mounted() {
             this.fetchTaxonomy()
-
-            if(! this.value) {
-                this.$emit('input', [])
-            }
-
-            this.values = _.cloneDeep(this.value)
-        },
-
-        created() {
             this.resetForm()
-        },
+
+            this.values = _.map(this.value, 'id') || []
+        }
     }
 </script>

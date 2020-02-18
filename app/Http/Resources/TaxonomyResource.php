@@ -41,9 +41,9 @@ class TaxonomyResource extends JsonResource
             'fieldset'         => new FieldsetResource($this->fieldset),
             'terms'            => $this->terms,
         ];
-
-        if ($this->fieldset) {
-            foreach ($this->fieldset->fields as $field) {
+        
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
                 $resource['fields'][$field->handle] = $this->{$field->handle};
             }
         }

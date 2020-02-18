@@ -75,9 +75,7 @@ class CollectionController extends Controller
         $entry = $collection->create($attributes);
 
         foreach ($relationships as $relationship) {
-            fieldtypes()
-                ->get($relationship->type)
-                ->updateRelationship($entry, $relationship);
+            fieldtypes()->get($relationship->type)->updateRelationship($entry, $relationship);
         }
 
         // Autogenerate name/slug
@@ -137,9 +135,7 @@ class CollectionController extends Controller
         $entry->update($attributes);
 
         foreach ($relationships as $relationship) {
-            fieldtypes()
-                ->get($relationship->type)
-                ->updateRelationship($entry, $relationship);
+            fieldtypes()->get($relationship->type)->updateRelationship($entry, $relationship);
         }
 
         if (! $matrix->show_name_field) {
@@ -167,6 +163,12 @@ class CollectionController extends Controller
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);
+
+        if(isset($matrix->fieldset)) {
+            foreach ($matrix->fieldset->relationships() as $relationship) {
+                fieldtypes()->get($relationship->type)->destroyRelationship($entry, $relationship);
+            }
+        }
 
         activity()
             ->performedOn($entry)

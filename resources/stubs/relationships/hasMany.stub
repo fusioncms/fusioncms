@@ -1,7 +1,7 @@
     /**
      * A polymorphic many to many "{handle}" relationship.
      *
-     * @return MorphToMany
+     * @return HasMany
      */
     public function {handle}()
     {

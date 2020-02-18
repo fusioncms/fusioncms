@@ -11,6 +11,12 @@
 
 namespace App\Fieldtypes;
 
+use File;
+use App\Models\Field;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use App\Http\Resources\FileResource;
+
 class AssetFieldtype extends Fieldtype
 {
     /**
@@ -31,7 +37,7 @@ class AssetFieldtype extends Fieldtype
     /**
      * @var string
      */
-    public $cast = 'collection';
+    public $relationship = 'morphToMany';
 
     /**
      * @var array
@@ -41,18 +47,6 @@ class AssetFieldtype extends Fieldtype
         'root_directory'        => null,
         'filetype_restrictions' => [],
     ];
-
-    /**
-     * @var array
-     */
-    public $column = [
-        'type' => 'text',
-    ];
-
-    /**
-     * @var string
-     */
-    public $relationship = 'hasMany';
 
     /**
      * @var string
@@ -67,13 +61,14 @@ class AssetFieldtype extends Fieldtype
      */
     public function generateRelationship($field)
     {
-        $stub = \File::get(resource_path('stubs/relationships/hasMany.stub'));
+        $stub = File::get(resource_path("stubs/relationships/{$this->relationship}.stub"));
 
         return strtr($stub, [
             '{handle}'            => $field->handle,
-            '{related_namespace}' => 'App\Models\File',
-            '{foreign_key}'       => 'id',
-            '{local_key}'         => $field->handle,
+            '{studly_handle}'     => Str::studly($field->handle),
+            '{related_pivot_key}' => 'file_id',
+            '{related_namespace}' => $this->namespace,
+            '{related_table}'     => 'files_pivot',
         ]);
     }
 
@@ -84,8 +79,40 @@ class AssetFieldtype extends Fieldtype
      * @param  App\Models\Field           $field
      * @return void
      */
-    public function updateRelationship($model, $field)
+    public function updateRelationship($model, Field $field)
     {
-        $model->update([$field->handle => request()->input($field->handle)]);
+        $model->{$field->handle}()->sync(collect(request()->input($field->handle))->pluck('id'));
+        $model->save();
+    }
+
+    /**
+     * Destroy relationship data in storage.
+     * 
+     * @param  Illuminate\Eloquent\Model  $model
+     * @param  App\Models\Field           $field
+     * @return void
+     */
+    public function destroyRelationship($model, Field $field)
+    {
+        $model->{$field->handle}()->detach();
+        $model->save();
+    }
+
+    /**
+     * Returns value of field.
+     *
+     * @param  Illuminate\Eloquent\Model  $model
+     * @param  App\Models\Field           $field
+     * @return FileResource
+     */
+    public function getValue($model, Field $field)
+    {
+        $value = parent::getValue($model, $field);
+
+        if ($value instanceOf Collection) {
+            return FileResource::collection($value);
+        } else {
+            return new FileResource($value);
+        }
     }
 }
