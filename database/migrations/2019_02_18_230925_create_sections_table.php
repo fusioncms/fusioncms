@@ -23,8 +23,8 @@ class CreateSectionsTable extends Migration
     public function up()
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('fieldset_id')->unsigned()->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('fieldset_id')->nullable();
             $table->string('name');
             $table->string('handle');
             $table->string('description')->default('');

@@ -22,8 +22,8 @@ class Blueprint extends IlluminateBlueprint
      */
     public function authors()
     {
-        $this->integer('created_by')->unsigned()->nullable();
-        $this->integer('updated_by')->unsigned()->nullable();
+        $this->unsignedBigInteger('created_by')->nullable();
+        $this->unsignedBigInteger('updated_by')->nullable();
 
         $this->foreign('created_by')->references('id')->on('users')->onDelete('set null');
         $this->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
