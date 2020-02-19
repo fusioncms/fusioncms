@@ -15,7 +15,7 @@ class CreateFilesPivot extends Migration
     {
         Schema::create('files_pivot', function (Blueprint $table) {
             $table->unsignedBigInteger('file_id');
-            $table->unsignedInteger('field_id');
+            $table->unsignedBigInteger('field_id');
             $table->morphs('pivot');
             $table->unsignedInteger('order')->default(0);
 
