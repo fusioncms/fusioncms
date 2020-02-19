@@ -326,4 +326,16 @@ abstract class Fieldtype
     {
         return $this->getValue($model, $field);
     }
+
+    /**
+     * Destroy relationship data in storage.
+     * 
+     * @param  Illuminate\Eloquent\Model  $model
+     * @param  App\Models\Field           $field
+     * @return void
+     */
+    public function destroyRelationship($model, Field $field)
+    {
+        $model->{$field->handle}()->detach();
+    }
 }

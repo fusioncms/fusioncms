@@ -69,6 +69,8 @@ class AssetFieldtype extends Fieldtype
             '{related_pivot_key}' => 'file_id',
             '{related_namespace}' => $this->namespace,
             '{related_table}'     => 'files_pivot',
+            '{where_clause}'      => "->where('field_id', {$field->id})",
+            '{order_clause}'      => "->orderBy('order')",
         ]);
     }
 
@@ -81,7 +83,7 @@ class AssetFieldtype extends Fieldtype
      */
     public function persistRelationship($model, Field $field)
     {
-        $oldValues = $model->{$field->handle}()->where('field_id', $field->id)->pluck('id');
+        $oldValues = $model->{$field->handle}->pluck('id');
         $newValues = collect(request()->input($field->handle))->mapWithKeys(function($item, $key) use ($field) {
             return [
                 $item['id'] => [
@@ -92,32 +94,6 @@ class AssetFieldtype extends Fieldtype
 
         $model->{$field->handle}()->detach($oldValues);
         $model->{$field->handle}()->attach($newValues);
-    }
-
-    /**
-     * Destroy relationship data in storage.
-     * 
-     * @param  Illuminate\Eloquent\Model  $model
-     * @param  App\Models\Field           $field
-     * @return void
-     */
-    public function destroyRelationship($model, Field $field)
-    {
-        $model->{$field->handle}()->detach();
-    }
-
-    /**
-     * Returns value of field.
-     * 
-     * @return mixed
-     */
-    public function getValue($model, Field $field)
-    {
-        return $model
-            ->{$field->handle}()
-            ->where('field_id', $field->id)
-            ->orderBy('order')
-            ->get();
     }
 
     /**

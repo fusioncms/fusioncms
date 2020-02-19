@@ -70,6 +70,8 @@ class TaxonomyFieldtype extends Fieldtype
             '{related_pivot_key}' => $model->handle . '_id',
             '{related_namespace}' => $namespace,
             '{related_table}'     => $model->pivot_table,
+            '{where_clause}'      => '',
+            '{order_clause}'      => '',
         ]);
     }
 
@@ -83,18 +85,6 @@ class TaxonomyFieldtype extends Fieldtype
     public function persistRelationship($model, Field $field)
     {
         $model->{$field->handle}()->sync(request()->input($field->handle));
-    }
-
-    /**
-     * Destroy relationship data in storage.
-     * 
-     * @param  Illuminate\Eloquent\Model  $model
-     * @param  App\Models\Field           $field
-     * @return void
-     */
-    public function destroyRelationship($model, Field $field)
-    {
-        $model->{$field->handle}()->detach();
     }
 
     /**
