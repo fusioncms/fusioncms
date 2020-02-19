@@ -23,10 +23,8 @@ class CreateFieldsettablesTable extends Migration
     public function up()
     {
         Schema::create('fieldsettables', function (Blueprint $table) {
-            $table->unsignedInteger('fieldset_id');
+            $table->unsignedBigInteger('fieldset_id');
             $table->morphs('fieldsettable');
-
-            $table->timestamps();
         });
     }
 

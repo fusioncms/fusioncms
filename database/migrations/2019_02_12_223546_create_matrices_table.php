@@ -23,8 +23,8 @@ class CreateMatricesTable extends Migration
     public function up()
     {
         Schema::create('matrices', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('parent_id')->unsigned()->default(0);
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('name');
             $table->string('handle')->unique();
             $table->string('slug')->unique();
