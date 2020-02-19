@@ -50,11 +50,11 @@ class Page extends Builder implements BuilderContract
     {
         $className = Str::studly($this->matrix->handle);
         $traits    = [];
-        $fillable  = ['matrix_id', 'status'];
+        $fillable  = ['name', 'slug', 'matrix_id', 'status'];
         $casts     = [];
 
-        if (isset($this->matrix->fieldset->fields)) {
-            $fields    = $this->matrix->fieldset->fields->reject(function ($field) {
+        if ($this->matrix->fieldset) {
+            $fields = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
                 return is_null($fieldtype->column);
@@ -93,40 +93,5 @@ class Page extends Builder implements BuilderContract
         }
 
         return app()->make('App\Models\Pages\\' . $className);
-    }
-
-    /**
-     * Get the page.
-     */
-    public function get()
-    {
-        return $this->model->where('matrix_id', $this->matrix->id)->firstOrCreate(['matrix_id' => $this->matrix->id]);
-    }
-
-    /**
-     * Update the page in the database.
-     *
-     * @param  array  $attributes
-     * @param  array  $options
-     * @return bool
-     */
-    public function update(array $attributes = [], array $options = [])
-    {
-        $page                    = $this->get();
-        $attributes['matrix_id'] = $this->matrix->id;
-
-        $fields = $this->matrix->fieldset->fields->reject(function ($field) {
-            $fieldtype = fieldtypes()->get($field->type);
-
-            return is_null($fieldtype->column);
-        });
-
-        foreach ($fields as $field) {
-            $page->{$field->handle} = $attributes[$field->handle];
-        }
-
-        $page->status = $attributes['status'];
-
-        $page->save();
     }
 }

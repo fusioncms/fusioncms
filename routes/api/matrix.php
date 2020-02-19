@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/matrices', 'MatrixController');
 Route::apiResource('/pages', 'MatrixPageController');
-
 Route::get('/pages/{slug}', 'MatrixPageController@show');
+
+Route::apiResource('/matrices', 'MatrixController');
 Route::get('/matrices/slug/{slug}', 'MatrixController@slug');
-Route::get('/pages/handle/{handle}', 'MatrixPageController@handle');
+
 Route::get('/collections/{slug}', 'CollectionController@index');
 Route::get('/collections/{slug}/{id}', 'CollectionController@show');
 Route::get('/collections/{slug}/create', 'CollectionController@create');

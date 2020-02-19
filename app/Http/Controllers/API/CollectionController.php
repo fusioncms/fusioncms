@@ -22,14 +22,19 @@ use App\Services\Builders\Collection;
 class CollectionController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
+     * Display the specified resource.
      *
-     * @var array
+     * @param  string  $matrix
+     * @return JsonResponse
      */
-    protected $rules = [
-        //
-    ];
+    public function index($matrix)
+    {
+        $matrix  = Matrix::where('slug', $matrix)->firstOrFail();
+        $model   = (new Collection($matrix->handle))->make();
+        $entries = $model->get()->paginate(25);
+
+        return EntryResource::collection($entries);
+    }
 
     /**
      * Display the specified resource.
@@ -109,7 +114,8 @@ class CollectionController extends Controller
         $this->authorize('entry.update');
 
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
-        $entry  = (new Collection($matrix->handle))->make()->find($id);
+        $model  = (new Collection($matrix->handle))->make();
+        $entry  = $model->findOrFail($id);
         $rules  = [
             'name'     => 'sometimes',
             'slug'     => 'sometimes',
@@ -118,7 +124,7 @@ class CollectionController extends Controller
 
         if(isset($matrix->fieldset)) {
             foreach ($matrix->fieldset->database() as $field) {
-                $rules[$field->handle] = 'sometimes';
+                $rules[$field->handle] = $field->validation ?: 'sometimes';
             }
         }
 

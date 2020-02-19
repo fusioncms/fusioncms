@@ -9,39 +9,79 @@
         <div class="row">
             <div class="content-container">
                 <form @submit.prevent="submit" @input.once="form.onFirstChange">
-                    <p-card v-if="sections.body.length > 0" :key="matrix.handle">
-                        <!-- Loop through each section -->
-                        <div v-for="(section, index) in sections.body" :key="section.handle">
-                            <div class="row">
-                                <div class="col form-sidebar">
-                                    <div class="xxl:mr-10 xxl:mb-0 mb-6">
-                                        <h3>{{ section.name }}</h3>
-                                        <p class="text-sm">{{ section.description }}</p>
-                                    </div>
+                    <p-card>
+                        <div class="row">
+                            <div class="col form-sidebar">
+                                <div class="xxl:mr-10">
+                                    <!--  -->
                                 </div>
+                            </div>
 
-                                <div class="col form-content">
-                                    <!-- Loop through each section field -->
-                                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
-                                        <component
-                                            :is="field.type.id + '-fieldtype'"
-                                            :field="field"
-                                            v-model="form[field.handle]"
-                                        >
-                                        </component>
+                            <div class="col mb-6 form-content">
+                                <div class="row">
+                                    <div class="col w-1/2">
+                                        <p-input
+                                            name="name"
+                                            :label="matrix.name_label || 'Name'"
+                                            autocomplete="off"
+                                            autofocus
+                                            required
+                                            :has-error="form.errors.has('name')"
+                                            :error-message="form.errors.get('name')"
+                                            v-model="form.name">
+                                        </p-input>
+                                    </div>
+
+                                    <div class="col w-1/2">
+                                        <p-slug
+                                            name="slug"
+                                            label="Slug"
+                                            monospaced
+                                            autocomplete="off"
+                                            required
+                                            :watch="form.name"
+                                            :has-error="form.errors.has('slug')"
+                                            :error-message="form.errors.get('slug')"
+                                            v-model="form.slug">
+                                        </p-slug>
                                     </div>
                                 </div>
                             </div>
-                        
-                            <hr v-if="index !== sections.body.length - 1">
                         </div>
 
-                    </p-card>
+                        <div v-if="sections.body.length > 0">
+                            <!-- Loop through each section -->
+                            <div v-for="(section, index) in sections.body" :key="section.handle">
+                                <div class="row">
+                                    <div class="col form-sidebar">
+                                        <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                                            <h3>{{ section.name }}</h3>
+                                            <p class="text-sm">{{ section.description }}</p>
+                                        </div>
+                                    </div>
 
-                    <p-card v-else class="text-center">
-                        <p>You should configure your Matrix Page with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
+                                    <div class="col form-content">
+                                        <!-- Loop through each section field -->
+                                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                                            <component
+                                                :is="field.type.id + '-fieldtype'"
+                                                :field="field"
+                                                v-model="form[field.handle]"
+                                            >
+                                            </component>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr v-if="index !== sections.body.length - 1">
+                            </div>
+                        </div>
 
-                        <router-link class="button items-center" :to="'/matrices/manage/' + matrix.id"><fa-icon :icon="['fas', 'edit']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
+                        <div v-else class="text-center">
+                            <p>You should configure your Matrix Page with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
+
+                            <router-link class="button items-center" :to="'/matrices/manage/' + matrix.id"><fa-icon :icon="['fas', 'edit']" class="mr-2 text-sm"></fa-icon> Manage your page</router-link>
+                        </div>
                     </p-card>
                 </form>
             </div>
@@ -145,8 +185,6 @@
             submit() {
                 this.form.patch('/api/pages/' + this.matrix.id).then((response) => {
                     toast('Page saved successfully', 'success')
-
-                    this.$router.push('/')
                 }).catch((response) => {
                     toast(response.message, 'failed')
                 })
@@ -155,11 +193,22 @@
             getPage(to, from, next) {
                 let vm = this
 
-                axios.get('/api/pages/' + to.params.page).then((response) => {    
-                    vm.matrix = response.data.data.matrix
-                    vm.page   = response.data.data.page
+                axios.get('/api/pages/' + to.params.page).then((response) => {
+                    if (_.has(response, 'data.data.page')) {
+                        vm.matrix = response.data.data.matrix
+                        vm.page   = response.data.data.page
+                    } else {
+                        vm.matrix = response.data.data
+                        vm.page   = {
+                            name: vm.matrix.name,
+                            slug: vm.matrix.slug,
+                            status: 1
+                        }
+                    }
 
                     let fields = {
+                        name:   vm.page.name,
+                        slug:   vm.page.slug,
                         status: vm.page.status,
                     }
 
