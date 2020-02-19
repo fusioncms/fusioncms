@@ -23,16 +23,13 @@ class TermResource extends JsonResource
      */
     public function toArray($request)
     {
-        $taxonomy = new TaxonomyResource($this->resource['taxonomy']);
-        $fields   = $taxonomy->fieldset->fields ?? null;
-        
         $resource['id']       = $this->id;
         $resource['name']     = $this->name;
         $resource['slug']     = $this->slug;
-        $resource['taxonomy'] = $taxonomy;
+        $resource['taxonomy'] = new TaxonomyResource($this->resource['taxonomy']);
 
-        if ($fields) {
-            foreach ($fields as $field) {
+        if ($this->taxonomy->fields) {
+            foreach ($this->taxonomy->fields as $field) {
                 $resource[$field->handle] = $this->{$field->handle};
             }
         }

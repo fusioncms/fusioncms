@@ -23,22 +23,14 @@ class EntryResource extends JsonResource
      */
     public function toArray($request)
     {
-        $matrix = new MatrixResource($this->resource['matrix']);
-        $fields = $matrix->fieldset->fields ?? null;
-
-        $resource['matrix']        = $matrix;
+        $resource['matrix']        = new MatrixResource($this->resource['matrix']);
         $resource['entry']['id']   = $this->id;
         $resource['entry']['name'] = $this->name;
         $resource['entry']['slug'] = $this->slug;
 
-        if ($fields) {
-            foreach ($fields as $field) {
-                $fieldtype                         = fieldtypes()->get($field->type);
-                $resource['entry'][$field->handle] = $this->{$field->handle};
-
-                if ($fieldtype->hasRelationship()) {
-                    $resource['entry'][$field->handle.'_raw'] = $this->{$field->handle.'_raw'};
-                }
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
+                $resource['entry'][$field->handle] = $field->type()->getResource($this->resource, $field);
             }
         }
 

@@ -208,11 +208,7 @@
                     if (vm.collection.fieldset) {
                         _.forEach(vm.collection.fieldset.sections, function(section) {
                             _.forEach(section.fields, function(field) {
-                                if (vm.entry[field.handle + '_raw']) {
-                                    Vue.set(fields, field.handle, vm.entry[field.handle + '_raw'])
-                                } else {
-                                    Vue.set(fields, field.handle, vm.entry[field.handle])
-                                }
+                                Vue.set(fields, field.handle, vm.entry[field.handle])
                             })
                         })
                     }
