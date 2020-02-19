@@ -1,9 +1,0 @@
-    /**
-     * A polymorphic many to many "{handle}" relationship.
-     *
-     * @return HasMany
-     */
-    public function {handle}()
-    {
-        return $this->hasMany('{related_namespace}', '{foreign_key}', '{local_key}');
-    }
