@@ -156,10 +156,7 @@ class MenuTest extends TestCase
             ->json('POST', '/api/menus/'.$menu->id.'/nodes', $node)
             ->getData()->data;
 
-        dd($node);
-
-
-        // $this->assertDatabaseHas($menu->table, ['name' => 'Example', 'order' => 1]);
+        $this->assertDatabaseHas($menu->table, ['name' => 'Example', 'order' => 1]);
     }
 
     /** @test */

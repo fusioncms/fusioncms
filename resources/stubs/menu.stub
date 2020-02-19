@@ -50,29 +50,6 @@ class {class} extends Model
     protected $with = ['children'];
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function($node) {
-            if (is_null($node->order)) {
-                $last = static::orderBy('order', 'desc')
-                    ->first();
-
-                if ($last) {
-                    $node->order = $last->order + 1;
-                } else {
-                    $node->order = 1;
-                }
-            }
-        });
-    }
-
-    /**
      * Get the Menu relationship.
      *
      * @return mixed

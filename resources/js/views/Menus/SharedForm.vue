@@ -8,7 +8,7 @@
                             <div class="side-container">
                                 <div class="xxl:mr-10 xxl:mb-0 mb-6">
                                     <h3>General</h3>
-                                    <p class="text-sm">What will this menu be called and what will it link to?</p>
+                                    <p class="text-sm">What will this menu be called?</p>
                                 </div>
                             </div>
 

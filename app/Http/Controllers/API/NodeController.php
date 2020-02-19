@@ -74,6 +74,19 @@ class NodeController extends Controller
 
         $node = $model->create($attributes);
 
+        if (is_null($node->order)) {
+            $last = $model->orderBy('order', 'desc')
+                ->first();
+
+            if ($last) {
+                $node->order = $last->order + 1;
+            } else {
+                $node->order = 1;
+            }
+
+            $node->save();
+        }
+
         foreach ($relationships as $relationship) {
             $node->{$relationship->handle}()->sync($request->input($relationship->handle));
         }
