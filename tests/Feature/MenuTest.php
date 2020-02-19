@@ -224,13 +224,93 @@ class MenuTest extends TestCase
             ])
             ->getData()->data;
 
-        dd($nodeOne, $nodeTwo);
-
         $this->json('POST', '/api/menus/'.$menu->id.'/nodes/move/before', [
             'move'   => $nodeTwo->id,
             'before' => $nodeOne->id,
         ]);
 
-        // $this->assertDatabaseHas($menu->table, $node);
+        $this->assertDatabaseHas($menu->table, [
+            'name'  => $nodeTwo->name,
+            'order' => 0.0,
+        ]);
+    }
+
+    /** @test */
+    public function a_user_with_permissions_can_move_a_menu_node_after_another()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $menu = $menu = MenuFactory::withName('Test')->create();
+
+        $nodeOne = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node One',
+                'url'  => 'https://example.com/node-one',
+            ])
+            ->getData()->data;
+
+        $nodeTwo = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node Two',
+                'url'  => 'https://example.com/node-two',
+            ])
+            ->getData()->data;
+
+        $nodeThree = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node Three',
+                'url'  => 'https://example.com/node-three',
+            ])
+            ->getData()->data;
+
+        $this->json('POST', '/api/menus/'.$menu->id.'/nodes/move/after', [
+            'move'  => $nodeOne->id,
+            'after' => $nodeTwo->id,
+        ]);
+
+        $this->assertDatabaseHas($menu->table, [
+            'name'  => $nodeOne->name,
+            'order' => 2.5,
+        ]);
+    }
+
+    /** @test */
+    public function menu_nodes_can_be_refreshed()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $menu = $menu = MenuFactory::withName('Test')->create();
+
+        $nodeOne = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node One',
+                'url'  => 'https://example.com/node-one',
+            ])
+            ->getData()->data;
+
+        $nodeTwo = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node Two',
+                'url'  => 'https://example.com/node-two',
+            ])
+            ->getData()->data;
+
+        $nodeThree = $this
+            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
+                'name' => 'Node Three',
+                'url'  => 'https://example.com/node-three',
+            ])
+            ->getData()->data;
+
+        $this->json('POST', '/api/menus/'.$menu->id.'/nodes/move/after', [
+            'move'  => $nodeOne->id,
+            'after' => $nodeTwo->id,
+        ]);
+
+        $this->json('PATCH', '/api/menus/'.$menu->id.'/nodes/refresh');
+
+        $this->assertDatabaseHas($menu->table, ['name' => $nodeTwo->name, 'order' => 1]);
+        $this->assertDatabaseHas($menu->table, ['name' => $nodeOne->name, 'order' => 2]);
+        $this->assertDatabaseHas($menu->table, ['name' => $nodeThree->name, 'order' => 3]);
     }
 }

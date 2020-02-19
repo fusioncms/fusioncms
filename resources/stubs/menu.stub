@@ -13,11 +13,14 @@ namespace App\Models\Menus;
 
 use App\Models\Menu;
 use App\Models\Field;
+use App\Concerns\HasOrder;
 use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class {class} extends Model
 {
+    use HasOrder;
+
 	/**
      * The table associated with the model.
      *

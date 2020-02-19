@@ -9,6 +9,10 @@
  * file that was distributed with this source code.
  */
 
+Route::post('/menus/{menu}/nodes/move/before', 'NodeMoveBeforeController');
+Route::post('/menus/{menu}/nodes/move/after', 'NodeMoveAfterController');
+Route::patch('/menus/{menu}/nodes/refresh', 'NodeRefreshController');
+
 Route::post('/menus/{menu}/reorder', 'NodeReorderController');
 Route::apiResource('/menus/{menu}/nodes', 'NodeController');
 Route::apiResource('/menus', 'MenuController');
