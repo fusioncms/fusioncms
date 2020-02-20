@@ -3,11 +3,10 @@
         <div class="content-container">
             <p-card>
                 <form @submit.prevent="submit">
-                    <div class="row">
+                    <div class="row mb-6">
                         <div class="side-container">
                             <div class="xxl:mr-10 xxl:mb-0 mb-6">
-                                <h3>General</h3>
-                                <p class="text-sm">What will this node be called and what will it link to?</p>
+                                <!--  -->
                             </div>
                         </div>
 
@@ -34,6 +33,34 @@
                                 :error-message="form.errors.get('url')"
                                 v-model="form.url">
                             </p-input>
+                        </div>
+                    </div>
+
+                    <div v-if="sections.body.length > 0" :key="menu.slug">
+                        <!-- Loop through each section -->
+                        <div v-for="(section, index) in sections.body" :key="section.handle">
+                            <div class="row">
+                                <div class="side-container">
+                                    <div class="xxl:mr-10 xxl:mb-0 mb-6">
+                                        <h3>{{ section.name }}</h3>
+                                        <p class="text-sm">{{ section.description }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="content-container">
+                                    <!-- Loop through each section field -->
+                                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                                        <component
+                                            :is="field.type.id + '-fieldtype'"
+                                            :field="field"
+                                            v-model="form[field.handle]"
+                                        >
+                                        </component>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr v-if="index !== sections.body.length - 1">
                         </div>
                     </div>
 
@@ -65,7 +92,7 @@
                             v-model="form.status">
                         </p-select>
 
-                        <p-select
+                        <!-- <p-select
                             name="parent_id"
                             label="Parent"
                             help="Should this node belong to another?"
@@ -73,7 +100,7 @@
                             :has-error="form.errors.has('parent_id')"
                             :error-message="form.errors.get('parent_id')"
                             v-model="form.parent_id">
-                        </p-select>
+                        </p-select> -->
 
                         <p-select
                             name="new_window"
@@ -91,6 +118,23 @@
                             ]"
                             v-model="form.new_window">
                         </p-select>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card v-for="(section) in sections.sidebar" :key="section.handle" class="mt-6">
+                <h3>{{ section.name }}</h3>
+                <p class="text-sm">{{ section.description }}</p>
+
+                <div class="w-full">
+                    <!-- Loop through each section field -->
+                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                        <component
+                            :is="field.type.id + '-fieldtype'"
+                            :field="field"
+                            v-model="form[field.handle]"
+                        >
+                        </component>
                     </div>
                 </div>
             </p-card>
@@ -134,6 +178,28 @@
 
             submit: {
                 required: true,
+            },
+        },
+
+        computed: {
+            sections() {
+                let body = []
+                let sidebar = []
+
+                if (this.menu.fieldset) {
+                    body = _.filter(this.menu.fieldset.sections, function(section) {
+                        return section.placement == 'body'
+                    })
+
+                    sidebar = _.filter(this.menu.fieldset.sections, function(section) {
+                        return section.placement == 'sidebar'
+                    })
+                }
+
+                return {
+                    body: body,
+                    sidebar: sidebar
+                }
             },
         },
     }

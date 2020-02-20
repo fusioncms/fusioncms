@@ -51,7 +51,7 @@ class MenuObserver
             $table->string('name');
             $table->string('url')->nullable();
             $table->boolean('new_window')->default(false);
-            $table->float('order')->nullable()->index();
+            $table->float('order', 12, 6)->nullable()->index();
 
             $table->boolean('status')->default(true);
             $table->timestamps();

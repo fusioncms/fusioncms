@@ -62,11 +62,23 @@
                     vm.menu = menu.data.data
                     vm.node = node.data.data
 
-                    vm.form.name       = node.data.data.name
-                    vm.form.url        = node.data.data.url
-                    vm.form.new_window = node.data.data.new_window
-                    vm.form.parent_id  = node.data.data.parent_id
-                    vm.form.status     = node.data.data.status
+                    let fields = {
+                        name: node.data.data.name,
+                        url: node.data.data.url,
+                        new_window: node.data.data.new_window,
+                        parent_id: node.data.data.parent_id,
+                        status: node.data.data.status,
+                    }
+
+                    if (vm.menu.fieldset) {
+                        _.forEach(vm.menu.fieldset.sections, function(section) {
+                            _.forEach(section.fields, function(field) {
+                                Vue.set(fields, field.handle, vm.node[field.handle])
+                            })
+                        })
+                    }
+
+                    vm.form = new Form(fields, true)
 
                     vm.nodes = _.map(menu.data.data.nodes, function(parent) {
                         return {

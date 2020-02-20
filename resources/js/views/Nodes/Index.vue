@@ -89,9 +89,22 @@
 
                                                     <template slot="options">
                                                         <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
-                                                        <p-dropdown-item>Assign parent...</p-dropdown-item>
-                                                        <p-dropdown-item>Move before...</p-dropdown-item>
-                                                        <p-dropdown-item>Move after...</p-dropdown-item>
+                                                        <!-- <p-dropdown-item>Assign parent...</p-dropdown-item> -->
+
+                                                        <p-dropdown-item
+                                                            @click.prevent
+                                                            v-modal:move-before="node"
+                                                        >
+                                                            Move before...
+                                                        </p-dropdown-item>
+
+                                                        <p-dropdown-item
+                                                            @click.prevent
+                                                            v-modal:move-after="node"
+                                                        >
+                                                            Move after...
+                                                        </p-dropdown-item>
+
                                                         <p-dropdown-item
                                                             @click.prevent
                                                             v-modal:delete-node="node"
@@ -120,6 +133,32 @@
                     <p-button v-modal:delete-node>Cancel</p-button>
                 </template>
             </p-modal>
+
+            <p-modal name="move-before" title="Move before..." key="move_before">
+                <template>
+                    <p>Which node would you like to move before?</p>
+
+                    <p-select name="before" label="Node" :options="options" v-model="before"></p-select>
+                </template>
+
+                <template slot="footer" slot-scope="node">
+                    <p-button v-modal:move-before @click="moveBefore(node.data.id)" theme="danger" class="ml-3">Move</p-button>
+                    <p-button v-modal:move-after @click="before = null">Cancel</p-button>
+                </template>
+            </p-modal>
+
+            <p-modal name="move-after" title="Move after..." key="move_after">
+                <template>
+                    <p>Which node would you like to move after?</p>
+
+                    <p-select name="after" label="Node" :options="options" v-model="after"></p-select>
+                </template>
+
+                <template slot="footer" slot-scope="node">
+                    <p-button v-modal:move-after @click="moveAfter(node.data.id)" theme="danger" class="ml-3">Move</p-button>
+                    <p-button v-modal:move-after @click="after = null">Cancel</p-button>
+                </template>
+            </p-modal>
         </portal>
     </div>
 </template>
@@ -141,11 +180,24 @@
                 menu: {},
                 nodes: [],
                 saving: false,
+                before: null,
+                after: null,
                 form: new Form({
                     name: '',
                     url: '',
                     new_window: 0,
                 }),
+            }
+        },
+
+        computed: {
+            options() {
+                return _.map(this.nodes, function(node) {
+                    return {
+                        'label': node.name,
+                        'value': node.id
+                    }
+                })
             }
         },
 
@@ -197,6 +249,32 @@
                 axios.delete('/api/menus/' + this.menu.id + '/nodes/' + id).then((response) => {
                     this.fetchNodes().then(() => {
                         toast('Menu node successfully deleted.', 'success')
+                    })
+                })
+            },
+
+            moveBefore(move) {
+                axios.post('/api/menus/' + this.menu.id + '/nodes/move/before', {
+                    move: move,
+                    before: this.before,
+                }).then((response) => {
+                    this.fetchNodes().then(() => {
+                        this.before = null
+
+                        toast('Menu node successfully moved.', 'success')
+                    })
+                })
+            },
+
+            moveAfter(move) {
+                axios.post('/api/menus/' + this.menu.id + '/nodes/move/after', {
+                    move: move,
+                    after: this.after,
+                }).then((response) => {
+                    this.fetchNodes().then(() => {
+                        this.after = null
+
+                        toast('Menu node successfully moved.', 'success')
                     })
                 })
             }
