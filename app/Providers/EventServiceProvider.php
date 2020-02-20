@@ -35,14 +35,14 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Verified' => [
             'App\Listeners\LogVerifiedUser',
         ],
-        
+
         /*
          * User registered.
          */
         'Illuminate\Auth\Events\Registered' => [
             'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
         ],
-        
+
         /*
          * User logged in.
          */
@@ -78,5 +78,6 @@ class EventServiceProvider extends ServiceProvider
         \App\Models\Section::observe(\App\Observers\SectionObserver::class);
         \App\Models\Fieldset::observe(\App\Observers\FieldsetObserver::class);
         \App\Models\Taxonomy::observe(\App\Observers\TaxonomyObserver::class);
+        \App\Models\Menu::observe(\App\Observers\MenuObserver::class);
     }
 }

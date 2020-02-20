@@ -95,6 +95,20 @@ class BootstrapAdminMenu
 
             $menu->add('System')->divide();
 
+            $menu->add('Appearance', '#')->data([
+                'icon'  => 'fill-drip',
+            ]);
+
+            $menu->appearance->add('Menus')->data([
+                'to'   => '/menus',
+                'icon' => 'anchor',
+            ]);
+
+            $menu->appearance->add('Theme')->data([
+                'to'   => '/themes/settings',
+                'icon' => 'paint-roller',
+            ]);
+
             $menu->add('Configure', '#')->data([
                 'icon'  => 'sliders-h',
             ]);
@@ -122,11 +136,6 @@ class BootstrapAdminMenu
             $menu->configure->add('Taxonomy')->data([
                 'to'   => '/taxonomies',
                 'icon' => 'sitemap',
-            ]);
-
-            $menu->configure->add('Theme')->data([
-                'to'   => '/themes/settings',
-                'icon' => 'paint-roller',
             ]);
 
             $menu->add('Settings')->data([
@@ -175,6 +184,11 @@ class BootstrapAdminMenu
 
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
+            ]);
+
+            $menu->add('Playground')->data([
+                'to'   => '/playground',
+                'icon' => 'robot',
             ]);
         });
     }

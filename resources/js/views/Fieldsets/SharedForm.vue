@@ -43,7 +43,7 @@
 
 			<portal to="actions">
 			    <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
-			    <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Fieldset</button>
+			    <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
 			</portal>
 		</form>
 	</div>

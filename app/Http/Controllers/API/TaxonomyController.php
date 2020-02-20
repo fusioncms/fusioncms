@@ -94,9 +94,9 @@ class TaxonomyController extends Controller
         $this->authorize('taxonomies.create');
 
         $attributes = collect($request->validate($this->rules));
-        
+
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-        
+
         $taxonomy = Taxonomy::create($attributes->except('fieldset')->all());
 
         if ($attributes->get('fieldset')) {
@@ -107,7 +107,7 @@ class TaxonomyController extends Controller
             ->performedOn($taxonomy)
             ->withProperties([
                 'icon' => 'sitemap',
-                'link' => 'taxonomies/edit/' . $taxonomy->id,
+                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
             ])
             ->log('Created taxonomy (:subject.name)');
 
@@ -141,7 +141,7 @@ class TaxonomyController extends Controller
             ->performedOn($taxonomy)
             ->withProperties([
                 'icon' => 'sitemap',
-                'link' => 'taxonomies/edit/' . $taxonomy->id,
+                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
             ])
             ->log('Updated taxonomy (:subject.name)');
 

@@ -2,19 +2,16 @@
     opacity: .4;
 }
 
-.draggable-mirror {
-    @apply .absolute .p-2 .bg-white .z-10 .cursor-move;
-    opacity: 1;
+.sortable-ghost {
+    @apply bg-white;
 }
 
 .sortable-list-item, .sortable-list {
     :focus, &:focus {
-        @apply .outline-none;
+        @apply outline-none;
     }
 }
 
 .sortable-list-handle {
-    :hover {
-        @apply .cursor-move;
-    }
+    cursor: row-resize;
 }

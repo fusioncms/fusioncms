@@ -72,7 +72,7 @@ class RoleController extends Controller
             ->performedOn($role)
             ->withProperties([
                 'icon' => 'id-badge',
-                'link' => 'roles/edit/' . $role->id,
+                'link' => 'roles/'.$role->id.'/edit',
             ])
             ->log('Created user role (:subject.name)');
 
@@ -109,7 +109,7 @@ class RoleController extends Controller
             ->performedOn($role)
             ->withProperties([
                 'icon' => 'id-badge',
-                'link' => 'roles/edit/' . $role->id,
+                'link' => 'roles/'.$role->id.'/edit',
             ])
             ->log('Updated user role (:subject.name)');
 

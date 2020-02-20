@@ -1,1 +1,0 @@
-{!! trim(json_encode($feed)) !!}

@@ -53,7 +53,7 @@
                                         :error-message="form.errors.get('description')"
                                         v-model="form.description">
                                     </p-input>
-                                </div>                            
+                                </div>
 
                                 <div class="col w-full xxl:w-1/2 mb-6">
                                     <p-select

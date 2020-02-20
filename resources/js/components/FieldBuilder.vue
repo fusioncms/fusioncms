@@ -14,7 +14,7 @@
                         <div class="section__field">
                             <div>
                                 <p-sortable-handle class="cursor-move inline-block">
-                                    <fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
+                                    <fa-icon icon="grip-vertical" class="handle fa-fw text-gray-400 mr-3"></fa-icon>
                                 </p-sortable-handle>
 
                                 <fa-icon :icon="['fas', field.type.icon]" class="fa-fw mr-3"></fa-icon>
