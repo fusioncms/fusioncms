@@ -23,7 +23,7 @@
      public function up()
      {
          Schema::create('queue_failed', function (Blueprint $table) {
-             $table->increments('id');
+             $table->bigIncrements('id');
              $table->text('connection');
              $table->text('queue');
              $table->longText('payload');

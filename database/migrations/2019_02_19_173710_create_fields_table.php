@@ -23,8 +23,8 @@ class CreateFieldsTable extends Migration
     public function up()
     {
         Schema::create('fields', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('section_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('section_id');
             $table->string('name');
             $table->string('handle');
             $table->text('help')->nullable();
@@ -36,7 +36,9 @@ class CreateFieldsTable extends Migration
             $table->boolean('locked')->default(false);
             $table->timestamps();
 
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->foreign('section_id')
+                ->references('id')->on('sections')
+                ->onDelete('cascade');
         });
     }
 

@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        <div v-if="sections.body.length > 0" :key="collection.slug">
+                        <div v-if="sections.body.length > 0">
                             <!-- Loop through each section -->
                             <div v-for="(section, index) in sections.body" :key="section.handle">
                                 <div class="row">
@@ -208,11 +208,7 @@
                     if (vm.collection.fieldset) {
                         _.forEach(vm.collection.fieldset.sections, function(section) {
                             _.forEach(section.fields, function(field) {
-                                if (vm.entry[field.handle + '_raw']) {
-                                    Vue.set(fields, field.handle, vm.entry[field.handle + '_raw'])
-                                } else {
-                                    Vue.set(fields, field.handle, vm.entry[field.handle])
-                                }
+                                Vue.set(fields, field.handle, vm.entry[field.handle])
                             })
                         })
                     }

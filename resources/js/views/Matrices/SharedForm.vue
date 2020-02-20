@@ -104,7 +104,12 @@
                         <div class="col form-content">
                             <div class="row mb-6">
                                 <div class="col mb-3 w-full">
-                                    <p-checkbox name="show_name_field" v-model="form.show_name_field">Show Name Field</p-checkbox>
+                                    <p-checkbox
+                                        v-if="form.type == 'collection'"
+                                        name="show_name_field"
+                                        v-model="form.show_name_field">
+                                        Show Name Field
+                                    </p-checkbox>
                                 </div>
 
                                 <div class="col w-full">
@@ -340,6 +345,14 @@
 
             pluralReference() {
                 return pluralize(this.form.name)
+            },
+        },
+
+        watch: {
+            '$parent.form.type'(value) {
+                if (value == 'page') {
+                    this.$parent.form.show_name_field = true
+                }
             }
         }
     }

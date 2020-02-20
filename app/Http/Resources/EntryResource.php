@@ -23,28 +23,23 @@ class EntryResource extends JsonResource
      */
     public function toArray($request)
     {
-        $matrix = new MatrixResource($this->resource['matrix']);
-        $fields = $matrix->fieldset->fields ?? null;
+        $resource = [
+            'matrix' => new MatrixResource($this->resource['matrix']),
+            'entry'  => [
+                'id'         => $this->id,
+                'name'       => $this->name,
+                'slug'       => $this->slug,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+                'status'     => $this->status,
+            ],
+        ];
 
-        $resource['matrix']        = $matrix;
-        $resource['entry']['id']   = $this->id;
-        $resource['entry']['name'] = $this->name;
-        $resource['entry']['slug'] = $this->slug;
-
-        if ($fields) {
-            foreach ($fields as $field) {
-                $fieldtype                         = fieldtypes()->get($field->type);
-                $resource['entry'][$field->handle] = $this->{$field->handle};
-
-                if ($fieldtype->hasRelationship()) {
-                    $resource['entry'][$field->handle.'_raw'] = $this->{$field->handle.'_raw'};
-                }
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
+                $resource['entry'][$field->handle] = $field->type()->getResource($this->resource, $field);
             }
         }
-
-        $resource['entry']['created_at'] = $this->created_at;
-        $resource['entry']['updated_at'] = $this->updated_at;
-        $resource['entry']['status'] = $this->status;
 
         return $resource;
     }

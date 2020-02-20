@@ -24,20 +24,19 @@ class MatrixPageResource extends JsonResource
     public function toArray($request)
     {
         $resource = [
-            'matrix' => new MatrixResource($this->resource['matrix']),
+            'matrix' => new MatrixResource($this->matrix),
+            'page'   => [
+                'name'   => $this->name ?? $this->matrix->name,
+                'slug'   => $this->slug ?? $this->matrix->slug,
+                'status' => $this->status,
+            ],
         ];
 
-        if(isset($this->resource['matrix']->fieldset)) {
-            $fields = $this->resource['matrix']->fieldset->fields;
-
-            if ($fields) {
-                foreach ($fields as $field) {
-                    $resource['page'][$field->handle] = $this->resource['page']->{$field->handle};
-                }
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
+                $resource['page'][$field->handle] = $field->type()->getResource($this->resource, $field);
             }
-        } 
-
-        $resource['page']['status'] = $this->resource['page']['status'];
+        }
 
         return $resource;
     }

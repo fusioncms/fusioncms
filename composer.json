@@ -53,7 +53,6 @@
         "laravel/passport": "^7.3",
         "laravel/scout": "^7.1",
         "symfony/yaml": "^4.3",
-        "wikimedia/composer-merge-plugin": "^1.4",
         "predis/predis": "^1.1",
         "barryvdh/laravel-cors": "^0.11",
         "spatie/laravel-activitylog": "^3.6",
@@ -111,9 +110,6 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
-        ],
-        "post-create-project-cmd": [
-            "@php artisan fusion:install"
         ]
     },
     "config": {
@@ -124,16 +120,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "merge-plugin": {
-            "include": [
-                "fusion/Modules/*/composer.json",
-                "modules/*/composer.json"
-            ],
-            "recurse": true,
-            "replace": false,
-            "merge-dev": false
-        },
-
         "laravel": {
             "dont-discover": [
                 "caffeinated/shinobi"

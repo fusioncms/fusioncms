@@ -22,8 +22,8 @@ class CreateDirectoriesTable extends Migration
     public function up()
     {
         $this->schema->create('directories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('parent_id')->unsigned()->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->authors();
