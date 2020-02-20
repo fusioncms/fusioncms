@@ -81,16 +81,6 @@ class {class} extends Model
     }
 
     /**
-     * Proxy the name attribute from the owning matrix.
-     *
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->matrix->name;
-    }
-
-    /**
      * Proxy the handle attribute from the owning matrix.
      *
      * @return string
@@ -98,15 +88,5 @@ class {class} extends Model
     public function getHandleAttribute()
     {
         return $this->matrix->handle;
-    }
-
-    /**
-     * Proxy the slug attribute from the owning matrix.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return $this->matrix->slug;
     }
 }

@@ -16,11 +16,27 @@ use App\Models\Fieldset;
 use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
 use App\Services\Builders\Page;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PageTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Called before each test is run...
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->handleValidationExceptions();
+
+        $this->matrix = MatrixFactory::asPage()->withName('Example Page')->create();
+        $this->model  = (new Page($this->matrix->handle))->make();
+    }
 
     /**
      * @test
@@ -31,27 +47,48 @@ class PageTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
-        $page = MatrixFactory::asPage()->create();
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => true,
+            ])->assertStatus(201);
 
-        $formData = [
-            'status' => true,
-        ];
-
-        $response = $this->json('PATCH', '/api/pages/' . $page->id, $formData);
-        $response->assertStatus(200);
+        $this->assertDatabaseHas($this->model->getTable(), [
+            'name' => 'Renamed-page',
+            'slug' => 'renamed-page',
+        ]);
     }
 
-    /** @test */
-    public function name_handle_and_slug_values_are_proxied_from_the_owning_matrix()
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_permissions_can_not_update_a_page()
+    {
+        $this->expectException(AuthenticationException::class);
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => true,
+            ])->assertStatus(422);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_cannot_create_a_page_without_required_fields()
     {
         $this->actingAs($this->admin, 'api');
 
-        $matrix = MatrixFactory::asPage()->withName('Example Page')->create();
-
-        $page = (new Page($matrix->handle))->get();
-
-        $this->assertEquals($page->name, 'Example Page');
-        $this->assertEquals($page->slug, 'example-page');
-        $this->assertEquals($page->handle, 'example_page');
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['name', 'slug', 'status']);
     }
 }

@@ -48,14 +48,10 @@ class MatrixObserver
                 $table->increments('id');
             }
 
-            $table->integer('matrix_id')->unsigned();
-            $table->unsignedInteger('parent_id')->nullable();
-
-            if ($matrix->type === 'collection') {
-                $table->string('name')->nullable();
-                $table->string('slug')->nullable();
-            }
-
+            $table->unsignedBigInteger('matrix_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

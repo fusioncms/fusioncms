@@ -94,16 +94,17 @@ class FieldsetTest extends TestCase
         $redFieldset = FieldsetFactory::withSections(collect([$redSection]))->create();
 
         $matrix = MatrixFactory::asPage()->withFieldset($redFieldset)->create();
-        $page   = new Page($matrix->handle);
-        $table  = $matrix->getBuilder()->getTable();
-
-        $page->update([
-            'lorem'  => 'test',
-            'ipsum'  => 'test',
-            'status' => true,
+        $model  = (new Page($matrix->handle))->make();
+        $page   = $model->create([
+            'matrix_id' => $matrix->id,
+            'name'      => 'Renamed-page',
+            'slug'      => 'renamed-page',
+            'status'    => true,
+            'lorem'     => 'test',
+            'ipsum'     => 'test',
         ]);
 
-        $this->assertDatabaseHas($table, [
+        $this->assertDatabaseHas($page->getTable(), [
             'lorem' => 'test',
             'ipsum' => 'test',
         ]);
@@ -116,7 +117,7 @@ class FieldsetTest extends TestCase
 
         $matrix->attachFieldset($blueFieldset);
 
-        $this->assertDatabaseHas($table, [
+        $this->assertDatabaseHas($page->getTable(), [
             'lorem' => 'test',
             'ipsum' => 'test',
             'dolor' => null,
@@ -132,16 +133,17 @@ class FieldsetTest extends TestCase
         $redFieldset = FieldsetFactory::withSections(collect([$redSection]))->create();
 
         $matrix = MatrixFactory::asPage()->withFieldset($redFieldset)->create();
-        $page   = new Page($matrix->handle);
-        $table  = $matrix->getBuilder()->getTable();
-
-        $page->update([
-            'lorem'  => 'test',
-            'ipsum'  => 'test',
-            'status' => true,
+        $model  = (new Page($matrix->handle))->make();
+        $page   = $model->create([
+            'matrix_id' => $matrix->id,
+            'name'      => 'Renamed-page',
+            'slug'      => 'renamed-page',
+            'status'    => true,
+            'lorem'     => 'test',
+            'ipsum'     => 'test',
         ]);
 
-        $this->assertDatabaseHas($table, [
+        $this->assertDatabaseHas($page->getTable(), [
             'lorem' => 'test',
             'ipsum' => 'test',
         ]);
@@ -154,11 +156,11 @@ class FieldsetTest extends TestCase
 
         $matrix->attachFieldset($blueFieldset);
 
-        $this->assertDatabaseTableDoesNotHaveColumn($table, 'ipsum');
-        $this->assertDatabaseTableHasColumn($table, 'dolor');
-        $this->assertDatabaseTableHasColumn($table, 'sit');
+        $this->assertDatabaseTableDoesNotHaveColumn($page->getTable(), 'ipsum');
+        $this->assertDatabaseTableHasColumn($page->getTable(), 'dolor');
+        $this->assertDatabaseTableHasColumn($page->getTable(), 'sit');
 
-        $this->assertDatabaseHas($table, [
+        $this->assertDatabaseHas($page->getTable(), [
             'lorem' => 'test',
             'dolor' => null,
             'sit'   => null,

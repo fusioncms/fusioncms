@@ -12,93 +12,79 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\Builders\Page;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MatrixResource;
 use App\Http\Resources\MatrixPageResource;
 
 class MatrixPageController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        //
-    ];
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Matrix  $matrix
-     * @return \Illuminate\Http\Response
+     * @param  string  $matrix
+     * @return JsonResponse
      */
     public function show($matrix)
     {
+        $this->authorize('entry.show');
+
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
-        $page   = (new Page($matrix->handle))->get();
+        $model  = (new Page($matrix->handle))->make();
 
-        return new MatrixPageResource([
-            'matrix' => $matrix,
-            'page'   => $page,
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Matrix  $matrix
-     * @return \Illuminate\Http\Response
-     */
-    public function handle($handle)
-    {
-        $matrix = Matrix::where('handle', $handle)->firstOrFail();
-        $page   = (new Page($matrix->handle))->get();
-
-        return new MatrixPageResource([
-            'matrix' => $matrix,
-            'page'   => $page,
-        ]);
+        try {
+            return new MatrixPageResource($model->firstOrFail());
+        } catch (\Exception $exception) {
+            return new MatrixResource($matrix);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $matrix
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  integer  $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $matrix)
+    public function update(Request $request, $id)
     {
-        $matrix        = Matrix::findOrFail($matrix);
-        $page          = new Page($matrix->handle);
-        $relationships = [];
-        $rules         = ['status' => 'required|boolean'];
+        $this->authorize('entry.update');
 
-        $fields        = $matrix->fieldset->database();
-        $relationships = $matrix->fieldset->relationships();
+        $matrix = Matrix::findOrFail($id);
+        $model  = (new Page($matrix->handle))->make();
+        $rules  = [
+            'name'   => 'required',
+            'slug'   => 'required',
+            'status' => 'required|boolean',
+        ];
 
-        foreach ($fields as $field) {
-            $rules[$field->handle] = $field->validation ?: 'sometimes';
+        if (isset($matrix->fieldset)) {
+            foreach ($matrix->fieldset->database() as $field) {
+                $rules[$field->handle] = $field->validation ?: 'sometimes';
+            }
         }
 
-        $attributes = $request->validate($rules);
+        $attributes              = $request->validate($rules);
+        $attributes['matrix_id'] = $matrix->id;
 
-        foreach ($attributes as $handle => $value) {
-            $page->{$handle} = $value;
+        $entry = $model->updateOrCreate(['matrix_id' => $matrix->id], $attributes);
+
+        if (isset($matrix->fieldset)) {
+            foreach ($matrix->fieldset->relationships() as $relationship) {
+                $relationship->type()->persistRelationship($page, $relationship);
+            }
         }
 
-        $page->update($attributes);
+        activity()
+            ->performedOn($entry)
+            ->withProperties([
+                'icon' => $matrix->icon,
+                'link' => 'pages/' . $matrix->slug,
+            ])
+            ->log('Updated ' . Str::singular($matrix->name));
 
-        foreach ($relationships as $relationship) {
-            $relationship->type()->persistRelationship($page, $relationship);
-        }
-
-        return new MatrixPageResource([
-            'matrix' => $matrix,
-            'page'   => $page->get(),
-        ]);
+        return new MatrixPageResource($entry);
     }
 }
