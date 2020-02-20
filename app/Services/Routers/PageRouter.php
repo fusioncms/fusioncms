@@ -28,7 +28,8 @@ class PageRouter extends Router
                 continue 1;
             }
 
-            $page = (new Page($matrix->handle))->get();
+            $model = (new Page($matrix->handle))->make();
+            $page  = $model->firstOrFail();
             
             $data = $this->bindRouteData($page->route, $request, [
                 'matrix' => $matrix,
