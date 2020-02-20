@@ -91,4 +91,28 @@ class PageTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'slug', 'status']);
     }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_guest_can_visit_newly_created_page()
+    {
+        // Set matrix' routing info..
+        $this->matrix->update([
+            'route'    => '{slug}',
+            'template' => 'test',
+        ]);
+
+        // Create page record..
+        $page = $this->model->create([
+            'matrix_id' => $this->matrix->id,
+            'name'      => 'Foo',
+            'slug'      => 'foo',
+            'status'    => true,
+        ]);
+
+        $this->get($page->slug)->assertStatus(200);
+    }
 }
