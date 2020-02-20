@@ -83,7 +83,7 @@
                                         <td><span class="text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span></td>
 
                                         <td>
-                                            <div style="min-width: 150px;" class="text-right draggable__actions">
+                                            <div style="min-width: 50px;" class="text-right draggable__actions">
                                                 <p-dropdown right>
                                                     <fa-icon :icon="['fas', 'bars']"></fa-icon>
 
@@ -242,7 +242,7 @@
             reset() {
                 this.form.name = ''
                 this.form.url  = ''
-                this.form.new_window = false
+                this.form.new_window = 0
             },
 
             destroy(id) {

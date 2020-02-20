@@ -58,6 +58,7 @@ class NodeController extends Controller
             'url'        => 'sometimes',
             'new_window' => 'sometimes',
             'parent_id'  => 'sometimes',
+            'status'     => 'sometimes',
         ];
 
         if(isset($menu->fieldset)) {
@@ -109,6 +110,7 @@ class NodeController extends Controller
             'url'        => 'sometimes',
             'new_window' => 'sometimes',
             'parent_id'  => 'sometimes',
+            'status'     => 'sometimes',
         ];
 
         if(isset($menu->fieldset)) {

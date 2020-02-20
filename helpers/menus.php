@@ -33,6 +33,12 @@ if (! function_exists('menu')) {
                 $item->attribute('target', '_blank');
             }
 
+            if ($fieldset = $node->menu->fieldset) {
+                foreach ($fieldset->fields as $field) {
+                    $item->attribute($field->handle, $node->{$field->handle} ?? false);
+                }
+            }
+
             // if ($node->has('children')) {
             //     foreach ($node->children as $child) {
             //         $add($child, $node);

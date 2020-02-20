@@ -33,6 +33,7 @@
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
 
                             <template slot="options">
+                                <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes', params: {menu: table.record.id} }">Manage</p-dropdown-item>
                                 <p-dropdown-item @click.prevent :to="{ name: 'menus.edit', params: {menu: table.record.id} }">Edit</p-dropdown-item>
 
                                 <p-dropdown-item
