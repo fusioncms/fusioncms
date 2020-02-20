@@ -29,6 +29,8 @@ class MatrixPageController extends Controller
      */
     public function show($matrix)
     {
+        $this->authorize('entry.show');
+
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Page($matrix->handle))->make();
 
@@ -48,6 +50,8 @@ class MatrixPageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('entry.update');
+
         $matrix = Matrix::findOrFail($id);
         $model  = (new Page($matrix->handle))->make();
         $rules  = [
