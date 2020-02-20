@@ -42,6 +42,7 @@ class NodeRefreshController extends Controller
             ->performedOn($menu)
             ->withProperties([
                 'icon' => 'anchor',
+                'link' => 'menus/'.$menu->id.'/nodes'
             ])
             ->log('Refreshed '.strtolower(Str::singular($menu->name)).' menu node ordering');
     }

@@ -80,7 +80,7 @@ class TermController extends Controller
             ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
             ])
             ->log('Created '.Str::singular($taxonomy->name).' (:subject.name)');
 
@@ -131,7 +131,7 @@ class TermController extends Controller
             ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
             ])
             ->log('Updated '.Str::singular($taxonomy->name).' (:subject.name)');
 

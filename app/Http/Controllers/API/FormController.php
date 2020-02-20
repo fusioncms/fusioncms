@@ -32,20 +32,20 @@ class FormController extends Controller
         'collect_email_addresses' => 'sometimes',
         'collect_ip_addresses'    => 'sometimes',
         'response_receipt'        => 'sometimes',
-        
+
         'message'                 => 'sometimes',
         'redirect_on_submission'  => 'sometimes',
         'redirect_url'            => 'sometimes',
 
         'enable_recaptcha'        => 'sometimes',
         'enable_honeypot'         => 'sometimes',
-        
+
         'send_to'                 => 'sometimes',
         'reply_to'                => 'sometimes',
-        
+
         'form_template'           => 'sometimes',
         'thankyou_template'       => 'sometimes',
-        
+
         'status'                  => 'required',
     ];
 
@@ -88,7 +88,7 @@ class FormController extends Controller
         $this->authorize('forms.create');
 
         $attributes = collect($request->validate($this->rules));
-        
+
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
 
         $form = Form::create($attributes->all());
@@ -97,7 +97,7 @@ class FormController extends Controller
             ->performedOn($form)
             ->withProperties([
                 'icon' => 'paper-plane',
-                'link' => 'forms/edit/' . $form->id,
+                'link' => 'forms/'.$form->id.'/edit',
             ])
             ->log('Created form (:subject.name)');
 
@@ -124,7 +124,7 @@ class FormController extends Controller
             ->performedOn($form)
             ->withProperties([
                 'icon' => 'paper-plane',
-                'link' => 'forms/edit/' . $form->id,
+                'link' => 'forms/'.$form->id.'/edit',
             ])
             ->log('Updated form (:subject.name)');
 

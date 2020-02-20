@@ -57,7 +57,7 @@ class CollectionController extends Controller
 
         $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
         $collection = (new Collection($matrix->handle))->make();
-        
+
         $relationships = [];
         $rules         = [
             'name'   => 'sometimes',
@@ -87,7 +87,7 @@ class CollectionController extends Controller
         if (! $matrix->show_name_field) {
             $entry->name = $this->compileBladeString($matrix->name_format, $entry);
             $entry->slug = Str::slug($entry->name);
-            
+
             $entry->save();
         }
 
@@ -95,7 +95,7 @@ class CollectionController extends Controller
             ->performedOn($entry)
             ->withProperties([
                 'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
+                'link' => 'collections/'.$matrix->slug.'/'.$entry->id.'/edit',
             ])
             ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
 
@@ -141,11 +141,11 @@ class CollectionController extends Controller
                 $relationship->type()->persistRelationship($entry, $relationship);
             }
         }
-        
+
         if (! $matrix->show_name_field) {
             $entry->name = $this->compileBladeString($matrix->name_format, $entry);
             $entry->slug = Str::slug($entry->name);
-            
+
             $entry->save();
         }
 
@@ -153,7 +153,7 @@ class CollectionController extends Controller
             ->performedOn($entry)
             ->withProperties([
                 'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->slug.'/edit/' . $entry->id,
+                'link' => 'collections/'.$matrix->slug.'/'.$entry->id.'/edit',
             ])
             ->log('Updated '.Str::singular($matrix->name).' (:subject.name)');
 
@@ -183,10 +183,10 @@ class CollectionController extends Controller
 
         $entry->delete();
     }
-    
+
     /**
      * Compile a blade string in a safe and controlled manner.
-     * 
+     *
      * @param  string  $string
      * @param  Entry  $entry
      * @return string
@@ -194,7 +194,7 @@ class CollectionController extends Controller
     protected function compileBladeString($string, $entry)
     {
         preg_match_all('/\{(.*?)\}/', $string, $matches);
-        
+
         foreach ($matches[1] as $index => $match) {
             try {
                 $reference = explode('->', $match)[0];
@@ -203,7 +203,7 @@ class CollectionController extends Controller
                     ob_start();
 
                     eval('echo $entry->'.$match.';');
-                    
+
                     $replace[$index] = ob_get_clean();
                 } else {
                     $replace[$index] = $matches[0][$index];

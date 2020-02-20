@@ -82,7 +82,7 @@ class UserController extends Controller
             ->performedOn($user)
             ->withProperties([
                 'icon' => 'user',
-                'link' => 'users/edit/' . $user->id,
+                'link' => 'users/'.$user->id.'/edit',
             ])
             ->log('Created user account (:subject.name)');
 
@@ -134,7 +134,7 @@ class UserController extends Controller
             ->performedOn($user)
             ->withProperties([
                 'icon' => 'user',
-                'link' => 'users/edit/' . $user->id,
+                'link' => 'users/'.$user->id.'/edit',
             ])
             ->log('Updated user account (:subject.name)');
 

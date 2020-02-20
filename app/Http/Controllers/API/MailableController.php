@@ -68,7 +68,7 @@ class MailableController extends Controller
             ->performedOn($mailable)
             ->withProperties([
                 'icon' => 'mail-bulk',
-                'link' => 'mailables/edit/' . $mailable->id,
+                'link' => 'mailables/'.$mailable->id.'/edit',
             ])
             ->log('Updated mailable (:subject.name)');
 

@@ -73,9 +73,9 @@ class MatrixController extends Controller
         $this->authorize('matrices.create');
 
         $attributes = collect($request->validate($this->rules()));
-        
+
         $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-        
+
         $matrix = Matrix::create($attributes->except('fieldset')->all());
 
         if ($attributes->get('fieldset')) {
@@ -85,11 +85,11 @@ class MatrixController extends Controller
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'chart-network',
-                'link' => 'matrices/edit/' . $matrix->id,
+                'icon' => 'hashtag',
+                'link' => 'matrices/'.$matrix->id.'/edit',
             ])
             ->log('Created matrix (:subject.name)');
-       
+
         // Build model class
         $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
         $model   = (new $builder($matrix->handle))->make();
@@ -127,8 +127,8 @@ class MatrixController extends Controller
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'chart-network',
-                'link' => 'matrices/edit/' . $matrix->id,
+                'icon' => 'hashtag',
+                'link' => 'matrices/'.$matrix->id.'/edit',
             ])
             ->log('Updated matrix (:subject.name)');
 
@@ -148,7 +148,7 @@ class MatrixController extends Controller
         activity()
             ->performedOn($matrix)
             ->withProperties([
-                'icon' => 'chart-network',
+                'icon' => 'hashtag',
             ])
             ->log('Deleted matrix (:subject.name)');
 

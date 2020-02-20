@@ -77,7 +77,7 @@ class MenuController extends Controller
             ->performedOn($menu)
             ->withProperties([
                 'icon' => 'anchor',
-                'link' => 'menus/edit/' . $menu->id,
+                'link' => 'menus/'.$menu->id.'/edit',
             ])
             ->log('Created menu (:subject.name)');
 
@@ -103,7 +103,7 @@ class MenuController extends Controller
             ->performedOn($menu)
             ->withProperties([
                 'icon' => 'anchor',
-                'link' => 'menus/edit/' . $menu->id,
+                'link' => 'menus/'.$menu->id.'/edit',
             ])
             ->log('Updated menu (:subject.name)');
 

@@ -74,7 +74,7 @@ class FieldsetController extends Controller
             ->performedOn($fieldset)
             ->withProperties([
                 'icon' => 'list',
-                'link' => 'fieldsets/edit/' . $fieldset->id,
+                'link' => 'fieldsets/edit/'.$fieldset->id.'/edit',
             ])
             ->log('Created fieldset (:subject.name)');
 
@@ -100,7 +100,7 @@ class FieldsetController extends Controller
             ->performedOn($fieldset)
             ->withProperties([
                 'icon' => 'list',
-                'link' => 'fieldsets/edit/' . $fieldset->id,
+                'link' => 'fieldsets/edit/'.$fieldset->id.'/edit',
             ])
             ->log('Updated fieldset (:subject.name)');
 

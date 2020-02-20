@@ -37,10 +37,6 @@ class ResponseResource extends JsonResource
             foreach ($fields as $field) {
                 $fieldtype                = fieldtypes()->get($field->type);
                 $resource[$field->handle] = $this->{$field->handle};
-
-                if ($fieldtype->hasRelationship()) {
-                    $resource[$field->handle.'_raw'] = $this->{$field->handle.'_raw'};
-                }
             }
         }
 

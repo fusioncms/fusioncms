@@ -84,7 +84,7 @@ class NodeController extends Controller
             ->performedOn($node)
             ->withProperties([
                 'icon' => 'anchor',
-                'link' => 'menus/'.$menu->handle.'//edit/' . $node->id,
+                'link' => 'menus/'.$menu->id.'/nodes/'.$node->id.'/edit',
             ])
             ->log('Created '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
@@ -138,7 +138,7 @@ class NodeController extends Controller
             ->performedOn($node)
             ->withProperties([
                 'icon' => 'anchor',
-                'link' => 'taxonomies/'.$menu->handle.'//edit/' . $node->id,
+                'link' => 'menus/'.$menu->id.'/nodes/'.$node->id.'/edit',
             ])
             ->log('Updated '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 

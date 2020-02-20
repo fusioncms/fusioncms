@@ -39,7 +39,7 @@ class PasswordController extends Controller
             ->performedOn($user)
             ->withProperties([
                 'icon' => 'user',
-                'link' => 'users/edit/' . $user->id,
+                'link' => 'users/'.$user->id.'/edit',
             ])
             ->log('Updated user password (:subject.name)');
 

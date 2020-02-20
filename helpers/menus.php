@@ -23,11 +23,7 @@ if (! function_exists('menu')) {
         $model = MenuModel::where('handle', $handle)->first();
 
         $add = function($node, $parent = null) use ($menu) {
-            if (is_null($parent)) {
-                $item = $menu->add($node->name, $node->url);
-            } else {
-                $item = $parent->add($node->name, $node->url);
-            }
+            $item = $menu->add($node->name, $node->url);
 
             if ($node->new_window) {
                 $item->attribute('target', '_blank');
@@ -38,12 +34,6 @@ if (! function_exists('menu')) {
                     $item->attribute($field->handle, $node->{$field->handle} ?? false);
                 }
             }
-
-            // if ($node->has('children')) {
-            //     foreach ($node->children as $child) {
-            //         $add($child, $node);
-            //     }
-            // }
         };
 
         if ($model) {

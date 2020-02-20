@@ -46,7 +46,7 @@ class NodeMoveBeforeController extends Controller
             ->performedOn($menu)
             ->withProperties([
                 'icon' => 'anchor',
-                // 'link' => 'taxonomies/'.$menu->handle.'//edit/' . $node->id,
+                'link' => 'menus/'.$menu->id.'/nodes'
             ])
             ->log('Updated '.strtolower(Str::singular($menu->name)).' menu node ordering');
     }
