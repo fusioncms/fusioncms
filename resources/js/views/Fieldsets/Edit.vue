@@ -5,11 +5,8 @@
         </portal>
 
         <div class="row">
-            <shared-form :form="form"></shared-form> 
+            <shared-form :form="form"></shared-form>
         </div>
-
-        
-        </form>
     </div>
 </template>
 
@@ -51,7 +48,7 @@
 
                     axios.post(`/api/fieldsets/${this.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully updated', 'success')
-                        
+
                         this.$router.push('/fieldsets')
                     })
                 }).catch((response) => {
@@ -63,7 +60,7 @@
                 if(this.loaded && !this.form.hasChanges) {
                     if (!_.isEqual(this.originalSections, value)) {
                         this.form.onFirstChange()
-                    }    
+                    }
                 }
             }
         },

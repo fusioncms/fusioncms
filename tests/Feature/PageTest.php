@@ -102,7 +102,7 @@ class PageTest extends TestCase
         // Set matrix' routing info..
         $this->matrix->update([
             'route'    => '{slug}',
-            'template' => 'test',
+            'template' => 'index',
         ]);
 
         // Create page record..

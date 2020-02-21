@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes(base_path('routes/web/files.php'));
         $this->mapWebRoutes(base_path('routes/web/users.php'));
 
-        // Map "api" route files
+        // // Map "api" route files
         $this->mapAPIRoutes(base_path('routes/api/api.php'));
         $this->mapAPIRoutes(base_path('routes/api/activity.php'));
         $this->mapAPIRoutes(base_path('routes/api/backups.php'));
@@ -78,6 +78,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAPIRoutes(base_path('routes/api/insights.php'));
         $this->mapAPIRoutes(base_path('routes/api/matrix.php'));
         $this->mapAPIRoutes(base_path('routes/api/mailables.php'));
+        $this->mapAPIRoutes(base_path('routes/api/menus.php'));
         $this->mapAPIRoutes(base_path('routes/api/settings.php'));
         $this->mapAPIRoutes(base_path('routes/api/taxonomy.php'));
         $this->mapAPIRoutes(base_path('routes/api/themes.php'));

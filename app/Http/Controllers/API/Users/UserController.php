@@ -24,9 +24,10 @@ class UserController extends Controller
     /**
      * Return a paginated resource of all users.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \App\Http\Resources\UserResource
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('users.show');
 
@@ -35,8 +36,7 @@ class UserController extends Controller
                 AllowedFilter::partial('role', 'roles.slug'),
                 AllowedFilter::scope('search', 'searchQuery'),
             ])
-            ->defaultSort('name')
-            ->allowedSorts(['name', 'email', 'created_at'])
+            ->allowedSorts(['id', 'name', 'email', 'created_at'])
             ->allowedIncludes('roles')
             ->paginate(
                 request()->query('perPage', 20),
@@ -97,7 +97,7 @@ class UserController extends Controller
             ->performedOn($user)
             ->withProperties([
                 'icon' => 'user',
-                'link' => 'users/edit/' . $user->id,
+                'link' => 'users/'.$user->id.'/edit',
             ])
             ->log('Created user account (:subject.name)');
 
@@ -149,7 +149,7 @@ class UserController extends Controller
             ->performedOn($user)
             ->withProperties([
                 'icon' => 'user',
-                'link' => 'users/edit/' . $user->id,
+                'link' => 'users/'.$user->id.'/edit',
             ])
             ->log('Updated user account (:subject.name)');
 

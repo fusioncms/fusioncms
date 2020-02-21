@@ -52,7 +52,7 @@ class TermController extends Controller
         $taxonomy      = Taxonomy::where('slug', $taxonomy)->firstOrFail();
         $collection    = (new Builder($taxonomy->handle))->make();
         $relationships = [];
-        
+
         $rules = [
             'name'      => 'required',
             'slug'      => 'sometimes',
@@ -65,9 +65,9 @@ class TermController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
-        $attributes              = $request->validate($rules);
+        $attributes                = $request->validate($rules);
         $attributes['taxonomy_id'] = $taxonomy->id;
 
         $term = $collection->create($attributes);
@@ -80,7 +80,7 @@ class TermController extends Controller
             ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
             ])
             ->log('Created '.Str::singular($taxonomy->name).' (:subject.name)');
 
@@ -113,7 +113,7 @@ class TermController extends Controller
             foreach ($fields as $field) {
                 $rules[$field->handle] = 'sometimes';
             }
-        }    
+        }
 
         $attributes = $request->validate($rules);
 
@@ -131,7 +131,7 @@ class TermController extends Controller
             ->performedOn($term)
             ->withProperties([
                 'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'//edit/' . $term->id,
+                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
             ])
             ->log('Updated '.Str::singular($taxonomy->name).' (:subject.name)');
 

@@ -1,5 +1,5 @@
 <template>
-    
+
     <div class="analytics card">
         <div class="card__body" v-if="isValid">
             <div class="flex flex-wrap justify-around">
@@ -15,7 +15,7 @@
                     </p-tooltip>
                     <span class="block text-3xl xl:text-5xl font-bold">{{ totalVisitors }}</span>
                 </div>
-                
+
                 <div class="w-1/2 md:w-auto">
                     <p-tooltip>
                         <template>
@@ -108,7 +108,7 @@
 
 <script>
     import moment from 'moment-timezone';
-    
+
     export default {
         data() {
             return {
@@ -151,9 +151,7 @@
 
         mounted() {
             axios.get('/api/insights/check').then((response) => {
-                this.isValid = response.data.status === 'OK'
-
-                if (this.isValid) {
+                if (response.data.status === 'OK') {
                     axios.all([
                         axios.get('/api/insights/overview'),
                     ]).then(axios.spread(function (insight) {
@@ -171,8 +169,8 @@
                         })
 
                         this.isReady = true
-                    }.bind(this)))      
-                } else {
+                    }.bind(this)))
+                } else if (response.data.status === 'failed') {
                     toast('Insights error: ' + response.data.message, 'failed')
                 }
             })

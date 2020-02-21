@@ -15,7 +15,10 @@
 									<fa-icon icon="ellipsis-v" class="handle fa-fw text-gray-400"></fa-icon>
 								</p-sortable-handle>
 							</div>
-							<div class="w-6/12">
+							<div class="h-full w-3/12 text-gray-300 flex items-center justify-center">
+				            	<fa-icon :icon="['fas', 'user']" class="fa-fw fa-2x"></fa-icon>
+				            </div>
+							<div class="gallery-text w-6/12">
 								<div>{{ item.name }}</div>
 							</div>
 							<div class="w-2/12 text-right">

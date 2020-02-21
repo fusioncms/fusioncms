@@ -1,0 +1,81 @@
+<?php
+
+/*
+ * This file is part of the FusionCMS application.
+ *
+ * (c) efelle creative <appdev@efelle.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace App\Models\Menus;
+
+use App\Models\Menu;
+use App\Models\Field;
+use App\Concerns\HasOrder;
+use App\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+class {class} extends Model
+{
+    use HasOrder;
+
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'menu_{handle}';
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+
+    protected $with = ['children'];
+
+    /**
+     * Get the Menu relationship.
+     *
+     * @return mixed
+     */
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
+
+    /**
+     * Get all of the fields for the menu.
+     *
+     * @return mixed
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->menu->fieldset->fields;
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    {relationships}
+}

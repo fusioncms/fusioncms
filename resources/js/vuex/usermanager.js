@@ -165,15 +165,15 @@ export default {
                 sort:    (state.direction === 'asc' ? '' : '-') + state.sort,
                 page:    state.currentPage,
                 perPage: state.perPage,
-                filter:  {}
+                filter: {},
             }
 
             if (state.role) {
-                params.filter.role = state.role
+                params['filter[role]'] = state.role
             }
 
             if (state.search !== '') {
-                params.filter.search = state.search
+                params['filter[search]'] = state.search
             }
 
         	axios.all([

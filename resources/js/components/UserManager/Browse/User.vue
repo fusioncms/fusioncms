@@ -7,7 +7,7 @@
             :data-selection="user.id">
 
             <div class="h-full w-full text-gray-300 flex items-center justify-center">
-            	<fa-icon :icon="['fas', 'user']" class="fa-fw fa-3x"></fa-icon>
+            	<fa-icon :icon="['fas', 'user']" class="fa-fw" :class="[ view == 'grid' ? 'fa-3x' : 'fa-2x']"></fa-icon>
             </div>
 		</div>
 

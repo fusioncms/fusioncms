@@ -42,10 +42,12 @@ select {
 }
 
 .form__checkbox {
-    @apply text-primary-500 border-2 border-gray-400 bg-white inline-block appearance-none shadow-none align-middle flex-shrink-0 mr-1;
+    @apply text-primary-500 border-2 border-gray-400 bg-white inline-block appearance-none shadow-none align-middle flex-shrink-0 cursor-pointer;
+    // mr-1
 
     &-label {
-        @apply ml-2 text-sm;
+        @apply text-sm;
+        // ml-2
     }
 
     &-container {
@@ -156,6 +158,10 @@ select {
     @apply .block .uppercase .tracking-wide .text-gray-700 .text-xs .font-bold .mb-2;
 }
 
+.form__help {
+    @apply .text-sm .text-gray-700 .italic;
+}
+
 .form__control--meta {
     @apply .text-sm .mt-1 .flex .justify-between;
 
@@ -165,10 +171,6 @@ select {
 
     .form__error--message {
         @apply .text-danger-500;
-    }
-
-    > .form__help {
-        @apply .text-gray-700 .italic;
     }
 
     > .form__password {

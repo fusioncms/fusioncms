@@ -31,13 +31,13 @@ class ImportController extends Controller
     	$this->authorize('importer.index');
 
     	$imports = Import::orderBy('name')->paginate(25);
-    	
+
     	return ImportResource::collection($imports);
     }
 
     /**
      * Display a specific resource.
-     * 
+     *
      * @param  Import $import
      * @return Resource
      */
@@ -50,7 +50,7 @@ class ImportController extends Controller
 
     /**
      * Store newly created resource in storage.
-     * 
+     *
      * @param  Request $request
      * @return ImportResource
      */
@@ -80,7 +80,7 @@ class ImportController extends Controller
     		->performedOn($import)
     		->withProperties([
     			'icon' => 'ship',
-    			'link' => 'importer/edit/' . $import->id,
+    			'link' => 'importer/'.$import->id.'/edit',
     		])
     		->log('Created import (:subject.name)');
 
@@ -89,7 +89,7 @@ class ImportController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      * @param  Request $request
      * @param  Import  $import
      * @return Resource
@@ -121,7 +121,7 @@ class ImportController extends Controller
     		->performedOn($import)
     		->withProperties([
     			'icon' => 'ship',
-    			'link' => 'importer/edit/' . $import->id,
+    			'link' => 'importer/'.$import->id.'/edit',
     		])
     		->log('Updated import (:subject.name)');
 
@@ -130,7 +130,7 @@ class ImportController extends Controller
 
     /**
      * Destroy specific resource from storage.
-     * 
+     *
      * @return Import $import
      */
     public function destroy(Import $import)
