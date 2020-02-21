@@ -62,7 +62,8 @@
         "laravel/vapor-cli": "^1.1",
         "laravel/vapor-core": "^2.0",
         "maatwebsite/excel": "^3.1",
-        "spatie/laravel-backup": "^6.7"
+        "spatie/laravel-backup": "^6.7",
+        "spatie/laravel-query-builder": "^2.7"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

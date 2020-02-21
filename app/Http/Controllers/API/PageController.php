@@ -19,7 +19,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
 use App\Http\Resources\MatrixPageResource;
 
-class MatrixPageController extends Controller
+class PageController extends Controller
 {
     /**
      * Display the specified resource.
@@ -73,7 +73,7 @@ class MatrixPageController extends Controller
 
         if (isset($matrix->fieldset)) {
             foreach ($matrix->fieldset->relationships() as $relationship) {
-                $relationship->type()->persistRelationship($page, $relationship);
+                $relationship->type()->persistRelationship($entry, $relationship);
             }
         }
 

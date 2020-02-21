@@ -57,6 +57,10 @@ class Page extends Builder implements BuilderContract
             $fields = $this->matrix->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
+                if ($fieldtype->hasRelationship()) {
+                    $this->addRelationship($field, $fieldtype);
+                }
+
                 return is_null($fieldtype->column);
             });
 
@@ -80,6 +84,7 @@ class Page extends Builder implements BuilderContract
             '{trait_classes}' => $this->getTraitImportStatements($traits),
             '{traits}'        => $this->getTraitUseStatements($traits),
             '{matrix_id}'     => $this->matrix->id,
+            '{relationships}' => $this->generateRelationships(),
         ]);
 
         File::put($path, $contents);
