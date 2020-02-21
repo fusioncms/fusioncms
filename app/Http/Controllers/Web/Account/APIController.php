@@ -16,13 +16,6 @@ use App\Http\Controllers\Controller;
 
 class APIController extends Controller
 {
-	public function __construct()
-	{
-		if (setting('api.personal_access_tokens') !== 'enabled') {
-			abort(404);
-		}
-	}
-
     /**
      * @param  Request  $request
      * @return mixed
