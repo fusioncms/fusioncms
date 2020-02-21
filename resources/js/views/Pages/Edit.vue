@@ -155,7 +155,7 @@
             return {
                 matrix: {},
                 page: {},
-                form: {},
+                form: new Form({}),
             }
         },
 

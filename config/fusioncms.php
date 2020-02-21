@@ -63,6 +63,7 @@ return [
         \App\Fieldtypes\TextareaFieldtype::class,
         \App\Fieldtypes\ToggleFieldtype::class,
         \App\Fieldtypes\USStateFieldtype::class,
+        \App\Fieldtypes\UserFieldtype::class,
 
     ],
 

@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-Route::apiResource('/pages', 'MatrixPageController');
-Route::get('/pages/{slug}', 'MatrixPageController@show');
+Route::apiResource('/pages', 'PageController');
+Route::get('/pages/{slug}', 'PageController@show');
 
 Route::apiResource('/matrices', 'MatrixController');
 Route::get('/matrices/slug/{slug}', 'MatrixController@slug');

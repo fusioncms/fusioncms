@@ -14,6 +14,7 @@ namespace App\Models;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\HasDynamicRelationships;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Concerns\MustVerifyEmail as UserMustVerifyEmail;
@@ -136,5 +137,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activity()
     {
         return $this->hasMany(config('activitylog.activity_model'), 'causer_id');
+    }
+
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchQuery(Builder $query, $value)
+    {
+        return $query
+            ->where('name', 'like', "%{$value}%")
+            ->orWhere('email', 'like', "%{$value}%");
     }
 }
