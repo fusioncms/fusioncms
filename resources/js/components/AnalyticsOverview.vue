@@ -2,6 +2,10 @@
 
     <div class="analytics card">
         <div class="card__body" v-if="isValid">
+            <div class="flex items-center justify-between mb-6">
+                <h2>Last 30 Days</h2>
+            </div>
+
             <div class="flex flex-wrap justify-around">
                 <div class="w-1/2 md:w-auto">
                     <p-tooltip>
@@ -54,45 +58,9 @@
                     <span class="block text-3xl xl:text-5xl font-bold">{{ sessionDuration }}</span>
                 </div>
             </div>
-        </div>
 
-        <p-chart
-            v-if="isValid && isReady"
-            name="stats-visitors"
-            :labels="dates"
-            type="axis-mixed"
-            :height="350"
-            :colors="['#FF5722', '#4DD0E1', '#000000']"
-            :line-options="{
-                dotSize: 4,
-                hideLine: 0,
-                hideDots: 0,
-                heatline: 0,
-                regionFill: 1
-            }"
-            :data-sets="[
-                {
-                    name: 'Visitors',
-                    chartType: 'bar',
-                    values: visitors
-                },
-                {
-                    name: 'Views',
-                    chartType: 'line',
-                    values: pageviews
-                },
-                {
-                    name: 'Bounces',
-                    chartType: 'line',
-                    values: bounceRates,
-                },
-            ]"
-            :tooltip-options="{
-                formatTooltipX: d => (d + '').toUpperCase(),
-                formatTooltipY: d => d,
-            }"
-            :axis-options="{ xIsSeries: 1 }">
-        </p-chart>
+            <apex-chart v-if="isValid && isReady" width="100%" height="350" :options="options" :series="series"></apex-chart>
+        </div>
 
         <div class="card__body text-center" v-if="isValid === false">
             <p>Configure your Google Analytic settings to gain insight about your website <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
@@ -107,14 +75,14 @@
 </template>
 
 <script>
-    import moment from 'moment-timezone';
+    import moment from 'moment-timezone'
 
     export default {
         data() {
             return {
                 isValid: null,
                 isReady: false,
-                dates: null,
+                dates: [],
                 visitors: null,
                 pageviews: null,
                 bounceRates: null,
@@ -122,6 +90,71 @@
                 bounceRate: null,
                 totalVisitors: null,
                 totalPageViews: null,
+            }
+        },
+
+        computed: {
+            options() {
+                return {
+                    chart: {
+                        id: 'analytics-overview',
+                        height: 350,
+                        stacked: false,
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: true,
+                                selection: false,
+                                zoom: false,
+                                zoomin: false,
+                                zoomout: false,
+                                pan: false,
+                                reset: false,
+                                // reset: true | '<img src="/static/icons/reset.png" width="20">',
+                                // customIcons: []
+                            },
+                            // autoSelected: 'zoom'
+                        },
+                    },
+                    colors: ['#FF5722', '#4DD0E1', '#000000'],
+                    stroke: {
+                        width: [0, 2, 5],
+                        curve: 'smooth'
+                    },
+                    fill: {
+                        opacity: [0.85, 0.25, 1],
+                        gradient: {
+                            inverseColors: false,
+                            shade: 'light',
+                            type: "vertical",
+                            opacityFrom: 0.85,
+                            opacityTo: 0.55,
+                            stops: [0, 100, 100, 100]
+                        }
+                    },
+                    markers: {
+                        size: 0
+                    },
+                    xaxis: {
+                        categories: this.dates
+                    }
+                }
+            },
+
+            series() {
+                return [
+                    {
+                        name: 'Visitors',
+                        type: 'column',
+                        data: this.visitors
+                    },
+
+                    {
+                        name: 'Pageviews',
+                        type: 'area',
+                        data: this.pageviews
+                    }
+                ]
             }
         },
 
@@ -151,7 +184,9 @@
 
         mounted() {
             axios.get('/api/insights/check').then((response) => {
-                if (response.data.status === 'OK') {
+                this.isValid = response.data.status
+
+                if (this.isValid == 'OK') {
                     axios.all([
                         axios.get('/api/insights/overview'),
                     ]).then(axios.spread(function (insight) {
@@ -170,7 +205,7 @@
 
                         this.isReady = true
                     }.bind(this)))
-                } else if (response.data.status === 'failed') {
+                } else if (this.isValid == 'failed') {
                     toast('Insights error: ' + response.data.message, 'failed')
                 }
             })

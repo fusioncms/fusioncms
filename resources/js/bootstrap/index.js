@@ -1,5 +1,6 @@
 window.Vue = require('vue')
 
+require('./apexcharts.js')
 require('./axios.js')
 require('./components.js')
 require('./fieldtypes.js')
