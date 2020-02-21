@@ -54,7 +54,7 @@ class RelationshipTest extends TestCase
     }
 
     /** @test */
-    public function user_field_will_all_relationships_through_users_pivot_table()
+    public function user_field_will_add_relationships_through_users_pivot_table()
     {
         $this->actingAs($this->admin, 'api');
 
