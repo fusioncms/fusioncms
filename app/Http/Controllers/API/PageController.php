@@ -19,7 +19,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
 use App\Http\Resources\MatrixPageResource;
 
-class MatrixPageController extends Controller
+class PageController extends Controller
 {
     /**
      * Display the specified resource.

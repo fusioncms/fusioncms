@@ -16,6 +16,8 @@ use App\Events\UserDeleted;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class UserController extends Controller
 {
@@ -28,7 +30,20 @@ class UserController extends Controller
     {
         $this->authorize('users.show');
 
-        $users = User::orderBy('last_name')->paginate(25);
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::partial('role', 'roles.slug'),
+                AllowedFilter::scope('search', 'searchQuery'),
+            ])
+            ->defaultSort('name')
+            ->allowedSorts(['name', 'email', 'created_at'])
+            ->allowedIncludes('roles')
+            ->paginate(
+                request()->query('perPage', 20),
+                ['*'],
+                'page',
+                request()->query('page', 1)
+            );
 
         return UserResource::collection($users);
     }
