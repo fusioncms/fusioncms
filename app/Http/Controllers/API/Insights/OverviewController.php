@@ -21,8 +21,6 @@ class OverviewController extends Controller
 {
     public function index()
     {
-        // $daily = Analytics::fetchTotalVisitorsAndPageViews(Period::days(30));
-
         $stats         = Analytics::performQuery(Period::days(30), 'ga:users,ga:pageviews,ga:avgSessionDuration,ga:bounceRate');
         $dailyResponse = Analytics::performQuery(Period::days(30), 'ga:users,ga:pageviews,ga:bouncerate', ['dimensions' => 'ga:date']);
         $daily         = collect($dailyResponse['rows'] ?? [])->map(function (array $row) {

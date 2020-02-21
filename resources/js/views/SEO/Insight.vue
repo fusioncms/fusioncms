@@ -24,22 +24,19 @@
 
         <div v-if="isValid">
             <div class="row">
-                <div class="col mb-6 md:w-full">
+                <div class="col mb-6 w-full">
                     <analytics-overview></analytics-overview>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col md:w-1/2">
+                <div class="col w-full md:w-1/2 mb-6">
                     <div class="card">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><h2>Popular Pages</h2></th>
-                                    <th class="text-right">Views</th>
-                                </tr>
-                            </thead>
+                        <div class="card__body">
+                            <h2>Popular Pages</h2>
+                        </div>
 
+                        <table>
                             <tbody>
                                 <tr v-for="page in popular" :key="page.url">
                                     <td>
@@ -56,16 +53,13 @@
                     </div>
                 </div>
 
-                <div class="col md:w-1/2">
+                <div class="col w-full md:w-1/2 mb-6">
                     <div class="card">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><h2>Browsers</h2></th>
-                                    <th class="text-right">Sessions</th>
-                                </tr>
-                            </thead>
+                        <div class="card__body">
+                            <h2>Browsers</h2>
+                        </div>
 
+                        <table>
                             <tbody>
                                 <tr v-for="browser in browsers" :key="browser.browser">
                                     <td>
