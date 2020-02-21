@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <apex-chart v-if="isValid && isReady" width="100%" height="350" :options="options" :series="series"></apex-chart>
+            <apex-chart v-show="isValid && isReady" width="100%" height="350" :options="options" :series="series"></apex-chart>
         </div>
 
         <div class="card__body text-center" v-if="isValid === false">
@@ -82,10 +82,10 @@
             return {
                 isValid: null,
                 isReady: false,
-                dates: [],
-                visitors: null,
-                pageviews: null,
-                bounceRates: null,
+                dates: ['loading'],
+                visitors: [0, 1, 2, 3],
+                pageviews: [0, 1, 2, 3],
+                bounceRates: [0, 1, 2, 3],
                 sessionDuration: null,
                 bounceRate: null,
                 totalVisitors: null,
@@ -96,6 +96,19 @@
         computed: {
             options() {
                 return {
+                    responsive: [{
+                        breakpoint: 640,
+                        options: {
+                            yaxis: {
+                                show: false,
+                            },
+                            xaxis: {
+                                labels: {
+                                    show: false,
+                                }
+                            }
+                        }
+                    }],
                     chart: {
                         id: 'analytics-overview',
                         height: 350,
@@ -110,16 +123,19 @@
                                 zoomout: false,
                                 pan: false,
                                 reset: false,
-                                // reset: true | '<img src="/static/icons/reset.png" width="20">',
-                                // customIcons: []
                             },
-                            // autoSelected: 'zoom'
                         },
                     },
-                    colors: ['#FF5722', '#4DD0E1', '#000000'],
+                    colors: ['#FF5722', '#4DD0E1', '#EDF2F7'],
                     stroke: {
-                        width: [0, 2, 5],
-                        curve: 'smooth'
+                        width: [0, 4, 2],
+                        curve: ['smooth', 'smooth', 'smooth']
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '33%',
+                        },
                     },
                     fill: {
                         opacity: [0.85, 0.25, 1],
@@ -136,8 +152,37 @@
                         size: 0
                     },
                     xaxis: {
-                        categories: this.dates
-                    }
+                        categories: this.dates,
+                        labels: {
+                            show: true
+                        }
+                    },
+                    yaxis: [
+                        {
+                            seriesName: 'Visitors',
+                            opposite: false,
+                            title: {
+                                text: 'Visitors',
+                            },
+                        },
+                        {
+                            seriesName: 'Pageviews',
+                            opposite: false,
+                            title: {
+                                text: 'Pageviews',
+                            },
+                        },
+                        {
+                            seriesName: 'Bounces',
+                            opposite: true,
+                            title: {
+                                text: "Bounces (percentage of visitors)",
+                            },
+                            labels: {
+                                formatter: (val) => { return val + '%' },
+                            }
+                        },
+                    ]
                 }
             },
 
@@ -153,6 +198,12 @@
                         name: 'Pageviews',
                         type: 'area',
                         data: this.pageviews
+                    },
+
+                    {
+                        name: 'Bounces',
+                        type: 'area',
+                        data: this.bounceRates
                     }
                 ]
             }
