@@ -21,16 +21,15 @@ class CheckConfigurationController extends Controller
     public function index()
     {
         try {
-            Analytics::fetchTotalVisitorsAndPageViews(Period::days(1));
+            if (! empty(setting('google_analytics.analytic_view_id')) and ! empty(setting('google_analytics.analytic_credentials'))) {
+                Analytics::fetchTotalVisitorsAndPageViews(Period::days(1));
 
-            return response()->json(['status' => 'OK']);
-        } catch (Exception $e) {
-            $error = json_decode($e->getMessage());
-
+                return response()->json(['status' => 'OK']);
+            }
+        } catch (Exception $exception) {
             return response()->json([
                 'status'  => 'failed',
-                'code'    => $error->error,
-                'message' => $error->error_description,
+                'message' => $exception->getMessage(),
             ]);
         }
     }
