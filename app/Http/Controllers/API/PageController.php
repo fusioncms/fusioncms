@@ -73,7 +73,7 @@ class PageController extends Controller
 
         if (isset($matrix->fieldset)) {
             foreach ($matrix->fieldset->relationships() as $relationship) {
-                $relationship->type()->persistRelationship($page, $relationship);
+                $relationship->type()->persistRelationship($entry, $relationship);
             }
         }
 

@@ -89,6 +89,10 @@
 			'view-action':    ViewAction,
 		},
 
+		mixins: [
+			require('../../mixins/userselector').default,
+        ],
+
 		data() {
             return {
             	requestOpen: false,
@@ -114,9 +118,9 @@
 			loading(isLoading) {
 				this.$nextTick(() => {
 					if (isLoading) {
-						// this.destroySelector()
+						this.destroySelector()
 					} else {
-						// this.loadSelector(this.$el.querySelector('.selectables'))
+						this.loadSelector(this.$el.querySelector('.selectables'))
 
 						if (this.requestOpen) {
 							this.modalOpen   = true
@@ -129,8 +133,8 @@
 
         computed: {
         	...mapGetters({
-        		loading: 'usermanager/getLoading',
-        		users:   'usermanager/getUsers',
+        		loading:       'usermanager/getLoading',
+        		users:         'usermanager/getUsers',
         	}),
 
 			selected: {
@@ -154,12 +158,11 @@
 
 		methods: {
 			...mapActions({
-				clearSelection: 'usermanager/clearSelection',
-				fetchUsers:     'usermanager/fetchUsers',
+				fetchUsers: 'usermanager/fetchUsers',
 			}),
 
 			push() {
-				_.forEach(this.selectedFiles, (id) => this.add(id))
+				_.forEach(this.selectedUsers, (id) => this.add(id))
 			},
 
 			add(id) {
