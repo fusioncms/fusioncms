@@ -70,7 +70,7 @@ class TaxonomyFieldtype extends Fieldtype
             '{related_pivot_key}' => $model->handle . '_id',
             '{related_namespace}' => $namespace,
             '{related_table}'     => $model->pivot_table,
-            '{where_clause}'      => '',
+            '{where_clause}'      => "->where('field_id', {$field->id})",
             '{order_clause}'      => '',
         ]);
     }
@@ -84,7 +84,14 @@ class TaxonomyFieldtype extends Fieldtype
      */
     public function persistRelationship($model, Field $field)
     {
-        $model->{$field->handle}()->sync(request()->input($field->handle));
+        $oldValues = $model->{$field->handle}->pluck('id');
+        $newValues = collect(request()->input($field->handle))->mapWithKeys(function($id) use ($field) {
+            return [
+                $id => ['field_id' => $field->id]];
+        });
+
+        $model->{$field->handle}()->detach($oldValues);
+        $model->{$field->handle}()->attach($newValues);
     }
 
     /**

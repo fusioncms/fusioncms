@@ -54,10 +54,15 @@ class TaxonomyObserver
 
         $this->migration->schema->create($taxonomy->pivot_table, function (Blueprint $table) use ($taxonomy) {
             $table->unsignedBigInteger($taxonomy->handle.'_id');
+            $table->unsignedBigInteger('field_id');
             $table->morphs('pivot');
 
             $table->foreign($taxonomy->handle.'_id')
                 ->references('id')->on($taxonomy->table)
+                ->onDelete('cascade');
+
+            $table->foreign('field_id')
+                ->references('id')->on('fields')
                 ->onDelete('cascade');
         });
     }

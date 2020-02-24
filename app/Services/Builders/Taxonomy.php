@@ -111,8 +111,12 @@ class Taxonomy extends Builder implements BuilderContract
 
     public function generateRelationships()
     {
-        $generated = '';
-        $morphedBy = Field::with('section.fieldset')->where('type', 'taxonomy')->where('settings->taxonomy', $this->taxonomy->id)->get();
+        $generated     = '';
+        $relationships = [];
+        $morphedBy     = Field::with('section.fieldset')
+            ->where('type', 'taxonomy')
+            ->where('settings->taxonomy', $this->taxonomy->id)
+            ->get();
 
         if ($morphedBy->isEmpty()) {
             return parent::generateRelationships();
@@ -122,16 +126,26 @@ class Taxonomy extends Builder implements BuilderContract
             $models = $this->getFieldsettables($field->section->fieldset);
 
             foreach ($models as $model) {
-                $namespace = (new \ReflectionClass($model->getBuilder()))->getName();
-                $stub      = File::get(resource_path('stubs/relationships/morphedByMany.stub'));
+                /**
+                 * Note:
+                 * Add relationship method only once
+                 *   per `$model->handle`.
+                 * 
+                 */
+                if (! in_array($model->handle, $relationships)) {
+                    array_push($relationships, $model->handle);
 
-                $contents = strtr($stub, [
-                    '{handle}'                    => $model->handle,
-                    '{related_namespace}'         => $namespace,
-                    '{related_table}'             => $model->table,
-                ]);
+                    $namespace = (new \ReflectionClass($model->getBuilder()))->getName();
+                    $stub      = File::get(resource_path('stubs/relationships/morphedByMany.stub'));
 
-                $generated .= $contents."\n\n";
+                    $contents = strtr($stub, [
+                        '{handle}'            => $model->handle,
+                        '{related_namespace}' => $namespace,
+                        '{related_table}'     => $this->taxonomy->pivot_table,
+                    ]);
+
+                    $generated .= $contents."\n\n";
+                }
             }
         }
 

@@ -10,6 +10,7 @@ use Facades\TaxonomyFactory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use App\Services\Builders\Page;
+use App\Services\Builders\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RelationshipTest extends TestCase
@@ -87,5 +88,60 @@ class RelationshipTest extends TestCase
                 'order'      => $key + 1,
             ]);
         }
+    }
+
+    /** @test */
+    public function a_user_can_add_multiple_fields_linked_to_the_same_taxonomy()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // Taxonomy with Terms..
+        $taxonomy = TaxonomyFactory::withName('Colors')->withStates(['terms'])->create();
+
+        // Fieldset..
+        $section  = SectionFactory::times(1)->withoutFields()->create();
+        $field1   = FieldFactory::withName('Primary')->withType('taxonomy')->withSection($section)->withSettings(['taxonomy' => $taxonomy->id])->create();
+        $field2   = FieldFactory::withName('Secondary')->withType('taxonomy')->withSection($section)->withSettings(['taxonomy' => $taxonomy->id])->create();
+        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
+
+        // Create page
+        $matrix = MatrixFactory::withName('Post')->asPage()->withFieldset($fieldset)->create();
+        $model  = (new Page($matrix->handle))->make();
+
+        $response = $this
+            ->json('PATCH', '/api/pages/' . $matrix->id, [
+                'matrix_id' => $matrix->id,
+                'name'      => 'matrix-page',
+                'slug'      => 'matrix-page',
+                'status'    => true,
+                'primary'   => collect($taxonomy->terms)->pluck('id')->shuffle()->take(3),
+                'secondary' => collect($taxonomy->terms)->pluck('id')->shuffle()->take(3),
+            ])->assertStatus(201);
+dd(json_decode($response->getContent()));
+        // Fetch records
+        $page      = $model->first();
+        $primary   = $page->primary->first();
+        $secondary = $page->secondary->first();
+
+        // Primary color relationship established
+        $this->assertInstanceOf('App\Models\Taxonomies\Colors', $primary);
+        $this->assertDatabaseHas('taxonomy_colors_pivot', [
+            'colors_id'  => $primary->id,
+            'field_id'   => $field1->id,
+            'pivot_id'   => $matrix->id,
+            'pivot_type' => 'App\Models\Pages\Post',
+        ]);
+
+        // Secondary color relationship established
+        $this->assertInstanceOf('App\Models\Taxonomies\Colors', $secondary);
+        $this->assertDatabaseHas('taxonomy_colors_pivot', [
+            'colors_id'  => $secondary->id,
+            'field_id'   => $field2->id,
+            'pivot_id'   => $matrix->id,
+            'pivot_type' => 'App\Models\Pages\Post',
+        ]);
+
+        // Assert relationship has been established
+        $this->assertInstanceOf('App\Models\Pages\Post', $page->primary->first()->posts->first());
     }
 }

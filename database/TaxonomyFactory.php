@@ -17,6 +17,13 @@ class TaxonomyFactory implements Factory
     protected $fieldset;
 
     /**
+     * For applying factory states..
+     * 
+     * @var array
+     */
+    protected $states;
+
+    /**
      * Create a new Taxonomy factory.
      * 
      * @return \App\Models\Taxonomy
@@ -34,7 +41,11 @@ class TaxonomyFactory implements Factory
             $this->fieldset = factory(Fieldset::class)->create();
         }
 
-        $taxonomy = factory(Taxonomy::class)->create($overrides);
+        if ($this->states) {
+            $taxonomy = factory(Taxonomy::class)->states($this->states)->create($overrides);
+        } else {
+            $taxonomy = factory(Taxonomy::class)->create($overrides);
+        }
 
         $taxonomy->attachFieldset($this->fieldset);
 
@@ -63,6 +74,19 @@ class TaxonomyFactory implements Factory
     public function withFieldset(Fieldset $fieldset)
     {
         $this->fieldset = $fieldset;
+
+        return $this;
+    }
+
+    /**
+     * Add states to Taxonomy.
+     * 
+     * @param  array  $states
+     * @return \TaxonomyFactory
+     */
+    public function withStates(array $states)
+    {
+        $this->states = $states;
 
         return $this;
     }
