@@ -1,12 +1,63 @@
-.form-input {
+.field__input,
+.field__textarea {
     @apply
         appearance-none
+        border-gray-400
+        leading-normal
+        text-gray-700
+        text-base
         bg-white
-        border-gray-300
         rounded
+        border
+        w-full
         px-3
         py-2
-        text-base
-        leading-normal
     ;
+
+    &:hover {
+        @apply
+            border-gray-500
+        ;
+    }
+
+    &--success {
+        @apply
+            border-success-500
+        ;
+
+        &:focus {
+            @apply
+                shadow-focus-success
+            ;
+        }
+
+        &:hover {
+            @apply
+                border-success-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            border-danger-500
+        ;
+
+        &:focus {
+            @apply
+                shadow-focus-danger
+            ;
+        }
+
+        &:hover {
+            @apply
+                border-danger-600
+            ;
+        }
+    }
+}
+
+.field__textarea {
+    min-height: 8em;
+    max-height: 40em;
 }

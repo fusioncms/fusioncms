@@ -77,15 +77,49 @@
 
         <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Forms</h2>
 
-        <div class="mb-6 card">
+        <div class="mb-6 card w-1/2">
             <div class="card__body">
-                <div class="form">
-                    <div class="field">
-                        <label for="name" class="field__label">Name</label>
-                        <div class="field__control">
-                            <input type="text" class="field__input" placeholder="Text input">
-                        </div>
+                <div class="field">
+                    <label for="name" class="field__label">Name</label>
+                    <div class="field__control">
+                        <input type="text" class="field__input" name="name" placeholder="Text input" value="Jean-Luc Picard">
                     </div>
+
+                    <p class="field__help">What shall we call you?</p>
+                </div>
+
+                <div class="field">
+                    <label for="username" class="field__label">Username</label>
+                    <div class="field__control">
+                        <input type="text" class="field__input field__input--success" name="username" placeholder="Text input" value="picard">
+                    </div>
+
+                    <p class="field__help">What would you like to log in with?</p>
+                    <p class="field__help field__help--success">This username is available</p>
+                </div>
+
+                <div class="field">
+                    <label for="email" class="field__label">Email</label>
+                    <div class="field__control">
+                        <input type="email" class="field__input field__input--danger" name="email" placeholder="Text input" value="make.it.so@">
+                    </div>
+
+                    <p class="field__help">Where can we contact you?</p>
+                    <p class="field__help field__help--danger">This email is invalid</p>
+                </div>
+
+                <div class="field">
+                    <label for="message" class="field__label">Message</label>
+                    <div class="field__control">
+                        <textarea name="message" class="field__textarea" placeholder="Hello universe...">You cannot explain away a wantonly immoral act because you think that it is connected to some higher purpose.</textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="message" class="field__label">
+                        <input type="checkbox" class="field__checkbox">
+                        <span class="checkbox__label">I agree to the <a href="#">terms and conditions</a> set forth by the United Federation of Planets</span>
+                    </label>
                 </div>
             </div>
         </div>

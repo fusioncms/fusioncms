@@ -1,0 +1,81 @@
+.toolbar {
+    @apply flex items-center p-3;
+
+    &__group {
+        @apply flex;
+
+        &:not(:last-child) {
+            @apply mr-3;
+        }
+
+        > .button:not(:last-child),
+        > .dropdown:not(:last-child) {
+            @apply mr-1;
+        }
+    }
+}
+
+.field {
+    &:not(:last-child) {
+        @apply
+            mb-8
+        ;
+    }
+
+    &__label {
+        @apply
+            text-gray-700
+            tracking-wide
+            leading-tight
+            items-center
+            font-bold
+            uppercase
+            text-xs
+            block
+            flex
+            mb-2
+        ;
+    }
+
+    &__control {
+        @apply
+            leading-none
+            box-border
+            clear-both
+            text-left
+            relative
+        ;
+    }
+
+    &__help {
+        @apply
+            my-2
+            text-xs
+            leading-none
+        ;
+
+        &--success {
+            @apply
+                text-success-500
+            ;
+        }
+
+        &--danger {
+            @apply
+                text-danger-500
+            ;
+        }
+    }
+}
+
+.field__input,
+.field__textarea,
+.field__checkbox {
+    @apply outline-none;
+
+    &:focus {
+        @apply
+            shadow-focus
+        ;
+    }
+}
