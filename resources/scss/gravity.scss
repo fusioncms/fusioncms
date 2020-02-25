@@ -4,14 +4,19 @@
 @tailwind base;
 @tailwind components;
 
+@import "elements/all";
+@import "forms/all";
+@import "grid/all";
+
+/**
+OLD STYLES
+---------------
+**/
+
 // Elements
-@import "elements/content";
 @import "elements/form";
 @import "elements/table";
 @import "elements/transition";
-
-// Forms
-@import "forms/forms";
 
 // Components
 @import "components/badge";
@@ -55,7 +60,6 @@
 @import "layout/content";
 @import "layout/footer";
 @import "layout/gallery";
-@import "layout/grid";
 @import "layout/header";
 @import "layout/inbox";
 @import "layout/mailables";

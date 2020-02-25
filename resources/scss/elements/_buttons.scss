@@ -6,13 +6,61 @@
         justify-start
     ;
 
+    &__group {
+        @apply
+            flex
+            flex-wrap
+            items-center
+            justify-start
+        ;
+
+        &:not(:last-child) {
+            @apply
+                mr-3
+            ;
+        }
+
+        > .button {
+            @apply
+                m-0
+            ;
+
+            &:not(:first-child) {
+                margin-left: -1px;
+            }
+        }
+
+        > .button:focus {
+            z-index: 1;
+        }
+
+        > .button:first-child {
+            @apply
+                rounded-r-none
+            ;
+        }
+
+        > .button:last-child {
+            @apply
+                rounded-l-none
+            ;
+        }
+
+        > .button:not(:first-child):not(:last-child) {
+            @apply
+                rounded-r-none
+                rounded-l-none
+            ;
+        }
+    }
+
     > .button {
         @apply
             mb-2
         ;
     }
 
-    > .button:not(:last-child) {
+    > .button:not(:last-child):not(.buttons--grouped) {
         @apply
             mr-2
         ;
@@ -30,8 +78,8 @@
         appearance-none
         border-gray-400
         cursor-pointer
+        leading-normal
         justify-start
-        leading-tight
         text-gray-700
         no-underline
         items-center
@@ -39,8 +87,8 @@
         bg-white
         rounded
         border
-        py-2
         px-3
+        py-2
     ;
 
     &:hover:not([disabled]) {
@@ -53,7 +101,7 @@
     &:focus {
         @apply
             outline-none
-            shadow-md
+            shadow-focus
         ;
     }
 
@@ -94,6 +142,12 @@
                 bg-brand-600
             ;
         }
+
+        &:focus {
+            @apply
+                shadow-focus
+            ;
+        }
     }
 
     &--primary {
@@ -116,6 +170,12 @@
         &:hover:not([disabled]) {
             @apply
                 bg-success-600
+            ;
+        }
+
+        &:focus {
+            @apply
+                shadow-focus-success
             ;
         }
     }
@@ -152,6 +212,12 @@
         &:hover:not([disabled]) {
             @apply
                 bg-danger-600
+            ;
+        }
+
+        &:focus {
+            @apply
+                shadow-focus-danger
             ;
         }
     }

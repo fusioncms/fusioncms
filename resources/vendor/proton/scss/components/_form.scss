@@ -1,0 +1,129 @@
+input, select, textarea {
+    &.form__control {
+        @apply .appearance-none .block .w-full .bg-grey-lighter .text-grey-darker .border .border-grey-light .rounded .px-3 .py-2 .leading-loose;
+
+        &:focus {
+            @apply .outline-none .shadow .bg-white;
+        }
+
+        &.form__error {
+            @apply .border-red-lighter .border-2;
+        }
+    }
+}
+
+select {
+    &.form__control {
+        @apply .pr-8;
+    }
+}
+
+.form__radio-group,
+.form__checkbox-group {
+    &--inline {
+        @apply .inline-flex;
+    }
+}
+
+.form__radio-container,
+.form__checkbox-container {
+    @apply .flex .items-center;
+
+    :hover {
+        @apply .cursor-pointer;
+    }
+
+    label {
+        @apply .mr-8;
+    }
+
+    .form__radio {
+        @apply .align-middle .appearance-none .mr-1;
+
+        &:focus {
+            @apply .outline-none;
+        }
+
+        &:after {
+            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-grey-light .bg-white .shadow;
+            content: '';
+       }
+
+        &:checked::after {
+            @apply .relative .inline-flex .visible .w-4 .h-4 .rounded-full .border-2 .border-grey-darkest .bg-black .shadow;
+            content: '';
+       }
+    }
+
+    .form__checkbox {
+        @apply .align-middle .appearance-none .mr-1;
+
+        &:focus {
+            @apply .outline-none;
+        }
+
+        &:after {
+            @apply .relative .inline-flex .visible .w-4 .h-4 .border-2 .border-grey-light .bg-white .shadow;
+            content: '';
+       }
+
+        &:checked::after {
+            @apply .relative .inline-flex .visible .w-4 .h-4 .border-2 .border-grey-darkest .bg-black .shadow;
+            content: '';
+       }
+    }
+}
+
+.form__label {
+    @apply .block .uppercase .tracking-wide .text-grey-darker .text-xs .font-bold .mb-2;
+}
+
+.form__control--meta {
+    @apply .text-sm .mb-3 .mt-1 .flex .justify-between;
+
+    span {
+        @apply .block;
+    }
+
+    .form__error--message {
+        @apply .text-red;
+    }
+
+    > .form__help {
+        @apply .text-grey-darker .italic;
+    }
+
+    > .form__password {
+        @apply .ml-2 .flex-none;
+    }
+}
+
+.form__group,
+.form__radio-group,
+.form__checkbox-group {
+    @apply .flex .flex-wrap .items-center .w-full .mb-6 .border-0;
+}
+
+.input__group {
+    @apply .flex .flex-wrap .items-stretch .w-full .mb-6 .relative;
+
+    > .form__control {
+        @apply .flex-shrink .flex-grow .flex-auto .w-px .flex-1 .rounded-r-none .relative;
+
+        &:focus {
+            @apply .border-r-0;
+        }
+    }   
+}
+
+.input__group--append {
+    @apply .flex .-mr-px;
+
+    > .button {
+        @apply .flex .items-center .rounded .rounded-l-none .whitespace-no-wrap .shadow-none .bg-grey-light .text-grey-darker;
+
+        &:focus {
+            @apply .outline-none .shadow .bg-white;
+        }
+    }
+}

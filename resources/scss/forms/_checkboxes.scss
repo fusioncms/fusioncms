@@ -5,6 +5,7 @@
         cursor-pointer
         flex-shrink-0
         inline-block
+        outline-none
         rounded-sm
         bg-white
         border
@@ -18,6 +19,12 @@
     &:hover {
         @apply
             border-gray-500
+        ;
+    }
+
+    &:focus {
+        @apply
+            shadow-focus
         ;
     }
 
@@ -38,7 +45,7 @@
     @apply
         text-gray-700
         tracking-wide
-        leading-none
+        leading-snug
         normal-case
         font-normal
         text-sm

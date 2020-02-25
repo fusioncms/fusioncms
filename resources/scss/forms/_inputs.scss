@@ -5,6 +5,7 @@
         border-gray-400
         leading-normal
         text-gray-700
+        outline-none
         text-base
         bg-white
         rounded
@@ -17,6 +18,12 @@
     &:hover {
         @apply
             border-gray-500
+        ;
+    }
+
+    &:focus {
+        @apply
+            shadow-focus
         ;
     }
 

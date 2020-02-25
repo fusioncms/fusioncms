@@ -1,16 +1,43 @@
 .toolbar {
-    @apply flex items-center p-3;
+    @apply
+        items-center
+        flex
+    ;
+
+    &:not(:last-child) {
+        @apply
+            mb-3
+        ;
+    }
 
     &__group {
-        @apply flex;
+        @apply
+            flex
+        ;
+
+        &--grow {
+            @apply
+                flex-1
+            ;
+        }
 
         &:not(:last-child) {
-            @apply mr-3;
+            @apply
+                mr-3
+            ;
         }
 
         > .button:not(:last-child),
         > .dropdown:not(:last-child) {
-            @apply mr-1;
+            @apply
+                mr-1
+            ;
+        }
+
+        >.buttons:last-child {
+            @apply
+                mb-0
+            ;
         }
     }
 }
@@ -33,8 +60,25 @@
             text-xs
             block
             flex
+            flex-initial
             mb-2
         ;
+
+        &--wrapped {
+            @apply
+                cursor-pointer
+                rounded
+                border
+                p-2
+            ;
+
+            &:hover {
+                @apply
+                    border-gray-400
+                    bg-gray-100
+                ;
+            }
+        }
     }
 
     &__control {
@@ -44,6 +88,7 @@
             clear-both
             text-left
             relative
+            w-full
         ;
     }
 
@@ -65,17 +110,5 @@
                 text-danger-500
             ;
         }
-    }
-}
-
-.field__input,
-.field__textarea,
-.field__checkbox {
-    @apply outline-none;
-
-    &:focus {
-        @apply
-            shadow-focus
-        ;
     }
 }

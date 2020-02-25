@@ -3,7 +3,7 @@ import store from './vuex'
 import Vue from 'vue'
 import VueMq from 'vue-mq'
 import VueHead from 'vue-head'
-import Proton from '@proton-ui/proton'
+import Proton from '../vendor/proton'
 import forms from './mixins/forms'
 
 export default class Fusion {
