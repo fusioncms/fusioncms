@@ -496,6 +496,16 @@ const router = new Router({
         },
 
         {
+            path: '/styleguide',
+            component: () => import('../views/Styleguide'),
+            name: 'styleguide',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',

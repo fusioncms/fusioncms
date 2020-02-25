@@ -5,11 +5,13 @@
 @tailwind components;
 
 // Elements
-@import "elements/button";
 @import "elements/content";
 @import "elements/form";
 @import "elements/table";
 @import "elements/transition";
+
+// Forms
+@import "forms/forms";
 
 // Components
 @import "components/badge";

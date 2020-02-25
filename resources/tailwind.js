@@ -64,6 +64,18 @@ module.exports = {
                 900: 'rgba(35, 42, 60, 0.9)',
             },
 
+            'brand': {
+                100: '#FFEEE9',
+                200: '#FFD5C8',
+                300: '#FFBCA7',
+                400: '#FF8964',
+                500: '#FF5722',
+                600: '#E64E1F',
+                700: '#993414',
+                800: '#73270F',
+                900: '#4D1A0A',
+            },
+
             'primary': {
                 100: '#FFEEE9',
                 200: '#FFD5C8',
@@ -92,7 +104,7 @@ module.exports = {
             'info': colors.blue,
             'success': colors.green,
             'warning': colors.yellow,
-            'danger': colors.purple,
+            'danger': colors.red,
         },
 
         extend: {

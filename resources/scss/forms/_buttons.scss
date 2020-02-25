@@ -1,0 +1,158 @@
+.buttons {
+    @apply
+        flex
+        flex-wrap
+        items-center
+        justify-start
+    ;
+
+    > .button {
+        @apply
+            mb-2
+        ;
+    }
+
+    > .button:not(:last-child) {
+        @apply
+            mr-2
+        ;
+    }
+
+    &:last-child {
+        @apply
+            -mb-2
+        ;
+    }
+}
+
+.button {
+    @apply
+        appearance-none
+        border-gray-400
+        cursor-pointer
+        justify-start
+        leading-tight
+        text-gray-700
+        no-underline
+        items-center
+        inline-flex
+        bg-white
+        rounded
+        border
+        py-2
+        px-3
+    ;
+
+    &:hover:not([disabled]) {
+        @apply
+            bg-gray-200
+            text-black
+        ;
+    }
+
+    &:focus {
+        @apply
+            outline-none
+            shadow-md
+        ;
+    }
+
+    &[disabled] {
+        @apply
+            cursor-not-allowed
+            opacity-50
+        ;
+    }
+
+    &--small {
+        @apply
+            text-xs
+        ;
+    }
+
+    &--large {
+        @apply
+            text-lg
+        ;
+    }
+
+    &--brand, &--primary, &--secondary, &--info, &--success, &--warning, &--danger,
+    &--brand:hover:not([disabled]), &--primary:hover:not([disabled]), &--secondary:hover:not([disabled]), &--info:hover:not([disabled]), &--success:hover:not([disabled]), &--warning:hover:not([disabled]), &--danger:hover:not([disabled]) {
+        @apply
+            text-white
+            border-0
+        ;
+    }
+
+    &--brand {
+        @apply
+            bg-brand-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-brand-600
+            ;
+        }
+    }
+
+    &--primary {
+        @apply
+            bg-gray-900
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-gray-800
+            ;
+        }
+    }
+
+    &--success {
+        @apply
+            bg-success-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-success-600
+            ;
+        }
+    }
+
+    &--info {
+        @apply
+            bg-info-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-info-600
+            ;
+        }
+    }
+
+    &--warning {
+        @apply
+            bg-warning-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-warning-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            bg-danger-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-danger-600
+            ;
+        }
+    }
+}

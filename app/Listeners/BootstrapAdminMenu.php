@@ -186,9 +186,9 @@ class BootstrapAdminMenu
                 'to' => '/permissions',
             ]);
 
-            $menu->add('Playground')->data([
-                'to'   => '/playground',
-                'icon' => 'robot',
+            $menu->add('Styleguide')->data([
+                'to'   => '/styleguide',
+                'icon' => 'swatchbook',
             ]);
         });
     }

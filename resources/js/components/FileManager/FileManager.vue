@@ -5,30 +5,36 @@
         <div class="row">
             <div class="content-container">
                 <div class="card">
-                    <div class="flex items-center justify-between px-3 pt-2">
-                        <ul>
-                            <li class="inline-flex mr-2">
-                                <p-button class="rounded-r-none" theme="primary" @click="$refs.uploader.openDZ()"><fa-icon :icon="['fas', 'upload']"></fa-icon></p-button>
-                                <p-button class="rounded-l-none" v-modal:new-folder><fa-icon :icon="['fas', 'folder-plus']"></fa-icon></p-button>
-                            </li>
-                        </ul>
-                        <ul class="flex w-full">
-                            <li class="mr-2 w-full"><search-action></search-action></li>
-                        </ul>
-                        <ul class="flex">
-                            <li class="mr-2"><display-action></display-action></li>
-                            <li class="mr-2"><sort-action></sort-action></li>
-                            <li class="mr-2"><control-action></control-action></li>
-                            <li class="mr-2"><view-action></view-action></li>
-                        </ul>
+                    <div class="toolbar bg-danger-300">
+                        <div class="toolbar__group">
+                            <p-button @click="$refs.uploader.openDZ()"><fa-icon :icon="['fas', 'upload']" class="fa-fw md:mr-2"></fa-icon> <span class="hidden md:inline">Upload</span></p-button>
+                            <p-button v-modal:new-folder><fa-icon :icon="['fas', 'folder-plus']" class="fa-fw md:mr-2"></fa-icon> <span class="hidden md:inline">New Folder</span></p-button>
+                        </div>
+
+                        <div class="toolbar__group flex-1">
+                            <search-action class="w-full"></search-action>
+                        </div>
+
+                        <div class="toolbar__group">
+                            <display-action></display-action>
+                            <sort-action></sort-action>
+                        </div>
+
+                        <div class="toolbar__group">
+                            <control-action></control-action>
+                        </div>
+
+                        <div class="toolbar__group">
+                            <view-action></view-action>
+                        </div>
                     </div>
 
-                    <div class="flex items-center border-b border-gray-200 px-3 py-2">
+                    <div class="flex items-center border-b border-gray-200 p-3">
                         <breadcrumb-action></breadcrumb-action>
                     </div>
 
-                    <file-browser></file-browser>
-                    <file-paginator></file-paginator>
+                    <!-- <file-browser></file-browser>
+                    <file-paginator></file-paginator> -->
                 </div>
             </div>
         </div>

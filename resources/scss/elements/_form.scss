@@ -1,7 +1,7 @@
 .form__control {
         @apply .appearance-none .block .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded py-2 px-3 .leading-tight;
 
-        min-height: 42px;
+        max-height: 38px;
 
         &--sm {
             @apply py-1 px-1 text-xs;
