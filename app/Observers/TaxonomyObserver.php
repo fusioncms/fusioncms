@@ -41,9 +41,9 @@ class TaxonomyObserver
     public function created(Taxonomy $taxonomy)
     {
         $this->migration->schema->create($taxonomy->table, function (Blueprint $table) use ($taxonomy) {
-            $table->increments('id');
-            $table->integer('taxonomy_id')->unsigned();
-            $table->unsignedInteger('parent_id')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('taxonomy_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
 
             $table->string('name');
             $table->string('slug')->nullable();
@@ -53,8 +53,17 @@ class TaxonomyObserver
         });
 
         $this->migration->schema->create($taxonomy->pivot_table, function (Blueprint $table) use ($taxonomy) {
-            $table->integer($taxonomy->handle.'_id')->unsigned();
+            $table->unsignedBigInteger($taxonomy->handle.'_id');
+            $table->unsignedBigInteger('field_id');
             $table->morphs('pivot');
+
+            $table->foreign($taxonomy->handle.'_id')
+                ->references('id')->on($taxonomy->table)
+                ->onDelete('cascade');
+
+            $table->foreign('field_id')
+                ->references('id')->on('fields')
+                ->onDelete('cascade');
         });
     }
 
