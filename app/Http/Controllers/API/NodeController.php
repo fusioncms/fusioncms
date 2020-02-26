@@ -77,7 +77,7 @@ class NodeController extends Controller
         $node = $model->create($attributes);
 
         foreach ($relationships as $relationship) {
-            $node->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($node, $relationship);
         }
 
         activity()
@@ -131,7 +131,7 @@ class NodeController extends Controller
         $node->update($attributes);
 
         foreach ($relationships as $relationship) {
-            $node->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($node, $relationship);
         }
 
         activity()

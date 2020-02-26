@@ -74,7 +74,7 @@ class ResponseController extends Controller
         $response = $collection->create($attributes);
 
         foreach ($relationships as $relationship) {
-            $response->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($response, $relationship);
         }
 
         activity()
@@ -125,7 +125,7 @@ class ResponseController extends Controller
         $response->update($attributes);
 
         foreach ($relationships as $relationship) {
-            $response->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($response, $relationship);
         }
 
         activity()
