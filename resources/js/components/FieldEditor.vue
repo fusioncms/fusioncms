@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <p-modal name="edit-field" title="Edit Field" noCloseButton noEscClose noOutsideClose extra-large>
         <div class="row mb-6">
             <div class="col w-1/2">
                 <p-input 
                     name="value-name" 
                     label="Name"
                     required
-                    v-model="value.name">
+                    v-model="form.name">
                 </p-input>
             </div>
 
@@ -17,82 +17,66 @@
                     autocomplete="off"
                     required
                     delimiter="_"
-                    :watch="value.name"
-                    v-model="value.handle"
-                    :errorMessage="handleError">
+                    :watch="form.name"
+                    v-model="form.handle">
                 </p-slug>
             </div>
         </div>
 
         <div class="row mb-6">
             <div class="col w-full">
-                <redactor name="field-help" label="Help Instructions" v-model="value.help"></redactor>
+                <redactor name="field-help" label="Help Instructions" v-model="form.help"></redactor>
             </div>
         </div>
 
         <div class="row">
             <div class="col w-full">
-                <p-input name="validation" label="Validation Rules" v-model="value.validation" monospaced></p-input>
+                <p-input name="validation" label="Validation Rules" v-model="form.validation" monospaced></p-input>
             </div>
         </div>
 
         <hr>
 
-        <component v-if="value.type" :is="value.type.id + '-fieldtype-settings'" v-model="value.settings"></component>
-    </div>
+        <component v-if="form.type" :is="form.type.id + '-fieldtype-settings'" v-model="form.settings"></component>
+   
+        <template slot="footer">
+            <p-button class="ml-2" @click="cancel" v-modal:edit-field>Cancel</p-button>
+            <p-button theme="primary" class="ml-2" @click="submit">Save</p-button>
+        </template>
+   </p-modal>
 </template>
 
 <script>
+    import Form from '../forms/Form'
+
     export default {
         name: 'field-editor',
 
         props: {
-            value: Object,
-            fieldHandles: {
-                type: Array,
-                default: function() { return [] }
-            }
-        },
-
-        data() {
-            return {
-                errors: {
-                    'duplicateHandleError': false,
-                    'emptyHandleError': false
-                }
+            value: {
+                type: Object,
+                required: true
             }
         },
 
         computed: {
-            handleError() {
-                if (this.errors.duplicateHandleError) {
-                    return 'The handle field must be unique'
-                } else if (this.errors.emptyHandleError) {
-                    return 'The handle field cannot be empty'
-                }
-                return ''
+            form() {
+                return new Form(this.value)
             }
         },
-
-        watch: {
-            value: {
-                deep: true,
-                handler() {
-                    this.errors.duplicateHandleError = this.fieldHandles.includes(this.value.handle)
-                    this.errors.emptyHandleError = (this.value.handle == '' || !this.value.handle)
-
-                    if(Array.isArray(this.value.settings)) {
-                        this.value.settings = {}
-                    }
-                }
+        
+        methods: {
+            cancel() {
+                this.$emit('input', {})
             },
 
-            errors: {
-                deep: true,
-                handler(val) {
-                    this.value.has_errors = _.includes(this.errors, true)
-                }
+            submit() {
+                this.form.post('/api/fields/validate').then(response => {
+                    console.log(response)
+                }).catch((response) => {
+                    console.log(response)
+                })
             }
-        },
+        }
     }
 </script>

@@ -46,33 +46,27 @@
             </div>
         </div>
 
-        <p-modal name="add-field" title="Add Field" extra-large>
-            <div class="row -mb-6">
-                <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="'add-' + fieldtype.handle">
-                    <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field>
-                        <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
-                    </p-button>
+        <portal to="modals">
+            <p-modal name="add-field" title="Add Field" extra-large>
+                <div class="row -mb-6">
+                    <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="'add-' + fieldtype.handle">
+                        <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field>
+                            <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
+                        </p-button>
+                    </div>
                 </div>
-            </div>
 
-            <template slot="footer">
-                <p-button v-modal:add-field>Close</p-button>
-            </template>
-        </p-modal>
+                <template slot="footer">
+                    <p-button v-modal:add-field>Close</p-button>
+                </template>
+            </p-modal>
 
-        <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="tempField" :fieldHandles="sectionFieldHandles"></field-editor>
-            <template slot="footer">
-                <p-button class="ml-2" v-modal:edit-field>Cancel</p-button>
-                <p-button class="button--primary" v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
-            </template>
-        </p-modal>
+            <field-editor v-model="tempField" @cancel="cancel" @save="save"></field-editor>
+        </portal>
     </div>
 </template>
 
 <script>
-    import _ from 'lodash'
-
     export default {
         name: 'field-builder',
 
@@ -83,7 +77,8 @@
                 fieldtypes: {},
                 active: null,
                 fields: [],
-                tempField: {}
+                tempField: {},
+                tempFieldOpen: false
             }
         },
 
@@ -107,14 +102,14 @@
                 }
             },
 
-            sectionFieldHandles() {
-                if(this.field.handle) {
-                    let handles = _.pull(this.fieldHandles, this.field.handle)
-                    return handles
-                }
+            // sectionFieldHandles() {
+            //     if(this.field.handle) {
+            //         let handles = _.pull(this.fieldHandles, this.field.handle)
+            //         return handles
+            //     }
 
-                return this.fieldHandles
-            },
+            //     return this.fieldHandles
+            // },
 
             total() {
                 return (this.fields.length + 1)
@@ -126,16 +121,28 @@
                 this.$emit('input', value)
             },
 
-            value(value) {
-                if (value.length) {
-                    this.fields = value
-                }
-            },
+            // value(value) {
+            //     if (value.length) {
+            //         this.fields = value
+            //     }
+            // },
         },
 
         methods: {
             add(fieldtype, additional = {}) {
-                let field = {
+                // let field = {
+                //     type: fieldtype,
+                //     name: additional.name || 'Field ' + this.total,
+                //     handle: additional.handle || this.getUniqueHandle('field_' + this.total),
+                //     help: additional.help || '',
+                //     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
+                //     order: this.fields.length
+                // }
+
+                // this.fields.push(field)
+                // this.active = field.handle
+
+                this.tempField = {
                     type: fieldtype,
                     name: additional.name || 'Field ' + this.total,
                     handle: additional.handle || this.getUniqueHandle('field_' + this.total),
@@ -143,11 +150,6 @@
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
                     order: this.fields.length
                 }
-
-                this.fields.push(field)
-                this.active = field.handle
-
-                this.tempField = _.cloneDeep(this.field, true)
             },
 
             remove(index) {
@@ -155,8 +157,7 @@
             },
 
             edit(index) {
-                this.active = this.fields[index].handle
-
+                this.active    = this.fields[index].handle
                 this.tempField = _.cloneDeep(this.field, true)
             },
 
@@ -164,6 +165,11 @@
                 let index = _.findIndex(this.fields, (old_field) => {
                     return old_field.handle == this.field.handle})
                 this.fields.splice(index, 1, this.tempField)
+
+            },
+
+            cancel() {
+                this.tempField = {}
             },
 
             getUniqueHandle(handle) {

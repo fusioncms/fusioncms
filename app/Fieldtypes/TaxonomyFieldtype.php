@@ -39,7 +39,7 @@ class TaxonomyFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        // 
+        'taxonomy' => null
     ];
 
     /**

@@ -12,5 +12,6 @@
 Route::apiResource('/fieldsets', 'FieldsetController');
 Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController');
 
+Route::post('/fields/validate', 'FieldController@valid');
 Route::patch('/fields/reorder', 'FieldController@reorder');
 Route::apiResource('fields', 'FieldController');

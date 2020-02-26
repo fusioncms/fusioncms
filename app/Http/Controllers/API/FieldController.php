@@ -121,6 +121,11 @@ class FieldController extends Controller
         });
     }
 
+    public function valid(Request $request)
+    {
+        dd($request->all());
+    }
+
     /**
      * Remove the specified resource from storage.
      *
