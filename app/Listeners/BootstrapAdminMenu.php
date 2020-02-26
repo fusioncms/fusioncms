@@ -185,11 +185,6 @@ class BootstrapAdminMenu
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
             ]);
-
-            $menu->add('Playground')->data([
-                'to'   => '/playground',
-                'icon' => 'robot',
-            ]);
         });
     }
 }

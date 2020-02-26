@@ -406,16 +406,6 @@ const router = new Router({
         },
 
         {
-            path: '/playground',
-            component: () => import('../views/Playground'),
-            name: 'playground',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin'
-            }
-        },
-
-        {
             path: '/importer',
             component: () => import('../views/Importer/Index'),
             name: 'importer',
