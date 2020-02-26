@@ -1,11 +1,11 @@
 <template>
     <div>
         <p-select
-            name="settings.taxonomy"
+            name="value.taxonomy"
             label="Taxonomy"
             help="The taxonomy from which to show terms."
             autocomplete="off"
-            v-model="settings.taxonomy"
+            v-model="value.taxonomy"
             :options="taxonomies"
         >
         </p-select>
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-    // import fieldtype from '../../mixins/fieldtype'
+    import fieldtype from '../../mixins/fieldtype'
 
     export default {
         name: 'taxonomy-fieldtype-settings',
 
-        // mixins: [fieldtype],
+        mixins: [fieldtype],
 
         props: {
             value: {
@@ -39,18 +39,6 @@
                         value: 1,
                     }
                 ],
-            }
-        },
-
-        computed: {
-            settings: {
-                get() { 
-                    return this.value
-                },
-
-                set(value) {
-                    this.$emit('input', value)
-                }
             }
         },
 
