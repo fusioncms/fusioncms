@@ -62,6 +62,10 @@ class Taxonomy extends Builder implements BuilderContract
             $fields    = $this->taxonomy->fieldset->fields->reject(function ($field) {
                 $fieldtype = fieldtypes()->get($field->type);
 
+                if ($fieldtype->hasRelationship()) {
+                    $this->addRelationship($field, $fieldtype);
+                }
+
                 return is_null($fieldtype->column);
             });
 
