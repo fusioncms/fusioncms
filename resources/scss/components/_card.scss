@@ -1,23 +1,23 @@
 .card {
     @apply rounded shadow bg-white relative border border-gray-100;
 
-    &__body {
-        @apply p-6;
+    &:not(:last-child) {
+        @apply
+            mb-6
+        ;
     }
 
-    &--primary {
-        @apply rounded shadow bg-primary-500;
-
-        > p {
-            @apply text-white;
-        }
+    &__body {
+        @apply
+            p-6
+        ;
     }
 
     &--dark {
-        @apply rounded shadow bg-black text-white;
+        @apply rounded shadow bg-gray-900 text-gray-100;
 
         > p {
-            @apply text-white;
+            @apply text-gray-100;
         }
     }
 }

@@ -1,29 +1,103 @@
 .dropdown {
-    @apply .relative;
-}
+    @apply
+        inline-flex
+        align-top
+        relative
+    ;
 
-.dropdown__button {
-    @apply inline-flex items-center cursor-pointer py-2 px-3 rounded text-sm no-underline bg-white border border-gray-400 text-gray-700 appearance-none leading-tight;
+    &__menu {
+        @apply
+            border-gray-200
+            bg-white
+            absolute
+            rounded
+            border
+            shadow
+            z-20
+        ;
 
-    // min-height: 42px;
-
-    &:hover {
-        @apply .bg-gray-200 .text-black;
+        min-width: 10rem;
+        max-width: 18rem;
     }
 
-    &:focus {
-        @apply .outline-none .shadow-md;
+    &__item,
+    &__link {
+        @apply
+            text-left
+            w-full
+            block
+            py-2
+            px-4
+        ;
+    }
+
+    &__icon,
+    &__image {
+        @apply
+            mr-4
+        ;
+    }
+
+    &__icon {
+        @apply
+            text-center
+            w-5
+        ;
+    }
+
+    &__link {
+        @apply
+            text-gray-700
+            items-center
+            flex
+        ;
+
+        &:hover {
+            @apply
+                text-gray-800
+                bg-gray-200
+            ;
+        }
+    }
+
+    &__divider {
+        @apply
+            bg-gray-300
+            border-none
+            block
+            m-0
+        ;
+
+        height: 1px;
     }
 }
 
-.dropdown__options {
-    @apply bg-white w-full shadow border rounded z-50 flex flex-col shadow-md;
-}
+// .dropdown {
+//     @apply .relative;
+// }
 
-.dropdown__item {
-    @apply .no-underline .block .px-4 .py-2 .text-gray-800 .bg-white .text-sm .rounded;
+// .dropdown__button {
+//     @apply inline-flex items-center cursor-pointer py-2 px-3 rounded text-sm no-underline bg-white border border-gray-400 text-gray-700 appearance-none leading-tight;
 
-    &:hover {
-        @apply .text-black .bg-gray-100 .cursor-pointer;
-    }
-}
+//     // min-height: 42px;
+
+//     &:hover {
+//         @apply .bg-gray-200 .text-black;
+//     }
+
+//     &:focus {
+//         @apply .outline-none .shadow-md;
+//     }
+// }
+
+// .dropdown__options {
+//     @apply bg-white w-full shadow border rounded z-50 flex flex-col shadow-md;
+// }
+
+// .dropdown__item {
+//     @apply .no-underline .block .px-4 .py-2 .text-gray-800 .bg-white .text-sm .rounded;
+
+//     &:hover {
+//         @apply .text-black .bg-gray-100 .cursor-pointer;
+//     }
+// }

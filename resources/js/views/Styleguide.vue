@@ -146,37 +146,219 @@
                     <div class="card__body">
                         <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Toolbars</h2>
 
+                        <div class="toolbar">
+                            <div class="toolbar__group">
+                                <div class="buttons">
+                                    <div class="buttons__group">
+                                        <button class="button">
+                                            <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
+                                            <span class="hidden md:inline">Button</span>
+                                        </button>
 
-                            <div class="toolbar">
-                                <div class="toolbar__group">
-                                    <div class="buttons">
-                                        <div class="buttons__group">
-                                            <button class="button">
-                                                <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
-                                                <span class="hidden md:inline">Button</span>
-                                            </button>
+                                        <button class="button">
+                                            <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
+                                            <span class="hidden md:inline">Button</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                                            <button class="button">
-                                                <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
-                                                <span class="hidden md:inline">Button</span>
-                                            </button>
+                            <div class="toolbar__group toolbar__group--grow">
+                                <div class="field__control">
+                                    <input type="text" class="field__input" name="search" placeholder="Search for...">
+                                </div>
+                            </div>
+
+                            <div class="toolbar__group">
+                                <button class="button">
+                                    <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
+                                    <span class="hidden md:inline">Button</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Dropdowns</h2>
+
+                        <div class="flex flex-wrap">
+                            <renderless-dropdown class="mr-3 mb-3">
+                                <div slot-scope="props">
+                                    <button class="button" @click="props.toggle()" data-reference><fa-icon icon="bars" class="fa-fw"></fa-icon> a</button>
+
+                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="cog"></fa-icon>
+
+                                            Settings
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="credit-card"></fa-icon>
+
+                                            Billing
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="moon"></fa-icon>
+
+                                            Switch to Dark Mode
+                                        </a>
+
+                                        <hr class="dropdown__divider">
+
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="sign-out-alt"></fa-icon>
+
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </renderless-dropdown>
+
+                            <renderless-dropdown class="mr-3 mb-3">
+                                <div slot-scope="props">
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Content <fa-icon icon="angle-down" class="fa-fw"></fa-icon></button>
+
+                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <div class="dropdown__item">
+                                            <p>You can insert <strong>any type of content</strong> within the dropdown menu.</p>
+                                        </div>
+
+                                        <hr class="dropdown__divider">
+
+                                        <div class="dropdown__item">
+                                            <p>You simply need to use a <code>&lt;div&gt;</code> instead.</p>
                                         </div>
                                     </div>
                                 </div>
+                            </renderless-dropdown>
 
-                                <div class="toolbar__group toolbar__group--grow">
-                                    <div class="field__control">
-                                        <input type="text" class="field__input" name="search" placeholder="Search for...">
+                            <renderless-dropdown class="mr-3 mb-3">
+                                <div slot-scope="props">
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Links</button>
+
+                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <a href="#" class="dropdown__link">
+                                            This is a regular link
+                                        </a>
+
+                                        <router-link to="/" class="dropdown__link">
+                                            This is a router link
+                                        </router-link>
+
+                                        <hr class="dropdown__divider">
+
+                                        <a href="#" class="dropdown__link link--danger">
+                                            Logout
+                                        </a>
                                     </div>
                                 </div>
+                            </renderless-dropdown>
 
-                                <div class="toolbar__group">
-                                    <button class="button">
-                                        <fa-icon :icon="['fas', 'star']" class="fa-fw md:mr-2"></fa-icon>
-                                        <span class="hidden md:inline">Button</span>
-                                    </button>
+                            <renderless-dropdown class="mr-3 mb-3">
+                                <div slot-scope="props">
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Icons</button>
+
+                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+
+                                            One
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+
+                                            Two
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+
+                                            Three
+                                        </a>
+                                    </div>
+                                </div>
+                            </renderless-dropdown>
+
+                            <renderless-dropdown class="mr-3 mb-3">
+                                <div slot-scope="props">
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Images</button>
+
+                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <a href="#" class="dropdown__link">
+                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+
+                                            This is an image
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+
+                                            This is an image
+                                        </a>
+
+                                        <a href="#" class="dropdown__link">
+                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+
+                                            This is an image
+                                        </a>
+                                    </div>
+                                </div>
+                            </renderless-dropdown>
+
+
+                            <div class="buttons">
+                                <div class="buttons__group">
+                                    <renderless-dropdown>
+                                        <div slot-scope="props" class="dropdown">
+                                            <button class="button" @click="props.toggle()" data-reference>Dropdown One <fa-icon icon="caret-down" class="fa-fw"></fa-icon></button>
+
+                                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                                <a href="#" class="dropdown__link">
+                                                    This is a regular link
+                                                </a>
+
+                                                <router-link to="/" class="dropdown__link">
+                                                    This is a router link
+                                                </router-link>
+
+                                                <hr class="dropdown__divider">
+
+                                                <a href="#" class="dropdown__link link--danger">
+                                                    Logout
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </renderless-dropdown>
+
+                                    <renderless-dropdown>
+                                        <div slot-scope="props" class="dropdown">
+                                            <button class="button" @click="props.toggle()" data-reference>Dropdown Two</button>
+
+                                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                                <a href="#" class="dropdown__link">
+                                                    This is a regular link
+                                                </a>
+
+                                                <router-link to="/" class="dropdown__link">
+                                                    This is a router link
+                                                </router-link>
+
+                                                <hr class="dropdown__divider">
+
+                                                <a href="#" class="dropdown__link link--danger">
+                                                    Logout
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </renderless-dropdown>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -20,10 +20,24 @@ p {
 }
 
 a {
-    @apply .no-underline .text-secondary-600;
+    @apply
+        text-info-500
+        no-underline
+        outline-none
+    ;
+
+    &:focus {
+        @apply
+            shadow-focus
+        ;
+
+        z-index: 1;
+    }
 
     &:hover {
-        @apply .text-secondary-800;
+        @apply
+            text-info-600
+        ;
     }
 }
 
@@ -33,4 +47,30 @@ hr {
 
 code {
     @apply .bg-gray-200 .text-sm .px-2 .py-1 .rounded;
+}
+
+.link {
+    &--success {
+        @apply
+            text-success-500
+        ;
+
+        &:hover {
+            @apply
+                text-success-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            text-danger-500
+        ;
+
+        &:hover {
+            @apply
+                text-danger-600
+            ;
+        }
+    }
 }

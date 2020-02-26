@@ -34,19 +34,22 @@
             z-index: 1;
         }
 
-        > .button:first-child {
+        > .button:first-child,
+        > .dropdown.button:first-child {
             @apply
                 rounded-r-none
             ;
         }
 
-        > .button:last-child {
+        > .button:last-child,
+        > .dropdown.button:last-child {
             @apply
                 rounded-l-none
             ;
         }
 
-        > .button:not(:first-child):not(:last-child) {
+        > .button:not(:first-child):not(:last-child),
+        > .dropdown.button:not(:first-child):not(:last-child) {
             @apply
                 rounded-r-none
                 rounded-l-none
