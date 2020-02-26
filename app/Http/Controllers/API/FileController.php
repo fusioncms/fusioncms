@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class FileController extends Controller
 {
     /**
-     * 
+     *
      */
     public function index(Request $request)
     {
@@ -66,9 +66,9 @@ class FileController extends Controller
 
     /**
      * Show the specific resource.
-     * 
+     *
      * @param  string  $uuid
-     * @return 
+     * @return
      */
     public function show(Request $request, $uuid)
     {
@@ -83,7 +83,7 @@ class FileController extends Controller
 
     /**
      * Persist a new resource in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      */
     public function store(Request $request)
@@ -107,7 +107,7 @@ class FileController extends Controller
         $original  = Str::slug($name).'.'.$extension;
         $width     = null;
         $height    = null;
-        
+
         if (Str::startsWith($mimetype, 'image')) {
             list($width, $height) = getimagesize($upload);
         }
