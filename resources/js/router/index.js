@@ -382,7 +382,7 @@ const router = new Router({
             }
         },
         {
-            path: '/files/:uuid/preview',
+            path: '/files/:uuid',
             component: () => import('../views/FileManager/Show'),
             name: 'file-manager.show',
             meta: {
