@@ -11,7 +11,7 @@
                 referenceElement: null,
                 popperElement: null,
                 popperOptions: {
-                    placement: 'bottom-start',
+                    placement: this.placement,
                     modifiers: {
                         arrow: {
                             enabled: false,
@@ -25,6 +25,14 @@
                         },
                     },
                 },
+            }
+        },
+
+        props: {
+            placement: {
+                required: false,
+                type: String,
+                default: 'bottom-start',
             }
         },
 
@@ -73,12 +81,30 @@
                 }
 
                 this.isOpen = false
-            }
+            },
+
+            listenForEscape() {
+                const escapeHandler = (e) => {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.toggle()
+                    }
+                }
+
+                document.addEventListener('keydown', escapeHandler)
+
+                this.$once('hook:destroyed', () => {
+                    document.removeEventListener('keydown', escapeHandler)
+                })
+            },
         },
 
         mounted() {
             this.referenceElement = this.$el.querySelectorAll('[data-reference')[0]
             this.popperElement = this.$el.querySelectorAll('[data-popper]')[0]
+        },
+
+        created() {
+            this.listenForEscape()
         },
 
         destroyed() {

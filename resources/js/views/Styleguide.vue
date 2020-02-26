@@ -99,7 +99,7 @@
                             <div class="col w-1/4">
                                 <h3>Icons</h3>
 
-                                <div class="buttons">
+                                <div class="buttons mb-6">
                                     <button class="button button--icon"><fa-icon icon="moon"></fa-icon></button>
                                     <button class="button button--icon"><fa-icon icon="star"></fa-icon></button>
                                     <button class="button button--icon"><fa-icon icon="meteor"></fa-icon></button>
@@ -114,6 +114,57 @@
                                     <button class="button button--icon"><fa-icon icon="ellipsis-h"></fa-icon></button>
                                     <button class="button button--icon"><fa-icon icon="circle-notch" class="fa-spin"></fa-icon></button>
                                     <button class="button button--icon"><fa-icon icon="sync" class="fa-spin"></fa-icon></button>
+                                </div>
+
+                                <div class="buttons mb-6">
+                                    <button class="button button--icon button--primary"><fa-icon icon="moon"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="star"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="meteor"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="sun"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="satellite"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="user-astronaut"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="robot"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="brain"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="rocket"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="hand-spock"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="bars"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="ellipsis-h"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="circle-notch" class="fa-spin"></fa-icon></button>
+                                    <button class="button button--icon button--primary"><fa-icon icon="sync" class="fa-spin"></fa-icon></button>
+                                </div>
+
+                                <div class="buttons mb-6">
+                                    <button class="button button--icon button--rounded"><fa-icon icon="moon"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="star"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="meteor"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="sun"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="satellite"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="user-astronaut"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="robot"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="brain"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="rocket"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="hand-spock"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="bars"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="ellipsis-h"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="circle-notch" class="fa-spin"></fa-icon></button>
+                                    <button class="button button--icon button--rounded"><fa-icon icon="sync" class="fa-spin"></fa-icon></button>
+                                </div>
+
+                                <div class="buttons mb-6">
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="moon"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="star"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="meteor"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="sun"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="satellite"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="user-astronaut"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="robot"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="brain"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="rocket"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="hand-spock"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="bars"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="ellipsis-h"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="circle-notch" class="fa-spin"></fa-icon></button>
+                                    <button class="button button--icon button--rounded button--primary"><fa-icon icon="sync" class="fa-spin"></fa-icon></button>
                                 </div>
                             </div>
                         </div>
@@ -217,11 +268,17 @@
                         <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Dropdowns</h2>
 
                         <div class="flex flex-wrap">
-                            <renderless-dropdown class="mr-3 mb-3">
+                            <renderless-dropdown class="mr-3 mb-3" placement="bottom-end">
                                 <div slot-scope="props">
-                                    <button class="button button--icon" @click="props.toggle()" data-reference><fa-icon icon="ellipsis-h"></fa-icon></button>
+                                    <button class="button button--icon button--primary" @click="props.toggle()" data-reference><fa-icon icon="ellipsis-h"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                        <div class="dropdown__item">
+                                            <p>You are signed in as <strong>picard.jean.luc@starfleet.com</strong></p>
+                                        </div>
+
+                                        <hr class="dropdown__divider">
+
                                         <a href="#" class="dropdown__link">
                                             <fa-icon class="dropdown__icon" icon="cog"></fa-icon>
 
