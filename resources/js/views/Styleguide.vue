@@ -84,6 +84,39 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col w-1/4">
+                                <h3>Sizes</h3>
+
+                                <div class="buttons">
+                                    <button class="button button--small">Small</button>
+                                    <button class="button">Normal</button>
+                                    <button class="button button--large">Large</button>
+                                </div>
+                            </div>
+
+                            <div class="col w-1/4">
+                                <h3>Icons</h3>
+
+                                <div class="buttons">
+                                    <button class="button button--icon"><fa-icon icon="moon"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="star"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="meteor"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="sun"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="satellite"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="user-astronaut"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="robot"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="brain"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="rocket"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="hand-spock"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="bars"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="ellipsis-h"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="circle-notch" class="fa-spin"></fa-icon></button>
+                                    <button class="button button--icon"><fa-icon icon="sync" class="fa-spin"></fa-icon></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -186,7 +219,7 @@
                         <div class="flex flex-wrap">
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference><fa-icon icon="bars" class="fa-fw"></fa-icon> a</button>
+                                    <button class="button button--icon" @click="props.toggle()" data-reference><fa-icon icon="ellipsis-h"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                                         <a href="#" class="dropdown__link">
@@ -220,7 +253,7 @@
 
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Content <fa-icon icon="angle-down" class="fa-fw"></fa-icon></button>
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Content <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                                         <div class="dropdown__item">
@@ -238,7 +271,7 @@
 
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Links</button>
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Links <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                                         <a href="#" class="dropdown__link">
@@ -260,7 +293,7 @@
 
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Icons</button>
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Icons <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                                         <a href="#" class="dropdown__link">
@@ -286,7 +319,7 @@
 
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Images</button>
+                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Images <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
 
                                     <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                                         <a href="#" class="dropdown__link">
@@ -309,55 +342,6 @@
                                     </div>
                                 </div>
                             </renderless-dropdown>
-
-
-                            <div class="buttons">
-                                <div class="buttons__group">
-                                    <renderless-dropdown>
-                                        <div slot-scope="props" class="dropdown">
-                                            <button class="button" @click="props.toggle()" data-reference>Dropdown One <fa-icon icon="caret-down" class="fa-fw"></fa-icon></button>
-
-                                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                                <a href="#" class="dropdown__link">
-                                                    This is a regular link
-                                                </a>
-
-                                                <router-link to="/" class="dropdown__link">
-                                                    This is a router link
-                                                </router-link>
-
-                                                <hr class="dropdown__divider">
-
-                                                <a href="#" class="dropdown__link link--danger">
-                                                    Logout
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </renderless-dropdown>
-
-                                    <renderless-dropdown>
-                                        <div slot-scope="props" class="dropdown">
-                                            <button class="button" @click="props.toggle()" data-reference>Dropdown Two</button>
-
-                                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                                <a href="#" class="dropdown__link">
-                                                    This is a regular link
-                                                </a>
-
-                                                <router-link to="/" class="dropdown__link">
-                                                    This is a router link
-                                                </router-link>
-
-                                                <hr class="dropdown__divider">
-
-                                                <a href="#" class="dropdown__link link--danger">
-                                                    Logout
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </renderless-dropdown>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -3428,6 +3428,7 @@ video {
   align-items: center;
   display: inline-flex;
   background-color: #ffffff;
+  font-size: 0.875rem;
   border-radius: 0.25rem;
   border-width: 1px;
   padding-left: 0.75rem;
@@ -3451,12 +3452,20 @@ video {
   opacity: 0.5;
 }
 
+.button--icon {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 39px;
+  height: 39px;
+}
+
 .button--small {
   font-size: 0.75rem;
 }
 
 .button--large {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 
 .button--brand, .button--primary, .button--secondary, .button--info, .button--success, .button--warning, .button--danger, .button--brand:hover:not([disabled]), .button--primary:hover:not([disabled]), .button--secondary:hover:not([disabled]), .button--info:hover:not([disabled]), .button--success:hover:not([disabled]), .button--warning:hover:not([disabled]), .button--danger:hover:not([disabled]) {
@@ -3668,6 +3677,7 @@ code {
   font-size: 1rem;
   background-color: #ffffff;
   border-radius: 0.25rem;
+  font-size: 0.875rem;
   border-width: 1px;
   width: 100%;
   padding-left: 0.75rem;
@@ -4061,6 +4071,7 @@ select.form__control {
   align-items: center;
   display: inline-flex;
   background-color: #ffffff;
+  font-size: 0.875rem;
   border-radius: 0.25rem;
   border-width: 1px;
   padding-left: 0.75rem;
@@ -4083,6 +4094,7 @@ select.form__control {
   align-items: center;
   display: inline-flex;
   background-color: #ffffff;
+  font-size: 0.875rem;
   border-radius: 0.25rem;
   border-width: 1px;
   padding-left: 0.75rem;
@@ -4492,6 +4504,7 @@ table td::before {
 
 .dropdown__item, .dropdown__link {
   text-align: left;
+  font-size: 0.875rem;
   width: 100%;
   display: block;
   padding-top: 0.5rem;
@@ -5458,6 +5471,7 @@ table td::before {
   align-items: center;
   display: inline-flex;
   background-color: #ffffff;
+  font-size: 0.875rem;
   border-radius: 0.25rem;
   border-width: 1px;
   padding-left: 0.75rem;
