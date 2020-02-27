@@ -17,15 +17,27 @@
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <a href="/" target="_blank"><fa-icon :icon="['fas', 'external-link-alt']" class="fa-fw"></fa-icon> <span class="hidden md:inline">View site</span></a>
+                    <p-dropdown>
+                        <fa-icon icon="circle" class="icon fa-xs text-success-500"></fa-icon>
+                        {{ user.name }}
 
-                    <p-dropdown class="ml-6" right>
-                        <fa-icon icon="circle" class="fa-xs mr-2 text-success-500"></fa-icon> Hey there, {{ user.name }}
-                        <div class="-mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-4 w-4"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+                        <template v-slot:menu>
+                            <p-dropdown-link href="/" target="_blank">
+                                <fa-icon icon="eye" class="icon"></fa-icon>
+                                View website
+                            </p-dropdown-link>
 
-                        <template slot="options">
-                            <p-dropdown-item :href="'/admin/users/edit/' + user.id">Account</p-dropdown-item>
-                            <p-dropdown-item href="/logout">Log Out</p-dropdown-item>
+                            <p-dropdown-divider />
+
+                            <p-dropdown-link :to="'users/' + user.id + '/edit'">
+                                <fa-icon icon="user" class="icon"></fa-icon>
+                                Account
+                            </p-dropdown-link>
+
+                            <p-dropdown-link href="/logout">
+                                <fa-icon icon="sign-out-alt" class="icon"></fa-icon>
+                                Log out
+                            </p-dropdown-link>
                         </template>
                     </p-dropdown>
                 </div>

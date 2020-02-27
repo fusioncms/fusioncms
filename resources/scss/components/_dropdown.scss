@@ -31,20 +31,29 @@
             py-2
             px-4
         ;
+
+        > .icon {
+            @apply
+                text-center
+                mr-3
+                w-5
+            ;
+        }
     }
 
-    &__icon,
     &__image {
         @apply
             mr-4
         ;
     }
 
-    &__icon {
+    &__arrow {
         @apply
             text-center
-            w-5
+            ml-3
         ;
+
+        width: 1.25em !important;
     }
 
     &__link {
@@ -73,33 +82,3 @@
         height: 1px;
     }
 }
-
-// .dropdown {
-//     @apply .relative;
-// }
-
-// .dropdown__button {
-//     @apply inline-flex items-center cursor-pointer py-2 px-3 rounded text-sm no-underline bg-white border border-gray-400 text-gray-700 appearance-none leading-tight;
-
-//     // min-height: 42px;
-
-//     &:hover {
-//         @apply .bg-gray-200 .text-black;
-//     }
-
-//     &:focus {
-//         @apply .outline-none .shadow-md;
-//     }
-// }
-
-// .dropdown__options {
-//     @apply bg-white w-full shadow border rounded z-50 flex flex-col shadow-md;
-// }
-
-// .dropdown__item {
-//     @apply .no-underline .block .px-4 .py-2 .text-gray-800 .bg-white .text-sm .rounded;
-
-//     &:hover {
-//         @apply .text-black .bg-gray-100 .cursor-pointer;
-//     }
-// }

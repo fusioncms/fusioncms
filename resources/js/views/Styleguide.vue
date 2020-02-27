@@ -75,11 +75,25 @@
                             <div class="col w-1/4">
                                 <h3>Button Groups</h3>
 
-                                <div class="buttons">
+                                <div class="buttons mb-6">
                                     <div class="buttons__group">
-                                        <button class="button">One</button>
-                                        <button class="button">Two</button>
-                                        <button class="button">Three</button>
+                                        <button class="button">Years</button>
+                                        <button class="button">Months</button>
+                                        <button class="button">Days</button>
+                                    </div>
+                                </div>
+
+                                <div class="buttons mb-6">
+                                    <div class="buttons__group">
+                                        <button class="button button--icon"><fa-icon icon="chevron-left" class="icon"></fa-icon></button>
+                                        <button class="button button--icon"><fa-icon icon="chevron-right" class="icon"></fa-icon></button>
+                                    </div>
+                                </div>
+
+                                <div class="buttons mb-6">
+                                    <div class="buttons__group">
+                                        <button class="button button--info"><fa-icon icon="bookmark" class="icon"></fa-icon> Bookmark</button>
+                                        <button class="button">12.5k</button>
                                     </div>
                                 </div>
                             </div>
@@ -268,85 +282,71 @@
                         <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Dropdowns</h2>
 
                         <div class="flex flex-wrap">
-                            <renderless-dropdown class="mr-3 mb-3" placement="bottom-end">
-                                <div slot-scope="props">
-                                    <button class="button button--icon button--primary" @click="props.toggle()" data-reference><fa-icon icon="ellipsis-h"></fa-icon></button>
+                            <p-dropdown icon no-arrow class="mr-3 mb-3" placement="bottom-end">
+                                <fa-icon icon="ellipsis-h"></fa-icon>
 
-                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                        <div class="dropdown__item">
-                                            <p>You are signed in as <strong>picard.jean.luc@starfleet.com</strong></p>
-                                        </div>
+                                <template v-slot:menu>
+                                    <p-dropdown-item>
+                                        <p>You are signed in as <strong>picard.jean.luc@starfleet.com</strong></p>
+                                    </p-dropdown-item>
 
-                                        <hr class="dropdown__divider">
+                                    <p-dropdown-divider />
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="cog"></fa-icon>
+                                    <p-dropdown-link to="/">
+                                        <fa-icon class="icon" icon="cog"></fa-icon>
+                                        Settings
+                                    </p-dropdown-link>
 
-                                            Settings
-                                        </a>
+                                    <p-dropdown-link to="/">
+                                        <fa-icon class="icon" icon="credit-card"></fa-icon>
+                                        Billing
+                                    </p-dropdown-link>
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="credit-card"></fa-icon>
+                                    <p-dropdown-link to="/">
+                                        <fa-icon class="icon" icon="moon"></fa-icon>
+                                        Switch to dark mode
+                                    </p-dropdown-link>
 
-                                            Billing
-                                        </a>
+                                    <p-dropdown-divider />
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="moon"></fa-icon>
+                                    <p-dropdown-link to="/">
+                                        <fa-icon class="icon" icon="sign-out-alt"></fa-icon>
+                                        Logout
+                                    </p-dropdown-link>
+                                </template>
+                            </p-dropdown>
 
-                                            Switch to Dark Mode
-                                        </a>
+                            <p-dropdown class="mr-3 mb-3">
+                                Dropdown With Content
 
-                                        <hr class="dropdown__divider">
+                                <template v-slot:menu>
+                                    <p-dropdown-item>
+                                        <p>You can insert <strong>any type of content</strong> within the dropdown menu.</p>
+                                    </p-dropdown-item>
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="sign-out-alt"></fa-icon>
+                                    <p-dropdown-item>
+                                        <p>You simply need to use a <code>&lt;div&gt;</code> instead.</p>
+                                    </p-dropdown-item>
+                                </template>
+                            </p-dropdown>
 
-                                            Logout
-                                        </a>
-                                    </div>
-                                </div>
-                            </renderless-dropdown>
+                            <p-dropdown class="mr-3 mb-3">
+                                Dropdown With Links
 
-                            <renderless-dropdown class="mr-3 mb-3">
-                                <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Content <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
+                                <template v-slot:menu>
+                                    <p-dropdown-link href="#">
+                                        This is a link
+                                    </p-dropdown-link>
 
-                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                        <div class="dropdown__item">
-                                            <p>You can insert <strong>any type of content</strong> within the dropdown menu.</p>
-                                        </div>
+                                    <p-dropdown-link to="/">
+                                        This is another link
+                                    </p-dropdown-link>
 
-                                        <hr class="dropdown__divider">
-
-                                        <div class="dropdown__item">
-                                            <p>You simply need to use a <code>&lt;div&gt;</code> instead.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </renderless-dropdown>
-
-                            <renderless-dropdown class="mr-3 mb-3">
-                                <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Links <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
-
-                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                        <a href="#" class="dropdown__link">
-                                            This is a regular link
-                                        </a>
-
-                                        <router-link to="/" class="dropdown__link">
-                                            This is a router link
-                                        </router-link>
-
-                                        <hr class="dropdown__divider">
-
-                                        <a href="#" class="dropdown__link link--danger">
-                                            Logout
-                                        </a>
-                                    </div>
-                                </div>
-                            </renderless-dropdown>
+                                    <p-dropdown-link href="https://google.com">
+                                        Google
+                                    </p-dropdown-link>
+                                </template>
+                            </p-dropdown>
 
                             <renderless-dropdown class="mr-3 mb-3">
                                 <div slot-scope="props">

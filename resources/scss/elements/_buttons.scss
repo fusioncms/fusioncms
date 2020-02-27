@@ -10,8 +10,8 @@
         items-center
         inline-flex
         bg-white
-        text-sm
         rounded
+        text-sm
         border
         px-3
         py-2
@@ -38,6 +38,12 @@
         ;
     }
 
+    > .icon {
+        @apply
+            mr-3
+        ;
+    }
+
     &--rounded {
         @apply
             rounded-full
@@ -53,6 +59,12 @@
 
         width: 39px;
         height: 39px;
+
+        > .icon {
+            @apply
+                m-0
+            ;
+        }
     }
 
     &--small {
@@ -71,13 +83,13 @@
     &--brand:hover:not([disabled]), &--primary:hover:not([disabled]), &--secondary:hover:not([disabled]), &--info:hover:not([disabled]), &--success:hover:not([disabled]), &--warning:hover:not([disabled]), &--danger:hover:not([disabled]) {
         @apply
             text-white
-            border-0
         ;
     }
 
     &--brand {
         @apply
             bg-brand-500
+            border-brand-500
         ;
 
         &:hover:not([disabled]) {
@@ -96,6 +108,7 @@
     &--primary {
         @apply
             bg-gray-900
+            border-gray-900
         ;
 
         &:hover:not([disabled]) {
@@ -108,6 +121,7 @@
     &--success {
         @apply
             bg-success-500
+            border-success-500
         ;
 
         &:hover:not([disabled]) {
@@ -126,6 +140,7 @@
     &--info {
         @apply
             bg-info-500
+            border-info-500
         ;
 
         &:hover:not([disabled]) {
@@ -138,6 +153,7 @@
     &--warning {
         @apply
             bg-warning-500
+            border-warning-500
         ;
 
         &:hover:not([disabled]) {
@@ -150,6 +166,7 @@
     &--danger {
         @apply
             bg-danger-500
+            border-danger-500
         ;
 
         &:hover:not([disabled]) {

@@ -1,7 +1,10 @@
 <template>
-    <renderless-dropdown class="mr-3 mb-3">
+    <renderless-dropdown placement="auto-end">
         <div slot-scope="props">
-            <button class="button" @click="props.toggle()" data-reference><slot></slot> <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
+            <button class="button" :class="{'button--icon': icon}" @click="props.toggle()" data-reference>
+                <slot></slot>
+                <fa-icon v-if="! noArrow" icon="angle-down" class="dropdown__arrow"></fa-icon>
+            </button>
 
             <div class="dropdown__menu" v-show="props.isOpen" data-popper>
                 <slot name="menu"></slot>
@@ -13,5 +16,25 @@
 <script>
     export default {
         name: 'p-dropdown',
+
+        props: {
+            noArrow: {
+                type: Boolean,
+                default: false,
+                required: false,
+            },
+
+            icon: {
+                type: Boolean,
+                default: false,
+                required: false,
+            },
+
+            right: {
+                type: Boolean,
+                default: false,
+                required: false,
+            },
+        }
     }
 </script>
