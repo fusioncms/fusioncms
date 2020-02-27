@@ -23,19 +23,15 @@ class NodeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $menu   = new MenuResource($this->menu);
-        $fields = $menu->fieldset->fields ?? null;
-
         $resource['id']         = $this->id;
         $resource['name']       = $this->name;
         $resource['url']        = $this->url;
         $resource['new_window'] = $this->new_window;
         $resource['order']      = $this->order;
 
-        if ($fields) {
-            foreach ($fields as $field) {
-                $fieldtype                = fieldtypes()->get($field->type);
-                $resource[$field->handle] = $this->{$field->handle};
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
+                $resource[$field->handle] = $field->type()->getResource($this->resource, $field);
             }
         }
 
