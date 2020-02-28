@@ -1,5 +1,5 @@
 <script>
-    import { createPopper } from '@popperjs/core';
+    import Popper from 'popper.js'
 
     export default {
         name: 'renderless-dropdown',
@@ -10,10 +10,6 @@
                 popper: null,
                 referenceElement: null,
                 popperElement: null,
-                popperOptions: {
-                    placement: this.placement,
-                    padding: 5,
-                },
             }
         },
 
@@ -22,6 +18,17 @@
                 required: false,
                 type: String,
                 default: 'bottom-start',
+            },
+
+            padding: {
+                required: false,
+                type: Number,
+                default: 5,
+            },
+
+            options: {
+                required: false,
+                type: Object
             }
         },
 
@@ -32,19 +39,30 @@
         },
 
         methods: {
-            toggle() {
-                this.isOpen = ! this.isOpen
+            open() {
+                this.isOpen = true
+
+                this.createPopper()
+            },
+
+            close() {
+                this.isOpen = false
+
+                this.destroyPopper()
+            },
+
+            toggle(event) {
+                this.isOpen ? this.close() : this.open()
             },
 
             createPopper() {
                 if (this.popper) return
 
                 this.$nextTick(() => {
-                    this.popper = createPopper(
-                        this.referenceElement,
-                        this.popperElement,
-                        this.popperOptions
-                    )
+                    this.popper = new Popper(this.referenceElement, this.popperElement, {
+                        placement: this.placement,
+                        // padding: this.padding,
+                    })
 
                     document.addEventListener('click', this.handleDocumentClick)
                 })
@@ -54,6 +72,7 @@
                 this.popper && this.popper.destroy()
 
                 this.popper = null
+
                 document.removeEventListener('click', this.handleDocumentClick)
             },
 

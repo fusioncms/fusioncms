@@ -114,7 +114,10 @@ module.exports = {
                 900: '#173E44',
             },
 
-            'gray': colors.gray,
+            'gray': {
+                50: '#f9faf',
+                ...colors.gray
+            },
             'info': colors.blue,
             'success': colors.green,
             'warning': colors.yellow,
@@ -175,6 +178,6 @@ module.exports = {
     },
 
     plugins: [
-        require('@tailwindcss/ui')
+        // require('@tailwindcss/ui')
     ],
 }

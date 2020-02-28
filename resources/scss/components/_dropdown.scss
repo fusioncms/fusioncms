@@ -9,16 +9,15 @@
         @apply
             border-gray-200
             bg-white
-            absolute
             rounded
             border
             shadow
-            z-20
+            w-64
+            z-10
         ;
 
-        top: 100%;
-        min-width: 10rem;
-        max-width: 16rem;
+        // min-width: 10rem;
+        // max-width: 16rem;
     }
 
     &__item,

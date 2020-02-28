@@ -1,6 +1,6 @@
 <template>
-    <renderless-dropdown>
-        <div slot-scope="props">
+    <renderless-dropdown :placement="right ? 'bottom-end' : 'bottom-start'">
+        <div class="inline" slot-scope="props">
             <button class="button" :class="{'button--icon': icon}" @click="props.toggle()" data-reference>
                 <slot></slot>
                 <fa-icon v-if="! noArrow" icon="angle-down" class="dropdown__arrow"></fa-icon>
