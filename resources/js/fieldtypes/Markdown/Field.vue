@@ -1,12 +1,20 @@
 <template>
     <div class="form__group">
-        <label
-            class="form__label"
-            :for="field.handle"
-            v-html="field.name">
-        </label>
-
-        <textarea :name="field.handle" :id="field.handle" cols="30" rows="10" v-model="value"></textarea>
+        <p-tabs>
+            <p-tab :name="field.name">
+                <textarea
+                    :name="field.handle"
+                    :id="field.handle"
+                    cols="30"
+                    rows="12"
+                    v-model="value"
+                    autofocus>
+                </textarea>
+            </p-tab>
+            <p-tab name="Preview">
+                <div v-html="preview"></div>
+            </p-tab>
+        </p-tabs>
     </div>
 </template>
 
@@ -16,6 +24,7 @@
     require('codemirror/addon/display/placeholder')
 
     import CodeMirror from 'codemirror'
+    import marked     from 'marked'
 
     export default {
         name: 'markdown-fieldtype',
@@ -38,6 +47,15 @@
             },
         },
 
+        computed: {
+            preview() {
+                const tokens = marked.lexer(this.value)
+                const html   = marked.parser(tokens)
+                
+                return html
+            }
+        },
+
         mounted() {
             this.codemirror = CodeMirror.fromTextArea(document.getElementById(this.field.handle), {
                 theme: 'fusion',
@@ -50,6 +68,8 @@
                 viewportMargin: Infinity,
                 keyMap: 'sublime',
             })
+
+            setTimeout(() => { this.codemirror.refresh() }, 1)
 
             this.codemirror.on('change', (instance) => {
                 this.$emit('input', instance.getValue())
