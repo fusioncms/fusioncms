@@ -382,7 +382,7 @@ const router = new Router({
             }
         },
         {
-            path: '/files/:uuid/preview',
+            path: '/files/:uuid',
             component: () => import('../views/FileManager/Show'),
             name: 'file-manager.show',
             meta: {
@@ -403,16 +403,6 @@ const router = new Router({
             path: '/telescope',
             name: 'telescope',
             beforeEnter() { location.href = '/telescope/exceptions' },
-        },
-
-        {
-            path: '/playground',
-            component: () => import('../views/Playground'),
-            name: 'playground',
-            meta: {
-                requiresAuth: true,
-                layout: 'admin'
-            }
         },
 
         {

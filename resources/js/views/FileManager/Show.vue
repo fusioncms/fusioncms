@@ -53,7 +53,7 @@
                             <p-button v-modal:move-file>Move</p-button>
                             <p-button v-modal:replace-file>Replace</p-button>
                             <p-button @click.prevent="download" class="mr-4">Download</p-button>
-                            
+
                             <p-button @click.prevent="goBack">Go Back</p-button>
                             <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
                         </portal>
@@ -63,7 +63,7 @@
                             v-model="name"
                             label="Name">
                         </p-input>
-                        
+
                         <p-textarea
                             name="description"
                             v-model="description"
@@ -197,7 +197,7 @@
 
                 let index = -1
                 let units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-                
+
                 do {
                     bytes /= thresh
                     ++index
@@ -245,7 +245,7 @@
             getFile(to, from, next) {
                 let vm = this
 
-                axios.get('/api/files/' + to.params.uuid).then((response) => {    
+                axios.get('/api/files/' + to.params.uuid).then((response) => {
                     vm.file = response.data.data
                     vm.name = vm.file.name
                     vm.description = vm.file.description
@@ -325,7 +325,7 @@
 
         beforeRouteUpdate(to,from,next) {
             this.getFile(to, from, next)
-            
+
             next()
         }
     }

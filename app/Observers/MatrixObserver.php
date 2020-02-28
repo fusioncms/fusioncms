@@ -45,7 +45,7 @@ class MatrixObserver
     {
         $this->migration->schema->create($matrix->table, function (Blueprint $table) use ($matrix) {
             if ($matrix->type === 'collection') {
-                $table->increments('id');
+                $table->bigIncrements('id');
             }
 
             $table->unsignedBigInteger('matrix_id');
@@ -87,7 +87,7 @@ class MatrixObserver
         // Create the ID column if converting from a page to a collection type
         if ($old->type === 'page' and $matrix->type === 'collection') {
             $this->migration->schema->table($matrix->table, function (Blueprint $table) {
-                $table->increments('id')->first();
+                $table->bigIncrements('id')->first();
             });
         }
 

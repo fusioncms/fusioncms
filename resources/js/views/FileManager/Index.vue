@@ -23,13 +23,11 @@
         methods: {
             ...mapActions({
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-                reset: 'filemanager/reset',
             }),
         },
 
         beforeRouteEnter(to, from, next) {
             next(vm => {
-                vm.reset()
                 vm.fetchFilesAndDirectories()
             })
         },

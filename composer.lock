@@ -111,16 +111,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.133.20",
+            "version": "3.133.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c5f84f9edafb6372dafdbc87cb588772761179ca"
+                "reference": "fd4a74aff537a4f6a7e9ed7efb14693ae5f3013a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c5f84f9edafb6372dafdbc87cb588772761179ca",
-                "reference": "c5f84f9edafb6372dafdbc87cb588772761179ca",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fd4a74aff537a4f6a7e9ed7efb14693ae5f3013a",
+                "reference": "fd4a74aff537a4f6a7e9ed7efb14693ae5f3013a",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-02-21T19:09:49+00:00"
+            "time": "2020-02-26T19:11:26+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -1273,24 +1273,24 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "4.2.2",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "790194d5d3da89a713478875d2e2d05855a90a81"
+                "reference": "ec38ad69ee378a1eec04fb0e417a97cfaf7ed11a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/790194d5d3da89a713478875d2e2d05855a90a81",
-                "reference": "790194d5d3da89a713478875d2e2d05855a90a81",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/ec38ad69ee378a1eec04fb0e417a97cfaf7ed11a",
+                "reference": "ec38ad69ee378a1eec04fb0e417a97cfaf7ed11a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^5.0|^6.0|^7.0",
+                "illuminate/contracts": "^5.0|^6.0|^7.0|^8.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "illuminate/http": "^5.0|^6.0|^7.0",
+                "illuminate/http": "^5.0|^6.0|^7.0|^8.0",
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^6.0"
             },
@@ -1323,7 +1323,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2019-12-20T13:11:11+00:00"
+            "time": "2020-02-22T01:51:47+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -1932,16 +1932,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.16.0",
+            "version": "v6.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b47217e41868d3049ec545cbb713aa94c6f39e55"
+                "reference": "32d1ed55dd46dcd706ff2e45bb7965be7320b87d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b47217e41868d3049ec545cbb713aa94c6f39e55",
-                "reference": "b47217e41868d3049ec545cbb713aa94c6f39e55",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/32d1ed55dd46dcd706ff2e45bb7965be7320b87d",
+                "reference": "32d1ed55dd46dcd706ff2e45bb7965be7320b87d",
                 "shasum": ""
             },
             "require": {
@@ -2074,7 +2074,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-02-18T15:17:52+00:00"
+            "time": "2020-02-26T14:23:01+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2340,16 +2340,16 @@
         },
         {
             "name": "laravel/vapor-core",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/vapor-core.git",
-                "reference": "51b7672ee625c2dbc5d8974b76a60572f03b9046"
+                "reference": "ad02c4c5651f5056ab97f2a13f888c55712d08ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/vapor-core/zipball/51b7672ee625c2dbc5d8974b76a60572f03b9046",
-                "reference": "51b7672ee625c2dbc5d8974b76a60572f03b9046",
+                "url": "https://api.github.com/repos/laravel/vapor-core/zipball/ad02c4c5651f5056ab97f2a13f888c55712d08ad",
+                "reference": "ad02c4c5651f5056ab97f2a13f888c55712d08ad",
                 "shasum": ""
             },
             "require": {
@@ -2363,7 +2363,7 @@
                 "monolog/monolog": "^1.12|^2.0",
                 "php": "^7.1",
                 "riverline/multipart-parser": "^2.0",
-                "symfony/process": "^4.4|^5.0",
+                "symfony/process": "^4.3|^5.0",
                 "symfony/psr-http-message-bridge": "^1.2",
                 "zendframework/zend-diactoros": "^2.1"
             },
@@ -2404,7 +2404,7 @@
                 "laravel",
                 "vapor"
             ],
-            "time": "2020-02-19T17:01:34+00:00"
+            "time": "2020-02-21T15:26:06+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2671,16 +2671,16 @@
         },
         {
             "name": "league/flysystem-aws-s3-v3",
-            "version": "1.0.23",
+            "version": "1.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-aws-s3-v3.git",
-                "reference": "15b0cdeab7240bf8e8bffa85ae5275bbc3692bf4"
+                "reference": "4382036bde5dc926f9b8b337e5bdb15e5ec7b570"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/15b0cdeab7240bf8e8bffa85ae5275bbc3692bf4",
-                "reference": "15b0cdeab7240bf8e8bffa85ae5275bbc3692bf4",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/4382036bde5dc926f9b8b337e5bdb15e5ec7b570",
+                "reference": "4382036bde5dc926f9b8b337e5bdb15e5ec7b570",
                 "shasum": ""
             },
             "require": {
@@ -2714,7 +2714,7 @@
                 }
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
-            "time": "2019-06-05T17:18:29+00:00"
+            "time": "2020-02-23T13:31:58+00:00"
         },
         {
             "name": "league/glide",
@@ -3748,16 +3748,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.23",
+            "version": "2.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c78eb5058d5bb1a183133c36d4ba5b6675dfa099"
+                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c78eb5058d5bb1a183133c36d4ba5b6675dfa099",
-                "reference": "c78eb5058d5bb1a183133c36d4ba5b6675dfa099",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
+                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
                 "shasum": ""
             },
             "require": {
@@ -3836,7 +3836,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2019-09-17T03:41:22+00:00"
+            "time": "2020-02-25T04:16:50+00:00"
         },
         {
             "name": "predis/predis",
@@ -4485,16 +4485,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.9.2",
+            "version": "3.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "6700a3bdfb7a12c9f53d1713d59249e3eca35090"
+                "reference": "0b16f4e5ac45c14312ffa8bf25db737d92de27cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/6700a3bdfb7a12c9f53d1713d59249e3eca35090",
-                "reference": "6700a3bdfb7a12c9f53d1713d59249e3eca35090",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/0b16f4e5ac45c14312ffa8bf25db737d92de27cd",
+                "reference": "0b16f4e5ac45c14312ffa8bf25db737d92de27cd",
                 "shasum": ""
             },
             "require": {
@@ -4558,7 +4558,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2020-02-05T11:24:06+00:00"
+            "time": "2020-02-22T21:16:32+00:00"
         },
         {
             "name": "spatie/laravel-analytics",
@@ -4704,27 +4704,27 @@
         },
         {
             "name": "spatie/laravel-query-builder",
-            "version": "2.7.0",
+            "version": "2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-query-builder.git",
-                "reference": "366aaca9cf6195357812f01f412fe878cec414f5"
+                "reference": "c50eefcad8168aa549dc0436bd5ce62c676afc04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/366aaca9cf6195357812f01f412fe878cec414f5",
-                "reference": "366aaca9cf6195357812f01f412fe878cec414f5",
+                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/c50eefcad8168aa549dc0436bd5ce62c676afc04",
+                "reference": "c50eefcad8168aa549dc0436bd5ce62c676afc04",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "~5.6.34|~5.7.0|~5.8.0|^6.0",
-                "illuminate/http": "~5.6.34|~5.7.0|~5.8.0|^6.0",
-                "illuminate/support": "~5.6.34|~5.7.0|~5.8.0|^6.0",
+                "illuminate/database": "~5.8.0|^6.0",
+                "illuminate/http": "~5.8.0|^6.0",
+                "illuminate/support": "~5.8.0|^6.0",
                 "php": "^7.1"
             },
             "require-dev": {
                 "ext-json": "*",
-                "orchestra/testbench": "~3.6.0|~3.7.0|~3.8.0|^4.0",
+                "orchestra/testbench": "~3.8.0|^4.0",
                 "phpunit/phpunit": "^7.0|^8.0"
             },
             "type": "library",
@@ -4758,7 +4758,7 @@
                 "laravel-query-builder",
                 "spatie"
             ],
-            "time": "2020-02-11T10:15:49+00:00"
+            "time": "2020-02-26T14:38:17+00:00"
         },
         {
             "name": "spatie/string",
@@ -7553,16 +7553,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.0.0",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "a48807183a4b819072f26e347bbd0b5199a9d15f"
+                "reference": "cd72d394ca794d3466a3b2fc09d5a6c1dc86b47e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/a48807183a4b819072f26e347bbd0b5199a9d15f",
-                "reference": "a48807183a4b819072f26e347bbd0b5199a9d15f",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/cd72d394ca794d3466a3b2fc09d5a6c1dc86b47e",
+                "reference": "cd72d394ca794d3466a3b2fc09d5a6c1dc86b47e",
                 "shasum": ""
             },
             "require": {
@@ -7602,7 +7602,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2020-02-09T09:16:15+00:00"
+            "time": "2020-02-22T12:28:44+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",

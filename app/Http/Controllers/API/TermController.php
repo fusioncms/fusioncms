@@ -73,7 +73,7 @@ class TermController extends Controller
         $term = $collection->create($attributes);
 
         foreach ($relationships as $relationship) {
-            $term->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($term, $relationship);
         }
 
         activity()
@@ -124,7 +124,7 @@ class TermController extends Controller
         $term->update($attributes);
 
         foreach ($relationships as $relationship) {
-            $term->{$relationship->handle}()->sync($request->input($relationship->handle));
+            $relationship->type()->persistRelationship($term, $relationship);
         }
 
         activity()
