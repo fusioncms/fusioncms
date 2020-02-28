@@ -279,6 +279,52 @@
 
                 <div class="card">
                     <div class="card__body">
+                        <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Tables</h2>
+                    </div>
+
+                    <!-- <div class="table__responsive"> -->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr v-for="index in 5" :key="index">
+                                    <td>Bernard Lane</td>
+                                    <td>Director, Human Resources</td>
+                                    <td>bernardlane@example.com</td>
+                                    <td>Owner</td>
+                                    <td class="actions">
+                                        <p-dropdown right icon no-arrow>
+                                            <fa-icon icon="ellipsis-h" class="icon"></fa-icon>
+
+                                            <template v-slot:menu>
+                                                <p-dropdown-link href="/" target="_blank">
+                                                    <fa-icon icon="pencil-alt" class="icon"></fa-icon>
+                                                    Edit
+                                                </p-dropdown-link>
+
+                                                <p-dropdown-link href="/" target="_blank">
+                                                    <fa-icon icon="trash-alt" class="icon"></fa-icon>
+                                                    Delete
+                                                </p-dropdown-link>
+                                            </template>
+                                        </p-dropdown>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <!-- </div> -->
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
                         <h2 class="text-2xl"><fa-icon icon="angle-double-right" class="fa-fw"></fa-icon> Dropdowns</h2>
 
                         <div class="flex flex-wrap">
@@ -348,57 +394,53 @@
                                 </template>
                             </p-dropdown>
 
-                            <renderless-dropdown class="mr-3 mb-3">
-                                <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Icons <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
+                            <p-dropdown class="mr-3 mb-3">
+                                Dropdown With Icons
 
-                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+                                <template v-slot:menu>
+                                    <p-dropdown-link href="#">
+                                        <fa-icon class="icon" icon="star"></fa-icon>
 
-                                            One
-                                        </a>
+                                        Star
+                                    </p-dropdown-link>
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+                                    <p-dropdown-link href="#">
+                                        <fa-icon class="icon" icon="moon"></fa-icon>
 
-                                            Two
-                                        </a>
+                                        Moon
+                                    </p-dropdown-link>
 
-                                        <a href="#" class="dropdown__link">
-                                            <fa-icon class="dropdown__icon" icon="star"></fa-icon>
+                                    <p-dropdown-link href="#">
+                                        <fa-icon class="icon" icon="robot"></fa-icon>
 
-                                            Three
-                                        </a>
-                                    </div>
-                                </div>
-                            </renderless-dropdown>
+                                        Robot
+                                    </p-dropdown-link>
+                                </template>
+                            </p-dropdown>
 
-                            <renderless-dropdown class="mr-3 mb-3">
-                                <div slot-scope="props">
-                                    <button class="button" @click="props.toggle()" data-reference>Dropdown With Images <fa-icon icon="angle-down" class="fa-fw ml-3"></fa-icon></button>
+                            <p-dropdown class="mr-3 mb-3">
+                                Dropdown With Images
 
-                                    <div class="dropdown__menu" v-show="props.isOpen" data-popper>
-                                        <a href="#" class="dropdown__link">
-                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+                                <template v-slot:menu>
+                                    <p-dropdown-link href="#">
+                                        <img src="https://placeimg.com/50/50/animals" alt="Animal" class="dropdown__image rounded">
 
-                                            This is an image
-                                        </a>
+                                        Animal
+                                    </p-dropdown-link>
 
-                                        <a href="#" class="dropdown__link">
-                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+                                    <p-dropdown-link href="#">
+                                        <img src="https://placeimg.com/50/50/arch" alt="Architecture" class="dropdown__image rounded">
 
-                                            This is an image
-                                        </a>
+                                        Architecture
+                                    </p-dropdown-link>
 
-                                        <a href="#" class="dropdown__link">
-                                            <img src="https://placeimg.com/50/50/animals" alt="NASA" class="dropdown__image rounded">
+                                    <p-dropdown-link href="#">
+                                        <img src="https://placeimg.com/50/50/nature" alt="Nature" class="dropdown__image rounded">
 
-                                            This is an image
-                                        </a>
-                                    </div>
-                                </div>
-                            </renderless-dropdown>
+                                        Nature
+                                    </p-dropdown-link>
+                                </template>
+                            </p-dropdown>
                         </div>
                     </div>
                 </div>

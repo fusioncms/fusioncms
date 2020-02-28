@@ -1,5 +1,5 @@
 <template>
-    <renderless-dropdown placement="auto-end">
+    <renderless-dropdown>
         <div slot-scope="props">
             <button class="button" :class="{'button--icon': icon}" @click="props.toggle()" data-reference>
                 <slot></slot>

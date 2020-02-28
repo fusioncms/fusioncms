@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link v-if="to" :to="to" class="dropdown__link" @click="onClick($event)">
+        <router-link v-if="to" :to="to" class="dropdown__link" @click.native="onClick($event)">
             <slot></slot>
         </router-link>
 
@@ -36,8 +36,10 @@
 
         methods: {
             onClick(event) {
+                this.$parent.toggle()
+
                 this.$emit('click', event)
             }
-        }
+        },
     }
 </script>

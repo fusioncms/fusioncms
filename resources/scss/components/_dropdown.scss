@@ -13,12 +13,12 @@
             rounded
             border
             shadow
-            mt-1
             z-20
         ;
 
+        top: 100%;
         min-width: 10rem;
-        max-width: 18rem;
+        max-width: 16rem;
     }
 
     &__item,

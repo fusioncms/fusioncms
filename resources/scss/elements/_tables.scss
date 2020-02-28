@@ -1,0 +1,72 @@
+.table {
+    @apply
+        w-full
+        max-w-full
+    ;
+
+    thead {
+        th {
+            @apply
+                border-gray-200
+                tracking-wider
+                text-gray-500
+                font-medium
+                bg-gray-50
+                text-left
+                uppercase
+                leading-4
+                border-b
+                text-xs
+                px-6
+                py-3
+            ;
+        }
+    }
+
+    tbody {
+        tr {
+            @apply
+                bg-white
+            ;
+
+            &:nth-child(even) {
+                @apply
+                    bg-gray-50
+                ;
+            }
+        }
+
+        td {
+            @apply
+                whitespace-no-wrap
+                text-gray-500
+                leading-5
+                text-sm
+                px-6
+                py-4
+            ;
+
+            &:first-child {
+                @apply
+                    text-gray-900
+                    font-medium
+                ;
+            }
+
+            &.actions {
+                @apply
+                    font-medium
+                    justify-end
+                    relative
+                ;
+            }
+        }
+    }
+
+    &__responsive {
+        @apply
+            w-full
+            overflow-x-auto
+        ;
+    }
+}

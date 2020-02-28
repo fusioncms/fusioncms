@@ -8,7 +8,7 @@
             </p>
         </div>
 
-        <table v-if="activities.length">
+        <table v-if="activities.length" class="table">
             <thead>
                 <tr>
                     <th>User</th>

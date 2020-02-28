@@ -7,7 +7,7 @@
         <quicklinks :links="quicklinks"></quicklinks>
 
         <div class="row">
-            <div class="col mb-6 md:w-full">
+            <div class="col w-full">
                 <analytics-overview></analytics-overview>
             </div>
         </div>

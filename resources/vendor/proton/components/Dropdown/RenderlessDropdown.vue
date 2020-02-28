@@ -1,5 +1,5 @@
 <script>
-    import Popper from 'popper.js'
+    import { createPopper } from '@popperjs/core';
 
     export default {
         name: 'renderless-dropdown',
@@ -12,18 +12,7 @@
                 popperElement: null,
                 popperOptions: {
                     placement: this.placement,
-                    modifiers: {
-                        arrow: {
-                            enabled: false,
-                        },
-                        preventOverflow: {
-                            boundariesElement: 'viewport',
-                        },
-                        flip: {
-                            behavior: ['bottom-start', 'bottom-end', 'top-start', 'top-end'],
-                            boundariesElement: 'viewport',
-                        },
-                    },
+                    padding: 5,
                 },
             }
         },
@@ -51,7 +40,7 @@
                 if (this.popper) return
 
                 this.$nextTick(() => {
-                    this.popper = new Popper(
+                    this.popper = createPopper(
                         this.referenceElement,
                         this.popperElement,
                         this.popperOptions

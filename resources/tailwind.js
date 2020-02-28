@@ -174,5 +174,7 @@ module.exports = {
         }
     },
 
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/ui')
+    ],
 }

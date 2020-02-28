@@ -17,29 +17,39 @@
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <p-dropdown>
-                        <fa-icon icon="circle" class="icon fa-xs text-success-500"></fa-icon>
-                        {{ user.name }}
+                    <renderless-dropdown placement="bottom-end">
+                        <div slot-scope="props">
+                            <a href="#" class="text-gray-400 hover:text-gray-900 p-1" @click.prevent="props.toggle()" data-reference><fa-icon icon="ellipsis-v" class="fa-fw fa-lg"></fa-icon></a>
 
-                        <template v-slot:menu>
-                            <p-dropdown-link href="/" target="_blank">
-                                <fa-icon icon="eye" class="icon"></fa-icon>
-                                View website
-                            </p-dropdown-link>
+                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                                <p-dropdown-item>
+                                    <p>
+                                        Hello and {{ greeting }},<br>
+                                        <strong>{{ user.name }}</strong>
+                                    </p>
+                                </p-dropdown-item>
 
-                            <p-dropdown-divider />
+                                <p-dropdown-divider />
 
-                            <p-dropdown-link :to="'users/' + user.id + '/edit'">
-                                <fa-icon icon="user" class="icon"></fa-icon>
-                                Account
-                            </p-dropdown-link>
+                                <p-dropdown-link href="/" target="_blank">
+                                    <fa-icon icon="eye" class="icon"></fa-icon>
+                                    View website
+                                </p-dropdown-link>
 
-                            <p-dropdown-link href="/logout">
-                                <fa-icon icon="sign-out-alt" class="icon"></fa-icon>
-                                Log out
-                            </p-dropdown-link>
-                        </template>
-                    </p-dropdown>
+                                <p-dropdown-divider />
+
+                                <p-dropdown-link :to="'/users/' + user.id + '/edit'">
+                                    <fa-icon icon="user" class="icon"></fa-icon>
+                                    Account
+                                </p-dropdown-link>
+
+                                <p-dropdown-link href="/logout">
+                                    <fa-icon icon="sign-out-alt" class="icon"></fa-icon>
+                                    Log out
+                                </p-dropdown-link>
+                            </div>
+                        </div>
+                    </renderless-dropdown>
                 </div>
 
                 <div>
@@ -127,6 +137,24 @@
             environment() {
                 return window.environment
             },
+
+            greeting() {
+                let today = new Date
+                let currentHour = today.getHours()
+                let greeting = 'good day'
+
+                if (currentHour > 18) {
+                    greeting = 'good evening'
+                } else if (currentHour > 12) {
+                    greeting = 'good afternoon'
+                } else if (currentHour > 0) {
+                    greeting = 'good morning'
+                }
+
+                return greeting
+            },
+
+
         },
 
         methods: {
