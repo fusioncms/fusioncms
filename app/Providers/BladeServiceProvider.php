@@ -87,6 +87,10 @@ class BladeServiceProvider extends ServiceProvider
         Blade::directive('endmacro', function ($expression) {
             return "\n<?php return ob_get_clean(); } ?>\n";
         });
+
+        Blade::directive('markdown', function ($expression) {
+            return "<span v-pre><?php echo render_markdown($expression); ?></span>";
+        });
     }
 
     protected function registerFormDirectives()
