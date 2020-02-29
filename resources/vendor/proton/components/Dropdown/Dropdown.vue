@@ -1,5 +1,5 @@
 <template>
-    <renderless-dropdown :placement="right ? 'bottom-end' : 'bottom-start'">
+    <renderless-dropdown :placement="right ? 'bottom-end' : (this.placement || 'bottom-start')">
         <div class="inline" slot-scope="props">
             <button class="button" :class="{'button--icon': icon}" @click="props.toggle()" data-reference>
                 <slot></slot>
@@ -27,6 +27,11 @@
             icon: {
                 type: Boolean,
                 default: false,
+                required: false,
+            },
+
+            placement: {
+                default: null,
                 required: false,
             },
 

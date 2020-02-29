@@ -60,71 +60,72 @@ module.exports = {
             'none': 'none',
         },
 
-        colors: {
-            'transparent': 'rgba(0, 0, 0, 0)',
-            'black': '#000000',
-            'white': '#ffffff',
-            'emoji': '#fbd043',
-
-            'smoke': {
-                100: 'rgba(35, 42, 60, 0.1)',
-                200: 'rgba(35, 42, 60, 0.2)',
-                300: 'rgba(35, 42, 60, 0.3)',
-                400: 'rgba(35, 42, 60, 0.4)',
-                500: 'rgba(35, 42, 60, 0.5)',
-                600: 'rgba(35, 42, 60, 0.6)',
-                700: 'rgba(35, 42, 60, 0.7)',
-                800: 'rgba(35, 42, 60, 0.8)',
-                900: 'rgba(35, 42, 60, 0.9)',
-            },
-
-            'brand': {
-                100: '#FFEEE9',
-                200: '#FFD5C8',
-                300: '#FFBCA7',
-                400: '#FF8964',
-                500: '#FF5722',
-                600: '#E64E1F',
-                700: '#993414',
-                800: '#73270F',
-                900: '#4D1A0A',
-            },
-
-            'primary': {
-                100: '#FFEEE9',
-                200: '#FFD5C8',
-                300: '#FFBCA7',
-                400: '#FF8964',
-                500: '#FF5722',
-                600: '#E64E1F',
-                700: '#993414',
-                800: '#73270F',
-                900: '#4D1A0A',
-            },
-
-            'secondary': {
-                100: '#EDFAFC',
-                200: '#D3F3F8',
-                300: '#B8ECF3',
-                400: '#82DEEA',
-                500: '#4DD0E1',
-                600: '#45BBCB',
-                700: '#2E7D87',
-                800: '#235E65',
-                900: '#173E44',
-            },
-
-            'gray': {
-                50: '#f9faf',
-                ...colors.gray
-            },
-            'info': colors.blue,
-            'success': colors.green,
-            'warning': colors.yellow,
-            'danger': colors.red,
-        },
-
         extend: {
+            colors: {
+                'transparent': 'rgba(0, 0, 0, 0)',
+                'black': '#000000',
+                'white': '#ffffff',
+                'emoji': '#fbd043',
+
+                'smoke': {
+                    100: 'rgba(35, 42, 60, 0.1)',
+                    200: 'rgba(35, 42, 60, 0.2)',
+                    300: 'rgba(35, 42, 60, 0.3)',
+                    400: 'rgba(35, 42, 60, 0.4)',
+                    500: 'rgba(35, 42, 60, 0.5)',
+                    600: 'rgba(35, 42, 60, 0.6)',
+                    700: 'rgba(35, 42, 60, 0.7)',
+                    800: 'rgba(35, 42, 60, 0.8)',
+                    900: 'rgba(35, 42, 60, 0.9)',
+                },
+
+                'brand': {
+                    100: '#FFEEE9',
+                    200: '#FFD5C8',
+                    300: '#FFBCA7',
+                    400: '#FF8964',
+                    500: '#FF5722',
+                    600: '#E64E1F',
+                    700: '#993414',
+                    800: '#73270F',
+                    900: '#4D1A0A',
+                },
+
+                'primary': {
+                    100: '#FFEEE9',
+                    200: '#FFD5C8',
+                    300: '#FFBCA7',
+                    400: '#FF8964',
+                    500: '#FF5722',
+                    600: '#E64E1F',
+                    700: '#993414',
+                    800: '#73270F',
+                    900: '#4D1A0A',
+                },
+
+                'secondary': {
+                    100: '#EDFAFC',
+                    200: '#D3F3F8',
+                    300: '#B8ECF3',
+                    400: '#82DEEA',
+                    500: '#4DD0E1',
+                    600: '#45BBCB',
+                    700: '#2E7D87',
+                    800: '#235E65',
+                    900: '#173E44',
+                },
+
+                'gray': {
+                    50: '#f9fafb',
+                    ...colors.gray,
+                },
+
+                'info': colors.blue,
+                'success': colors.green,
+                'warning': colors.yellow,
+                'danger': colors.red,
+            },
+
             fontFamily: {
                 sans: [
                     'Source Sans Pro',

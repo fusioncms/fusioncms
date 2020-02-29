@@ -1,7 +1,5 @@
 .dropdown {
     @apply
-        inline-flex
-        align-top
         relative
     ;
 
@@ -12,12 +10,10 @@
             rounded
             border
             shadow
-            w-64
-            z-10
         ;
 
-        // min-width: 10rem;
-        // max-width: 16rem;
+        min-width: 10rem;
+        max-width: 16rem;
     }
 
     &__item,

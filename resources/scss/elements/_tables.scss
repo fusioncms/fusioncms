@@ -55,8 +55,10 @@
 
             &.actions {
                 @apply
+                    justify-end
                     font-medium
                     relative
+                    flex
                 ;
             }
         }

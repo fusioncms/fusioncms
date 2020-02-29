@@ -301,7 +301,7 @@
                                     <td>bernardlane@example.com</td>
                                     <td>Owner</td>
                                     <td class="actions">
-                                        <p-dropdown right icon no-arrow style="z-index: 1;">
+                                        <p-dropdown placement="left-start" icon no-arrow>
                                             <fa-icon icon="ellipsis-h" class="icon"></fa-icon>
 
                                             <template v-slot:menu>
