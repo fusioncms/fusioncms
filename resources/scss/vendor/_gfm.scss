@@ -281,19 +281,31 @@ $gfm-header-border:       'true' !default;
 
   /* lists */
 
-  ul,
   ol {
     padding: 0;
     padding-left: 2em;
 
-    ol { list-style-type: lower-roman; }
+    li { list-style-type: decimal; }
 
-    ul,
     ol {
       margin-top: 0;
       margin-bottom: 0;
 
-      ol { list-style-type: lower-alpha; }
+      li { list-style-type: lower-roman; }
+    }
+  }
+
+  ul {
+    padding: 0;
+    padding-left: 2em;
+
+    li { list-style-type: disc; }
+
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      li { list-style-type: circle; }
     }
   }
 
