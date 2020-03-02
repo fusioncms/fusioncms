@@ -12,7 +12,7 @@
                 </textarea>
             </p-tab>
             <p-tab name="Preview">
-                <div v-html="preview"></div>
+                <div v-html="preview" class="markdown-body"></div>
             </p-tab>
         </p-tabs>
     </div>
@@ -77,4 +77,3 @@
         },
     }
 </script>
-
