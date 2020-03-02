@@ -43,6 +43,20 @@ class TaxonomyFieldtype extends Fieldtype
     ];
 
     /**
+     * @var array
+     */
+    public $rules = [
+        'settings.taxonomy' => 'required'
+    ];
+
+    /**
+     * @var array
+     */
+    public $attributes = [
+        'settings.taxonomy' => 'taxonomy'
+    ];
+
+    /**
      * @var string
      */
     public $relationship = 'morphToMany';

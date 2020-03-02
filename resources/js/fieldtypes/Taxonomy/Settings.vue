@@ -1,12 +1,14 @@
 <template>
     <div>
         <p-select
-            name="value.taxonomy"
+            name="settings.taxonomy"
             label="Taxonomy"
             help="The taxonomy from which to show terms."
             autocomplete="off"
-            v-model="value.taxonomy"
+            v-model="settings.taxonomy"
             :options="taxonomies"
+            :has-error="errors.has('settings.taxonomy')"
+            :error-message="errors.get('settings.taxonomy')"
         >
         </p-select>
     </div>

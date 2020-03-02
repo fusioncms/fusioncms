@@ -28,7 +28,7 @@
                                     <fa-icon icon="bars"></fa-icon>
 
                                     <template slot="options">
-                                        <p-dropdown-item @click.prevent="edit(index)" v-modal:edit-field>Edit</p-dropdown-item>
+                                        <p-dropdown-item @click.prevent="edit(index)">Edit</p-dropdown-item>
                                         <p-dropdown-item @click.prevent="remove(index)">Delete</p-dropdown-item>
                                     </template>
                                 </p-dropdown>
@@ -50,7 +50,7 @@
             <p-modal name="add-field" title="Add Field" extra-large>
                 <div class="row -mb-6">
                     <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="'add-' + fieldtype.handle">
-                        <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field>
+                        <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:add-field>
                             <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
                         </p-button>
                     </div>
@@ -61,7 +61,7 @@
                 </template>
             </p-modal>
 
-            <field-editor v-model="tempField" @cancel="cancel" @save="save"></field-editor>
+            <field-editor ref="editField" v-model="tempField" @save="save"></field-editor>
         </portal>
     </div>
 </template>
@@ -77,8 +77,7 @@
                 fieldtypes: {},
                 active: null,
                 fields: [],
-                tempField: {},
-                tempFieldOpen: false
+                tempField: {}
             }
         },
 
@@ -102,15 +101,6 @@
                 }
             },
 
-            // sectionFieldHandles() {
-            //     if(this.field.handle) {
-            //         let handles = _.pull(this.fieldHandles, this.field.handle)
-            //         return handles
-            //     }
-
-            //     return this.fieldHandles
-            // },
-
             total() {
                 return (this.fields.length + 1)
             }
@@ -121,34 +111,20 @@
                 this.$emit('input', value)
             },
 
-            // value(value) {
-            //     if (value.length) {
-            //         this.fields = value
-            //     }
-            // },
+            tempField(value) {
+                this.$refs.editField.modalOpen = ! _.isEmpty(value)
+            }
         },
 
         methods: {
             add(fieldtype, additional = {}) {
-                // let field = {
-                //     type: fieldtype,
-                //     name: additional.name || 'Field ' + this.total,
-                //     handle: additional.handle || this.getUniqueHandle('field_' + this.total),
-                //     help: additional.help || '',
-                //     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
-                //     order: this.fields.length
-                // }
-
-                // this.fields.push(field)
-                // this.active = field.handle
-
                 this.tempField = {
-                    type: fieldtype,
-                    name: additional.name || 'Field ' + this.total,
-                    handle: additional.handle || this.getUniqueHandle('field_' + this.total),
-                    help: additional.help || '',
+                    type:     fieldtype,
+                    name:     additional.name   || 'Field ' + this.total,
+                    handle:   additional.handle || this.getUniqueHandle('field_' + this.total),
+                    help:     additional.help   || '',
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
-                    order: this.fields.length
+                    order:    this.fields.length
                 }
             },
 
@@ -163,12 +139,10 @@
 
             save() {
                 let index = _.findIndex(this.fields, (old_field) => {
-                    return old_field.handle == this.field.handle})
+                    return old_field.handle == this.field.handle
+                })
+
                 this.fields.splice(index, 1, this.tempField)
-
-            },
-
-            cancel() {
                 this.tempField = {}
             },
 

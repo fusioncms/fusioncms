@@ -5,6 +5,16 @@ export default {
         },
     },
 
+    computed: {
+        settings() {
+            return this.value.settings
+        },
+
+        errors() {
+            return this.value.errors
+        }
+    },
+
     watch: {
         value: {
             deep: true,

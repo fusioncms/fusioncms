@@ -1,11 +1,16 @@
 <template>
-    <p-modal name="edit-field" title="Edit Field" noCloseButton noEscClose noOutsideClose extra-large>
+    <p-modal name="edit-field" title="Edit Field" noCloseButton noEscClose noOutsideClose extra-large v-model="modalOpen">
         <div class="row mb-6">
             <div class="col w-1/2">
-                <p-input 
-                    name="value-name" 
+                <p-input
+                    name="name"
                     label="Name"
+                    help="What this field will be called."
+                    autocomplete="off"
+                    autofocus
                     required
+                    :has-error="form.errors.has('name')"
+                    :error-message="form.errors.get('name')"
                     v-model="form.name">
                 </p-input>
             </div>
@@ -14,10 +19,13 @@
                 <p-slug
                     name="handle"
                     label="Handle"
+                    help="A developer-friendly variant of the fieldset's name."
                     autocomplete="off"
                     required
                     delimiter="_"
                     :watch="form.name"
+                    :has-error="form.errors.has('handle')"
+                    :error-message="form.errors.get('handle')"
                     v-model="form.handle">
                 </p-slug>
             </div>
@@ -37,11 +45,11 @@
 
         <hr>
 
-        <component v-if="form.type" :is="form.type.id + '-fieldtype-settings'" v-model="form.settings"></component>
-   
+        <component v-if="form.type" :is="form.type.id + '-fieldtype-settings'" v-model="form"></component>
+
         <template slot="footer">
-            <p-button class="ml-2" @click="cancel" v-modal:edit-field>Cancel</p-button>
-            <p-button theme="primary" class="ml-2" @click="submit">Save</p-button>
+            <p-button class="ml-2" @click="$emit('input', {})">Cancel</p-button>
+            <p-button theme="primary" class="ml-2" @click.prevent="submit">Save</p-button>
         </template>
    </p-modal>
 </template>
@@ -52,6 +60,13 @@
     export default {
         name: 'field-editor',
 
+        data() {
+            return {
+                form: new Form({}),
+                modalOpen: false,
+            }
+        },
+
         props: {
             value: {
                 type: Object,
@@ -59,23 +74,18 @@
             }
         },
 
-        computed: {
-            form() {
-                return new Form(this.value)
+        watch: {
+            value(value) {
+                this.form = new Form(value)
             }
         },
         
         methods: {
-            cancel() {
-                this.$emit('input', {})
-            },
-
             submit() {
-                this.form.post('/api/fields/validate').then(response => {
-                    console.log(response)
-                }).catch((response) => {
-                    console.log(response)
-                })
+                this.form.post('/api/fields/validate').then((response) => {
+                    this.$emit('input', response)
+                    this.$emit('save')
+                }).catch((error) => {})
             }
         }
     }
