@@ -1,7 +1,13 @@
 <template>
     <div class="form__group">
+        <label
+            class="form__label"
+            :for="field.handle"
+            v-html="field.name">
+        </label>
+
         <p-tabs>
-            <p-tab :name="field.name">
+            <p-tab name="Markdown">
                 <textarea
                     :name="field.handle"
                     :id="field.handle"
