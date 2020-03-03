@@ -22,7 +22,10 @@
     }
 
     &-item {
-        @apply rounded-lg overflow-hidden border-4 border-gray-200 p-2;
+        @apply rounded-lg overflow-hidden border-4 border-gray-200 p-2 flex items-center;
+
+        height: 100px;
+        width: 100px;
         
         &--selected {
             @apply border-secondary-500 bg-secondary-200;
