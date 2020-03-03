@@ -11,7 +11,7 @@
 				@keyup.esc="revert"/>
 		</span>
 
-		<span v-else class="truncate" @dblclick="edit">{{ name }}</span>
+		<div v-else class="truncate" @dblclick="edit">{{ name }}</div>
 	</div>
 </template>
 
