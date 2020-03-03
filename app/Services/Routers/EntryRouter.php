@@ -14,9 +14,12 @@ namespace App\Services\Routers;
 use App\Models\Matrix;
 use Illuminate\Http\Request;
 use App\Services\Builders\Collection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 
 class EntryRouter extends Router
 {
+
     public function handle(Request $request)
     {
         $collections = Matrix::where('type', 'collection')
@@ -44,8 +47,12 @@ class EntryRouter extends Router
 
             $model  = (new Collection($collection->handle))->make();
             $entry  = $model->with($relationships)->where('slug', $found->parameter('slug'))->first();
-            
+
             if (is_null($entry)) {
+                continue 1;
+            }
+
+            if (!$entry->status && Gate::denies('access.admin')) {
                 continue 1;
             }
             
