@@ -48,7 +48,7 @@
         <component v-if="form.type" :is="form.type.id + '-fieldtype-settings'" v-model="form"></component>
 
         <template slot="footer">
-            <p-button class="ml-2" @click="$emit('input', {})">Cancel</p-button>
+            <p-button class="ml-2" @click="cancel">Cancel</p-button>
             <p-button theme="primary" class="ml-2" @click.prevent="submit">Save</p-button>
         </template>
    </p-modal>
@@ -76,16 +76,20 @@
 
         watch: {
             value(value) {
-                this.form = new Form(value)
+                this.form = new Form(_.cloneDeep(value))
             }
         },
         
         methods: {
             submit() {
-                this.form.post('/api/fields/validate').then((response) => {
-                    this.$emit('input', response)
-                    this.$emit('save')
-                }).catch((error) => {})
+                this.form.post('/api/fields/validate')
+                    .then((response) => {
+                        this.$emit('save', this.value.handle, this.form.data())
+                    }).catch((error) => { })
+            },
+
+            cancel() {
+                this.$emit('cancel', this.value.handle)
             }
         }
     }

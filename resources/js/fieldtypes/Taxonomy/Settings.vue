@@ -1,7 +1,7 @@
 <template>
     <div>
         <p-select
-            name="settings.taxonomy"
+            name="taxonomy"
             label="Taxonomy"
             help="The taxonomy from which to show terms."
             autocomplete="off"
@@ -15,19 +15,12 @@
 </template>
 
 <script>
-    import fieldtype from '../../mixins/fieldtype'
-
     export default {
         name: 'taxonomy-fieldtype-settings',
 
-        mixins: [fieldtype],
-
-        props: {
-            value: {
-                type: Object,
-                required: true
-            }
-        },
+        mixins: [
+            require ('../../mixins/fieldtype').default
+        ],
 
         data() {
             return {

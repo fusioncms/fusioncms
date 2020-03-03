@@ -61,7 +61,12 @@
                 </template>
             </p-modal>
 
-            <field-editor ref="editField" v-model="tempField" @save="save"></field-editor>
+            <field-editor
+                ref="editField"
+                v-model="field"
+                @save="save"
+                @cancel="cancel">
+            </field-editor>
         </portal>
     </div>
 </template>
@@ -70,62 +75,76 @@
     export default {
         name: 'field-builder',
 
-        props: ['value', 'fieldHandles', 'id'],
-
         data() {
             return {
                 fieldtypes: {},
-                active: null,
-                fields: [],
-                tempField: {}
+                active: false,
+            }
+        },
+
+        props: {
+            value: {
+                type: Array,
+                required: true
+            },
+            id: {
+                type: String,
+                required: true
             }
         },
 
         computed: {
-            field: {
-                get: function() {
-                    let field = _.find(this.fields, (field) => {
-                        field.has_errors = false
-                        return field.handle == this.active
-                    })
-
-                    if (typeof field !== 'undefined') {
-                        return field
-                    }
-
-                    return {}
+            fields: {
+                get() {
+                    return this.value || []
                 },
 
-                set: function(value) {
-                    return value
+                set(value) {
+                    // console.log('fields set:', value)
+                    this.$emit('input', value)
+                }
+            },
+
+            field: {
+                get() {
+                    return _.find(this.fields, (field) => field.handle == this.active) || {}
+                },
+
+                set(value) {
+                    // console.log('field set:', value)
+                    this.active = value.handle || false
                 }
             },
 
             total() {
-                return (this.fields.length + 1)
+                return this.fields.length
+            },
+
+            nextId() {
+                return this.total + 1
             }
         },
 
         watch: {
-            fields(value) {
-                this.$emit('input', value)
-            },
-
-            tempField(value) {
-                this.$refs.editField.modalOpen = ! _.isEmpty(value)
+            active(value) {
+                this.$refs.editField.modalOpen = _.isString(value)
             }
         },
 
         methods: {
             add(fieldtype, additional = {}) {
-                this.tempField = {
+                this.fields.push({
                     type:     fieldtype,
-                    name:     additional.name   || 'Field ' + this.total,
-                    handle:   additional.handle || this.getUniqueHandle('field_' + this.total),
-                    help:     additional.help   || '',
+                    name:     additional.name || 'Field ' + this.nextId,
+                    handle:   'field_' + this.nextId,
+                    help:     additional.help || '',
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
-                    order:    this.fields.length
-                }
+                    order:    this.total,
+                    proto:    true  // prototype flag
+                })
+
+                this.active = _.last(this.fields).handle
+                this.newField = true
             },
 
             remove(index) {
@@ -133,54 +152,48 @@
             },
 
             edit(index) {
-                this.active    = this.fields[index].handle
-                this.tempField = _.cloneDeep(this.field, true)
+                this.active = this.fields[index].handle
             },
 
-            save() {
-                let index = _.findIndex(this.fields, (old_field) => {
-                    return old_field.handle == this.field.handle
-                })
+            save(handle, value) {
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
 
-                this.fields.splice(index, 1, this.tempField)
-                this.tempField = {}
+                delete value['proto']
+
+                this.fields.splice(index, 1, value)
+                this.field = {}
             },
 
-            getUniqueHandle(handle) {
-                while(this.fieldHandles.includes(handle)) {
-                    handle = handle + '-1'
+            cancel(handle) {
+                if (this.field.proto) {
+                    this.remove(
+                        _.findIndex(this.fields, (field) => field.handle == handle)
+                    )
                 }
-                return handle
+                
+                this.field = {}
             }
         },
 
         mounted() {
-            this.fields = this.value || []
-
             axios.all([
                 axios.get('/api/fieldtypes'),
-            ]).then(axios.spread(function (fieldtypes) {
+            ]).then(axios.spread((fieldtypes) => {
                 this.fieldtypes = fieldtypes.data.data
-            }.bind(this)))
+            }))
         },
 
         created() {
-            let vm = this
-
             this.$bus.$on('add-field-' + this.id, (adding) => {
-                let index = _.findIndex(vm.fields, function(field) {
-                    return field.handle == adding.handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
 
                 if (index == -1) {
-                    vm.add(adding.fieldtype, adding)
+                    this.add(adding.fieldtype, adding)
                 }
             })
 
             this.$bus.$on('remove-field-' + this.id, (handle) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
 
                 if (index > -1) {
                     this.remove(index)
@@ -189,20 +202,16 @@
         },
 
         beforeDestroy() {
-            this.$bus.$off('add-field-' + this.id, (field) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+            this.$bus.$off('add-field-' + this.id, (adding) => {
+                let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
 
                 if (index == -1) {
-                    this.add(field.fieldtype, field)
+                    this.add(adding.fieldtype, adding)
                 }
             })
 
             this.$bus.$off('remove-field-' + this.id, (handle) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
 
                 if (index > -1) {
                     this.remove(index)

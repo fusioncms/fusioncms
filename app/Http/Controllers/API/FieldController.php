@@ -44,11 +44,19 @@ class FieldController extends Controller
      */
     public function valid(Request $request)
     {
-        $fieldtype = fieldtypes()->get($request->input('type')['id']);
         $rules = [
             'name'   => 'required',
             'handle' => 'required',
         ];
+        
+        /**
+         * Pull additional validation rules from `fieldtypes`
+         * 
+         * - rules      - Laravel validation rules
+         * - messages   - Custom error message
+         * - attributes - Custom field name
+         */
+        $fieldtype = fieldtypes()->get($request->input('type')['handle']);
 
         foreach ($fieldtype->rules as $handle => $rule) {
             $rules[$handle] = $rule;

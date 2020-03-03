@@ -1,26 +1,18 @@
 export default {
     props: {
         value: {
-            required: true,
+            type: Object,
+            required: true
         },
     },
 
     computed: {
         settings() {
-            return this.value.settings
+            return this.value.settings || {}
         },
 
         errors() {
-            return this.value.errors
+            return this.value.errors || {}
         }
-    },
-
-    watch: {
-        value: {
-            deep: true,
-            handler(value) {
-                this.$emit('input', value)
-            }
-        },
     }
 }
