@@ -14,7 +14,6 @@ namespace App\Services\Routers;
 use App\Models\Matrix;
 use Illuminate\Http\Request;
 use App\Services\Builders\Collection;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Gate;
 
 class EntryRouter extends Router
