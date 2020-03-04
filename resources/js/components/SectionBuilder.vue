@@ -70,22 +70,21 @@
                 active: 0,
                 total: 0,
                 sections: [],
+                default: {
+                    name: 'General',
+                    handle: 'general',
+                    description: '',
+                    placement: 'body',
+                    order: 0,
+                    fields: [],
+                }
             }
         },
 
         props: {
             value: {
                 type: Array,
-                default: () => [
-                    {
-                        name: 'General',
-                        handle: 'general',
-                        description: '',
-                        placement: 'body',
-                        order: 0,
-                        fields: [],
-                    }
-                ]
+                default: () => []
             }
         },
 
@@ -159,6 +158,12 @@
                 _.each(fields, function (field, order) {
                     field.order = order
                 })
+            }
+        },
+
+        mounted() {
+            if (! this.sections.length) {
+                this.sections.push(this.default)
             }
         }
     }
