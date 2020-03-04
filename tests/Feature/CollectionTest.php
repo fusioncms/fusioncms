@@ -264,6 +264,36 @@ class CollectionTest extends TestCase
      * @group fusioncms
      * @group matrix
      */
+    public function a_user_without_admin_settings_can_view_an_enabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+            'status' => true
+        ];
+
+        $this
+            ->json('POST', '/api/collections/posts', $data)
+            ->assertStatus(201);
+
+        $this->actingAs($this->user);
+
+        $response = $this->get('/posts/example');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
     public function a_user_without_admin_settings_cannot_view_a_disabled_entry()
     {
         $this->actingAs($this->admin, 'api');
