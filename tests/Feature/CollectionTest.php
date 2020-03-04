@@ -318,4 +318,94 @@ class CollectionTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_with_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+            'status' => false
+        ];
+
+        $this
+            ->json('POST', '/api/collections/posts', $data)
+            ->assertStatus(201);
+
+        $this->actingAs($this->admin);
+
+        $response = $this->get('/posts/example');
+
+        $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_with_admin_settings_can_preview_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+            'status' => false
+        ];
+
+        $this
+            ->json('POST', '/api/collections/posts', $data)
+            ->assertStatus(201);
+
+        $this->actingAs($this->admin);
+
+        $response = $this->get('/posts/example?preview=true');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_admin_settings_cannot_preview_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+            'status' => false
+        ];
+
+        $this
+            ->json('POST', '/api/collections/posts', $data)
+            ->assertStatus(201);
+
+        $this->actingAs($this->user);
+
+        $response = $this->get('/posts/example?preview=true');
+
+        $response->assertStatus(404);
+    }
 }
