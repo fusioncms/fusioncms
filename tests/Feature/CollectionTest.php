@@ -239,26 +239,6 @@ class CollectionTest extends TestCase
         ]);
     }
 
-    protected function generatePostsMatrix()
-    {
-        $section  = SectionFactory::times(1)->withoutFields()->create();
-        $fields[] = FieldFactory::withName('Excerpt')->create();
-        $fields[] = FieldFactory::withName('Content')->create();
-
-        foreach ($fields as $field) {
-            $section->fields()->save($field);
-        }
-
-        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
-
-        return MatrixFactory::withName('Posts')
-                ->asCollection()
-                ->withFieldset($fieldset)
-                ->withRoute('posts/{slug}')
-                ->withTemplate('index')
-                ->create();
-    }
-
     /**
      * @test
      * @group fusioncms
@@ -407,5 +387,25 @@ class CollectionTest extends TestCase
         $response = $this->get('/posts/example?preview=true');
 
         $response->assertStatus(404);
+    }
+
+    protected function generatePostsMatrix()
+    {
+        $section  = SectionFactory::times(1)->withoutFields()->create();
+        $fields[] = FieldFactory::withName('Excerpt')->create();
+        $fields[] = FieldFactory::withName('Content')->create();
+
+        foreach ($fields as $field) {
+            $section->fields()->save($field);
+        }
+
+        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
+
+        return MatrixFactory::withName('Posts')
+                ->asCollection()
+                ->withFieldset($fieldset)
+                ->withRoute('posts/{slug}')
+                ->withTemplate('index')
+                ->create();
     }
 }
