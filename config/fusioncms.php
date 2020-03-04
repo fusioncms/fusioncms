@@ -50,7 +50,6 @@ return [
         \App\Fieldtypes\CountryFieldtype::class,
         \App\Fieldtypes\DateTimeFieldtype::class,
         \App\Fieldtypes\DividerFieldtype::class,
-        \App\Fieldtypes\EditorFieldtype::class,
         \App\Fieldtypes\InformationFieldtype::class,
         \App\Fieldtypes\InputFieldtype::class,
         \App\Fieldtypes\LinkFieldtype::class,
