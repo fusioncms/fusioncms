@@ -3,7 +3,7 @@
         <p-toggle :name="field.handle"
             :label="field.name"
             :help="field.help"
-            :checked="!!value"
+            :checked="!! checked"
             @input="$emit('input', $event)"
         ></p-toggle>
     </div>
@@ -20,10 +20,15 @@
             },
 
             value: {
-                required: false,
-                default: false,
+                required: false
             },
         },
+
+        computed: {
+            checked() {
+                return this.value || this.field.settings.default
+            }
+        }
     }
 </script>
 
