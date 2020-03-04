@@ -23,7 +23,7 @@ export default {
 
 		    let index = -1
 		    let units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-		    
+
 		    do {
 		        value /= thresh
 		        ++index
@@ -58,7 +58,7 @@ export default {
 		},
 
 		preview(file) {
-			this.$router.push({ path: `/files/preview/${file.uuid}` })
+			this.$router.push({ path: `/files/${file.uuid}` })
 		},
 	}
 }

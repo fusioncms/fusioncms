@@ -152,10 +152,10 @@ class BootstrapAdminMenu
                 'icon' => 'save',
             ]);
 
-            $menu->tools->add('Import')->data([
-                'to'   => '/importer',
-                'icon' => 'ship',
-            ]);
+            // $menu->tools->add('Import')->data([
+            //     'to'   => '/importer',
+            //     'icon' => 'ship',
+            // ]);
 
             $menu->tools->add('Logs')->data([
                 'to'   => '/logs',
@@ -184,11 +184,6 @@ class BootstrapAdminMenu
 
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
-            ]);
-
-            $menu->add('Playground')->data([
-                'to'   => '/playground',
-                'icon' => 'robot',
             ]);
         });
     }

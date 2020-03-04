@@ -45,8 +45,8 @@ class FormObserver
     public function created(Form $form)
     {
         $this->migration->schema->create($form->table, function (Blueprint $table) use ($form) {
-            $table->increments('id');
-            $table->integer('form_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('form_id');
 
             $table->string('identifiable_ip_address')->nullable();
 

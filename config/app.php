@@ -189,7 +189,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
-        App\Providers\MacroServiceProvider::class,
 
         /*
          * Third-Party Vendor Service Providers...

@@ -63,11 +63,20 @@ class ThemeTest extends TestCase
 	{
 		$this->actingAs($this->admin, 'api');
 
+		Theme::push(collect([
+			'name'        => 'Test Theme',
+			'slug'        => 'test_theme',
+			'description' => 'A temporary theme for testing purposes.',
+			'author'      => 'efelle creative',
+			'version'     => '1.0.0',
+			'settings'    => [],
+		]));
+
 		$this
-			->json('PATCH', '/api/theme/beta')
+			->json('PATCH', '/api/theme/test_theme')
 			->assertStatus(200);
 
-		$this->assertEquals(setting('system.theme'), 'beta');
+		$this->assertEquals(setting('system.theme'), 'test_theme');
 	}
 
 	/**
@@ -130,7 +139,7 @@ class ThemeTest extends TestCase
 	/**
 	 * Generate fake theme zip for testing..
 	 * [helper]
-	 * 
+	 *
 	 * @param  string $themeName
 	 * @return string
 	 */

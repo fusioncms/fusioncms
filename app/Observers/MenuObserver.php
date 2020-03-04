@@ -45,9 +45,9 @@ class MenuObserver
     public function created(Menu $menu)
     {
         $this->migration->schema->create($menu->table, function (Blueprint $table) use ($menu) {
-            $table->increments('id');
-            $table->integer('menu_id')->unsigned()->index();
-            $table->integer('parent_id')->unsigned()->index()->default(0);
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('menu_id')->index();
+            $table->unsignedBigInteger('parent_id')->index()->default(0);
             $table->string('name');
             $table->string('url')->nullable();
             $table->boolean('new_window')->default(false);
