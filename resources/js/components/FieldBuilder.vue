@@ -144,7 +144,6 @@
                 })
 
                 this.active = _.last(this.fields).handle
-                this.newField = true
             },
 
             remove(index) {

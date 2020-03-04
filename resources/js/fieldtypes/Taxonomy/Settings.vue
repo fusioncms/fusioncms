@@ -15,24 +15,18 @@
 </template>
 
 <script>
+    import fieldtype from '../../mixins/fieldtype'
+
     export default {
         name: 'taxonomy-fieldtype-settings',
 
-        mixins: [
-            require ('../../mixins/fieldtype').default
-        ],
+        mixins: [fieldtype],
 
         data() {
             return {
                 taxonomies: [
-                    {
-                        label: 'No',
-                        value: 0,
-                    },
-                    {
-                        label: 'Yes',
-                        value: 1,
-                    }
+                    { label: 'No',  value: 0 },
+                    { label: 'Yes', value: 1 }
                 ],
             }
         },

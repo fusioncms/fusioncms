@@ -32,12 +32,12 @@
 </template>
 
 <script>
+    import fieldtype from '../../mixins/fieldtype'
+
     export default {
         name: 'color-picker-fieldtype-settings',
 
-        mixins: [
-            require ('../../mixins/fieldtype').default
-        ],
+        mixins: [fieldtype],
     }
 </script>
 

@@ -46,6 +46,26 @@ class NumberFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $rules = [
+        'settings.decimals' => 'required|integer',
+        'settings.steps'    => 'required|numeric',
+        'settings.min'      => 'nullable|numeric',
+        'settings.max'      => 'nullable|numeric',
+    ];
+
+    /**
+     * @var array
+     */
+    public $attributes = [
+        'settings.decimals' => 'decimals',
+        'settings.steps'    => 'steps',
+        'settings.min'      => 'min',
+        'settings.max'      => 'max',
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type'    => 'float',
         'settings' => [24, 12],

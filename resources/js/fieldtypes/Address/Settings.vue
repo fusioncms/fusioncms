@@ -14,12 +14,12 @@
 </template>
 
 <script>
+    import fieldtype from '../../mixins/fieldtype'
+
     export default {
         name: 'address-fieldtype-settings',
 
-        mixins: [
-            require ('../../mixins/fieldtype').default
-        ],
+        mixins: [fieldtype],
     }
 </script>
 

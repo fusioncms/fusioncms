@@ -5,7 +5,7 @@
             label="Multi Select"
             help="Should this field allow multiple options to be selected?"
             autocomplete="off"
-            v-model="value.multiple"
+            v-model="settings.multiple"
             :options="[
                 {
                     label: 'No',
@@ -16,7 +16,8 @@
                     value: 1,
                 }
             ]"
-        >
+            :has-error="errors.has('settings.multiple')"
+            :error-message="errors.get('settings.multiple')">
         </p-select>
     </div>
 </template>

@@ -43,12 +43,12 @@
 </template>
 
 <script>
+	import fieldtype from '../../mixins/fieldtype'
+
     export default {
         name: 'asset-fieldtype-settings',
 
-        mixins: [
-        	require ('../../mixins/fieldtype').default
-        ],
+        mixins: [fieldtype],
 
         data() {
         	return {

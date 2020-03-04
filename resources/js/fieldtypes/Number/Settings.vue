@@ -1,15 +1,16 @@
 <template>
-    <div class="flex">
+    <div class="flex flex-wrap justify-between">
         <p-number
             name="settings.decimals"
             label="Decimal Places"
             help="The number of decimal places this number will accept."
             autocomplete="off"
-            v-model="value.decimals"
+            v-model="settings.decimals"
             min="0"
             max="6"
-            class="w-1/5 mr-5"
-            >
+            class="mr-5 w-2/5 lg:w-1/5"
+            :has-error="errors.has('settings.decimals')"
+            :error-message="errors.get('settings.decimals')">
         </p-number>
 
         <p-number
@@ -17,12 +18,13 @@
             label="Step Size"
             help="Step or increment size of the number"
             autocomplete="off"
-            v-model="value.steps"
+            v-model="settings.steps"
             min="0"
-            :steps="pad(value.decimals)"
-            :decimals="value.decimals"
-            class="w-1/5 mr-5"
-            >
+            :steps="settings.decimals | pad"
+            :decimals="settings.decimals"
+            class="mr-5 w-2/5 lg:w-1/5"
+            :has-error="errors.has('settings.steps')"
+            :error-message="errors.get('settings.steps')">
         </p-number>
 
         <p-number
@@ -30,11 +32,12 @@
             label="Min Value"
             help="Minimum allowed value"
             autocomplete="off"
-            v-model="value.min"
-            :decimals="value.decimals"
-            :steps="value.steps"
-            class="w-1/5 mr-5"
-            >
+            v-model="settings.min"
+            :decimals="settings.decimals"
+            :steps="settings.steps"
+            class="mr-5 w-2/5 lg:w-1/5"
+            :has-error="errors.has('settings.min')"
+            :error-message="errors.get('settings.min')">
         </p-number>
 
         <p-number
@@ -42,11 +45,12 @@
             label="Max Value"
             help="Maximum allowed value"
             autocomplete="off"
-            v-model="value.max"
-            :decimals="value.decimals"
-            :steps="value.steps"
-            class="w-1/5"
-            >
+            v-model="settings.max"
+            :decimals="settings.decimals"
+            :steps="settings.steps"
+            class="mr-5 w-2/5 lg:w-1/5"
+            :has-error="errors.has('settings.max')"
+            :error-message="errors.get('settings.max')">
         </p-number>
     </div>
 </template>
@@ -59,15 +63,11 @@
 
         mixins: [fieldtype],
 
-        methods: {
+        filters: {
             pad(length) {
-                let str = '1'
-                while(str.length < length) {
-                    str = '0' + str
-                }
-                return Number('0.' + str.substr(-length, length))
-            },
-        },
+                return _.padStart('1', length, '0')
+            }
+        }
     }
 </script>
 
