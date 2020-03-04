@@ -37,7 +37,8 @@ class CountryFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        'multiple' => 0,
+        'multiple'   => 0,
+        'filterable' => false,
     ];
 
     public $data = [

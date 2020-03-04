@@ -5,7 +5,7 @@
             label="Type"
             help="What type of input should this be?"
             autocomplete="off"
-            v-model="value.type"
+            v-model="settings.type"
             :options="[
                 {
                     label: 'Text',
@@ -36,7 +36,8 @@
                     value: 'url',
                 },
             ]"
-        >
+            :has-error="errors.has('settings.type')"
+            :error-message="errors.get('settings.type')">
         </p-select>
 
         <p-input
@@ -44,8 +45,9 @@
             label="Placeholder"
             help="Text that will appear inside the input element's content area when empty."
             autocomplete="off"
-            v-model="value.placeholder"
-            >
+            v-model="settings.placeholder"
+            :has-error="errors.has('settings.placeholder')"
+            :error-message="errors.get('settings.placeholder')">
         </p-input>
     </div>
 </template>
