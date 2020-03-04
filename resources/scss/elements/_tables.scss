@@ -9,17 +9,26 @@
             @apply
                 border-gray-200
                 tracking-wider
-                text-gray-500
+                text-gray-800
                 font-medium
                 bg-gray-50
                 text-left
                 uppercase
                 leading-4
-                border-b
-                text-xs
+                border-b-2
+                text-sm
                 px-6
                 py-3
             ;
+        }
+
+        .sortable {
+            &:hover {
+                @apply
+                    cursor-pointer
+                    border-gray-900
+                ;
+            }
         }
     }
 
@@ -27,6 +36,8 @@
         tr {
             @apply
                 bg-white
+                border-b
+                border-gray-200
             ;
 
             &:nth-child(even) {
@@ -39,11 +50,9 @@
         td {
             @apply
                 whitespace-no-wrap
-                text-gray-500
-                leading-5
-                text-sm
                 px-6
-                py-4
+                py-3
+                align-middle
             ;
 
             &:first-child {
@@ -60,6 +69,8 @@
                     relative
                     flex
                 ;
+
+                opacity: 1;
             }
         }
     }

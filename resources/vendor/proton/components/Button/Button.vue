@@ -1,94 +1,53 @@
 <template>
-    <button
-        class="button"
-        :class="[ themes[theme], sizes[size] ]"
-        :type="type"
-        :disabled="disabled"
-        @click="onClick($event)"
-    >
-        <slot></slot>
-    </button>
+    <renderless-button :loading="value">
+        <button
+            slot-scope="props"
+            :class="classes"
+            v-bind="$attrs"
+            class="button"
+            @click="onClick"
+            :disabled="props.isLoading"
+        >
+            <slot></slot>
+
+            <fa-icon v-if="props.isLoading" icon="circle-notch" class="ml-3 fa-fw fa-spin"></fa-icon>
+        </button>
+    </renderless-button>
 </template>
 
 <script>
     export default {
         name: 'p-button',
 
+        inheritAttrs: false,
+
         data() {
             return {
-                themes: {
-                    default: '',
-                    primary: 'button--primary',
-                    secondary: 'button--secondary',
-                    info: 'button--info',
-                    success: 'button--success',
-                    warning: 'button--warning',
-                    danger: 'button--danger',
-                    dark: 'button--dark',
-                },
+                loading: this.value,
+            }
+        },
 
-                sizes: {
-                    normal: '',
-                    small: 'button--small',
-                    large: 'button--large',
-                },
+        watch: {
+            loading(value) {
+                console.log('loading changed: ' + value)
             }
         },
 
         props: {
-            type: {
+            classes: {
                 required: false,
-                type: String,
-                default: 'button',
+                default: ''
             },
 
-            to: {
+            value: {
                 required: false,
-                type: String | Object,
-            },
-
-            href: {
-                required: false,
-                type: String,
-            },
-
-            theme: {
-                required: false,
-                type: String,
-                default: 'default',
-            },
-
-            size: {
-                required: false,
-                type: String,
-                default: 'normal',
-            },
-            
-            disabled: {
-                required: false,
-                type: Boolean,
                 default: false,
-            },
+            }
         },
 
         methods: {
-            onClick(event) {
-                if (typeof this.to === 'undefined' && typeof this.href !== 'undefined') { // is href
-                    event.preventDefault()
-                    window.location = this.href
-                } else if (typeof this.to !== 'undefined' && typeof this.$router !== 'undefined') { // is router-link
-
-                    if (typeof this.to !== 'object' && this.to !== null) { // is string
-
-                        this.$router.push({ path: this.to }).catch((err) => {})
-
-                    } else { // is object
-
-                        this.$router.push(this.to).catch((err) => {})
-                    }             
-                }
-
-                this.$emit('click', event)
+            onClick() {
+                this.$emit('click')
             }
         }
     }

@@ -1,19 +1,57 @@
 .dropdown {
     @apply
+        inline-flex
         relative
+        align-top
     ;
+
+    &--open {
+        .dropdown__menu {
+            @apply
+                flex
+                flex-col
+            ;
+        }
+    }
+
+    &--right {
+        .dropdown__menu {
+            @apply
+                left-auto
+                right-0
+            ;
+        }
+    }
+
+    &--up {
+        .dropdown__menu {
+            @apply
+                top-auto
+            ;
+
+            margin-top: initial;
+            margin-bottom: 4px;
+            bottom: 100%;
+        }
+    }
 
     &__menu {
         @apply
-            border-gray-200
+            border-gray-300
+            absolute
             bg-white
             rounded
             border
+            hidden
+            left-0
+            right-0
             shadow
+            z-20
         ;
 
-        min-width: 10rem;
-        max-width: 16rem;
+        top: 100%;
+        width: 100%;
+        margin-top: 4px;
     }
 
     &__item,
@@ -22,7 +60,6 @@
             text-left
             text-sm
             w-full
-            block
             py-2
             px-4
         ;

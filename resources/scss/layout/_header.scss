@@ -27,10 +27,3 @@
 .page-title {
     @apply .uppercase .font-semibold .text-sm .m-0 .p-0 .leading-tight;
 }
-
-.actions {
-    @apply .flex;
-
-    transform: scale(0.9);
-    transform-origin: right;
-}

@@ -4,7 +4,7 @@
 
         <div class="card__body">
             <h2 v-if="title">{{ title }}</h2>
-            
+
             <form action="#" @submit.prevent="getRecords" v-if="! noFilters">
                 <label for="column" class="form__label">Filter</label>
 
@@ -116,7 +116,7 @@
                     </tr>
                 </tbody>
             </table>
-        
+
             <div class="card__body text-right" v-if="! noPagination">
                 <p-pagination
                     @input="changePage($event)"

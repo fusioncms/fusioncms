@@ -17,11 +17,11 @@
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <renderless-dropdown placement="bottom-end">
-                        <div slot-scope="props">
-                            <a href="#" class="text-gray-400 hover:text-gray-900 p-1" @click.prevent="props.toggle()" data-reference><fa-icon icon="ellipsis-v" class="fa-fw fa-lg"></fa-icon></a>
+                    <renderless-dropdown id="account-menu-button">
+                        <div class="dropdown dropdown--right" slot-scope="props" :class="{'dropdown--open': props.isOpen}" v-click-outside="props.close">
+                            <a href="#" class="text-gray-400 hover:text-gray-900 p-1" @click.prevent="props.toggle()"><fa-icon icon="ellipsis-v" class="fa-fw fa-lg"></fa-icon></a>
 
-                            <div class="dropdown__menu" v-show="props.isOpen" data-popper>
+                            <div class="dropdown__menu">
                                 <p-dropdown-item>
                                     <p>
                                         Hello and {{ greeting }},<br>

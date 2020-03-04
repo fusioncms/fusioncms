@@ -1,3 +1,4 @@
+import * as RenderlessComponents from './renderless'
 import * as Components from './components'
 import * as Directives from './directives'
 import EventBusPlugin from './support/eventbus'
@@ -11,6 +12,10 @@ const Proton = {
         Vue.prototype.moment = function() {
             return moment
         }
+
+        Object.values(RenderlessComponents).forEach((RenderlessComponent) => {
+            Vue.use(RenderlessComponent)
+        })
 
         Object.values(Components).forEach((Component) => {
             Vue.use(Component)
