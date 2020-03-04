@@ -44,6 +44,20 @@ class DateTimeFieldtype extends Fieldtype
     /**
      * @var array
      */
+    public $rules = [
+        'settings.format' => 'required'
+    ];
+
+    /**
+     * @var array
+     */
+    public $attributes = [
+        'settings.format' => 'format'
+    ];
+
+    /**
+     * @var array
+     */
     public $column = [
         'type' => 'dateTime',
     ];

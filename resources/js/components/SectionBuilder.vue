@@ -56,7 +56,7 @@
 
             <div class="row">
                 <div class="col mt-6 w-full">
-                    <field-builder v-model="section.fields" @input="reorder(section.fields)" :fieldHandles="fieldHandles" :id="section.handle"></field-builder>
+                    <field-builder v-model="section.fields" @input="reorder(section.fields)" :id="section.handle"></field-builder>
                 </div>
             </div>
         </div>
@@ -69,6 +69,7 @@
             return {
                 active: 0,
                 total: 0,
+                sections: [],
                 default: {
                     name: 'General',
                     handle: 'general',
@@ -76,23 +77,16 @@
                     placement: 'body',
                     order: 0,
                     fields: [],
-                },
-                sections: [],
+                }
             }
         },
 
-        computed: {
-            fieldHandles() {
-                let vm = this
-                let fields = _.map(this.sections, 'fields')
-                fields = _.flatten(fields)
-                fields = _.concat(fields)
-                let handles = _.map(fields, 'handle')
-                return handles
+        props: {
+            value: {
+                type: Array,
+                default: () => []
             }
         },
-
-        props: ['value', 'container'],
 
         watch: {
             sections: {

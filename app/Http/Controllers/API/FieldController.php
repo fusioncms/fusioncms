@@ -19,120 +19,55 @@ use App\Http\Resources\FieldResource;
 
 class FieldController extends Controller
 {
-    protected $rules = [
-        'name'           => 'required',
-        'handle'         => 'required',
-        'help'           => 'sometimes',
-        'required'       => 'sometimes',
-        'type'           => 'required',
-        'placement'      => 'required',
-        'section'        => 'sometimes',
-        'settings'       => 'required',
-        'validation'     => 'sometimes',
-        'status'         => 'required',
-        'container_type' => 'required',
-        'container_id'   => 'required',
-    ];
-
     /**
-     * Display a listing of the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * Reorder fields in storage.
+     * 
+     * @param  Request $request
+     * @return void
      */
-    public function index(Request $request, $container = null)
-    {
-        // $this->authorize('fields.show');
-
-        if (is_null($container)) {
-            $fields = Field::orderBy('name')->paginate(25);
-        } else {
-            $fields = Field::where('container_type', $container)->orderBy('name');
-        }
-
-        return FieldResource::collection($fields);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Field  $field
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Field $field)
-    {
-        // $this->authorize('fields.show');
-
-        return new FieldResource($field);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // $this->authorize('fields.create');
-
-        $attributes = $request->validate($this->rules);
-
-        $field = Field::create($attributes);
-
-        return new FieldResource($field);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Field  $field
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Field $field)
-    {
-        $this->authorize('fields.update');
-
-        if ($field->locked) {
-            $attributes = $request->except('handle')->validate($this->rules);
-        } else {
-            $attributes = $request->validate($this->rules);
-        }
-
-        $field->update($attributes);
-
-        return new FieldResource($field);
-    }
-
     public function reorder(Request $request)
     {
         $this->authorize('fields.update');
 
-        $fields = $request->get('fields');
-
-        DB::transaction(function () use ($fields) {
-            foreach ($fields as $index => $field) {
-                Field::find($field)
-                    ->update([
-                        'order' => $index,
-                    ]);
+        DB::transaction(function () {
+            foreach (request()->get('fields') as $index => $field) {
+                Field::find($field)->update([ 'order' => $index ]);
             }
         });
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Field  $field
-     * @return \Illuminate\Http\Response
+     * Validate field, but don't persist to storage.
+     * 
+     * @param  Request $request
+     * @return void
      */
-    public function destroy(Field $field)
+    public function valid(Request $request)
     {
-        $this->authorize('fields.delete');
+        $rules = [
+            'name'   => 'required',
+            'handle' => 'required',
+        ];
+        
+        /**
+         * Pull additional validation rules from `fieldtypes`
+         * 
+         * - rules      - Laravel validation rules
+         * - messages   - Custom error message
+         * - attributes - Custom field name
+         */
+        $fieldtype = fieldtypes()->get($request->input('type')['handle']);
 
-        if (! $field->locked) {
-            $field->delete();
+        foreach ($fieldtype->rules as $handle => $rule) {
+            $rules[$handle] = $rule;
         }
+
+        $request->validate(
+            $rules,
+            $fieldtype->messages,
+            $fieldtype->attributes
+        );
+
+        return response()->json($request->all());
     }
 }

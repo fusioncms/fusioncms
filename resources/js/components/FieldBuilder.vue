@@ -28,7 +28,7 @@
                                     <fa-icon icon="bars"></fa-icon>
 
                                     <template slot="options">
-                                        <p-dropdown-item @click.prevent="edit(index)" v-modal:edit-field>Edit</p-dropdown-item>
+                                        <p-dropdown-item @click.prevent="edit(index)">Edit</p-dropdown-item>
                                         <p-dropdown-item @click.prevent="remove(index)">Delete</p-dropdown-item>
                                     </template>
                                 </p-dropdown>
@@ -46,108 +46,104 @@
             </div>
         </div>
 
-        <p-modal name="add-field" title="Add Field" extra-large>
-            <div class="row -mb-6">
-                <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="'add-' + fieldtype.handle">
-                    <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:edit-field v-modal:add-field>
-                        <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
-                    </p-button>
+        <portal to="modals">
+            <p-modal name="add-field" title="Add Field" extra-large>
+                <div class="row -mb-6">
+                    <div class="col w-1/2 lg:w-1/6" v-for="fieldtype in fieldtypes" :key="'add-' + fieldtype.handle">
+                        <p-button class="w-full items-center justify-start mb-6" @click.prevent="add(fieldtype)" v-modal:add-field>
+                            <fa-icon :icon="fieldtype.icon" class="fa-fw mr-3 text-sm text-gray-600"></fa-icon> {{ fieldtype.name }}
+                        </p-button>
+                    </div>
                 </div>
-            </div>
 
-            <template slot="footer">
-                <p-button v-modal:add-field>Close</p-button>
-            </template>
-        </p-modal>
+                <template slot="footer">
+                    <p-button v-modal:add-field>Close</p-button>
+                </template>
+            </p-modal>
 
-        <p-modal name="edit-field" title="Edit Field" extra-large>
-            <field-editor v-model="tempField" :fieldHandles="sectionFieldHandles"></field-editor>
-            <template slot="footer">
-                <p-button class="ml-2" v-modal:edit-field>Cancel</p-button>
-                <p-button class="button--primary" v-if="!tempField.has_errors" @click.prevent="save()" v-modal:edit-field>Save</p-button>
-            </template>
-        </p-modal>
+            <field-editor
+                ref="editField"
+                v-model="field"
+                @save="save"
+                @cancel="cancel">
+            </field-editor>
+        </portal>
     </div>
 </template>
 
 <script>
-    import _ from 'lodash'
-
     export default {
         name: 'field-builder',
-
-        props: ['value', 'fieldHandles', 'id'],
 
         data() {
             return {
                 fieldtypes: {},
-                active: null,
-                fields: [],
-                tempField: {}
+                active: false,
+            }
+        },
+
+        props: {
+            value: {
+                type: Array,
+                required: true
+            },
+            id: {
+                type: String,
+                required: true
             }
         },
 
         computed: {
-            field: {
-                get: function() {
-                    let field = _.find(this.fields, (field) => {
-                        field.has_errors = false
-                        return field.handle == this.active
-                    })
-
-                    if (typeof field !== 'undefined') {
-                        return field
-                    }
-
-                    return {}
+            fields: {
+                get() {
+                    return this.value || []
                 },
 
-                set: function(value) {
-                    return value
+                set(value) {
+                    // console.log('fields set:', value)
+                    this.$emit('input', value)
                 }
             },
 
-            sectionFieldHandles() {
-                if(this.field.handle) {
-                    let handles = _.pull(this.fieldHandles, this.field.handle)
-                    return handles
-                }
+            field: {
+                get() {
+                    return _.find(this.fields, (field) => field.handle == this.active) || {}
+                },
 
-                return this.fieldHandles
+                set(value) {
+                    // console.log('field set:', value)
+                    this.active = value.handle || false
+                }
             },
 
             total() {
-                return (this.fields.length + 1)
+                return this.fields.length
+            },
+
+            nextId() {
+                return this.total + 1
             }
         },
 
         watch: {
-            fields(value) {
-                this.$emit('input', value)
-            },
-
-            value(value) {
-                if (value.length) {
-                    this.fields = value
-                }
-            },
+            active(value) {
+                this.$refs.editField.modalOpen = _.isString(value)
+            }
         },
 
         methods: {
             add(fieldtype, additional = {}) {
-                let field = {
-                    type: fieldtype,
-                    name: additional.name || 'Field ' + this.total,
-                    handle: additional.handle || this.getUniqueHandle('field_' + this.total),
-                    help: additional.help || '',
+                this.fields.push({
+                    type:     fieldtype,
+                    name:     additional.name || 'Field ' + this.nextId,
+                    handle:   'field_' + this.nextId,
+                    help:     additional.help || '',
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
-                    order: this.fields.length
-                }
+                    order:    this.total,
+                    proto:    true  // prototype flag
+                })
 
-                this.fields.push(field)
-                this.active = field.handle
-
-                this.tempField = _.cloneDeep(this.field, true)
+                this.active = _.last(this.fields).handle
             },
 
             remove(index) {
@@ -156,51 +152,47 @@
 
             edit(index) {
                 this.active = this.fields[index].handle
-
-                this.tempField = _.cloneDeep(this.field, true)
             },
 
-            save() {
-                let index = _.findIndex(this.fields, (old_field) => {
-                    return old_field.handle == this.field.handle})
-                this.fields.splice(index, 1, this.tempField)
+            save(handle, value) {
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
+
+                delete value['proto']
+
+                this.fields.splice(index, 1, value)
+                this.field = {}
             },
 
-            getUniqueHandle(handle) {
-                while(this.fieldHandles.includes(handle)) {
-                    handle = handle + '-1'
+            cancel(handle) {
+                if (this.field.proto) {
+                    this.remove(
+                        _.findIndex(this.fields, (field) => field.handle == handle)
+                    )
                 }
-                return handle
+                
+                this.field = {}
             }
         },
 
         mounted() {
-            this.fields = this.value || []
-
             axios.all([
                 axios.get('/api/fieldtypes'),
-            ]).then(axios.spread(function (fieldtypes) {
+            ]).then(axios.spread((fieldtypes) => {
                 this.fieldtypes = fieldtypes.data.data
-            }.bind(this)))
+            }))
         },
 
         created() {
-            let vm = this
-
             this.$bus.$on('add-field-' + this.id, (adding) => {
-                let index = _.findIndex(vm.fields, function(field) {
-                    return field.handle == adding.handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
 
                 if (index == -1) {
-                    vm.add(adding.fieldtype, adding)
+                    this.add(adding.fieldtype, adding)
                 }
             })
 
             this.$bus.$on('remove-field-' + this.id, (handle) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
 
                 if (index > -1) {
                     this.remove(index)
@@ -209,20 +201,16 @@
         },
 
         beforeDestroy() {
-            this.$bus.$off('add-field-' + this.id, (field) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+            this.$bus.$off('add-field-' + this.id, (adding) => {
+                let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
 
                 if (index == -1) {
-                    this.add(field.fieldtype, field)
+                    this.add(adding.fieldtype, adding)
                 }
             })
 
             this.$bus.$off('remove-field-' + this.id, (handle) => {
-                let index = _.findIndex(this.fields, function(field) {
-                    return field.handle == handle
-                })
+                let index = _.findIndex(this.fields, (field) => field.handle == handle)
 
                 if (index > -1) {
                     this.remove(index)

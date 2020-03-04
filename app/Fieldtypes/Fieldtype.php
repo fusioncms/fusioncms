@@ -54,6 +54,11 @@ abstract class Fieldtype
     public $messages = [];
 
     /**
+     * @var array
+     */
+    public $attributes = [];
+
+    /**
      * @var mixed
      */
     protected $default = null;

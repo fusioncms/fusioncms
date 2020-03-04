@@ -5,7 +5,7 @@
             label="Syntax"
             help="What language should the syntax highlighter use?"
             autocomplete="off"
-            v-model="value.syntax"
+            v-model="settings.syntax"
             :options="[
                 {
                      value: 'css',
@@ -40,7 +40,8 @@
                      label: 'XML'
                 }
             ]"
-        >
+            :has-error="errors.has('settings.syntax')"
+            :error-message="errors.get('settings.syntax')">
         </p-select>
     </div>
 </template>
