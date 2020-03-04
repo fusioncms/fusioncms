@@ -11,6 +11,7 @@
 
 namespace App\Services\Routers;
 
+use Flash;
 use App\Models\Matrix;
 use Illuminate\Http\Request;
 use App\Services\Builders\Collection;
@@ -51,8 +52,10 @@ class EntryRouter extends Router
                 continue 1;
             }
 
-            if (!$entry->status && Gate::denies('access.admin')) {
-                continue 1;
+            if (!$entry->status) {
+                if (Gate::denies('access.admin') || !request()->has('preview')) {
+                    continue 1;
+                }
             }
             
             $data = $this->bindRouteData($collection->route, $request, [

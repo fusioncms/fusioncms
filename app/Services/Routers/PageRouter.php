@@ -32,8 +32,10 @@ class PageRouter extends Router
             $model = (new Page($matrix->handle))->make();
             $page  = $model->firstOrFail();
 
-            if (!$page->status && Gate::denies('access.admin')) {
-                continue 1;
+            if (!$page->status) {
+                if (Gate::denies('access.admin') || !request()->has('preview')) {
+                    continue 1;
+                }
             }
             
             $data = $this->bindRouteData($page->route, $request, [
