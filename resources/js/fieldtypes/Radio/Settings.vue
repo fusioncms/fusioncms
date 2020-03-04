@@ -5,7 +5,7 @@
             label="Display"
             help="Choose whether to display options in a horizontal row or vertical column."
             autocomplete="off"
-            v-model="value.display"
+            v-model="settings.display"
             :options="[
                 {
                     label: 'Column',
@@ -16,10 +16,11 @@
                     value: 'row',
                 }
             ]"
-        >
+            :has-error="errors.has('settings.display')"
+            :error-message="errors.get('settings.display')">
         </p-select>
         <div class="col w-full">
-            <option-builder v-model="value.options"></option-builder>
+            <option-builder v-model="settings.options"></option-builder>
         </div>
     </div>
 </template>

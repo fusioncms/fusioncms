@@ -8,6 +8,7 @@
             @input="$emit('input', $event)"
             :options="countries"
             placeholder="Select a country..."
+            :filterable="field.settings.filterable || false"
         ></p-select>
     </div>
 </template>
@@ -35,9 +36,7 @@
         },
 
         created() {
-            let index = _.findIndex(this.countries, function(country) {
-                return country.checked == true
-            })
+            let index = _.findIndex(this.countries, (country) => country.checked == true)
 
             if (index !== -1 && ! this.countries) {
                 this.$emit('input', this.countries[index].value)

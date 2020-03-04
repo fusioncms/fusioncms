@@ -49,6 +49,20 @@ class AssetFieldtype extends Fieldtype
     ];
 
     /**
+     * @var array
+     */
+    public $rules = [
+        
+    ];
+
+    /**
+     * @var array
+     */
+    public $attributes = [
+        
+    ];
+
+    /**
      * @var string
      */
     public $namespace = 'App\Models\File';
