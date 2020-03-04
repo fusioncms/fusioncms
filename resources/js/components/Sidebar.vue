@@ -29,18 +29,12 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import SidebarItem from './SidebarItem.vue'
     import SidebarToggle from './SidebarToggle.vue'
 
     export default {
         name: 'sidebar',
-
-        data() {
-            return {
-                isOpen: true,
-            }
-        },
 
         components: {
             'sidebar-item': SidebarItem,
@@ -51,39 +45,37 @@
             ...mapGetters({
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
+                settings: 'settings/getSettings',
             }),
+
+            isOpen: {
+                get() {
+                    return ! _.includes(['sm', 'md'], this.$mq) && this.settings['system.sidebar_open'] == '1'
+                },
+
+                set(value) {
+                    axios.patch('/api/settings/system', { 'sidebar_open': value })
+                        .then((response) => this.setSection({ handle: 'system', section: response.data.data }))
+                }
+            }
         },
 
         methods: {
+            ...mapActions({
+                setSection: 'settings/setSection'
+            }),
+
             logout() {
-                axios.get('/logout').then((response) => {
-                    window.location = '/'
-                })
-            },
-
-            toggle() {
-                this.isOpen = ! this.isOpen
-
-                this.emitEvent()
+                axios.get('/logout').then(() => window.location = '/')
             },
 
             listenForEvent() {
-                Fusion.bus.$on('toggle-sidebar', () => {
-                    this.toggle()
-                })
-            },
-
-            emitEvent() {
-                Fusion.bus.$emit('sidebar-is-open', this.isOpen)
-            },
+                Fusion.bus.$on('toggle-sidebar', () => this.isOpen = ! this.isOpen)
+            }
         },
 
         created() {
             this.listenForEvent()
-        },
-
-        mounted() {
-            this.isOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>

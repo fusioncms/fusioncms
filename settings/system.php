@@ -51,5 +51,14 @@ return [
                 'default'     => 'public',
             ],
         ],
+        'Control Panel' => [
+            [
+                'name'    => 'Sidebar Open',
+                'handle'  => 'sidebar_open',
+                'type'    => 'boolean',
+                'default' => true,
+                'gui'     => false,
+            ],
+        ],
     ],
 ];

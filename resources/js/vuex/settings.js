@@ -42,6 +42,11 @@ export default {
             state.sections = _.keyBy(payload, 'handle')
         },
 
+        setSetting (state, { handle, value }) {
+            console.log(handle, value)
+            state.settings[handle] = value
+        },
+
         setSettings (state, payload) {
             let items = _.map(payload, (section) => {
                 return _.map(section.items, (item) => {
@@ -64,6 +69,10 @@ export default {
     actions: {
         setSection(context, payload) {
             context.commit('setSection', payload)
+        },
+
+        setSetting(context, payload) {
+            context.commit('setSetting', payload)
         },
 
         fetchSettings (context) {

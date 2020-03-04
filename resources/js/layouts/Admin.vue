@@ -94,12 +94,6 @@
     export default {
         name: 'admin-layout',
 
-        data() {
-            return {
-                isSidebarOpen: true,
-            }
-        },
-
         components: {
             'sidebar': Sidebar,
             'sidebar-toggle': SidebarToggle,
@@ -110,31 +104,16 @@
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
                 version: 'fusion/getVersion',
+                settings: 'settings/getSettings',
             }),
 
             environment() {
                 return window.environment
             },
-        },
 
-        methods: {
-            toggle() {
-                this.isSidebarOpen = ! this.isSidebarOpen
-            },
-
-            listenForSidebarEvent() {
-                Fusion.bus.$on('toggle-sidebar', () => {
-                    this.toggle()
-                })
+            isSidebarOpen() {
+                return ! _.includes(['sm', 'md'], this.$mq) && this.settings['system.sidebar_open'] == '1'
             }
-        },
-
-        created() {
-            this.listenForSidebarEvent()
-        },
-
-        mounted() {
-            this.isSidebarOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>
