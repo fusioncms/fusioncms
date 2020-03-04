@@ -251,6 +251,41 @@ class CollectionTest extends TestCase
 
         $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
 
-        return MatrixFactory::withName('Posts')->asCollection()->withFieldset($fieldset)->create();
+        return MatrixFactory::withName('Posts')
+                ->asCollection()
+                ->withFieldset($fieldset)
+                ->withRoute('posts/{slug}')
+                ->withTemplate('index')
+                ->create();
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this->generatePostsMatrix();
+
+        $data = [
+            'name' => 'Example',
+            'slug' => 'example',
+            'excerpt' => 'This is an excerpt of the blog post.',
+            'content' => 'This is the content of the blog post.',
+            'status' => false
+        ];
+
+        $this
+            ->json('POST', '/api/collections/posts', $data)
+            ->assertStatus(201);
+
+        $this->actingAs($this->user);
+
+        $response = $this->get('/posts/example');
+
+        $response->assertStatus(404);
     }
 }
