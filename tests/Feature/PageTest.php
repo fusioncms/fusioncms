@@ -18,6 +18,7 @@ use Tests\Foundation\TestCase;
 use App\Services\Builders\Page;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageTest extends TestCase
 {
@@ -34,7 +35,7 @@ class PageTest extends TestCase
 
         $this->handleValidationExceptions();
 
-        $this->matrix = MatrixFactory::asPage()->withName('Example Page')->create();
+        $this->matrix = MatrixFactory::asPage()->withName('Example Page')->withRoute('{slug}')->withTemplate('index')->create();
         $this->model  = (new Page($this->matrix->handle))->make();
     }
 
@@ -114,5 +115,120 @@ class PageTest extends TestCase
         ]);
 
         $this->get($page->slug)->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_admin_settings_can_view_an_enabled_page()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => true,
+            ])->assertStatus(201);
+
+        $this->actingAs($this->user);
+
+        $response = $this->get('/renamed-page');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => false,
+            ])->assertStatus(201);
+
+        $this->actingAs($this->user);
+        $this->expectException(NotFoundHttpException::class);
+        $response = $this->get('/renamed-page');
+
+        $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_with_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => false,
+            ])->assertStatus(201);
+
+        $this->actingAs($this->admin);
+        $this->expectException(NotFoundHttpException::class);
+        $response = $this->get('/renamed-page');
+
+        $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_with_admin_settings_can_preview_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => false,
+            ])->assertStatus(201);
+
+        $this->actingAs($this->admin);
+
+        $response = $this->get('/renamed-page?preview=true');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     */
+    public function a_user_without_admin_settings_cannot_preview_a_disabled_entry()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
+                'name'   => 'Renamed-page',
+                'slug'   => 'renamed-page',
+                'status' => false,
+            ])->assertStatus(201);
+
+        $this->actingAs($this->user);
+        $this->expectException(NotFoundHttpException::class);
+        $response = $this->get('/renamed-page?preview=true');
+
+        $response->assertStatus(404);
     }
 }
