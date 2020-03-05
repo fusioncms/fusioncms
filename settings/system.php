@@ -50,6 +50,6 @@ return [
                 ],
                 'default'     => 'public',
             ],
-        ],
+        ]
     ],
 ];
