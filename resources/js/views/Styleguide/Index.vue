@@ -254,12 +254,18 @@
                             </div>
                         </div>
 
-                        <div class="field">
+                        <p-checkbox name="toc" v-model="toc" true-value="yes" false-value="no">
+                            I agree to the <a href="#">terms and conditions</a> set forth by the United Federation of Planets
+                        </p-checkbox>
+
+                        <!-- <div class="field">
                             <label class="field__label field__label--wrapped">
-                                <input type="checkbox" name="toc" class="field__checkbox">
+                                <input type="checkbox" name="toc" class="field__checkbox" v-model="toc">
                                 <span class="checkbox__label">I agree to the <a href="#">terms and conditions</a> set forth by the United Federation of Planets</span>
                             </label>
-                        </div>
+                        </div> -->
+
+                        <p>{{ toc }}</p>
                     </div>
                 </div>
 
@@ -485,6 +491,7 @@
         data() {
             return {
                 defaultTest: false,
+                toc: 'no',
             }
         },
 

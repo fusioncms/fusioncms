@@ -1,0 +1,211 @@
+.form__control {
+        @apply .appearance-none .block .w-full .bg-white .text-gray-700 .border .border-gray-400 .rounded py-2 px-3 .leading-tight;
+
+        max-height: 38px;
+
+        &--sm {
+            @apply py-1 px-1 text-xs;
+        }
+
+        &:focus {
+            @apply .outline-none .shadow;
+        }
+
+        &.form__error {
+            @apply .border-danger-200 .border-2;
+        }
+
+        &.font-mono {
+            @apply .text-sm;
+        }
+
+        &:read-only, &:disabled {
+            @apply .bg-gray-200;
+
+            &:focus {
+                @apply .shadow-none;
+            }
+        }
+    }
+
+
+select {
+    &.form__control {
+        @apply .pr-8;
+    }
+}
+
+.form__select {
+    &-button.form__error {
+        @apply .border-danger-200 .border-2;
+    }
+}
+
+.form__checkbox {
+    @apply text-primary-500 border-2 border-gray-400 bg-white inline-block appearance-none shadow-none align-middle flex-shrink-0 cursor-pointer;
+    // mr-1
+
+    &-label {
+        @apply text-sm;
+        // ml-2
+    }
+
+    &-container {
+        @apply flex items-center flex-grow-0 flex-shrink-0 p-0 m-0;
+
+        > label {
+            @apply flex items-center px-2 py-1 cursor-pointer select-none border border-gray-200 rounded;
+
+            &:hover {
+                @apply bg-primary-100 text-primary-700 border-primary-100;
+            }
+        }
+    }
+
+    height: 1em;
+    width: 1em;
+    background-origin: border-box;
+    user-select: none;
+    color-adjust: exact;
+
+    &-group {
+        @apply flex flex-col flex-wrap justify-center w-full mb-6;
+
+        &:last-child {
+            @apply mb-0;
+        }
+
+        &--block {
+            @apply mb-1;
+        }
+
+        &--inline {
+            @apply .inline-flex my-3;
+
+            label {
+                @apply mr-4;
+            }
+        }
+    }
+
+    &-container > label {
+        @apply align-middle;
+
+        &:focus {
+            @apply outline-none;
+        }
+    }
+
+    &:focus {
+        @apply outline-none;
+    }
+
+    &:focus:not(:checked) {
+        @apply border-primary-400;
+    }
+
+    &:checked {
+        background-color: currentColor;
+        border-color: currentColor;
+        background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9IiNmZmYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUuNzA3IDcuMjkzYTEgMSAwIDAgMC0xLjQxNCAxLjQxNGwyIDJhMSAxIDAgMCAwIDEuNDE0IDBsNC00YTEgMSAwIDAgMC0xLjQxNC0xLjQxNEw3IDguNTg2IDUuNzA3IDcuMjkzeiIvPjwvc3ZnPg==");
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &::-ms-check {
+        @media not print {
+            @apply text-transparent rounded-none;
+            background: inherit;
+            border-color: inherit;
+        }
+    }
+}
+
+.form__radio {
+    &-group {
+        @apply flex flex-col flex-wrap justify-center w-full mb-6;
+
+        &:last-child {
+            @apply mb-0;
+        }
+
+        &--block {
+            @apply mb-1;
+        }
+
+        &--inline {
+            @apply .inline-flex my-3;
+
+            label {
+                @apply mr-4;
+            }
+        }
+    }
+}
+
+.form__number {
+    @apply .flex;
+    &-decrease {
+        @apply .button .mr-2;
+    }
+    &-increase {
+        @apply .button .ml-2;
+    }
+}
+
+.form__label {
+    @apply .block .uppercase .tracking-wide .text-gray-700 .text-xs .font-bold .mb-2;
+}
+
+.form__help {
+    @apply .text-sm .text-gray-700 .italic;
+}
+
+.form__control--meta {
+    @apply .text-sm .mt-1 .flex .justify-between;
+
+    span {
+        @apply .block;
+    }
+
+    .form__error--message {
+        @apply .text-danger-500;
+    }
+
+    > .form__password {
+        @apply .ml-2 .flex-none;
+    }
+}
+
+.form__group {
+    @apply .mb-6;
+
+    &:last-child {
+        @apply .mb-0;
+    }
+}
+
+.input__group {
+    @apply .flex .flex-wrap .items-stretch .w-full .mb-6 .relative;
+
+    > .form__control {
+        @apply .flex-shrink .flex-grow .flex-auto .w-px .flex-1 .rounded-r-none .relative;
+
+        &:focus {
+            @apply .border-r-0;
+        }
+    }
+}
+
+.input__group--append {
+    @apply .flex .-mr-px;
+
+    > .button {
+        @apply .flex .items-center .rounded .rounded-l-none .whitespace-no-wrap .shadow-none .bg-white .text-gray-700;
+
+        &:focus {
+            @apply .outline-none .shadow;
+        }
+    }
+}

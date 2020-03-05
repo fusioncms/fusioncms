@@ -44,6 +44,13 @@
         ;
     }
 
+    &--borderless {
+        @apply
+            border-0
+            p-0
+        ;
+    }
+
     &--rounded {
         @apply
             rounded-full

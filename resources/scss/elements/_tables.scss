@@ -16,7 +16,7 @@
                 uppercase
                 leading-4
                 border-b-2
-                text-sm
+                text-xs
                 px-6
                 py-3
             ;
@@ -50,9 +50,9 @@
         td {
             @apply
                 whitespace-no-wrap
+                align-middle
                 px-6
                 py-3
-                align-middle
             ;
 
             &:first-child {
@@ -64,13 +64,15 @@
 
             &.actions {
                 @apply
-                    justify-end
-                    font-medium
-                    relative
-                    flex
+                    align-middle
+                    text-right
                 ;
 
-                opacity: 1;
+                .dropdown__menu {
+                    @apply
+                        w-40
+                    ;
+                }
             }
         }
     }

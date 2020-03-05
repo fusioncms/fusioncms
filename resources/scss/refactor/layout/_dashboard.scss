@@ -1,0 +1,9 @@
+.dashboard {
+    display: grid;
+    grid-gap: 1.5rem;
+    @apply w-full min-h-screen;
+}
+
+.tile {
+    @apply .rounded .shadow .bg-white flex p-6;
+}

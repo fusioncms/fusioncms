@@ -22,9 +22,9 @@
                     </div>
                 </p-card>
             </div>
-            
+
             <div class="content-container">
-                <p-datatable name="users" :endpoint="endpoint" sort-by="name" :per-page="10" key="users_table">
+                <p-table name="users" :endpoint="endpoint" sort-by="name" :per-page="10" key="users_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'users.edit', params: {user: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -41,17 +41,17 @@
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
+
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'users.edit', params: {user: table.record.id} }">Edit</p-dropdown-item>
-                                
+
                                 <!--
                                     We don't want to delete our own account, so let's
                                     check for that and save ourselves a headache.
                                 -->
 
                                 <p-dropdown-item
-                                    v-if="table.record.id != user.id" 
+                                    v-if="table.record.id != user.id"
                                     @click.prevent
                                     v-modal:delete-user="table.record"
                                 >
@@ -60,7 +60,7 @@
                             </template>
                         </p-dropdown>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -142,7 +142,7 @@
             destroy(id) {
                 axios.delete('/api/users/' + id).then((response) => {
                     toast('User successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-users')
                 })
             }

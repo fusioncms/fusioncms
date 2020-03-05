@@ -1,0 +1,7 @@
+.section__field {
+    @apply .w-full .flex .justify-between .border .rounded .px-2 .py-1;
+
+    .dropdown__button {
+        @apply .border-none .shadow-none;
+    }
+}

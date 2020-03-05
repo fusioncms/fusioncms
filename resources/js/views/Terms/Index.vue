@@ -10,7 +10,7 @@
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="taxonomy.handle + '_table'">
+                <p-table name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="taxonomy.handle + '_table'">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'terms.edit', params: {taxonomy: taxonomy.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -26,7 +26,7 @@
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
+
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'terms.edit', params: {taxonomy: taxonomy.slug, id: table.record.id} }">Edit</p-dropdown-item>
 
@@ -39,7 +39,7 @@
                             </template>
                         </p-dropdown>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -96,7 +96,7 @@
             destroy(id) {
                 axios.delete('/api/taxonomies/' + this.taxonomy.slug + '/' + id).then((response) => {
                     toast('Entry successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-entries')
                 })
             }
@@ -118,7 +118,7 @@
 
                 this.$emit('updateHead')
             })
-            
+
             next()
         }
     }

@@ -3,11 +3,13 @@
         <p-loader v-if="loading"></p-loader>
 
         <div class="card__body">
-            <h2 v-if="title">{{ title }}</h2>
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-600">
+                    Showing <b>X</b> to <b>X</b> of <b>X</b> results
+                </div>
 
-            <div class="row justify-end" v-if="! noSearch">
-                <div class="col w-full sm:w-1/2 xl:w-1/4">
-                    <div class="toolbar">
+                <div class="w-full md:max-w-80">
+                    <div class="toolbar" v-if="! noSearch">
                         <div class="toolbar__group toolbar__group--grow">
                             <div class="field__control">
                                 <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for...">
@@ -58,12 +60,33 @@
                 </tbody>
             </table>
 
-            <div class="card__body text-right" v-if="! noPagination">
-                <p-pagination
-                    @input="changePage($event)"
-                    :total="this.pagination.totalPages"
-                    :value="this.pagination.currentPage"
-                ></p-pagination>
+            <div class="card__body" v-if="! noPagination">
+                <div class="flex items-center justify-between">
+                    <div class="buttons">
+                        <div class="buttons__group">
+                            <button class="button button--icon"><fa-icon icon="chevron-left" class="icon"></fa-icon></button>
+                            <button class="button button--icon"><fa-icon icon="chevron-right" class="icon"></fa-icon></button>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <div class="buttons__group">
+                            <button class="button button--icon">1</button>
+                            <button class="button button--icon">2</button>
+                            <button class="button button--icon">3</button>
+                            <button class="button button--icon">...</button>
+                            <button class="button button--icon">8</button>
+                            <button class="button button--icon">9</button>
+                            <button class="button button--icon">10</button>
+                        </div>
+                    </div>
+
+                    <!-- <p-pagination
+                        @input="changePage($event)"
+                        :total="this.pagination.totalPages"
+                        :value="this.pagination.currentPage"
+                    ></p-pagination> -->
+                </div>
             </div>
         </div>
 

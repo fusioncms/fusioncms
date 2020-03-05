@@ -10,10 +10,13 @@
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-datatable name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
+                <p-table name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
                     <template slot="name" slot-scope="table">
+                        <span class="mr-2" :class="{'text-success-500': table.record.status, 'text-danger-500': ! table.record.status}"><fa-icon icon="circle" class="icon fa-xs"></fa-icon></span>
+
                         <router-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
+
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -24,22 +27,18 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'entry_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-item>
+                        <p-actions :id="'entry_' + table.record.id + '_actions'">
+                            <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-item>
 
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-entry="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-item
+                                @click.prevent
+                                v-modal:delete-entry="table.record"
+                            >
+                                Delete
+                            </p-dropdown-item>
+                        </p-actions>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -96,7 +95,7 @@
             destroy(id) {
                 axios.delete('/api/collections/' + this.collection.slug + '/' + id).then((response) => {
                     toast('Entry successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-entries')
                 })
             }
@@ -118,10 +117,10 @@
         beforeRouteUpdate(to, from, next) {
             axios.get('/api/matrices/slug/' + to.params.collection).then((response) => {
                 this.collection = response.data.data
-                
+
                 this.$emit('updateHead')
             })
-            
+
             next()
         }
     }

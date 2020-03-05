@@ -1,0 +1,31 @@
+.pcr-app:not(.visible) {
+  pointer-events: none;
+}
+
+.pcr-app[data-theme="monolith"] {
+  width: 320px;
+  .pcr-selection .pcr-color-palette {
+    height: 180px;
+  }
+  .pcr-interaction {
+    .pcr-result {
+      padding: 5px 4px;
+    }
+    .pcr-type {
+      @apply .bg-white .border .text-gray-700 .border-gray-400 .shadow;
+    }
+    .pcr-type.active {
+      @apply .bg-primary-500;
+    }
+  }
+}
+
+.color-picker {
+  .pickr {
+    @apply .button .p-1;
+  }
+  .pickr .pcr-button {
+    height: 2.5em;
+    width: 2.5em;
+  }
+}

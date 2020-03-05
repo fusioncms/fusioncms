@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable name="permissions" :endpoint="endpoint" sort-by="slug" :per-page="10" no-actions key="permissions_table">
+                <p-table name="permissions" :endpoint="endpoint" sort-by="slug" :per-page="10" no-actions key="permissions_table">
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -14,7 +14,7 @@
                     <template slot="description" slot-scope="table">
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
     </div>

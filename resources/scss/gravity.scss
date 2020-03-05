@@ -4,9 +4,12 @@
 @tailwind base;
 @tailwind components;
 
+@import "components/all";
 @import "elements/all";
 @import "forms/all";
 @import "grid/all";
+@import "layout/all";
+@import "vendor/all";
 
 /**
 OLD STYLES
@@ -14,67 +17,52 @@ OLD STYLES
 **/
 
 // Elements
-@import "elements/form";
-@import "elements/table";
-@import "elements/transition";
+@import "refactor/elements/form";
+@import "refactor/elements/table";
+@import "refactor/elements/transition";
 
 // Components
-@import "components/badge";
-@import "components/banner";
-@import "components/card";
-@import "components/charts";
-@import "components/dropdown";
-@import "components/jumbotron";
-@import "components/list";
-@import "components/loader";
-@import "components/modal";
-@import "components/pagination";
-@import "components/radio";
-@import "components/section_builder";
-@import "components/select";
-@import "components/spinner";
-@import "components/tabs";
-@import "components/toast";
-@import "components/toggle";
-@import "components/tooltip";
-@import "components/treeview";
-@import "components/upload";
-@import "components/logs";
-@import "components/file-manager";
+// @import "refactor/components/badge";
+@import "refactor/components/banner";
+@import "refactor/components/charts";
+@import "refactor/components/jumbotron";
+@import "refactor/components/list";
+@import "refactor/components/loader";
+@import "refactor/components/modal";
+@import "refactor/components/pagination";
+@import "refactor/components/radio";
+@import "refactor/components/section_builder";
+@import "refactor/components/select";
+@import "refactor/components/spinner";
+@import "refactor/components/tabs";
+@import "refactor/components/toast";
+@import "refactor/components/toggle";
+@import "refactor/components/tooltip";
+@import "refactor/components/treeview";
+@import "refactor/components/upload";
+@import "refactor/components/logs";
+@import "refactor/components/file-manager";
 
 // Fieldtypes
-@import "components/fieldtypes/color-picker";
-@import "components/fieldtypes/datetime";
-@import "components/fieldtypes/markdown";
-@import "components/fieldtypes/taxonomy";
-@import "components/fieldtypes/block-editor";
+@import "refactor/components/fieldtypes/color-picker";
+@import "refactor/components/fieldtypes/datetime";
+@import "refactor/components/fieldtypes/markdown";
+@import "refactor/components/fieldtypes/taxonomy";
+@import "refactor/components/fieldtypes/block-editor";
 
 // Utilities
 @tailwind utilities;
 
-@import "utilities/helpers";
-@import "utilities/patterns";
+@import "refactor/utilities/helpers";
+@import "refactor/utilities/patterns";
 
 // Layout
-@import "layout/containers";
-@import "layout/content";
-@import "layout/footer";
-@import "layout/gallery";
-@import "layout/header";
-@import "layout/inbox";
-@import "layout/mailables";
-@import "layout/navbar";
-@import "layout/sidebar";
-@import "layout/tiles";
-
-// Vendor
-@import "vendor/animate";
-@import "vendor/codemirror";
-@import "vendor/draggable";
-@import "vendor/flatpickr";
-@import "vendor/fontawesome";
-@import "vendor/nprogress";
-@import "vendor/pickr";
-@import "vendor/plyr";
-@import "vendor/redactor";
-@import "vendor/vue";
+@import "refactor/layout/containers";
+@import "refactor/layout/footer";
+@import "refactor/layout/gallery";
+@import "refactor/layout/header";
+@import "refactor/layout/inbox";
+@import "refactor/layout/mailables";
+@import "refactor/layout/navbar";
+@import "refactor/layout/sidebar";
+@import "refactor/layout/tiles";

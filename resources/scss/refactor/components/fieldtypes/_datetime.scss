@@ -1,0 +1,36 @@
+.form__datetime {
+    @apply form__control p-0 bg-white flex items-center w-full;
+
+    input {
+        @apply px-3 py-1 rounded;
+    }
+
+    &--icon {
+        @apply px-3 py-1 text-gray-700 block;
+    }
+}
+
+.flatpickr-calendar {
+  @apply .border-gray-400;
+  .flatpickr-months {
+    @apply .border-gray-400 .pb-1 .mt-1 .mb-2 .relative;
+    border-bottom-width: 1px;
+  }
+
+  .flatpickr-day.today {
+    border-bottom-color: inherit;
+    border-top-color: inherit;
+    background-color: rgba(0,0,0,.05);
+    font-weight: 800;
+  }
+  .flatpickr-day.selected {
+    @apply .bg-primary-500 .border-primary-500;
+  }
+
+  .flatpickr-monthDropdown-months {
+    appearance: none;
+    &:hover, &:focus {
+      background-color: transparent;
+    }
+  }
+}

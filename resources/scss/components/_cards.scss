@@ -1,0 +1,35 @@
+.card {
+    @apply
+        border-gray-100
+        bg-white
+        relative
+        rounded
+        border
+        shadow
+    ;
+
+    &:not(:last-child) {
+        @apply
+            mb-6
+        ;
+    }
+
+    &__body {
+        @apply
+            p-6
+        ;
+    }
+
+    &--dark {
+        @apply
+            text-gray-100
+            bg-gray-900
+        ;
+
+        > p {
+            @apply
+                text-gray-100
+            ;
+        }
+    }
+}

@@ -65,10 +65,10 @@
             </div>
 
             <!-- Content -->
-            <main class="page-content bg-danger-200">
-                <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
-                    <div class="flex items-end flex-wrap">
-                        <h1 class="leading-tight m-0 p-0">
+            <main class="container--page">
+                <div class="flex justify-between mb-6">
+                    <div class="flex flex-wrap items-center">
+                        <h1 class="leading-none m-0 p-0 text-gray-800">
                             <portal-target name="title" slim></portal-target>
                         </h1>
 
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div>
                     <slot></slot>
                 </div>
             </main>

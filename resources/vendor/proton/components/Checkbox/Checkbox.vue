@@ -1,22 +1,24 @@
 <template>
-    <div class="form__checkbox-container">
-        <label
-            ref="label"
-            :disabled="disabled"
-            :tabindex="disabled ? false : 0"
-            @keydown.prevent.enter.space="$refs.label.click()">
+    <div class="field">
+        <label class="field__label field__label--wrapped">
             <input
-                class="form__checkbox"
+                class="field__checkbox"
                 type="checkbox"
                 :name="name"
+                :id="id"
                 :disabled="disabled"
                 :required="required"
                 :indeterminate.prop="indeterminate"
                 :value="nativeValue"
-                v-model="checked"
-                @change="onChange"
+                :true-value="trueValue"
+                :false-value="falseValue"
+                @click.stop
+                v-model="computedValue"
             >
-            <span class="form__checkbox-label"><slot></slot></span>
+
+            <span class="checkbox__label">
+                <slot></slot>
+            </span>
         </label>
     </div>
 </template>
@@ -27,7 +29,7 @@
 
         data() {
             return {
-                model: false,
+                newValue: this.value,
             }
         },
 
@@ -37,13 +39,18 @@
                 type: String,
             },
 
+            id: {
+                required: false
+            },
+
             value: {
                 required: false,
                 type: [String, Number, Boolean, Function, Object, Array, Symbol],
             },
 
             nativeValue: {
-                type: [String, Number, Boolean, Function, Object, Array, Symbol]
+                required: false,
+                type: [String, Number, Boolean, Function, Object, Array, Symbol],
             },
 
             disabled: {
@@ -62,31 +69,32 @@
             },
 
             trueValue: {
-                type: [String, Number, Boolean, Function, Object, Array, Symbol],
+                type: [String, Number, Boolean, Function, Object, Array],
                 default: true
             },
 
             falseValue: {
-                type: [String, Number, Boolean, Function, Object, Array, Symbol],
+                type: [String, Number, Boolean, Function, Object, Array],
                 default: false
             },
         },
 
         computed: {
-            checked: {
+            computedValue: {
                 get() {
-                    return this.value
+                    return this.newValue
                 },
 
                 set(value) {
-                    this.model = value
+                    this.newValue = value
+                    this.$emit('input', value)
                 }
-            }
+            },
         },
 
-        methods: {
-            onChange() {
-                this.$emit('input', this.model)
+        watch: {
+            value(value) {
+                this.newValue = value
             }
         }
     }

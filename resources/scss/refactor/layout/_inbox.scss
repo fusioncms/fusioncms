@@ -1,0 +1,29 @@
+.inbox {
+    &__filter-sidebar {
+        @apply px-3 mb-6 w-full;
+
+        @screen xl {
+            @apply mb-0;
+
+            width: 350px;
+        }
+    }
+
+    &__response-list {
+        @apply border-r leading-none relative w-full;
+
+        @screen lg {
+            width: 350px;
+        }
+
+        &__pagination {
+            @apply flex justify-between items-center border-b;
+
+            height: 52px;
+        }
+
+        .form__select-button span {
+            @apply flex flex-1 items-center justify-center;
+        }
+    }
+}

@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
+                <p-table :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -32,7 +32,7 @@
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right :key="'form_' + table.record.id">
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
+
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'forms.edit', params: {form: table.record.id} }">Edit</p-dropdown-item>
 
@@ -45,7 +45,7 @@
                             </template>
                         </p-dropdown>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -82,7 +82,7 @@
             destroy(id) {
                 axios.delete('/api/forms/' + id).then((response) => {
                     toast('Form successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-forms')
                 })
             }

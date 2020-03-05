@@ -1,0 +1,38 @@
+.logs {
+  &__sidebar {
+    max-width: 30%;
+  }
+
+  &__sidebar .router-link-exact-active {
+    @apply text-gray-100 bg-black;
+  }
+
+  &__main {
+    max-width: 70%;
+  }
+
+  &__row {
+    transition: background-color .15s ease;
+    border-top: 1px solid #efefef;
+  }
+
+  &__row:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,.05);
+  }
+
+  &__stack-row, &__full-text {
+    word-break: break-word;
+  }
+
+  &__stack-trace {
+    max-height: 40vh;
+  }
+
+  &__stack-row {
+    border-top: 1px solid #efefef;
+    padding: .5rem 1.25rem;
+    background: #f1f7fa;
+    font-size: 15px;
+  }
+}

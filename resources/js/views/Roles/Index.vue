@@ -10,11 +10,11 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="roles" sort-by="name" :per-page="10" key="roles_table">
+                <p-table :endpoint="endpoint" name="roles" sort-by="name" :per-page="10" key="roles_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'roles.edit', params: {role: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
-                    
+
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -26,7 +26,7 @@
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
+
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'roles.edit', params: {role: table.record.id} }">Edit</p-dropdown-item>
 
@@ -36,7 +36,7 @@
                                 -->
 
                                 <p-dropdown-item
-                                    v-if="! isProtected(table.record.slug)" 
+                                    v-if="! isProtected(table.record.slug)"
                                     @click.prevent
                                     v-modal:delete-role="table.record"
                                 >
@@ -45,7 +45,7 @@
                             </template>
                         </p-dropdown>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 

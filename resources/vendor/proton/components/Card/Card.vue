@@ -1,29 +1,18 @@
 <template>
-    <div class="card">
-        <div :class="styles">
+    <div class="card" :class="classes">
+        <div v-if="! noBody" class="card__body">
             <slot></slot>
         </div>
+
+        <template v-else>
+            <slot></slot>
+        </template>
     </div>
 </template>
 
 <script>
     export default {
         name: 'p-card',
-
-        data() {
-            return {
-                themes: {
-                    default: '',
-                    primary: 'card--primary',
-                    secondary: 'card--secondary',
-                    info: 'card--info',
-                    success: 'card--success',
-                    warning: 'card--warning',
-                    danger: 'card--danger',
-                    dark: 'card--dark',
-                },
-            }
-        },
 
         props: {
             noBody: {
@@ -32,22 +21,10 @@
                 default: false,
             },
 
-            theme: {
+            classes: {
                 required: false,
-                type: String,
-                default: 'default',
+                default: ''
             },
         },
-
-        computed: {
-            styles() {
-                let styles = {}
-
-                styles['card__body'] = ! this.noBody
-                styles[this.themes[this.theme]] = true
-
-                return styles
-            }
-        }
     }
 </script>
