@@ -24,13 +24,15 @@ class CreateSectionsTable extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('fieldset_id')->nullable();
+            $table->unsignedBigInteger('fieldset_id');
             $table->string('name');
             $table->string('handle');
             $table->string('description')->default('');
             $table->string('placement')->default('body');
-            $table->integer('order')->unsigned()->default(0);
+            $table->unsignedInteger('order')->default(0);
             $table->timestamps();
+
+            $table->unique(['fieldset_id', 'handle']);
         });
     }
 
