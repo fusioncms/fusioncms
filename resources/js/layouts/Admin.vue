@@ -1,6 +1,6 @@
 <template>
     <div class="flex-wrapper max-w-full">
-        <sidebar>
+        <sidebar @toggle="toggleSidebar" :isOpen="isSidebarOpen">
             <slot name="sidebar"></slot>
         </sidebar>
 
@@ -87,12 +87,19 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import Sidebar from '../components/Sidebar'
-    import SidebarItem from '../components/SidebarItem'
-    import SidebarToggle from '../components/SidebarToggle'
+    import Cookies        from 'js-cookie'
+    import Sidebar        from '../components/Sidebar'
+    import SidebarItem    from '../components/SidebarItem'
+    import SidebarToggle  from '../components/SidebarToggle'
 
     export default {
         name: 'admin-layout',
+
+        data() {
+            return {
+                isSidebarOpen: ! _.includes(['sm', 'md'], this.$mq) && Cookies.get('fusion_sidebar') === 'open'
+            }
+        },
 
         components: {
             'sidebar': Sidebar,
@@ -104,15 +111,22 @@
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
                 version: 'fusion/getVersion',
-                settings: 'settings/getSettings',
             }),
 
             environment() {
                 return window.environment
-            },
+            }
+        },
 
-            isSidebarOpen() {
-                return ! _.includes(['sm', 'md'], this.$mq) && this.settings['system.sidebar_open'] == '1'
+        methods: {
+            toggleSidebar(value) {
+                this.isSidebarOpen = value
+                
+                if (value) {
+                    Cookies.set('fusion_sidebar', 'open')
+                } else {
+                    Cookies.set('fusion_sidebar', 'close')
+                }
             }
         }
     }

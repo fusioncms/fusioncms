@@ -2,8 +2,8 @@
     <aside
         class="sidebar"
         :class="{
-            'sidebar--opened': this.isOpen,
-            'sidebar--closed': !this.isOpen
+            'sidebar--opened': isOpen,
+            'sidebar--closed': ! isOpen
         }"
     >
         <div class="flex flex-row-reverse lg:flex-row items-center justify-between lg:justify-center px-6 border-b border-gray-300" style="height: 55px;">
@@ -29,9 +29,9 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
-    import SidebarItem from './SidebarItem.vue'
-    import SidebarToggle from './SidebarToggle.vue'
+    import { mapGetters } from 'vuex'
+    import SidebarItem    from './SidebarItem.vue'
+    import SidebarToggle  from './SidebarToggle.vue'
 
     export default {
         name: 'sidebar',
@@ -41,36 +41,23 @@
             'sidebar-toggle': SidebarToggle,
         },
 
+        props: ['isOpen'],
+
         computed: {
             ...mapGetters({
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
                 settings: 'settings/getSettings',
             }),
-
-            isOpen: {
-                get() {
-                    return ! _.includes(['sm', 'md'], this.$mq) && this.settings['system.sidebar_open'] == '1'
-                },
-
-                set(value) {
-                    axios.patch('/api/settings/system', { 'sidebar_open': value })
-                        .then((response) => this.setSection({ handle: 'system', section: response.data.data }))
-                }
-            }
         },
 
         methods: {
-            ...mapActions({
-                setSection: 'settings/setSection'
-            }),
-
             logout() {
                 axios.get('/logout').then(() => window.location = '/')
             },
 
             listenForEvent() {
-                Fusion.bus.$on('toggle-sidebar', () => this.isOpen = ! this.isOpen)
+                Fusion.bus.$on('toggle-sidebar', () => this.$emit('toggle', ! this.isOpen))
             }
         },
 
