@@ -15,6 +15,8 @@ use App\Models\Matrix;
 use App\Models\Fieldset;
 use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -79,5 +81,41 @@ class MatrixTest extends TestCase
         $collection->save();
 
         $this->assertDatabaseHasTable('mx_posts');
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group fieldset
+     */
+    public function each_matrix_must_have_a_unique_handle()
+    {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('UNIQUE constraint failed: matrices.handle');
+
+        $matrix = factory(Matrix::class)->create();
+        $matrix = $matrix->toArray();
+        $matrix['id']   = null;
+        $matrix['slug'] = 'new-slug';
+
+        DB::table('matrices')->insert($matrix);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group fieldset
+     */
+    public function each_matrix_must_have_a_unique_slug()
+    {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('UNIQUE constraint failed: matrices.slug');
+
+        $matrix = factory(Matrix::class)->create();
+        $matrix = $matrix->toArray();
+        $matrix['id']     = null;
+        $matrix['handle'] = 'new-handle';
+
+        DB::table('matrices')->insert($matrix);
     }
 }

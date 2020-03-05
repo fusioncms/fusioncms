@@ -13,16 +13,43 @@ namespace Tests\Unit;
 
 use App\Models\Mailable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MailableTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * @test
-     * @group fusioncms
+     * @group unit
+     * @group mailable
+     */
+    public function each_mailable_must_have_a_unique_handle()
+    {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('UNIQUE constraint failed: mailables.handle');
+        
+        DB::table('mailables')->insert([
+            'name'      => ($name = $this->faker->word),
+            'handle'    => Str::slug($name),
+            'namespace' => 'App\Mail\FakeMailable'
+        ]);
+
+        DB::table('mailables')->insert([
+            'name'      => $name,
+            'handle'    => Str::slug($name),
+            'namespace' => 'App\Mail\FakeMailable'
+        ]);
+    }
+
+    /**
+     * @test
+     * @group unit
      * @group mailable
      */
     public function a_request_to_register_mailables_will_update_the_database()
@@ -40,7 +67,7 @@ class MailableTest extends TestCase
 
     /**
      * @test
-     * @group fusioncms
+     * @group unit
      * @group mailable
      */
     public function a_request_can_be_made_to_resolve_the_mailable_class()
@@ -54,7 +81,7 @@ class MailableTest extends TestCase
 
     /**
      * @test
-     * @group fusioncms
+     * @group unit
      * @group mailable
      */
     public function a_request_can_be_made_to_generate_a_set_of_placeholders_for_the_mailable_class()
