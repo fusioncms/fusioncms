@@ -13,10 +13,13 @@ namespace App\Models\Pages;
 
 use App\Models\Field;
 use App\Models\Matrix;
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 
 class {class} extends Model
 {
+    use IsSearchable;
+
 	/**
      * The table associated with the model.
      *

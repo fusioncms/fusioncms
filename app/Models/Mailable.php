@@ -9,12 +9,15 @@ use ReflectionClass;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use App\Concerns\IsSearchable;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mailable as MailableModel;
 
 class Mailable extends Model
 {
+    use IsSearchable;
+
 	/**
      * The attributes that are fillable via mass assignment.
      *
@@ -39,7 +42,7 @@ class Mailable extends Model
 
     /**
      * Appends custom attributes.
-     * 
+     *
      * @var array
      */
     protected $appends = ['theme'];
@@ -47,7 +50,7 @@ class Mailable extends Model
     /**
      * Get resolved DatabaseMailable class.
      * [Derived]
-     * 
+     *
      * @return DatabaseMailable
      */
     public function getMailableAttribute()
@@ -58,7 +61,7 @@ class Mailable extends Model
     /**
      * Get which Theme this Mailable comes from.
      * [Derived]
-     * 
+     *
      * @return DatabaseMailable
      */
     public function getThemeAttribute()
@@ -86,7 +89,7 @@ class Mailable extends Model
     /**
      * Get `placeholder` attribute.
      * [Derived]
-     * 
+     *
      * @return Collection
      */
     public function getPlaceholdersAttribute()
@@ -118,7 +121,7 @@ class Mailable extends Model
     /**
      * Register new Mailables in storage.
      * [Helper]
-     * 
+     *
      * @return void
      */
     public static function registerNewMailables()
@@ -140,7 +143,7 @@ class Mailable extends Model
     /**
      * Resolve and create new Database Mailable.
      * [Helper]
-     * 
+     *
      * @param  string $namespace
      * @return void
      */

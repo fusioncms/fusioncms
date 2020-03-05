@@ -12,7 +12,7 @@
             <div class="content-container">
                 <p-table name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
                     <template slot="name" slot-scope="table">
-                        <span class="mr-2" :class="{'text-success-500': table.record.status, 'text-danger-500': ! table.record.status}"><fa-icon icon="circle" class="icon fa-xs"></fa-icon></span>
+                        <p-status :value="table.record.status" class="mr-2"></p-status>
 
                         <router-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -28,14 +28,15 @@
 
                     <template slot="actions" slot-scope="table">
                         <p-actions :id="'entry_' + table.record.id + '_actions'">
-                            <p-dropdown-item @click.prevent :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-item>
+                            <p-dropdown-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-link>
 
-                            <p-dropdown-item
+                            <p-dropdown-link
                                 @click.prevent
                                 v-modal:delete-entry="table.record"
+                                classes="link--danger"
                             >
                                 Delete
-                            </p-dropdown-item>
+                            </p-dropdown-link>
                         </p-actions>
                     </template>
                 </p-table>

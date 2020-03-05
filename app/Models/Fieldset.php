@@ -11,12 +11,13 @@
 
 namespace App\Models;
 
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use App\Concerns\HasDynamicRelationships;
 
 class Fieldset extends Model
 {
-    use HasDynamicRelationships;
+    use HasDynamicRelationships, IsSearchable;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -27,7 +28,7 @@ class Fieldset extends Model
 
     /**
      * A fieldset is polymorphic.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function fieldsettable()
@@ -37,7 +38,7 @@ class Fieldset extends Model
 
     /**
      * A fieldset has many sections.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function sections()
@@ -47,7 +48,7 @@ class Fieldset extends Model
 
     /**
      * Get all of the fields from sections.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function fields()
@@ -77,7 +78,7 @@ class Fieldset extends Model
 
     /**
      * Return the fields that generate database columns.
-     * 
+     *
      * @return self
      */
     public function database()
@@ -89,7 +90,7 @@ class Fieldset extends Model
 
     /**
      * Return the fields that define relationships.
-     * 
+     *
      * @return self
      */
     public function relationships()

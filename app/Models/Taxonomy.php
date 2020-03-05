@@ -13,12 +13,13 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Concerns\HasFieldset;
+use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 
 class Taxonomy extends Model
 {
-    use CachesQueries, HasFieldset;
+    use CachesQueries, HasFieldset, IsSearchable;
 
     protected $with = ['fieldsets'];
 
@@ -92,7 +93,7 @@ class Taxonomy extends Model
 
     /**
      * Taxonomies have many terms.
-     * 
+     *
      * @return HasManyRelationship
      */
     public function terms()

@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use App\Concerns\HasFieldset;
+use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 
 class Form extends Model
 {
-    use CachesQueries, HasFieldset;
+    use CachesQueries, HasFieldset, IsSearchable;
 
     protected $with = ['fieldsets'];
-    
+
     protected $appends = ['fieldset'];
 
     /**
@@ -56,7 +57,7 @@ class Form extends Model
 
     /**
      * Get the builder instance.
-     * 
+     *
      * @return Model
      */
     public function getBuilder()
@@ -94,7 +95,7 @@ class Form extends Model
 
     /**
      * Forms have many responses.
-     * 
+     *
      * @return HasManyRelationship
      */
     public function responses()

@@ -14,12 +14,13 @@ namespace App\Models\Menus;
 use App\Models\Menu;
 use App\Models\Field;
 use App\Concerns\HasOrder;
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class {class} extends Model
 {
-    use HasOrder;
+    use HasOrder, IsSearchable;
 
 	/**
      * The table associated with the model.

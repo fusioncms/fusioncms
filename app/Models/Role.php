@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Concerns\HasPermissions;
 use Caffeinated\Shinobi\Contracts\Role as RoleContract;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model implements RoleContract
 {
-    use HasPermissions;
+    use HasPermissions, IsSearchable;
 
     /**
      * The attributes that are fillable via mass assignment.

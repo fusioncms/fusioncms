@@ -13,7 +13,7 @@
                 <p-table :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle" key="matrices_table">
                     <template slot="name" slot-scope="table">
                         <div class="flex items-center">
-                            <span class="mr-2" :class="{'text-success-500': table.record.status, 'text-danger-500': ! table.record.status}"><fa-icon icon="circle" class="icon fa-xs"></fa-icon></span>
+                            <p-status :value="table.record.status" class="mr-2"></p-status>
 
                             <router-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">{{ table.record.name }}</router-link>
                         </div>
@@ -43,6 +43,7 @@
                             <p-dropdown-link
                                 @click.prevent
                                 v-modal:delete-matrix="table.record"
+                                classes="link--danger"
                             >
                                 Delete
                             </p-dropdown-link>

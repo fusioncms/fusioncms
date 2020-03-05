@@ -1,5 +1,20 @@
 <template>
-    <ul class="pagination">
+    <div class="flex items-center justify-between">
+        <div class="buttons">
+            <div class="buttons__group">
+                <button class="button button--icon" @click="onClickPreviousPage"><fa-icon icon="chevron-left" class="icon"></fa-icon></button>
+                <button class="button button--icon" @click="onClickNextPage"><fa-icon icon="chevron-right" class="icon"></fa-icon></button>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <div class="buttons__group">
+                <button class="button button--icon" :class="{ 'button--primary': isPageActive(page.name) }" v-for="page in pages" :key="page.name" @click="onClickPage(page.name)">{{ page.name }}</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <ul class="pagination">
         <li class="pagination--item">
             <button
                 type="button"
@@ -55,7 +70,7 @@
                 Last
             </button>
         </li>
-    </ul>
+    </ul> -->
 </template>
 
 <script>
@@ -144,17 +159,27 @@
             },
 
             onClickPreviousPage() {
-                this.$emit('input', this.current - 1)
-                this.$emit('previous')
+                let previousPage = this.current - 1
+
+                if (previousPage >= 1) {
+                    this.$emit('input', previousPage)
+                    this.$emit('next')
+                }
             },
 
             onClickPage(page) {
-                this.$emit('input', page)
+                if (this.current != page) {
+                    this.$emit('input', page)
+                }
             },
 
             onClickNextPage() {
-                this.$emit('input', this.current + 1)
-                this.$emit('next')
+                let nextPage = this.current + 1
+
+                if (nextPage <= this.endPage) {
+                    this.$emit('input', nextPage)
+                    this.$emit('next')
+                }
             },
 
             onClickLastPage() {
