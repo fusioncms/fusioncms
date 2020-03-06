@@ -21,13 +21,8 @@
                         <code>{{ table.record.slug }}</code>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === 1">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-actions :id="'entry_' + table.record.id + '_actions'">
+                        <p-actions :id="'entry_' + table.record.id + '_actions'" :key="'entry_' + table.record.id + '_actions'">
                             <p-dropdown-link :to="{ name: 'entries.edit', params: {collection: collection.slug, id: table.record.id} }">Edit</p-dropdown-link>
 
                             <p-dropdown-link

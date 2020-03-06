@@ -13,6 +13,8 @@
             <div class="content-container">
                 <p-table :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
                     <template slot="name" slot-scope="table">
+                        <p-status :value="table.record.status" class="mr-2"></p-status>
+
                         <router-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
 
@@ -24,26 +26,18 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'form_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                        <p-actions :id="'form_' + table.record.id + '_actions'" :key="'form_' + table.record.id + '_actions'">
+                            <p-dropdown-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">Edit</p-dropdown-link>
 
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'forms.edit', params: {form: table.record.id} }">Edit</p-dropdown-item>
-
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-form="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-form="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
                 </p-table>
             </div>

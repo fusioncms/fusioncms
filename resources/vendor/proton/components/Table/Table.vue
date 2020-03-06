@@ -5,7 +5,7 @@
         <div class="card__body">
             <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-600">
-                    <div v-if="records.length">
+                    <div v-if="! noPagination && this.pagination.totalPages > 1 && records.length">
                         On page <b>{{ this.pagination.currentPage }}</b> of <b>{{ this.pagination.totalPages }}</b>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 </tbody>
             </table>
 
-            <div class="card__body" v-if="! noPagination">
+            <div class="card__body" v-if="! noPagination && this.pagination.totalPages > 1">
                 <p-pagination
                     @input="changePage($event)"
                     :total="this.pagination.totalPages"

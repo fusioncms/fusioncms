@@ -127,7 +127,7 @@ abstract class DataTableController extends Controller
         try {
             return $builder
                 ->orderBy($request->orderBy, $request->orderDirection)
-                ->paginate(50);
+                ->paginate(5);
         } catch (QueryException $e) {
             return [];
         }

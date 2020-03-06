@@ -32,7 +32,6 @@ class MatrixFieldController extends DataTableController
             'name',
             'handle',
             'fieldtype',
-            'status',
         ];
     }
 
@@ -42,17 +41,15 @@ class MatrixFieldController extends DataTableController
             'name',
             'handle',
             'fieldtype',
-            'status',
         ];
     }
 
     public function getCustomColumnNames()
     {
         return [
-            'name'        => 'Name',
-            'handle'      => 'Handle',
-            'fieldtype'   => 'Fieldtype',
-            'status'      => 'Status',
+            'name'      => 'Name',
+            'handle'    => 'Handle',
+            'fieldtype' => 'Fieldtype',
         ];
     }
 }

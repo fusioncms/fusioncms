@@ -4043,16 +4043,9 @@ code {
   display: flex;
 }
 
-.row:not(:last-child) {
-  margin-bottom: 1.5rem;
-}
-
 .col {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-.col:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 

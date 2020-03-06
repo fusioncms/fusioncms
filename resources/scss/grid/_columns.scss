@@ -4,22 +4,11 @@
         -mx-3
         flex
     ;
-
-    &:not(:last-child) {
-        @apply
-            mb-6
-        ;
-    }
 }
 
 .col {
     @apply
         px-3
+        mb-6
     ;
-
-    &:not(:last-child) {
-        @apply
-            mb-6
-        ;
-    }
 }

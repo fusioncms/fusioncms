@@ -31,13 +31,8 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-actions :id="'matrix_' + table.record.id + '_actions'">
+                        <p-actions :id="'matrix_' + table.record.id + '_actions'" :key="'matrix_' + table.record.id + '_actions'">
                             <p-dropdown-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">Edit</p-dropdown-link>
 
                             <p-dropdown-link

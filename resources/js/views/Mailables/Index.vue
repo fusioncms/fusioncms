@@ -10,8 +10,10 @@
 
 		<div class="row">
 			<div class="content-container">
-				<p-table :endpoint="endpoint" name="mailables" sort-by="name" :per-page="10" primary-key="handle" key="mailables_table">
+				<p-table :endpoint="endpoint" name="mailables" sort-by="name" primary-key="handle" key="mailables_table">
 					<template slot="name" slot-scope="table">
+                        <p-status :value="table.record.status" class="mr-2"></p-status>
+
                         <router-link :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
 
@@ -21,23 +23,12 @@
 
                     <template slot="theme" slot-scope="table">
                         <span class="badge badge--info" v-if="table.record.theme !== false">{{ table.record.theme }}</span>
-                        <span v-else></span>
-                    </template>
-
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                            <p-dropdown right>
-                                <fa-icon :icon="['fas', 'bars']"></fa-icon>
-
-                                <template slot="options">
-                                    <p-dropdown-item @click.prevent :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">Edit</p-dropdown-item>
-                                </template>
-                            </p-dropdown>
-
+                        <p-actions :id="'mail_' + table.record.id + '_actions'" :key="'mail_' + table.record.id + '_actions'">
+                            <p-dropdown-item :to="{ name: 'mailables.edit', params: {mailable: table.record.id} }">Edit</p-dropdown-item>
+                        </p-actions>
                     </template>
 				</p-table>
 			</div>

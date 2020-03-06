@@ -33,7 +33,6 @@ class UserController extends DataTableController
         return [
             'name',
             'email',
-            'status',
         ];
     }
 
@@ -42,7 +41,6 @@ class UserController extends DataTableController
         return [
             'name',
             'email',
-            'status',
         ];
     }
 
@@ -51,7 +49,6 @@ class UserController extends DataTableController
         return [
             'name',
             'email',
-            'status',
         ];
     }
 
@@ -60,7 +57,6 @@ class UserController extends DataTableController
         return [
             'name'   => 'Name',
             'email'  => 'E-mail',
-            'status' => 'Status',
         ];
     }
 }

@@ -3,7 +3,7 @@
         <portal to="title">
             <app-title :icon="collection.icon || 'pencil-alt'">Edit {{ collection.reference_singular }}</app-title>
         </portal>
-        
+
         <portal to="subtitle">{{ collection.description }}</portal>
 
         <div class="row">
@@ -11,12 +11,6 @@
                 <form @submit.prevent="submit">
                     <p-card>
                         <div class="row" v-if="collection.show_name_field">
-                            <div class="col form-sidebar">
-                                <div class="xxl:mr-10">
-                                    <!--  -->
-                                </div>
-                            </div>
-
                             <div class="col mb-6 form-content">
                                 <div class="row">
                                     <div class="col w-1/2">
@@ -72,7 +66,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                                 <hr v-if="index !== sections.body.length - 1">
                             </div>
                         </div>
@@ -185,7 +179,7 @@
             submit() {
                 this.form.patch('/api/collections/' + this.collection.slug + '/' + this.entry.id).then((response) => {
                     toast('Entry saved successfully', 'success')
-                    
+
                     this.$router.push('/collections/' + this.collection.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
@@ -231,7 +225,7 @@
 
         beforeRouteUpdate(to,from,next) {
             this.getEntry(to, from, next)
-            
+
             next()
         }
     }

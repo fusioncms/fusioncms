@@ -28,7 +28,6 @@ class MatrixController extends DataTableController
             'handle',
             'description',
             'type',
-            'status',
         ];
     }
 
@@ -39,7 +38,6 @@ class MatrixController extends DataTableController
             'handle',
             'description',
             'type',
-            'status',
         ];
     }
 
@@ -50,7 +48,6 @@ class MatrixController extends DataTableController
             'handle',
             'description',
             'type',
-            'status',
         ];
     }
 
@@ -61,7 +58,6 @@ class MatrixController extends DataTableController
             'handle'      => 'Handle',
             'description' => 'Description',
             'type'        => 'Type',
-            'status'      => 'Status',
         ];
     }
 }

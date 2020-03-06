@@ -20,20 +20,17 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'fieldset_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                        <p-actions :id="'fieldset_' + table.record.id + '_actions'" :key="'fieldset_' + table.record.id + '_actions'">
+                            <p-dropdown-link :to="{ name: 'fieldsets.edit', params: {fieldset: table.record.id} }">Edit</p-dropdown-link>
 
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'fieldsets.edit', params: {fieldset: table.record.id} }">Edit</p-dropdown-item>
-
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-fieldset="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-fieldset="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
                 </p-table>
             </div>
