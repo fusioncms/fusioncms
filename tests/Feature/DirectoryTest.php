@@ -19,7 +19,7 @@ class DirectoryTest extends TestCase
         $response = $this->json('POST', 'api/directories', [
             'name' => 'Test Folder',
         ]);
-        
+
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
@@ -128,5 +128,18 @@ class DirectoryTest extends TestCase
 
         $this->assertCount(1, $data);
         $this->assertCount(1, $data->where('name', 'dolor'));
+    }
+
+    /** @test */
+    public function all_unique_contraints_will_be_reported()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $directory = DirectoryFactory::withName('lorem')->create();
+
+        $response = $this
+            ->json('POST', 'api/directories', $directory->toArray())
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
     }
 }
