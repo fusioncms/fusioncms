@@ -67,11 +67,11 @@ class DirectoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DirectoryRequest  $request
      * @param  \App\Models\Directory  $directory
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\DirectoryResource
      */
-    public function update(Request $request, Directory $directory)
+    public function update(DirectoryRequest $request, Directory $directory)
     {
         $directory->update($request->validated());
 

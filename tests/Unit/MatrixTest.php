@@ -24,7 +24,11 @@ class MatrixTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_a_fieldset()
     {
         $matrix   = factory(Matrix::class)->create();
@@ -35,7 +39,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Fieldset::class, $matrix->fieldset);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_a_parent()
     {
         $parent = factory(Matrix::class)->create();
@@ -47,7 +55,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Matrix::class, $matrix->parent);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_children()
     {
         $matrix = factory(Matrix::class)->create();
@@ -59,7 +71,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Matrix::class, $matrix->children->first());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_database_table_is_created_with_a_matrix()
     {
         MatrixFactory::withName('Posts')
@@ -68,7 +84,11 @@ class MatrixTest extends TestCase
         $this->assertDatabaseHasTable('mx_posts');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function the_database_table_is_renamed_when_renaming_a_collection()
     {
         $collection = MatrixFactory::withName('Blog')
@@ -86,7 +106,7 @@ class MatrixTest extends TestCase
     /**
      * @test
      * @group unit
-     * @group fieldset
+     * @group matrix
      */
     public function each_matrix_must_have_a_unique_handle()
     {
@@ -104,7 +124,7 @@ class MatrixTest extends TestCase
     /**
      * @test
      * @group unit
-     * @group fieldset
+     * @group matrix
      */
     public function each_matrix_must_have_a_unique_slug()
     {

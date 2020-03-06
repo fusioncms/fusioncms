@@ -11,7 +11,11 @@ class DirectoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_create_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -25,7 +29,11 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_rename_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -43,7 +51,11 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'New Folder Name', 'slug' => 'new-folder-name']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_delete_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -59,7 +71,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseMissing('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
     }
 
-    // /** @test */
+
     public function a_user_with_permissions_can_move_directories_inside_other_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -81,7 +93,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => 1]);
     }
 
-    // /** @test */
+
     public function a_user_with_permissions_can_move_directories_to_the_root()
     {
         $this->actingAs($this->admin, 'api');
@@ -104,7 +116,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => null]);
     }
 
-    // /** @test */
+
     public function directories_can_be_searched_by_name()
     {
         $this->actingAs($this->admin, 'api');
@@ -130,8 +142,29 @@ class DirectoryTest extends TestCase
         $this->assertCount(1, $data->where('name', 'dolor'));
     }
 
-    /** @test */
-    public function all_unique_contraints_will_be_reported()
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function directories_must_have_a_unique_parent_id_and_slug_combination()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $directory = DirectoryFactory::withName('lorem')->create();
+
+        $response = $this
+            ->json('POST', 'api/directories', $directory->toArray())
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function directories_can_have_duplicate_slugs_in()
     {
         $this->actingAs($this->admin, 'api');
 
