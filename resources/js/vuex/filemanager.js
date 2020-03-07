@@ -341,10 +341,7 @@ export default {
 
         moveFileToDirectory({ commit, state, dispatch }, payload) {
             axios.all([
-                axios.post('/api/files/move', {
-                    directory: payload.directory,
-                    moving:    payload.moving
-                })
+                axios.post(`/api/files/move/${payload.directory}`, { moving: payload.moving })
             ]).then(axios.spread((response) =>  {
                 dispatch('fetchFilesAndDirectories')
             }))

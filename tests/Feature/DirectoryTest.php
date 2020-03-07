@@ -151,10 +151,13 @@ class DirectoryTest extends TestCase
     {
         $this->actingAs($this->admin, 'api');
 
+        // mimic an insert w/ duplicate data..
         $directory = DirectoryFactory::withName('lorem')->create();
+        $directory = $directory->toArray();
+        $directory['id'] = null;
 
-        $response = $this
-            ->json('POST', 'api/directories', $directory->toArray())
+        $this
+            ->json('POST', 'api/directories', $directory)
             ->assertStatus(422)
             ->assertJsonValidationErrors(['slug']);
     }
@@ -164,15 +167,46 @@ class DirectoryTest extends TestCase
      * @group feature
      * @group directory
      */
-    public function directories_can_have_duplicate_slugs_in()
+    public function directories_can_have_duplicate_slugs_with_a_different_parent_id()
     {
         $this->actingAs($this->admin, 'api');
 
         $directory = DirectoryFactory::withName('lorem')->create();
+        $directory = $directory->toArray();
+        $directory['id'] = null;
+        $directory['parent_id'] = 99;
 
         $response = $this
-            ->json('POST', 'api/directories', $directory->toArray())
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['slug']);
+            ->json('POST', 'api/directories', $directory)
+            ->assertStatus(201);
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function a_directory_cannot_be_moved_to_another_directory_with_a_conflicting_slug()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // Create two directories (A1/A2) w/ same slug in diff folders
+        $directoryA1 = factory(Directory::class)->create(['slug' => 'folder-a']);
+        $directoryA2 = factory(Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+
+        // dd(\DB::table('directories')->get());
+
+        // Attempt to combine directories in same location
+        $response = $this
+            ->json('POST', '/api/files/move', [
+                'directory' => $directoryA1->parent_id,
+                'moving'    => [
+                    'files'       => [],
+                    'directories' => [ $directoryA2->id ]
+                ]
+            ]);
+        dd($response->getContent());
+            // ->assertStatus(422)
+            // ->assertJsonValidationErrors(['slug']);
     }
 }

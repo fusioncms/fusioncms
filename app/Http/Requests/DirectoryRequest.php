@@ -15,7 +15,7 @@ class DirectoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('directories.' . ($this->method() === 'POST' ? 'create' : 'update'));
     }
 
     /**
@@ -27,7 +27,7 @@ class DirectoryRequest extends FormRequest
     {
         $this->merge([
             'parent_id' => $this->parent_id ?? 0,
-            'slug'      => Str::slug($this->name),
+            'slug'      => $this->slug ?? Str::slug($this->name),
         ]);
     }
 
@@ -39,13 +39,14 @@ class DirectoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required',
-            'parent_id' => 'required|integer',
-            'slug'      => Rule::unique('directories')->where(function ($query) {
-                return $query
-                    ->where('slug', $this->slug)
-                    ->where('parent_id', $this->parent_id);
-            }),
+            'parent_id' => 'sometimes|integer',
+            'slug'      => Rule::unique('directories')
+                            ->ignore($this->id)
+                            ->where(function ($query) {
+                                return $query
+                                    ->where('slug', $this->slug)
+                                    ->where('parent_id', $this->parent_id);
+                        }),
         ];
     }
 }

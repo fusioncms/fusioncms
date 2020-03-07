@@ -30,11 +30,11 @@ class DirectoryController extends Controller
         $directories = Directory::withCount('files');
 
         if ($request->recursive) {
-            $directories = $directories->whereNull('parent_id')->with('children.children')->get();
+            $directories = $directories->where('parent_id', 0)->with('children.children')->get();
         } elseif ($request->directory) {
             $directories = $directories->whereParentId($request->directory)->get();
         } else {
-            $directories = $directories->whereNull('parent_id')->get();
+            $directories = $directories->where('parent_id', 0)->get();
         }
 
         return DirectoryResource::collection($directories);
