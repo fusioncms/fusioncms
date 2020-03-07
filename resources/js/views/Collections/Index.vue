@@ -10,7 +10,7 @@
 
         <div class="row" v-if="endpoint">
             <div class="content-container">
-                <p-table name="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
+                <p-table id="entries" :endpoint="endpoint" sort-by="name" :per-page="10" :key="collection.handle + '_table'">
                     <template slot="name" slot-scope="table">
                         <p-status :value="table.record.status" class="mr-2"></p-status>
 

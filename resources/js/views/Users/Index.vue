@@ -24,7 +24,7 @@
             </div>
 
             <div class="content-container">
-                <p-table name="users" :endpoint="endpoint" sort-by="name" :per-page="10" key="users_table">
+                <p-table id="users" :endpoint="endpoint" sort-by="name" key="users_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'users.edit', params: {user: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -39,26 +39,18 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                        <p-actions :id="'user_' + table.record.id + '_actions'" :key="'user_' + table.record.id + '_actions'">
+                            <p-dropdown-link @click.prevent :to="{ name: 'users.edit', params: {user: table.record.id} }">Edit</p-dropdown-link>
 
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'users.edit', params: {user: table.record.id} }">Edit</p-dropdown-item>
-
-                                <!--
-                                    We don't want to delete our own account, so let's
-                                    check for that and save ourselves a headache.
-                                -->
-
-                                <p-dropdown-item
-                                    v-if="table.record.id != user.id"
-                                    @click.prevent
-                                    v-modal:delete-user="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                v-if="table.record.id != user.id"
+                                @click.prevent
+                                v-modal:delete-user="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
                 </p-table>
             </div>

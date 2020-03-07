@@ -1,11 +1,11 @@
 <template>
     <renderless-button :loading="value">
         <button
+            v-on="$listeners"
             slot-scope="props"
             :class="classes"
             v-bind="$attrs"
             class="button"
-            @click="onClick"
             :disabled="props.isLoading"
         >
             <slot></slot>
@@ -45,10 +45,10 @@
             }
         },
 
-        methods: {
-            onClick() {
-                this.$emit('click')
-            }
-        }
+        // methods: {
+        //     onClick() {
+        //         this.$emit('click')
+        //     }
+        // }
     }
 </script>

@@ -36,7 +36,7 @@
                             <h2>Popular Pages</h2>
                         </div>
 
-                        <table>
+                        <table class="table">
                             <tbody>
                                 <tr v-for="page in popular" :key="page.url">
                                     <td>
@@ -59,7 +59,7 @@
                             <h2>Browsers</h2>
                         </div>
 
-                        <table>
+                        <table class="table">
                             <tbody>
                                 <tr v-for="browser in browsers" :key="browser.browser">
                                     <td>

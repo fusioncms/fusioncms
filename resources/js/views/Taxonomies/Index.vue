@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-table :endpoint="endpoint" name="taxonomies" sort-by="name" :per-page="10" primary-key="handle" key="taxonomies_table">
+                <p-table :endpoint="endpoint" id="taxonomies" sort-by="name" primary-key="handle" key="taxonomies_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'taxonomies.edit', params: {taxonomy: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -29,20 +29,17 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'taxonomy_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                        <p-actions :id="'taxonomy_' + table.record.id + '_actions'" :key="'taxonomy_' + table.record.id + '_actions'">
+                            <p-dropdown-link @click.prevent :to="{ name: 'taxonomies.edit', params: {taxonomy: table.record.id} }">Edit</p-dropdown-link>
 
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'taxonomies.edit', params: {taxonomy: table.record.id} }">Edit</p-dropdown-item>
-
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-taxonomy="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-taxonomy="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
                 </p-table>
             </div>

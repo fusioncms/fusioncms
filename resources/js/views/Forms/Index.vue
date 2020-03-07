@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-table :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
+                <p-table :endpoint="endpoint" id="forms" sort-by="name" primary-key="handle" key="forms_table">
                     <template slot="name" slot-scope="table">
                         <p-status :value="table.record.status" class="mr-2"></p-status>
 

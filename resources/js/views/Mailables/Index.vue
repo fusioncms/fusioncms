@@ -10,7 +10,7 @@
 
 		<div class="row">
 			<div class="content-container">
-				<p-table :endpoint="endpoint" name="mailables" sort-by="name" primary-key="handle" key="mailables_table">
+				<p-table :endpoint="endpoint" id="mailables" sort-by="name" primary-key="handle" key="mailables_table">
 					<template slot="name" slot-scope="table">
                         <p-status :value="table.record.status" class="mr-2"></p-status>
 

@@ -45,7 +45,7 @@
 
             <div class="content-container">
                 <p-card no-body>
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th></th>
@@ -69,8 +69,10 @@
                                         </td>
 
                                         <td>
-                                            <fa-icon class="fa-fw text-xs mr-1" :class="{'text-success-500': node.status, 'text-danger-500': ! node.status}" :icon="['fas', 'circle']"></fa-icon>
+                                            <p-status :value="node.status" class="mr-2"></p-status>
+
                                             <router-link :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">{{ node.name }}</router-link>
+
                                             <fa-icon v-if="node.new_window" class="fa-fw text-gray-500 text-xs" :icon="['fas', 'external-link-alt']"></fa-icon>
                                         </td>
 
@@ -84,35 +86,31 @@
 
                                         <td>
                                             <div style="min-width: 50px;" class="text-right draggable__actions">
-                                                <p-dropdown right>
-                                                    <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                                                <p-actions :id="'node_' + node.id + '_actions'" :key="'node_' + node.id + '_actions'">
+                                                    <p-dropdown-link @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-link>
 
-                                                    <template slot="options">
-                                                        <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-item>
-                                                        <!-- <p-dropdown-item>Assign parent...</p-dropdown-item> -->
+                                                    <p-dropdown-link
+                                                        @click.prevent
+                                                        v-modal:move-before="node"
+                                                    >
+                                                        Move before...
+                                                    </p-dropdown-link>
 
-                                                        <p-dropdown-item
-                                                            @click.prevent
-                                                            v-modal:move-before="node"
-                                                        >
-                                                            Move before...
-                                                        </p-dropdown-item>
+                                                    <p-dropdown-link
+                                                        @click.prevent
+                                                        v-modal:move-after="node"
+                                                    >
+                                                        Move after...
+                                                    </p-dropdown-link>
 
-                                                        <p-dropdown-item
-                                                            @click.prevent
-                                                            v-modal:move-after="node"
-                                                        >
-                                                            Move after...
-                                                        </p-dropdown-item>
-
-                                                        <p-dropdown-item
-                                                            @click.prevent
-                                                            v-modal:delete-node="node"
-                                                        >
-                                                            Delete
-                                                        </p-dropdown-item>
-                                                    </template>
-                                                </p-dropdown>
+                                                    <p-dropdown-link
+                                                        @click.prevent
+                                                        v-modal:delete-node="node"
+                                                        classes="link--danger"
+                                                    >
+                                                        Delete
+                                                    </p-dropdown-link>
+                                                </p-actions>
                                             </div>
                                         </td>
                                     </tr>

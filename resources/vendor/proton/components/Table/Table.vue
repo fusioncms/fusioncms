@@ -5,8 +5,8 @@
         <div class="card__body">
             <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-600">
-                    <div v-if="! noPagination && this.pagination.totalPages > 1 && records.length">
-                        On page <b>{{ this.pagination.currentPage }}</b> of <b>{{ this.pagination.totalPages }}</b>
+                    <div v-if="pagination.totalPages > 1 && records.length">
+                        On page <b>{{ pagination.currentPage }}</b> of <b>{{ pagination.totalPages }}</b>
                     </div>
                 </div>
 
@@ -14,7 +14,7 @@
                     <div class="toolbar" v-if="! noSearch">
                         <div class="toolbar__group toolbar__group--grow">
                             <div class="field__control">
-                                <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for..." aria-label="Search">
+                                <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for..." aria-label="Search" :aria-controls="id">
                             </div>
                         </div>
 
@@ -29,7 +29,7 @@
         </div>
 
         <div v-if="records.length">
-            <table class="table">
+            <table :id="id" class="table" aria-live="polite">
                 <thead>
                     <tr>
                         <th v-for="(column, index) in displayable" :key="column[primaryKey] || index" :class="{'sortable': isSortable(column)}" @click.prevent="isSortable(column) && sortRecordsBy(column)">
@@ -44,7 +44,8 @@
                                 </div>
                             </span>
                         </th>
-                        <th>&nbsp;</th>
+
+                        <th v-if="hasActions">&nbsp;</th>
                     </tr>
                 </thead>
 
@@ -55,14 +56,15 @@
                                 {{ record[column] }}
                             </slot>
                         </td>
-                        <td class="actions" v-if="!noActions">
+
+                        <td class="actions" v-if="hasActions">
                             <slot name="actions" :record="record"></slot>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div class="card__body" v-if="! noPagination && this.pagination.totalPages > 1">
+            <div class="card__body" v-if="this.pagination.totalPages > 1">
                 <p-pagination
                     @input="changePage($event)"
                     :total="this.pagination.totalPages"
@@ -95,7 +97,6 @@
                 displayable: [],
                 column_names: [],
                 sortable: [],
-                filterable: [],
                 records: [],
                 search: '',
 
@@ -104,12 +105,6 @@
                     currentPage: 1,
                     totalPages: 0,
                     perPage: this.perPage,
-                },
-
-                filter: {
-                    column: this.sortBy,
-                    operator: 'equals',
-                    value: '',
                 },
 
                 sort: {
@@ -133,30 +128,15 @@
                 return columns
             },
 
-            filters() {
-                let filters = []
-
-                _.forEach(this.filterable, (filter) => {
-                    filters.push({
-                        'label': this.column_names[filter],
-                        'value': filter,
-                    })
-                })
-
-                return filters
-            }
+            hasActions() {
+                return !!this.$slots.actions || !!this.$scopedSlots.actions
+            },
         },
 
         props: {
-            name: {
+            id: {
                 required: true,
                 type: String,
-            },
-
-            title: {
-                required: false,
-                type: String,
-                default: '',
             },
 
             noRecords: {
@@ -182,71 +162,7 @@
                 default: 'asc',
             },
 
-            limits: {
-                required: false,
-                type: Array,
-                default: function() {
-                    return [
-                    {
-                        label: '1',
-                        value: 1,
-                    },
-                    {
-                        label: '5',
-                        value: 5,
-                    },
-                    {
-                        label: '10',
-                        value: 10,
-                    },
-                    {
-                        label: '25',
-                        value: 25,
-                    },
-                    {
-                        label: '50',
-                        value: 50,
-                    },
-                    {
-                        label: '100',
-                        value: 100,
-                    },
-                    {
-                        label: '500',
-                        value: 500,
-                    },
-                    {
-                        label: '1000',
-                        value: 1000,
-                    },
-                ]}
-            },
-
-            perPage: {
-                required: false,
-                type: Number,
-                default: 10,
-            },
-
-            noActions: {
-                required: false,
-                type: Boolean,
-                default: false,
-            },
-
             noSearch: {
-                required: false,
-                type: Boolean,
-                default: false,
-            },
-
-            noFilters: {
-                required: false,
-                type: Boolean,
-                default: false,
-            },
-
-            noPagination: {
                 required: false,
                 type: Boolean,
                 default: false,
@@ -278,7 +194,6 @@
                     this.records = response.data.records.data
                     this.displayable = response.data.displayable
                     this.sortable = response.data.sortable
-                    this.filterable = response.data.filterable
                     this.column_names = response.data.column_names
                     this.pagination.totalRecords = response.data.records.total
                     this.pagination.totalPages = response.data.records.last_page
@@ -293,13 +208,9 @@
 
             getQueryParameters() {
                 return queryString.stringify({
-                    limit: this.pagination.perPage,
                     page: this.pagination.currentPage,
                     orderBy: this.sort.key,
                     orderDirection: this.sort.order,
-                    column: this.filter.column,
-                    operator: this.filter.operator,
-                    value: this.filter.value,
                     search: this.search
                 })
             },
@@ -317,12 +228,6 @@
                 this.getRecords()
             },
 
-            changeLimit() {
-                this.pagination.currentPage = 1
-
-                this.getRecords()
-            },
-
             destroy(id) {
                 axios.delete(`${this.endpoint}/${id}`).then(() => {
                     this.getRecords()
@@ -330,7 +235,7 @@
             },
 
             listenForEvents() {
-                this.$proton.$on('refresh-datatable-' + this.name, (data) => {
+                this.$proton.$on('refresh-datatable-' + this.id, (data) => {
                     this.getRecords()
                 })
             }

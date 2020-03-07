@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-table :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle" key="matrices_table">
+                <p-table :endpoint="endpoint" id="matrices" sort-by="name" primary-key="handle" key="matrices_table">
                     <template slot="name" slot-scope="table">
                         <div class="flex items-center">
                             <p-status :value="table.record.status" class="mr-2"></p-status>

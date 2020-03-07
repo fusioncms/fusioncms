@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-table :endpoint="endpoint" name="fieldsets" sort-by="name" :per-page="10" primary-key="handle" key="fieldsets_table">
+                <p-table :endpoint="endpoint" id="fieldsets" sort-by="name" primary-key="handle" key="fieldsets_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'fieldsets.edit', params: {fieldset: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
