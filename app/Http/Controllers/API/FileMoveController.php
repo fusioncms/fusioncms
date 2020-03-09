@@ -6,7 +6,6 @@ use App\Models\File;
 use App\Models\Directory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FileMoveRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,19 +17,32 @@ class FileMoveController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    public function store(FileMoveRequest $request)
+    public function store(Request $request)
     {
         $directory = $request->input('directory');
         $moving    = $request->input('moving');
+        $errors    = [];
 
+        // Assign new `directory_id` to files..
         collect($moving['files'])->each(function($id) use ($directory) {
         	File::findOrFail($id)->update(['directory_id' => $directory]);
         });
 
-        collect($moving['directories'])->each(function($id) use ($directory) {
+        // Assign new `parent_id` to directories..
+        foreach ($moving['directories'] as $id) {
             if ($id !== $directory) {
-                Directory::findOrFail($id)->update(['parent_id' => $directory]);
+                $dir = Directory::findOrFail($id);
+                
+                try {
+                    $dir->update(['parent_id' => $directory]);
+                } catch (QueryException $ex) {
+                    $errors[] = "Could not move `{$dir->name}` due to conflicting names.";
+                }
             }
-        });
+        }
+
+        if (! empty($errors)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['moving' => $errors]);
+        }
     }
 }

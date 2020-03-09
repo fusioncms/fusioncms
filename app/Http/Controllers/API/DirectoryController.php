@@ -27,14 +27,10 @@ class DirectoryController extends Controller
      */
     public function index(Request $request)
     {
-        $directories = Directory::withCount('files');
-
         if ($request->recursive) {
-            $directories = $directories->where('parent_id', 0)->with('children.children')->get();
-        } elseif ($request->directory) {
-            $directories = $directories->whereParentId($request->directory)->get();
+            $directories = Directory::withCount('files')->hierarchy()->get();
         } else {
-            $directories = $directories->where('parent_id', 0)->get();
+            $directories = Directory::withCount('files')->where('parent_id', $request->directory ?? 0)->get();
         }
 
         return DirectoryResource::collection($directories);

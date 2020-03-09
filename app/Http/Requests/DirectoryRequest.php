@@ -39,6 +39,7 @@ class DirectoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'      => 'required',
             'parent_id' => 'sometimes|integer',
             'slug'      => Rule::unique('directories')
                             ->ignore($this->id)

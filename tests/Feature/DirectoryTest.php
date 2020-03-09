@@ -193,8 +193,7 @@ class DirectoryTest extends TestCase
         // Create two directories (A1/A2) w/ same slug in diff folders
         $directoryA1 = factory(Directory::class)->create(['slug' => 'folder-a']);
         $directoryA2 = factory(Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
-
-        // dd(\DB::table('directories')->get());
+        $directoryB  = factory(Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
 
         // Attempt to combine directories in same location
         $response = $this
@@ -202,11 +201,17 @@ class DirectoryTest extends TestCase
                 'directory' => $directoryA1->parent_id,
                 'moving'    => [
                     'files'       => [],
-                    'directories' => [ $directoryA2->id ]
+                    'directories' => [
+                        $directoryA2->id,
+                        $directoryB->id,
+                    ]
                 ]
-            ]);
-        dd($response->getContent());
-            // ->assertStatus(422)
-            // ->assertJsonValidationErrors(['slug']);
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['moving']);
+
+        // assert db records are correct..
+        $this->assertDatabaseHas('directories', ['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $this->assertDatabaseHas('directories', ['slug' => 'folder-b', 'parent_id' => 0]);
     }
 }
