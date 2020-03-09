@@ -36,11 +36,13 @@ class MatrixRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->matrix->id ?? null;
+
         return [
-            'parent_id'          => 'sometimes|not_in:' . $this->id,
+            'parent_id'          => 'sometimes|not_in:' . $id,
             'name'               => 'required|regex:/^[A-z]/i',
-            'handle'             => 'required|unique:matrices,handle,' . $this->id,
-            'slug'               => 'required|unique:matrices,slug,' . $this->id,
+            'handle'             => 'required|unique:matrices,handle,' . $id,
+            'slug'               => 'required|unique:matrices,slug,' . $id,
             'description'        => 'sometimes',
             'type'               => 'required',
             'fieldset'           => 'sometimes',
@@ -62,5 +64,20 @@ class MatrixRequest extends FormRequest
             'revision_control'   => 'required|boolean',
             'publishable'        => 'required|boolean',
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->has('slug')) {
+                $validator->errors()->add('name', 'The name has already been taken.');
+            }
+        });
     }
 }

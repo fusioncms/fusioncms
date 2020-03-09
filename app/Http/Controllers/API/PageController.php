@@ -13,11 +13,11 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Services\Builders\Page;
+use App\Http\Requests\PageRequest;
+use App\Http\Resources\PageResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
-use App\Http\Resources\MatrixPageResource;
 
 class PageController extends Controller
 {
@@ -35,7 +35,7 @@ class PageController extends Controller
         $model  = (new Page($matrix->handle))->make();
 
         try {
-            return new MatrixPageResource($model->firstOrFail());
+            return new PageResource($model->firstOrFail());
         } catch (\Exception $exception) {
             return new MatrixResource($matrix);
         }
@@ -44,37 +44,20 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  integer  $id
-     * @return JsonResponse
+     * @param  \App\Http\Requests\PageRequest $request
+     * @param  integer $id
+     * @return \App\Http\Resources\PageResource
      */
-    public function update(Request $request, $id)
+    public function update(PageRequest $request, $id)
     {
-        $this->authorize('entry.update');
+        $matrix     = $request->matrix;
+        $attributes = $request->validated();
 
-        $matrix = Matrix::findOrFail($id);
-        $model  = (new Page($matrix->handle))->make();
-        $rules  = [
-            'name'   => 'required',
-            'slug'   => 'required',
-            'status' => 'required|boolean',
-        ];
+        $entry = $request->model->updateOrCreate(['matrix_id' => $id], $attributes);
 
-        if (isset($matrix->fieldset)) {
-            foreach ($matrix->fieldset->database() as $field) {
-                $rules[$field->handle] = $field->validation ?: 'sometimes';
-            }
-        }
-
-        $attributes              = $request->validate($rules);
-        $attributes['matrix_id'] = $matrix->id;
-
-        $entry = $model->updateOrCreate(['matrix_id' => $matrix->id], $attributes);
-
-        if (isset($matrix->fieldset)) {
-            foreach ($matrix->fieldset->relationships() as $relationship) {
-                $relationship->type()->persistRelationship($entry, $relationship);
-            }
+        // persist relationships..
+        foreach ($request->relationships as $relationship) {
+            $relationship->type()->persistRelationship($entry, $relationship);
         }
 
         activity()
@@ -85,6 +68,6 @@ class PageController extends Controller
             ])
             ->log('Updated ' . Str::singular($matrix->name));
 
-        return new MatrixPageResource($entry);
+        return new PageResource($entry);
     }
 }

@@ -11,17 +11,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
-use Facades\MatrixFactory;
+use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
-use App\Services\Builders\Page;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class PageTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Called before each test is run...
@@ -31,56 +30,75 @@ class PageTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->handleValidationExceptions();
 
-        $this->matrix = MatrixFactory::asPage()->withName('Example Page')->create();
-        $this->model  = (new Page($this->matrix->handle))->make();
+        // --
+        $this->section      = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $this->fieldExcerpt = \Facades\FieldFactory::withName('Excerpt')->withSection($this->section)->create();
+        $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
+        $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
+        $this->matrix       = \Facades\MatrixFactory::withName('Page')->asPage()->withFieldset($this->fieldset)->create();
+        $this->model        = (new \App\Services\Builders\Page($this->matrix->handle))->make();
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group page
      */
     public function a_user_with_permissions_can_update_a_page()
     {
         $this->actingAs($this->admin, 'api');
 
-        $this
-            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
-                'name'   => 'Renamed-page',
-                'slug'   => 'renamed-page',
-                'status' => true,
-            ])->assertStatus(201);
+        $attributes = [
+            'name'    => ($name = $this->faker->word),
+            'slug'    => Str::slug($name),
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
+        ];
 
-        $this->assertDatabaseHas($this->model->getTable(), [
-            'name' => 'Renamed-page',
-            'slug' => 'renamed-page',
-        ]);
+        $this
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, $attributes)
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('mx_page', $attributes);
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group page
      */
-    public function a_user_without_permissions_can_not_update_a_page()
+    public function a_user_without_control_panel_access_cannot_update_a_page()
     {
         $this->expectException(AuthenticationException::class);
 
-        $this
-            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
-                'name'   => 'Renamed-page',
-                'slug'   => 'renamed-page',
-                'status' => true,
-            ])->assertStatus(422);
+        $this->json('PATCH', '/api/pages/' . $this->matrix->id, []);
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group page
+     */
+    public function a_user_without_permissions_cannot_update_a_page()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this->actingAs($this->user, 'api');
+
+        $this->json('PATCH', '/api/pages/' . $this->matrix->id, []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     * @group page
      */
     public function a_user_cannot_create_a_page_without_required_fields()
     {
@@ -96,6 +114,7 @@ class PageTest extends TestCase
      * @test
      * @group fusioncms
      * @group matrix
+     * @group page
      */
     public function a_guest_can_visit_newly_created_page()
     {

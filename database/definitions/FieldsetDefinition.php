@@ -23,10 +23,8 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\Models\Fieldset::class, function (Faker $faker) {
-    $name = $faker->word();
-
     return [
-        'name'     => $name,
-        'handle'   => str_handle($name),
+        'name'   => ($name = $faker->unique()->word),
+        'handle' => str_handle($name),
     ];
 });

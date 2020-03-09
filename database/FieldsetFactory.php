@@ -4,9 +4,18 @@ use App\Models\Section;
 use App\Models\Fieldset;
 use App\Contracts\Factory;
 use Facades\SectionFactory;
+use Illuminate\Support\Str;
 
 class FieldsetFactory implements Factory
 {
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var \App\Models\Section
+     */
     protected $sections;
 
     /**
@@ -18,6 +27,11 @@ class FieldsetFactory implements Factory
     {
         $fieldset = factory(Fieldset::class)->create();
 
+        if ($this->name) {
+            $overrides['name']   = $this->name;
+            $overrides['handle'] = Str::slug($this->name, '_');
+        }
+
         if (! $this->sections) {
             $this->sections = SectionFactory::times(3)->create();
         }
@@ -25,6 +39,19 @@ class FieldsetFactory implements Factory
         $fieldset->sections()->saveMany($this->sections);
 
         return $fieldset;
+    }
+
+    /**
+     * Set fieldset name.
+     * 
+     * @param  string  $name
+     * @return \FieldsetFactory
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**

@@ -11,65 +11,46 @@
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
-use Facades\FieldFactory;
-use Facades\MatrixFactory;
-use Facades\SectionFactory;
-use Facades\FieldsetFactory;
+use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class CollectionTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group matrix
-     */
-    public function a_user_with_permissions_can_create_a_collection()
+    public function setUp(): void
     {
-        $this->actingAs($this->admin, 'api');
+        parent::setUp();
+        $this->handleValidationExceptions();
 
-        $fieldset   = factory(Fieldset::class)->create();
-        $collection = factory(Matrix::class)->make([
-            'name'     => 'Blog',
-            'handle'   => 'blog',
-            'type'     => 'collection',
-        ])->toArray();
-
-        $collection['fieldset'] = $fieldset->id;
-
-        $response = $this->json('POST', '/api/matrices', $collection);
-
-        $response->assertStatus(201);
-
-        $this->assertDatabaseHasTable('mx_blog')
-            ->assertDatabaseTableHasColumn('mx_blog', 'name')
-            ->assertDatabaseTableHasColumn('mx_blog', 'slug');
+        // --
+        $this->section      = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $this->fieldExcerpt = \Facades\FieldFactory::withName('Excerpt')->withSection($this->section)->create();
+        $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
+        $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
+        $this->matrix       = \Facades\MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->create();
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_create_a_new_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $this->generatePostsMatrix();
-
         $attributes = [
-            'name'    => 'Example',
-            'slug'    => 'example',
-            'excerpt' => 'This is an excerpt of the blog post.',
-            'content' => 'This is the content of the blog post.',
-            'status'  => true,
+            'name'    => ($name = $this->faker->word),
+            'slug'    => Str::slug($name),
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
         ];
 
         $this
@@ -83,174 +64,118 @@ class CollectionTest extends TestCase
      * @test
      * @group fusioncms
      * @group matrix
+     * @group collection
      */
-    public function a_status_is_required_for_every_entry()
+    public function a_user_without_control_panel_access_cannot_create_new_entries()
     {
-        $this->actingAs($this->admin, 'api');
+        $this->expectException(AuthenticationException::class);
 
-        $this->generatePostsMatrix();
-
-        $response = $this
-            ->json('POST', '/api/collections/posts', [
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-            ])
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['status']);
+        $this->json('POST', '/api/collections/posts', []);
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group collection
+     */
+    public function a_user_without_permissions_cannot_create_new_entries()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this->actingAs($this->user, 'api');
+
+        $this->json('POST', '/api/collections/posts', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_update_an_existing_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $this->generatePostsMatrix();
+        list($entry, $attributes) = $this->newEntry([
+            'name' => 'New Post Title',
+            'slug' => 'new-post-title',
+        ]);
 
-        $entry = $this
-            ->json('POST', '/api/collections/posts', [
-                'name'    => 'Example',
-                'slug'    => 'example',
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-                'status'  => true,
-            ])->getData()->data->entry;
+        // Update ----
+        $attributes['name'] = 'Updated Post Title';
+        $attributes['slug'] = 'updated-post-title';
 
         $this
-            ->json('PATCH', '/api/collections/posts/'. $entry->id, [
-                'name'   => 'New Post Title',
-                'status' => true,
-            ])
+            ->json('PATCH', '/api/collections/posts/' . $entry->id, $attributes)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('mx_posts', [ 'name' => 'New Post Title' ]);
-        $this->assertDatabaseMissing('mx_posts', [ 'name' => 'Example' ]);
+        $this->assertDatabaseHas('mx_posts', $attributes);
     }
 
     /**
      * @test
      * @group fusioncms
      * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_delete_an_existing_entry()
     {
         $this->actingAs($this->admin, 'api');
 
-        $this->generatePostsMatrix();
+        list($entry, $attributes) = $this->newEntry();
 
-        $entry = $this
-            ->json('POST', '/api/collections/posts', [
-                'name'    => 'Example',
-                'slug'    => 'example',
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-                'status'  => true,
-            ])->getData()->data->entry;
-
-        $this
-            ->json('DELETE', '/api/collections/posts/' . $entry->id);
+        // Delete ----
+        $this->json('DELETE', '/api/collections/posts/' . $entry->id);
 
         $this->assertDatabaseMissing('mx_posts', [ 'id' => $entry->id ]);
     }
 
     /**
      * @test
-     * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
-    public function a_user_without_permissions_cannot_create_new_entries()
-    {
-        $this->actingAs($this->user, 'api');
-
-        $this->generatePostsMatrix();
-
-        $data = [
-            'name' => 'Example',
-            'slug' => 'example',
-            'excerpt' => 'This is an excerpt of the blog post.',
-            'content' => 'This is the content of the blog post.',
-        ];
-
-        $form = $data;
-        $form['status'] = true;
-
-        $response = $this->json('POST', '/api/collections/posts', $form)
-            ->assertForbidden();
-
-        $this->assertDatabaseMissing('mx_posts', $data);
-    }
-
-    /**
-     * @test
-     * @group fusioncms
-     * @group matrix
-     */
-    public function a_user_without_permissions_cannot_update_existing_entries()
+    public function each_collection_must_have_a_unique_slug()
     {
         $this->actingAs($this->admin, 'api');
 
-        $this->generatePostsMatrix();
+        list($entry, $attributes) = $this->newEntry();
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
-
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
-
-        $this->actingAs($this->user, 'api');
-
-        $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
-            'name'   => 'New Post Title',
-            'status' => true,
-        ])->assertForbidden();
+        $this
+            ->json('POST', '/api/collections/posts', $attributes)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
     }
+
+    //
+    // ------------------------------------------------
+    // 
 
     /**
-     * @test
-     * @group fusioncms
-     * @group matrix
+     * Returns new entry w/ attributes
+     * [Helper]
+     * 
+     * @param  array  $overrides
+     * @return array
      */
-    public function a_user_without_permissions_cannot_delete_existing_entries()
+    protected function newEntry($overrides = []): array
     {
-        $this->actingAs($this->admin, 'api');
+        $attributes = array_merge([
+            'name'    => ($name = $this->faker->word),
+            'slug'    => Str::slug($name),
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => $this->faker->boolean
+        ], $overrides);
 
-        $this->generatePostsMatrix();
+        $entry = $this
+            ->json('POST', '/api/collections/posts', $attributes)
+            ->getData()
+            ->data->entry;
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
-
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
-
-        $this->actingAs($this->user, 'api');
-
-        $response = $this->json('DELETE', '/api/collections/posts/'.$data->entry->id)
-            ->assertForbidden();
-
-        $this->assertDatabaseHas('mx_posts', [
-            'id' => $data->entry->id
-        ]);
-    }
-
-    protected function generatePostsMatrix()
-    {
-        $section  = SectionFactory::times(1)->withoutFields()->create();
-        $fields[] = FieldFactory::withName('Excerpt')->create();
-        $fields[] = FieldFactory::withName('Content')->create();
-
-        foreach ($fields as $field) {
-            $section->fields()->save($field);
-        }
-
-        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
-
-        return MatrixFactory::withName('Posts')->asCollection()->withFieldset($fieldset)->create();
+        return [$entry, $attributes];
     }
 }
