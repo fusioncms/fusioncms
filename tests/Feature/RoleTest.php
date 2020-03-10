@@ -30,6 +30,7 @@ class RoleTest extends TestCase
 	/**
 	 * @test
 	 * @group fusioncms
+	 * @group feature
 	 * @group role
 	 */
 	public function a_user_with_permissions_can_create_a_role()
@@ -48,6 +49,7 @@ class RoleTest extends TestCase
 	/**
 	 * @test
 	 * @group fusioncms
+	 * @group feature
 	 * @group role
 	 */
 	public function a_guest_cannot_not_create_a_role()
@@ -66,6 +68,7 @@ class RoleTest extends TestCase
 	/**
 	 * @test
 	 * @group fusioncms
+	 * @group feature
 	 * @group role
 	 */
 	public function a_user_cannot_create_a_role_without_required_fields()
@@ -77,4 +80,44 @@ class RoleTest extends TestCase
 			->assertStatus(422)
 			->assertJsonValidationErrors(['name', 'slug']);
 	}
+
+	/**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group role
+     */
+    public function each_role_must_have_a_unique_name()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $role = factory(Role::class)->create()->toArray();
+        $role['id']   = null;
+        $role['slug'] = 'new-slug';
+
+        $this
+            ->json('POST', '/api/roles', $role)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['name']);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group role
+     */
+    public function each_role_must_have_a_unique_slug()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $role = factory(Role::class)->create()->toArray();
+        $role['id']   = null;
+        $role['name'] = 'New Name';
+
+        $this
+            ->json('POST', '/api/roles', $role)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
+    }
 }

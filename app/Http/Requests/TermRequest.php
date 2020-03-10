@@ -2,18 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Matrix;
-use App\Services\Builders\Collection;
+use App\Models\Taxonomy;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Builders\Taxonomy as Builder;
 
-class CollectionRequest extends FormRequest
+class TermRequest extends FormRequest
 {
 
     public function __construct()
     {
-        $this->matrix        = Matrix::where('slug', request()->route('slug'))->firstOrFail();
-        $this->model         = (new Collection($this->matrix->handle))->make();
-        $this->fieldset      = $this->matrix->fieldset;
+        $this->taxonomy      = Taxonomy::where('slug', request()->route('slug'))->firstOrFail();
+        $this->model         = (new Builder($this->taxonomy->handle))->make();
+        $this->fieldset      = $this->taxonomy->fieldset;
         $this->fields        = $this->fieldset ? $this->fieldset->database() : [];
         $this->relationships = $this->fieldset ? $this->fieldset->relationships() : [];
     }
@@ -24,7 +24,7 @@ class CollectionRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('entry.' . ($this->method() === 'POST' ? 'create' : 'update'));
+        return $this->user()->can('term.' . ($this->method() === 'POST' ? 'create' : 'update'));
     }
 
     /**
@@ -35,7 +35,7 @@ class CollectionRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'matrix_id' => $this->matrix->id
+            'taxonomy_id' => $this->taxonomy->id
         ]);
     }
 
@@ -47,10 +47,11 @@ class CollectionRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'matrix_id' => 'required|integer',
-            'name'      => 'sometimes',
-            'slug'      => 'sometimes|unique:' . $this->model->getTable() . ',slug,' . request()->id,
-            'status'    => 'required|boolean',
+            'taxonomy_id' => 'required|integer',
+            'parent_id'   => 'sometimes|integer',
+            'name'        => 'required',
+            'slug'        => 'required|unique:' . $this->model->getTable() . ',slug,' . request()->id,
+            'status'      => 'required|boolean',
         ];
 
         foreach ($this->fields as $field) {

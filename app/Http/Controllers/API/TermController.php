@@ -14,6 +14,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Taxonomy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\TermRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TermResource;
 use App\Services\Builders\Taxonomy as Builder;
@@ -21,58 +22,35 @@ use App\Services\Builders\Taxonomy as Builder;
 class TermController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        //
-    ];
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Taxonomy  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @param  string  $taxonomySlug
+     * @param  integer $id
+     * @return \App\Http\Resources\TermResource
      */
-    public function show($taxonomy, $id)
+    public function show($taxonomySlug, $id)
     {
-        $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
+        $taxonomy = Taxonomy::where('slug', $taxonomySlug)->firstOrFail();
         $model    = (new Builder($taxonomy->handle))->make();
-        $term    = $model->find($id);
+        $term     = $model->find($id);
 
         return new TermResource($term);
     }
 
-    public function store(Request $request, $taxonomy)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Http\Requests\TermRequest $request
+     * @param  string $taxonomySlug
+     * @return \App\Http\Resources\TermResource
+     */
+    public function store(TermRequest $request, $taxonomySlug)
     {
-        $this->authorize('term.create');
+        $taxonomy = $request->taxonomy;
+        $term     = $request->model->create($request->validated());
 
-        $taxonomy      = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $collection    = (new Builder($taxonomy->handle))->make();
-        $relationships = [];
-
-        $rules = [
-            'name'      => 'required',
-            'slug'      => 'sometimes',
-        ];
-
-        if(isset($taxonomy->fieldset)) {
-            $fields        = $taxonomy->fieldset->database();
-            $relationships = $taxonomy->fieldset->relationships();
-
-            foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
-            }
-        }
-
-        $attributes                = $request->validate($rules);
-        $attributes['taxonomy_id'] = $taxonomy->id;
-
-        $term = $collection->create($attributes);
-
-        foreach ($relationships as $relationship) {
+        // persist relationships..
+        foreach ($request->relationships as $relationship) {
             $relationship->type()->persistRelationship($term, $relationship);
         }
 
@@ -90,40 +68,19 @@ class TermController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TermRequest  $request
+     * @param  string  $taxonomySlug
+     * @param  integer $id
+     * @return \App\Http\Resources\TermResource
      */
-    public function update(Request $request, $taxonomy, $id)
+    public function update(TermRequest $request, $taxonomySlug, $id)
     {
-        $this->authorize('term.update');
+        $taxonomy = $request->taxonomy;
+        $term     = $request->model->findOrFail($id);
+        $term->update($request->validated());
 
-        $taxonomy      = Taxonomy::where('slug', $taxonomy)->firstOrFail();
-        $term          = (new Builder($taxonomy->handle))->make()->find($id);
-        $relationships = [];
-        $rules         = [
-            'name' => 'required',
-            'slug' => 'sometimes',
-        ];
-
-        if(isset($taxonomy->fieldset)) {
-            $fields        = $taxonomy->fieldset->database();
-            $relationships = $taxonomy->fieldset->relationships();
-
-            foreach ($fields as $field) {
-                $rules[$field->handle] = 'sometimes';
-            }
-        }
-
-        $attributes = $request->validate($rules);
-
-        foreach ($attributes as $handle => $value) {
-            $term->{$handle} = $value;
-        }
-
-        $term->update($attributes);
-
-        foreach ($relationships as $relationship) {
+        // persist relationships..
+        foreach ($request->relationships as $relationship) {
             $relationship->type()->persistRelationship($term, $relationship);
         }
 
@@ -138,11 +95,19 @@ class TermController extends Controller
         return new TermResource($term);
     }
 
-    public function destroy(Request $request, $taxonomy, $id)
+    /**
+     * Destroy resource from storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request    
+     * @param  string   $taxonomySlug 
+     * @param  integer  $id         
+     * @return void
+     */
+    public function destroy(Request $request, $taxonomySlug, $id)
     {
         $this->authorize('term.destroy');
 
-        $taxonomy = Taxonomy::where('slug', $taxonomy)->firstOrFail();
+        $taxonomy = Taxonomy::where('slug', $taxonomySlug)->firstOrFail();
         $model    = (new Builder($taxonomy->handle))->make();
         $term    = $model->findOrFail($id);
 

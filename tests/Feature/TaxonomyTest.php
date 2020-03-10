@@ -52,6 +52,7 @@ class TaxonomyTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
     public function a_user_with_permissions_can_create_a_taxonomy()
@@ -73,6 +74,7 @@ class TaxonomyTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
     public function a_user_without_permissions_can_not_create_a_taxonomy()
@@ -90,6 +92,7 @@ class TaxonomyTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
     public function a_user_with_permissions_can_update_an_existing_taxonomy()
@@ -104,5 +107,25 @@ class TaxonomyTest extends TestCase
         $response = $this->json('PATCH', '/api/taxonomies/'.$taxonomy->id, $data);
 
         $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group taxonomy
+     */
+    public function each_taxonomy_must_have_a_unique_slug_and_handle()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // mimic an insert w/ duplicate data..
+        $taxonomy = factory(Taxonomy::class)->create()->toArray();
+        $taxonomy['id'] = null;
+
+        $this
+            ->json('POST', '/api/taxonomies', $taxonomy)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug', 'handle']);
     }
 }
