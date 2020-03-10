@@ -1,7 +1,7 @@
 .button {
     @apply
         appearance-none
-        border-gray-400
+        border-gray-300
         cursor-pointer
         leading-normal
         justify-start
@@ -19,8 +19,7 @@
 
     &:hover:not([disabled]) {
         @apply
-            bg-gray-200
-            text-black
+            border-gray-400
         ;
     }
 

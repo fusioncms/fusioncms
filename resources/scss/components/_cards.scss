@@ -1,11 +1,11 @@
 .card {
     @apply
-        border-gray-100
+        border-gray-300
         bg-white
         relative
         rounded
         border
-        shadow
+        p-px
     ;
 
     &:not(:last-child) {
@@ -17,6 +17,31 @@
     &__body {
         @apply
             p-6
+        ;
+    }
+
+    &__header {
+        @apply
+            p-6
+        ;
+    }
+
+    &__title {
+        @apply
+            text-gray-900
+            leading-none
+            font-serif
+            font-bold
+            m-0
+        ;
+    }
+
+    &__subtitle {
+        @apply
+            text-gray-500
+            leading-5
+            text-sm
+            mt-1
         ;
     }
 

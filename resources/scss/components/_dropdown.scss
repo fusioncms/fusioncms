@@ -37,14 +37,14 @@
     &__menu {
         @apply
             border-gray-300
+            shadow-lg
             absolute
             bg-white
+            right-0
             rounded
             border
             hidden
             left-0
-            right-0
-            shadow
             z-20
             w-56
         ;

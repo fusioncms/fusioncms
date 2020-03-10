@@ -31,21 +31,33 @@
 
             <div class="row">
                 <div class="col w-full md:w-1/2 mb-6">
-                    <h2>Popular Pages</h2>
+                    <div class="table__wrapper">
+                        <div class="card__header">
+                            <h3 class="card__title">Popular Pages</h3>
+                        </div>
 
-                    <div class="table__responsive">
                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th class="w-10"></th>
+                                    <th class="column__stat">Views</th>
+                                </tr>
+                            </thead>
+
                             <tbody>
                                 <tr v-for="page in popular" :key="page.url">
                                     <td>
                                         <span class="column__label">Page</span>
                                         <span>
-                                            <a :href="page.url" class="text-gray-800 hover:text-gray-900 mr-4" target="_blank">
-                                                <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
-                                            </a>
-
                                             {{ page.url }}
                                         </span>
+                                    </td>
+
+                                    <td class="column__stat actions">
+                                        <a :href="page.url" class="text-gray-800 hover:text-gray-900 mr-4" target="_blank">
+                                            <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                        </a>
                                     </td>
 
                                     <td class="column__stat">
@@ -59,23 +71,37 @@
                 </div>
 
                 <div class="col w-full md:w-1/2 mb-6">
-                    <div class="card">
-                        <div class="card__body">
-                            <h2>Browsers</h2>
+                    <div class="table__wrapper">
+                        <div class="card__header">
+                            <h3 class="card__title">Browsers</h3>
                         </div>
 
                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Browser</th>
+                                    <th class="column__stat">Sessions</th>
+                                </tr>
+                            </thead>
+
                             <tbody>
                                 <tr v-for="browser in browsers" :key="browser.browser">
                                     <td>
-                                        <span class="text-gray-800 hover:text-gray-900 mr-4">
-                                            <fa-icon v-if="browser.icon == 'default'" :icon="['fas', 'globe']" class="fa-fw"></fa-icon>
-                                            <fa-icon v-else :icon="['fab', browser.icon]" class="fa-fw"></fa-icon>
-                                        </span>
+                                        <span class="column__label">Browser</span>
+                                        <span>
+                                            <span class="text-gray-800 hover:text-gray-900 mr-2">
+                                                <fa-icon v-if="browser.icon == 'default'" :icon="['fas', 'globe']" class="fa-fw"></fa-icon>
+                                                <fa-icon v-else :icon="['fab', browser.icon]" class="fa-fw"></fa-icon>
+                                            </span>
 
-                                        {{ browser.browser }}
+                                            {{ browser.browser }}
+                                        </span>
                                     </td>
-                                    <td class="column__stat">{{ browser.sessions }}</td>
+
+                                    <td class="column__stat">
+                                        <span class="column__label">Sessions</span>
+                                        <span>{{ browser.sessions }}</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

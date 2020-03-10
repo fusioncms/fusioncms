@@ -1,12 +1,6 @@
 <template>
     <div class="card" :class="classes">
-        <div v-if="! noBody" class="card__body">
-            <slot></slot>
-        </div>
-
-        <template v-else>
-            <slot></slot>
-        </template>
+        <slot></slot>
     </div>
 </template>
 
@@ -15,12 +9,6 @@
         name: 'p-card',
 
         props: {
-            noBody: {
-                required: false,
-                type: Boolean,
-                default: false,
-            },
-
             classes: {
                 required: false,
                 default: ''

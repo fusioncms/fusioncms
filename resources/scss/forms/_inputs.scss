@@ -2,7 +2,7 @@
 .field__textarea {
     @apply
         appearance-none
-        border-gray-400
+        border-gray-300
         leading-normal
         text-gray-700
         outline-none
@@ -18,7 +18,7 @@
 
     &:hover {
         @apply
-            border-gray-500
+            border-gray-400
         ;
     }
 
@@ -68,4 +68,38 @@
 .field__textarea {
     min-height: 8em;
     max-height: 40em;
+}
+
+.field__group {
+    @apply
+        rounded-md
+        relative
+    ;
+
+    &--prepend {
+        @apply
+            pointer-events-none
+            items-center
+            inset-y-0
+            absolute
+            left-0
+            flex
+            pl-3
+        ;
+    }
+
+    .field__input {
+        @apply
+            w-full
+            block
+            pl-10
+        ;
+
+        @screen sm {
+            @apply
+                leading-5
+                text-sm
+            ;
+        }
+    }
 }

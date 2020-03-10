@@ -33,7 +33,7 @@
             &:hover {
                 @apply
                     cursor-pointer
-                    border-gray-900
+                    border-gray-400
                 ;
             }
         }
@@ -47,7 +47,8 @@
                 bg-white
                 mb-3
                 relative
-                shadow
+                border
+                border-gray-300
                 rounded
                 pr-10
             ;
@@ -100,6 +101,18 @@
             block
         ;
     }
+
+    &__wrapper {
+        .card__header {
+            @apply
+                border
+                rounded
+                border-gray-300
+                mb-3
+                bg-white
+            ;
+        }
+    }
 }
 
 @screen md {
@@ -113,11 +126,15 @@
         }
 
         tbody {
+            @apply
+                border-0
+            ;
+
             tr {
                 @apply
-                    shadow-none
                     rounded-none
                     p-0
+                    border-0
                 ;
 
                 display: table-row;
@@ -148,14 +165,23 @@
             }
         }
 
-        &__responsive {
+        &__wrapper {
             @apply
-                border-gray-200
+                border-gray-300
                 bg-white
                 rounded
                 border
-                shadow
+                p-px
             ;
+
+            .card__header {
+                @apply
+                    border-0
+                    rounded-none
+                    mb-0
+                    bg-transparent
+                ;
+            }
         }
 
         .column__label {
@@ -166,6 +192,7 @@
 
         .column__stat {
             @apply
+                w-28
                 text-right
             ;
         }

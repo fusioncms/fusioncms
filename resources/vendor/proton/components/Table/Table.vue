@@ -1,24 +1,49 @@
 <template>
     <div>
-        <div class="pb-6 md:flex md:flex-row-reverse md:items-center md:justify-between">
-            <div class="w-full md:max-w-80">
-                <div class="toolbar" v-if="! noSearch">
-                    <div class="toolbar__group toolbar__group--grow">
-                        <div class="field__control">
-                            <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for..." aria-label="Search" :aria-controls="id">
-                        </div>
+        <div class="toolbar mb-3">
+            <div class="toolbar__group toolbar__group--grow" v-if="! noSearch">
+                <div class="field__group w-full">
+                    <div class="field__group--prepend">
+                        <fa-icon icon="search" class="fa-fw text-gray-400"></fa-icon>
                     </div>
 
-                    <div class="toolbar__group">
-                        <button class="button button--primary button--icon" @click="getRecords">
-                            <fa-icon :icon="['fas', 'search']" class="icon"></fa-icon>
-                        </button>
-                    </div>
+                    <input type="text" class="field__input" name="search" v-model="search" placeholder="Search" aria-label="Search" :aria-controls="id" autocomplete="off">
                 </div>
+            </div>
+
+            <div class="toolbar__group">
+                <p-dropdown id="sorting-options" right>
+                    <fa-icon icon="sort-amount-down" class="fa-fw mr-2"></fa-icon> Sort
+
+                    <template v-slot:menu>
+                        <p-dropdown-link v-for="(column, index) in sortable" :key="column + '-sort' || index + '-sort'" @click.prevent="sortRecordsBy(column, sort.order)">
+                            <div class="flex justify-between w-full items-center">
+                                <span>{{ column_names[column] || column }}</span>
+                                <fa-icon class="icon" icon="check" v-if="sort.key === column"></fa-icon>
+                            </div>
+                        </p-dropdown-link>
+
+                        <p-dropdown-divider />
+
+                        <p-dropdown-link @click.prevent="sortRecordsBy(sort.key, 'asc')">
+                            <div class="flex justify-between w-full items-center">
+                                <span>Ascending</span>
+                                <fa-icon class="icon" icon="check" v-if="sort.order === 'asc'"></fa-icon>
+                            </div>
+                        </p-dropdown-link>
+
+                        <p-dropdown-link @click.prevent="sortRecordsBy(sort.key, 'desc')">
+                            <div class="flex justify-between w-full items-center">
+                                <span>Descending</span>
+                                <fa-icon class="icon" icon="check" v-if="sort.order === 'desc'"></fa-icon>
+                            </div>
+                        </p-dropdown-link>
+                    </template>
+                </p-dropdown>
             </div>
         </div>
 
-        <div class="table__responsive" v-if="records.length">
+        <div class="table__wrapper" v-if="records.length">
             <table :id="id" class="table" aria-live="polite">
                 <thead>
                     <tr>
@@ -217,9 +242,14 @@
                 })
             },
 
-            sortRecordsBy(column) {
+            sortRecordsBy(column, order = false) {
                 this.sort.key = column
-                this.sort.order = this.sort.order === 'asc' ? 'desc' : 'asc'
+
+                if (! order) {
+                    this.sort.order = this.sort.order === 'asc' ? 'desc' : 'asc'
+                } else {
+                    this.sort.order = order
+                }
 
                 this.getRecords()
             },

@@ -1,11 +1,11 @@
 <template>
 
     <div class="analytics card">
-        <div class="card__body" v-if="isValid">
-            <div class="flex items-center justify-between mb-6">
-                <h2>Last 30 Days</h2>
-            </div>
+        <div class="card__header" v-if="isValid">
+            <h3 class="card__title">Last 30 Days</h3>
+        </div>
 
+        <div class="card__body" v-if="isValid">
             <div class="flex flex-wrap justify-around">
                 <div class="w-1/2 md:w-auto">
                     <p-tooltip>
