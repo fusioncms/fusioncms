@@ -31,22 +31,27 @@
 
             <div class="row">
                 <div class="col w-full md:w-1/2 mb-6">
-                    <div class="card">
-                        <div class="card__body">
-                            <h2>Popular Pages</h2>
-                        </div>
+                    <h2>Popular Pages</h2>
 
+                    <div class="table__responsive">
                         <table class="table">
                             <tbody>
                                 <tr v-for="page in popular" :key="page.url">
                                     <td>
-                                        <a :href="page.url" class="text-gray-800 hover:text-gray-900 mr-4" target="_blank">
-                                            <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
-                                        </a>
+                                        <span class="column__label">Page</span>
+                                        <span>
+                                            <a :href="page.url" class="text-gray-800 hover:text-gray-900 mr-4" target="_blank">
+                                                <fa-icon :icon="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                            </a>
 
-                                        {{ page.url }}
+                                            {{ page.url }}
+                                        </span>
                                     </td>
-                                    <td class="text-right">{{ page.pageViews }}</td>
+
+                                    <td class="column__stat">
+                                        <span class="column__label">Views</span>
+                                        <span>{{ page.pageViews }}</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -70,7 +75,7 @@
 
                                         {{ browser.browser }}
                                     </td>
-                                    <td class="text-right">{{ browser.sessions }}</td>
+                                    <td class="column__stat">{{ browser.sessions }}</td>
                                 </tr>
                             </tbody>
                         </table>

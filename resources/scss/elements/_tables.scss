@@ -1,10 +1,17 @@
 .table {
     @apply
         w-full
-        max-w-full
+        text-sm
     ;
 
+    table-layout: fixed;
+    word-wrap: break-word;
+
     thead {
+        @apply
+            hidden
+        ;
+
         th {
             @apply
                 border-gray-200
@@ -35,21 +42,19 @@
     tbody {
         tr {
             @apply
+                flex
+                flex-col
                 bg-white
-                border-b
-                border-gray-200
+                mb-3
+                relative
+                shadow
+                rounded
+                pr-10
             ;
-
-            &:nth-child(even) {
-                @apply
-                    bg-gray-50
-                ;
-            }
         }
 
         td {
             @apply
-                whitespace-no-wrap
                 align-middle
                 px-6
                 py-3
@@ -65,22 +70,104 @@
             &.actions {
                 @apply
                     align-middle
-                    text-right
+                    text-center
+                    absolute
+                    p-3
+                    right-0
+                    top-0
+                    w-12
                 ;
 
                 .dropdown__menu {
                     @apply
                         w-40
                     ;
+
+                    margin-top: -2px;
                 }
             }
         }
     }
 
-    &__responsive {
+    .column__label {
         @apply
-            w-full
-            overflow-x-auto
+            tracking-wider
+            text-gray-400
+            leading-snug
+            uppercase
+            font-semibold
+            text-xs
+            block
         ;
+    }
+}
+
+@screen md {
+    .table {
+        @apply
+            text-base
+        ;
+
+        thead {
+            display: table-header-group;
+        }
+
+        tbody {
+            tr {
+                @apply
+                    shadow-none
+                    rounded-none
+                    p-0
+                ;
+
+                display: table-row;
+
+                &:not(:last-child) {
+                    @apply
+                        border-b
+                        border-gray-200
+                    ;
+                }
+
+                &:nth-child(even) {
+                    @apply
+                        bg-gray-50
+                    ;
+                }
+            }
+
+            td {
+                &.actions {
+                    @apply
+                        align-middle
+                        px-6
+                        text-right
+                        relative
+                    ;
+                }
+            }
+        }
+
+        &__responsive {
+            @apply
+                border-gray-200
+                bg-white
+                rounded
+                border
+                shadow
+            ;
+        }
+
+        .column__label {
+            @apply
+                hidden
+            ;
+        }
+
+        .column__stat {
+            @apply
+                text-right
+            ;
+        }
     }
 }

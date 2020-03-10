@@ -1,41 +1,37 @@
 <template>
-    <div class="datatable card">
-        <p-loader v-if="loading"></p-loader>
-
-        <div class="card__body">
-            <div class="flex items-center justify-between">
-                <div class="text-sm text-gray-600">
-                    <div v-if="pagination.totalPages > 1 && records.length">
-                        On page <b>{{ pagination.currentPage }}</b> of <b>{{ pagination.totalPages }}</b>
+    <div>
+        <div class="pb-6 md:flex md:flex-row-reverse md:items-center md:justify-between">
+            <div class="w-full md:max-w-80">
+                <div class="toolbar" v-if="! noSearch">
+                    <div class="toolbar__group toolbar__group--grow">
+                        <div class="field__control">
+                            <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for..." aria-label="Search" :aria-controls="id">
+                        </div>
                     </div>
-                </div>
 
-                <div class="w-full md:max-w-80">
-                    <div class="toolbar" v-if="! noSearch">
-                        <div class="toolbar__group toolbar__group--grow">
-                            <div class="field__control">
-                                <input type="text" class="field__input" name="search" v-model="search" placeholder="I'm looking for..." aria-label="Search" :aria-controls="id">
-                            </div>
-                        </div>
-
-                        <div class="toolbar__group">
-                            <button class="button button--primary button--icon" @click="getRecords">
-                                <fa-icon :icon="['fas', 'search']" class="icon"></fa-icon>
-                            </button>
-                        </div>
+                    <div class="toolbar__group">
+                        <button class="button button--primary button--icon" @click="getRecords">
+                            <fa-icon :icon="['fas', 'search']" class="icon"></fa-icon>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div v-if="records.length">
+        <div class="table__responsive" v-if="records.length">
             <table :id="id" class="table" aria-live="polite">
                 <thead>
                     <tr>
-                        <th v-for="(column, index) in displayable" :key="column[primaryKey] || index" :class="{'sortable': isSortable(column)}" @click.prevent="isSortable(column) && sortRecordsBy(column)">
+                        <th
+                            v-for="(column, index) in displayable"
+                            :key="column[primaryKey] || index"
+                            :class="{
+                                'sortable': isSortable(column),
+                            }"
+                            @click.prevent="isSortable(column) && sortRecordsBy(column)"
+                        >
                             <span :class="{'text-gray-500': (sort.key !== column), 'text-gray-800': (sort.key === column)}">
-                                <span v-if="isSortable(column)">{{ column_names[column] || column }}</span>
-                                <span v-else>{{ column_names[column] || column }}</span>
+                                <span>{{ column_names[column] || column }}</span>
 
                                 <div class="inline" v-if="isSortable(column)">
                                     <fa-icon icon="sort" class="fa-fw" v-if="sort.key !== column"></fa-icon>
@@ -45,16 +41,22 @@
                             </span>
                         </th>
 
-                        <th v-if="hasActions">&nbsp;</th>
+                        <th v-if="hasActions" class="w-20">&nbsp;</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr v-for="(record, index) in records" :key="record[primaryKey] || index">
-                        <td v-for="column in displayable" :key="column">
-                            <slot :name="column" :record="record">
-                                {{ record[column] }}
-                            </slot>
+                        <td
+                            v-for="column in displayable"
+                            :key="column"
+                        >
+                            <span class="column__label">{{ column_names[column] || column }}</span>
+                            <span>
+                                <slot :name="column" :record="record">
+                                    {{ record[column] }}
+                                </slot>
+                            </span>
                         </td>
 
                         <td class="actions" v-if="hasActions">
@@ -63,17 +65,17 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div class="card__body" v-if="this.pagination.totalPages > 1">
-                <p-pagination
-                    @input="changePage($event)"
-                    :total="this.pagination.totalPages"
-                    :value="this.pagination.currentPage"
-                ></p-pagination>
-            </div>
         </div>
 
-        <div v-else>
+        <div class="mt-6" v-if="this.pagination.totalPages > 1">
+            <p-pagination
+                @input="changePage($event)"
+                :total="this.pagination.totalPages"
+                :value="this.pagination.currentPage"
+            ></p-pagination>
+        </div>
+
+        <div class="card" v-if="! records.length">
             <slot name="empty-state">
                 <div class="card__body text-center">
                     <h3>No results found.</h3>
