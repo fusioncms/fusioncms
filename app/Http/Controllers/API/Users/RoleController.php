@@ -57,14 +57,6 @@ class RoleController extends Controller
     {
         $role = Role::create($request->validated());
 
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-                'link' => 'roles/'.$role->id.'/edit',
-            ])
-            ->log('Created user role (:subject.name)');
-
         return new RoleResource($role);
     }
 
@@ -79,14 +71,6 @@ class RoleController extends Controller
     {
         $role->update($request->validated());
 
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-                'link' => 'roles/'.$role->id.'/edit',
-            ])
-            ->log('Updated user role (:subject.name)');
-
         return new RoleResource($role);
     }
 
@@ -99,13 +83,6 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $this->authorize('roles.delete');
-
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-            ])
-            ->log('Deleted user role (:subject.name)');
 
         $role->delete();
     }

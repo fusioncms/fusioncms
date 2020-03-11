@@ -15,10 +15,12 @@ use Illuminate\Support\Str;
 use App\Concerns\HasFieldset;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Taxonomy extends Model
 {
-    use CachesQueries, HasFieldset;
+    use CachesQueries, HasFieldset, LogsActivity;
 
     protected $with = ['fieldsets'];
 
@@ -101,5 +103,26 @@ class Taxonomy extends Model
         $class = new \ReflectionClass($model);
 
         return $this->hasMany('\\'.$class->getName());
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'sitemap'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "taxonomies/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} taxonomy ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

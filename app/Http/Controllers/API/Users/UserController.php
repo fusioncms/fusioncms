@@ -92,14 +92,6 @@ class UserController extends Controller
             $user->assignRoles($attributes['role']);
         }
 
-        activity()
-            ->performedOn($user)
-            ->withProperties([
-                'icon' => 'user',
-                'link' => 'users/'.$user->id.'/edit',
-            ])
-            ->log('Created user account (:subject.name)');
-
         return new UserResource($user);
     }
 
@@ -141,14 +133,6 @@ class UserController extends Controller
             $user->syncRoles($request->get('role'));
         }
 
-        activity()
-            ->performedOn($user)
-            ->withProperties([
-                'icon' => 'user',
-                'link' => 'users/'.$user->id.'/edit',
-            ])
-            ->log('Updated user account (:subject.name)');
-
         return new UserResource($user);
     }
 
@@ -161,13 +145,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('users.delete');
-
-        activity()
-            ->performedOn($user)
-            ->withProperties([
-                'icon' => 'user',
-            ])
-            ->log('Deleted user account (:subject.name)');
 
         event(new UserDeleted($user));
 

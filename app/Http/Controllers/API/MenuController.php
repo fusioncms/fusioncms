@@ -57,14 +57,6 @@ class MenuController extends Controller
     {
         $menu = Menu::create($request->validated());
 
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/edit',
-            ])
-            ->log('Created menu (:subject.name)');
-
         return new MenuResource($menu);
     }
 
@@ -79,14 +71,6 @@ class MenuController extends Controller
     {
         $menu->update($request->validated());
 
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/edit',
-            ])
-            ->log('Updated menu (:subject.name)');
-
         return new MenuResource($menu);
     }
 
@@ -99,13 +83,6 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         $this->authorize('menus.delete');
-
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-            ])
-            ->log('Deleted menu (:subject.name)');
 
         $menu->delete();
     }

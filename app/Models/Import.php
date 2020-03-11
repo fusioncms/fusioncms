@@ -12,9 +12,13 @@
 namespace App\Models;
 
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Import extends Model
 {
+    use LogsActivity;
+
     /**
      * The attributes that are fillable via mass assignment.
      *
@@ -55,5 +59,26 @@ class Import extends Model
     public function logs()
     {
         return $this->hasMany(ImportLog::class);
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'ship'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "importer/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} import ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }
