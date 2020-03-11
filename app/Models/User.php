@@ -59,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'settings' => 'collection',
     ];
 
+    protected $appends = [
+        'role',
+    ];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -139,6 +143,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activity()
     {
         return $this->hasMany(config('activitylog.activity_model'), 'causer_id');
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->roles->first();
     }
 
     /**

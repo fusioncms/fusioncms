@@ -33,9 +33,8 @@
                         {{ table.record.email }}
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === 1">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
+                    <template slot="role" slot-scope="table">
+                        <span class="badge">{{ table.record.role.name }}</span>
                     </template>
 
                     <template slot="actions" slot-scope="table">

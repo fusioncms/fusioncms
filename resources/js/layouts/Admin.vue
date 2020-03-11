@@ -6,14 +6,14 @@
 
         <div
             class="flex flex-col flex-1"
-            :class="{'lg:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
+            :class="{'md:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
             style="margin-top: 55px; transition: all 0.3s ease;"
             :style="{'left: 0;': isSidebarOpen, 'left: -250px;': !isSidebarOpen}"
         >
             <!-- Header -->
             <div
                 class="header w-full"
-                :class="{'lg:w-full-sidebar-open': isSidebarOpen, 'lg:w-full-sidebar-collapsed': !isSidebarOpen}"
+                :class="{'md:w-full-sidebar-open': isSidebarOpen, 'md:w-full-sidebar-collapsed': !isSidebarOpen}"
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">

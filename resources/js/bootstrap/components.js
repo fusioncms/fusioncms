@@ -21,6 +21,7 @@ Vue.component('icon-picker', require('../components/IconPicker').default)
 Vue.component('p-frame', require('../components/Frame').default)
 Vue.component('p-autocomplete', require('../components/Autocomplete').default)
 Vue.component('cron-scheduler', require('../components/CronScheduler').default)
+Vue.component('form-container', require('../components/FormContainer').default)
 
 // File Manager
 Vue.component('file-manager', require('../components/FileManager/FileManager').default)

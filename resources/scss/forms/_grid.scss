@@ -1,0 +1,29 @@
+.form__grid {
+    @screen xl {
+        @apply
+            grid-cols-3
+            gap-6
+            grid
+        ;
+    }
+
+    &--side {
+        @apply
+            mb-6
+        ;
+
+        @screen xl {
+            @apply
+                col-span-1
+            ;
+        }
+    }
+
+    &--body {
+        @screen xl {
+            @apply
+                col-span-2
+            ;
+        }
+    }
+}

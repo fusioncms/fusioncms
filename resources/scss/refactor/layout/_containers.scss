@@ -16,16 +16,16 @@
 
 .form-sidebar {
     @apply w-full;
-    
-    @screen xxl {
-        @apply text-right w-xs;
-    }
+
+    // @screen xxl {
+    //     @apply text-right w-xs;
+    // }
 }
 
 .form-content {
     @apply w-full;
-    
-    @screen xxl {
-        @apply flex-1;
-    }
+
+    // @screen xxl {
+    //     @apply flex-1;
+    // }
 }

@@ -1,34 +1,32 @@
 <template>
-    <div class="form__group">
+    <div class="field">
         <label
-            class="form__label"
+            class="field__label"
             :for="name"
             v-if="label"
             v-html="label">
         </label>
 
-        <input
-            class="form__control"
-            :class="{'font-mono': monospaced, 'form__error': hasError}"
-            :id="name"
-            :name="name"
-            :type="type"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            :disabled="disabled"
-            :autocomplete="autocomplete"
-            :autofocus="autofocus"
-            v-model.lazy="model"
-            ref="input"
-            @blur="onBlur"
-        >
-
-        <div class="form__control--meta" v-if="help || errorMessage">
-            <div class="form__help">
-                <span v-if="help" v-html="help"></span>
-                <span v-if="errorMessage" class="form__error--message" v-html="errorMessage"></span>
-            </div>
+        <div class="field__control">
+            <input
+                class="field__input"
+                :class="{'font-mono': monospaced, 'field__input--danger': hasError}"
+                :id="name"
+                :name="name"
+                :type="type"
+                :placeholder="placeholder"
+                :readonly="readonly"
+                :disabled="disabled"
+                :autocomplete="autocomplete"
+                :autofocus="autofocus"
+                v-model.lazy="model"
+                ref="input"
+                @blur="onBlur"
+            >
         </div>
+
+        <p class="field__help" v-if="help" v-html="help"></p>
+        <p class="field__help field__help--danger" v-if="errorMessage" v-html="errorMessage"></p>
     </div>
 </template>
 
@@ -144,7 +142,7 @@
                     const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿỳýœæŕśńṕẃǵǹḿǘẍźḧ'
                     const b = 'aaaaeeeeiiiioooouuuuncsyyyoarsnpwgnmuxzh'
                     const p = new RegExp(a.split('').join('|'), 'g')
-    
+
                     return text.toString().toLowerCase().trim()
                     .replace(p, c =>                                                    // Replace special characters
                         b.charAt(a.indexOf(c)))

@@ -33,14 +33,7 @@ class UserController extends DataTableController
         return [
             'name',
             'email',
-        ];
-    }
-
-    public function getFilterable()
-    {
-        return [
-            'name',
-            'email',
+            'role',
         ];
     }
 
@@ -55,8 +48,9 @@ class UserController extends DataTableController
     public function getCustomColumnNames()
     {
         return [
-            'name'   => 'Name',
-            'email'  => 'E-mail',
+            'name'  => 'Name',
+            'email' => 'E-mail',
+            'role'  => 'Role',
         ];
     }
 }
