@@ -313,4 +313,22 @@ class MenuTest extends TestCase
         $this->assertDatabaseHas($menu->table, ['name' => $nodeOne->name, 'order' => 2]);
         $this->assertDatabaseHas($menu->table, ['name' => $nodeThree->name, 'order' => 3]);
     }
+
+    /**
+     * @test
+     * @group feature
+     * @group menu
+     */
+    public function each_menu_must_have_a_unique_handle()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $menu       = factory(Menu::class)->create()->toArray();
+        $menu['id'] = null;
+
+        $this
+            ->json('POST', '/api/menus', $menu)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['handle']);
+    }
 }

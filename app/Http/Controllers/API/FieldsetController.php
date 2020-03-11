@@ -14,21 +14,11 @@ namespace App\Http\Controllers\API;
 use App\Models\Fieldset;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FieldsetRequest;
 use App\Http\Resources\FieldsetResource;
 
 class FieldsetController extends Controller
 {
-    /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name'             => 'required',
-        'handle'           => 'required',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -60,15 +50,12 @@ class FieldsetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\FieldsetRequest $request
+     * @return \App\Http\Resources\FieldsetResource
      */
-    public function store(Request $request)
+    public function store(FieldsetRequest $request)
     {
-        $this->authorize('fieldsets.create');
-
-        $attributes = $request->validate($this->rules);
-        $fieldset   = Fieldset::create($attributes);
+        $fieldset = Fieldset::create($request->validated());
 
         activity()
             ->performedOn($fieldset)
@@ -84,23 +71,19 @@ class FieldsetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Fieldset  $fieldset
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\FieldsetRequest $request
+     * @param  \App\Models\Fieldset               $fieldset
+     * @return \App\Http\Resources\FieldsetResource
      */
-    public function update(Request $request, Fieldset $fieldset)
+    public function update(FieldsetRequest $request, Fieldset $fieldset)
     {
-        $this->authorize('fieldsets.update');
-
-        $attributes = $request->validate($this->rules);
-
-        $fieldset->update($attributes);
+        $fieldset->update($request->validated());
 
         activity()
             ->performedOn($fieldset)
             ->withProperties([
                 'icon' => 'list',
-                'link' => 'fieldsets/edit/'.$fieldset->id.'/edit',
+                'link' => 'fieldsets/edit/' . $fieldset->id . '/edit',
             ])
             ->log('Updated fieldset (:subject.name)');
 

@@ -16,7 +16,7 @@ class CreateSettingSectionsTable extends Migration
         Schema::create('setting_sections', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('handle');
+            $table->string('handle')->unique();
             $table->string('group');
             $table->string('description');
             $table->string('icon');

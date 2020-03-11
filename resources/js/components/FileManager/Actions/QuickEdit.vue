@@ -60,8 +60,11 @@
 
 					    toast('Name is required for updating.', 'warning')
 					} else {
-						axios.patch(this.endpoint, { name: this.file.name })
-							.then((response) => {
+						axios.patch(this.endpoint, {
+								id:        this.file.id,
+								parent_id: this.file.parent_id,
+								name:      this.file.name
+							}).then((response) => {
 								this.name      = response.data.data.name
 								this.isEditing = false
 

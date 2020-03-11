@@ -33,14 +33,16 @@
             }),
 
             submit() {
-                let data = {
+                axios.post('/api/directories', {
                     name: this.name,
                     parent_id: this.currentDirectory,
-                }
-
-                axios.post('/api/directories', data).then((response) => {
+                }).then((response) => {
                     this.name = ''
                     this.fetchFilesAndDirectories()
+
+                    toast('A new directory was successfully created.', 'success')
+                }).catch((error) => {
+                    toast(error.response.data.message, 'danger')
                 })
             },
         }

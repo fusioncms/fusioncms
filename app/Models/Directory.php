@@ -78,8 +78,18 @@ class Directory extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    public function scopeRoots()
+    /**
+     * Scope a query to only include users of a given type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHierarchy($query, $parentId = 0)
     {
-
+        return $query
+            ->withCount('files')
+            ->where('parent_id', $parentId)
+            ->with('children.children');
     }
 }

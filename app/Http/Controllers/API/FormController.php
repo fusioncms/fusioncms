@@ -12,48 +12,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Form;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\FormRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FormResource;
 
 class FormController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name'                    => 'required|regex:/^[A-z]/i',
-        'handle'                  => 'required',
-        'description'             => 'sometimes',
-        'collect_email_addresses' => 'sometimes',
-        'collect_ip_addresses'    => 'sometimes',
-        'response_receipt'        => 'sometimes',
-
-        'message'                 => 'sometimes',
-        'redirect_on_submission'  => 'sometimes',
-        'redirect_url'            => 'sometimes',
-
-        'enable_recaptcha'        => 'sometimes',
-        'enable_honeypot'         => 'sometimes',
-
-        'send_to'                 => 'sometimes',
-        'reply_to'                => 'sometimes',
-
-        'form_template'           => 'sometimes',
-        'thankyou_template'       => 'sometimes',
-
-        'status'                  => 'required',
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -68,7 +38,7 @@ class FormController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\FormResource
      */
     public function show(Form $form)
     {
@@ -80,18 +50,12 @@ class FormController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\FormRequest  $request
+     * @return \App\Http\Resources\FormResource
      */
-    public function store(Request $request)
+    public function store(FormRequest $request)
     {
-        $this->authorize('forms.create');
-
-        $attributes = collect($request->validate($this->rules));
-
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $form = Form::create($attributes->all());
+        $form = Form::create($request->validated());
 
         activity()
             ->performedOn($form)
@@ -107,18 +71,13 @@ class FormController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\FormRequest  $request
      * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\FormResource
      */
-    public function update(Request $request, Form $form)
+    public function update(FormRequest $request, Form $form)
     {
-        $this->authorize('forms.update');
-
-        $attributes = collect($request->validate($this->rules));
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $form->update($attributes->all());
+        $form->update($request->validated());
 
         activity()
             ->performedOn($form)
@@ -135,7 +94,7 @@ class FormController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Form $form)
     {

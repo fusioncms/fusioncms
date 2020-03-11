@@ -30,6 +30,6 @@ $factory->define(App\Models\Directory::class, function (Faker $faker) {
     return [
         'name'      => $name,
         'slug'      => Str::slug($name),
-        'parent_id' => null,
+        'parent_id' => 0,
     ];
 });

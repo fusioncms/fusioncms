@@ -25,7 +25,7 @@ class UserController extends Controller
      * Return a paginated resource of all users.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\UserResource
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -83,14 +83,13 @@ class UserController extends Controller
             $rules['role'] = 'required';
         }
 
-        $attributes = $request->validate($rules);
-
+        $attributes             = $request->validate($rules);
         $attributes['password'] = bcrypt($attributes['password']);
 
         $user = User::create($attributes);
 
-        if (! empty($request->get('role'))) {
-            $user->assignRoles($request->get('role'));
+        if (isset($attributes['role'])) {
+            $user->assignRoles($attributes['role']);
         }
 
         activity()
@@ -118,12 +117,9 @@ class UserController extends Controller
         $rules = [
             'name'   => 'required',
             'email'  => 'required|email|unique:users,email,' . $user->id,
+            'role'   => 'sometimes',
             'status' => 'required|boolean',
         ];
-
-        if ($request->has('role')) {
-            $rules['role'] = 'required';
-        }
 
         $attributes = $request->validate($rules);
 

@@ -25,7 +25,7 @@ class CreateFieldsetsTable extends Migration
         Schema::create('fieldsets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('handle');
+            $table->string('handle')->unique();
 
             $table->timestamps();
         });

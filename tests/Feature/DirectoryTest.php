@@ -11,7 +11,11 @@ class DirectoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_create_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -19,13 +23,17 @@ class DirectoryTest extends TestCase
         $response = $this->json('POST', 'api/directories', [
             'name' => 'Test Folder',
         ]);
-        
+
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_rename_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -43,7 +51,11 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'New Folder Name', 'slug' => 'new-folder-name']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
     public function a_user_with_permissions_can_delete_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -59,7 +71,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseMissing('directories', ['name' => 'Test Folder', 'slug' => 'test-folder']);
     }
 
-    // /** @test */
+
     public function a_user_with_permissions_can_move_directories_inside_other_directories()
     {
         $this->actingAs($this->admin, 'api');
@@ -81,7 +93,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => 1]);
     }
 
-    // /** @test */
+
     public function a_user_with_permissions_can_move_directories_to_the_root()
     {
         $this->actingAs($this->admin, 'api');
@@ -104,7 +116,7 @@ class DirectoryTest extends TestCase
         $this->assertDatabaseHas('directories', ['name' => 'Second Folder', 'parent_id' => null]);
     }
 
-    // /** @test */
+
     public function directories_can_be_searched_by_name()
     {
         $this->actingAs($this->admin, 'api');
@@ -128,5 +140,78 @@ class DirectoryTest extends TestCase
 
         $this->assertCount(1, $data);
         $this->assertCount(1, $data->where('name', 'dolor'));
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function directories_must_have_a_unique_parent_id_and_slug_combination()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // mimic an insert w/ duplicate data..
+        $directory = DirectoryFactory::withName('lorem')->create();
+        $directory = $directory->toArray();
+        $directory['id'] = null;
+
+        $this
+            ->json('POST', 'api/directories', $directory)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function directories_can_have_duplicate_slugs_with_a_different_parent_id()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $directory = DirectoryFactory::withName('lorem')->create();
+        $directory = $directory->toArray();
+        $directory['id'] = null;
+        $directory['parent_id'] = 99;
+
+        $response = $this
+            ->json('POST', 'api/directories', $directory)
+            ->assertStatus(201);
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group directory
+     */
+    public function a_directory_cannot_be_moved_to_another_directory_with_a_conflicting_slug()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        // Create two directories (A1/A2) w/ same slug in diff folders
+        $directoryA1 = factory(Directory::class)->create(['slug' => 'folder-a']);
+        $directoryA2 = factory(Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $directoryB  = factory(Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
+
+        // Attempt to combine directories in same location
+        $response = $this
+            ->json('POST', '/api/files/move', [
+                'directory' => $directoryA1->parent_id,
+                'moving'    => [
+                    'files'       => [],
+                    'directories' => [
+                        $directoryA2->id,
+                        $directoryB->id,
+                    ]
+                ]
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['moving']);
+
+        // assert db records are correct..
+        $this->assertDatabaseHas('directories', ['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $this->assertDatabaseHas('directories', ['slug' => 'folder-b', 'parent_id' => 0]);
     }
 }

@@ -164,6 +164,8 @@ class ExcelTest extends TestCase
      */
 	public function an_import_with_only_create_strategy_will_persist_the_database()
 	{
+		$this->actingAs($this->admin, 'api');
+
 		// When we generate an import to with 3 rows + header..
 		list($import, $filepath, $log) = $this->generateFakeImport([
 			'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values:batchGet?ranges=1:2&ranges=4:4&key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
@@ -171,7 +173,6 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
-		$this->actingAs($this->admin, 'api');
         (new UserImport($import, $log))->import($filepath, null, Excel::CSV);
 
         // ..assert existing record has been skipped (due to import strategy selection)
@@ -203,6 +204,8 @@ class ExcelTest extends TestCase
      */
 	public function an_import_with_only_update_strategy_will_persist_the_database()
 	{
+		$this->actingAs($this->admin, 'api');
+
 		// When we generate an import to with 3 rows + header..
 		list($import, $filepath, $log) = $this->generateFakeImport([
 			'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values:batchGet?ranges=1:2&ranges=4:4&key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
@@ -210,7 +213,6 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
-		$this->actingAs($this->admin, 'api');
         (new UserImport($import, $log))->import($filepath, null, Excel::CSV);
 
         // ..assert existing record has been updated
@@ -238,6 +240,8 @@ class ExcelTest extends TestCase
      */
 	public function an_import_with_only_disable_strategy_will_disable_any_unprocessed_records()
 	{
+		$this->actingAs($this->admin, 'api');
+
 		// When we generate an import to with 1 row + header..
 		list($import, $filepath, $log) = $this->generateFakeImport([
 			'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values:batchGet?ranges=1:1&ranges=4:4&key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
@@ -245,7 +249,6 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
-		$this->actingAs($this->admin, 'api');
         (new UserImport($import, $log))->import($filepath, null, Excel::CSV);
 
 		// ..assert unprocessed records are now inactive
@@ -263,6 +266,8 @@ class ExcelTest extends TestCase
      */
 	public function an_import_with_only_delete_strategy_will_remove_any_unprocessed_records()
 	{
+		$this->actingAs($this->admin, 'api');
+
 		// When we generate an import to with 1 row + header..
 		list($import, $filepath, $log) = $this->generateFakeImport([
 			'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values:batchGet?ranges=1:1&ranges=4:4&key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
@@ -270,7 +275,6 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
-		$this->actingAs($this->admin, 'api');
         (new UserImport($import, $log))->import($filepath, null, Excel::CSV);
 
 		// ..assert unprocessed records have been removed
@@ -288,6 +292,8 @@ class ExcelTest extends TestCase
      */
 	public function an_import_with_create_and_update_strategies_will_persist_the_database()
 	{
+		$this->actingAs($this->admin, 'api');
+		
 		// When we generate an import to with 3 rows + header..
 		list($import, $filepath, $log) = $this->generateFakeImport([
 			'source'   => 'https://sheets.googleapis.com/v4/spreadsheets/1YUnhy4SIZN_SfJ5uRbgYcVkdzWPa0v7kOmAbwWahb9k/values:batchGet?ranges=1:2&ranges=4:4&key=AIzaSyDjYCkYTworIrz3SA8yvaGFYifW0EpUX8Q',
@@ -295,7 +301,6 @@ class ExcelTest extends TestCase
 		]);
 
 		// Expedite import job!
-		$this->actingAs($this->admin, 'api');
         (new UserImport($import, $log))->import($filepath, null, Excel::CSV);
 
 		// ..assert existing record has been updated
