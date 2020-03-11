@@ -14,6 +14,7 @@ namespace App\Services\Routers;
 use App\Models\Matrix;
 use Illuminate\Http\Request;
 use App\Services\Builders\Page;
+use Illuminate\Support\Facades\Gate;
 
 class PageRouter extends Router
 {
@@ -30,6 +31,12 @@ class PageRouter extends Router
 
             $model = (new Page($matrix->handle))->make();
             $page  = $model->firstOrFail();
+
+            if (!$page->status) {
+                if (Gate::denies('access.admin') || !request()->has('preview')) {
+                    continue 1;
+                }
+            }
             
             $data = $this->bindRouteData($page->route, $request, [
                 'matrix' => $matrix,
