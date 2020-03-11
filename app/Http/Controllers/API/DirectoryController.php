@@ -28,7 +28,7 @@ class DirectoryController extends Controller
     public function index(Request $request)
     {
         if ($request->recursive) {
-            $directories = Directory::withCount('files')->hierarchy()->get();
+            $directories = Directory::hierarchy()->get();
         } else {
             $directories = Directory::withCount('files')->where('parent_id', $request->directory ?? 0)->get();
         }
@@ -44,9 +44,9 @@ class DirectoryController extends Controller
      */
     public function store(DirectoryRequest $request)
     {
-        return new DirectoryResource(
-            Directory::create($request->validated())
-        );
+        $directory = Directory::create($request->validated());
+
+        return new DirectoryResource($directory);
     }
 
     /**

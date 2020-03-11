@@ -40,7 +40,7 @@ class DirectoryRequest extends FormRequest
     {
         return [
             'name'      => 'required',
-            'parent_id' => 'sometimes|integer',
+            'parent_id' => 'required|integer',
             'slug'      => Rule::unique('directories')
                             ->ignore($this->id)
                             ->where(function ($query) {
