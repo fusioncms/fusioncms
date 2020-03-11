@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Concerns\HasFieldset;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Menu extends Model
 {
-    use CachesQueries, HasFieldset;
+    use CachesQueries, HasFieldset, LogsActivity;
 
     protected $with = ['fieldsets'];
 
@@ -58,5 +60,26 @@ class Menu extends Model
         $class = new \ReflectionClass($model);
 
         return $this->hasMany('\\'.$class->getName())->orderBy('order', 'asc');
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'anchor'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "menus/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} menu ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

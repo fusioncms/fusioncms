@@ -76,14 +76,6 @@ class MatrixController extends Controller
             $matrix->attachFieldset($request->fieldset);
         }
 
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-                'link' => 'matrices/'.$matrix->id.'/edit',
-            ])
-            ->log('Created matrix (:subject.name)');
-
         return new MatrixResource($matrix);
     }
 
@@ -104,14 +96,6 @@ class MatrixController extends Controller
             $matrix->detachFieldset();
         }
 
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-                'link' => 'matrices/'.$matrix->id.'/edit',
-            ])
-            ->log('Updated matrix (:subject.name)');
-
         return new MatrixResource($matrix);
     }
 
@@ -124,13 +108,6 @@ class MatrixController extends Controller
     public function destroy(Matrix $matrix)
     {
         $this->authorize('matrices.delete');
-
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-            ])
-            ->log('Deleted matrix (:subject.name)');
 
         $matrix->delete();
     }

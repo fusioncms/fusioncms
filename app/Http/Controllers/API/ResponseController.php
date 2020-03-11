@@ -77,14 +77,6 @@ class ResponseController extends Controller
             $relationship->type()->persistRelationship($response, $relationship);
         }
 
-        activity()
-            ->performedOn($response)
-            ->withProperties([
-                'icon' => $form->icon,
-                'link' => 'taxonomies/'.$form->handle.'//edit/' . $response->id,
-            ])
-            ->log('Created '.Str::singular($form->name).' (:subject.name)');
-
         return new ResponseResource($response);
     }
 
@@ -128,14 +120,6 @@ class ResponseController extends Controller
             $relationship->type()->persistRelationship($response, $relationship);
         }
 
-        activity()
-            ->performedOn($response)
-            ->withProperties([
-                'icon' => $form->icon,
-                'link' => 'taxonomies/'.$form->handle.'//edit/' . $response->id,
-            ])
-            ->log('Updated '.Str::singular($form->name).' (:subject.name)');
-
         return new ResponseResource($response);
     }
 
@@ -146,13 +130,6 @@ class ResponseController extends Controller
         $form = Form::where('slug', $slug)->firstOrFail();
         $model    = (new Builder($form->handle))->make();
         $response    = $model->findOrFail($id);
-
-        activity()
-            ->performedOn($response)
-            ->withProperties([
-                'icon' => $form->icon,
-            ])
-            ->log('Deleted '.Str::singular($form->name).' (:subject.name)');
 
         $response->delete();
     }

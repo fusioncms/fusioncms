@@ -79,14 +79,6 @@ class TaxonomyController extends Controller
             $taxonomy->attachFieldset($request->fieldset);
         }
 
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
-            ])
-            ->log('Created taxonomy (:subject.name)');
-
         return new TaxonomyResource($taxonomy);
     }
 
@@ -107,14 +99,6 @@ class TaxonomyController extends Controller
             $taxonomy->detachFieldset();
         }
 
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
-            ])
-            ->log('Updated taxonomy (:subject.name)');
-
         return new TaxonomyResource($taxonomy);
     }
 
@@ -127,14 +111,7 @@ class TaxonomyController extends Controller
     public function destroy(Taxonomy $taxonomy)
     {
         $this->authorize('taxonomies.delete');
-
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-            ])
-            ->log('Deleted taxonomy (:subject.name)');
-
+        
         $taxonomy->delete();
     }
 }

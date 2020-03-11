@@ -57,14 +57,6 @@ class FormController extends Controller
     {
         $form = Form::create($request->validated());
 
-        activity()
-            ->performedOn($form)
-            ->withProperties([
-                'icon' => 'paper-plane',
-                'link' => 'forms/'.$form->id.'/edit',
-            ])
-            ->log('Created form (:subject.name)');
-
         return new FormResource($form);
     }
 
@@ -79,14 +71,6 @@ class FormController extends Controller
     {
         $form->update($request->validated());
 
-        activity()
-            ->performedOn($form)
-            ->withProperties([
-                'icon' => 'paper-plane',
-                'link' => 'forms/'.$form->id.'/edit',
-            ])
-            ->log('Updated form (:subject.name)');
-
         return new FormResource($form);
     }
 
@@ -99,13 +83,6 @@ class FormController extends Controller
     public function destroy(Form $form)
     {
         $this->authorize('forms.delete');
-
-        activity()
-            ->performedOn($form)
-            ->withProperties([
-                'icon' => 'paper-plane',
-            ])
-            ->log('Deleted form (:subject.name)');
 
         $form->delete();
     }

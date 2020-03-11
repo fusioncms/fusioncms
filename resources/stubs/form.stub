@@ -14,9 +14,13 @@ namespace App\Models\Forms;
 use App\Models\Form;
 use App\Models\Field;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
+    use LogsActivity;
+
 	/**
      * The table associated with the model.
      *
@@ -89,4 +93,27 @@ class {class} extends Model
     }
 
     {relationships}
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $response   = $activity->subject;
+        $form       = $response->form;
+        $action     = ucfirst($eventName);
+        $modelName  = strtolower(Str::singular($form->name))
+        $properties = ['icon' => $form->icon];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "forms/{$form->slug}/responses/{$response->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} form response ({$response->name})";
+        $activity->properties  = $properties;
+    }
 }
