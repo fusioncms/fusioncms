@@ -1,4 +1,5 @@
 import store from '../vuex'
+import Cookies   from 'js-cookie'
 import NProgress from 'nprogress'
 
 export const before = (to, from, next) => {
@@ -12,6 +13,11 @@ export const before = (to, from, next) => {
     // Don't disable navigation guard if only the query or hash is changing
     if (to.path != from.path) {
         store.commit('form/setPreventNavigation', false)
+    }
+
+    // Default sidebar to open..
+    if (Cookies.get('fusion_sidebar') == undefined) {
+        Cookies.set('fusion_sidebar', 'open')
     }
 
     next()
