@@ -94,7 +94,7 @@ class {class} extends Model
         $node       = $activity->subject;
         $menu       = $node->menu;
         $action     = ucfirst($eventName);
-        $modelName  = strtolower(Str::singular($menu->name))
+        $modelName  = strtolower(Str::singular($menu->name));
         $properties = ['icon' => 'anchor'];
 
         if ($eventName !== 'deleted') {

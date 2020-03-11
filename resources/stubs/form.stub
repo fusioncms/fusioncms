@@ -106,7 +106,7 @@ class {class} extends Model
         $response   = $activity->subject;
         $form       = $response->form;
         $action     = ucfirst($eventName);
-        $modelName  = strtolower(Str::singular($form->name))
+        $modelName  = strtolower(Str::singular($form->name));
         $properties = ['icon' => $form->icon];
 
         if ($eventName !== 'deleted') {
