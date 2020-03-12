@@ -7,28 +7,38 @@
         <portal to="subtitle">{{ collection.description }}</portal>
 
         <form-container>
-            <p-pane v-if="collection.show_name_field">
-                <template v-slot:side>
-                    <p-pane-title>General Information</p-pane-title>
+            <div class="card" v-if="collection.show_name_field">
+                <div class="card__body">
+                    <p-title
+                        name="name"
+                        autocomplete="off"
+                        autofocus
+                        required
+                        :has-error="form.errors.has('name')"
+                        :error-message="form.errors.get('name')"
+                        v-model="form.name">
+                    </p-title>
+                </div>
+            </div>
 
-                    <p-pane-subtitle>This information will be used to name and identify your entry.</p-pane-subtitle>
-                </template>
+            <div v-if="sections.body.length > 0">
+                <p-tabs>
+                    <p-tab v-for="section in sections.body" :key="section.handle" :name="section.name">
+                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                            <component
+                                :is="field.type.id + '-fieldtype'"
+                                :field="field"
+                                v-model="form[field.handle]"
+                            >
+                            </component>
+                        </div>
+                    </p-tab>
+                </p-tabs>
+            </div>
 
-                <div class="row">
-                    <div class="col w-full lg:w-1/2">
-                        <p-input
-                            name="name"
-                            :label="collection.name_label || 'Name'"
-                            autocomplete="off"
-                            autofocus
-                            required
-                            :has-error="form.errors.has('name')"
-                            :error-message="form.errors.get('name')"
-                            v-model="form.name">
-                        </p-input>
-                    </div>
-
-                    <div class="col w-full lg:w-1/2">
+            <template v-slot:sidebar>
+                <div class="card">
+                    <div class="card__body">
                         <p-slug
                             name="slug"
                             label="Slug"
@@ -40,26 +50,6 @@
                             :error-message="form.errors.get('slug')"
                             v-model="form.slug">
                         </p-slug>
-                    </div>
-                </div>
-            </p-pane>
-
-            <div v-if="sections.body.length > 0">
-                <p-pane v-for="section in sections.body" :key="section.handle">
-                    <template v-slot:side>
-                        <p-pane-title>{{ section.name }}</p-pane-title>
-
-                        <p-pane-subtitle>{{ section.description }}</p-pane-subtitle>
-                    </template>
-
-                    <p-input label="Message" name="message"></p-input>
-                </p-pane>
-            </div>
-
-            <template v-slot:sidebar>
-                <div class="card">
-                    <div class="card__body">
-                        sidebar
                     </div>
                 </div>
             </template>

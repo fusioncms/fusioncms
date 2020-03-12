@@ -70,6 +70,55 @@
     max-height: 40em;
 }
 
+.field__title {
+    @apply
+        appearance-none
+        bg-transparent
+        leading-normal
+        text-gray-700
+        outline-none
+        font-bold
+        text-3xl
+        w-full
+        -ml-3
+        px-3
+        py-2
+    ;
+
+    &:hover,
+    &:focus {
+        @apply
+            bg-gray-100
+        ;
+    }
+
+    &--success {
+        @apply
+            bg-success-100
+        ;
+
+        &:hover,
+        &:focus {
+            @apply
+                bg-success-200
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            bg-danger-100
+        ;
+
+        &:hover,
+        &:focus {
+            @apply
+                bg-danger-200
+            ;
+        }
+    }
+}
+
 .field__group {
     @apply
         rounded-md

@@ -1,31 +1,29 @@
 <template>
-    <div class="form__group">
+    <div class="field">
         <label
-            class="form__label"
+            class="field__label"
             :for="name"
             v-if="label"
             v-html="label">
         </label>
 
-        <textarea
-            class="form__control"
-            :class="{'font-mono': monospaced, 'form__error': hasError}"
-            :id="name"
-            :name="name"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            :disabled="disabled"
-            :value="value"
-            :rows="rows"
-            @input="$emit('input', $event.target.value)"
-        ></textarea>
-
-        <div class="form__control--meta" v-if="help || errorMessage">
-            <div class="form__help">
-                <span v-if="help" v-html="help"></span>
-                <span v-if="errorMessage" class="form__error--message" v-html="errorMessage"></span>
-            </div>
+        <div class="field__control">
+            <textarea
+                class="field__textarea"
+                :class="{'font-mono': monospaced, 'field__textarea--danger': hasError}"
+                :id="id"
+                :name="name"
+                :placeholder="placeholder"
+                :readonly="readonly"
+                :disabled="disabled"
+                :value="value"
+                :rows="rows"
+                @input="$emit('input', $event.target.value)"
+            ></textarea>
         </div>
+
+        <p class="field__help" v-if="help" v-html="help"></p>
+        <p class="field__help field__help--danger" v-if="errorMessage" v-html="errorMessage"></p>
     </div>
 </template>
 
@@ -35,6 +33,7 @@
 
         props: {
             name: String,
+            id: String,
             placeholder: String,
             label: String,
             help: String,
@@ -71,7 +70,7 @@
             rows: {
                 required: false,
                 type: Number,
-                default: 3,
+                default: 1,
             },
         }
     }

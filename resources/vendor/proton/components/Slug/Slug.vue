@@ -10,8 +10,8 @@
         <div class="field__control">
             <input
                 class="field__input"
-                :class="{'font-mono': monospaced, 'field__input--danger': hasError}"
-                :id="name"
+                :class="{'font-mono': monospaced, 'text-xs': monospaced, 'field__input--danger': hasError}"
+                :id="id"
                 :name="name"
                 :type="type"
                 :placeholder="placeholder"
@@ -54,6 +54,7 @@
 
         props: {
             name: String,
+            id: String,
             placeholder: String,
             label: String,
             help: String,

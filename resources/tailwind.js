@@ -92,6 +92,7 @@ const spacing = {
     '250px': '250px',
     '300px': '300px',
     '400px': '400px',
+    '500px': '500px',
 
     'full-sidebar-open': 'calc(100% - 250px)',
     'full-sidebar-collapsed': 'calc(100%)',
