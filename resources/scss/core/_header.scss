@@ -1,0 +1,58 @@
+.header {
+    @apply
+        flex-row-reverse
+        border-gray-300
+        justify-between
+        flex-shrink-0
+        items-center
+        bg-white
+        border-b
+        flex-1
+        fixed
+        top-0
+        flex
+        px-6
+        z-10
+    ;
+
+    height: 55px;
+
+    &__account {
+        @apply
+            items-center
+            text-sm
+            flex
+        ;
+
+        a {
+            @apply
+                text-gray-600
+            ;
+
+            &:hover {
+                @apply
+                    text-gray-900
+                ;
+            }
+        }
+
+        .dropdown__button {
+            height: 34px;
+        }
+
+        .dropdown__options {
+            margin-top: 0;
+        }
+    }
+}
+
+.page-title {
+    @apply
+        font-semibold
+        leading-tight
+        uppercase
+        text-sm
+        m-0
+        p-0
+    ;
+}

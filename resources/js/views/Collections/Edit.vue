@@ -15,7 +15,7 @@
                 </template>
 
                 <div class="row">
-                    <div class="col w-full md:w-1/2">
+                    <div class="col w-full lg:w-1/2">
                         <p-input
                             name="name"
                             :label="collection.name_label || 'Name'"
@@ -28,7 +28,7 @@
                         </p-input>
                     </div>
 
-                    <div class="col w-full md:w-1/2">
+                    <div class="col w-full lg:w-1/2">
                         <p-slug
                             name="slug"
                             label="Slug"

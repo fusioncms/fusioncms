@@ -43,6 +43,8 @@
         <div class="row">
             <div class="col w-full">
                 <p-button v-modal:add-field>Add Field</p-button>
+
+                <p-button>Test</p-button>
             </div>
         </div>
 

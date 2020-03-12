@@ -1,0 +1,39 @@
+.loader {
+    margin: auto;
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    font-size: 10px;
+
+    > div {
+        height: 100%;
+        width: 6px;
+        display: inline-block;
+
+        animation: stretch-delay 1.2s infinite ease-in-out;
+    }
+
+    .rectangle-2 {
+        animation-delay: -1.1s;
+    }
+
+    .rectangle-3 {
+        animation-delay: -1.0s;
+    }
+
+    .rectangle-4 {
+        animation-delay: -0.9s;
+    }
+
+    .rectangle-5 {
+        animation-delay: -0.8s;
+    }
+}
+
+@keyframes stretch-delay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }  20% {
+        transform: scaleY(1.0);
+    }
+}

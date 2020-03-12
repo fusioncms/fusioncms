@@ -7,8 +7,7 @@
 @import "components/all";
 @import "elements/all";
 @import "forms/all";
-@import "grid/all";
-@import "layout/all";
+@import "core/all";
 @import "vendor/all";
 
 /**
@@ -18,11 +17,8 @@ OLD STYLES
 
 // Elements
 @import "refactor/elements/form";
-@import "refactor/elements/table";
-@import "refactor/elements/transition";
 
 // Components
-// @import "refactor/components/badge";
 @import "refactor/components/banner";
 @import "refactor/components/charts";
 @import "refactor/components/jumbotron";
@@ -53,16 +49,8 @@ OLD STYLES
 // Utilities
 @tailwind utilities;
 
-@import "refactor/utilities/helpers";
-@import "refactor/utilities/patterns";
-
 // Layout
 @import "refactor/layout/containers";
-@import "refactor/layout/footer";
 @import "refactor/layout/gallery";
-@import "refactor/layout/header";
 @import "refactor/layout/inbox";
 @import "refactor/layout/mailables";
-@import "refactor/layout/navbar";
-@import "refactor/layout/sidebar";
-@import "refactor/layout/tiles";
