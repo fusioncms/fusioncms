@@ -54,14 +54,6 @@ class TermController extends Controller
             $relationship->type()->persistRelationship($term, $relationship);
         }
 
-        activity()
-            ->performedOn($term)
-            ->withProperties([
-                'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
-            ])
-            ->log('Created '.Str::singular($taxonomy->name).' (:subject.name)');
-
         return new TermResource($term);
     }
 
@@ -84,14 +76,6 @@ class TermController extends Controller
             $relationship->type()->persistRelationship($term, $relationship);
         }
 
-        activity()
-            ->performedOn($term)
-            ->withProperties([
-                'icon' => $taxonomy->icon,
-                'link' => 'taxonomies/'.$taxonomy->handle.'/'.$term->id.'/edit',
-            ])
-            ->log('Updated '.Str::singular($taxonomy->name).' (:subject.name)');
-
         return new TermResource($term);
     }
 
@@ -110,13 +94,6 @@ class TermController extends Controller
         $taxonomy = Taxonomy::where('slug', $taxonomySlug)->firstOrFail();
         $model    = (new Builder($taxonomy->handle))->make();
         $term    = $model->findOrFail($id);
-
-        activity()
-            ->performedOn($term)
-            ->withProperties([
-                'icon' => $taxonomy->icon,
-            ])
-            ->log('Deleted '.Str::singular($taxonomy->name).' (:subject.name)');
 
         $term->delete();
     }

@@ -12,9 +12,13 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mailable as MailableModel;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Mailable extends Model
 {
+    use LogsActivity;
+
 	/**
      * The attributes that are fillable via mass assignment.
      *
@@ -162,5 +166,31 @@ class Mailable extends Model
                 logger()->error($exception->getMessage());
             }
         }
+    }
+
+    /**
+     * Just log update event.
+     * 
+     * @var array
+     */
+    protected static $recordEvents = ['updated'];
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject = $activity->subject;
+        $action  = ucfirst($eventName);
+
+        $activity->description = "{$action} mailable ({$subject->name})";
+        $activity->properties  = [
+            'icon' => 'mail-bulk',
+            'link' => "mailables/{$subject->id}/edit"
+        ];
     }
 }

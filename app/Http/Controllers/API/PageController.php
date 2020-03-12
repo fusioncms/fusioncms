@@ -60,14 +60,6 @@ class PageController extends Controller
             $relationship->type()->persistRelationship($entry, $relationship);
         }
 
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-                'link' => 'pages/' . $matrix->slug,
-            ])
-            ->log('Updated ' . Str::singular($matrix->name));
-
         return new PageResource($entry);
     }
 }

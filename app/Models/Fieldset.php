@@ -13,10 +13,12 @@ namespace App\Models;
 
 use App\Database\Eloquent\Model;
 use App\Concerns\HasDynamicRelationships;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Fieldset extends Model
 {
-    use HasDynamicRelationships;
+    use HasDynamicRelationships, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -97,5 +99,26 @@ class Fieldset extends Model
         return $this->fields->reject(function($field) {
             return is_null($field->type()->getRelationship());
         });
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'list'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "fieldsets/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} fieldset ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

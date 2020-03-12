@@ -76,14 +76,6 @@ class ImportController extends Controller
 
     	$import = Import::create($attributes);
 
-    	activity()
-    		->performedOn($import)
-    		->withProperties([
-    			'icon' => 'ship',
-    			'link' => 'importer/'.$import->id.'/edit',
-    		])
-    		->log('Created import (:subject.name)');
-
     	return new ImportResource($import);
     }
 
@@ -117,14 +109,6 @@ class ImportController extends Controller
 
     	$import->update($attributes);
 
-    	activity()
-    		->performedOn($import)
-    		->withProperties([
-    			'icon' => 'ship',
-    			'link' => 'importer/'.$import->id.'/edit',
-    		])
-    		->log('Updated import (:subject.name)');
-
     	return new ImportResource($import);
     }
 
@@ -136,13 +120,6 @@ class ImportController extends Controller
     public function destroy(Import $import)
     {
     	$this->authorize('importer.delete');
-
-    	activity()
-    		->performedOn($import)
-    		->withProperties([
-    			'icon' => 'ship',
-    		])
-    		->log('Deleted import (:subject.name)');
 
     	$import->delete();
     }

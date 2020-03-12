@@ -67,14 +67,7 @@ class SettingsController extends Controller
                 }
             }
         });
-
-        activity()
-            ->withProperties([
-                'icon' => 'cog',
-                'link' => 'settings',
-            ])
-            ->log('Updated ' . $section->name . ' settings');
-
+        
         return new SettingSectionResource($section);
     }
 }

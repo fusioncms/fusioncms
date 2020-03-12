@@ -77,14 +77,6 @@ class CollectionController extends Controller
             $entry->save();
         }
 
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->slug.'/'.$entry->id.'/edit',
-            ])
-            ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
-
         return new EntryResource($entry);
     }
 
@@ -114,14 +106,6 @@ class CollectionController extends Controller
             $entry->save();
         }
 
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-                'link' => 'collections/' . $matrix->slug . '/' . $entry->id . '/edit',
-            ])
-            ->log('Updated ' . Str::singular($matrix->name) . ' (:subject.name)');
-
         return new EntryResource($entry);
     }
 
@@ -146,13 +130,6 @@ class CollectionController extends Controller
                 fieldtypes()->get($relationship->type)->destroyRelationship($entry, $relationship);
             }
         }
-
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-            ])
-            ->log('Deleted entry (:subject.name)');
 
         $entry->delete();
     }

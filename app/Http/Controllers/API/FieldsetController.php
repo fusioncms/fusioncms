@@ -57,14 +57,6 @@ class FieldsetController extends Controller
     {
         $fieldset = Fieldset::create($request->validated());
 
-        activity()
-            ->performedOn($fieldset)
-            ->withProperties([
-                'icon' => 'list',
-                'link' => 'fieldsets/edit/'.$fieldset->id.'/edit',
-            ])
-            ->log('Created fieldset (:subject.name)');
-
         return new FieldsetResource($fieldset);
     }
 
@@ -79,14 +71,6 @@ class FieldsetController extends Controller
     {
         $fieldset->update($request->validated());
 
-        activity()
-            ->performedOn($fieldset)
-            ->withProperties([
-                'icon' => 'list',
-                'link' => 'fieldsets/edit/' . $fieldset->id . '/edit',
-            ])
-            ->log('Updated fieldset (:subject.name)');
-
         return new FieldsetResource($fieldset);
     }
 
@@ -99,13 +83,6 @@ class FieldsetController extends Controller
     public function destroy(Fieldset $fieldset)
     {
         $this->authorize('fieldsets.delete');
-
-        activity()
-            ->performedOn($fieldset)
-            ->withProperties([
-                'icon' => 'list',
-            ])
-            ->log('Deleted fieldset (:subject.name)');
 
         $fieldset->delete();
     }

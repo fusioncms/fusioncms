@@ -168,14 +168,7 @@ class FileController extends Controller
     public function destroy(Request $request, File $file)
     {
         $this->authorize('file.destroy');
-
-        activity()
-            ->performedOn($file)
-            ->withProperties([
-                'icon' => 'file-alt',
-            ])
-            ->log('Deleted file (:subject.name)');
-
+        
         Storage::delete($file->location);
 
         $file->delete();
