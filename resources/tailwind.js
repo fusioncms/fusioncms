@@ -178,10 +178,25 @@ module.exports = {
                     ...colors.gray,
                 },
 
-                'info': colors.blue,
-                'success': colors.green,
-                'warning': colors.yellow,
-                'danger': colors.red,
+                'info': {
+                    50: '#ebf5ff',
+                    ...colors.blue,
+                },
+
+                'success': {
+                    50: '#f3faf7',
+                    ...colors.green,
+                },
+
+                'warning': {
+                    50: '#fdfdea',
+                    ...colors.yellow,
+                },
+
+                'danger': {
+                    50: '#fdf2f2',
+                    ...colors.red,
+                },
             },
 
             fontFamily: {

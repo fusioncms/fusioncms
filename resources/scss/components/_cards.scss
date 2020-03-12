@@ -47,13 +47,13 @@
 
     &--dark {
         @apply
-            text-gray-100
+            text-gray-400
             bg-gray-900
         ;
 
-        > p {
+        .card__body, p {
             @apply
-                text-gray-100
+                text-gray-400
             ;
         }
     }

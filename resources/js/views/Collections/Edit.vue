@@ -52,6 +52,20 @@
                         </p-slug>
                     </div>
                 </div>
+
+                <p-definition-list>
+                    <p-definition name="Status">
+                        <fa-icon :icon="['fas', 'circle']" class="fa-fw text-xs" :class="{'text-success-500': entry.status, 'text-danger-500': ! entry.status}"></fa-icon> {{ entry.status ? 'Enabled' : 'Disabled' }}
+                    </p-definition>
+
+                    <p-definition name="Created At">
+                        {{ $moment(entry.created_at).format('Y-MM-DD, hh:mm a') }}
+                    </p-definition>
+
+                    <p-definition name="Updated At">
+                        {{ $moment(entry.updated_at).format('Y-MM-DD, hh:mm a') }}
+                    </p-definition>
+                </p-definition-list>
             </template>
         </form-container>
 
