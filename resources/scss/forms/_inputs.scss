@@ -9,7 +9,6 @@
         text-base
         bg-white
         rounded
-        text-sm
         border
         w-full
         px-3
@@ -80,8 +79,8 @@
         font-bold
         text-3xl
         w-full
-        px-3
-        py-2
+        px-6
+        py-3
     ;
 
     &:hover,
@@ -93,26 +92,26 @@
 
     &--success {
         @apply
-            bg-success-100
+            bg-success-50
         ;
 
         &:hover,
         &:focus {
             @apply
-                bg-success-200
+                bg-success-100
             ;
         }
     }
 
     &--danger {
         @apply
-            bg-danger-100
+            bg-danger-50
         ;
 
         &:hover,
         &:focus {
             @apply
-                bg-danger-200
+                bg-danger-100
             ;
         }
     }

@@ -18,22 +18,20 @@
                         :error-message="form.errors.get('name')"
                         v-model="form.name">
                     </p-title>
-                </div>
-            </div>
 
-            <div v-if="sections.body.length > 0">
-                <p-tabs>
-                    <p-tab v-for="section in sections.body" :key="section.handle" :name="section.name">
-                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
-                            <component
-                                :is="field.type.id + '-fieldtype'"
-                                :field="field"
-                                v-model="form[field.handle]"
-                            >
-                            </component>
-                        </div>
-                    </p-tab>
-                </p-tabs>
+                    <p-tabs v-if="sections.body.length > 0">
+                        <p-tab v-for="section in sections.body" :key="section.handle" :name="section.name">
+                            <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                                <component
+                                    :is="field.type.id + '-fieldtype'"
+                                    :field="field"
+                                    v-model="form[field.handle]"
+                                >
+                                </component>
+                            </div>
+                        </p-tab>
+                    </p-tabs>
+                </div>
             </div>
 
             <template v-slot:sidebar>
