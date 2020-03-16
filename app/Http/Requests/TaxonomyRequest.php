@@ -40,16 +40,28 @@ class TaxonomyRequest extends FormRequest
 
         return [
             'name'        => 'required|regex:/^[A-z]/i',
-            'handle'      => 'required|unique:taxonomies,handle,' . $id,
+            'handle'      => 'required|not_regex:/[^a-z0-9_]/i|unique:taxonomies,handle,' . $id,
             'slug'        => 'required|unique:taxonomies,slug,' . $id,
             'description' => 'sometimes',
             'fieldset'    => 'sometimes',
 
-            'sidebar'     => 'required|boolean',
+            'sidebar'     => 'required',
             'icon'        => 'sometimes',
 
             'route'       => 'sometimes',
             'template'    => 'sometimes',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'handle.not_regex' => 'Handle must contain only letters, numbers, and underscores.',
         ];
     }
 
