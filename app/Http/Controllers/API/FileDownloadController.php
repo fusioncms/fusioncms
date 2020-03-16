@@ -11,12 +11,9 @@ class FileDownloadController extends Controller
 {
     public function index($uuid)
     {
-        $file = File::where('uuid', $uuid)->first();
+        $file = File::where('uuid', $uuid)->firstOrFail();
+        $path = Storage::disk('public')->path($file->location);
 
-        if (! $file) {
-            abort(404);
-        }
-
-        return response()->download(storage_path('app/public/'.$file->location), $file->original);
+        return response()->download($path, $file->original);
     }
 }

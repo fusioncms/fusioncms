@@ -77,8 +77,7 @@ class File extends Model
     {
         return $query
             ->where('name', 'like', "%{$value}%")
-            ->orWhere('description', 'like', "%{$value}%")
-            ->orWhere('original', 'like', "%{$value}%");
+            ->orWhere('description', 'like', "%{$value}%");
     }
 
     /**

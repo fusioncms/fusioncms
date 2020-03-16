@@ -2,6 +2,7 @@
 
 use App\Models\File;
 use App\Contracts\Factory;
+use Illuminate\Support\Str;
 
 class FileFactory implements Factory
 {
@@ -26,6 +27,16 @@ class FileFactory implements Factory
     protected $bytes;
 
     /**
+     * @var integer
+     */
+    protected $directory;
+
+    /**
+     * @var array
+     */
+    protected $state = 'image';
+
+    /**
      * Create a new File factory.
      * 
      * @return \App\Models\File
@@ -39,6 +50,7 @@ class FileFactory implements Factory
         if ($this->name) {
             $overrides['uuid']     = unique_id();
             $overrides['name']     = $this->name;
+            $overrides['slug']     = Str::slug("{$overrides['uuid']}-{$overrides['name']}");
             $overrides['original'] = $this->name.'.'.$this->extension;
         }
 
@@ -50,7 +62,11 @@ class FileFactory implements Factory
             $overrides['bytes'] = $this->bytes;
         }
 
-        return factory(File::class)->create($overrides);
+        if ($this->directory) {
+            $overrides['directory_id'] = $this->directory;
+        }
+
+        return factory(File::class)->states($this->state)->create($overrides);
     }
 
     /**
@@ -106,16 +122,38 @@ class FileFactory implements Factory
     }
 
     /**
+     * Create a file with factory state.
+     * 
+     * @return \FileFactory
+     */
+    public function withState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Create a directory with the given parent_id.
+     * 
+     * @param  \App\Models\Directory|integer  $parent
+     * @return \DirectoryFactory
+     */
+    public function withDirectory($directory)
+    {
+        $this->directory = $directory instanceof Directory ? $directory->id : $directory;
+
+        return $this;
+    }
+
+    /**
      * Create a file with an image mimetype.
      * 
      * @return \FileFactory
      */
     public function asImage()
     {
-        $this->mimetype  = 'image/png';
-        $this->extension = 'png';
-
-        return $this;
+        return $this->withState('image');
     }
 
     /**
@@ -125,10 +163,7 @@ class FileFactory implements Factory
      */
     public function asAudio()
     {
-        $this->mimetype  = 'audio/ogg';
-        $this->extension = 'ogg';
-
-        return $this;
+        return $this->withState('audio');
     }
 
     /**
@@ -138,10 +173,7 @@ class FileFactory implements Factory
      */
     public function asVideo()
     {
-        $this->mimetype  = 'video/webm';
-        $this->extension = 'webm';
-
-        return $this;
+        return $this->withState('video');
     }
 
     /**
@@ -151,9 +183,6 @@ class FileFactory implements Factory
      */
     public function asDocument()
     {
-        $this->mimetype  = 'text/plain';
-        $this->extension = 'txt';
-
-        return $this;
+        return $this->withState('document');
     }
 }

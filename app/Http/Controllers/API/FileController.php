@@ -8,12 +8,13 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Requests\FileRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
-use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\FileUploadRequest;
+use App\Http\Requests\FileUpdateRequest;
 
 class FileController extends Controller
 {
@@ -60,10 +61,10 @@ class FileController extends Controller
     /**
      * Persist a new resource in storage.
      *
-     * @param  \App\Http\Requests\FileRequest  $request
+     * @param  \App\Http\Requests\FileUploadRequest  $request
      * @return \App\Http\Resources\FileResource
      */
-    public function store(FileRequest $request)
+    public function store(FileUploadRequest $request)
     {
         $file = File::create($request->validated());
 
@@ -73,43 +74,14 @@ class FileController extends Controller
     /**
      * Update an existing resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\File          $file
+     * @param  \App\Http\Requests\FileUpdateRequest  $request
+     * @param  \App\Models\File  $file
      * @return \App\Http\Resources\FileResource
      */
-    public function update(Request $request, File $file)
+    public function update(FileUpdateRequest $request, File $file)
     {
-        $this->authorize('files.update');
-
-        $data = $request->validate([
-            'name'         => 'required_without_all:description,directory_id',
-            'description'  => 'required_without_all:name,directory_id',
-            'directory_id' => 'required_without_all:name,description'
-        ]);
-
-        $originalName = $file->name;
-        $oldLocation  = $file->location;
-
-        $file->update($data);
-
-        // Rename the file if name has updated
-        if ($request->has('name')) {
-            $name        = Str::slug($file->uuid.' '.$file->name);
-            $slug        = Str::slug($file->name);
-            $original    = str_replace($originalName, $file->name, $file->original);
-            $newLocation = str_replace(Str::slug($originalName), $slug, $file->location);
-
-            if ($oldLocation !== $newLocation) {
-                Storage::disk('public')->move($oldLocation, $newLocation);
-            }
-
-            $file->update([
-                'slug'     => Str::slug($file->name),
-                'original' => $original,
-                'location' => $newLocation,
-            ]);
-        }
-
+        $file->update($request->validated());
+        
         return new FileResource($file);
     }
 

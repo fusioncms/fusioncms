@@ -12,233 +12,258 @@
 namespace Tests\Feature;
 
 use App\Models\File;
-use Facades\FileFactory;
 use App\Models\Directory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class FileTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function a_guest_can_not_upload_files()
+    public function setUp(): void
     {
-        $this->json('POST', 'api/files')->assertStatus(401);
-    }
+        parent::setUp();
+        $this->handleValidationExceptions();
 
-    /** @test */
-    public function a_guest_can_not_delete_files()
-    {
-        $file = factory(File::class)->create();
-
-        $this->json('DELETE', 'api/files/'.$file->id)->assertStatus(401);
-    }
-
-    /** @test */
-    public function a_user_without_permissions_can_not_delete_files()
-    {
-        $this->actingAs($this->user, 'api');
-        
-        $file = factory(File::class)->create();
-
-        $this->json('DELETE', 'api/files/'.$file->id)->assertStatus(403);
-    }
-
-    /** @test */
-    public function a_valid_file_must_be_provided()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $this->json('POST', 'api/files', [
-            'file' => 'not-a-file',
-        ])->assertStatus(422);
-    }
-
-    /** @test */
-    public function a_user_with_permissions_can_upload_files()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->actingAs($this->admin, 'api');
-
+        // --
         Storage::fake('public');
+    }
 
-        $response = $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo.jpg')
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_with_permissions_can_create_files()
+    {
+        $attr         = factory(File::class)->make()->toArray();
+        $attr['file'] = UploadedFile::fake()->image($attr['original']);
+
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', 'api/files', $attr)
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('files', [
+            'name'        => $attr['name'],
+            'description' => $attr['description'],
+            'original'    => $attr['original'],
         ]);
-        
-        $file = $response->getData()->data;
 
-        Storage::disk('public')->assertExists($file->location);
-        
-        $response->assertStatus(201);
+        Storage::disk('public')->assertExists(
+            File::latest()->first()->location
+        );
     }
 
-    /** @test */
-    public function a_user_with_permissions_can_get_a_file()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_without_control_panel_access_cannot_create_new_files()
     {
-        $this->actingAs($this->admin, 'api');
+        $this->expectException(AuthenticationException::class);
 
-        $file = factory(File::class)->create(['name' => 'lorem']);
-
-        $response = $this->json('GET', '/api/files/'.$file->uuid)
-            ->assertStatus(200);
-        
-        $payload = $response->getData()->data;
-
-        $this->assertEquals($payload->name, 'lorem');
+        $this->json('POST', '/api/files', []);
     }
 
-    /** @test */
-    public function a_user_with_permissions_can_download_files()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_without_permissions_cannot_create_new_files()
     {
-        $this->actingAs($this->admin, 'api');
-
-        $photo = UploadedFile::fake()->image('photo.jpg');
-
-        $file = $this->json('POST', '/api/files', [
-            'file' => $photo,
-        ])->getData()->data;
-
-        Storage::disk('public')->assertExists($file->location);
+        $this->expectException(AuthorizationException::class);
         
-        $response = $this->json('GET', '/api/files/'.$file->uuid.'/download')
+        $this
+            ->be($this->user, 'api')
+            ->json('POST', '/api/files', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_with_permissions_can_update_files()
+    {
+        $file = factory(File::class)->states('document')->create();
+        $attr = $file->toArray();
+
+        // updates ----
+        $attr['name']        = 'Updated Name';
+        $attr['description'] = 'Updated description.';
+
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', 'api/files/' . $file->id, $attr)
             ->assertStatus(200);
 
-        $this->assertTrue($response->headers->get('content-type') === 'image/jpeg');
-        $this->assertTrue($response->headers->get('content-disposition') === 'attachment; filename=photo.jpeg');
+        $this->assertDatabaseHas('files', [
+            'name'        => ($name = $attr['name']),
+            'uuid'        => ($uuid = $file->uuid),
+            'extension'   => ($extn = $file->extension),
+            'slug'        => ($slug = Str::slug("{$uuid}-{$name}")),
+            'original'    => Str::slug($name) . ".{$extn}",
+            'location'    => "files/{$slug}.{$extn}",
+            'description' => $attr['description'],
+        ]);
 
-        Storage::disk('public')->delete($file->location);
         Storage::disk('public')->assertMissing($file->location);
+        Storage::disk('public')->assertExists("files/{$slug}.{$extn}");
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function a_user_with_permissions_can_delete_files()
     {
-        $this->withoutExceptionHandling();
+        $file = factory(File::class)->states('audio')->create();
 
-        $this->actingAs($this->admin, 'api');
-
-        Storage::fake('public');
-
-        $file = $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo.jpg')
-        ])->getData()->data;
-        
-        $response = $this->json('DELETE', '/api/files/'.$file->id)
+        $this
+            ->be($this->admin, 'api')
+            ->json('DELETE', 'api/files/' . $file->id)
             ->assertStatus(200);
-        
-        $this->assertDatabaseMissing('files', [
-            'id' => $file->id
-        ]);
+
+        $this->assertDatabaseMissing('files', [ 'id' => $file->id ]);
 
         Storage::disk('public')->assertMissing($file->location);
     }
 
-    /** @test */
-    public function a_user_with_permissions_can_edit_file_names()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function at_least_a_name_or_description_must_be_provided_with_update_request()
     {
-        $this->withoutExceptionHandling();
+        $file = factory(File::class)->states('image')->create();
 
-        $this->actingAs($this->admin, 'api');
-
-        Storage::fake('public');
-
-        $response = $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo.jpg')
-        ]);
-        
-        $file = $response->getData()->data;
-        $name = 'updated photo name';
-
-        $response = $this->json('PATCH', '/api/files/'.$file->id, [
-            'name' => $name,
-        ]);
-        
-        $response->assertStatus(200);
-        
-        $filename = Str::slug($file->uuid.' '.$name);
-        $location = 'files/'.$filename.'.'.$file->extension;
-
-        Storage::disk('public')->assertExists($location);
-        Storage::disk('public')->assertMissing($file->location);
-
-        $this->assertDatabaseHas('files', [
-            'id'       => $file->id,
-            'name'     => $name,
-            'slug'     => Str::slug($name),
-            'location' => 'files/'.$filename.'.'.$file->extension,
-        ]);
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', 'api/files/' . $file->id, [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'name'        => 'At least a name is required',
+                'description' => 'At least a description is required'
+            ]);
     }
 
-    /** @test */
-    public function a_user_with_permissions_can_edit_file_descriptions()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_with_permissions_can_get_a_file()
     {
-        $this->withoutExceptionHandling();
-
-        $this->actingAs($this->admin, 'api');
-
-        $file        = factory(File::class)->create();
-        $description = 'This is a new file description.';
-
-        $response = $this->json('PATCH', 'api/files/'.$file->id, [
-            'description' => $description,
-        ]);
-
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas('files', [
-            'id'          => $file->id,
-            'description' => $description,
-        ]);
+        $file    = factory(File::class)->states('image')->create();
+        $payload = $this
+            ->be($this->admin, 'api')
+            ->json('GET', '/api/files/' . $file->uuid)
+            ->assertStatus(200)
+            ->getData()->data;
+        
+        $this->assertEquals($payload->name, $file->name);
     }
 
-    // /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_without_permissions_cannot_get_a_file()
+    {
+        $this->expectException(AuthorizationException::class);
+
+        $file = factory(File::class)->states('image')->create();
+
+        $this
+            ->be($this->user, 'api')
+            ->json('GET', '/api/files/' . $file->uuid);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
+    public function a_user_with_permissions_can_download_files()
+    {
+        $file = factory(File::class)->states('document')->create();
+
+        $response = $this
+            ->be($this->admin, 'api')
+            ->json('GET', "/api/files/{$file->uuid}/download")
+            ->assertStatus(200);
+
+        $this->assertTrue($response->headers->get('content-type') === $file->mimetype);
+        $this->assertTrue($response->headers->get('content-disposition') === "attachment; filename={$file->original}");
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function a_user_with_permissions_can_replace_existing_files()
     {
-        $this->withoutExceptionHandling();
+        $file = factory(File::class)->states('image')->create();
 
-        $this->actingAs($this->admin, 'api');
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/files/replace/' . $file->id, [
+                'file' => UploadedFile::fake()->image('file.jpeg')
+            ])
+            ->assertStatus(200);
 
-        Storage::fake('public');
-
-        $response = $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo.jpg')
-        ]);
-        
-        $file = $response->getData()->data;
-
-        $response = $this->json('POST', '/api/files/'.$file->id.'/replace', [
-            'file' => UploadedFile::fake()->image('new_photo.jpg')
-        ]);
-        
-        $replacement = $response->getData()->data;
-        
-        $response->assertStatus(200);
-
-        Storage::disk('public')->assertExists($replacement->location);
         Storage::disk('public')->assertMissing($file->location);
+        Storage::disk('public')->assertExists(File::find($file->id)->location);
+
+        // assert file info has updated..
+        $this->assertDatabaseHas('files', [
+            'mimetype'  => 'image/jpeg',
+            'extension' => 'jpeg',
+        ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function a_user_with_permissions_can_move_files()
     {
-        $this->withoutExceptionHandling();
-
-        $this->actingAs($this->admin, 'api');
-
-        $file      = factory(File::class)->create();
+        $file      = factory(File::class)->states('image')->create();
         $directory = factory(Directory::class)->create();
 
-        $response = $this->json('PATCH', 'api/files/'.$file->id, [
-            'directory_id' => $directory->id,
-        ]);
-
-        $response->assertStatus(200);
+        $r = $this
+            ->be($this->admin, 'api')
+            ->json('POST', 'api/files/move', [
+                'directory' => $directory->id,
+                'moving'    => [
+                    'files'       => [ $file->id ],
+                    'directories' => []
+                ]
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('files', [
             'id'           => $file->id,
@@ -246,174 +271,152 @@ class FileTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function files_can_be_searched_by_name()
     {
         $this->actingAs($this->admin, 'api');
 
-        $photo1 = factory(File::class)->create(['name' => 'lorem']);
-        $photo2 = factory(File::class)->create(['name' => 'ipsum']);
-        $photo3 = factory(File::class)->create(['name' => 'dolor']);
-        $photo4 = factory(File::class)->create(['name' => 'sit']);
-        $photo5 = factory(File::class)->create(['name' => 'amet']);
-        $photo6 = factory(File::class)->create(['name' => 'do']);
+        factory(File::class)->create(['name' => 'lorem', 'description' => '']);
+        factory(File::class)->create(['name' => 'ipsum', 'description' => '']);
+        factory(File::class)->create(['name' => 'dolor', 'description' => '']);
+        factory(File::class)->create(['name' => 'sit',   'description' => '']);
+        factory(File::class)->create(['name' => 'amet',  'description' => '']);
+        factory(File::class)->create(['name' => 'do',    'description' => '']);
 
-        factory(File::class, 100)->create(['name' => 'a dummy file']);
-
-        $response = $this->json('GET', '/api/files?search=do');
+        $response = $this->json('GET', '/api/files?filter[search]=lor');
         $data     = collect($response->getData()->data);
 
         $this->assertCount(2, $data);
-        $this->assertCount(1, $data->where('name', 'do'));
+        $this->assertCount(1, $data->where('name', 'lorem'));
         $this->assertCount(1, $data->where('name', 'dolor'));
 
-        $response = $this->json('GET', '/api/files?search=dolor');
+        $response = $this->json('GET', '/api/files?filter[search]=dolor');
         $data     = collect($response->getData()->data);
 
         $this->assertCount(1, $data);
         $this->assertCount(1, $data->where('name', 'dolor'));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function files_can_be_sorted_by_name()
     {
         $this->actingAs($this->admin, 'api');
 
-        $photo1 = factory(File::class)->create(['name' => 'lorem']);
-        $photo2 = factory(File::class)->create(['name' => 'ipsum']);
-        $photo3 = factory(File::class)->create(['name' => 'dolor']);
-        $photo4 = factory(File::class)->create(['name' => 'sit']);
-        $photo5 = factory(File::class)->create(['name' => 'amet']);
-        $photo5 = factory(File::class)->create(['name' => 'do']);
+        factory(File::class)->create(['name' => 'lorem']);
+        factory(File::class)->create(['name' => 'ipsum']);
+        factory(File::class)->create(['name' => 'dolor']);
+        factory(File::class)->create(['name' => 'sit']);
+        factory(File::class)->create(['name' => 'amet']);
+        factory(File::class)->create(['name' => 'do']);
 
+        // forward sort
         $response = $this->json('GET', '/api/files?sort=name');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
-        
+        $data     = collect($response->getData()->data)->pluck('name')->all();
+
         $this->assertSame(['amet', 'do', 'dolor', 'ipsum', 'lorem', 'sit'], $data);
+
+        // reverse sort
+        $response = $this->json('GET', '/api/files?sort=-name');
+        $data     = collect($response->getData()->data)->pluck('name')->all();
+
+        $this->assertSame(['sit', 'lorem', 'ipsum', 'dolor', 'do', 'amet'], $data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function files_can_be_sorted_by_filesize()
     {
         $this->actingAs($this->admin, 'api');
 
-        Storage::fake('public');
+        factory(File::class)->create(['name' => 'lorem', 'bytes' => 400]);
+        factory(File::class)->create(['name' => 'ipsum', 'bytes' => 100]);
+        factory(File::class)->create(['name' => 'dolor', 'bytes' => 300]);
+        factory(File::class)->create(['name' => 'sit',   'bytes' => 600]);
+        factory(File::class)->create(['name' => 'amet',  'bytes' => 200]);
+        factory(File::class)->create(['name' => 'do',    'bytes' => 500]);
 
-        $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo1.jpg', 500, 500)
-        ]);
-
-        $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo2.jpg', 700, 700)
-        ]);
-
-        $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo3.jpg', 100, 100)
-        ]);
-
-        $this->json('POST', '/api/files', [
-            'file' => UploadedFile::fake()->image('photo4.jpg', 150, 150)
-        ]);
-
+        // forward sort
         $response = $this->json('GET', '/api/files?sort=bytes');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
-        
-        $this->assertSame(['photo3', 'photo4', 'photo1', 'photo2'], $data);
+        $data     = collect($response->getData()->data)->pluck('name')->all();
+
+        $this->assertSame(['ipsum', 'amet', 'dolor', 'lorem', 'do', 'sit'], $data);
+
+        // reverse sort
+        $response = $this->json('GET', '/api/files?sort=-bytes');
+        $data     = collect($response->getData()->data)->pluck('name')->all();
+
+        $this->assertSame(['sit', 'do', 'lorem', 'dolor', 'amet', 'ipsum'], $data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function files_can_be_sorted_by_last_modified_timestamp()
     {
         $this->actingAs($this->admin, 'api');
 
-        $photo1 = factory(File::class)->create(['name' => 'lorem', 'updated_at' => now()->addDays(1)]);
-        $photo2 = factory(File::class)->create(['name' => 'ipsum', 'updated_at' => now()->addDays(3)]);
-        $photo3 = factory(File::class)->create(['name' => 'dolor', 'updated_at' => now()->addDays(2)]);
-        $photo4 = factory(File::class)->create(['name' => 'sit', 'updated_at' => now()->addDays(6)]);
-        $photo5 = factory(File::class)->create(['name' => 'amet', 'updated_at' => now()->addDays(4)]);
-        $photo5 = factory(File::class)->create(['name' => 'do', 'updated_at' => now()->addDays(5)]);
+        factory(File::class)->create(['name' => 'lorem', 'updated_at' => now()->addDays(1)]);
+        factory(File::class)->create(['name' => 'ipsum', 'updated_at' => now()->addDays(3)]);
+        factory(File::class)->create(['name' => 'dolor', 'updated_at' => now()->addDays(2)]);
+        factory(File::class)->create(['name' => 'sit',   'updated_at' => now()->addDays(6)]);
+        factory(File::class)->create(['name' => 'amet',  'updated_at' => now()->addDays(4)]);
+        factory(File::class)->create(['name' => 'do',    'updated_at' => now()->addDays(5)]);
 
+        // forward sort
         $response = $this->json('GET', '/api/files?sort=updated_at');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
+        $data     = collect($response->getData()->data)->pluck('name')->all();
         
         $this->assertSame(['lorem', 'dolor', 'ipsum', 'amet', 'do', 'sit'], $data);
+
+        // reverse sort
+        $response = $this->json('GET', '/api/files?sort=-updated_at');
+        $data     = collect($response->getData()->data)->pluck('name')->all();
+
+        $this->assertSame(['sit', 'do', 'amet', 'ipsum', 'dolor', 'lorem'], $data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group file
+     */
     public function image_files_can_be_filtered()
     {
         $this->actingAs($this->admin, 'api');
 
-        FileFactory::withName('image')->asImage()->create();
-        FileFactory::withName('audio')->asAudio()->create();
-        FileFactory::withName('video')->asVideo()->create();
-        FileFactory::withName('document')->asDocument()->create();
+        factory(File::class)->create(['name' => 'lorem']);
+        factory(File::class)->create(['name' => 'ipsum']);
+        factory(File::class)->states('audio')->create(['name' => 'dolor']);
+        factory(File::class)->states('video')->create(['name' => 'sit']);
 
-        $response = $this->json('GET', '/api/files?filter=images');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
+        // filter by image
+        $response = $this->json('GET', '/api/files?filter[display]=images');
+        $data     = collect($response->getData()->data)->pluck('name')->all();
         
-        $this->assertSame(['image'], $data);
-    }
+        $this->assertSame([ 'ipsum', 'lorem' ], $data);
 
-    /** @test */
-    public function video_files_can_be_filtered()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        FileFactory::withName('image')->asImage()->create();
-        FileFactory::withName('audio')->asAudio()->create();
-        FileFactory::withName('video')->asVideo()->create();
-        FileFactory::withName('document')->asDocument()->create();
-
-        $response = $this->json('GET', '/api/files?filter=videos');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
+        // filter by video
+        $response = $this->json('GET', '/api/files?filter[display]=videos');
+        $data     = collect($response->getData()->data)->pluck('name')->all();
         
-        $this->assertSame(['video'], $data);
-    }
-
-    /** @test */
-    public function audio_files_can_be_filtered()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        FileFactory::withName('image')->asImage()->create();
-        FileFactory::withName('audio')->asAudio()->create();
-        FileFactory::withName('video')->asVideo()->create();
-        FileFactory::withName('document')->asDocument()->create();
-
-        $response = $this->json('GET', '/api/files?filter=audio');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
-        
-        $this->assertSame(['audio'], $data);
-    }
-
-    /** @test */
-    public function document_files_can_be_filtered()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        FileFactory::withName('image')->asImage()->create();
-        FileFactory::withName('audio')->asAudio()->create();
-        FileFactory::withName('video')->asVideo()->create();
-        FileFactory::withName('document')->asDocument()->create();
-
-        $response = $this->json('GET', '/api/files?filter=documents');
-        $data     = collect($response->getData()->data)->map(function($item) {
-            return $item->name;
-        })->toArray();
-        
-        $this->assertSame(['document'], $data);
+        $this->assertSame([ 'sit' ], $data);
     }
 }

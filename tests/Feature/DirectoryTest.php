@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Directory;
-use Facades\DirectoryFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,11 +18,11 @@ class DirectoryTest extends TestCase
         $this->handleValidationExceptions();
 
         // --
-        $this->directoryA = DirectoryFactory::withName('Lorem')->create();
-        $this->directoryB = DirectoryFactory::withName('Dolor')->create();
-        $this->directoryC = DirectoryFactory::withName('Ipsum')->withParent($this->directoryA)->create();
-        $this->directoryD = DirectoryFactory::withName('Sit')->withParent($this->directoryA)->create();
-        $this->directoryE = DirectoryFactory::withName('Amet')->withParent($this->directoryB)->create();
+        $this->directoryA = \Facades\DirectoryFactory::withName('Lorem')->create();
+        $this->directoryB = \Facades\DirectoryFactory::withName('Dolor')->create();
+        $this->directoryC = \Facades\DirectoryFactory::withName('Ipsum')->withParent($this->directoryA)->create();
+        $this->directoryD = \Facades\DirectoryFactory::withName('Sit')->withParent($this->directoryA)->create();
+        $this->directoryE = \Facades\DirectoryFactory::withName('Amet')->withParent($this->directoryB)->create();
     }
 
     /**
@@ -232,7 +230,6 @@ class DirectoryTest extends TestCase
      */
     public function directories_must_have_a_unique_parent_id_and_slug_combination()
     {
-        // mimic an insert w/ duplicate data..
         $directory       = $this->directoryA->toArray();
         $directory['id'] = null;
 
@@ -251,14 +248,12 @@ class DirectoryTest extends TestCase
      */
     public function directories_can_have_duplicate_slugs_with_a_different_parent_id()
     {
-        $this->actingAs($this->admin, 'api');
-
-        $directory = DirectoryFactory::withName('lorem')->create();
-        $directory = $directory->toArray();
+        $directory = $this->directoryA->toArray();
         $directory['id'] = null;
         $directory['parent_id'] = 99;
 
-        $response = $this
+        $this
+            ->be($this->admin, 'api')
             ->json('POST', 'api/directories', $directory)
             ->assertStatus(201);
     }
@@ -272,9 +267,9 @@ class DirectoryTest extends TestCase
     public function a_directory_cannot_be_moved_to_another_directory_with_a_conflicting_slug()
     {
         // Create two directories (A1/A2) w/ same slug in diff folders
-        $directoryA1 = factory(Directory::class)->create(['slug' => 'folder-a']);
-        $directoryA2 = factory(Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
-        $directoryB1 = factory(Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
+        $directoryA1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a']);
+        $directoryA2 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $directoryB1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
 
         // Attempt to combine directories in same location
         $this
