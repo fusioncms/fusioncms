@@ -15,8 +15,11 @@ use App\Models\Directory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Requests\DirectoryRequest;
 use App\Http\Resources\DirectoryResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class DirectoryController extends Controller
 {
@@ -30,7 +33,17 @@ class DirectoryController extends Controller
         if ($request->recursive) {
             $directories = Directory::hierarchy()->get();
         } else {
-            $directories = Directory::withCount('files')->where('parent_id', $request->directory ?? 0)->get();
+            $directories = QueryBuilder::for(Directory::class)
+                ->withCount('files')
+                ->allowedFilters([
+                    AllowedFilter::exact('parent_id')->default(0),
+                    AllowedFilter::callback('search', function (Builder $query, $value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    })
+                ])
+                ->allowedSorts('name')
+                ->defaultSort('name')
+                ->get();
         }
 
         return DirectoryResource::collection($directories);

@@ -23,7 +23,7 @@ class CreateDirectoriesTable extends Migration
     {
         $this->schema->create('directories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('name');
             $table->string('slug');
             $table->authors();

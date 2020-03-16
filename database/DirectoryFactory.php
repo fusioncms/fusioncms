@@ -12,6 +12,11 @@ class DirectoryFactory implements Factory
     protected $name;
 
     /**
+     * @var integer
+     */
+    protected $parent;
+
+    /**
      * Create a new File factory.
      * 
      * @return \App\Models\File
@@ -25,18 +30,35 @@ class DirectoryFactory implements Factory
             $overrides['slug'] = Str::slug($this->name);
         }
 
+        if ($this->parent) {
+            $overrides['parent_id'] = $this->parent;
+        }
+
         return factory(Directory::class)->create($overrides);
     }
 
     /**
-     * Create a file with the given name.
+     * Create a directory with the given name.
      * 
      * @param  string  $name
-     * @return \FileFactory
+     * @return \DirectoryFactory
      */
-    public function withName($name)
+    public function withName(string $name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Create a directory with the given parent_id.
+     * 
+     * @param  \App\Models\Directory|integer  $parent
+     * @return \DirectoryFactory
+     */
+    public function withParent($parent)
+    {
+        $this->parent = $parent instanceof Directory ? $parent->id : $parent;
 
         return $this;
     }
