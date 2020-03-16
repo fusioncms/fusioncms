@@ -6,6 +6,12 @@
 
         <portal to="subtitle">{{ collection.description }}</portal>
 
+        <portal to="actions">
+            <router-link v-if="collection.slug" :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-1">Go Back</router-link>
+
+            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+        </portal>
+
         <form-container>
             <div class="card" v-if="collection.show_name_field">
                 <div class="card__body">
@@ -48,6 +54,31 @@
                             :error-message="form.errors.get('slug')"
                             v-model="form.slug">
                         </p-slug>
+
+                        <p-toggle
+                            name="status"
+                            label="Status"
+                            v-model="form.status"
+                            :true-value="1"
+                            :false-value="0">
+                        </p-toggle>
+                    </div>
+                </div>
+
+                <div class="card" v-for="(section) in sections.sidebar" :key="section.handle">
+                    <div class="card__header">
+                        <h3 class="card__title">{{ section.name }}</h3>
+                        <p v-if="section.description" class="card__subtitle">{{ section.description }}</p>
+                    </div>
+
+                    <div class="card__body">
+                        <!-- Loop through each section field -->
+                        <component
+                            :is="field.type.id + '-fieldtype'"
+                            :field="field"
+                            v-model="form[field.handle]"
+                            v-for="field in section.fields" :key="field.handle">
+                        </component>
                     </div>
                 </div>
 
@@ -250,48 +281,68 @@
                     toast(response.response.data.message, 'failed')
                 })
             },
-
-            getEntry(to, from, next) {
-                let vm = this
-
-                axios.get('/api/collections/' + to.params.collection + '/' + to.params.id).then((response) => {
-                    vm.collection = response.data.data.matrix
-                    vm.entry = response.data.data.entry
-
-                    let fields = {
-                        name: vm.entry.name,
-                        slug: vm.entry.slug,
-                        status: vm.entry.status,
-                    }
-
-                    if (vm.collection.fieldset) {
-                        _.forEach(vm.collection.fieldset.sections, function(section) {
-                            _.forEach(section.fields, function(field) {
-                                Vue.set(fields, field.handle, vm.entry[field.handle])
-                            })
-                        })
-                    }
-
-                    vm.form = new Form(fields, true)
-
-                    vm.$emit('updateHead')
-                }).catch(function(error) {
-                    vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
-                    toast('The requested entry could not be found', 'warning')
-                })
-            },
         },
 
         beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm.getEntry(to, from, next)
+            getEntry(to.params.collection, to.params.id, (error, entry, matrix, fields) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
+
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.collection = matrix
+                        vm.entry = entry
+                        vm.form = new Form(fields, true)
+
+                        vm.$emit('updateHead')
+                    })
+                }
             })
         },
 
-        beforeRouteUpdate(to,from,next) {
-            this.getEntry(to, from, next)
+        beforeRouteUpdate(to, from, next) {
+            getEntry(to.params.collection, to.params.id, (error, entry, matrix, fields) => {
+                if (error) {
+                    this.$router.push('/collections/' + this.$router.currentRoute.params.collection)
+
+                    toast(error.toString(), 'danger')
+                } else {
+                    this.collection = matrix
+                    this.entry = entry
+                    this.form = new Form(fields, true)
+
+                    this.$emit('updateHead')
+                }
+            })
 
             next()
         }
+    }
+
+    export function getEntry(collection, id, callback) {
+        axios.get('/api/collections/' + collection + '/' + id).then((response) => {
+            let matrix = response.data.data.matrix
+            let entry = response.data.data.entry
+            let fields = {
+                name: entry.name,
+                slug: entry.slug,
+                status: entry.status,
+            }
+
+            if (matrix.fieldset) {
+                _.forEach(matrix.fieldset.sections, function(section) {
+                    _.forEach(section.fields, function(field) {
+                        fields[field.handle] = entry[field.handle]
+                    })
+                })
+            }
+
+            callback(null, entry, matrix, fields)
+        }).catch(function(error) {
+            callback(new Error('The requested entry could not be found'))
+        })
     }
 </script>

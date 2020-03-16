@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <p-input
-            :name="field.handle"
-            :label="field.name"
-            :help="field.help"
-            :placeholder="field.settings.placeholder"
-            :value="value"
-            @input="$emit('input', $event)"
-        ></p-input>
-    </div>
+    <p-input
+        :name="field.handle"
+        :label="field.name"
+        :help="field.help"
+        :placeholder="field.settings.placeholder"
+        :value="value"
+        @input="$emit('input', $event)"
+    ></p-input>
 </template>
 
 <script>
@@ -28,4 +26,3 @@
         },
     }
 </script>
-

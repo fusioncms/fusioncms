@@ -51,7 +51,7 @@ class Collection extends Builder implements BuilderContract
         $className     = Str::studly($this->matrix->handle);
         $traits        = [];
         $fillable      = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
-        $casts         = [];
+        $casts         = ['status' => 'boolean'];
         $fields        = [];
 
         if ($this->matrix->fieldset) {

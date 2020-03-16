@@ -1,13 +1,39 @@
 <template>
-    <div class="form__group">
+    <div class="field">
+        <label
+            class="field__label"
+            :for="name"
+            v-if="label"
+            v-html="label">
+        </label>
+
+        <span class="toggle__wrap"
+            :class="[computedValue ? 'toggle__wrap--checked' : 'toggle__wrap--unchecked']">
+            <input
+                class="field__toggle"
+                type="checkbox"
+                :name="name"
+                :id="id"
+                :disabled="disabled"
+                :required="required"
+                :indeterminate.prop="indeterminate"
+                :value="nativeValue"
+                :true-value="trueValue"
+                :false-value="falseValue"
+                v-model="computedValue"
+            >
+        </span>
+    </div>
+
+    <!-- <div class="form__group">
         <label
             class="form__label"
             :for="name"
             v-if="label"
             v-html="label">
         </label>
-        
-        <span class="toggle__wrap" 
+
+        <span class="toggle__wrap"
             :class="[isChecked ? 'toggle__wrap--checked' : 'toggle__wrap--unchecked']">
             <input
                 type="checkbox"
@@ -22,13 +48,13 @@
                 @click="toggle"
             >
         </span>
-            
+
         <p
             class="form__help"
             v-if="help"
             v-html="help"
         ></p>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -37,51 +63,75 @@
 
         data() {
             return {
-                isChecked: this.checked,
+                newValue: this.value,
             }
         },
 
         props: {
-            name: String,
+            name: {
+                required: true,
+                type: String,
+            },
+
             label: String,
             help: String,
 
-            checked: {
-                required: false,
-                type: Boolean,
-                default: false,
+            id: {
+                required: false
             },
 
             value: {
                 required: false,
-                type: String | Boolean,
-                default: true,
+                type: [String, Number, Boolean, Function, Object, Array, Symbol],
             },
-            
-            required: {
+
+            nativeValue: {
                 required: false,
-                type: Boolean,
-                default: false,
+                type: [String, Number, Boolean, Function, Object, Array, Symbol],
             },
-            
-            readonly: {
-                required: false,
-                type: Boolean,
-                default: false,
-            },
-            
+
             disabled: {
-                required: false,
                 type: Boolean,
                 default: false,
+            },
+
+            required: {
+                type: Boolean,
+                default: false,
+            },
+
+            indeterminate: {
+                type: Boolean,
+                default: false,
+            },
+
+            trueValue: {
+                type: [String, Number, Boolean, Function, Object, Array],
+                default: true
+            },
+
+            falseValue: {
+                type: [String, Number, Boolean, Function, Object, Array],
+                default: false
             },
         },
 
-        methods: {
-            toggle() {
-                this.isChecked = ! this.isChecked
+        computed: {
+            computedValue: {
+                get() {
+                    return this.newValue
+                },
 
-                this.$emit("input", this.isChecked)
+                set(value) {
+                    this.newValue = value
+                    this.$emit('input', value)
+                }
+            },
+        },
+
+        watch: {
+            value(value) {
+                this.newValue = value
             }
         }
     }

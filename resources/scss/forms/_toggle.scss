@@ -1,0 +1,80 @@
+.field__toggle {
+    @apply
+        cursor-pointer
+        opacity-0
+        absolute
+        w-full
+        h-full
+        z-10
+    ;
+}
+
+.toggle {
+    &__wrap {
+        @apply
+            border-gray-300
+            cursor-pointer
+            flex-shrink-0
+            rounded-full
+            inline-flex
+            relative
+            border-2
+            w-11
+            h-6
+        ;
+
+        &.toggle__wrap--checked {
+            @apply
+                border-success-500
+            ;
+        }
+
+        &:focus-within {
+            @apply
+                outline-none
+                shadow-focus
+            ;
+        }
+
+        &:before {
+            @apply
+                inline-block
+                rounded-full
+                bg-gray-300
+                h-full
+                w-full
+            ;
+
+            content: "";
+            transition: background-color 0.2s ease;
+        }
+
+        &:after {
+            @apply
+                rounded-full
+                absolute
+                bg-white
+                left-0
+                top-0
+                h-5
+                w-5
+            ;
+
+            content: "";
+            transform: translateX(0);
+            transition: transform 0.2s ease;
+        }
+
+        &--checked:before {
+            @apply
+                bg-success-500
+            ;
+
+            transition: border-color 0.2s ease;
+        }
+
+        &--checked:after {
+            transform: translateX(20px);
+        }
+    }
+}
