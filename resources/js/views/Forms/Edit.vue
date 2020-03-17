@@ -27,7 +27,6 @@
                 fieldset: null,
                 resource: null,
                 form: new Form({
-                    id: 0,
                     name: '',
                     handle: '',
                     description: '',
@@ -65,8 +64,8 @@
                 let fieldsetForm = {}
                 fieldsetForm.sections = this.form.fieldset.sections
 
-                axios.post(`/api/fieldsets/${this.form.fieldset.id}/sections`, fieldsetForm).then((response) => {
-                    this.form.patch('/api/forms/' + this.form.id).then((response) => {
+                axios.post(`/api/fieldsets/${this.resource.fieldset.id}/sections`, fieldsetForm).then((response) => {
+                    this.form.patch('/api/forms/' + this.resource.id).then((response) => {
                         toast('Form successfully saved', 'success')
 
                         this.$router.push('/forms')
@@ -95,7 +94,6 @@
                     next((vm) => {
                         vm.resource = form
                         vm.form = new Form({
-                            id: form.id,
                             name: form.name,
                             handle: form.handle,
                             description: form.description,

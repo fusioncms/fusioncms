@@ -29,24 +29,24 @@
                     description: '',
 
                     fieldset: {},
-                    
+
                     collect_email_addresses: false,
                     collect_ip_addresses: false,
                     response_receipt: false,
-                    
+
                     message: '',
                     redirect_on_submission: false,
                     redirect_url: '',
 
                     enable_recaptcha: false,
                     enable_honeypot: false,
-                    
+
                     send_to: '',
                     reply_to: '',
-                    
+
                     form_template: '',
                     thankyou_template: '',
-                    
+
                     status: true,
                 }, true)
             }
