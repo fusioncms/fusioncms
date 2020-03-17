@@ -4,7 +4,7 @@
 			<app-title icon="paper-plane">Edit Form</app-title>
 		</portal>
 
-        <shared-form :form="form" :submit="submit" :id="id" :fieldset="fieldset" @sectionBuilderInput="sectionChange()"></shared-form>
+        <shared-form :form="form" :resource="resource" :submit="submit" :fieldset="fieldset" @sectionBuilderInput="sectionChange()"></shared-form>
     </div>
 </template>
 
@@ -25,31 +25,33 @@
             return {
                 id: null,
                 fieldset: null,
+                resource: null,
                 form: new Form({
+                    id: 0,
                     name: '',
                     handle: '',
                     description: '',
 
                     fieldset: {},
-                    
-                    collect_email_addresses: false,
-                    collect_ip_addresses: false,
-                    response_receipt: false,
-                    
+
+                    collect_email_addresses: 0,
+                    collect_ip_addresses: 0,
+                    response_receipt: 0,
+
                     message: '',
-                    redirect_on_submission: false,
+                    redirect_on_submission: 0,
                     redirect_url: '',
 
-                    enable_recaptcha: false,
-                    enable_honeypot: false,
-                    
+                    enable_recaptcha: 0,
+                    enable_honeypot: 0,
+
                     send_to: '',
                     reply_to: '',
-                    
+
                     form_template: '',
                     thankyou_template: '',
-                    
-                    status: true,
+
+                    status: 1,
                 }, true)
             }
         },
@@ -64,14 +66,14 @@
                 fieldsetForm.sections = this.form.fieldset.sections
 
                 axios.post(`/api/fieldsets/${this.form.fieldset.id}/sections`, fieldsetForm).then((response) => {
-                    this.form.patch('/api/forms/' + this.id).then((response) => {
+                    this.form.patch('/api/forms/' + this.form.id).then((response) => {
                         toast('Form successfully saved', 'success')
 
                         this.$router.push('/forms')
                     }).catch((response) => {
                         toast(response.message, 'failed')
                     })
-                })                
+                })
             },
 
             sectionChange() {
@@ -82,44 +84,56 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/forms/' + to.params.form),
-            ]).then(axios.spread(function (form) {
-                next(function(vm) {
-                    vm.id = form.data.data.id
+            getForm(to.params.form, (error, form) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/forms')
 
-                    vm.form.name = form.data.data.name
-                    vm.form.handle = form.data.data.handle
-                    vm.form.description = form.data.data.description
-
-                    vm.form.fieldset = form.data.data.fieldset
-                    
-                    vm.form.collect_email_addresses = form.data.data.collect_email_addresses
-                    vm.form.collect_ip_addresses = form.data.data.collect_ip_addresses
-                    vm.form.response_receipt = form.data.data.response_receipt
-                    
-                    vm.form.message = form.data.data.message
-                    vm.form.redirect_on_submission = form.data.data.redirect_on_submission
-                    vm.form.redirect_url = form.data.data.redirect_url
-
-                    vm.form.enable_recaptcha = form.data.data.enable_recaptcha
-                    vm.form.enable_honeypot = form.data.data.enable_honeypot
-                    
-                    vm.form.send_to = form.data.data.send_to
-                    vm.form.reply_to = form.data.data.reply_to
-                    
-                    vm.form.form_template = form.data.data.form_template
-                    vm.form.thankyou_template = form.data.data.thankyou_template
-                    
-                    vm.form.status = form.data.data.status
-
-                    vm.$emit('updateHead')
-
-                    vm.$nextTick(function(){
-                        vm.form.resetChangeListener()
+                        toast(error.toString(), 'danger')
                     })
-                })
-            }))
+                } else {
+                    next((vm) => {
+                        vm.resource = form
+                        vm.form = new Form({
+                            id: form.id,
+                            name: form.name,
+                            handle: form.handle,
+                            description: form.description,
+
+                            fieldset: form.fieldset,
+
+                            collect_email_addresses: form.collect_email_addresses,
+                            collect_ip_addresses: form.collect_ip_addresses,
+                            response_receipt: form.response_receipt,
+
+                            message: form.message,
+                            redirect_on_submission: form.redirect_on_submission,
+                            redirect_url: form.redirect_url,
+
+                            enable_recaptcha: form.enable_recaptcha,
+                            enable_honeypot: form.enable_honeypot,
+
+                            send_to: form.send_to,
+                            reply_to: form.reply_to,
+
+                            form_template: form.form_template,
+                            thankyou_template: form.thankyou_template,
+
+                            status: form.status,
+                        }, true)
+
+                        vm.$emit('updateHead')
+                    })
+                }
+            })
         },
+    }
+
+    export function getForm(form, callback) {
+        axios.get('/api/forms/' + form).then((response) => {
+            callback(null, response.data.data)
+        }).catch(function(error) {
+            callback(new Error('The requested form could not be found'))
+        })
     }
 </script>

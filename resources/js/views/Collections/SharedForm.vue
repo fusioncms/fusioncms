@@ -1,9 +1,10 @@
 <template>
     <form-container>
         <portal to="actions">
-            <router-link v-if="collection.slug" :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button mr-1">Go Back</router-link>
-
-            <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+            <div class="buttons">
+                <router-link v-if="collection.slug" :to="{ name: 'entries.index', params: {collection: collection.slug} }" class="button">Go Back</router-link>
+                <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+            </div>
         </portal>
 
         <div class="card">

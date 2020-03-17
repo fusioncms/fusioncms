@@ -23,7 +23,7 @@
                                 <span class="font-mono text-xs uppercase">{{ field.type.name }}</span>
                             </div>
 
-                            <p-actions>
+                            <p-actions :id="field.handle + '_actions'">
                                 <p-dropdown-link @click.prevent="edit(index)" v-modal:edit-field>Edit</p-dropdown-link>
                                 <p-dropdown-link @click.prevent="remove(index)">Delete</p-dropdown-link>
                             </p-actions>
