@@ -4,10 +4,10 @@
 			<fa-icon class="fa-fw" :icon="['fas', 'bolt']"></fa-icon>
 			
 			<template slot="options">
-				<p-dropdown-item class="w-48" @click.prevent="clearSelection"><fa-icon :icon="['fas', 'minus-square']"></fa-icon> Unselect All</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-if="singleSelection" v-modal:rename-file><fa-icon :icon="['fas', 'tag']"></fa-icon> Rename File</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-modal:move-file><fa-icon :icon="['fas', 'exchange-alt']"></fa-icon> Move Selected</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-modal:delete><fa-icon :icon="['fas', 'trash']"></fa-icon> Delete Selected</p-dropdown-item>
+				<p-dropdown-item class="w-48" @click.prevent="clearSelection"><fa-icon :icon="['fas', 'minus-square']" class="mr-2"></fa-icon> Unselect All</p-dropdown-item>
+				<p-dropdown-item class="w-48" v-if="singleSelection" v-modal:rename-file><fa-icon :icon="['fas', 'tag']" class="mr-2"></fa-icon> Rename File</p-dropdown-item>
+				<p-dropdown-item class="w-48" v-modal:move-file><fa-icon :icon="['fas', 'exchange-alt']" class="mr-2"></fa-icon> Move Selected</p-dropdown-item>
+				<p-dropdown-item class="w-48" v-modal:delete><fa-icon :icon="['fas', 'trash']" class="mr-2"></fa-icon> Delete Selected</p-dropdown-item>
 			</template>
 		</p-dropdown>
 
@@ -28,10 +28,11 @@
 		computed: {
 			...mapGetters({
 				selectedDirectories: 'filemanager/getSelectedDirectories',
-                selectedFiles: 'filemanager/getSelectedFiles',
-				hasSelection: 'filemanager/hasSelection',			
-				directories: 'filemanager/getDirectories',			
-				files: 'filemanager/getFiles',			
+				selectionCount:      'filemanager/selectionCount', 
+                selectedFiles:       'filemanager/getSelectedFiles',
+				hasSelection:        'filemanager/hasSelection',
+				directories:         'filemanager/getDirectories',			
+				files:               'filemanager/getFiles',			
 			}),
 
 			singleSelection() {
@@ -49,7 +50,7 @@
 		methods: {
 			...mapActions({
 				clearDirectorySelection: 'filemanager/clearDirectorySelection',
-				clearFileSelection: 'filemanager/clearFileSelection',
+				clearFileSelection:      'filemanager/clearFileSelection',
 			}),
 
 			clearSelection() {

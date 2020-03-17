@@ -92,6 +92,10 @@ export default {
             return (state.selected.files.length + state.selected.directories.length) > 0
         },
 
+        selectionCount(state) {
+            return state.selected.files.length + state.selected.directories.length
+        },
+
         getCurrentPage(state) {
             return state.currentPage
         },
