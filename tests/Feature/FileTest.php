@@ -255,7 +255,7 @@ class FileTest extends TestCase
         $file      = factory(File::class)->states('image')->create();
         $directory = factory(Directory::class)->create();
 
-        $r = $this
+        $this
             ->be($this->admin, 'api')
             ->json('POST', 'api/files/move', [
                 'directory' => $directory->id,
