@@ -103,7 +103,7 @@
         <div class="card" v-if="! records.length">
             <slot name="empty-state">
                 <div class="card__body text-center">
-                    <h3>No results found.</h3>
+                    <h3 class="m-0">No results found.</h3>
                 </div>
             </slot>
         </div>

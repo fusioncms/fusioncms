@@ -17,8 +17,10 @@
             >
         </div>
 
-        <p class="field__help" v-if="help" v-html="help"></p>
-        <p class="field__help field__help--danger" v-if="errorMessage" v-html="errorMessage"></p>
+        <div class="mx-6">
+            <p class="field__help" v-if="help" v-html="help"></p>
+            <p class="field__help field__help--danger" v-if="errorMessage" v-html="errorMessage"></p>
+        </div>
     </div>
 </template>
 

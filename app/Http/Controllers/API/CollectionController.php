@@ -59,13 +59,14 @@ class CollectionController extends Controller
         $collection = (new Collection($matrix->handle))->make();
 
         $relationships = [];
-        $rules         = [
-            'name'   => 'sometimes',
-            'slug'   => 'sometimes',
-            'status' => 'required|boolean',
-        ];
+        $rules         = ['status' => 'required|boolean'];
 
-        if(isset($matrix->fieldset)) {
+        if ($matrix->show_name_field) {
+            $rules['name'] = 'required';
+            $rules['slug'] = 'required';
+        }
+
+        if (isset($matrix->fieldset)) {
             $fields        = $matrix->fieldset->database();
             $relationships = $matrix->fieldset->relationships();
 
@@ -116,11 +117,12 @@ class CollectionController extends Controller
         $matrix = Matrix::where('slug', $matrix)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);
-        $rules  = [
-            'name'     => 'sometimes',
-            'slug'     => 'sometimes',
-            'status'   => 'required|boolean',
-        ];
+        $rules  = ['status' => 'required|boolean'];
+
+        if ($matrix->show_name_field) {
+            $rules['name'] = 'required';
+            $rules['slug'] = 'required';
+        }
 
         if(isset($matrix->fieldset)) {
             foreach ($matrix->fieldset->database() as $field) {
