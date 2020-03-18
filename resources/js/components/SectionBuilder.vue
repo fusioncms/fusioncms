@@ -1,13 +1,13 @@
 <template>
     <div class="tabs">
-        <ul class="tab__list">
-            <li v-for="(section, index) in sections" :key="index" class="tab flex-1 border-r border-gray-200" :class="{ 'tab--active': index == active }">
+        <ul class="tab__list overflow-x-scroll">
+            <li v-for="(section, index) in sections" :key="index" class="tab flex-shrink-0 flex-1 border-r border-gray-200" :class="{ 'tab--active': index == active }">
                 <a href="#" class="tab__link flex justify-between items-center" @click.prevent="select(index, true)">
                     <span>{{ section.name }} <span class="text-xs">({{ section.placement }}, {{ fieldCount(section.fields.length) }})</span></span>
                     <span @click.prevent="remove(index)" v-if="sections.length > 1" class="flex items-center justify-center w-6 h-6 rounded hover:bg-black hover:text-white"><fa-icon icon="times" class="fa-xs"></fa-icon></span>
                 </a>
             </li>
-            
+
             <li class="tab">
                 <a href="#" class="tab__link" @click.prevent="add"><fa-icon icon="plus" class="fa-fw text-xs"></fa-icon></a>
             </li>
@@ -16,9 +16,9 @@
         <div class="tab__panel" v-for="(section, index) in sections" :key="index" v-show="isSelected(index)">
             <div class="row">
                 <div class="col mb-6 w-full lg:w-1/2">
-                    <p-input 
-                        name="label" 
-                        label="Section Label" 
+                    <p-input
+                        name="label"
+                        label="Section Label"
                         v-model="section.name"
                         required>
                     </p-input>

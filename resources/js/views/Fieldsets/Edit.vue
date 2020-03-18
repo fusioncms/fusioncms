@@ -4,9 +4,7 @@
             <app-title icon="list">Edit Fieldset</app-title>
         </portal>
 
-        <div class="row">
-            <shared-form :form="form"></shared-form>
-        </div>
+        <shared-form :form="form" :resource="resource"></shared-form>
     </div>
 </template>
 
@@ -42,11 +40,11 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/fieldsets/' + this.id).then((response) => {
+                this.form.patch('/api/fieldsets/' + this.resource.id).then((response) => {
                     let formData = {}
                     formData.sections = this.sections
 
-                    axios.post(`/api/fieldsets/${this.id}/sections`, formData).then((response) => {
+                    axios.post(`/api/fieldsets/${this.resource.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully updated', 'success')
 
                         this.$router.push('/fieldsets')
@@ -66,25 +64,58 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/fieldsets/' + to.params.fieldset),
-            ]).then(axios.spread(function (fieldset) {
-                next(function(vm) {
-                    vm.id = fieldset.data.data.id
-                    vm.sections = fieldset.data.data.sections
-                    vm.originalSections = _.cloneDeep(vm.sections)
-                    vm.form.name = fieldset.data.data.name
-                    vm.form.handle = fieldset.data.data.handle
-                    vm.loaded = true
+            getFieldset(to.params.fieldset, (error, fieldset) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/fieldsets')
 
-                    vm.$emit('updateHead')
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.resource = fieldset
+                        vm.sections = fieldset.sections
+                        vm.originalSections = _.cloneDeep(vm.sections)
+                        vm.form = new Form({
+                            name: fieldset.name,
+                            handle: fieldset.handle,
+                        }, true)
 
-                    vm.form.resetChangeListener()
-                })
-            })).catch(function(error) {
-                next('/fieldsets')
-                toast('The requested fieldset could not be found', 'warning')
+                        vm.loaded = true
+
+                        vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
+                    })
+                }
             })
+
+            // axios.all([
+            //     axios.get('/api/fieldsets/' + to.params.fieldset),
+            // ]).then(axios.spread(function (fieldset) {
+            //     next(function(vm) {
+            //         vm.id = fieldset.data.data.id
+            //         vm.sections = fieldset.data.data.sections
+            //         vm.originalSections = _.cloneDeep(vm.sections)
+            //         vm.form.name = fieldset.data.data.name
+            //         vm.form.handle = fieldset.data.data.handle
+            //         vm.loaded = true
+
+            //         vm.$emit('updateHead')
+
+            //         vm.form.resetChangeListener()
+            //     })
+            // })).catch(function(error) {
+            //     next('/fieldsets')
+            //     toast('The requested fieldset could not be found', 'warning')
+            // })
         }
+    }
+
+    export function getFieldset(fieldset, callback) {
+        axios.get('/api/fieldsets/' + fieldset).then((response) => {
+            callback(null, response.data.data)
+        }).catch(function(error) {
+            callback(new Error('The requested fieldset could not be found'))
+        })
     }
 </script>

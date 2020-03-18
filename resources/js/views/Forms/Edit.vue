@@ -121,6 +121,7 @@
                         }, true)
 
                         vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
                     })
                 }
             })

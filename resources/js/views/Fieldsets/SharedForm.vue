@@ -1,51 +1,65 @@
 <template>
-	<div class="content-container">
-		<form @submit.prevent>
-			<p-pane>
-				<template v-slot:side>
-					<p-pane-title>General Information</p-pane-title>
-					<!-- <p-pane-subtitle>General information about the fieldset.</p-pane-subtitle> -->
-				</template>
+	<form-container>
+		<portal to="actions">
+			<div class="buttons">
+				<router-link :to="{ name: 'fieldsets' }" class="button">Go Back</router-link>
+				<button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+			</div>
+		</portal>
 
-				<p-input
-					name="name"
-					label="Name"
-					help="What this fieldset will be called."
-					autocomplete="off"
-					autofocus
-					required
-					:has-error="form.errors.has('name')"
-					:error-message="form.errors.get('name')"
-					v-model="form.name">
-				</p-input>
+		<div class="card">
+            <div class="card__body">
+				<p-title
+                    name="name"
+                    autocomplete="off"
+                    autofocus
+                    required
+                    :has-error="form.errors.has('name')"
+                    :error-message="form.errors.get('name')"
+                    v-model="form.name">
+                </p-title>
 
-				<p-slug
-					name="handle"
-					label="Handle"
-					help="A developer-friendly variant of the fieldset's name."
-					autocomplete="off"
-					required
-					delimiter="_"
-					:watch="form.name"
-					:has-error="form.errors.has('handle')"
-					:error-message="form.errors.get('handle')"
-					v-model="form.handle">
-				</p-slug>
-			</p-pane>
+				<section-builder class="mt-6" v-model="sections" @input="$parent.sectionsChanged"></section-builder>
+			</div>
+		</div>
 
-			<section-builder class="mt-6" v-model="sections" @input="$parent.sectionsChanged"></section-builder>
+		<template v-slot:sidebar>
+            <div class="card">
+                <div class="card__body">
+					<p-slug
+						name="handle"
+						label="Handle"
+						autocomplete="off"
+						required
+						delimiter="_"
+						:watch="form.name"
+						:has-error="form.errors.has('handle')"
+						:error-message="form.errors.get('handle')"
+						v-model="form.handle">
+					</p-slug>
+				</div>
+            </div>
 
-			<portal to="actions">
-			    <router-link :to="{ name: 'fieldsets' }" class="button mr-3">Go Back</router-link>
-			    <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
-			</portal>
-		</form>
-	</div>
+			<p-definition-list v-if="resource">
+                <p-definition name="Created At">
+                    {{ $moment(resource.created_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+
+                <p-definition name="Updated At">
+                    {{ $moment(resource.updated_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+            </p-definition-list>
+		</template>
+	</form-container>
 </template>
 
 <script>
     export default {
     	props: {
+			resource: {
+				required: false,
+			},
+
     		form: {
     			type: Object,
     			required: true,
