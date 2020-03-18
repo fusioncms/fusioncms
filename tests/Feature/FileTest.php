@@ -149,7 +149,7 @@ class FileTest extends TestCase
      * @group feature
      * @group file
      */
-    public function at_least_a_name_or_description_must_be_provided_with_update_request()
+    public function a_name_must_be_provided_with_an_update_request()
     {
         $file = factory(File::class)->states('image')->create();
 
@@ -158,8 +158,7 @@ class FileTest extends TestCase
             ->json('PATCH', 'api/files/' . $file->id, [])
             ->assertStatus(422)
             ->assertJsonValidationErrors([
-                'name'        => 'At least a name is required',
-                'description' => 'At least a description is required'
+                'name' => 'The name field is required.',
             ]);
     }
 
