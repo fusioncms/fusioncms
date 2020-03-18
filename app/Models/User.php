@@ -16,6 +16,9 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\HasDynamicRelationships;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Concerns\MustVerifyEmail as UserMustVerifyEmail;
@@ -28,7 +31,9 @@ class User extends Authenticatable implements MustVerifyEmail
         HasApiTokens,
         Notifiable,
         HasDynamicRelationships,
-        IsSearchable;
+        IsSearchable,
+        LogsActivity,
+        CausesActivity;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -135,23 +140,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return "//www.gravatar.com/avatar/{$email}?s={$size}";
     }
 
-    /**
-     * A user has many activities.
-     *
-     * @return self
-     */
-    public function activity()
-    {
-        return $this->hasMany(config('activitylog.activity_model'), 'causer_id');
-    }
-
     public function getRoleAttribute()
     {
         return $this->roles->first();
     }
 
     /**
-     * Scope a query to only include popular users.
+     * Scope to query resource.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -161,5 +156,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query
             ->where('name', 'like', "%{$value}%")
             ->orWhere('email', 'like', "%{$value}%");
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'users'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "users/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} user account ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

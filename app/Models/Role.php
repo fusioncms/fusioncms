@@ -13,13 +13,15 @@ namespace App\Models;
 
 use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Caffeinated\Shinobi\Concerns\HasPermissions;
 use Caffeinated\Shinobi\Contracts\Role as RoleContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model implements RoleContract
 {
-    use HasPermissions, IsSearchable;
+    use HasPermissions, IsSearchable, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -62,5 +64,26 @@ class Role extends Model implements RoleContract
         }
 
         return true;
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'id-badge'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "roles/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} user role ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

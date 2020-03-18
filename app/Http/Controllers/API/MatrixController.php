@@ -12,8 +12,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Matrix;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\MatrixRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MatrixResource;
 
@@ -65,34 +65,16 @@ class MatrixController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\MatrixRequest  $request
+     * @return \App\Http\Resources\MatrixResource
      */
-    public function store(Request $request)
+    public function store(MatrixRequest $request)
     {
-        $this->authorize('matrices.create');
+        $matrix = Matrix::create($request->validated());
 
-        $attributes = collect($request->validate($this->rules()));
-
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $matrix = Matrix::create($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset')) {
-            $matrix->attachFieldset($attributes->get('fieldset'));
+        if ($request->fieldset) {
+            $matrix->attachFieldset($request->fieldset);
         }
-
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-                'link' => 'matrices/'.$matrix->id.'/edit',
-            ])
-            ->log('Created matrix (:subject.name)');
-
-        // Build model class
-        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
-        $model   = (new $builder($matrix->handle))->make();
 
         return new MatrixResource($matrix);
     }
@@ -100,37 +82,19 @@ class MatrixController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Matrix  $matrix
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\MatrixRequest  $request
+     * @param  \App\Models\Matrix                $matrix
+     * @return \App\Http\Resources\MatrixResource
      */
-    public function update(Request $request, Matrix $matrix)
+    public function update(MatrixRequest $request, Matrix $matrix)
     {
-        $this->authorize('matrices.update');
+        $matrix->update($request->validated());
 
-        $attributes = collect($request->validate($this->rules($matrix->id)));
-
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $matrix->update($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset') && (!isset($matrix->fieldset) || ($matrix->fieldset->id !== $attributes->get('fieldset')))) {
-            $matrix->attachFieldset($attributes->get('fieldset'));
-        } else if (!$attributes->get('fieldset')) {
+        if ($request->fieldset && (! isset($matrix->fieldset) || $matrix->fieldset->id !== $request->fieldset)) {
+            $matrix->attachFieldset($request->fieldset);
+        } else if (! $request->fieldset) {
             $matrix->detachFieldset();
         }
-
-        // Build model class
-        $builder = 'App\\Services\\Builders\\' . Str::studly($matrix->type);
-        $model   = (new $builder($matrix->handle))->make();
-
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-                'link' => 'matrices/'.$matrix->id.'/edit',
-            ])
-            ->log('Updated matrix (:subject.name)');
 
         return new MatrixResource($matrix);
     }
@@ -139,53 +103,12 @@ class MatrixController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Matrix  $matrix
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Matrix $matrix)
     {
         $this->authorize('matrices.delete');
 
-        activity()
-            ->performedOn($matrix)
-            ->withProperties([
-                'icon' => 'hashtag',
-            ])
-            ->log('Deleted matrix (:subject.name)');
-
         $matrix->delete();
-    }
-
-    /**
-     * Validation rules used for create and update actions.
-     *
-     * @return array
-     */
-    protected function rules($id = null)
-    {
-        return [
-            'parent_id'          => 'sometimes|not_in:'.$id,
-            'name'               => 'required|regex:/^[A-z]/i',
-            'handle'             => 'required',
-            'description'        => 'sometimes',
-            'type'               => 'required',
-            'fieldset'           => 'sometimes',
-
-            'reference_singular' => 'sometimes',
-            'reference_plural'   => 'sometimes',
-
-            'sidebar'            => 'required|boolean',
-            'quicklink'          => 'required|boolean',
-            'icon'               => 'sometimes',
-
-            'show_name_field'   => 'required|boolean',
-            'name_label'        => 'sometimes',
-            'name_format'       => 'required_if:show_name_field,false',
-
-            'route'              => 'sometimes',
-            'template'           => 'sometimes',
-
-            'revision_control'   => 'required|boolean',
-            'publishable'        => 'required|boolean',
-        ];
     }
 }

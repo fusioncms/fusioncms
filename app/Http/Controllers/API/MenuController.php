@@ -12,30 +12,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Menu;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\MenuRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
 
 class MenuController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name'        => 'required|regex:/^[A-z]/i',
-        'handle'      => 'required',
-        'description' => 'sometimes',
-    ];
-
-    /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -50,7 +38,7 @@ class MenuController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Responses\MenuResource
      */
     public function show(Menu $menu)
     {
@@ -62,24 +50,12 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\MenuRequest  $request
+     * @return \App\Http\Responses\MenuResource
      */
-    public function store(Request $request)
+    public function store(MenuRequest $request)
     {
-        $this->authorize('menus.create');
-
-        $attributes = collect($request->validate($this->rules));
-
-        $menu = Menu::create($attributes->all());
-
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/edit',
-            ])
-            ->log('Created menu (:subject.name)');
+        $menu = Menu::create($request->validated());
 
         return new MenuResource($menu);
     }
@@ -87,25 +63,13 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MenuRequest  $request
      * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Responses\MenuResource
      */
-    public function update(Request $request, Menu $menu)
+    public function update(MenuRequest $request, Menu $menu)
     {
-        $this->authorize('menus.update');
-
-        $attributes = collect($request->validate($this->rules));
-
-        $menu->update($attributes->all());
-
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/edit',
-            ])
-            ->log('Updated menu (:subject.name)');
+        $menu->update($request->validated());
 
         return new MenuResource($menu);
     }
@@ -114,18 +78,11 @@ class MenuController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Menu $menu)
     {
         $this->authorize('menus.delete');
-
-        activity()
-            ->performedOn($menu)
-            ->withProperties([
-                'icon' => 'anchor',
-            ])
-            ->log('Deleted menu (:subject.name)');
 
         $menu->delete();
     }

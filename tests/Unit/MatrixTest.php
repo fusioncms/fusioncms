@@ -15,6 +15,8 @@ use App\Models\Matrix;
 use App\Models\Fieldset;
 use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -22,7 +24,11 @@ class MatrixTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_a_fieldset()
     {
         $matrix   = factory(Matrix::class)->create();
@@ -33,7 +39,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Fieldset::class, $matrix->fieldset);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_a_parent()
     {
         $parent = factory(Matrix::class)->create();
@@ -45,7 +55,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Matrix::class, $matrix->parent);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_matrix_can_have_children()
     {
         $matrix = factory(Matrix::class)->create();
@@ -57,7 +71,11 @@ class MatrixTest extends TestCase
         $this->assertInstanceOf(Matrix::class, $matrix->children->first());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function a_database_table_is_created_with_a_matrix()
     {
         MatrixFactory::withName('Posts')
@@ -66,7 +84,11 @@ class MatrixTest extends TestCase
         $this->assertDatabaseHasTable('mx_posts');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
     public function the_database_table_is_renamed_when_renaming_a_collection()
     {
         $collection = MatrixFactory::withName('Blog')
@@ -79,5 +101,41 @@ class MatrixTest extends TestCase
         $collection->save();
 
         $this->assertDatabaseHasTable('mx_posts');
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
+    public function each_matrix_must_have_a_unique_handle()
+    {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('UNIQUE constraint failed: matrices.handle');
+
+        $matrix = factory(Matrix::class)->create();
+        $matrix = $matrix->toArray();
+        $matrix['id']   = null;
+        $matrix['slug'] = 'new-slug';
+
+        DB::table('matrices')->insert($matrix);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group matrix
+     */
+    public function each_matrix_must_have_a_unique_slug()
+    {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('UNIQUE constraint failed: matrices.slug');
+
+        $matrix = factory(Matrix::class)->create();
+        $matrix = $matrix->toArray();
+        $matrix['id']     = null;
+        $matrix['handle'] = 'new-handle';
+
+        DB::table('matrices')->insert($matrix);
     }
 }

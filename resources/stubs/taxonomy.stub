@@ -13,12 +13,15 @@ namespace App\Models\Taxonomies;
 
 use App\Models\Field;
 use App\Models\Taxonomy;
+use Illuminate\Support\Str;
 use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use IsSearchable;
+    use IsSearchable, LogsActivity;
 
 	/**
      * The table associated with the model.
@@ -85,4 +88,27 @@ class {class} extends Model
     }
 
     {relationships}
+
+        /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $term       = $activity->subject;
+        $taxonomy   = $term->taxonomy;
+        $action     = ucfirst($eventName);
+        $modelName  = strtolower(Str::singular($taxonomy->name));
+        $properties = ['icon' => $taxonomy->icon];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "taxonomies/{$taxonomy->slug}/{$term->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} term ({$term->name})";
+        $activity->properties  = $properties;
+    }
 }

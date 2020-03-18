@@ -12,9 +12,13 @@
 namespace App\Models;
 
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Directory extends Model
 {
+    use LogsActivity;
+
     /**
      * Fillable fields for Directory model.
      * @var
@@ -78,8 +82,34 @@ class Directory extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    public function scopeRoots()
+    /**
+     * Scope a query to only include users of a given type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHierarchy($query, $parentId = 0)
     {
+        return $query
+            ->withCount('files')
+            ->where('parent_id', $parentId)
+            ->with('children.children');
+    }
 
+    /**
+     * Tap into activity before persisting to database.
+     * 
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void             
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject = $activity->subject;
+        $action  = ucfirst($eventName);
+
+        $activity->description = "{$action} folder ({$subject->name})";
+        $activity->properties  = ['icon' => 'folder'];
     }
 }

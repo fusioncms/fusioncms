@@ -14,9 +14,12 @@ namespace App\Http\Controllers\Api;
 use App\Models\Directory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Requests\DirectoryRequest;
 use App\Http\Resources\DirectoryResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class DirectoryController extends Controller
 {
@@ -27,14 +30,20 @@ class DirectoryController extends Controller
      */
     public function index(Request $request)
     {
-        $directories = Directory::withCount('files');
-
         if ($request->recursive) {
-            $directories = $directories->whereNull('parent_id')->with('children.children')->get();
-        } elseif ($request->directory) {
-            $directories = $directories->whereParentId($request->directory)->get();
+            $directories = Directory::hierarchy()->get();
         } else {
-            $directories = $directories->whereNull('parent_id')->get();
+            $directories = QueryBuilder::for(Directory::class)
+                ->withCount('files')
+                ->allowedFilters([
+                    AllowedFilter::exact('parent_id')->default(0),
+                    AllowedFilter::callback('search', function (Builder $query, $value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    })
+                ])
+                ->allowedSorts('name')
+                ->defaultSort('name')
+                ->get();
         }
 
         return DirectoryResource::collection($directories);
@@ -43,26 +52,12 @@ class DirectoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\DirectoryRequest  $request
+     * @return \App\Http\Resources\DirectoryResource
      */
-    public function store(Request $request)
+    public function store(DirectoryRequest $request)
     {
-        $request->validate([
-            'name'      => [
-                'required',
-                Rule::unique('directories', 'name')->where(function ($query) use ($request) {
-                    return $query->where('parent_id', $request->parent_id);
-                }),
-            ],
-            'parent_id' => $request->directory_id ? 'exists:directories,id' : '',
-        ]);
-
-        $directory = Directory::create([
-            'name'      => $request->name,
-            'slug'      => Str::slug($request->name),
-            'parent_id' => $request->parent_id,
-        ]);
+        $directory = Directory::create($request->validated());
 
         return new DirectoryResource($directory);
     }
@@ -81,26 +76,13 @@ class DirectoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DirectoryRequest  $request
      * @param  \App\Models\Directory  $directory
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\DirectoryResource
      */
-    public function update(Request $request, Directory $directory)
+    public function update(DirectoryRequest $request, Directory $directory)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-        ]);
-
-        $data = [
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-        ];
-
-        if ($request->directory_id) {
-            $data['directory_id'] = $request->directory_id;
-        }
-
-        $directory->update($data);
+        $directory->update($request->validated());
 
         return new DirectoryResource($directory);
     }

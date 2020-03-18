@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntryResource;
 use App\Services\Builders\Collection;
+use App\Http\Requests\CollectionRequest;
 
 class CollectionController extends Controller
 {
@@ -51,36 +52,20 @@ class CollectionController extends Controller
         return new EntryResource($entry);
     }
 
-    public function store(Request $request, $matrix)
+    /**
+     * Store newly created record in storage.
+     *
+     * @param  \App\Http\Requests\CollectionRequest $request
+     * @param  string $matrixSlug
+     * @return \App\Http\Resources\EntryResource
+     */
+    public function store(CollectionRequest $request, $matrixSlug)
     {
-        $this->authorize('entry.create');
+        $entry  = $request->model->create($request->validated());
+        $matrix = $request->matrix;
 
-        $matrix     = Matrix::where('slug', $matrix)->firstOrFail();
-        $collection = (new Collection($matrix->handle))->make();
-
-        $relationships = [];
-        $rules         = ['status' => 'required|boolean'];
-
-        if ($matrix->show_name_field) {
-            $rules['name'] = 'required';
-            $rules['slug'] = 'required';
-        }
-
-        if (isset($matrix->fieldset)) {
-            $fields        = $matrix->fieldset->database();
-            $relationships = $matrix->fieldset->relationships();
-
-            foreach ($fields as $field) {
-                $rules[$field->handle] = $field->validation ?: 'sometimes';
-            }
-        }
-
-        $attributes              = $request->validate($rules);
-        $attributes['matrix_id'] = $matrix->id;
-
-        $entry = $collection->create($attributes);
-
-        foreach ($relationships as $relationship) {
+        // persist relationships..
+        foreach ($request->relationships as $relationship) {
             $relationship->type()->persistRelationship($entry, $relationship);
         }
 
@@ -92,56 +77,26 @@ class CollectionController extends Controller
             $entry->save();
         }
 
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->slug.'/'.$entry->id.'/edit',
-            ])
-            ->log('Created '.Str::singular($matrix->name).' (:subject.name)');
-
         return new EntryResource($entry);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CollectionRequest $request
      * @param  string  $matrix
-     * @return \Illuminate\Http\Response
+     * @param  integer $id
+     * @return \App\Http\Resources\EntryResource
      */
-    public function update(Request $request, $matrix, $id)
+    public function update(CollectionRequest $request, $matrixSlug, $id)
     {
-        $this->authorize('entry.update');
+        $matrix = $request->matrix;
+        $entry  = $request->model->findOrFail($id);
+        $entry->update($request->validated());
 
-        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
-        $model  = (new Collection($matrix->handle))->make();
-        $entry  = $model->findOrFail($id);
-        $rules  = ['status' => 'required|boolean'];
-
-        if ($matrix->show_name_field) {
-            $rules['name'] = 'required';
-            $rules['slug'] = 'required';
-        }
-
-        if(isset($matrix->fieldset)) {
-            foreach ($matrix->fieldset->database() as $field) {
-                $rules[$field->handle] = $field->validation ?: 'sometimes';
-            }
-        }
-
-        $attributes = $request->validate($rules);
-
-        foreach ($attributes as $handle => $value) {
-            $entry->{$handle} = $value;
-        }
-
-        $entry->update($attributes);
-
-        if (isset($matrix->fieldset)) {
-            foreach ($matrix->fieldset->relationships() as $relationship) {
-                $relationship->type()->persistRelationship($entry, $relationship);
-            }
+        // persist relationships..
+        foreach ($request->relationships as $relationship) {
+            $relationship->type()->persistRelationship($entry, $relationship);
         }
 
         if (! $matrix->show_name_field) {
@@ -151,22 +106,22 @@ class CollectionController extends Controller
             $entry->save();
         }
 
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-                'link' => 'collections/'.$matrix->slug.'/'.$entry->id.'/edit',
-            ])
-            ->log('Updated '.Str::singular($matrix->name).' (:subject.name)');
-
         return new EntryResource($entry);
     }
 
-    public function destroy(Request $request, $matrix, $id)
+    /**
+     * Destroy resource from storage.
+     *
+     * @param  Request  $request
+     * @param  string   $matrixSlug
+     * @param  integer  $id
+     * @return void
+     */
+    public function destroy(Request $request, $matrixSlug, $id)
     {
         $this->authorize('entry.destroy');
 
-        $matrix = Matrix::where('slug', $matrix)->firstOrFail();
+        $matrix = Matrix::where('slug', $matrixSlug)->firstOrFail();
         $model  = (new Collection($matrix->handle))->make();
         $entry  = $model->findOrFail($id);
 
@@ -175,13 +130,6 @@ class CollectionController extends Controller
                 fieldtypes()->get($relationship->type)->destroyRelationship($entry, $relationship);
             }
         }
-
-        activity()
-            ->performedOn($entry)
-            ->withProperties([
-                'icon' => $matrix->icon,
-            ])
-            ->log('Deleted entry (:subject.name)');
 
         $entry->delete();
     }

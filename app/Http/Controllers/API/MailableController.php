@@ -64,14 +64,6 @@ class MailableController extends Controller
 
         $mailable->update($attributes);
 
-        activity()
-            ->performedOn($mailable)
-            ->withProperties([
-                'icon' => 'mail-bulk',
-                'link' => 'mailables/'.$mailable->id.'/edit',
-            ])
-            ->log('Updated mailable (:subject.name)');
-
     	return new MailableResource($mailable);
     }
 }

@@ -37,7 +37,7 @@ class ToggleFieldtype extends Fieldtype
      * @var array
      */
     public $settings = [
-        
+        'default' => false
     ];
 
     /**

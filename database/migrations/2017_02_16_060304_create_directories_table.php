@@ -23,11 +23,13 @@ class CreateDirectoriesTable extends Migration
     {
         $this->schema->create('directories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('name');
             $table->string('slug');
             $table->authors();
             $table->timestamps();
+
+            $table->unique(['parent_id', 'slug']);
         });
     }
 

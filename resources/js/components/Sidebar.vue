@@ -2,8 +2,8 @@
     <aside
         class="sidebar"
         :class="{
-            'sidebar--opened': this.isOpen,
-            'sidebar--closed': !this.isOpen
+            'sidebar--opened': isOpen,
+            'sidebar--closed': ! isOpen
         }"
     >
         <div class="flex flex-row-reverse lg:flex-row items-center justify-between lg:justify-center px-6 border-b border-gray-300" style="height: 55px;">
@@ -30,60 +30,39 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import SidebarItem from './SidebarItem.vue'
-    import SidebarToggle from './SidebarToggle.vue'
+    import SidebarItem    from './SidebarItem.vue'
+    import SidebarToggle  from './SidebarToggle.vue'
 
     export default {
         name: 'sidebar',
-
-        data() {
-            return {
-                isOpen: true,
-            }
-        },
 
         components: {
             'sidebar-item': SidebarItem,
             'sidebar-toggle': SidebarToggle,
         },
 
+        props: ['isOpen'],
+
         computed: {
             ...mapGetters({
                 user: 'user/getUser',
                 navigation: 'navigation/getNavigation',
+                settings: 'settings/getSettings',
             }),
         },
 
         methods: {
             logout() {
-                axios.get('/logout').then((response) => {
-                    window.location = '/'
-                })
-            },
-
-            toggle() {
-                this.isOpen = ! this.isOpen
-
-                this.emitEvent()
+                axios.get('/logout').then(() => window.location = '/')
             },
 
             listenForEvent() {
-                Fusion.bus.$on('toggle-sidebar', () => {
-                    this.toggle()
-                })
-            },
-
-            emitEvent() {
-                Fusion.bus.$emit('sidebar-is-open', this.isOpen)
-            },
+                Fusion.bus.$on('toggle-sidebar', () => this.$emit('toggle', ! this.isOpen))
+            }
         },
 
         created() {
             this.listenForEvent()
-        },
-
-        mounted() {
-            this.isOpen = !_.includes(['sm', 'md'], this.$mq)
         }
     }
 </script>

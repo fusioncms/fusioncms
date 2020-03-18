@@ -11,68 +11,50 @@
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
-use Facades\FieldFactory;
-use Facades\MatrixFactory;
-use Facades\SectionFactory;
-use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CollectionTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
-    /**
-     * @test
-     * @group fusioncms
-     * @group matrix
-     */
-    public function a_user_with_permissions_can_create_a_collection()
+    public function setUp(): void
     {
-        $this->actingAs($this->admin, 'api');
+        parent::setUp();
+        $this->handleValidationExceptions();
 
-        $fieldset   = factory(Fieldset::class)->create();
-        $collection = factory(Matrix::class)->make([
-            'name'     => 'Blog',
-            'handle'   => 'blog',
-            'type'     => 'collection',
-        ])->toArray();
-
-        $collection['fieldset'] = $fieldset->id;
-
-        $response = $this->json('POST', '/api/matrices', $collection);
-
-        $response->assertStatus(201);
-
-        $this->assertDatabaseHasTable('mx_blog')
-            ->assertDatabaseTableHasColumn('mx_blog', 'name')
-            ->assertDatabaseTableHasColumn('mx_blog', 'slug');
+        // --
+        $this->section      = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $this->fieldExcerpt = \Facades\FieldFactory::withName('Excerpt')->withSection($this->section)->create();
+        $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
+        $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
+        $this->matrix       = \Facades\MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->withRoute('posts/{slug}')->withTemplate('index')->create();
+        $this->model        = (new \App\Services\Builders\Collection($this->matrix->handle))->make();
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_create_a_new_entry()
     {
-        $this->actingAs($this->admin, 'api');
-
-        $this->generatePostsMatrix();
-
         $attributes = [
-            'name'    => 'Example',
-            'slug'    => 'example',
-            'excerpt' => 'This is an excerpt of the blog post.',
-            'content' => 'This is the content of the blog post.',
-            'status'  => true,
+            'name'    => 'Example Page',
+            'slug'    => 'example-page',
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
         ];
 
         $this
+            ->be($this->admin, 'api')
             ->json('POST', '/api/collections/posts', $attributes)
             ->assertStatus(201);
 
@@ -82,75 +64,72 @@ class CollectionTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
-    public function a_status_is_required_for_every_entry()
+    public function a_user_without_control_panel_access_cannot_create_new_entries()
     {
-        $this->actingAs($this->admin, 'api');
+        $this->expectException(AuthenticationException::class);
 
-        $this->generatePostsMatrix();
-
-        $response = $this
-            ->json('POST', '/api/collections/posts', [
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-            ])
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['status']);
+        $this->json('POST', '/api/collections/posts', []);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
+     */
+    public function a_user_without_permissions_cannot_create_new_entries()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this
+            ->be($this->user, 'api')
+            ->json('POST', '/api/collections/posts', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_update_an_existing_entry()
     {
-        $this->actingAs($this->admin, 'api');
+        list($entry, $attributes) = $this->newEntry([
+            'name' => 'New Post Title',
+            'slug' => 'new-post-title',
+        ]);
 
-        $this->generatePostsMatrix();
-
-        $entry = $this
-            ->json('POST', '/api/collections/posts', [
-                'name'    => 'Example',
-                'slug'    => 'example',
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-                'status'  => true,
-            ])->getData()->data->entry;
+        // Update ----
+        $attributes['name'] = 'Updated Post Title';
+        $attributes['slug'] = 'updated-post-title';
 
         $this
-            ->json('PATCH', '/api/collections/posts/'. $entry->id, [
-                'name'   => 'New Post Title',
-                'status' => true,
-            ])
+            ->be($this->admin, 'api')
+            ->json('PATCH', '/api/collections/posts/' . $entry->id, $attributes)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('mx_posts', [ 'name' => 'New Post Title' ]);
-        $this->assertDatabaseMissing('mx_posts', [ 'name' => 'Example' ]);
+        $this->assertDatabaseHas('mx_posts', $attributes);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
     public function a_user_with_permissions_can_delete_an_existing_entry()
     {
-        $this->actingAs($this->admin, 'api');
-
-        $this->generatePostsMatrix();
-
-        $entry = $this
-            ->json('POST', '/api/collections/posts', [
-                'name'    => 'Example',
-                'slug'    => 'example',
-                'excerpt' => 'This is an excerpt of the blog post.',
-                'content' => 'This is the content of the blog post.',
-                'status'  => true,
-            ])->getData()->data->entry;
+        list($entry, $attributes) = $this->newEntry();
 
         $this
+            ->be($this->admin, 'api')
             ->json('DELETE', '/api/collections/posts/' . $entry->id);
 
         $this->assertDatabaseMissing('mx_posts', [ 'id' => $entry->id ]);
@@ -159,98 +138,136 @@ class CollectionTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
-    public function a_user_without_permissions_cannot_create_new_entries()
+    public function each_collection_must_have_a_unique_slug()
     {
-        $this->actingAs($this->user, 'api');
+        list($entry, $attributes) = $this->newEntry();
 
-        $this->generatePostsMatrix();
-
-        $data = [
-            'name' => 'Example',
-            'slug' => 'example',
-            'excerpt' => 'This is an excerpt of the blog post.',
-            'content' => 'This is the content of the blog post.',
-        ];
-
-        $form = $data;
-        $form['status'] = true;
-
-        $response = $this->json('POST', '/api/collections/posts', $form)
-            ->assertForbidden();
-
-        $this->assertDatabaseMissing('mx_posts', $data);
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/collections/posts', $attributes)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
-    public function a_user_without_permissions_cannot_update_existing_entries()
+    public function a_user_without_admin_settings_can_view_an_enabled_entry()
     {
-        $this->actingAs($this->admin, 'api');
+        list($entry, $attributes) = $this->newEntry();
 
-        $this->generatePostsMatrix();
-
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
-
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
-
-        $this->actingAs($this->user, 'api');
-
-        $response = $this->json('PATCH', '/api/collections/posts/'.$data->entry->id, [
-            'name'   => 'New Post Title',
-            'status' => true,
-        ])->assertForbidden();
+        $this
+            ->be($this->user)
+            ->get('/posts/' . $entry->slug)
+            ->assertStatus(200);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group collection
      */
-    public function a_user_without_permissions_cannot_delete_existing_entries()
+    public function a_user_without_admin_settings_cannot_view_a_disabled_entry()
     {
-        $this->actingAs($this->admin, 'api');
+        $this->expectException(NotFoundHttpException::class);
 
-        $this->generatePostsMatrix();
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
 
-        $form['name']    = 'Example';
-        $form['slug']    = 'example';
-        $form['excerpt'] = 'This is an excerpt of the blog post.';
-        $form['content'] = 'This is the content of the blog post.';
-        $form['status'] = true;
-
-        $data = $this->json('POST', '/api/collections/posts', $form)->getData()->data;
-
-        $this->actingAs($this->user, 'api');
-
-        $response = $this->json('DELETE', '/api/collections/posts/'.$data->entry->id)
-            ->assertForbidden();
-
-        $this->assertDatabaseHas('mx_posts', [
-            'id' => $data->entry->id
-        ]);
+        $this
+            ->be($this->user)
+            ->get('/posts/' . $entry->slug);
     }
 
-    protected function generatePostsMatrix()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group collection
+     */
+    public function a_user_with_admin_settings_cannot_view_a_disabled_entry()
     {
-        $section  = SectionFactory::times(1)->withoutFields()->create();
-        $fields[] = FieldFactory::withName('Excerpt')->create();
-        $fields[] = FieldFactory::withName('Content')->create();
+        $this->expectException(NotFoundHttpException::class);
 
-        foreach ($fields as $field) {
-            $section->fields()->save($field);
-        }
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
 
-        $fieldset = FieldsetFactory::withSections(collect([$section]))->create();
+        $this
+            ->be($this->admin)
+            ->get('/posts/' . $entry->slug);
+    }
 
-        return MatrixFactory::withName('Posts')->asCollection()->withFieldset($fieldset)->create();
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group collection
+     */
+    public function a_user_with_admin_settings_can_preview_a_disabled_entry()
+    {
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->admin)
+            ->get('/posts/' . $entry->slug . '?preview=true')
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group collection
+     */
+    public function a_user_without_admin_settings_cannot_preview_a_disabled_entry()
+    {
+        $this->expectException(NotFoundHttpException::class);
+
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->user)
+            ->get('/posts/' . $entry->slug . '?preview=true');
+    }
+
+    //
+    // ------------------------------------------------
+    // 
+
+    /**
+     * Returns new entry w/ attributes
+     * [Helper]
+     * 
+     * @param  array  $overrides
+     * @return array
+     */
+    protected function newEntry($overrides = []): array
+    {
+        $attributes = array_merge([
+            'name'    => 'Example Page',
+            'slug'    => 'example-page',
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
+        ], $overrides);
+
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/collections/posts', $attributes);
+
+        $entry = \DB::table($this->model->getTable())->first();
+
+        return [$entry, $attributes];
     }
 }

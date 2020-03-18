@@ -13,6 +13,16 @@ class MatrixFactory implements Factory
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $route;
+
+    /**
+     * @var string
+     */
+    protected $template;
+
+    /**
      * @var boolean
      */
     protected $asPage = false;
@@ -40,6 +50,14 @@ class MatrixFactory implements Factory
             $overrides['name']   = $this->name;
             $overrides['slug']   = Str::slug($this->name, '-');
             $overrides['handle'] = Str::slug($this->name, '_');
+        }
+
+        if ($this->route) {
+            $overrides['route'] = $this->route;
+        }
+
+        if ($this->template) {
+            $overrides['template'] = $this->template;
         }
 
         if ($this->asCollection) {
@@ -107,6 +125,32 @@ class MatrixFactory implements Factory
     public function withFieldset(Fieldset $fieldset)
     {
         $this->fieldset = $fieldset;
+
+        return $this;
+    }
+
+    /**
+     * Create a matrix with the given route.
+     * 
+     * @param  String $route
+     * @return \MatrixFactory
+     */
+    public function withRoute($route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Create a matrix with the given template.
+     * 
+     * @param  String $template
+     * @return \MatrixFactory
+     */
+    public function withTemplate($template)
+    {
+        $this->template = $template;
 
         return $this;
     }

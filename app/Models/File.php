@@ -12,8 +12,10 @@
 namespace App\Models;
 
 use Storage;
+use Illuminate\Support\Str;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class File extends Model
 {
@@ -63,5 +65,42 @@ class File extends Model
     public function directory()
     {
         return $this->belongsTo(Directory::class);
+    }
+
+    /**
+     * Scope to query search filter.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchQuery(Builder $query, $value)
+    {
+        return $query
+            ->where('name', 'like', "%{$value}%")
+            ->orWhere('description', 'like', "%{$value}%");
+    }
+
+    /**
+     * Scope to query display type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDisplayQuery(Builder $query, $value)
+    {
+        switch ($value) {
+            case 'documents':
+                $displays = ['text', 'application'];
+                break;
+            default:
+                $displays = [ Str::singular($value) ];
+                break;
+        }
+
+        foreach ($displays as $display) {
+            $query->where('mimetype', 'like', "{$display}%");
+        }
+
+        return $query;
     }
 }

@@ -281,16 +281,6 @@ export default {
             context.commit('removeFiles', files)
         },
 
-        isFileSelected(context, file) {
-            console.log(context.state.selected.files, file)
-            return false
-            return _.includes(context.state.selected.files, file)
-        },
-
-        isDirectorySelect(context, directory) {
-            return _.includes(context.state.selected.directories, directory)
-        },
-
         clearFileSelection(context) {
             context.commit('clearFileSelection')
         },
@@ -302,48 +292,42 @@ export default {
         fetchFilesAndDirectories: _.throttle(function({ state, commit, dispatch }) {
             commit('setLoading', true)
 
-            let params = {
-                sort: state.sort,
-                direction: state.direction,
-                page: state.currentPage,
-            }
-
-            if (state.currentDirectory !== null) {
-                params.directory = state.currentDirectory
-            }
-            
-            if (state.display !== 'everything') {
-                params.filter = state.display
-            }
-            
-            if (state.search !== '') {
-                params.search = state.search
-            }
-
             axios.all([
-                    axios.get('/api/files', {params: params}),
-                    axios.get('/api/directories', {params: params}),
+                    axios.get('/api/files', {
+                        params: {
+                            'filter[directory_id]': state.currentDirectory,
+                            'filter[display]':      (state.display !== 'everything') ? state.display : null,
+                            'filter[search]':       (state.search !== '') ? state.search : null,
+                            'sort':                 (state.direction === 'asc' ? '' : '-') + state.sort,
+                            'page':                 state.currentPage,
+                            'perPage':              state.perPage,
+                        }
+                    }),
+                    axios.get('/api/directories', {
+                        params: {
+                            'filter[search]':    (state.search !== '') ? state.search : null,
+                            'filter[parent_id]': state.currentDirectory,
+                            'sort':              (state.sort == 'name' ? (state.direction === 'asc' ? 'name' : '-name') : null)
+                        }
+                    }),
                     axios.get(`/api/directories/${state.currentDirectory}`),
                 ].map(promise => promise.catch(error => ({ error })))
             ).then(axios.spread(function (files, directories, directory) {
                 commit('setFiles', files.data.data)
                 commit('setTotalPages', files.data.meta.last_page)
                 commit('setDirectories', directories.data.data)
-
                 commit('setDirectory', _.has(directory, 'error') ? null : directory.data.data)
-                dispatch('setBreadcrumbs')
+                commit('setLoading', false)
 
-                setTimeout(() => {
-                    commit('setLoading', false)
-                }, 25)
+                dispatch('setBreadcrumbs')
             }))
         }, 500),
 
         moveFileToDirectory({ commit, state, dispatch }, payload) {
             axios.all([
-                axios.post('/api/files/move', {
+                axios.post(`/api/files/move`, {
                     directory: payload.directory,
-                    moving:    payload.moving
+                    moving: payload.moving
                 })
             ]).then(axios.spread((response) =>  {
                 dispatch('fetchFilesAndDirectories')

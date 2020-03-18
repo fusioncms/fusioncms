@@ -14,13 +14,16 @@ namespace App\Models\Menus;
 use App\Models\Menu;
 use App\Models\Field;
 use App\Concerns\HasOrder;
+use Illuminate\Support\Str;
 use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use HasOrder, IsSearchable;
+    use HasOrder, IsSearchable, LogsActivity;
 
 	/**
      * The table associated with the model.
@@ -79,4 +82,27 @@ class {class} extends Model
     }
 
     {relationships}
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $node       = $activity->subject;
+        $menu       = $node->menu;
+        $action     = ucfirst($eventName);
+        $modelName  = strtolower(Str::singular($menu->name));
+        $properties = ['icon' => 'anchor'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "menus/{$menu->id}/nodes/{$node->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} menu node ({$node->name})";
+        $activity->properties  = $properties;
+    }
 }

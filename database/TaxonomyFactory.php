@@ -3,6 +3,7 @@
 use App\Models\Taxonomy;
 use App\Models\Fieldset;
 use App\Contracts\Factory;
+use Illuminate\Support\Str;
 
 class TaxonomyFactory implements Factory
 {
@@ -33,8 +34,9 @@ class TaxonomyFactory implements Factory
         $overrides = [];
 
         if ($this->name) {
-            $overrides['name'] = $this->name;
+            $overrides['name']   = $this->name;
             $overrides['handle'] = str_handle($this->name);
+            $overrides['slug']   = Str::slug($this->name);
         }
 
         if (! $this->fieldset) {

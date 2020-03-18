@@ -43,6 +43,8 @@ class CreateSettingsTable extends Migration
             $table->foreign('section_id')
                 ->references('id')->on('setting_sections')
                 ->onDelete('cascade');
+
+            $table->unique(['section_id', 'handle']);
         });
     }
 

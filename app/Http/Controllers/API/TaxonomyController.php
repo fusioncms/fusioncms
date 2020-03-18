@@ -15,34 +15,16 @@ use App\Models\Taxonomy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaxonomyRequest;
 use App\Http\Resources\TaxonomyResource;
 
 class TaxonomyController extends Controller
 {
     /**
-     * Validation rules used for create and update
-     * actions.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name'        => 'required|regex:/^[A-z]/i',
-        'handle'      => 'required',
-        'description' => 'sometimes',
-        'fieldset'    => 'sometimes',
-
-        'sidebar'     => 'required|boolean',
-        'icon'        => 'sometimes',
-
-        'route'       => 'sometimes',
-        'template'    => 'sometimes',
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -57,7 +39,7 @@ class TaxonomyController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Taxonomy  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TaxonomyResource
      */
     public function show(Taxonomy $taxonomy)
     {
@@ -70,7 +52,7 @@ class TaxonomyController extends Controller
      * Display the specified resource by slug value.
      *
      * @param  string  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TaxonomyResource
      */
     public function slug($taxonomy)
     {
@@ -86,30 +68,16 @@ class TaxonomyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TaxonomyRequest  $request
+     * @return \App\Http\Resources\TaxonomyResource
      */
-    public function store(Request $request)
+    public function store(TaxonomyRequest $request)
     {
-        $this->authorize('taxonomies.create');
+        $taxonomy = Taxonomy::create($request->validated());
 
-        $attributes = collect($request->validate($this->rules));
-
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $taxonomy = Taxonomy::create($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset')) {
-            $taxonomy->attachFieldset($attributes->get('fieldset'));
+        if ($request->fieldset) {
+            $taxonomy->attachFieldset($request->fieldset);
         }
-
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
-            ])
-            ->log('Created taxonomy (:subject.name)');
 
         return new TaxonomyResource($taxonomy);
     }
@@ -117,33 +85,19 @@ class TaxonomyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaxonomyRequest  $request
      * @param  \App\Models\Taxonomy  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TaxonomyResource
      */
-    public function update(Request $request, Taxonomy $taxonomy)
+    public function update(TaxonomyRequest $request, Taxonomy $taxonomy)
     {
-        $this->authorize('taxonomies.update');
+        $taxonomy->update($request->validated());
 
-        $attributes = collect($request->validate($this->rules));
-
-        $attributes->put('slug', Str::slug($attributes->get('handle'), '-'));
-
-        $taxonomy->update($attributes->except('fieldset')->all());
-
-        if ($attributes->get('fieldset') && (!isset($taxonomy->fieldset) || ($taxonomy->fieldset->id !== $attributes->get('fieldset')))) {
-            $taxonomy->attachFieldset($attributes->get('fieldset'));
-        } else if (!$attributes->get('fieldset')) {
+        if ($request->fieldset && (! isset($taxonomy->fieldset) || $taxonomy->fieldset->id !== $request->fieldset)) {
+            $taxonomy->attachFieldset($request->fieldset);
+        } elseif (! $request->fieldset) {
             $taxonomy->detachFieldset();
         }
-
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-                'link' => 'taxonomies/'.$taxonomy->id.'/edit',
-            ])
-            ->log('Updated taxonomy (:subject.name)');
 
         return new TaxonomyResource($taxonomy);
     }
@@ -152,19 +106,12 @@ class TaxonomyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Taxonomy  $taxonomy
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Taxonomy $taxonomy)
     {
         $this->authorize('taxonomies.delete');
-
-        activity()
-            ->performedOn($taxonomy)
-            ->withProperties([
-                'icon' => 'sitemap',
-            ])
-            ->log('Deleted taxonomy (:subject.name)');
-
+        
         $taxonomy->delete();
     }
 }

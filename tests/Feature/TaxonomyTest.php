@@ -12,20 +12,16 @@
 namespace Tests\Feature;
 
 use App\Models\Taxonomy;
-use App\Models\Fieldset;
-use Facades\FieldFactory;
-use Facades\SectionFactory;
-use Facades\FieldsetFactory;
-use Facades\TaxonomyFactory;
+use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxonomyTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Called before each test is run...
@@ -35,74 +31,124 @@ class TaxonomyTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->handleValidationExceptions();
-
-        $this->section  = SectionFactory::times(1)->withoutFields()->create();
-        $this->fields[] = FieldFactory::withName('Excerpt')->create();
-        $this->fields[] = FieldFactory::withName('Content')->create();
-
-        foreach ($this->fields as $field) {
-            $this->section->fields()->save($field);
-        }
-
-        $this->fieldset = FieldsetFactory::withSections(collect([$this->section]))->create();
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
-    public function a_user_with_permissions_can_create_a_taxonomy()
+    public function a_user_with_permissions_can_create_a_new_taxonomy()
     {
-        $this->withoutExceptionHandling();
+        $attributes = [
+            'name'    => ($name = 'Example Page'),
+            'handle'  => str_handle($name),
+            'slug'    => Str::slug($name),
+            'sidebar' => '0',
+        ];
         
-        $this->actingAs($this->admin, 'api');
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/taxonomies', $attributes)
+            ->assertStatus(201);
 
-        $taxonomy = factory(Taxonomy::class)->make()->toArray();
-        $fieldset = factory(Fieldset::class)->create();
-
-        $taxonomy['fieldset'] = $fieldset->id;
-
-        $response = $this->json('POST', '/api/taxonomies', $taxonomy);
-
-        $response->assertStatus(201);
+        $this->assertDatabaseHas('taxonomies', $attributes);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
-    public function a_user_without_permissions_can_not_create_a_taxonomy()
+    public function a_user_without_permissions_can_not_create_a_new_taxonomy()
     {
         $this->expectException(AuthenticationException::class);
         
-        $response = $this->json('POST', '/api/taxonomies', [
-            'name'   => 'Test',
-            'handle' => 'test',
-        ]);
-
-        $response->assertStatus(422);
+        $response = $this->json('POST', '/api/taxonomies', []);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
+     * @group taxonomy
+     */
+    public function a_user_without_permissions_cannot_create_new_taxonomies()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this
+            ->be($this->user, 'api')
+            ->json('POST', '/api/taxonomies', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
      * @group taxonomy
      */
     public function a_user_with_permissions_can_update_an_existing_taxonomy()
     {
-        $this->actingAs($this->admin, 'api');
+        $taxonomy = factory(Taxonomy::class)->create();
 
-        $taxonomy = TaxonomyFactory::create();
+        // update ----
+        $attributes           = $taxonomy->toArray();
+        $attributes['name']   = 'New Name';
+        $attributes['handle'] = 'new_name';
+        $attributes['slug']   = 'new-name';
 
-        $data                = $taxonomy->toArray();
-        $data['description'] = 'This is the new taxonomy description';
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', '/api/taxonomies/' . $taxonomy->id, $attributes)
+            ->assertStatus(200);
 
-        $response = $this->json('PATCH', '/api/taxonomies/'.$taxonomy->id, $data);
+        $this->assertDatabaseHas('taxonomies', $attributes);
+    }
 
-        $response->assertStatus(200);
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group taxonomy
+     */
+    public function each_taxonomy_must_have_a_valid_handle()
+    {
+        $attributes = [
+            'name'    => ($name = 'Example Page'),
+            'handle'  => '--invalid-handle',
+            'slug'    => Str::slug($name),
+            'sidebar' => '0',
+        ];
+        
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/taxonomies', $attributes)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'handle' => 'Handle must contain only letters, numbers, and underscores.'
+            ]);
+
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group taxonomy
+     */
+    public function each_taxonomy_must_have_a_unique_slug_and_handle()
+    {
+        $taxonomy = factory(Taxonomy::class)->create()->toArray();
+        $taxonomy['id'] = null;
+
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/taxonomies', $taxonomy)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug', 'handle']);
     }
 }

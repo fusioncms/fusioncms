@@ -14,6 +14,7 @@ namespace App\Http\Controllers\API;
 use App\Models\SettingSection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Settings\SettingResource;
 use App\Http\Resources\Settings\SettingSectionResource;
@@ -68,13 +69,8 @@ class SettingsController extends Controller
             }
         });
 
-        activity()
-            ->withProperties([
-                'icon' => 'cog',
-                'link' => 'settings',
-            ])
-            ->log('Updated ' . $section->name . ' settings');
-
+        Artisan::call('optimize');
+        
         return new SettingSectionResource($section);
     }
 }

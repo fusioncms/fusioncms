@@ -16,10 +16,12 @@ use App\Concerns\HasFieldset;
 use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Matrix extends Model
 {
-    use CachesQueries, HasFieldset, IsSearchable;
+    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
 
     protected $with = ['fieldsets'];
 
@@ -101,5 +103,26 @@ class Matrix extends Model
     public function children()
     {
         return $this->hasMany(Matrix::class, 'parent_id', 'id');
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $matrix     = $activity->subject;
+        $action     = Str::ucfirst($eventName);
+        $properties = ['icon' => 'hashtag'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "matrices/{$matrix->id}/edit";
+        }
+
+        $activity->description = "{$action} matrix ({$matrix->name})";
+        $activity->properties  = $properties;
     }
 }

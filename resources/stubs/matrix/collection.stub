@@ -13,12 +13,15 @@ namespace App\Models\Collections;
 
 use App\Models\Field;
 use App\Models\Matrix;
+use Illuminate\Support\Str;
 use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use IsSearchable;
+    use IsSearchable, LogsActivity;
 
 	/**
      * The table associated with the model.
@@ -94,4 +97,27 @@ class {class} extends Model
     }
 
     {relationships}
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $entry      = $activity->subject;
+        $matrix     = $entry->matrix;
+        $action     = Str::ucfirst($eventName);
+        $modelName  = Str::singular($matrix->name);
+        $properties = ['icon' => $matrix->icon];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "collections/{$matrix->slug}/{$entry->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} ({$entry->name})";
+        $activity->properties  = $properties;
+    }
 }

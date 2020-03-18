@@ -80,14 +80,6 @@ class NodeController extends Controller
             $relationship->type()->persistRelationship($node, $relationship);
         }
 
-        activity()
-            ->performedOn($node)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/nodes/'.$node->id.'/edit',
-            ])
-            ->log('Created '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
-
         return new NodeResource($node);
     }
 
@@ -134,14 +126,6 @@ class NodeController extends Controller
             $relationship->type()->persistRelationship($node, $relationship);
         }
 
-        activity()
-            ->performedOn($node)
-            ->withProperties([
-                'icon' => 'anchor',
-                'link' => 'menus/'.$menu->id.'/nodes/'.$node->id.'/edit',
-            ])
-            ->log('Updated '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
-
         return new NodeResource($node);
     }
 
@@ -152,13 +136,6 @@ class NodeController extends Controller
         $menu  = Menu::findOrFail($menu);
         $model = (new Builder($menu->handle))->make();
         $node  = $model->findOrFail($id);
-
-        activity()
-            ->performedOn($node)
-            ->withProperties([
-                'icon' => 'anchor',
-            ])
-            ->log('Deleted '.strtolower(Str::singular($menu->name)).' menu node (:subject.name)');
 
         $node->delete();
     }

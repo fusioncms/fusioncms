@@ -22,32 +22,6 @@ class FieldsetTest extends TestCase
      * @group fusioncms
      * @group fieldset
      */
-    public function a_fieldset_can_have_a_section()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $fieldset = FieldsetFactory::create();
-
-        $fieldset = factory(Fieldset::class)->create();
-
-        $formData = [
-            'sections' => [
-                [
-                    'name'        => 'Example',
-                    'handle'      => 'example',
-                    'description' => 'Just an example section.',
-                    'placement'   => 'body',
-                    'order'       => 0,
-                ],
-            ],
-        ];
-
-        $this->json('POST', '/api/fieldsets/' . $fieldset->id . '/sections', $formData);
-
-        $this->assertDatabaseHas('sections', $formData['sections'][0]);
-    }
-
-    /** @test */
     public function when_attached_all_fields_should_generate_database_columns()
     {
         $fieldset = FieldsetFactory::create();
@@ -63,7 +37,11 @@ class FieldsetTest extends TestCase
         }
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group fieldset
+     */
     public function when_detached_all_fields_should_drop_database_columns()
     {
         $fieldset = FieldsetFactory::create();
@@ -323,5 +301,24 @@ class FieldsetTest extends TestCase
         $this->assertDatabaseTableColumnHasType($table, 'bar', 'text');
         $this->assertDatabaseTableHasColumn($table, 'foo');
         $this->assertDatabaseTableColumnHasType($table, 'foo', 'string');
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group fieldset
+     */
+    public function each_fieldset_must_have_a_unique_handle()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $fieldset = FieldsetFactory::withName('Foo')->create();
+        $fieldset = $fieldset->toArray();
+        $fieldset['id'] = null;
+
+        $response = $this
+            ->json('POST', 'api/fieldsets', $fieldset)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['handle']);
     }
 }

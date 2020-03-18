@@ -138,4 +138,42 @@ class FormTest extends TestCase
             'identifiable_ip_address' => '127.0.0.1'
         ]);
     }
+
+    /**
+     * @test
+     * @group feature
+     * @group form
+     */
+    public function each_form_must_have_a_unique_slug()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form = factory(Form::class)->create()->toArray();
+        $form['id']     = null;
+        $form['handle'] = 'new_handle';
+
+        $this
+            ->json('POST', '/api/forms', $form)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['slug']);
+    }
+
+    /**
+     * @test
+     * @group feature
+     * @group form
+     */
+    public function each_form_must_have_a_unique_handle()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $form = factory(Form::class)->create()->toArray();
+        $form['id']   = null;
+        $form['slug'] = 'new-slug';
+
+        $this
+            ->json('POST', '/api/forms', $form)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['handle']);
+    }
 }

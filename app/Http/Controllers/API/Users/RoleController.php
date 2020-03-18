@@ -13,6 +13,7 @@ namespace App\Http\Controllers\API\Users;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 
@@ -22,7 +23,7 @@ class RoleController extends Controller
      * Display a listing of the resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -37,7 +38,7 @@ class RoleController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\RoleResource
      */
     public function show(Role $role)
     {
@@ -49,32 +50,12 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\RoleRequest  $request
+     * @return \App\Http\Resources\RoleResource
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $this->authorize('roles.create');
-
-        $rules = [
-            'name'        => 'required',
-            'slug'        => 'required',
-            'description' => 'sometimes',
-            'special'     => 'sometimes',
-        ];
-
-        $attributes            = $request->validate($rules);
-        $attributes['special'] = $attributes['special'] ?? null;
-
-        $role = Role::create($attributes);
-
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-                'link' => 'roles/'.$role->id.'/edit',
-            ])
-            ->log('Created user role (:subject.name)');
+        $role = Role::create($request->validated());
 
         return new RoleResource($role);
     }
@@ -82,36 +63,13 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\RoleRequest  $request
      * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\RoleResource
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
-        $this->authorize('roles.update');
-
-        $rules = [
-            'name'        => 'required',
-            'slug'        => 'required',
-            'description' => 'sometimes',
-            'special'     => 'sometimes',
-        ];
-
-        $attributes = $request->validate($rules);
-
-        if (empty($attributes['special'])) {
-            $attributes['special'] = null;
-        }
-
-        $role->update($attributes);
-
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-                'link' => 'roles/'.$role->id.'/edit',
-            ])
-            ->log('Updated user role (:subject.name)');
+        $role->update($request->validated());
 
         return new RoleResource($role);
     }
@@ -120,18 +78,11 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Role $role)
     {
         $this->authorize('roles.delete');
-
-        activity()
-            ->performedOn($role)
-            ->withProperties([
-                'icon' => 'id-badge',
-            ])
-            ->log('Deleted user role (:subject.name)');
 
         $role->delete();
     }

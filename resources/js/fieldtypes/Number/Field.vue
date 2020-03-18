@@ -37,17 +37,7 @@
                 required: false,
                 default: null,
             },
-        },
-
-        methods: {
-            pad(length) {
-                let str = '1'
-                while(str.length < length) {
-                    str = '0' + str
-                }
-                return Number('0.' + str.substr(-length, length))
-            },
-        },
+        }
     }
 </script>
 

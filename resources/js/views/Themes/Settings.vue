@@ -103,7 +103,7 @@
             },
 
             baseUrl() {
-                return this.setting('site_url') + '/'
+                return this.setting('system.site_url') + '/'
             },
         },
 

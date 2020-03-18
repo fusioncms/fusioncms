@@ -6,10 +6,12 @@ use App\Concerns\HasFieldset;
 use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Form extends Model
 {
-    use CachesQueries, HasFieldset, IsSearchable;
+    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
 
     protected $with = ['fieldsets'];
 
@@ -104,5 +106,26 @@ class Form extends Model
         $class = new \ReflectionClass($model);
 
         return $this->hasMany('\\'.$class->getName());
+    }
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $subject    = $activity->subject;
+        $action     = ucfirst($eventName);
+        $properties = ['icon' => 'paper-plane'];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "forms/{$subject->id}/edit";
+        }
+
+        $activity->description = "{$action} form ({$subject->name})";
+        $activity->properties  = $properties;
     }
 }

@@ -51,7 +51,7 @@ class MatrixObserver
             $table->unsignedBigInteger('matrix_id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

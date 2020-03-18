@@ -11,17 +11,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
-use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
-use App\Services\Builders\Page;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Called before each test is run...
@@ -31,62 +30,83 @@ class PageTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->handleValidationExceptions();
 
-        $this->matrix = MatrixFactory::asPage()->withName('Example Page')->create();
-        $this->model  = (new Page($this->matrix->handle))->make();
+        // --
+        $this->section      = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $this->fieldExcerpt = \Facades\FieldFactory::withName('Excerpt')->withSection($this->section)->create();
+        $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
+        $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
+        $this->matrix       = \Facades\MatrixFactory::withName('Page')->asPage()->withFieldset($this->fieldset)->withRoute('{slug}')->withTemplate('index')->create();
+        $this->model        = (new \App\Services\Builders\Page($this->matrix->handle))->make();
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group page
      */
     public function a_user_with_permissions_can_update_a_page()
     {
-        $this->actingAs($this->admin, 'api');
+        $attributes = [
+            'name'    => 'Example Page',
+            'slug'    => 'example-page',
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
+        ];
 
         $this
-            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
-                'name'   => 'Renamed-page',
-                'slug'   => 'renamed-page',
-                'status' => true,
-            ])->assertStatus(201);
+            ->be($this->admin, 'api')
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, $attributes)
+            ->assertStatus(201);
 
-        $this->assertDatabaseHas($this->model->getTable(), [
-            'name' => 'Renamed-page',
-            'slug' => 'renamed-page',
-        ]);
+        $this->assertDatabaseHas('mx_page', $attributes);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group page
      */
-    public function a_user_without_permissions_can_not_update_a_page()
+    public function a_user_without_control_panel_access_cannot_update_a_page()
     {
         $this->expectException(AuthenticationException::class);
 
-        $this
-            ->json('PATCH', '/api/pages/' . $this->matrix->id, [
-                'name'   => 'Renamed-page',
-                'slug'   => 'renamed-page',
-                'status' => true,
-            ])->assertStatus(422);
+        $this->json('PATCH', '/api/pages/' . $this->matrix->id, []);
     }
 
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group page
+     */
+    public function a_user_without_permissions_cannot_update_a_page()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this
+            ->be($this->user, 'api')
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
      */
     public function a_user_cannot_create_a_page_without_required_fields()
     {
-        $this->actingAs($this->admin, 'api');
-
         $this
+            ->be($this->admin, 'api')
             ->json('PATCH', '/api/pages/' . $this->matrix->id, [])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'slug', 'status']);
@@ -95,24 +115,135 @@ class PageTest extends TestCase
     /**
      * @test
      * @group fusioncms
+     * @group feature
      * @group matrix
+     * @group page
      */
     public function a_guest_can_visit_newly_created_page()
     {
-        // Set matrix' routing info..
-        $this->matrix->update([
-            'route'    => '{slug}',
-            'template' => 'index',
-        ]);
+        list($entry, $attributes) = $this->newEntry();
 
-        // Create page record..
-        $page = $this->model->create([
-            'matrix_id' => $this->matrix->id,
-            'name'      => 'Foo',
-            'slug'      => 'foo',
-            'status'    => true,
-        ]);
+        $this
+            ->get($entry->slug)
+            ->assertStatus(200);
+    }
 
-        $this->get($page->slug)->assertStatus(200);
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
+     */
+    public function a_user_without_admin_settings_can_view_an_enabled_page()
+    {
+        list($entry, $attributes) = $this->newEntry();
+
+        $this
+            ->be($this->user)
+            ->get($entry->slug)
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
+     */
+    public function a_user_without_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->expectException(NotFoundHttpException::class);
+
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->user)
+            ->get($entry->slug);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
+     */
+    public function a_user_with_admin_settings_cannot_view_a_disabled_entry()
+    {
+        $this->expectException(NotFoundHttpException::class);
+
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->admin)
+            ->get($entry->slug);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
+     */
+    public function a_user_with_admin_settings_can_preview_a_disabled_entry()
+    {
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->admin)
+            ->get($entry->slug . '?preview=true')
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group matrix
+     * @group page
+     */
+    public function a_user_without_admin_settings_cannot_preview_a_disabled_entry()
+    {
+        $this->expectException(NotFoundHttpException::class);
+
+        list($entry, $attributes) = $this->newEntry(['status' => false]);
+
+        $this
+            ->be($this->user)
+            ->get($entry->slug . '?preview=true');
+    }
+
+    //
+    // ------------------------------------------------
+    // 
+
+    /**
+     * Returns new entry w/ attributes
+     * [Helper]
+     * 
+     * @param  array  $overrides
+     * @return array
+     */
+    protected function newEntry($overrides = []): array
+    {
+        $attributes = array_merge([
+            'name'    => 'Example Page',
+            'slug'    => 'example-page',
+            'excerpt' => $this->faker->sentence(),
+            'content' => $this->faker->paragraph(),
+            'status'  => true
+        ], $overrides);
+
+
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', '/api/pages/' . $this->matrix->id, $attributes);
+
+        $entry = \DB::table($this->model->getTable())->first();
+
+        return [$entry, $attributes];
     }
 }
