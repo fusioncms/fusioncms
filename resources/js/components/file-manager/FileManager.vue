@@ -1,30 +1,29 @@
 <template>
     <div class="file-manager__wrap" @dragenter="setDropzoneVisible(true)">
+        <portal to="actions">
+            <div class="buttons">
+                <button class="button" v-modal:new-folder>
+                    New Folder
+                </button>
+
+                <button class="button button--primary" @click="$refs.uploader.openDZ()">
+                    Upload
+                </button>
+            </div>
+        </portal>
+
         <file-uploader ref="uploader"></file-uploader>
-
-        <div class="row">
-            <div class="content-container">
-                <div class="card">
-                    <div class="toolbar bg-danger-300">
-                        <div class="toolbar__group">
-                            <p-button @click="$refs.uploader.openDZ()"><fa-icon :icon="['fas', 'upload']" class="fa-fw md:mr-2"></fa-icon> <span class="hidden md:inline">Upload</span></p-button>
-                            <p-button v-modal:new-folder><fa-icon :icon="['fas', 'folder-plus']" class="fa-fw md:mr-2"></fa-icon> <span class="hidden md:inline">New Folder</span></p-button>
-                        </div>
-
-                        <div class="toolbar__group flex-1">
-                            <search-action class="w-full"></search-action>
+            <div class="card">
+                <div class="card__body">
+                    <div class="toolbar">
+                        <div class="toolbar__group toolbar__group--grow">
+                            <search-action></search-action>
                         </div>
 
                         <div class="toolbar__group">
                             <display-action></display-action>
                             <sort-action></sort-action>
-                        </div>
-
-                        <div class="toolbar__group">
                             <control-action></control-action>
-                        </div>
-
-                        <div class="toolbar__group">
                             <view-action></view-action>
                         </div>
                     </div>
@@ -33,11 +32,10 @@
                         <breadcrumb-action></breadcrumb-action>
                     </div>
 
-                    <!-- <file-browser></file-browser>
-                    <file-paginator></file-paginator> -->
+                    <file-browser></file-browser>
+                    <file-paginator></file-paginator>
                 </div>
             </div>
-        </div>
 
         <portal to="modals">
             <new-folder-modal></new-folder-modal>

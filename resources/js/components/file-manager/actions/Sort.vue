@@ -1,13 +1,13 @@
 <template>
-	<p-dropdown>
-		<fa-icon class="fa-fw mr-1" :icon="['fas', sortIcon(sort)]"></fa-icon>
-		{{ options[sort]  }}
-		
-		<template slot="options">
-			<p-dropdown-item v-for="(value, key) in options" class="w-48" :key="key" @click.prevent="sortBy(key)">
-				<fa-icon class="fa-fw mr-1" :icon="['fas', sortIcon(key)]"></fa-icon>
+	<p-dropdown id="sort-filters">
+		<fa-icon class="icon" :icon="sortIcon(sort)"></fa-icon>
+		<span class="hidden md:inline">{{ options[sort] }}</span>
+
+		<template v-slot:menu>
+			<p-dropdown-link v-for="(value, key) in options" :key="key" @click.prevent="sortBy(key)">
+				<fa-icon class="icon" :icon="['fas', sortIcon(key)]"></fa-icon>
 				{{ value }}
-			</p-dropdown-item>
+			</p-dropdown-link>
 		</template>
 	</p-dropdown>
 </template>
@@ -17,7 +17,7 @@
 
 	export default {
 		name: 'file-manager-sort-action',
-		
+
 		data() {
 			return {
 				options: {
@@ -31,7 +31,7 @@
 		computed: {
 			...mapGetters({
 				direction: 'filemanager/getDirection',
-				sort: 'filemanager/getSort',				
+				sort: 'filemanager/getSort',
 			})
 		},
 
@@ -50,7 +50,7 @@
 				fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
 				toggleDirection: 'filemanager/toggleDirection',
 				setDirection: 'filemanager/setDirection',
-				setSort: 'filemanager/setSort', 
+				setSort: 'filemanager/setSort',
 			}),
 
 			sortBy(key) {

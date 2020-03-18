@@ -1,12 +1,14 @@
 <template>
-	<div class="inline-flex">
-		<p-button @click.prevent="toggleView('list')" :disabled="view == 'list'" class="rounded-l rounded-r-none">
-			<fa-icon class="fa-fw" :icon="['fas', 'bars']"></fa-icon>
-		</p-button>
+	<div class="buttons">
+		<div class="buttons__group">
+			<button class="button button--icon" @click.prevent="toggleView('list')" :disabled="view == 'list'">
+				<fa-icon class="icon" icon="bars"></fa-icon>
+			</button>
 
-		<p-button @click.prevent="toggleView('grid')" :disabled="view == 'grid'" class="rounded-r rounded-l-none">
-			<fa-icon class="fa-fw" :icon="['fas', 'th-large']"></fa-icon>
-		</p-button>
+			<button class="button button--icon" @click.prevent="toggleView('grid')" :disabled="view == 'grid'">
+				<fa-icon class="icon" icon="th-large"></fa-icon>
+			</button>
+		</div>
 	</div>
 </template>
 
@@ -18,7 +20,7 @@
 
 		computed: {
 			...mapGetters({
-				view: 'filemanager/getView',				
+				view: 'filemanager/getView',
 			})
 		},
 

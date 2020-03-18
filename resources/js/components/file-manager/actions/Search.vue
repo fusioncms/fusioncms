@@ -1,5 +1,7 @@
 <template>
-	<input type="text" name="search" class="form-input" placeholder="Search..." v-model="search">
+	<div class="field__control">
+		<input type="search" name="search" placeholder="Search..." v-model="search" class="field__input">
+	</div>
 </template>
 
 <script>

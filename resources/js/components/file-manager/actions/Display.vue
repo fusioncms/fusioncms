@@ -1,13 +1,14 @@
 <template>
-	<p-dropdown>
-		<fa-icon class="fa-fw mr-1" :icon="['fas', options[display]]"></fa-icon>
-		{{ display | capitalize  }}
-		
-		<template slot="options">
-			<p-dropdown-item v-for="(icon, key) in options" class="w-48" :key="key" @click.prevent="setDisplay(key)">
-				<fa-icon class="fa-fw mr-1" :icon="['fas', icon]"></fa-icon>
+	<p-dropdown id="display-filters" right>
+		<fa-icon class="icon" :icon="options[display]"></fa-icon>
+		<span class="hidden md:inline">{{ display | capitalize  }}</span>
+
+		<template v-slot:menu>
+			<p-dropdown-link v-for="(icon, key) in options" :key="key" @click.prevent="setDisplay(key)">
+				<fa-icon class="icon" :icon="icon"></fa-icon>
+
 				{{ key | capitalize }}
-			</p-dropdown-item>
+			</p-dropdown-link>
 		</template>
 	</p-dropdown>
 </template>
@@ -17,7 +18,7 @@
 
 	export default {
 		name: 'file-manager-display-action',
-		
+
 		data() {
 			return {
 				options: {
@@ -32,7 +33,7 @@
 
 		computed: {
 			...mapGetters({
-				display: 'filemanager/getDisplay',			
+				display: 'filemanager/getDisplay',
 			})
 		},
 
