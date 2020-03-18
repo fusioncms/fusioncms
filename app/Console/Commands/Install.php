@@ -204,11 +204,16 @@ class Install extends Command
     {
         $jobs = [
             'Entering maintenance mode...'      => new \App\Jobs\EnterMaintenanceMode,
-            'Deleting database...'              => new \App\Jobs\Uninstaller\DeleteDatabase,
-            'Creating database...'              => new \App\Jobs\Installer\CreateDatabase($this->container),
-            'Deleting environment config...'    => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
+
+            'Deleting asset files...'           => new \App\Jobs\Uninstaller\DeleteUserFiles,
+            'Deleting model files...'           => new \App\Jobs\Uninstaller\DeleteModelFiles,
             'Deleting module assets...'         => new \App\Jobs\Uninstaller\DeleteModuleAssets,
             'Deleting module cache...'          => new \App\Jobs\Uninstaller\DeleteModuleCache,
+            'Deleting log files...'             => new \App\Jobs\Uninstaller\DeleteLogFiles,
+            'Deleting environment config...'    => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
+            'Deleting database...'              => new \App\Jobs\Uninstaller\DeleteDatabase,
+
+            'Creating database...'              => new \App\Jobs\Installer\CreateDatabase($this->container),
             'Creating environment config...'    => new \App\Jobs\Installer\CreateEnvironmentConfig($this->container),
             'Creating database tables...'       => new \App\Jobs\Installer\CreateDatabaseTables,
             'Publishing module assets...'       => new \App\Jobs\Installer\PublishModuleAssets,
@@ -218,6 +223,7 @@ class Install extends Command
             'Creating default user account...'  => new \App\Jobs\Installer\CreateDefaultUser($this->container),
             'Creating OAuth keys...'            => new \App\Jobs\Installer\CreateOAuthKeys,
             'Creating Passport clients...'      => new \App\Jobs\Installer\CreatePassportClients,
+
             'Exiting maintenance mode...'       => new \App\Jobs\ExitMaintenanceMode,
         ];
 

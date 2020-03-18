@@ -78,10 +78,13 @@ class Uninstall extends Command
         $jobs = [
             'Entering maintenance mode...'   => new \App\Jobs\EnterMaintenanceMode,
             'Deleting module assets...'      => new \App\Jobs\Uninstaller\DeleteModuleAssets,
-            'Deleting database...'           => new \App\Jobs\Uninstaller\DeleteDatabase,
-            'Deleting environment config...' => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
+            'Deleting asset files...'        => new \App\Jobs\Uninstaller\DeleteUserFiles,
+            'Deleting model files...'        => new \App\Jobs\Uninstaller\DeleteModelFiles,
+            'Deleting log files...'          => new \App\Jobs\Uninstaller\DeleteLogFiles,
             'Deleting module cache...'       => new \App\Jobs\Uninstaller\DeleteModuleCache,
             'Deleting composer lock...'      => new \App\Jobs\Uninstaller\DeleteComposerLock,
+            'Deleting environment config...' => new \App\Jobs\Uninstaller\DeleteEnvironmentConfig,
+            'Deleting database...'           => new \App\Jobs\Uninstaller\DeleteDatabase,
             'Exiting maintenance mode...'    => new \App\Jobs\ExitMaintenanceMode,
         ];
 
