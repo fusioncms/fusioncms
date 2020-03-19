@@ -50,4 +50,19 @@ class DirectoryRequest extends FormRequest
                         }),
         ];
     }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->has('slug')) {
+                $validator->errors()->add('name', 'The name has already been taken.');
+            }
+        });
+    }
 }

@@ -20,34 +20,26 @@ class FileReplaceController extends Controller
     public function store(Request $request, File $file)
     {
         $upload    = $request->file('file');
-        $name      = $file->name;
-        $uuid      = $file->uuid;
         $extension = $upload->extension();
         $bytes     = $upload->getSize();
         $mimetype  = $upload->getClientMimeType();
-        $original  = Str::slug($name) . ".{$extension}";
 
         if (Str::startsWith($mimetype, 'image')) {
             list($width, $height) = getimagesize($upload);
         }
 
-        $oldPath = $file->location;
-        $newPath = 'files/' . Str::slug($uuid . ' ' . $name) . ".{$extension}";
+        if (Storage::disk('public')->putFileAs('', $upload, $file->location)) {
+            $file->update([
+                'extension' => $extension,
+                'bytes'     => $bytes,
+                'mimetype'  => $mimetype,
+                'width'     => $width ?? null,
+                'height'    => $height ?? null,
+            ]);
 
-        // Rename file..
-        if ($oldPath !== $newPath) {
-            Storage::disk('public')->move($oldPath, $newPath);
+            // clear glide cache
+            glide()->deleteCache($file->location);
         }
-
-        $file->update([
-            'extension' => $extension,
-            'bytes'     => $bytes,
-            'original'  => $original,
-            'mimetype'  => $mimetype,
-            'location'  => $newPath,
-            'width'     => $width ?? null,
-            'height'    => $height ?? null,
-        ]);
 
         return new FileResource($file);
     }
