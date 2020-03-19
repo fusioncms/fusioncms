@@ -28,9 +28,17 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center border-b border-gray-200 p-3">
+                    <breadcrumb-action></breadcrumb-action>
+
+                    <!-- <p-breadcrumbs>
+                        <p-breadcrumb></p-breadcrumb>
+                        <p-breadcrumb></p-breadcrumb>
+                        <p-breadcrumb></p-breadcrumb>
+                    </p-breadcrumbs> -->
+
+                    <!-- <div class="flex items-center border-b border-gray-200 p-3">
                         <breadcrumb-action></breadcrumb-action>
-                    </div>
+                    </div> -->
 
                     <file-browser></file-browser>
                     <file-paginator></file-paginator>

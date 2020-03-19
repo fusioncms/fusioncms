@@ -4,60 +4,75 @@
             <app-title icon="image">{{ loaded ? file.name : '' }}</app-title>
         </portal>
 
-        <div class="row" v-if="loaded" :key="file.name">
-            <div class="content-container">
-                <p-card>
-                    <div class="flex items-center justify-center">
-                        <div v-if="isImage">
-                            <p-img
-                                :src="fileSrc"
-                                :alt="file.description"
-                                background-color="#ffffff"
-                                class="rounded">
-                            </p-img>
+        <form-container>
+            <portal to="actions">
+                <div class="toolbar">
+                    <div class="toolbar__group">
+                        <div class="buttons">
+                            <p-button @click.prevent="goBack">Go Back</p-button>
+                            <button class="button button--danger" v-modal:delete>Delete</button>
                         </div>
+                    </div>
 
-                        <div v-else-if="isVideo" class="w-full">
-                            <video ref="player" controls crossorigin>
-                                <source :src="file.url" :type="file.mimetype" size="576">
-                            </video>
-                        </div>
+                    <div class="toolbar__group">
+                        <div class="buttons">
 
-                        <div v-else>
-                            <p-img
-                                :src="'/img/' + type + '-small.svg'"
-                                background-color="#ffffff"
-                                :width="200"
-                                :height="200"
-                                :alt="file.description">
-                            </p-img>
-
-                            <div class="text-center px-6 py-3 rounded border border-gray-400 bg-gray-200 text-gray-800">
-                                No preview available
+                            <div class="buttons__group">
+                                <button class="button" v-modal:move-file>Move</button>
+                                <button class="button" v-modal:replace-file>Replace</button>
+                                <button class="button" @click.prevent="download">Download</button>
                             </div>
                         </div>
                     </div>
-                </p-card>
 
-                <p-card v-if="isVideo" class="mt-6 text-center text-sm text-gray-800">
-                    If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
-                </p-card>
+                    <div class="toolbar__group">
+                        <button class="button button--primary" @click.prevent="submit">Save</button>
+                    </div>
+                </div>
+            </portal>
+
+            <div class="card" v-if="loaded" :key="file.name">
+                <div class="flex items-center justify-center">
+                    <div v-if="isImage">
+                        <p-img
+                            :src="fileSrc"
+                            :alt="file.description"
+                            background-color="#ffffff"
+                            class="rounded">
+                        </p-img>
+                    </div>
+
+                    <div v-else-if="isVideo" class="w-full">
+                        <video ref="player" controls crossorigin>
+                            <source :src="file.url" :type="file.mimetype" size="576">
+                        </video>
+                    </div>
+
+                    <div v-else>
+                        <p-img
+                            :src="'/img/' + type + '-small.svg'"
+                            background-color="#ffffff"
+                            :width="200"
+                            :height="200"
+                            :alt="file.description">
+                        </p-img>
+
+                        <div class="text-center px-6 py-3 rounded border border-gray-400 bg-gray-200 text-gray-800">
+                            No preview available
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="side-container">
-                <p-card class="mb-6">
-                    <form @submit.prevent="submit" enctype="multipart/form-data">
-                        <portal to="actions">
-                            <p-button theme="danger" class="mr-4" v-modal:delete>Delete</p-button>
+            <div class="card" v-if="isVideo">
+                <div class="card__body text-center text-sm text-gray-800">
+                    If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
+                </div>
+            </div>
 
-                            <p-button v-modal:move-file>Move</p-button>
-                            <p-button v-modal:replace-file>Replace</p-button>
-                            <p-button @click.prevent="download" class="mr-4">Download</p-button>
-
-                            <p-button @click.prevent="goBack">Go Back</p-button>
-                            <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
-                        </portal>
-
+            <template v-slot:sidebar>
+                <div class="card">
+                    <div class="card__body">
                         <p-input
                             name="name"
                             v-model="name"
@@ -70,42 +85,40 @@
                             label="Description"
                             help="Describing your file isn't mandatory but is incredibly useful for accessibility.">
                         </p-textarea>
-                    </form>
-                </p-card>
-
-                <p-card class="mb-6">
-                    <p-input
-                        name="share"
-                        readonly
-                        label="Share"
-                        class="text-sm"
-                        :value="file.url">
-                    </p-input>
-                </p-card>
-
-                <p-card class="text-sm" v-if="file">
-                    <div class="flex justify-between">
-                        <label class="form__label">Size</label>
-                        <p>{{ bytes }}</p>
                     </div>
+                </div>
 
-                    <div class="flex justify-between">
-                        <label class="form__label">Mimetype</label>
-                        <p>{{ file.mimetype }}</p>
+                <div class="card">
+                    <div class="card__body">
+                        <p-input
+                            name="share"
+                            readonly
+                            label="Share"
+                            class="text-sm"
+                            :value="file.url">
+                        </p-input>
                     </div>
+                </div>
 
-                    <div class="flex justify-between" v-if="file.width && file.height">
-                        <label class="form__label">Dimensions</label>
-                        <p>{{ file.width }} x {{ file.height }}</p>
-                    </div>
+                <p-definition-list v-if="file">
+                    <p-definition name="Size">
+                        {{ bytes }}
+                    </p-definition>
 
-                    <div class="flex justify-between">
-                        <label class="form__label">Last Modified</label>
-                        <p>{{ $moment(file.created_at.date).format('L') }}</p>
-                    </div>
-                </p-card>
-            </div>
-        </div>
+                    <p-definition name="Mimetype">
+                        {{ file.mimetype }}
+                    </p-definition>
+
+                    <p-definition name="Dimensions" v-if="file.width && file.height">
+                        {{ file.width }} x {{ file.height }}
+                    </p-definition>
+
+                    <p-definition name="Last Modified">
+                        {{ $moment(file.created_at.date).format('L') }}
+                    </p-definition>
+                </p-definition-list>
+            </template>
+        </form-container>
 
         <portal to="modals">
             <move-file-modal></move-file-modal>

@@ -1,14 +1,13 @@
 <template>
-	<div class="=flex inline-flex items-center">
-		<template v-for="(breadcrumb, index) in nav">
-			<span class="mx-2 font-bold" v-if="index > 0">/</span>
-			
-			<p-button @click="navigate(breadcrumb)" :disabled="currentDirectory == breadcrumb.id">
-				<fa-icon v-if="index == 0" :icon="['fas', 'home']" class="fa-fw mr-1"></fa-icon>
+	<p-breadcrumbs class="mb-6 border-b border-gray-200 pb-3">
+		<template v-for="(breadcrumb, index) in crumbs">
+			<p-breadcrumb-divider v-if="index > 0" :key="breadcrumb.name + '-divider'"></p-breadcrumb-divider>
+
+			<p-breadcrumb :key="breadcrumb.name" @click="navigate(breadcrumb)">
 				{{ breadcrumb.name }}
-			</p-button>
+			</p-breadcrumb>
 		</template>
-	</div>
+	</p-breadcrumbs>
 </template>
 
 <script>
@@ -20,7 +19,7 @@
 		],
 
 		computed: {
-			nav() {
+			crumbs() {
 				let breadcrumbs = [...this.breadcrumbs]
 
 				if (! this.rootDirectory) {

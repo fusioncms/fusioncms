@@ -1,6 +1,6 @@
 <template>
 	<div class="gallery-container selectables">
-		<div class="gallery border-b border-gray-200 pb-2">
+		<div class="gallery pb-2">
 			<directory
 				v-for="directory in directories"
 				:key="directory.id"

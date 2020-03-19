@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<p-dropdown v-show="hasSelection">
+		<p-dropdown id="control-filter" right v-show="hasSelection">
 			<fa-icon class="fa-fw" :icon="['fas', 'bolt']"></fa-icon>
-			
-			<template slot="options">
-				<p-dropdown-item class="w-48" @click.prevent="clearSelection"><fa-icon :icon="['fas', 'minus-square']"></fa-icon> Unselect All</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-if="singleSelection" v-modal:rename-file><fa-icon :icon="['fas', 'tag']"></fa-icon> Rename File</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-modal:move-file><fa-icon :icon="['fas', 'exchange-alt']"></fa-icon> Move Selected</p-dropdown-item>
-				<p-dropdown-item class="w-48" v-modal:delete><fa-icon :icon="['fas', 'trash']"></fa-icon> Delete Selected</p-dropdown-item>
+
+			<template v-slot:menu>
+				<p-dropdown-link @click.prevent="clearSelection"><fa-icon :icon="['fas', 'minus-square']"></fa-icon> Unselect All</p-dropdown-link>
+				<p-dropdown-link v-if="singleSelection" v-modal:rename-file><fa-icon :icon="['fas', 'tag']"></fa-icon> Rename File</p-dropdown-link>
+				<p-dropdown-link v-modal:move-file><fa-icon :icon="['fas', 'exchange-alt']"></fa-icon> Move Selected</p-dropdown-link>
+				<p-dropdown-link v-modal:delete><fa-icon :icon="['fas', 'trash']"></fa-icon> Delete Selected</p-dropdown-link>
 			</template>
 		</p-dropdown>
 
@@ -29,9 +29,9 @@
 			...mapGetters({
 				selectedDirectories: 'filemanager/getSelectedDirectories',
                 selectedFiles: 'filemanager/getSelectedFiles',
-				hasSelection: 'filemanager/hasSelection',			
-				directories: 'filemanager/getDirectories',			
-				files: 'filemanager/getFiles',			
+				hasSelection: 'filemanager/hasSelection',
+				directories: 'filemanager/getDirectories',
+				files: 'filemanager/getFiles',
 			}),
 
 			singleSelection() {
