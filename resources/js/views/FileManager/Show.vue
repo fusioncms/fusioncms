@@ -165,19 +165,19 @@
                             title: this.file.name,
                             ratio: '16:9',
                             controls: [
-                                'play-large', // The large play button in the center
-                                'restart', // Restart playback
-                                'play', // Play/pause playback
-                                'progress', // The progress bar and scrubber for playback and buffering
+                                'play-large',   // The large play button in the center
+                                'restart',      // Restart playback
+                                'play',         // Play/pause playback
+                                'progress',     // The progress bar and scrubber for playback and buffering
                                 'current-time', // The current time of playback
-                                'duration', // The full duration of the media
-                                'mute', // Toggle mute
-                                'volume', // Volume control
-                                'captions', // Toggle captions
-                                'settings', // Settings menu
-                                'pip', // Picture-in-picture (currently Safari only)
-                                'airplay', // Airplay (currently Safari only)
-                                'fullscreen', // Toggle fullscreen
+                                'duration',     // The full duration of the media
+                                'mute',         // Toggle mute
+                                'volume',       // Volume control
+                                'captions',     // Toggle captions
+                                'settings',     // Settings menu
+                                'pip',          // Picture-in-picture (currently Safari only)
+                                'airplay',      // Airplay (currently Safari only)
+                                'fullscreen',   // Toggle fullscreen
                             ],
                             settings: ['quality', 'loop'],
                         })

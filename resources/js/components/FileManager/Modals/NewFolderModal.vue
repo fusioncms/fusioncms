@@ -1,15 +1,27 @@
 <template>
     <p-modal name="new-folder" title="Create New Folder">
-        <p-input name="name" label="Name this folder" placeholder="Folder name" v-model="name"></p-input>
+        <form @submit.prevent="submit">
+            <p-input
+                name="name"
+                label="Name this folder"
+                placeholder="Folder name"
+                autocomplete="off"
+                autofocus
+                :has-error="form.errors.has('name')"
+                :error-message="form.errors.get('name')"
+                v-model="form.name">
+            </p-input>
+        </form>
 
         <template v-slot:footer>
             <p-button v-modal:new-folder>Close</p-button>
-            <p-button theme="primary" @click="submit" v-modal:new-folder class="mr-1">Save</p-button>
+            <p-button theme="primary" @click="submit" class="mr-1">Save</p-button>
         </template>
     </p-modal>
 </template>
 
 <script>
+    import Form from '../../../forms/Form'
     import { mapActions, mapGetters } from 'vuex'
 
     export default {
@@ -17,7 +29,10 @@
 
         data() {
             return {
-                name: '',
+                form: new Form({
+                    parent_id: this.currentDirectory,
+                    name: '',
+                })
             }
         },
 
@@ -33,12 +48,10 @@
             }),
 
             submit() {
-                axios.post('/api/directories', {
-                    name: this.name,
-                    parent_id: this.currentDirectory,
-                }).then((response) => {
-                    this.name = ''
+                this.form.post('/api/directories').then((response) => {
+                    this.form.reset()
                     this.fetchFilesAndDirectories()
+                    this.$children[0].isActive = false
 
                     toast('A new directory was successfully created.', 'success')
                 }).catch((error) => {

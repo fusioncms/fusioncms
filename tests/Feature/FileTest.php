@@ -229,17 +229,20 @@ class FileTest extends TestCase
         $this
             ->be($this->admin, 'api')
             ->json('POST', '/api/files/replace/' . $file->id, [
-                'file' => UploadedFile::fake()->image('file.jpeg')
+                'file' => UploadedFile::fake()->image('file.jpeg', 25, 25)
             ])
             ->assertStatus(200);
 
-        Storage::disk('public')->assertMissing($file->location);
-        Storage::disk('public')->assertExists(File::find($file->id)->location);
+        // assert file still exists at same location
+        //   w/ same name..
+        Storage::disk('public')->assertExists($file->location);
 
         // assert file info has updated..
         $this->assertDatabaseHas('files', [
             'mimetype'  => 'image/jpeg',
             'extension' => 'jpeg',
+            'width'     => 25,
+            'height'    => 25,
         ]);
     }
 

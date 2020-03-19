@@ -1,5 +1,5 @@
 <template>
-    <p-modal ref="move" name="move-file" title="Move file(s) to directory">
+    <p-modal name="move-file" title="Move file(s) to directory">
         <p-treeview :items="directories" v-model="directory"><i class="fas fa-folder-open"></i>
             <template slot="prepend" slot-scope="{ node, open }">
                 <fa-icon v-if="open" :icon="['fas', 'folder-open']" class="mr-2" :class="{'fill-current text-info-500': node.isCurrent}"></fa-icon>
@@ -34,12 +34,6 @@
                     this.gatherOptions()
                 }
             },
-
-            hasSelection(value) {
-                if (! value) {
-                    this.$children[0].isActive = false
-                }
-            }
         },
 
         computed: {
@@ -47,7 +41,6 @@
                 selectedDirectories: 'filemanager/getSelectedDirectories',
                 currentDirectory:    'filemanager/getCurrentDirectory',
                 selectedFiles:       'filemanager/getSelectedFiles',
-                hasSelection:        'filemanager/hasSelection',
             })
         },
 
@@ -58,19 +51,21 @@
                 clearFileSelection:      'filemanager/clearFileSelection',
             }),
 
-            submit() {
+            submit() {  
                 if (this.directory) {
-                    this.moveFileToDirectory({
-                        directory: this.directory.id,
-                        moving: {
-                            files: this.selectedFiles,
-                            directories: this.selectedDirectories
-                        }
-                    })
+                    if (this.directory.id == this.currentDirectory) {
+                        toast('Cannot move files to same location.', 'warning')
+                    } else {
+                        this.moveFileToDirectory({
+                            directory: this.directory.id,
+                            moving: {
+                                files: this.selectedFiles,
+                                directories: this.selectedDirectories
+                            }
+                        })
+                    }
 
                     this.clearSelection()
-
-                    toast('File has been moved successfully!', 'success')
                 } else {
                     toast('No directory selected.', 'failed')
                 }
@@ -98,10 +93,10 @@
             gatherOptions() {
                 axios.get('/api/directories?recursive=true').then(({data}) => {
                     this.directories = [{
-                        id:        null,
+                        id:        '0',
                         name:      'Root',
                         isFolder:  true,
-                        isCurrent: this.currentDirectory === null,
+                        isCurrent: this.currentDirectory === 0,
                         children:  this.recursiveMap(data.data)
                     }]
                 })
@@ -109,8 +104,12 @@
         },
 
         created() {
-            this.$proton.$on('modal-opened', (name) => this.isOpen = true)
-            this.$proton.$on('modal-closed', (name) => this.isOpen = false)
+            this.$proton.$on('modal-opened', (name) => {
+                if (name == 'move-file') { this.isOpen = true }
+            })
+            this.$proton.$on('modal-closed', (name) => {
+                if (name == 'move-file') { this.isOpen = false }
+            })
         }
     }
 </script>

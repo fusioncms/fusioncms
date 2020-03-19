@@ -6,15 +6,15 @@ export default {
     state: {
         loading: true,
         files: [],
-        directory: null,
+        directory: 0,
         directories: [],
         selected: {
             files: [],
             directories: [],
         },
-        rootDirectory: null,
-        currentDirectory: null,
-        parentDirectory: null,
+        rootDirectory: 0,
+        currentDirectory: 0,
+        parentDirectory: 0,
         breadcrumbs: [],
         search: '',
         display: 'everything',
@@ -328,14 +328,16 @@ export default {
         }, 500),
 
         moveFileToDirectory({ commit, state, dispatch }, payload) {
-            axios.all([
-                axios.post(`/api/files/move`, {
-                    directory: payload.directory,
-                    moving: payload.moving
-                })
-            ]).then(axios.spread((response) =>  {
+            axios.post(`/api/files/move`, {
+                directory: payload.directory,
+                moving: payload.moving
+            }).then(response  => {
                 dispatch('fetchFilesAndDirectories')
-            }))
+
+                toast('File(s) have been successfully moved!', 'success')
+            }).catch(errors => {
+                toast(errors.response.data.errors.moving[0], 'failed')
+            })
         },
 
         setSearch(context, query) {
