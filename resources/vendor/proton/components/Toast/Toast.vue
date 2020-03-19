@@ -8,7 +8,7 @@
                 level !== 'secondary'">
             {{ level }}
         </span>
-        
+
         <span class="toast__message">{{ body }}</span>
     </div>
 </template>
@@ -24,7 +24,7 @@
         data() {
             return {
                 level: 'default',
-                
+
                 levels: {
                     default: '',
                     primary: 'toast--primary',
@@ -36,9 +36,9 @@
                     failed: 'toast--danger',
                     dark: 'toast--dark',
                 },
-                
+
                 body: '',
-                
+
                 show: false,
             }
         },
