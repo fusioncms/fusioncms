@@ -6,11 +6,7 @@
 
         <quicklinks :links="quicklinks"></quicklinks>
 
-        <div class="row">
-            <div class="col w-full">
-                <analytics-overview></analytics-overview>
-            </div>
-        </div>
+        <analytics-overview></analytics-overview>
 
         <div class="row">
             <div class="col w-full lg:w-2/3">
