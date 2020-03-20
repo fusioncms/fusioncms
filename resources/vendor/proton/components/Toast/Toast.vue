@@ -6,7 +6,7 @@
                     <div class="p-4">
                         <div class="flex items-start">
                             <div class="flex-shrink-0">
-                                <fa-icon icon="check-circle" class="h-6 w-6 text-success-500"></fa-icon>
+                                <fa-icon :icon="['fas', icon]" class="h-6 w-6 text-gray-500" :class="{'text-success-500': (level == 'success'), 'text-danger-500': (level == 'failed')}"></fa-icon>
                             </div>
 
                             <div class="ml-3 w-0 flex-1 pt-1">
@@ -63,6 +63,21 @@
                     this.toast(toast.message)
                 })
             }
+        },
+
+        computed: {
+            icon() {
+                switch (this.level) {
+                    case 'success':
+                        return 'check-circle'
+                        break
+                    case 'failed':
+                        return 'exclamation-circle'
+                        break
+                    default:
+                        return 'circle'
+                }
+            },
         },
 
         created() {
