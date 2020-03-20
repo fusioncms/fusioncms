@@ -11,6 +11,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Passwd;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserSecurity extends FormRequest
@@ -22,7 +23,7 @@ class UpdateUserSecurity extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('users.update');
     }
 
     /**
@@ -33,8 +34,8 @@ class UpdateUserSecurity extends FormRequest
     public function rules()
     {
         return [
-            'password'              => 'required|min:8',
-            'password_confirmation' => 'required|min:8|same:password',
+            'password'              => [ 'required', new Passwd ],
+            'password_confirmation' => 'required|same:password',
         ];
     }
 }

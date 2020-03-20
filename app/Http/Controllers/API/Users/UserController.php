@@ -14,6 +14,7 @@ namespace App\Http\Controllers\API\Users;
 use App\Models\User;
 use App\Events\UserDeleted;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -64,26 +65,12 @@ class UserController extends Controller
     /**
      * Store a new user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @return \App\Http\Resources\UserResource
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $this->authorize('users.create');
-
-        $rules = [
-            'name'                  => 'required',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:8',
-            'password_confirmation' => 'required|min:8|same:password',
-            'status'                => 'required|boolean',
-        ];
-
-        if ($request->has('role')) {
-            $rules['role'] = 'required';
-        }
-
-        $attributes             = $request->validate($rules);
+        $attributes             = $request->validated();
         $attributes['password'] = bcrypt($attributes['password']);
 
         $user = User::create($attributes);
@@ -98,39 +85,24 @@ class UserController extends Controller
     /**
      * Update an existing user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\Models\User  $user
      * @return \App\Http\Resources\UserResource
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $this->authorize('users.update');
+        $attributes = $request->validated();
 
-        $rules = [
-            'name'   => 'required',
-            'email'  => 'required|email|unique:users,email,' . $user->id,
-            'role'   => 'sometimes',
-            'status' => 'required|boolean',
-        ];
-
-        $attributes = $request->validate($rules);
-
-        // ---------------------------
-        if (! empty($request->input('password'))) {
-            fusion()->authorize()->post(
-                'users/' . $user->id . '/password',
-                $request->only([
-                    'password',
-                    'password_confirmation'
-                ])
-            );
+        // password (optional)..
+        if (isset($attributes['password'])) {
+            $attributes['password'] = bcrypt($attributes['password']);
         }
-        // ---------------------------
 
         $user->update($attributes);
 
-        if ($request->has('role')) {
-            $user->syncRoles($request->get('role'));
+        // role (optional)..
+        if (isset($attributes['role'])) {
+            $user->syncRoles($attributes['role']);
         }
 
         return new UserResource($user);

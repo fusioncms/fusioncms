@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -23,7 +25,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     static $password;
 
     return [
@@ -36,13 +38,20 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 
-// $factory->define(App\Models\Role::class, function (Faker $faker) {
-//     $name = $faker->word;
+$factory->afterCreatingState(User::class, 'guest', function ($user, $faker) {
+    $role = Role::firstOrCreate(['name' => 'Guest', 'slug' => 'guest', 'special' => 'no-access']);
 
-//     return [
-//         'name'        => $name,
-//         'slug'        => str_handle($name),
-//         'description' => $faker->sentence,
-//         'special'     => 'all-access',
-//     ];
-// });
+    $user->assignRoles([ $role->slug ]);
+});
+
+$factory->afterCreatingState(User::class, 'user', function ($user, $faker) {
+    $role = Role::firstOrCreate(['name' => 'User', 'slug' => 'user', 'special' => null]);
+
+    $user->assignRoles([ $role->slug ]);
+});
+
+$factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
+    $role = Role::firstOrCreate(['name' => 'Admin', 'slug' => 'admin', 'special' => 'all-access']);
+
+    $user->assignRoles([ $role->slug ]);
+});

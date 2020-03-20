@@ -33,7 +33,7 @@ class SecurityController extends Controller
      * @return Redirect
      */
     public function update(Request $request)
-    {
+    {dd($request->all());
         try {
             fusion()->authorize()->post(
                 'users/' . auth()->user()->id . '/password',
