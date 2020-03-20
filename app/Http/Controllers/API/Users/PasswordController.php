@@ -15,18 +15,18 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\UpdateUserSecurity;
+use App\Http\Requests\PasswordRequest;
 
 class PasswordController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \App\Http\Requests\UpdateUserSecurity  $request
-     * @param  \App\Models\User                       $user
+     * @param  \App\Http\Requests\PasswordRequest  $request
+     * @param  \App\Models\User                    $user
      * @return \App\Http\Resources\UserResource
      */
-    public function index(UpdateUserSecurity $request, User $user)
+    public function index(PasswordRequest $request, User $user)
     {
         $user->update([
             'password'            => bcrypt($request->password),

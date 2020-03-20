@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Http\Controllers\Web\Account;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserAccount;
+use App\Http\Requests\Account\SettingRequest;
 
 class SettingController extends Controller
 {
@@ -29,23 +20,26 @@ class SettingController extends Controller
     }
 
     /**
-     * @param  Request  $request
-     * @return mixed
+     * Show the specific resource.
+     * 
+     * @param  \Illuminate\Http\Request $request
+     * @return View
      */
     public function edit(Request $request)
     {
         return view('account.settings');
     }
 
-    public function update(UpdateUserAccount $request)
+    /**
+     * Update an existing resource in storage.
+     * 
+     * @param  \App\Http\Requests\Account\SettingRequest $request
+     * @return Redirect
+     */
+    public function update(SettingRequest $request)
     {
-        $user       = User::find(auth()->user()->id);
-        $attributes = $request->validated();
+        auth()->user()->update($request->validated());
 
-        $user->update($attributes);
-
-        \Flash::success('Account settings have been updated.');
-
-        return redirect()->back();
+        return back()->with('success','Account successfully updated!');
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Tests\Foundation\TestCase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -37,16 +38,17 @@ class PasswordTest extends TestCase
 	public function a_user_with_permission_can_update_a_users_password()
 	{
 		$oldPassword = $this->user->password;
+		$newPassword = $this->attributes['password'];
 
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
 			->assertStatus(200);
 
-		$this->assertDatabaseMissing('users', [
-			'id'       => $this->user->id,
-			'password' => $oldPassword,
-		]);
+		$user = $this->user->fresh();
+
+		$this->assertTrue(Hash::check($newPassword, $user->password));
+        $this->assertFalse(Hash::check($oldPassword, $user->password));
 	}
 
 	/**

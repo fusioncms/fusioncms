@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace App\Http\Requests;
+namespace App\Http\Requests\Account;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserAccount extends FormRequest
+class SettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +13,7 @@ class UpdateUserAccount extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->id == auth()->user()->id;
     }
 
     /**
