@@ -33,16 +33,20 @@ class MenuTest extends TestCase
         $this->handleValidationExceptions();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function a_user_with_permissions_can_create_a_menu()
     {
-        $this->actingAs($this->admin, 'api');
-
         $menu = factory(Menu::class)->make()->toArray();
 
-        $response = $this->json('POST', '/api/menus', $menu);
-
-        $response->assertStatus(201);
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/menus', $menu)
+            ->assertStatus(201);
 
         $this->assertDatabaseHas('menus', [
             'name'   => $menu['name'],
@@ -50,7 +54,12 @@ class MenuTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function when_a_menu_is_created_an_associated_fieldset_should_also_be_created()
     {
         $this->actingAs($this->admin, 'api');
@@ -62,27 +71,40 @@ class MenuTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function a_user_without_permissions_can_not_create_a_menu()
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
+    public function a_user_without_control_panel_access_cannot_create_a_new_menu()
     {
         $this->expectException(AuthenticationException::class);
 
-        $response = $this->json('POST', '/api/menus', [
-            'name'   => 'Test',
-            'handle' => 'test',
-            'slug'   => 'test',
-        ]);
-
-        $response->assertStatus(422);
-
-        $this->assertDatabaseMissing('menus', [
-            'name'   => 'Test',
-            'handle' => 'test',
-            'slug'   => 'test',
-        ]);
+        $this->json('POST', '/api/menus', []);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
+    public function a_user_without_permissions_cannot_create_a_new_menu()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this
+            ->actingAs($this->user, 'api')
+            ->json('POST', '/api/menus', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function a_user_with_permissions_can_update_an_existing_menu()
     {
         $this->actingAs($this->admin, 'api');
@@ -92,9 +114,9 @@ class MenuTest extends TestCase
         $data                = $menu->toArray();
         $data['description'] = 'This is the new menu description';
 
-        $response = $this->json('PATCH', '/api/menus/'.$menu->id, $data);
-
-        $response->assertStatus(200);
+        $this
+            ->json('PATCH', '/api/menus/'.$menu->id, $data)
+            ->assertStatus(200);
 
         $this->assertDatabaseHas('menus', [
             'name'        => $data['name'],
@@ -102,108 +124,33 @@ class MenuTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function a_user_with_permissions_can_delete_an_existing_menu()
     {
         $this->actingAs($this->admin, 'api');
 
         $menu = MenuFactory::create();
 
-        $response = $this->json('DELETE', '/api/menus/'.$menu->id);
-
-        $response->assertStatus(200);
+        $this
+            ->json('DELETE', '/api/menus/'.$menu->id)
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('menus', [
             'name' => $menu->name
         ]);
     }
 
-    /** @test */
-    public function a_user_with_permissions_can_create_a_new_menu_node()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $menu = $menu = MenuFactory::withName('Header')->create();
-
-        $node = [
-            'name' => 'Example',
-            'url'  => 'https://example.com',
-        ];
-
-        $this
-            ->json('POST', '/api/menus/'.$menu->id.'/nodes', $node)
-            ->assertStatus(201);
-
-        $this->assertDatabaseHas($menu->table, $node);
-    }
-
-    /** @test */
-    public function an_order_is_generated_with_every_node()
-    {
-        Model::clearBootedModels();
-
-        $this->actingAs($this->admin, 'api');
-
-        $menu = $menu = MenuFactory::withName('Header')->create();
-
-        $node = [
-            'name' => 'Example',
-            'url'  => 'https://example.com',
-            'order' => null,
-        ];
-
-        $node = $this
-            ->json('POST', '/api/menus/'.$menu->id.'/nodes', $node)
-            ->getData()->data;
-
-        $this->assertDatabaseHas($menu->table, ['name' => 'Example', 'order' => 1]);
-    }
-
-    /** @test */
-    public function a_user_with_permissions_can_update_an_existing_node()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $menu = $menu = MenuFactory::withName('Header')->create();
-
-        $node = $this
-            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
-                'name' => 'Example',
-                'url'  => 'https://example.com',
-            ])
-            ->getData()->data;
-
-        $this
-            ->json('PATCH', '/api/menus/'.$menu->id.'/nodes/'. $node->id, [
-                'name'   => 'New Node Name',
-            ])
-            ->assertStatus(200);
-
-        $this->assertDatabaseHas($menu->table, [ 'name' => 'New Node Name' ]);
-        $this->assertDatabaseMissing($menu->table, [ 'name' => 'Example' ]);
-    }
-
-    /** @test */
-    public function a_user_with_permissions_can_delete_an_existing_node()
-    {
-        $this->actingAs($this->admin, 'api');
-
-        $menu = $menu = MenuFactory::withName('Header')->create();
-
-        $node = $this
-            ->json('POST', '/api/menus/'.$menu->id.'/nodes', [
-                'name' => 'Example',
-                'url'  => 'https://example.com',
-            ])
-            ->getData()->data;
-
-        $this
-            ->json('DELETE', '/api/menus/'.$menu->id.'/nodes/' . $node->id);
-
-        $this->assertDatabaseMissing($menu->table, [ 'id' => $node->id ]);
-    }
-
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function a_user_with_permissions_can_move_a_menu_node_before_another()
     {
         $this->actingAs($this->admin, 'api');
@@ -235,7 +182,12 @@ class MenuTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function a_user_with_permissions_can_move_a_menu_node_after_another()
     {
         $this->actingAs($this->admin, 'api');
@@ -274,7 +226,12 @@ class MenuTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group menu
+     */
     public function menu_nodes_can_be_refreshed()
     {
         $this->actingAs($this->admin, 'api');
@@ -316,6 +273,7 @@ class MenuTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
      * @group feature
      * @group menu
      */

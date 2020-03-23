@@ -94,14 +94,14 @@ class ImporterTest extends TestCase
             'mappings' => []
         ]);
 
-        $response = $this->json(
+        $this->json(
             'GET',
             '/api/imports/mapping/' . $import->id,
         );
 
         $this->assertEquals([
                 ['ID', 'Name', 'Email', 'Password', 'Status'],
-                [1, 'Mrs. Nora Hickle', 'boyer.alberto@example.org', 'kHONkRQOqB6jpK2kp7W2', 1]
+                [1, 'Mrs. Nora Hickle', 'boyer.alberto@example.org', 'r22S3q0cED#t+U+s', 1]
         ], $import->fresh()->preview->toArray());
     }
 
