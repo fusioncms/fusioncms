@@ -34,7 +34,7 @@ class FileUploadRequest extends FormRequest
             $bytes     = $this->upload->getSize();
             $mimetype  = $this->upload->getClientMimeType();
             $name      = pathinfo($this->upload->getClientOriginalName(), PATHINFO_FILENAME);
-            $slug      = Str::slug($uuid . ' ' . $name);
+            $slug      = Str::slug("{$uuid}-{$name}");
             $original  = Str::slug($name) . ".{$extension}";
             $location  = Storage::disk('public')->putFileAs('files', $this->upload, "{$slug}.{$extension}");
 

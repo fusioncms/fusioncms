@@ -51,24 +51,11 @@ class FileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => 'required_without_all:description',
-            'description'  => 'required_without_all:name',
+            'name'         => 'required',
+            'description'  => 'sometimes',
             'slug'         => 'sometimes',
             'original'     => 'sometimes',
             'location'     => 'sometimes',
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'name.required_without_all'         => 'At least a :attribute is required',
-            'description.required_without_all'  => 'At least a :attribute is required',
         ];
     }
 }

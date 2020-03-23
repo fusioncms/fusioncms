@@ -20,6 +20,8 @@ class DeleteLogFiles
      */
     public function handle()
     {
-        exec('rm ' . storage_path('logs/*.log'), $output);
+    	if (! empty(glob(storage_path('logs/*.log')))) {
+        	exec('rm ' . storage_path('logs/*.log'));
+    	}
     }
 }
