@@ -2,14 +2,14 @@
     <p-modal name="delete" title="Delete permanently?">
         <p>
             The selected
-            <span v-if="total === 1">file or folder</span>
-            <span v-else>{{ total }} files or folders</span>
+            <span v-if="selectionCount === 1">file or folder</span>
+            <span v-else>{{ selectionCount }} files or folders</span>
             will be permanently deleted. <strong>Be advised this action can not be undone.</strong>
         </p>
 
         <p>
             Any existing links to
-            <span v-if="total === 1">this file or folder</span>
+            <span v-if="selectionCount === 1">this file or folder</span>
             <span v-else>these files or folders</span>
             (if not removed) may result in errors.
         </p>
@@ -29,45 +29,52 @@
 
         computed: {
             ...mapGetters({
-                files: 'filemanager/getSelectedFiles',
-                directories: 'filemanager/getSelectedDirectories',
-            }),
+                selectedDirectories: 'filemanager/getSelectedDirectories',
+                selectedFiles:       'filemanager/getSelectedFiles',
+                hasSelection:        'filemanager/hasSelection',
+                selectionCount:      'filemanager/selectionCount',
+            })
+        },
 
-            total() {
-                this.files.length + this.directories.length
+        watch: {
+            hasSelection(value) {
+                if (value == false) {
+                    this.fetchFilesAndDirectories()
+                    this.$children[0].isActive = false
+                }
             }
         },
 
         methods: {
             ...mapActions({
                 fetchFilesAndDirectories: 'filemanager/fetchFilesAndDirectories',
-                clearFileSelection: 'filemanager/clearFileSelection',
-                clearDirectorySelection: 'filemanager/clearDirectorySelection',
+                toggleDirectorySelection: 'filemanager/toggleDirectorySelection',
+                toggleFileSelection:      'filemanager/toggleFileSelection',
             }),
 
             submit() {
-                let vm = this
+                const selectionCount = this.selectionCount
 
-                _.each(this.directories, function(directory) {
-                    axios.delete('/api/directories/' + directory).then(() => {
-                        vm.fetchFilesAndDirectories()
+                // delete directories..
+                _.each(this.selectedDirectories, (id) => {
+                    axios.delete(`/api/directories/${id}`).then(() => {
+                        this.toggleDirectorySelection(id)
                     })
                 })
 
-                _.each(this.files, function(file) {
-                    axios.delete('/api/files/' + file).then(() => {
-                        vm.fetchFilesAndDirectories()
+                // delete files..
+                _.each(this.selectedFiles, (id) => {
+                    axios.delete(`/api/files/${id}`).then(() => {
+                        this.toggleFileSelection(id)
                     })
                 })
 
-                if (this.total === 1) {
+                if (selectionCount === 1) {
                     toast('The selected file or folder was successfully deleted.', 'success')
                 } else {
-                    toast('The ' + this.total + ' selected files or folders were successfully deleted.', 'success')
+                    toast('The ' + selectionCount + ' selected files or folders were successfully deleted.', 'success')
                 }
-
-                this.clearFileSelection()
-            },
+            }
         }
     }
 </script>
