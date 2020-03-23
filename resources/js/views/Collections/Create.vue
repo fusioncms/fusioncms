@@ -47,7 +47,7 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            getCollection(to.params.collection, (error, matrix, fields) => {
+            getCollection(to.params.collection, (error, collection, fields) => {
                 if (error) {
                     next((vm) => {
                         vm.$router.push('/collections/' + vm.$router.currentRoute.params.collection)
@@ -56,7 +56,7 @@
                     })
                 } else {
                     next((vm) => {
-                        vm.collection = matrix
+                        vm.collection = collection
                         vm.form = new Form(fields, true)
 
                         vm.$emit('updateHead')
@@ -83,11 +83,9 @@
         }
     }
 
-    export function getCollection(collection, callback) {
-        console.log(collection)
-
-        axios.get('/api/matrices/slug/' + collection).then((response) => {
-            let matrix = response.data.data
+    export function getCollection(slug, callback) {
+        axios.get('/api/matrices/slug/' + slug).then((response) => {
+            let collection = response.data.data
 
             let fields = {
                 name: '',
@@ -95,18 +93,16 @@
                 status: 1,
             }
 
-            if (matrix.fieldset) {
-                _.forEach(matrix.fieldset.sections, function(section) {
+            if (collection.fieldset) {
+                _.forEach(collection.fieldset.sections, function(section) {
                     _.forEach(section.fields, function(field) {
                         fields[field.handle] = field.default
                     })
                 })
             }
 
-            callback(null, matrix, fields)
+            callback(null, collection, fields)
         }).catch(function(error) {
-            console.log(error)
-
             callback(new Error('The requested collection could not be found'))
         })
     }

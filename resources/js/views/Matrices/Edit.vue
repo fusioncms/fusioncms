@@ -4,7 +4,7 @@
             <app-title icon="hashtag">Edit Matrix</app-title>
         </portal>
 
-        <shared-form :id="id" :form="form" :submit="submit" :fieldsets="fieldsets" :matrices="matrices"></shared-form>
+        <shared-form :id="id" :form="form" :matrix="matrix" :submit="submit" :fieldsets="fieldsets" :matrices="matrices"></shared-form>
     </div>
 </template>
 
@@ -29,6 +29,7 @@
                 parent_id: '',
                 fieldsets: [],
                 matrices: [],
+                matrix: {},
                 form: new Form({
                     parent_id: 0,
                     name: '',
@@ -76,10 +77,10 @@
                 if (this.form.reference_plural == '') {
                     this.form.reference_plural = pluralize(this.form.name)
                 }
-                
+
                 this.form.patch('/api/matrices/' + this.id).then((response) => {
                     store.dispatch('navigation/fetchAdminNavigation')
-                    
+
                     toast('Matrix successfully updated', 'success')
 
                     this.$router.push('/matrices')
@@ -96,6 +97,7 @@
                 axios.get('/api/matrices')
             ]).then(axios.spread(function (matrix, fieldsets, matrices) {
                 next(function(vm) {
+                    vm.matrix = matrix.data.data
                     vm.fieldsets = _.map(fieldsets.data.data, function(fieldset) {
                         return {
                             'label': fieldset.name,
