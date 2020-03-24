@@ -4,9 +4,7 @@
             <app-title icon="user-shield">Edit Role</app-title>
         </portal>
 
-        <div class="row">
-            <shared-form :form="form" :flags="flags"></shared-form> 
-        </div>
+        <shared-form :form="form" :role="role" :flags="flags" :submit="submit"></shared-form>
     </div>
 </template>
 
@@ -18,14 +16,14 @@
         head: {
             title() {
                 return {
-                    inner: this.name || 'Loading...'
+                    inner: this.role.name || 'Loading...'
                 }
             }
         },
 
         data() {
             return {
-                id: Number(this.$route.params.role) || null,
+                role: {},
                 flags: [
                     {
                         label: 'None',
@@ -40,12 +38,7 @@
                         value: 'no-access',
                     },
                 ],
-                form: new Form({
-                    name: '',
-                    slug: '',
-                    description: '',
-                    special: '',
-                }, true)
+                form: new Form,
             }
         },
 
@@ -55,7 +48,7 @@
 
         methods: {
             submit() {
-                this.form.patch(`/api/roles/${this.id}`).then((response) => {
+                this.form.patch(`/api/roles/${this.role.id}`).then((response) => {
                     toast('Role successfully updated', 'success')
 
                     this.$router.push('/roles')
@@ -66,25 +59,38 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/roles/' + to.params.role),
-            ]).then(axios.spread(function (role) {
-                next(function(vm) {
-                    vm.role = role.data.data
-                    vm.id   = role.data.data.id
+            getRole(to.params.role, (error, role, fields) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/roles')
 
-                    vm.form.name        = vm.role.name
-                    vm.form.slug        = vm.role.slug
-                    vm.form.description = vm.role.description
-                    vm.form.special     = vm.role.special || ''
-
-                    vm.$emit('updateHead')
-
-                    vm.$nextTick(function(){
-                        vm.form.resetChangeListener()
+                        toast(error.toString(), 'danger')
                     })
-                })
-            }))
+                } else {
+                    next((vm) => {
+                        vm.role = role
+                        vm.form = new Form(fields, true)
+
+                        vm.$emit('updateHead')
+                    })
+                }
+            })
         },
+    }
+
+    export function getRole(id, callback) {
+        axios.get('/api/roles/' + id).then((response) => {
+            let role = response.data.data
+            let fields = {
+                name: role.name,
+                slug: role.slug,
+                description: role.description,
+                special: role.special,
+            }
+
+            callback(null, role, fields)
+        }).catch(function(error) {
+            callback(new Error('The requested role could not be found'))
+        })
     }
 </script>

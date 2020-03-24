@@ -4,9 +4,7 @@
             <app-title icon="user-shield">Create Role</app-title>
         </portal>
 
-        <div class="row">
-            <shared-form :form="form" :flags="flags"></shared-form> 
-        </div>
+        <shared-form :form="form" :flags="flags" :submit="submit"></shared-form>
     </div>
 </template>
 
@@ -63,7 +61,7 @@
                 })
             },
         },
-        
+
         mounted() {
             this.$nextTick(function(){
                 this.form.resetChangeListener()
