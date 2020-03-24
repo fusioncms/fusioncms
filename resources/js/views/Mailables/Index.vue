@@ -5,7 +5,7 @@
 		</portal>
 
 		<portal to="actions">
-			<p-button v-modal:settings class="button mr-3">Settings</p-button>
+			<button v-modal:settings class="button">Settings</button>
 		</portal>
 
 		<div class="row">

@@ -123,7 +123,7 @@ class BootstrapAdminMenu
                 'icon' => 'paper-plane',
             ]);
 
-            $menu->configure->add('Mail')->data([
+            $menu->configure->add('Mailables')->data([
                 'to'   => '/mailables',
                 'icon' => 'mail-bulk',
             ]);
