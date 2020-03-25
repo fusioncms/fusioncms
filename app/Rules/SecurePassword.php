@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class Passwd implements Rule
+class SecurePassword implements Rule
 {
     /**
      * Min password length requirement.

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\Passwd;
+use App\Rules\SecurePassword;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -50,9 +50,9 @@ class UserRequest extends FormRequest
         ];
 
         if ($this->method() === 'POST') {
-            $rules['password'] = [ 'required', new Passwd ];
+            $rules['password'] = [ 'required', new SecurePassword ];
         } else {
-            $rules['password'] = [ 'sometimes', 'required', new Passwd ];
+            $rules['password'] = [ 'sometimes', 'required', new SecurePassword ];
         }
 
         return $rules;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\Passwd;
+use App\Rules\SecurePassword;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PasswordRequest extends FormRequest
@@ -25,7 +25,7 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password'              => [ 'required', new Passwd ],
+            'password'              => [ 'required', new SecurePassword ],
             'password_confirmation' => 'required|same:password',
         ];
     }
