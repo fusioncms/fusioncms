@@ -14,11 +14,7 @@ namespace Tests\Feature;
 use App\Models\Form;
 use App\Models\Fieldset;
 use Facades\FormFactory;
-use Facades\FieldFactory;
-use Facades\SectionFactory;
-use Facades\FieldsetFactory;
 use Tests\Foundation\TestCase;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -31,33 +27,74 @@ class FormTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->handleValidationExceptions();
+
+        // --
+        // $this->section  = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        // $this->field    = \Facades\FieldFactory::withName('E-mail')->withSection($this->section)->create();
+        // $this->fieldset = \Facades\FieldsetFactory::withName('Form: Contact Us')->withSections(collect([$this->section]))->create();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
     public function a_user_with_permissions_can_create_a_form()
     {        
-        $this->actingAs($this->admin, 'api');
+        $attributes = factory(Form::class)->make()->toArray();
 
-        $form = factory(Form::class)->make()->toArray();
-
-        $response = $this->json('POST', '/api/forms', $form);
-
-        $response->assertStatus(201);
+        $this
+            ->be($this->admin, 'api')
+            ->json('POST', '/api/forms', $attributes)
+            ->assertStatus(201);
 
         $this->assertDatabaseHas('forms', [
-            'name'   => $form['name'],
-            'handle' => $form['handle'],
-            'slug'   => $form['slug'],
+            'name'   => $attributes['name'],
+            'handle' => $attributes['handle'],
+            'slug'   => $attributes['slug'],
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
+    public function a_user_without_control_panel_access_cannot_create_new_forms()
+    {
+        $this->expectException(AuthenticationException::class);
+
+        $this->json('POST', '/api/forms', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
+    public function a_user_without_permissions_cannot_create_new_forms()
+    {
+        $this->expectException(AuthorizationException::class);
+        
+        $this
+            ->be($this->user, 'api')
+            ->json('POST', '/api/forms', []);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
     public function when_a_form_is_created_an_associated_fieldset_should_also_be_created()
     {
+        // Note: auth required for dispatcher
         $this->actingAs($this->admin, 'api');
-
         $form = FormFactory::withName('Contact Us')->create();
 
         $this->assertDatabaseHas('fieldsets', [
@@ -65,82 +102,129 @@ class FormTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function a_user_without_permissions_can_not_create_a_form()
-    {
-        $this->expectException(AuthenticationException::class);
-        
-        $response = $this->json('POST', '/api/forms', [
-            'name'   => 'Test',
-            'handle' => 'test',
-            'slug'   => 'test',
-        ]);
-
-        $response->assertStatus(422);
-
-        $this->assertDatabaseMissing('forms', [
-            'name'   => 'Test',
-            'handle' => 'test',
-            'slug'   => 'test',
-        ]);
-    }
-
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
     public function a_user_with_permissions_can_update_an_existing_form()
     {
+        // Note: auth required for dispatcher
         $this->actingAs($this->admin, 'api');
-
         $form = FormFactory::create();
 
-        $data                = $form->toArray();
-        $data['description'] = 'This is the new form description';
+        // Update ----
+        $attributes                = $form->toArray();
+        $attributes['description'] = 'This is the new form description';
 
-        $response = $this->json('PATCH', '/api/forms/'.$form->id, $data);
-
-        $response->assertStatus(200);
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', '/api/forms/' . $form->id, $attributes)
+            ->assertStatus(200);
 
         $this->assertDatabaseHas('forms', [
-            'name'        => $data['name'],
-            'description' => $data['description']
+            'id'          => $form->id,
+            'description' => $attributes['description']
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
     public function a_user_with_permissions_can_delete_an_existing_form()
     {
+        // Note: auth required for dispatcher
         $this->actingAs($this->admin, 'api');
-
         $form = FormFactory::create();
 
-        $response = $this->json('DELETE', '/api/forms/'.$form->id);
-
-        $response->assertStatus(200);
+        $this
+            ->be($this->admin, 'api')
+            ->json('DELETE', '/api/forms/' . $form->id)
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('forms', [
             'name' => $form->name
         ]);
     }
 
-    /** @test */
-    public function a_guest_can_submit_a_form_response()
+    /**
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
+    // public function a_form_response_will_be_recorded_in_the_activity_log()
+    // {
+    //     // guest form request
+    //     $this
+    //         ->be($this->user)
+    //         ->post($form->path(), [
+    //             'e-mail' => $this->user->email
+    //         ])
+    //         ->assertStatus(302);
+
+    //     $response = $form->responses()->latest()->first();
+
+    //     $this->assertDatabaseHas('activity_log', [
+    //         'description' => "Submitted response to {$form->name} ({$this->user->email})",
+    //         'subject_id'  => $response->id,
+    //         'causer_type' => 'App\Models\User',
+    //         'causer_id'   => $this->user->id,
+    //     ]);
+    // }
+
+    /**
+     * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
+    public function a_form_can_be_set_to_collect_ips()
     {
         $this->actingAs($this->admin, 'api');
-
         $form = FormFactory::withName('Contact Us')->thatCollectsIPs()->create();
 
-        // This request is not authenticated as the admin, as the admin
-        // login was issued through the api guard
-        $response = $this->post($form->path());
+        // guest form request
+        $this
+            ->be($this->guest)
+            ->post($form->path())
+            ->assertStatus(302);
 
-        $response->assertStatus(302);
-
-        $this->assertDatabaseHas('form_'.$form->handle, [
+        $this->assertDatabaseHas($form->table, [
+            'form_id' => $form->id,
             'identifiable_ip_address' => '127.0.0.1'
         ]);
     }
 
     /**
      * @test
+     * @group fusioncms
+     * @group feature
+     * @group form
+     */
+    public function a_forms_ability_to_collect_ips_is_disabled_on_default()
+    {
+        $this->actingAs($this->admin, 'api');
+        $form = FormFactory::withName('Contact Us')->create();
+
+        // guest form request
+        $this
+            ->be($this->guest)
+            ->post($form->path())
+            ->assertStatus(302);
+
+        $this->assertDatabaseMissing($form->table, [
+            'form_id' => $form->id,
+            'identifiable_ip_address' => '127.0.0.1'
+        ]);
+    }
+
+    /**
+     * @test
+     * @group fusioncms
      * @group feature
      * @group form
      */
@@ -160,6 +244,7 @@ class FormTest extends TestCase
 
     /**
      * @test
+     * @group fusioncms
      * @group feature
      * @group form
      */

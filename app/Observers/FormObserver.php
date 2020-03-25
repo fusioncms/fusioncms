@@ -106,12 +106,10 @@ class FormObserver
     {
         $form::unsetEventDispatcher();
 
-        $fieldsetName = 'Form: '.$form->name;
-
         // Create the fieldset first
         $fieldset = fusion()->post('fieldsets', [
-            'name'   => $fieldsetName,
-            'handle' => Str::slug($fieldsetName, '_'),
+            'name'   => ($name = 'Form: ' . $form->name),
+            'handle' => Str::slug($name, '_'),
         ]);
 
         // Resolve the model instance

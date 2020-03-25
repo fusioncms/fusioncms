@@ -11,6 +11,7 @@
 
 namespace App\Providers;
 
+use App\Models\Fieldset;
 use App\Models\SettingSection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
