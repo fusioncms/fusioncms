@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use App\Models\Form;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -23,11 +24,9 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\Form::class, function (Faker $faker) {
-    $name = $faker->words(2, true);
-
+$factory->define(Form::class, function (Faker $faker) {
     return [
-        'name'        => $name,
+        'name'        => ($name = $faker->words(2, true)),
         'handle'      => Str::slug($name, '_'),
         'slug'        => Str::slug($name, '-'),
         'description' => $faker->sentence,

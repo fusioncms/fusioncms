@@ -44,6 +44,10 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('backup', function ($filename) {
             return new Backup(Storage::disk('public'), "backups/{$filename}.zip");
         });
+
+        Route::bind('fieldset', function($id) {
+            return \App\Models\Fieldset::findOrFail($id);
+        });
     }
 
     /**

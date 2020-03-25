@@ -17,7 +17,14 @@ class FormFactory implements Factory
      */
     protected $fieldset;
 
+    /**
+     * @var boolean
+     */
     protected $collectsEmails = false;
+
+    /**
+     * @var boolean
+     */
     protected $collectsIPs = false;
 
     /**

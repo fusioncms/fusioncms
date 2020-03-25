@@ -12,41 +12,22 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Form;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResponseRequest;
 
 class ResponseController extends Controller
 {
     /**
      * Show the home index screen.
      *
+     * @param \App\Http\Requests\ResponseRequest  $request
+     * @param  string  $form
      * @return Theme
      */
-    public function store(Request $request, $form)
+    public function store(ResponseRequest $request, $form)
     {
-        $form  = Form::where('slug', $form)->first();
-        $rules = [];
-
-        if (! $form) {
-            abort(404);
-        }
-
-        $fields = $form->fieldset->database();
-        
-        foreach ($fields as $field) {
-            $rules[$field->handle] = $field->validation ?: 'sometimes';
-        }
-
-        $attributes            = $request->validate($rules);
-        $attributes['form_id'] = $form->id;
-
-        if ($form->collect_ip_addresses) {
-            $attributes['identifiable_ip_address'] = request()->ip();
-        }
-
-        // dd($attributes);
-
-        $response = $form->responses()->create($attributes);
+        $form     = $request->form->fresh();
+        $response = $form->responses()->create($request->validated());
 
         activity()
             ->performedOn($response)
@@ -54,7 +35,7 @@ class ResponseController extends Controller
                 'icon' => 'paper-plane',
                 'link' => 'test',
             ])
-            ->log('Submitted response to '.$form->name.' (:subject.identifiable_email_address)');
+            ->log('Submitted response to ' . $form->name . ' (:subject.identifiable_email_address)');
 
         if (! $form->redirect_on_submission) {
             $redirect = $form->thankyouPath();

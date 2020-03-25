@@ -15,23 +15,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\UpdateUserSecurity;
+use App\Http\Requests\PasswordRequest;
 
 class PasswordController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  UpdateUserSecurity $request
-     * @param  User               $user
-     * @return Response
+     * @param  \App\Http\Requests\PasswordRequest  $request
+     * @param  \App\Models\User                    $user
+     * @return \App\Http\Resources\UserResource
      */
-    public function index(UpdateUserSecurity $request, User $user)
+    public function index(PasswordRequest $request, User $user)
     {
-        $this->authorize('users.update');
-
         $user->update([
-            'password'            => bcrypt($request->input('password')),
+            'password'            => bcrypt($request->password),
             'password_changed_at' => now(),
         ]);
 

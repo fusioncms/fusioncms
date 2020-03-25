@@ -53,7 +53,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // $this->withoutExceptionHandling();
+        activity()->disableLogging();
 
         Theme::set('hello');
 
@@ -105,6 +105,8 @@ abstract class TestCase extends BaseTestCase
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         // Artisan::call('module:optimize');
+        
+        activity()->enableLogging();
     }
 
     /**
