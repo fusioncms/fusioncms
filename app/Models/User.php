@@ -66,6 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = [
         'role',
+        'verified',
     ];
 
     /**
@@ -143,6 +144,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getRoleAttribute()
     {
         return $this->roles->first();
+    }
+
+    public function getVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
     }
 
     /**

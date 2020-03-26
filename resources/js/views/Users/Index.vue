@@ -10,17 +10,19 @@
 
         <div class="row">
             <div class="side-container">
-                <p-card>
-                    <div class="list">
-                        <router-link :to="{ name: 'users' }" class="list--item" exact>All Users</router-link>
+                <div class="card">
+                    <div class="card__body">
+                        <div class="list">
+                            <router-link :to="{ name: 'users' }" class="list--item" exact>All Users</router-link>
 
-                        <span class="list--separator">Roles</span>
+                            <span class="list--separator">Roles</span>
 
-                        <router-link v-for="role in filteredRoles" :key="role.id" :to="{ name: 'users.role', params: { role: role.slug } }" class="list--item" exact>
-                            {{ role.name }}
-                        </router-link>
+                            <router-link v-for="role in filteredRoles" :key="role.id" :to="{ name: 'users.role', params: { role: role.slug } }" class="list--item" exact>
+                                {{ role.name }}
+                            </router-link>
+                        </div>
                     </div>
-                </p-card>
+                </div>
             </div>
 
             <div class="content-container">

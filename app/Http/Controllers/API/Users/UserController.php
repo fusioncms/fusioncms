@@ -77,11 +77,9 @@ class UserController extends Controller
             'password'              => 'required|min:8',
             'password_confirmation' => 'required|min:8|same:password',
             'status'                => 'required|boolean',
+            'role'                  => 'sometimes|required',
+            'email_verified_at'     => 'sometimes|required'
         ];
-
-        if ($request->has('role')) {
-            $rules['role'] = 'required';
-        }
 
         $attributes             = $request->validate($rules);
         $attributes['password'] = bcrypt($attributes['password']);

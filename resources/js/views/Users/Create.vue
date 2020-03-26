@@ -4,7 +4,7 @@
             <app-title icon="user-alt">Create User</app-title>
         </portal>
 
-        <shared-form :form="form" :roleOptions="roleOptions"></shared-form>               
+        <shared-form :form="form" :roleOptions="roleOptions" :submit="submit"></shared-form>
     </div>
 </template>
 
@@ -30,7 +30,8 @@
                     role: null,
                     password: '',
                     password_confirmation: '',
-                    status: '1',
+                    email_verified_at: this.$moment().format('X'),
+                    status: 1,
                 }, true)
             }
         },
@@ -69,13 +70,31 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.all([
-                axios.get('/api/roles'),
-            ]).then(axios.spread(function (roles, user) {
-                next(function(vm) {
-                    vm.roles = roles.data.data
-                })
-            }))
+            getRoles((error, roles) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/users')
+
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.roles = roles
+
+                        vm.$emit('updateHead')
+                    })
+                }
+            })
         },
+    }
+
+    export function getRoles(callback) {
+        axios.get('/api/roles').then((response) => {
+            let roles = response.data.data
+
+            callback(null, roles)
+        }).catch(function(error) {
+            callback(new Error('Roles could not be found'))
+        })
     }
 </script>
