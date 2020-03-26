@@ -4,37 +4,44 @@
             <app-title icon="paint-roller">Theme</app-title>
         </portal>
 
+        <portal to="actions">
+            <div class="buttons">
+                <router-link :to="{ name: 'themes.index' }" class="button">Browse</router-link>
+                <button type="submit" @click.prevent="submit" class="button button--primary">Save</button>
+            </div>
+        </portal>
+
         <div class="row">
             <div class="side-container">
-                <p-card class="mb-6 flex flex-col items-center justify-center">
-                    <div class="text-center mb-3">
+                <div class="card">
+                    <div class="card__body text-center">
                         Your currently set theme is <span class="font-bold">{{ theme.name }}</span>.
                     </div>
+                </div>
 
-                    <button class="button w-full" v-modal:learn-more>Learn More</button>
-                </p-card>
+                <div class="card">
+                    <div class="card__body">
+                        <h3 class="font-bold text-lg">Theme Settings</h3>
 
-                <p-card>
-                    <h3 class="font-bold text-lg">Theme Settings</h3>
-
-                    <component
-                        v-for="(setting, handle) in theme.settings"
-                        v-model="theme.setting[handle]"
-                        :key="handle"
-                        :is="setting.fieldtype + '-fieldtype'"
-                        :field="{
-                            name: setting.name,
-                            handle: handle,
-                            help: setting.help,
-                            settings: {},
-                        }"
-                        class="mb-8"
-                    ></component>
-                </p-card>
+                        <component
+                            v-for="(setting, handle) in theme.settings"
+                            v-model="theme.setting[handle]"
+                            :key="handle"
+                            :is="setting.fieldtype + '-fieldtype'"
+                            :field="{
+                                name: setting.name,
+                                handle: handle,
+                                help: setting.help,
+                                settings: {},
+                            }"
+                            class="mb-8"
+                        ></component>
+                    </div>
+                </div>
             </div>
 
             <div class="content-container">
-                <p-card no-body>
+                <div class="card">
                     <div class="w-full p-2 bg-gray-700 rounded-t flex">
                         <button class="ml-2 mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reload"><fa-icon :icon="['fas', 'redo']" class="fa-fw text-white"></fa-icon></button>
                         <button class="mr-4 focus:outline-none focus:bg-gray-800" @click.prevent="reset"><fa-icon :icon="['fas', 'home']" class="fa-fw text-white"></fa-icon></button>
@@ -52,15 +59,9 @@
                         height="1080px"
                         border="0"
                     ></p-frame>
-                </p-card>
+                </div>
             </div>
         </div>
-
-        <portal to="actions">
-            <router-link :to="{ name: 'themes.index' }" class="button mr-3">Browse</router-link>
-            <button type="submit" @click.prevent="submit" class="button button--primary">Save Settings</button>
-        </portal>
-
 
         <portal to="modals">
             <p-modal name="learn-more" large no-header>
@@ -128,7 +129,7 @@
                 this.theme.setting['_method'] = 'PATCH'
 
                 axios.post(`/api/themes/${this.theme.slug}`, this.theme.setting).then(() => {
-                    toast('Settings have been updated.', 'success')
+                    toast('Theme settings have been updated', 'success')
                 })
             },
 
