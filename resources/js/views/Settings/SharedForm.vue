@@ -1,49 +1,43 @@
 <template>
-	<div>
-		<form @submit.prevent="submit" enctype="multipart/form-data">
-		    <div class="col w-full">
-		        <p-tabs>
-		            <p-tab v-for="(groupSettings, group, index) in groups" :key="group" :name="group" :active="index === 0">
-		                <div v-for="setting in groupSettings" :key="setting.handle" class="form__group">
-		                    <p-input
-		                        v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
-		                        :name="setting.handle"
-		                        :ref="setting.handle"
-		                        :label="setting.name"
-		                        :type="setting.type"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                    ></p-input>
+	<p-tabs>
+		<p-tab v-for="(groupSettings, group, index) in groups" :key="group" :name="group" :active="index === 0">
+			<div v-for="setting in groupSettings" :key="setting.handle">
+				<p-input
+					v-if="setting.type === 'text' || setting.type === 'number' || setting.type === 'email'"
+					:name="setting.handle"
+					:ref="setting.handle"
+					:label="setting.name"
+					:type="setting.type"
+					:help="setting.description"
+					v-model="setting.value"
+				></p-input>
 
-		                    <p-select
-		                        v-if="setting.type === 'select'"
-		                        :name="setting.handle"
-		                        :ref="setting.handle"
-		                        :label="setting.name"
-		                        :options="mapOptions(setting.options)"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                    ></p-select>
+				<p-select
+					v-if="setting.type === 'select'"
+					:name="setting.handle"
+					:ref="setting.handle"
+					:label="setting.name"
+					:options="mapOptions(setting.options)"
+					:help="setting.description"
+					v-model="setting.value"
+				></p-select>
 
-		                    <p-upload
-		                        v-if="setting.type === 'file'"
-		                        :name="setting.handle"
-		                        :label="setting.name"
-		                        :help="setting.description"
-		                        v-model="setting.value"
-		                        accept="json"
-		                    ></p-upload>
+				<p-upload
+					v-if="setting.type === 'file'"
+					:name="setting.handle"
+					:label="setting.name"
+					:help="setting.description"
+					v-model="setting.value"
+					accept="json"
+				></p-upload>
 
-		                    <component
-		                    	v-if="setting.type === 'component'"
-		                    	:is="setting.component"
-		                    	:settings="settings"/>
-		                </div>
-		            </p-tab>
-		        </p-tabs>
-		    </div>
-		</form>
-	</div>
+				<component
+					v-if="setting.type === 'component'"
+					:is="setting.component"
+					:settings="settings"/>
+			</div>
+		</p-tab>
+	</p-tabs>
 </template>
 
 <script>
@@ -67,7 +61,7 @@
 			settings: function() {
 				return this.sections[this.section] ? this.sections[this.section].items : {}
 			},
-			
+
 			groups: function() {
 				let settings = _.filter(this.settings, (setting) => { return Boolean(setting.gui) })
 

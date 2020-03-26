@@ -1,12 +1,17 @@
 <template>
 	<p-modal v-model="show" name="settings" no-header flush>
-        <div class="-m-3 mb-3">
-            <settings-form ref="form" :section="section"></settings-form>
+
+		<div class="card">
+            <div class="card__body">
+        		<settings-form ref="form" :section="section"></settings-form>
+			</div>
 		</div>
 
         <template slot="footer">
-            <p-button type="submit" theme="primary" @click.prevent="$refs.form.submit">Save Settings</p-button>
-            <p-button type="button" @click.prevent="close" class="mr-3">Cancel</p-button>
+			<div class="buttons">
+				<button type="button" class="button" @click.prevent="close">Cancel</button>
+				<button type="submit" class="button button--primary" @click.prevent="$refs.form.submit">Save Settings</button>
+			</div>
         </template>
     </p-modal>
 </template>
