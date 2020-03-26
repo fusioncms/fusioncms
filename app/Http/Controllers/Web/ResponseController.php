@@ -35,7 +35,7 @@ class ResponseController extends Controller
                 'icon' => 'paper-plane',
                 'link' => 'test',
             ])
-            ->log('Submitted response to ' . $form->name . ' (:subject.identifiable_email_address)');
+            ->log('Submitted response to ' . $form->name . ' (' . $response->identifiable_email_address . ')');
 
         if (! $form->redirect_on_submission) {
             $redirect = $form->thankyouPath();
