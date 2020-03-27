@@ -196,4 +196,33 @@ class MatrixTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors(['slug', 'handle']);
     }
+
+    /**
+     * @test
+     * @group feature
+     * @group validation
+     * @group matrix
+     */
+    public function matrix_handle_must_not_be_a_reserved_keyword()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'default' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'for' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'true' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+    }
 }
