@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Support\Str;
+use App\Rules\NotAReservedKeyword;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MatrixRequest extends FormRequest
@@ -41,7 +42,7 @@ class MatrixRequest extends FormRequest
         return [
             'parent_id'          => 'sometimes|not_in:' . $id,
             'name'               => 'required|regex:/^[A-z]/i',
-            'handle'             => 'required|unique:matrices,handle,' . $id,
+            'handle'             => [ 'required', 'unique:matrices,handle,' . $id, new NotAReservedKeyword ],
             'slug'               => 'required|unique:matrices,slug,' . $id,
             'description'        => 'sometimes',
             'type'               => 'required',
