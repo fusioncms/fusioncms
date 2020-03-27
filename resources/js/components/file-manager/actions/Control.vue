@@ -28,18 +28,11 @@
 		computed: {
 			...mapGetters({
 				selectedDirectories: 'filemanager/getSelectedDirectories',
-<<<<<<< HEAD:resources/js/components/file-manager/actions/Control.vue
-                selectedFiles: 'filemanager/getSelectedFiles',
-				hasSelection: 'filemanager/hasSelection',
-				directories: 'filemanager/getDirectories',
-				files: 'filemanager/getFiles',
-=======
 				selectionCount:      'filemanager/selectionCount',
                 selectedFiles:       'filemanager/getSelectedFiles',
 				hasSelection:        'filemanager/hasSelection',
 				directories:         'filemanager/getDirectories',
 				files:               'filemanager/getFiles',
->>>>>>> 26e950a610e83012cb2ded1921d5baee208b4c3b:resources/js/components/FileManager/Actions/Control.vue
 			}),
 
 			singleSelection() {
