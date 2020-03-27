@@ -143,8 +143,10 @@
                 })
 
                 if (! external) {
-                    field['proto'] = true // prototype flag
-                    this.active    = _.last(this.fields).handle
+                    let active = _.last(this.fields)
+
+                    this.active     = active.handle
+                    active['proto'] = true // prototype flag
                 }
             },
 
