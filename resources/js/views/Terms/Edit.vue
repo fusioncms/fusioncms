@@ -3,10 +3,10 @@
         <portal to="title">
             <app-title :icon="taxonomy.icon || 'pencil-alt'">Edit {{ singular }}</app-title>
         </portal>
-        
+
         <portal to="subtitle">{{ taxonomy.description }}</portal>
 
-        <shared-form :taxonomy="taxonomy" :form="form"></shared-form>
+        <shared-form :taxonomy="taxonomy" :form="form" :submit="submit" :term="term"></shared-form>
     </div>
 </template>
 
@@ -19,7 +19,7 @@
         head: {
             title() {
                 return {
-                    inner: this.entry.name || 'Loading...'
+                    inner: this.term.name || 'Loading...'
                 }
             }
         },
@@ -27,7 +27,7 @@
         data() {
             return {
                 taxonomy: {},
-                entry: {},
+                term: {},
                 form: new Form({}),
             }
         },
@@ -68,8 +68,8 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/taxonomies/' + this.taxonomy.slug + '/' + this.entry.id).then((response) => {
-                    toast('Entry saved successfully', 'success')
+                this.form.patch('/api/taxonomies/' + this.taxonomy.slug + '/' + this.term.id).then((response) => {
+                    toast('Term saved successfully', 'success')
 
                     this.$router.push('/taxonomies/' + this.taxonomy.slug)
                 }).catch((response) => {
@@ -77,21 +77,21 @@
                 })
             },
 
-            getEntry(to, from, next) {
+            getTerm(to, from, next) {
                 let vm = this
 
-                axios.get('/api/taxonomies/' + to.params.taxonomy + '/' + to.params.id).then((response) => {    
+                axios.get('/api/taxonomies/' + to.params.taxonomy + '/' + to.params.id).then((response) => {
                     vm.taxonomy = response.data.data.taxonomy
-                    vm.entry = response.data.data
+                    vm.term = response.data.data
 
                     let fields = {
-                        name: vm.entry.name,
-                        slug: vm.entry.slug,
-                        status: vm.entry.status,
+                        name: vm.term.name,
+                        slug: vm.term.slug,
+                        status: vm.term.status,
                     }
 
                     _.forEach(vm.taxonomy.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.entry[handle])
+                        Vue.set(fields, handle, vm.term[handle])
                     })
 
                     vm.form = new Form(fields, true)
@@ -107,17 +107,17 @@
 
         beforeRouteEnter(to, from, next) {
             next(vm => {
-                vm.getEntry(to, from, next)
+                vm.getTerm(to, from, next)
 
                 vm.$emit('updateHead')
             })
         },
 
         beforeRouteUpdate(to,from,next) {
-            this.getEntry(to, from, next)
+            this.getTerm(to, from, next)
 
             this.$emit('updateHead')
-            
+
             next()
         }
     }

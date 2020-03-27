@@ -3,10 +3,10 @@
         <portal to="title">
             <app-title :icon="taxonomy.icon">Create {{ singular }}</app-title>
         </portal>
-        
+
         <portal to="subtitle">{{ taxonomy.description }}</portal>
 
-        <shared-form :taxonomy="taxonomy" :form="form"></shared-form>
+        <shared-form :taxonomy="taxonomy" :form="form" :submit="submit"></shared-form>
     </div>
 </template>
 
@@ -68,7 +68,7 @@
         methods: {
             submit() {
                 this.form.post('/api/taxonomies/' + this.taxonomy.slug).then((response) => {
-                    toast('Entry saved successfully', 'success')
+                    toast('Term saved successfully', 'success')
 
                     this.$router.push('/taxonomies/' + this.taxonomy.slug)
                 }).catch((response) => {
