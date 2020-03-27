@@ -111,8 +111,10 @@ class FormObserver
                 'handle' => str_handle($name),
             ]);
 
-            if ($form->collect_email_addresses) {
-                $this->verifyEmailFieldExists($fieldset);
+            if (app('env') == 'testing') {
+                if ($form->collect_email_addresses) {
+                    $this->verifyEmailFieldExists($fieldset);
+                }
             }
 
             $form->attachFieldset($fieldset);

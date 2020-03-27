@@ -132,18 +132,20 @@
         },
 
         methods: {
-            add(fieldtype, additional = {}) {
+            add(fieldtype, additional = {}, external = false) {
                 this.fields.push({
                     type:     fieldtype,
                     name:     additional.name || 'Field ' + this.nextId,
-                    handle:   'field_' + this.nextId,
+                    handle:   additional.handle || 'field_' + this.nextId,
                     help:     additional.help || '',
                     settings: additional.settings ? _.cloneDeep(additional.settings, true) : _.cloneDeep(fieldtype.settings, true),
                     order:    this.total,
-                    proto:    true  // prototype flag
                 })
 
-                this.active = _.last(this.fields).handle
+                if (! external) {
+                    field['proto'] = true // prototype flag
+                    this.active    = _.last(this.fields).handle
+                }
             },
 
             remove(index) {
@@ -187,7 +189,7 @@
                 let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
 
                 if (index == -1) {
-                    this.add(adding.fieldtype, adding)
+                    this.add(adding.fieldtype, adding, true)
                 }
             })
 
@@ -201,21 +203,8 @@
         },
 
         beforeDestroy() {
-            this.$bus.$off('add-field-' + this.id, (adding) => {
-                let index = _.findIndex(this.fields, (field) => field.handle == adding.handle)
-
-                if (index == -1) {
-                    this.add(adding.fieldtype, adding)
-                }
-            })
-
-            this.$bus.$off('remove-field-' + this.id, (handle) => {
-                let index = _.findIndex(this.fields, (field) => field.handle == handle)
-
-                if (index > -1) {
-                    this.remove(index)
-                }
-            })
+            this.$bus.$off('add-field-' + this.id)
+            this.$bus.$off('remove-field-' + this.id)
         }
     }
 </script>
