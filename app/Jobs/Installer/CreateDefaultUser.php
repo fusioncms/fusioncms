@@ -39,6 +39,8 @@ class CreateDefaultUser
      */
     public function handle()
     {
+        activity()->disableLogging();
+        
         $user = User::create([
             'name'              => $this->container['user_name'],
             'email'             => $this->container['user_email'],

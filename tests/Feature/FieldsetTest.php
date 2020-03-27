@@ -28,13 +28,9 @@ class FieldsetTest extends TestCase
         $matrix   = MatrixFactory::withFieldset($fieldset)->create();
         $table    = $matrix->getBuilder()->getTable();
         
-        $fields = $fieldset->sections->map(function($section) {
-            return $section->only('fields');
-        })->flatten();
-
-        foreach ($fields as $field) {
+        $fieldset->fields->each(function($field) use ($table) {
             $this->assertDatabaseTableHasColumn($table, $field->handle);
-        }
+        });
     }
 
     /**
@@ -47,20 +43,12 @@ class FieldsetTest extends TestCase
         $fieldset = FieldsetFactory::create();
         $matrix   = MatrixFactory::withFieldset($fieldset)->create();
         $table    = $matrix->getBuilder()->getTable();
-        
-        $fields = $fieldset->sections->map(function($section) {
-            return $section->only('fields');
-        })->flatten();
-
-        foreach ($fields as $field) {
-            $this->assertDatabaseTableHasColumn($table, $field->handle);
-        }
 
         $matrix->detachFieldset();
-
-        foreach ($fields as $field) {
+        
+        $fieldset->fields->each(function($field) use ($table) {
             $this->assertDatabaseTableDoesNotHaveColumn($table, $field->handle);
-        }
+        });
     }
 
     /** @test */

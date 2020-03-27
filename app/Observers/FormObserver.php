@@ -101,44 +101,43 @@ class FormObserver
      * Automatically create a fieldset for our form.
      * 
      * @param  Form  $form
+     * @return void
      */
-    protected function createFieldset($form)
+    protected function createFieldset(Form $form)
     {
-        $form::unsetEventDispatcher();
+        $form->withoutEvents(function() use ($form) {
+            $fieldset = Fieldset::create([
+                'name'   => ($name = 'Form: ' . $form->name),
+                'handle' => str_handle($name),
+            ]);
 
-        $fieldsetName = 'Form: '.$form->name;
+            if ($form->collect_email_addresses) {
+                $this->verifyEmailFieldExists($fieldset);
+            }
 
-        // Create the fieldset first
-        $fieldset = fusion()->post('fieldsets', [
-            'name'   => $fieldsetName,
-            'handle' => Str::slug($fieldsetName, '_'),
-        ]);
-
-        // Resolve the model instance
-        $fieldset = Fieldset::find($fieldset->data->id);
-
-        // Then create the sections/fields
-        $sections = fusion()->post('fieldsets/'.$fieldset->id.'/sections', $fieldset->toArray());
-
-        $form->attachFieldset($fieldset);
-        $form->save();
+            $form->attachFieldset($fieldset);
+            $form->save();
+        });
     }
 
     /**
      * Automatically update the fieldset for our form.
      * 
-     * @param  Form  $form
+     * @param  Form  $old - old Form instance
+     * @param  Form  $new - new Form instance
+     * @return void
      */
-    protected function updateFieldset($old, $new)
+    protected function updateFieldset(Form $old, Form $new)
     {
-        $fieldset = $old->fieldsets()->first();
-
         if ($old->name !== $new->name) {
-            $fieldsetName = 'Form: '.$new->name;
-
-            $fieldset->name   = $fieldsetName;
-            $fieldset->handle = Str::slug($fieldsetName, '_');
-            $fieldset->save();
+            $fieldset = $old->fieldset;
+            $newName  = $new->name;
+            
+            $fieldset->withoutEvents(function() use ($fieldset, $newName) {
+                $fieldset->name   = ($name = 'Form: ' . $newName);
+                $fieldset->handle = str_handle($name);
+                $fieldset->save();
+            });
         }
     }
 
@@ -146,11 +145,35 @@ class FormObserver
      * Automatically delete the fieldset from our form.
      * 
      * @param  Form  $form
+     * @return void
      */
-    protected function deleteFieldset($form)
+    protected function deleteFieldset(Form $form)
     {
-        $fieldset = $form->fieldsets()->first();
+        $form->fieldset()->delete();
+    }
 
-        $fieldset->delete();
+    /**
+     * Assure fieldset has e-mail collection field.
+     * [Note: added for unit testing assurance]
+     * 
+     * @param  Fieldset  $fieldset
+     * @return void
+     */
+    protected function verifyEmailFieldExists(Fieldset $fieldset)
+    {
+        if ($fieldset->sections->isEmpty()) {
+            $fieldset->sections()->create([
+                'name'   => 'General',
+                'handle' => 'general',
+            ])->fields()->create([
+                'name'     => 'E-mail',
+                'handle'   => 'identifiable_email_address',
+                'required' => true,
+                'help'     => 'Please enter your e-mail address.',
+                'type'     => 'input',
+                'settings' => [ 'type' => 'email' ],
+                'order'    => 1,
+            ]);
+        }
     }
 }

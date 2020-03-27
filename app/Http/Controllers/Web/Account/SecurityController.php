@@ -1,21 +1,11 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Http\Controllers\Web\Account;
 
-use Flash;
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\Account\SecurityRequest;
 
 class SecurityController extends Controller
 {
@@ -29,28 +19,20 @@ class SecurityController extends Controller
     }
 
     /**
-     * @param  Request $request
+     * Update storage record.
+     * 
+     * @param  \App\Http\Requests\Account\SecurityRequest $request
      * @return Redirect
      */
-    public function update(Request $request)
+    public function update(SecurityRequest $request)
     {
-        try {
-            fusion()->authorize()->post(
-                'users/' . auth()->user()->id . '/password',
-                $request->all()
-            );
+        $attributes = $request->validated();
+        
+        auth()->user()->update([
+            'password'            => bcrypt($attributes['password']),
+            'password_changed_at' => now(),
+        ]);
 
-            Flash::success('Security settings have been updated.');
-        } catch(ValidationException $exception) {
-            // Display first error message..
-            foreach ($exception->errors() as $error) {
-                Flash::error(current($error));
-                break;
-            }
-        } catch(Exception $exception) {
-            Flash::error($exception->getMessage());
-        }
-
-        return redirect()->back();
+        return back()->with('success','Password successfully updated!');
     }
 }

@@ -68,17 +68,22 @@ class MailTest extends TestCase
      */
     public function an_update_to_mail_settings_will_reflect_in_the_settings_file()
     {
-        $this->actingAs($this->admin, 'api');
+        $this
+            ->be($this->admin, 'api')
+            ->json('PATCH', 'api/settings/mail', [
+                'mail_smtp_host' => 'smtp.mailtrap.io',
+                'mail_smtp_port' => 2525,
+            ])->assertStatus(200);
 
-        $this->json('PATCH', 'api/settings/mail', [
-            'mail_driver'    => 'smtp',
-            'mail_smtp_host' => 'smtp.mailtrap.io',
-            'mail_smtp_port' => 2525,
-        ])->assertStatus(200);
+        $this->assertDatabaseHas('settings', [
+            'handle' => 'mail_smtp_host',
+            'value'  => 'smtp.mailtrap.io',
+        ]);
 
-        $this->assertTrue(setting('mail.mail_driver')    === 'smtp');
-        $this->assertTrue(setting('mail.mail_smtp_host') === 'smtp.mailtrap.io');
-        $this->assertTrue(setting('mail.mail_smtp_port') === '2525');
+        $this->assertDatabaseHas('settings', [
+            'handle' => 'mail_smtp_port',
+            'value'  => '2525',
+        ]);
     }
 
     /**

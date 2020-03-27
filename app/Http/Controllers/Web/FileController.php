@@ -14,11 +14,7 @@ class FileController extends Controller
 {
     public function index($uuid, $filename)
     {
-        $file = File::where('uuid', $uuid)->first();
-
-        if (! $file) {
-            abort(404);
-        }
+        $file = File::where('uuid', $uuid)->firstOrFail();
 
         // Append last modified date
         $params      = request()->all();
@@ -41,16 +37,7 @@ class FileController extends Controller
 
     protected function imageResponse($path, $params)
     {
-        $filesystem = app('filesystem')->getDriver();
-
-        $server = ServerFactory::create([
-            'response'          => new LaravelResponseFactory(app('request')),
-            'source'            => $filesystem,
-            'cache'             => $filesystem,
-            'cache_path_prefix' => '.cache',
-        ]);
-
-        return $server->getImageResponse($path, $params);
+        return glide()->getImageResponse($path, $params);
     }
 
     protected function videoResponse($path, $mimetype)

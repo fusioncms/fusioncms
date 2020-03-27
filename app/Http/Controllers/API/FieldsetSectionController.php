@@ -18,9 +18,8 @@ use App\Http\Resources\FieldsetResource;
 
 class FieldsetSectionController extends Controller
 {
-    public function store(Request $request, $fieldset)
+    public function store(Request $request, Fieldset $fieldset)
     {
-        $fieldset = Fieldset::findOrFail($fieldset);
         $sections = collect($request->sections);
 
         $attached = $this->getAttachedSections($fieldset, $sections);

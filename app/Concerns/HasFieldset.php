@@ -30,17 +30,17 @@ trait HasFieldset
     public function attachFieldset($value)
     {
         if ($value instanceof Fieldset) {
-            $value = $value->id;
+            $fieldset = $value;
+        } else {
+            $fieldset = Fieldset::findOrFail($value);
         }
 
         $previous = $this->fieldset();
-        
-        $this->fieldsets()->sync($value);
+
+        $this->fieldsets()->sync($fieldset->id);
         
         event(new FieldsetAttached($this));
         
-        $fieldset = Fieldset::findOrFail($value);
-
         if (! is_null($previous)) {
             $table    = $this->getBuilder()->getTable();
             $current = $fieldset->fields->map(function($field) {

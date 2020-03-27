@@ -17,8 +17,25 @@ class FormFactory implements Factory
      */
     protected $fieldset;
 
+    /**
+     * @var boolean
+     */
     protected $collectsEmails = false;
+
+    /**
+     * @var boolean
+     */
     protected $collectsIPs = false;
+
+    /**
+     * @var boolean
+     */
+    protected $redirectOnSubmission = false;
+
+    /**
+     * @var string
+     */
+    protected $redirectUrl;
 
     /**
      * Create a new Form factory.
@@ -30,6 +47,8 @@ class FormFactory implements Factory
         $overrides = [
             'collect_email_addresses' => $this->collectsEmails,
             'collect_ip_addresses'    => $this->collectsIPs,
+            'redirect_on_submission'  => $this->redirectOnSubmission,
+            'redirect_url'            => $this->redirectUrl,
         ];
 
         if ($this->name) {
@@ -52,6 +71,20 @@ class FormFactory implements Factory
     public function withName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Enable custom redirect.
+     * 
+     * @param  string  $uri
+     * @return \FormFactory
+     */
+    public function withCustomRedirect($uri)
+    {
+        $this->redirectOnSubmission = true;
+        $this->redirectUrl = $uri;
 
         return $this;
     }
