@@ -82,6 +82,7 @@
                         vm.roles = roles
 
                         vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
                     })
                 }
             })

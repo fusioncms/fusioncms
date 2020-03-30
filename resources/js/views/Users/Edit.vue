@@ -132,26 +132,10 @@
                         vm.form = new Form(fields, true)
 
                         vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
                     })
                 }
             })
-
-            // axios.all([
-            //     axios.get('/api/roles'),
-            //     axios.get('/api/users/' + to.params.user),
-            // ]).then(axios.spread(function (roles, user) {
-            //     next(function(vm) {
-            //         vm.roles = roles.data.data
-            //         vm.user = user.data.data
-
-            //         vm.form.name   = vm.user.name
-            //         vm.form.email  = vm.user.email
-            //         vm.form.role   = vm.user.roles[0].slug
-            //         vm.form.status = vm.user.status ? '1' : '0'
-
-            //         vm.$emit('updateHead');
-            //     })
-            // }))
         },
     }
 

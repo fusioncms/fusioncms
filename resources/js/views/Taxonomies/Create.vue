@@ -78,9 +78,8 @@
                         'value': null
                     })
 
-                    vm.$nextTick(function(){
-                        vm.form.resetChangeListener()
-                    })
+                    vm.$emit('updateHead')
+                    vm.form.resetChangeListener()
                 })
             }))
         }

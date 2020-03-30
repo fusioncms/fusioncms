@@ -88,26 +88,6 @@
                     })
                 }
             })
-
-            // axios.all([
-            //     axios.get('/api/fieldsets/' + to.params.fieldset),
-            // ]).then(axios.spread(function (fieldset) {
-            //     next(function(vm) {
-            //         vm.id = fieldset.data.data.id
-            //         vm.sections = fieldset.data.data.sections
-            //         vm.originalSections = _.cloneDeep(vm.sections)
-            //         vm.form.name = fieldset.data.data.name
-            //         vm.form.handle = fieldset.data.data.handle
-            //         vm.loaded = true
-
-            //         vm.$emit('updateHead')
-
-            //         vm.form.resetChangeListener()
-            //     })
-            // })).catch(function(error) {
-            //     next('/fieldsets')
-            //     toast('The requested fieldset could not be found', 'warning')
-            // })
         }
     }
 

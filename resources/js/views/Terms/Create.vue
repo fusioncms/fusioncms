@@ -78,32 +78,47 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.get('/api/taxonomies/slug/' + to.params.taxonomy).then((response) => {
-                next(function(vm) {
-                    vm.taxonomy = response.data.data
+            getTaxonomy(to.params.taxonomy, (error, taxonomy, fields) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/taxonomies/' + vm.$router.currentRoute.params.taxonomy)
 
-                    let fields = {
-                        name: '',
-                        slug: '',
-                        status: 1,
-                    }
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.taxonomy = taxonomy
+                        vm.form = new Form(fields, true)
 
-                    if (vm.taxonomy.fieldset) {
-                        _.forEach(vm.taxonomy.fieldset.sections, function(section) {
-                            _.forEach(section.fields, function(field) {
-                                Vue.set(fields, field.handle, field.default)
-                            })
-                        })
-                    }
-
-                    vm.form = new Form(fields, true)
-                    vm.$emit('updateHead')
-
-                    vm.$nextTick(function(){
+                        vm.$emit('updateHead')
                         vm.form.resetChangeListener()
                     })
-                })
+                }
             })
         }
+    }
+
+    export function getTaxonomy(slug, callback) {
+        axios.get('/api/taxonomies/slug/' + slug).then((response) => {
+            let taxonomy = response.data.data
+
+            let fields = {
+                name: '',
+                slug: '',
+                status: 1,
+            }
+
+            if (taxonomy.fieldset) {
+                _.forEach(taxonomy.fieldset.sections, function(section) {
+                    _.forEach(section.fields, function(field) {
+                        fields[field.handle] = field.default
+                    })
+                })
+            }
+
+            callback(null, taxonomy, fields)
+        }).catch(function(error) {
+            callback(new Error('The requested taxonomy could not be found'))
+        })
     }
 </script>

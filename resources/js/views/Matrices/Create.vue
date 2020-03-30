@@ -118,7 +118,6 @@
                     })
 
                     vm.form.resetChangeListener()
-
                 })
             }))
         }

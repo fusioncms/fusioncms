@@ -101,24 +101,72 @@
                     })
 
                     vm.$emit('updateHead')
+                    vm.form.resetChangeListener()
                 })
             },
         },
 
         beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm.getTerm(to, from, next)
+            getTerm(to.params.taxonomy, to.params.id, (error, term, taxonomy, fields) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/taxonomies/' + vm.$router.currentRoute.params.taxonomy)
 
-                vm.$emit('updateHead')
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.taxonomy = taxonomy
+                        vm.term = term
+                        vm.form = new Form(fields, true)
+
+                        vm.$emit('updateHead')
+                        vm.form.resetChangeListener()
+                    })
+                }
             })
         },
 
-        beforeRouteUpdate(to,from,next) {
-            this.getTerm(to, from, next)
+        beforeRouteUpdate(to, from, next) {
+            getTerm(to.params.taxonomy, to.params.id, (error, term, taxonomy, fields) => {
+                if (error) {
+                    this.$router.push('/taxonomies/' + this.$router.currentRoute.params.taxonomy)
 
-            this.$emit('updateHead')
+                    toast(error.toString(), 'danger')
+                } else {
+                    this.taxonomy = taxonomy
+                    this.term = term
+                    this.form = new Form(fields, true)
+
+                    this.$emit('updateHead')
+                }
+            })
 
             next()
         }
+    }
+
+    export function getTerm(taxonomy, id, callback) {
+        axios.get('/api/taxonomies/' + taxonomy + '/' + id).then((response) => {
+            let taxonomy = response.data.data.taxonomy
+            let term = response.data.data
+            let fields = {
+                name: term.name,
+                slug: term.slug,
+                status: term.status,
+            }
+
+            if (taxonomy.fieldset) {
+                _.forEach(taxonomy.fieldset.sections, function(section) {
+                    _.forEach(section.fields, function(field) {
+                        fields[field.handle] = term[field.handle]
+                    })
+                })
+            }
+
+            callback(null, term, taxonomy, fields)
+        }).catch(function(error) {
+            callback(new Error('The requested term could not be found'))
+        })
     }
 </script>
