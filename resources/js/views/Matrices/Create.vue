@@ -117,7 +117,9 @@
                         'value': 0
                     })
 
-                    vm.form.resetChangeListener()
+                    vm.$nextTick(() => {
+                        vm.form.resetChangeListener()
+                    })
                 })
             }))
         }

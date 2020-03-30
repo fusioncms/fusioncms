@@ -177,9 +177,12 @@
                     vm.form.name     = mailable.data.data.name
                     vm.form.handle   = mailable.data.data.handle
                     vm.form.markdown = mailable.data.data.markdown
-                    vm.form.resetChangeListener()
 
                     vm.$emit('updateHead')
+
+                    vm.$nextTick(() => {
+                        vm.form.resetChangeListener()
+                    })
                 })
            	})).catch(function(error) {
                 next('/mailables')

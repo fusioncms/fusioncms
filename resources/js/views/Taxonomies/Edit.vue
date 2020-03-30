@@ -91,7 +91,9 @@
                     vm.form.template = taxonomy.data.data.template
 
                     vm.$emit('updateHead')
-                    vm.form.resetChangeListener()
+                    vm.$nextTick(() => {
+                        vm.form.resetChangeListener()
+                    })
                 })
             })).catch(function(error) {
                 next('/taxonomies')

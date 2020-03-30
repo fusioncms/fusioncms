@@ -162,7 +162,9 @@
 
                     vm.$emit('updateHead')
 
-                    vm.form.resetChangeListener()
+                    vm.$nextTick(() => {
+                        vm.form.resetChangeListener()
+                    })
                 })
             })).catch(function(error) {
                 next('/matrices')

@@ -76,34 +76,6 @@
                     toast(response.response.data.message, 'failed')
                 })
             },
-
-            getTerm(to, from, next) {
-                let vm = this
-
-                axios.get('/api/taxonomies/' + to.params.taxonomy + '/' + to.params.id).then((response) => {
-                    vm.taxonomy = response.data.data.taxonomy
-                    vm.term = response.data.data
-
-                    let fields = {
-                        name: vm.term.name,
-                        slug: vm.term.slug,
-                        status: vm.term.status,
-                    }
-
-                    _.forEach(vm.taxonomy.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.term[handle])
-                    })
-
-                    vm.form = new Form(fields, true)
-
-                    vm.$nextTick(function(){
-                        vm.form.resetChangeListener()
-                    })
-
-                    vm.$emit('updateHead')
-                    vm.form.resetChangeListener()
-                })
-            },
         },
 
         beforeRouteEnter(to, from, next) {
@@ -121,7 +93,10 @@
                         vm.form = new Form(fields, true)
 
                         vm.$emit('updateHead')
-                        vm.form.resetChangeListener()
+
+                        vm.$nextTick(() => {
+                            vm.form.resetChangeListener()
+                        })
                     })
                 }
             })
@@ -139,6 +114,10 @@
                     this.form = new Form(fields, true)
 
                     this.$emit('updateHead')
+
+                    this.$nextTick(() => {
+                        this.form.resetChangeListener()
+                    })
                 }
             })
 
