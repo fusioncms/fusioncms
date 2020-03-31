@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Support\Str;
+use App\Rules\NotAReservedKeyword;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 
 class FormRequest extends BaseFormRequest
@@ -40,7 +41,7 @@ class FormRequest extends BaseFormRequest
 
         return [
             'name'                    => 'required|regex:/^[A-z]/i',
-            'handle'                  => 'required|unique:forms,handle,' . $id,
+            'handle'                  => [ 'required', 'unique:forms,handle,' . $id, new NotAReservedKeyword ],
             'slug'                    => 'required|unique:forms,slug,' . $id,
             'description'             => 'sometimes',
             'collect_email_addresses' => 'sometimes',

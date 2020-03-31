@@ -398,6 +398,35 @@ class FormTest extends TestCase
     /**
      * @test
      * @group feature
+     * @group validation
+     * @group form
+     */
+    public function form_handle_must_not_be_a_reserved_keyword()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'default' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'for' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/forms', [ 'handle' => 'true' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+    }
+
+    /**
+     * @test
+     * @group feature
      * @group form
      * @group activity
      */

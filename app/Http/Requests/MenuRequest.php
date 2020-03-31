@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NotAReservedKeyword;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuRequest extends FormRequest
@@ -27,7 +28,7 @@ class MenuRequest extends FormRequest
 
         return [
             'name'        => 'required|regex:/^[A-z]/i',
-            'handle'      => 'required|unique:menus,handle,' . $id,
+            'handle'      => [ 'required', 'unique:menus,handle,' . $id, new NotAReservedKeyword ],
             'description' => 'sometimes',
         ];
     }

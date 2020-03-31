@@ -151,4 +151,33 @@ class TaxonomyTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors(['slug', 'handle']);
     }
+
+    /**
+     * @test
+     * @group feature
+     * @group validation
+     * @group taxonomy
+     */
+    public function taxonomy_handle_must_not_be_a_reserved_keyword()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('POST', '/api/taxonomies', [ 'handle' => 'default' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/taxonomies', [ 'handle' => 'for' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/taxonomies', [ 'handle' => 'true' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+    }
 }

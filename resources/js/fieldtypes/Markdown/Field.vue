@@ -55,7 +55,7 @@
 
         computed: {
             preview() {
-                const tokens = marked.lexer(this.value)
+                const tokens = marked.lexer(this.value || '')
                 const html   = marked.parser(tokens)
                 
                 return html

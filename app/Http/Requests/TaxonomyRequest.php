@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Support\Str;
+use App\Rules\NotAReservedKeyword;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TaxonomyRequest extends FormRequest
@@ -40,7 +41,7 @@ class TaxonomyRequest extends FormRequest
 
         return [
             'name'        => 'required|regex:/^[A-z]/i',
-            'handle'      => 'required|not_regex:/[^a-z0-9_]/i|unique:taxonomies,handle,' . $id,
+            'handle'      => [ 'required', 'not_regex:/[^a-z0-9_]/i', 'unique:taxonomies,handle,' . $id, new NotAReservedKeyword ],
             'slug'        => 'required|unique:taxonomies,slug,' . $id,
             'description' => 'sometimes',
             'fieldset'    => 'sometimes',

@@ -289,4 +289,33 @@ class MenuTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors(['handle']);
     }
+
+    /**
+     * @test
+     * @group feature
+     * @group validation
+     * @group menu
+     */
+    public function menu_handle_must_not_be_a_reserved_keyword()
+    {
+        $this->actingAs($this->admin, 'api');
+
+        $this
+            ->json('POST', '/api/menus', [ 'handle' => 'default' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/menus', [ 'handle' => 'for' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+
+        $this
+            ->json('POST', '/api/menus', [ 'handle' => 'true' ])
+            ->assertJsonValidationErrors([
+                'handle' => 'The handle conflicts with a reserved keyword and may not be used.'
+            ]);
+    }
 }
