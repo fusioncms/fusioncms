@@ -86,49 +86,6 @@
                     })
                 }
             })
-
-            // axios.all([
-            //     axios.get('/api/menus/' + to.params.menu + '/nodes/' + to.params.node),
-            //     axios.get('/api/menus/' + to.params.menu),
-            // ]).then(axios.spread(function (node, menu) {
-            //     next(function(vm) {
-            //         vm.id   = node.data.data.id
-            //         vm.menu = menu.data.data
-            //         vm.node = node.data.data
-
-            //         let fields = {
-            //             name: node.data.data.name,
-            //             url: node.data.data.url,
-            //             new_window: node.data.data.new_window,
-            //             parent_id: node.data.data.parent_id,
-            //             status: node.data.data.status,
-            //         }
-
-            //         if (vm.menu.fieldset) {
-            //             _.forEach(vm.menu.fieldset.sections, function(section) {
-            //                 _.forEach(section.fields, function(field) {
-            //                     Vue.set(fields, field.handle, vm.node[field.handle])
-            //                 })
-            //             })
-            //         }
-
-            //         vm.form = new Form(fields, true)
-
-            //         vm.nodes = _.map(menu.data.data.nodes, function(parent) {
-            //             return {
-            //                 'label': parent.name,
-            //                 'value': parent.id
-            //             }
-            //         })
-
-            //         vm.nodes.unshift({
-            //             'label': 'None',
-            //             'value': 0
-            //         })
-
-            //         vm.$emit('updateHead')
-            //     })
-            // }))
         },
     }
 
