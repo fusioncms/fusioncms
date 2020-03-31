@@ -9,7 +9,7 @@
                 <span class="font-semibold">{{ group }}</span>
             </div>
 
-            <div class="col mb-6 w-full md:w-1/2 xl:w-1/3 xxl:w-1/4 xxxl:w-1/5" v-for="section in sections" :key="section.handle">
+            <div class="col mb-6 w-full md:w-1/3 xl:w-1/4 xxl:w-1/5" v-for="section in sections" :key="section.handle">
                 <router-link :to="{ name: 'setting.section', params: { section: section.handle } }" class="no-underline text-black hover:text-black bg-white rounded shadow hover:shadow-md p-3 flex h-full items-center">
                     <span class="fa-layers fa-fw fa-3x mr-2 flex-shrink-0">
                         <fa-icon :icon="['fas', 'circle']" class="fa-fw text-primary-500"></fa-icon>

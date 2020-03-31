@@ -1,132 +1,21 @@
 <template>
-    <div>
+    <form-container>
         <portal to="title">
             <app-title icon="image">{{ loaded ? file.name : '' }}</app-title>
         </portal>
 
-        <form-container>
-            <portal to="actions">
-                <div class="toolbar">
-                    <div class="toolbar__group">
-                        <div class="buttons">
-                            <p-button @click.prevent="goBack">Go Back</p-button>
-                            <button class="button button--danger" v-modal:delete>Delete</button>
-                        </div>
-                    </div>
+        <portal to="actions">
+            <div class="buttons">
+                <button class="button button--danger" v-modal:delete>Delete</button>
 
-                    <div class="toolbar__group">
-                        <div class="buttons">
+                <button class="button" v-modal:move-file>Move</button>
+                <button class="button" v-modal:replace-file>Replace</button>
+                <button class="button" @click.prevent="download">Download</button>
 
-                            <div class="buttons__group">
-                                <button class="button" v-modal:move-file>Move</button>
-                                <button class="button" v-modal:replace-file>Replace</button>
-                                <button class="button" @click.prevent="download">Download</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="toolbar__group">
-                        <button class="button button--primary" @click.prevent="submit">Save</button>
-                    </div>
-                </div>
-            </portal>
-
-            <div class="card" v-if="loaded" :key="file.name">
-                <div class="flex items-center justify-center">
-                    <div v-if="isImage">
-                        <p-img
-                            :src="fileSrc"
-                            :alt="file.description"
-                            background-color="#ffffff"
-                            class="rounded">
-                        </p-img>
-                    </div>
-
-                    <div v-else-if="isVideo" class="w-full">
-                        <video ref="player" controls crossorigin>
-                            <source :src="file.url" :type="file.mimetype" size="576">
-                        </video>
-                    </div>
-
-                    <div v-else>
-                        <p-img
-                            :src="'/img/' + type + '-small.svg'"
-                            background-color="#ffffff"
-                            :width="200"
-                            :height="200"
-                            :alt="file.description">
-                        </p-img>
-
-                        <div class="text-center px-6 py-3 rounded border border-gray-400 bg-gray-200 text-gray-800">
-                            No preview available
-                        </div>
-                    </div>
-                </div>
+                <button class="button" @click.prevent="back">Go Back</button>
+                <button class="button button--primary" @click.prevent="submit">Save</button>
             </div>
-
-            <div class="card" v-if="isVideo">
-                <div class="card__body text-center text-sm text-gray-800">
-                    If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
-                </div>
-            </div>
-
-            <template v-slot:sidebar>
-                <div class="card">
-                    <div class="card__body">
-                        <p-input
-                            name="name"
-                            label="Name"
-                            autocomplete="off"
-                            autofocus
-                            placeholder="Name"
-                            :has-error="form.errors.has('name')"
-                            :error-message="form.errors.get('name')"
-                            v-model="form.name">
-                        </p-input>
-
-                        <p-textarea
-                            name="description"
-                            label="Description"
-                            help="Describing your file isn't mandatory but is incredibly useful for accessibility."
-                            placeholder="Description"
-                            :has-error="form.errors.has('description')"
-                            :error-message="form.errors.get('description')"
-                            v-model="form.description">
-                        </p-textarea>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card__body">
-                        <p-input
-                            name="share"
-                            readonly
-                            label="Share"
-                            class="text-sm"
-                            :value="file.url">
-                        </p-input>
-                    </div>
-                </div>
-
-                <p-definition-list v-if="file">
-                    <p-definition name="Size">
-                        {{ bytes }}
-                    </p-definition>
-
-                    <p-definition name="Mimetype">
-                        {{ file.mimetype }}
-                    </p-definition>
-
-                    <p-definition name="Dimensions" v-if="file.width && file.height">
-                        {{ file.width }} x {{ file.height }}
-                    </p-definition>
-
-                    <p-definition name="Last Modified">
-                        {{ $moment(file.created_at.date).format('L') }}
-                    </p-definition>
-                </p-definition-list>
-            </template>
-        </form-container>
+        </portal>
 
         <portal to="modals">
             <move-file-modal></move-file-modal>
@@ -135,7 +24,103 @@
 
             <delete-file-modal :file="file"></delete-file-modal>
         </portal>
-    </div>
+
+        <div class="card" v-if="loaded" :key="file.name">
+            <div class="flex items-center justify-center">
+                <div v-if="file.type == 'image'">
+                    <p-img
+                        :src="fileSrc"
+                        :alt="file.description"
+                        background-color="#ffffff"
+                        class="rounded">
+                    </p-img>
+                </div>
+
+                <div v-else-if="file.type == 'video'" class="w-full">
+                    <video ref="player" controls crossorigin>
+                        <source :src="file.url" :type="file.mimetype" size="576">
+                    </video>
+                </div>
+
+                <div v-else>
+                    <p-img
+                        :src="'/img/' + file.type + '-small.svg'"
+                        background-color="#ffffff"
+                        :width="200"
+                        :height="200"
+                        :alt="file.description">
+                    </p-img>
+
+                    <div class="text-center px-6 py-3 rounded border border-gray-400 bg-gray-200 text-gray-800">
+                        No preview available
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" v-if="file.type == 'video'">
+            <div class="card__body text-center text-sm text-gray-800">
+                If you intend on serving this video on your website, it's highly recommended that you use a 3rd party service such as <a href="">Youtube</a> or <a href="">Vimeo</a>.
+            </div>
+        </div>
+
+        <template v-slot:sidebar>
+            <div class="card">
+                <div class="card__body">
+                    <p-input
+                        name="name"
+                        label="Name"
+                        autocomplete="off"
+                        autofocus
+                        placeholder="Name"
+                        :has-error="form.errors.has('name')"
+                        :error-message="form.errors.get('name')"
+                        v-model="form.name">
+                    </p-input>
+
+                    <p-textarea
+                        name="description"
+                        label="Description"
+                        help="Describing your file isn't mandatory but is incredibly useful for accessibility."
+                        placeholder="Description"
+                        :has-error="form.errors.has('description')"
+                        :error-message="form.errors.get('description')"
+                        v-model="form.description">
+                    </p-textarea>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card__body">
+                    <p-input
+                        name="share"
+                        readonly
+                        label="Share"
+                        class="text-sm"
+                        :value="file.url">
+                    </p-input>
+                </div>
+            </div>
+
+            <p-definition-list v-if="file.created_at">
+                <p-definition name="Size">
+                    {{ file.bytes | bytes }}
+                </p-definition>
+
+                <p-definition name="Mimetype">
+                    {{ file.mimetype }}
+                </p-definition>
+
+                <p-definition name="Dimensions" v-if="file.width && file.height">
+                    {{ file.width }} x {{ file.height }}
+                </p-definition>
+
+                <p-definition name="Last Modified">
+                    {{ $moment(file.created_at.date).format('L') }}
+                </p-definition>
+            </p-definition-list>
+        </template>
+    </form-container>
 </template>
 
 <script>
@@ -158,7 +143,7 @@
         data() {
             return {
                 file: {},
-                form: null,
+                form: new Form,
                 player: null,
                 loaded: false,
             }

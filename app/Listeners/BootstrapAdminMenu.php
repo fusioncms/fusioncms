@@ -186,10 +186,12 @@ class BootstrapAdminMenu
                 'to' => '/permissions',
             ]);
 
-            $menu->add('Styleguide')->data([
-                'to'   => '/styleguide',
-                'icon' => 'swatchbook',
-            ]);
+            if (app()->isLocal()) {
+                $menu->add('Styleguide')->data([
+                    'to'   => '/styleguide',
+                    'icon' => 'swatchbook',
+                ]);
+            }
         });
     }
 }
