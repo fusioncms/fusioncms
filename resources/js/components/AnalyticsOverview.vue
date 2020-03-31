@@ -1,6 +1,6 @@
 <template>
     <div class="row" v-if="isValid">
-        <div class="col">
+        <div class="col w-full">
             <div class="analytics card">
                 <div class="card__header">
                     <h3 class="card__title">Last 30 Days</h3>
