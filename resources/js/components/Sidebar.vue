@@ -59,10 +59,6 @@
             listenForEvent() {
                 Fusion.bus.$on('toggle-sidebar', () => this.$emit('toggle', ! this.isOpen))
             },
-
-            onClick() {
-                toast('Hello, world!', 'success')
-            }
         },
 
         created() {
