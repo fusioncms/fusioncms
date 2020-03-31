@@ -6,24 +6,26 @@
 
         <portal to="actions">
             <div class="buttons">
-                <router-link :to="{ name: 'menus' }" class="button">Go back</router-link>
+                <router-link :to="{ name: 'menus' }" class="button">Go Back</router-link>
                 <p-button theme="primary" @click.prevent="save" :disabled="saving">Save</p-button>
             </div>
         </portal>
 
-        <div class="card">
-            <div class="card__body text-center" v-if="nodes.length == 0">
+        <div class="card" v-if="nodes.length == 0">
+            <div class="card__body text-center">
                 <p>Add your first node to get started.</p>
             </div>
+        </div>
 
-            <table class="table" v-else>
+        <div class="table__wrapper" v-else>
+            <table class="table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th class="w-20"></th>
                         <th>Name</th>
                         <th>URL</th>
                         <th>Type</th>
-                        <th></th>
+                        <th class="w-20"></th>
                     </tr>
                 </thead>
 
@@ -55,9 +57,9 @@
 
                                 <td><span class="text-xs px-2 py-1 bg-gray-200 text-gray-600 leading-none">custom</span></td>
 
-                                <td>
-                                    <div style="min-width: 50px;" class="text-right draggable__actions">
-                                        <p-actions :id="'node_' + node.id + '_actions'" :key="'node_' + node.id + '_actions'">
+                                <td class="actions">
+                                    <div class="draggable__actions">
+                                        <p-actions right :id="'node_' + node.id + '_actions'" :key="'node_' + node.id + '_actions'">
                                             <p-dropdown-link @click.prevent :to="{ name: 'menu.nodes.edit', params: {menu: menu.id, node: node.id} }">Edit</p-dropdown-link>
 
                                             <p-dropdown-link
