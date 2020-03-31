@@ -48,10 +48,14 @@ class CollectionRequest extends FormRequest
     {
         $rules = [
             'matrix_id' => 'required|integer',
-            'name'      => 'sometimes',
-            'slug'      => 'sometimes|unique:' . $this->model->getTable() . ',slug,' . request()->id,
+            'slug'      => 'unique:' . $this->model->getTable() . ',slug,' . request()->id,
             'status'    => 'required|boolean',
         ];
+
+        if ($this->matrix->show_name_field) {
+            $rules['name'] = 'required';
+            $rules['slug'] .= '|required';
+        }
 
         foreach ($this->fields as $field) {
             $rules[$field->handle] = $field->validation ?: 'sometimes';

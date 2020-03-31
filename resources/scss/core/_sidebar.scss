@@ -1,0 +1,171 @@
+.sidebar {
+    @apply
+        overflow-hidden
+        text-gray-500
+        bg-white
+        flex-col
+        hidden
+        w-full
+        fixed
+        flex
+        z-50
+    ;
+
+    transition: all 0.3s ease;
+    left: -100%;
+    width: 100%!important;
+    bottom: 0;
+    top: 0;
+
+    @screen md {
+        @apply
+            h-full
+        ;
+
+        left: -250px;
+        width: 250px !important;
+    }
+
+    &--opened {
+        @apply
+            visible
+        ;
+
+        left: 0;
+    }
+
+    &--closed {
+        @apply
+            invisible
+        ;
+    }
+
+    .router-link-active {
+        @apply
+            text-gray-100
+            bg-gray-900
+        ;
+    }
+
+    &__logo {
+        @apply
+            justify-center
+            flex-shrink-0
+            text-gray-900
+            items-center
+            leading-none
+            uppercase
+            text-xl
+            flex
+        ;
+
+        &.router-link-active {
+            @apply
+                text-gray-900
+                border-none
+                bg-white
+            ;
+        }
+
+        img {
+            @apply
+                h-10
+                mr-3
+            ;
+        }
+
+        h1 {
+            @apply
+                text-gray-800
+                leading-none
+                text-2xl
+                m-0
+                p-0
+            ;
+        }
+    }
+
+    &__container {
+        @apply
+            flex-col
+            flex-1
+            flex
+        ;
+    }
+
+    &__nav {
+        @apply
+            overflow-y-auto
+            flex-col
+            h-full
+            pb-32
+            flex
+        ;
+    }
+
+    &__menu-link {
+        @apply
+            justify-between
+            font-semibold
+            text-gray-700
+            no-underline
+            text-sm
+            flex-1
+            flex
+        ;
+
+        &:hover {
+            @apply
+                cursor-pointer
+                text-gray-100
+                bg-gray-900
+            ;
+        }
+    }
+
+    &__menu-icon {
+        @apply
+            justify-center
+            items-center
+            flex
+            py-3
+        ;
+
+        width: 75px;
+    }
+
+    &__menu-text {
+        @apply
+            tracking-wide
+            items-center
+            leading-none
+            font-serif
+            text-sm
+            flex
+            py-3
+        ;
+    }
+
+    &__menu-toggle {
+        @apply
+            items-center
+            text-xs
+            flex
+            px-4
+        ;
+    }
+
+    &__menu-link-children {
+        > li {
+            a {
+                padding-left: 75px;
+            }
+
+            .sidebar__menu-text {
+                @apply
+                    text-xs
+                ;
+            }
+        }
+    }
+}

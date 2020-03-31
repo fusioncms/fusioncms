@@ -1,0 +1,14 @@
+.row {
+    @apply
+        flex-wrap
+        -mx-3
+        flex
+    ;
+}
+
+.col {
+    @apply
+        px-3
+        mb-6
+    ;
+}

@@ -90,12 +90,6 @@ class Form extends Builder implements BuilderContract
 
         File::put($path, $contents);
 
-        register_shutdown_function(function () use ($path) {
-            if (file_exists($path)) {
-                unlink($path);
-            }
-        });
-
         return app()->make('App\Models\Forms\\'. $className);
     }
 

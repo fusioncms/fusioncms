@@ -6,28 +6,50 @@
 
         <div
             class="flex flex-col flex-1"
-            :class="{'lg:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
+            :class="{'md:pl-250px': isSidebarOpen, 'pl-0': !isSidebarOpen}"
             style="margin-top: 55px; transition: all 0.3s ease;"
             :style="{'left: 0;': isSidebarOpen, 'left: -250px;': !isSidebarOpen}"
         >
             <!-- Header -->
             <div
                 class="header w-full"
-                :class="{'lg:w-full-sidebar-open': isSidebarOpen, 'lg:w-full-sidebar-collapsed': !isSidebarOpen}"
+                :class="{'md:w-full-sidebar-open': isSidebarOpen, 'md:w-full-sidebar-collapsed': !isSidebarOpen}"
                 style="transition: all 0.3s ease;"
             >
                 <div class="header__account">
-                    <a href="/" target="_blank"><fa-icon :icon="['fas', 'external-link-alt']" class="fa-fw"></fa-icon> <span class="hidden md:inline">View site</span></a>
+                    <renderless-dropdown id="account-menu-button">
+                        <div class="dropdown dropdown--right" slot-scope="props" :class="{'dropdown--open': props.isOpen}" v-click-outside="props.close">
+                            <a href="#" class="text-gray-400 hover:text-gray-900 p-1" @click.prevent="props.toggle()"><fa-icon icon="ellipsis-v" class="fa-fw fa-lg"></fa-icon></a>
 
-                    <p-dropdown class="ml-6" right>
-                        <fa-icon icon="circle" class="fa-xs mr-2 text-success-500"></fa-icon> Hey there, {{ user.name }}
-                        <div class="-mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-4 w-4"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+                            <div class="dropdown__menu">
+                                <p-dropdown-item>
+                                    <p>
+                                        Hello and {{ greeting }},<br>
+                                        <strong>{{ user.name }}</strong>
+                                    </p>
+                                </p-dropdown-item>
 
-                        <template slot="options">
-                            <p-dropdown-item :to="{ name: 'users.edit', params: {user: user.id} }">Account</p-dropdown-item>
-                            <p-dropdown-item href="/logout">Log Out</p-dropdown-item>
-                        </template>
-                    </p-dropdown>
+                                <p-dropdown-divider />
+
+                                <p-dropdown-link href="/" target="_blank">
+                                    <fa-icon icon="eye" class="icon"></fa-icon>
+                                    View website
+                                </p-dropdown-link>
+
+                                <p-dropdown-divider />
+
+                                <p-dropdown-link :to="'/users/' + user.id + '/edit'">
+                                    <fa-icon icon="user" class="icon"></fa-icon>
+                                    Account
+                                </p-dropdown-link>
+
+                                <p-dropdown-link href="/logout">
+                                    <fa-icon icon="sign-out-alt" class="icon"></fa-icon>
+                                    Log out
+                                </p-dropdown-link>
+                            </div>
+                        </div>
+                    </renderless-dropdown>
                 </div>
 
                 <div>
@@ -43,10 +65,10 @@
             </div>
 
             <!-- Content -->
-            <main class="page-content bg-danger-200">
-                <div class="flex justify-between border-b border-gray-400 border-dashed mb-6 pb-2">
-                    <div class="flex items-end flex-wrap">
-                        <h1 class="leading-tight m-0 p-0">
+            <main class="container--page">
+                <div class="flex justify-between mb-6">
+                    <div class="flex flex-wrap items-center">
+                        <h1 class="leading-none m-0 p-0 text-gray-800">
                             <portal-target name="title" slim></portal-target>
                         </h1>
 
@@ -60,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div>
                     <slot></slot>
                 </div>
             </main>
@@ -115,13 +137,31 @@
 
             environment() {
                 return window.environment
-            }
+            },
+
+            greeting() {
+                let today = new Date
+                let currentHour = today.getHours()
+                let greeting = 'good day'
+
+                if (currentHour > 18) {
+                    greeting = 'good evening'
+                } else if (currentHour > 12) {
+                    greeting = 'good afternoon'
+                } else if (currentHour > 0) {
+                    greeting = 'good morning'
+                }
+
+                return greeting
+            },
+
+
         },
 
         methods: {
             toggleSidebar(value) {
                 this.isSidebarOpen = value
-                
+
                 if (value) {
                     Cookies.set('fusion_sidebar', 'open')
                 } else {

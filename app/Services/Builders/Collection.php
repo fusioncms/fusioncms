@@ -51,7 +51,7 @@ class Collection extends Builder implements BuilderContract
         $className     = Str::studly($this->matrix->handle);
         $traits        = [];
         $fillable      = ['matrix_id', 'parent_id', 'name', 'slug', 'status'];
-        $casts         = [];
+        $casts         = ['status' => 'boolean'];
         $fields        = [];
 
         if ($this->matrix->fieldset) {
@@ -90,14 +90,6 @@ class Collection extends Builder implements BuilderContract
         ]);
 
         File::put($path, $contents);
-
-        if (! config('app.debug')) {
-            register_shutdown_function(function () use ($path) {
-                if (file_exists($path)) {
-                    unlink($path);
-                }
-            });
-        }
 
         return app()->make('App\Models\Collections\\'. $className);
     }

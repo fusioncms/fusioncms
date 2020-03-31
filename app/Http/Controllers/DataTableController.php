@@ -51,7 +51,6 @@ abstract class DataTableController extends Controller
         return response()->json([
             'displayable'  => array_values($this->getDisplayableColumns()),
             'sortable'     => array_values($this->getSortable()),
-            'filterable'   => array_values($this->getFilterable()),
             'column_names' => $this->getCustomColumnNames(),
             'records'      => $this->getRecords($request),
         ]);
@@ -102,16 +101,6 @@ abstract class DataTableController extends Controller
     }
 
     /**
-     * Get the filterable columns.
-     *
-     * @return array
-     */
-    public function getFilterable()
-    {
-        return $this->getDisplayableColumns();
-    }
-
-    /**
      * Get the base column names.
      *
      * @return array
@@ -131,78 +120,16 @@ abstract class DataTableController extends Controller
     {
         $builder = $this->builder;
 
-        if ($this->hasFilterQuery($request)) {
-            $builder = $this->buildFilter($builder, $request);
+        if ($request->has('search')) {
+            $builder = $builder->search($request->search);
         }
 
         try {
-            return $this->builder
+            return $builder
                 ->orderBy($request->orderBy, $request->orderDirection)
-                ->paginate($request->limit);
+                ->paginate(50);
         } catch (QueryException $e) {
             return [];
         }
-    }
-
-    /**
-     * Determine if the request contains a filter query.
-     *
-     * @param  \Illuminate\Http\Request
-     * @return bool
-     */
-    protected function hasFilterQuery(Request $request)
-    {
-        return count(array_filter($request->only(['column', 'operator', 'value']))) === 3;
-    }
-
-    /**
-     * Build and return our filter query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function buildFilter(Builder $builder, Request $request)
-    {
-        $queryParts = $this->resolveQueryParts($request->operator, $request->value);
-
-        return $builder->where($request->column, $queryParts['operator'], $queryParts['value']);
-    }
-
-    /**
-     * Resolve our query operator for filtering.
-     *
-     * @param  string  $operator
-     * @param  string  $value
-     * @return array
-     */
-    protected function resolveQueryParts($operator, $value)
-    {
-        return array_get([
-            'equals' => [
-                'operator' => '=',
-                'value'    => $value,
-            ],
-            'contains' => [
-                'operator' => 'LIKE',
-                'value'    => "%{$value}%",
-            ],
-            'starts_with' => [
-                'operator' => 'LIKE',
-                'value'    => "{$value}%",
-            ],
-            'ends_with' => [
-                'operator' => 'LIKE',
-                'value'    => "%{$value}",
-            ],
-            'greater_than' => [
-                'operator' => '>',
-                'value'    => $value,
-            ],
-            'lesser_than' => [
-                'operator' => '<',
-                'value'    => $value,
-            ],
-        ], $operator);
     }
 }

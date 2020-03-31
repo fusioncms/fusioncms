@@ -3,10 +3,10 @@
         <portal to="title">
             <app-title :icon="taxonomy.icon || 'pencil-alt'">Edit {{ singular }}</app-title>
         </portal>
-        
+
         <portal to="subtitle">{{ taxonomy.description }}</portal>
 
-        <shared-form :taxonomy="taxonomy" :form="form"></shared-form>
+        <shared-form :taxonomy="taxonomy" :form="form" :submit="submit" :term="term"></shared-form>
     </div>
 </template>
 
@@ -19,7 +19,7 @@
         head: {
             title() {
                 return {
-                    inner: this.entry.name || 'Loading...'
+                    inner: this.term.name || 'Loading...'
                 }
             }
         },
@@ -27,7 +27,7 @@
         data() {
             return {
                 taxonomy: {},
-                entry: {},
+                term: {},
                 form: new Form({}),
             }
         },
@@ -68,57 +68,84 @@
 
         methods: {
             submit() {
-                this.form.patch('/api/taxonomies/' + this.taxonomy.slug + '/' + this.entry.id).then((response) => {
-                    toast('Entry saved successfully', 'success')
+                this.form.patch('/api/taxonomies/' + this.taxonomy.slug + '/' + this.term.id).then((response) => {
+                    toast('Term saved successfully', 'success')
 
                     this.$router.push('/taxonomies/' + this.taxonomy.slug)
                 }).catch((response) => {
                     toast(response.response.data.message, 'failed')
                 })
             },
-
-            getEntry(to, from, next) {
-                let vm = this
-
-                axios.get('/api/taxonomies/' + to.params.taxonomy + '/' + to.params.id).then((response) => {    
-                    vm.taxonomy = response.data.data.taxonomy
-                    vm.entry = response.data.data
-
-                    let fields = {
-                        name: vm.entry.name,
-                        slug: vm.entry.slug,
-                        status: vm.entry.status,
-                    }
-
-                    _.forEach(vm.taxonomy.fields, function(value, handle) {
-                        Vue.set(fields, handle, vm.entry[handle])
-                    })
-
-                    vm.form = new Form(fields, true)
-
-                    vm.$nextTick(function(){
-                        vm.form.resetChangeListener()
-                    })
-
-                    vm.$emit('updateHead')
-                })
-            },
         },
 
         beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm.getEntry(to, from, next)
+            getTerm(to.params.taxonomy, to.params.id, (error, term, taxonomy, fields) => {
+                if (error) {
+                    next((vm) => {
+                        vm.$router.push('/taxonomies/' + vm.$router.currentRoute.params.taxonomy)
 
-                vm.$emit('updateHead')
+                        toast(error.toString(), 'danger')
+                    })
+                } else {
+                    next((vm) => {
+                        vm.taxonomy = taxonomy
+                        vm.term = term
+                        vm.form = new Form(fields, true)
+
+                        vm.$emit('updateHead')
+
+                        vm.$nextTick(() => {
+                            vm.form.resetChangeListener()
+                        })
+                    })
+                }
             })
         },
 
-        beforeRouteUpdate(to,from,next) {
-            this.getEntry(to, from, next)
+        beforeRouteUpdate(to, from, next) {
+            getTerm(to.params.taxonomy, to.params.id, (error, term, taxonomy, fields) => {
+                if (error) {
+                    this.$router.push('/taxonomies/' + this.$router.currentRoute.params.taxonomy)
 
-            this.$emit('updateHead')
-            
+                    toast(error.toString(), 'danger')
+                } else {
+                    this.taxonomy = taxonomy
+                    this.term = term
+                    this.form = new Form(fields, true)
+
+                    this.$emit('updateHead')
+
+                    this.$nextTick(() => {
+                        this.form.resetChangeListener()
+                    })
+                }
+            })
+
             next()
         }
+    }
+
+    export function getTerm(taxonomy, id, callback) {
+        axios.get('/api/taxonomies/' + taxonomy + '/' + id).then((response) => {
+            let taxonomy = response.data.data.taxonomy
+            let term = response.data.data
+            let fields = {
+                name: term.name,
+                slug: term.slug,
+                status: term.status,
+            }
+
+            if (taxonomy.fieldset) {
+                _.forEach(taxonomy.fieldset.sections, function(section) {
+                    _.forEach(section.fields, function(field) {
+                        fields[field.handle] = term[field.handle]
+                    })
+                })
+            }
+
+            callback(null, term, taxonomy, fields)
+        }).catch(function(error) {
+            callback(new Error('The requested term could not be found'))
+        })
     }
 </script>

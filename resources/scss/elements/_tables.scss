@@ -1,0 +1,200 @@
+.table {
+    @apply
+        w-full
+        text-sm
+    ;
+
+    table-layout: fixed;
+    word-wrap: break-word;
+
+    thead {
+        @apply
+            hidden
+        ;
+
+        th {
+            @apply
+                border-gray-200
+                tracking-wider
+                text-gray-800
+                font-medium
+                bg-gray-50
+                text-left
+                uppercase
+                leading-4
+                border-b-2
+                text-xs
+                px-6
+                py-3
+            ;
+        }
+
+        .sortable {
+            &:hover {
+                @apply
+                    cursor-pointer
+                    border-gray-400
+                ;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            @apply
+                flex
+                flex-col
+                bg-white
+                mb-3
+                relative
+                border
+                border-gray-300
+                rounded
+                pr-10
+            ;
+        }
+
+        td {
+            @apply
+                align-middle
+                px-6
+                py-3
+            ;
+
+            &:first-child {
+                @apply
+                    text-gray-900
+                    font-medium
+                ;
+            }
+
+            &.actions {
+                @apply
+                    align-middle
+                    text-center
+                    absolute
+                    p-3
+                    right-0
+                    top-0
+                    w-12
+                ;
+
+                .dropdown__menu {
+                    @apply
+                        w-40
+                    ;
+
+                    margin-top: -2px;
+                }
+            }
+        }
+    }
+
+    .column__label {
+        @apply
+            tracking-wider
+            text-gray-400
+            leading-snug
+            uppercase
+            font-semibold
+            text-xs
+            block
+        ;
+    }
+
+    &__wrapper {
+        .card__header {
+            @apply
+                border
+                rounded
+                border-gray-300
+                mb-3
+                bg-white
+            ;
+        }
+    }
+}
+
+@screen md {
+    .table {
+        @apply
+            text-base
+        ;
+
+        thead {
+            display: table-header-group;
+        }
+
+        tbody {
+            @apply
+                border-0
+            ;
+
+            tr {
+                @apply
+                    rounded-none
+                    p-0
+                    border-0
+                ;
+
+                display: table-row;
+
+                &:not(:last-child) {
+                    @apply
+                        border-b
+                        border-gray-200
+                    ;
+                }
+
+                &:nth-child(even) {
+                    @apply
+                        bg-gray-50
+                    ;
+                }
+            }
+
+            td {
+                &.actions {
+                    @apply
+                        align-middle
+                        px-6
+                        text-right
+                        relative
+                    ;
+                }
+            }
+        }
+
+        &__wrapper {
+            @apply
+                border-gray-300
+                bg-white
+                rounded
+                border
+                p-px
+            ;
+
+            .card__header {
+                @apply
+                    border-0
+                    rounded-none
+                    mb-0
+                    bg-transparent
+                ;
+            }
+        }
+
+        .column__label {
+            @apply
+                hidden
+            ;
+        }
+
+        .column__stat {
+            @apply
+                w-28
+                text-right
+            ;
+        }
+    }
+}

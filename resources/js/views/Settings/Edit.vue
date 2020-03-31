@@ -5,14 +5,20 @@
         </portal>
 
         <div class="row">
-            <div class="content-container">
-                <settings-form v-if="section" ref="form" :section="section"></settings-form>
+            <div class="col w-full">
+                <div class="card">
+                    <div class="card__body">
+                        <settings-form v-if="section" ref="form" :section="section"></settings-form>
+                    </div>
+                </div>
             </div>
         </div>
 
         <portal name="setting-actions" to="actions">
-            <router-link :to="{ name: 'settings' }" class="button mr-3">Go Back</router-link>
-            <button type="submit" @click.prevent="$refs.form.submit" class="button button--primary">Save Settings</button>
+            <div class="buttons">
+                <router-link :to="{ name: 'settings' }" class="button">Go Back</router-link>
+                <button type="submit" @click.prevent="$refs.form.submit" class="button button--primary">Save</button>
+            </div>
         </portal>
     </div>
 </template>

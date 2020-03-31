@@ -32,7 +32,6 @@ class MailableController extends DataTableController
             'name',
             'handle',
             'theme',
-            'status'
         ];
     }
 
@@ -42,7 +41,6 @@ class MailableController extends DataTableController
             'name',
             'handle',
             'theme',
-            'status'
         ];
     }
 
@@ -52,7 +50,6 @@ class MailableController extends DataTableController
             'name',
             'handle',
             'theme',
-            'status'
         ];
     }
 
@@ -62,7 +59,6 @@ class MailableController extends DataTableController
             'name'   => 'Name',
             'handle' => 'Handle',
             'theme'  => 'Theme',
-            'status' => 'Status',
         ];
     }
 }

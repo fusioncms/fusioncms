@@ -1,0 +1,31 @@
+.flex-wrapper {
+    @apply .min-h-screen .flex .flex-1 .flex-col;
+}
+
+.content-container {
+    @apply .px-3 .mb-6 .flex-1;
+}
+
+.side-container {
+    @apply .px-3 .mb-6 .w-full;
+
+    @screen xl {
+        width: 350px;
+    }
+}
+
+.form-sidebar {
+    @apply w-full;
+
+    // @screen xxl {
+    //     @apply text-right w-xs;
+    // }
+}
+
+.form-content {
+    @apply w-full;
+
+    // @screen xxl {
+    //     @apply flex-1;
+    // }
+}

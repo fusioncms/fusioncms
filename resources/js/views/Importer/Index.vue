@@ -10,7 +10,7 @@
 
 		<div class="row">
 			<div class="content-container">
-				<p-datatable :endpoint="endpoint" name="imports" sort-by="name" :per-page="10" primary-key="handle" key="importer_table">
+				<p-table :endpoint="endpoint" name="imports" sort-by="name" :per-page="10" primary-key="handle" key="importer_table">
 					<template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'importer.view', params: {importer: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -26,14 +26,14 @@
                     <template slot="actions" slot-scope="table">
                         <p-dropdown right>
                             <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
+
                             <template slot="options">
                                 <p-dropdown-item @click.prevent :to="{ name: 'importer.edit', params: {importer: table.record.id} }">Edit</p-dropdown-item>
                                 <p-dropdown-item @click.prevent v-modal:delete-importer="table.record">Delete</p-dropdown-item>
                             </template>
                         </p-dropdown>
                     </template>
-				</p-datatable>
+				</p-table>
 			</div>
 		</div>
 
@@ -78,7 +78,7 @@
             destroy(id) {
                 axios.delete(`/api/imports/${id}`).then((response) => {
                     toast('Import successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-imports')
                 })
             }

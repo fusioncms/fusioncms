@@ -77,7 +77,7 @@
 
                 this.form.post('/api/matrices').then((response) => {
                     store.dispatch('navigation/fetchAdminNavigation')
-                    
+
                     toast('Matrix successfully created', 'success')
 
                     this.$router.push('/matrices')
@@ -117,10 +117,44 @@
                         'value': 0
                     })
 
-                    vm.form.resetChangeListener()
-
+                    vm.$nextTick(() => {
+                        vm.form.resetChangeListener()
+                    })
                 })
             }))
         }
+    }
+
+    export function getMatricesAndFieldsets(callback) {
+        axios.all([
+            axios.get('/api/fieldsets'),
+            axios.get('/api/matrices'),
+        ]).then(axios.spread((fieldsets, matrices) => {
+            fieldsets = _.map(fieldsets.data.data, function(fieldset) {
+                return {
+                    'label': fieldset.name,
+                    'value': fieldset.id
+                }
+            })
+
+            fieldsets.unshift({
+                'label': 'None',
+                'value': null
+            })
+
+            matrices = _.map(matrices.data.data, function(matrix) {
+                return {
+                    'label': matrix.name,
+                    'value': matrix.id
+                }
+            })
+
+            matrices.unshift({
+                'label': 'None',
+                'value': 0
+            })
+
+            callback(null, matrices, fieldsets)
+        }))
     }
 </script>

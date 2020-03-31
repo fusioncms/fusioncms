@@ -1,0 +1,152 @@
+.field__input,
+.field__textarea {
+    @apply
+        appearance-none
+        border-gray-300
+        leading-normal
+        text-gray-700
+        outline-none
+        text-base
+        bg-white
+        rounded
+        border
+        w-full
+        px-3
+        py-2
+    ;
+
+    &:hover {
+        @apply
+            border-gray-400
+        ;
+    }
+
+    &:focus {
+        @apply
+            shadow-focus
+        ;
+    }
+
+    &--success {
+        @apply
+            border-success-500
+        ;
+
+        &:focus {
+            @apply
+                shadow-focus-success
+            ;
+        }
+
+        &:hover {
+            @apply
+                border-success-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            border-danger-500
+        ;
+
+        &:focus {
+            @apply
+                shadow-focus-danger
+            ;
+        }
+
+        &:hover {
+            @apply
+                border-danger-600
+            ;
+        }
+    }
+}
+
+.field__textarea {
+    min-height: 8em;
+    max-height: 40em;
+}
+
+.field__title {
+    @apply
+        appearance-none
+        bg-transparent
+        leading-normal
+        text-gray-700
+        outline-none
+        font-bold
+        text-3xl
+        w-full
+        px-6
+        py-3
+    ;
+
+    &:hover,
+    &:focus {
+        @apply
+            bg-gray-100
+        ;
+    }
+
+    &--success {
+        @apply
+            bg-success-50
+        ;
+
+        &:hover,
+        &:focus {
+            @apply
+                bg-success-100
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            bg-danger-50
+        ;
+
+        &:hover,
+        &:focus {
+            @apply
+                bg-danger-100
+            ;
+        }
+    }
+}
+
+.field__group {
+    @apply
+        rounded-md
+        relative
+    ;
+
+    &--prepend {
+        @apply
+            pointer-events-none
+            items-center
+            inset-y-0
+            absolute
+            left-0
+            flex
+            pl-3
+        ;
+    }
+
+    .field__input {
+        @apply
+            w-full
+            block
+            pl-10
+        ;
+
+        @screen sm {
+            @apply
+                leading-5
+                text-sm
+            ;
+        }
+    }
+}

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import LoginForm from '../../components/Auth/Login'
+	import LoginForm from '../../components/auth/Login'
 
 	export default {
         head: {

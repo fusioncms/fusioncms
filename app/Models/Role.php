@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model implements RoleContract
 {
-    use HasPermissions, LogsActivity;
+    use HasPermissions, IsSearchable, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -67,10 +68,10 @@ class Role extends Model implements RoleContract
 
     /**
      * Tap into activity before persisting to database.
-     * 
+     *
      * @param  \Spatie\Activitylog\Models\Activity $activity
      * @param  string   $eventName
-     * @return void             
+     * @return void
      */
     public function tapActivity(Activity $activity, string $eventName)
     {

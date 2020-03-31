@@ -486,6 +486,26 @@ const router = new Router({
         },
 
         {
+            path: '/styleguide',
+            component: () => import('../views/Styleguide/Index'),
+            name: 'styleguide',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
+            path: '/styleguide/tables',
+            component: () => import('../views/Styleguide/Tables'),
+            name: 'styleguide.tables',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '*',
             component: () => import('../views/404'),
             name: '404',

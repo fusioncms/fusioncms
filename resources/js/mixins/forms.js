@@ -1,5 +1,4 @@
 import store from '../vuex'
-import ConfirmModal from '../components/Modals/ConfirmModal'
 
 export default {
   beforeRouteLeave(to, from, next) {

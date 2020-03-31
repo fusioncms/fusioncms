@@ -1,62 +1,53 @@
 <template>
-	<div class="content-container">
-	    <form @submit.prevent="$parent.submit" @input.once="form.onFirstChange">
-	        <p-card>
-	            <div class="row">
-	                <div class="col form-sidebar">
-	                    <div class="xl:mr-10">
-	                        <h3>Basic Information</h3>
-	                        <p class="text-sm">What is the name and description of this role?</p>
-	                    </div>
-	                </div>
+	<form-container>
+        <portal to="actions">
+            <div class="buttons">
+                <router-link :to="{ name: 'roles' }" class="button">Go Back</router-link>
+                <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+            </div>
+        </portal>
 
-	                <div class="col form-content">
-	                    <p-input
-	                        name="name"
-	                        label="Name"
-	                        autocomplete="off"
-	                        :has-error="form.errors.has('name')"
-	                        :error-message="form.errors.get('name')"
-	                        autofocus
-	                        required
-	                        v-model="form.name">
-	                    </p-input>
+		<div class="card">
+            <div class="card__body">
+                <p-title
+                    name="name"
+                    autocomplete="off"
+                    autofocus
+                    required
+                    :has-error="form.errors.has('name')"
+                    :error-message="form.errors.get('name')"
+                    v-model="form.name">
+                </p-title>
 
-	                    <p-slug
-	                        name="slug"
-	                        label="Slug"
-	                        autocomplete="off"
-	                        :has-error="form.errors.has('slug')"
-	                        :error-message="form.errors.get('slug')"
-	                        required
-	                        :watch="form.name"
-	                        v-model="form.slug">
-	                    </p-slug>
+				<p-textarea
+					name="description"
+					label="Description"
+					autocomplete="off"
+					:has-error="form.errors.has('description')"
+					:error-message="form.errors.get('description')"
+					required
+					v-model="form.description"
+					:rows="2">
+				</p-textarea>
+			</div>
+		</div>
 
-	                    <p-input
-	                        name="description"
-	                        label="Description"
-	                        autocomplete="off"
-	                        :has-error="form.errors.has('description')"
-	                        :error-message="form.errors.get('description')"
-	                        required
-	                        v-model="form.description">
-	                    </p-input>
-	                </div>
-	            </div>
+		<template v-slot:sidebar>
+            <div class="card">
+                <div class="card__body">
+                    <p-slug
+                        name="slug"
+                        label="Slug"
+                        monospaced
+                        autocomplete="off"
+                        required
+                        :watch="form.name"
+                        :has-error="form.errors.has('slug')"
+                        :error-message="form.errors.get('slug')"
+                        v-model="form.slug">
+                    </p-slug>
 
-	            <hr>
-
-	            <div class="row">
-	                <div class="col form-sidebar">
-	                    <div class="xl:mr-10">
-	                        <h3>Attributes</h3>
-	                        <p class="text-sm">Assign any additional attribute values for your role.</p>
-	                    </div>
-	                </div>
-
-	                <div class="col form-content">
-	                    <p-select
+					<p-select
 	                    name="special"
 	                    label="Special Flag"
 	                    :options="flags"
@@ -66,29 +57,57 @@
 	                    required
 	                    v-model="form.special">
 	                </p-select>
-	                </div>
-	            </div>
-	        </p-card>
+				</div>
+			</div>
 
-	        <portal to="actions">
-	            <router-link :to="{ name: 'roles' }" class="button mr-3">Go Back</router-link>
-	            <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Role</button>
-	        </portal>
-	    </form>
-	</div>
+			<p-definition-list v-if="role">
+                <p-definition name="Created At">
+                    {{ $moment(role.created_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+
+                <p-definition name="Updated At">
+                    {{ $moment(role.updated_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+
+				<p-definition name="Special Flag">
+                    {{ special }}
+                </p-definition>
+            </p-definition-list>
+		</template>
+	</form-container>
 </template>
 
 <script>
     export default {
     	props: {
+			role: {
+				type: Object,
+				required: false,
+			},
+
     		form: {
     			type: Object,
     			required: true,
-    		},
+			},
+
     		flags: {
     			type: Array,
     			required: true
-    		}
-    	}
+			},
+
+			submit: {
+                required: true,
+            },
+		},
+
+		computed: {
+			special() {
+				if (this.role.special) {
+					return _.startCase(this.role.special)
+				}
+
+				return 'None';
+			}
+		}
     }
 </script>

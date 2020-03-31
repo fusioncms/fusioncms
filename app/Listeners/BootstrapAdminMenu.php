@@ -123,7 +123,7 @@ class BootstrapAdminMenu
                 'icon' => 'paper-plane',
             ]);
 
-            $menu->configure->add('Mail')->data([
+            $menu->configure->add('Mailables')->data([
                 'to'   => '/mailables',
                 'icon' => 'mail-bulk',
             ]);
@@ -185,6 +185,13 @@ class BootstrapAdminMenu
             $menu->users->add('Permissions')->data([
                 'to' => '/permissions',
             ]);
+
+            if (app()->isLocal()) {
+                $menu->add('Styleguide')->data([
+                    'to'   => '/styleguide',
+                    'icon' => 'swatchbook',
+                ]);
+            }
         });
     }
 }

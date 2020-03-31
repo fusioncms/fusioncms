@@ -96,17 +96,17 @@
 <script>
 	import { mapActions } from 'vuex'
 
-	import FileUploader  from '../../components/FileManager/FileUploader.vue'
-	import FileSelection from '../../components/FileManager/FileSelection.vue'
+	import FileUploader  from '../../components/file-manager/FileUploader.vue'
+	import FileSelection from '../../components/file-manager/FileSelection.vue'
 
-	import BreadcrumbAction from '../../components/FileManager/Actions/Breadcrumb.vue'
-	import DisplayAction    from '../../components/FileManager/Actions/Display.vue'
-	import SearchAction     from '../../components/FileManager/Actions/Search.vue'
-	import SortAction       from '../../components/FileManager/Actions/Sort.vue'
-	import ViewAction       from '../../components/FileManager/Actions/View.vue'
+	import BreadcrumbAction from '../../components/file-manager/actions/Breadcrumb.vue'
+	import DisplayAction    from '../../components/file-manager/actions/Display.vue'
+	import SearchAction     from '../../components/file-manager/actions/Search.vue'
+	import SortAction       from '../../components/file-manager/actions/Sort.vue'
+	import ViewAction       from '../../components/file-manager/actions/View.vue'
 
-	import Directory from '../../components/FileManager/Browse/Directory.vue'
-	import File      from '../../components/FileManager/Browse/File.vue'
+	import Directory from '../../components/file-manager/browse/Directory.vue'
+	import File      from '../../components/file-manager/browse/File.vue'
 
 	export default {
 		name: 'asset-fieldtype',
@@ -174,7 +174,7 @@
 				get() {
 					return this.value || []
 				},
-				
+
 				set(value) {
 					this.$emit('input', value)
 				}

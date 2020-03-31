@@ -18,24 +18,24 @@
 
         <div class="row">
             <div class="col mb-6 md:w-1/2 xl:w-1/4" v-for="theme in themes" :key="theme.name">
-                <p-card no-body>
+                <div class="card">
                     <img class="w-full rounded-t shadow" :src="theme.preview" :alt="theme.name">
 
                     <div class="card__body">
                         <div class="font-bold text-xl mb-2">{{ theme.name }}</div>
                         <p class="text-gray-800 text-base">{{ theme.description }}</p>
-                        
+
                         <div class="w-full border-t-2 border-gray-200 pt-3">
                             <p-button class="w-full" v-if="! theme.active" @click="setAsActive(theme.slug)">Set as active</p-button>
                             <p class="text-center" v-else>Currently Active</p>
                         </div>
                     </div>
-                </p-card>
+                </div>
             </div>
         </div>
 
         <portal to="actions">
-            <router-link :to="{ name: 'themes.settings' }" class="button mr-3">Go Back</router-link>
+            <router-link :to="{ name: 'themes.settings' }" class="button">Go Back</router-link>
         </portal>
 
         <p-modal name="confirm" title="Confirm override" key="confirm_modal" v-model="confirmModal">

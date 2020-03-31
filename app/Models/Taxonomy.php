@@ -13,6 +13,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Concerns\HasFieldset;
+use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
@@ -20,7 +21,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Taxonomy extends Model
 {
-    use CachesQueries, HasFieldset, LogsActivity;
+    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
 
     protected $with = ['fieldsets'];
 
@@ -94,7 +95,7 @@ class Taxonomy extends Model
 
     /**
      * Taxonomies have many terms.
-     * 
+     *
      * @return HasManyRelationship
      */
     public function terms()
@@ -107,10 +108,10 @@ class Taxonomy extends Model
 
     /**
      * Tap into activity before persisting to database.
-     * 
+     *
      * @param  \Spatie\Activitylog\Models\Activity $activity
      * @param  string   $eventName
-     * @return void             
+     * @return void
      */
     public function tapActivity(Activity $activity, string $eventName)
     {

@@ -1,3 +1,5 @@
 [v-cloak] {
-     display: none;
+     @apply
+          hidden
+     ;
 }

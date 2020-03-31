@@ -14,13 +14,14 @@ namespace App\Models\Pages;
 use App\Models\Field;
 use App\Models\Matrix;
 use Illuminate\Support\Str;
+use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use LogsActivity;
+    use IsSearchable, LogsActivity;
 
 	/**
      * The table associated with the model.
@@ -99,10 +100,10 @@ class {class} extends Model
 
     /**
      * Tap into activity before persisting to database.
-     * 
+     *
      * @param  \Spatie\Activitylog\Models\Activity $activity
      * @param  string   $eventName
-     * @return void             
+     * @return void
      */
     public function tapActivity(Activity $activity, string $eventName)
     {

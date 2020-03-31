@@ -7,7 +7,7 @@
             v-if="! hasChildren && ! divider"
             :to="to"
             class="sidebar__menu-link"
-            @click.native="mobileToggle()"
+            @click.native="onClick($event) && mobileToggle()"
         >
             <div class="flex">
                 <span class="sidebar__menu-icon" v-if="icon">
@@ -99,6 +99,8 @@
 
         methods: {
             onClick(event) {
+                this.$emit('click', event)
+
                 this.showChildren = !this.showChildren
             },
 

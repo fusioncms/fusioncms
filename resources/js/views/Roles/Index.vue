@@ -10,11 +10,11 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="roles" sort-by="name" :per-page="10" key="roles_table">
+                <p-table :endpoint="endpoint" id="roles" sort-by="name" key="roles_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'roles.edit', params: {role: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
-                    
+
                     <template slot="slug" slot-scope="table">
                         <code>{{ table.record.slug }}</code>
                     </template>
@@ -24,28 +24,20 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right>
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'roles.edit', params: {role: table.record.id} }">Edit</p-dropdown-item>
+                        <p-actions :id="'role_' + table.record.id + '_actions'" :key="'role_' + table.record.id + '_actions'">
+                            <p-dropdown-link @click.prevent :to="{ name: 'roles.edit', params: {role: table.record.id} }">Edit</p-dropdown-link>
 
-                                <!--
-                                    We don't want to delete core roles, so let's
-                                    check for that and save ourselves a headache.
-                                -->
-
-                                <p-dropdown-item
-                                    v-if="! isProtected(table.record.slug)" 
-                                    @click.prevent
-                                    v-modal:delete-role="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                v-if="! isProtected(table.record.slug)"
+                                @click.prevent
+                                v-modal:delete-role="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 

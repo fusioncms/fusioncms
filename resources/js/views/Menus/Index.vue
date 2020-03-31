@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="menus" sort-by="name" :per-page="10" primary-key="handle" key="menus_table">
+                <p-table :endpoint="endpoint" id="menus" sort-by="name" primary-key="handle" key="menus_table">
                     <template slot="name" slot-scope="table">
                         <router-link :to="{ name: 'menu.nodes', params: {menu: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
@@ -23,29 +23,21 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'menu_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
+                        <p-actions :id="'menu_' + table.record.id + '_actions'" :key="'menu_' + table.record.id + '_actions'">
+                            <p-dropdown-link :to="{ name: 'menu.nodes', params: {menu: table.record.id} }">Manage</p-dropdown-link>
+                            <p-dropdown-link :to="{ name: 'menus.edit', params: {menu: table.record.id} }">Edit</p-dropdown-link>
 
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'menu.nodes', params: {menu: table.record.id} }">Manage</p-dropdown-item>
-                                <p-dropdown-item @click.prevent :to="{ name: 'menus.edit', params: {menu: table.record.id} }">Edit</p-dropdown-item>
-
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-menu="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-menu="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 

@@ -54,10 +54,10 @@ class CollectionController extends Controller
 
     /**
      * Store newly created record in storage.
-     * 
+     *
      * @param  \App\Http\Requests\CollectionRequest $request
      * @param  string $matrixSlug
-     * @return \App\Http\Resources\EntryResource                    
+     * @return \App\Http\Resources\EntryResource
      */
     public function store(CollectionRequest $request, $matrixSlug)
     {
@@ -111,10 +111,10 @@ class CollectionController extends Controller
 
     /**
      * Destroy resource from storage.
-     * 
-     * @param  Request  $request    
-     * @param  string   $matrixSlug 
-     * @param  integer  $id         
+     *
+     * @param  Request  $request
+     * @param  string   $matrixSlug
+     * @param  integer  $id
      * @return void
      */
     public function destroy(Request $request, $matrixSlug, $id)

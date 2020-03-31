@@ -1,41 +1,45 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Concerns;
 
-class IsSearchable
+use Illuminate\Support\Facades\Schema;
+
+trait IsSearchable
 {
-    /**
-     * Listen to the creating event.
-     *
-     * @param  \App\Database\Eloquent\Model  $model
-     * @return void
-     */
-    public function creating($model)
+    public static function scopeSearch($query, $keyword, $matchAllFields = false)
     {
-        if (! $model->isSearchable()) {
-            $model::disableSearchSyncing();
-        }
+        return static::where(function($query) use ($keyword, $matchAllFields) {
+            foreach (static::getSearchFields() as $field) {
+                if ($matchAllFields) {
+                    $query->where($field, 'LIKE', "%$keyword%");
+                } else {
+                    $query->orWhere($field, 'LIKE', "%$keyword%");
+                }
+            }
+        });
     }
 
-    /**
-     * Listen to the updating event.
-     *
-     * @param  \App\Database\Eloquent\Model  $model
-     * @return void
-     */
-    public function updating($model)
+    public static function getSearchFields()
     {
-        if (! $model->isSearchable()) {
-            $model::disableSearchSyncing();
+        $model = new static;
+
+        $fields = $model->search;
+
+        if (empty($fields)) {
+            $fields = Schema::getColumnListing($model->getTable());
+
+            $others[] = $model->primaryKey;
+
+            $others[] = $model->getCreatedAtColumn() ?: 'created_at';
+            $others[] = $model->getUpdatedAtColumn() ?: 'updated_at';
+
+            $others[] = method_exists($model, 'getDeletedAtColumn')
+                ? $model->getDeletedAtColumn()
+                : 'deleted_at';
+
+            $fields = array_diff($fields, $model->getHidden(), $others);
         }
+
+        return $fields;
     }
 }

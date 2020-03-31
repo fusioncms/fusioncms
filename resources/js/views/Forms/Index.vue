@@ -5,14 +5,18 @@
         </portal>
 
         <portal to="actions">
-            <router-link :to="{ name: 'inbox' }" class="button mr-3">View Inbox</router-link>
-            <router-link :to="{ name: 'forms.create' }" class="button">Create Form</router-link>
+            <div class="buttons">
+                <router-link :to="{ name: 'inbox' }" class="button">View Inbox</router-link>
+                <router-link :to="{ name: 'forms.create' }" class="button">Create Form</router-link>
+            </div>
         </portal>
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="forms" sort-by="name" :per-page="10" primary-key="handle" key="forms_table">
+                <p-table :endpoint="endpoint" id="forms" sort-by="name" primary-key="handle" key="forms_table">
                     <template slot="name" slot-scope="table">
+                        <p-status :value="table.record.status" class="mr-2"></p-status>
+
                         <router-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">{{ table.record.name }}</router-link>
                     </template>
 
@@ -24,28 +28,20 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'form_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'forms.edit', params: {form: table.record.id} }">Edit</p-dropdown-item>
+                        <p-actions :id="'form_' + table.record.id + '_actions'" :key="'form_' + table.record.id + '_actions'">
+                            <p-dropdown-link :to="{ name: 'forms.edit', params: {form: table.record.id} }">Edit</p-dropdown-link>
 
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-form="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-form="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -82,7 +78,7 @@
             destroy(id) {
                 axios.delete('/api/forms/' + id).then((response) => {
                     toast('Form successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-forms')
                 })
             }

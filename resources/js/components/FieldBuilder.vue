@@ -23,7 +23,12 @@
                                 <span class="font-mono text-xs uppercase">{{ field.type.name }}</span>
                             </div>
 
-                            <div style="min-width: 150px;" class="text-right draggable__actions">
+                            <p-actions :id="field.handle + '_actions'">
+                                <p-dropdown-link @click.prevent="edit(index)" v-modal:edit-field>Edit</p-dropdown-link>
+                                <p-dropdown-link @click.prevent="remove(index)">Delete</p-dropdown-link>
+                            </p-actions>
+
+                            <!-- <div style="min-width: 150px;" class="text-right draggable__actions">
                                 <p-dropdown right>
                                     <fa-icon icon="bars"></fa-icon>
 
@@ -32,7 +37,7 @@
                                         <p-dropdown-item @click.prevent="remove(index)">Delete</p-dropdown-item>
                                     </template>
                                 </p-dropdown>
-                            </div>
+                            </div> -->
 
                         </div>
                     </p-sortable-item>
@@ -42,7 +47,7 @@
 
         <div class="row">
             <div class="col w-full">
-                <p-button v-modal:add-field>Add Field</p-button>
+                <a class="button" href="#" @click.prevent v-modal:add-field>Add Field</a>
             </div>
         </div>
 

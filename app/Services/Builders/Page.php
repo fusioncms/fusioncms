@@ -89,14 +89,6 @@ class Page extends Builder implements BuilderContract
 
         File::put($path, $contents);
 
-        if (! config('app.debug')) {
-            register_shutdown_function(function () use ($path) {
-                if (file_exists($path)) {
-                    unlink($path);
-                }
-            });
-        }
-
         return app()->make('App\Models\Pages\\' . $className);
     }
 }

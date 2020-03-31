@@ -1,5 +1,5 @@
 <template>
-    <div v-html="field.help"></div>
+    <div class="field" v-html="field.help"></div>
 </template>
 
 <script>
@@ -38,4 +38,3 @@
         }
     }
 </script>
-

@@ -41,10 +41,11 @@ class UserRequest extends FormRequest
         $id = $this->user->id ?? null;
 
         $rules = [
-            'name'   => 'required',
-            'email'  => 'required|email|unique:users,email,' . $id,
-            'role'   => 'sometimes|exists:roles,slug',
-            'status' => 'sometimes|boolean',
+            'name'              => 'required',
+            'email'             => 'required|email|unique:users,email,' . $id,
+            'role'              => 'sometimes|exists:roles,slug',
+            'status'            => 'sometimes|boolean',
+            'email_verified_at' => 'sometimes|required',
 
             'password_confirmation' => 'required_with:password|same:password',
         ];

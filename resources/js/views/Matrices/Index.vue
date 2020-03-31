@@ -10,13 +10,17 @@
 
         <div class="row">
             <div class="content-container">
-                <p-datatable :endpoint="endpoint" name="matrices" sort-by="name" :per-page="10" primary-key="handle" key="matrices_table">
+                <p-table :endpoint="endpoint" id="matrices" sort-by="name" primary-key="handle" key="matrices_table">
                     <template slot="name" slot-scope="table">
-                        <router-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">{{ table.record.name }}</router-link>
+                        <div class="flex items-center">
+                            <p-status :value="table.record.status" class="mr-2"></p-status>
+
+                            <router-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">{{ table.record.name }}</router-link>
+                        </div>
                     </template>
 
                     <template slot="handle" slot-scope="table">
-                        <code>{{ table.record.handle }}</code>
+                        {{ table.record.handle }}
                     </template>
 
                     <template slot="type" slot-scope="table">
@@ -27,28 +31,20 @@
                         <span class="text-gray-800 text-sm">{{ table.record.description }}</span>
                     </template>
 
-                    <template slot="status" slot-scope="table">
-                        <span class="badge badge--success" v-if="table.record.status === true">Enabled</span>
-                        <span class="badge badge--danger" v-else>Disabled</span>
-                    </template>
-
                     <template slot="actions" slot-scope="table">
-                        <p-dropdown right :key="'matrix_' + table.record.id">
-                            <fa-icon :icon="['fas', 'bars']"></fa-icon>
-                            
-                            <template slot="options">
-                                <p-dropdown-item @click.prevent :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">Edit</p-dropdown-item>
+                        <p-actions :id="'matrix_' + table.record.id + '_actions'" :key="'matrix_' + table.record.id + '_actions'">
+                            <p-dropdown-link :to="{ name: 'matrices.edit', params: {matrix: table.record.id} }">Edit</p-dropdown-link>
 
-                                <p-dropdown-item
-                                    @click.prevent
-                                    v-modal:delete-matrix="table.record"
-                                >
-                                    Delete
-                                </p-dropdown-item>
-                            </template>
-                        </p-dropdown>
+                            <p-dropdown-link
+                                @click.prevent
+                                v-modal:delete-matrix="table.record"
+                                classes="link--danger"
+                            >
+                                Delete
+                            </p-dropdown-link>
+                        </p-actions>
                     </template>
-                </p-datatable>
+                </p-table>
             </div>
         </div>
 
@@ -67,7 +63,7 @@
 
 <script>
     import store from '../../vuex'
-    
+
     export default {
         head: {
             title() {
@@ -89,7 +85,7 @@
                     store.dispatch('navigation/fetchAdminNavigation')
 
                     toast('Matrix successfully deleted.', 'success')
-                    
+
                     proton().$emit('refresh-datatable-matrices')
                 })
             }

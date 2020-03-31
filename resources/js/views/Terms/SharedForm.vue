@@ -1,125 +1,101 @@
 <template>
-	<div class="row">
+	<form-container>
 		<portal to="actions">
-            <router-link v-if="taxonomy.slug" :to="{ name: 'terms.index', params: { taxonomy: taxonomy.slug }}" class="button mr-3">Go Back</router-link>
-            <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save Term</button>
-        </portal>
+			<div class="buttons">
+				<router-link v-if="taxonomy.slug" :to="{ name: 'terms.index', params: {taxonomy: taxonomy.slug} }" class="button">Go Back</router-link>
+				<button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+			</div>
+		</portal>
 
-		<div class="content-container">
-		    <form @submit.prevent="$parent.submit">
-		        <p-card>
-		        	<div class="row">
-	            		<div class="col form-sidebar">
-                            <div class="xxl:mr-10">
-                                <!--  -->
-                            </div>
+		<div class="card">
+            <div class="card__body">
+                <p-title
+                    name="name"
+                    autocomplete="off"
+                    autofocus
+                    required
+                    :has-error="form.errors.has('name')"
+                    :error-message="form.errors.get('name')"
+                    v-model="form.name">
+                </p-title>
+
+				<p-tabs v-if="sections.body.length > 0">
+                    <p-tab v-for="section in sections.body" :key="section.handle" :name="section.name">
+                        <div v-for="field in section.fields" :key="field.handle" class="form__group">
+                            <component
+                                :is="field.type.id + '-fieldtype'"
+                                :field="field"
+                                v-model="form[field.handle]"
+                            >
+                            </component>
                         </div>
+                    </p-tab>
+                </p-tabs>
 
-                        <div class="col mb-6 form-content">
-                            <div class="row">
-                                <div class="col w-1/2">
-                                    <p-input
-                                        name="name"
-                                        label="Name"
-                                        v-model="form.name"
-                                        :has-error="form.errors.has('name')"
-                                        :error-message="form.errors.get('name')">
-                                    </p-input>
-                                </div>
-
-                                <div class="col w-1/2">
-                                    <p-slug
-                                        name="slug"
-                                        label="Slug"
-                                        monospaced
-                                        v-model="form.slug"
-                                        :has-error="form.errors.has('slug')"
-                                        :error-message="form.errors.get('slug')"
-                                        :watch="form.name">
-                                    </p-slug>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-		            <div v-if="sections.body.length > 0">
-		                <!-- Loop through each section -->
-		                <div v-for="(section, index) in sections.body" :key="section.handle">
-		                    <div class="row">
-		                        <div class="col form-sidebar">
-		                            <div class="xxl:mr-10">
-		                                <h3>{{ section.name }}</h3>
-		                                <p class="text-sm">{{ section.description }}</p>
-		                            </div>
-		                        </div>
-
-		                        <div class="col form-content">
-		                            <!-- Loop through each section field -->
-		                            <div v-for="field in section.fields" :key="field.handle" class="form__group">
-		                                <component
-		                                    :is="field.type.id + '-fieldtype'"
-		                                    :field="field"
-		                                    v-model="form[field.handle]">
-		                                </component>
-		                            </div>
-		                        </div>
-		                    </div>
-		                
-		                    <hr v-if="index !== sections.body.length - 1">
-		                </div>
-		            </div>
-
-		            <div v-else class="text-center">
-		                <p>You should configure your Taxonomy with some sections and fields first <fa-icon class="text-emoji" :icon="['fas', 'hand-peace']"></fa-icon></p>
-		                <router-link v-if="taxonomy.id" class="button items-center" :to="{ name: 'taxonomies.edit', params: { taxonomy: taxonomy.id }}"><fa-icon :icon="['fas', 'edit']" class="mr-2 text-sm"></fa-icon> Manage your taxonomy</router-link>
-		            </div>
-		        </p-card>
-		    </form>
+                <div v-if="sections.body.length == 0 && taxonomy.id" class="text-center">
+                    <p>Things are looking a little empty here!</p>
+                    <router-link class="button" :to="{ name: 'taxonomies.edit', params: { taxonomy: taxonomy.id }}">Configure your taxonomy</router-link>
+                </div>
+			</div>
 		</div>
 
-		<div class="side-container">
-	        <form @submit.prevent="$parent.submit">
-	            <p-card>
-	                <div class="row">
-	                    <div class="col w-full">
-	                        <p-select
-	                            name="status"
-	                            label="Status"
-	                            :options="[
-	                                {
-	                                    'label': 'Enabled',
-	                                    'value': 1,
-	                                },
-	                                {
-	                                    'label': 'Disabled',
-	                                    'value': 0,
-	                                },
-	                            ]"
-	                            v-model="form.status"
-	                            >
-	                        </p-select>
-	                    </div>
-	                </div>
-	            </p-card>
+		<template v-slot:sidebar>
+            <div class="card">
+                <div class="card__body">
+                    <p-slug
+                        name="slug"
+                        label="Slug"
+                        monospaced
+                        autocomplete="off"
+                        required
+                        :watch="form.name"
+                        :has-error="form.errors.has('slug')"
+                        :error-message="form.errors.get('slug')"
+                        v-model="form.slug">
+                    </p-slug>
 
-	            <p-card v-for="(section) in sections.sidebar" :key="section.handle" class="mt-6">
-	                <h3>{{ section.name }}</h3>
-	                <p class="text-sm">{{ section.description }}</p>
+                    <p-toggle
+                        name="status"
+                        label="Status"
+                        v-model="form.status"
+                        :true-value="1"
+                        :false-value="0">
+                    </p-toggle>
+                </div>
+            </div>
 
-	                <div class="w-full">
-	                    <!-- Loop through each section field -->
-	                    <div v-for="field in section.fields" :key="field.handle" class="form__group">
-	                        <component
-	                            :is="field.type.id + '-fieldtype'"
-	                            :field="field"
-	                            v-model="form[field.handle]">
-	                        </component>
-	                    </div>
-	                </div>
-	            </p-card>
-	        </form>
-	    </div>
-	</div>
+			<div class="card" v-for="(section) in sections.sidebar" :key="section.handle">
+                <div class="card__header">
+                    <h3 class="card__title">{{ section.name }}</h3>
+                    <p v-if="section.description" class="card__subtitle">{{ section.description }}</p>
+                </div>
+
+                <div class="card__body">
+                    <!-- Loop through each section field -->
+                    <component
+                        :is="field.type.id + '-fieldtype'"
+                        :field="field"
+                        v-model="form[field.handle]"
+                        v-for="field in section.fields" :key="field.handle">
+                    </component>
+                </div>
+            </div>
+
+			<p-definition-list v-if="term">
+                <p-definition name="Status">
+                    <fa-icon :icon="['fas', 'circle']" class="fa-fw text-xs" :class="{'text-success-500': term.status, 'text-danger-500': ! term.status}"></fa-icon> {{ term.status ? 'Enabled' : 'Disabled' }}
+                </p-definition>
+
+                <p-definition name="Created At">
+                    {{ $moment(term.created_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+
+                <p-definition name="Updated At">
+                    {{ $moment(term.updated_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+            </p-definition-list>
+		</template>
+	</form-container>
 </template>
 
 <script>
@@ -130,16 +106,40 @@
 				required: true,
 			},
 
+			term: {
+				required: false,
+			},
+
 			form: {
 				type: Object,
 				required: true,
-			}
+			},
+
+			submit: {
+				required: true,
+			},
 		},
 
 		computed: {
 			sections() {
-				return this.$parent.sections
-			}
+                let body = []
+                let sidebar = []
+
+                if (this.taxonomy.fieldset) {
+                    body = _.filter(this.taxonomy.fieldset.sections, function(section) {
+                        return section.placement == 'body'
+                    })
+
+                    sidebar = _.filter(this.taxonomy.fieldset.sections, function(section) {
+                        return section.placement == 'sidebar'
+                    })
+                }
+
+                return {
+                    body: body,
+                    sidebar: sidebar
+                }
+            },
 		}
 	}
 </script>

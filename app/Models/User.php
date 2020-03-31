@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\Concerns\IsSearchable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\HasDynamicRelationships;
@@ -30,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         HasApiTokens,
         Notifiable,
         HasDynamicRelationships,
+        IsSearchable,
         LogsActivity,
         CausesActivity;
 
@@ -60,6 +62,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'fields'   => 'collection',
         'settings' => 'collection',
+    ];
+
+    protected $appends = [
+        'role',
+        'verified',
     ];
 
     /**
@@ -134,6 +141,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return "//www.gravatar.com/avatar/{$email}?s={$size}";
     }
 
+    public function getRoleAttribute()
+    {
+        return $this->roles->first();
+    }
+
+    public function getVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
+    }
+
     /**
      * Scope to query resource.
      *
@@ -149,10 +166,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Tap into activity before persisting to database.
-     * 
+     *
      * @param  \Spatie\Activitylog\Models\Activity $activity
      * @param  string   $eventName
-     * @return void             
+     * @return void
      */
     public function tapActivity(Activity $activity, string $eventName)
     {

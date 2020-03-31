@@ -4,9 +4,7 @@
             <app-title icon="list">Create Fieldset</app-title>
         </portal>
 
-        <div class="row">
-            <shared-form :form="form"></shared-form> 
-        </div>
+        <shared-form :form="form"></shared-form>
     </div>
 </template>
 
@@ -46,7 +44,7 @@
 
                     axios.post(`/api/fieldsets/${response.data.id}/sections`, formData).then((response) => {
                         toast('Fieldset successfully created', 'success')
-                        
+
                         this.$router.push('/fieldsets')
                     })
                 }).catch((response) => {

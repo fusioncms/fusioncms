@@ -94,14 +94,6 @@ class Taxonomy extends Builder implements BuilderContract
 
         File::put($path, $contents);
 
-        if (! config('app.debug')) {
-            register_shutdown_function(function () use ($path) {
-                if (file_exists($path)) {
-                    unlink($path);
-                }
-            });
-        }
-
         return app()->make('App\Models\Taxonomies\\'. $className);
     }
 
@@ -134,7 +126,7 @@ class Taxonomy extends Builder implements BuilderContract
                  * Note:
                  * Add relationship method only once
                  *   per `$model->handle`.
-                 * 
+                 *
                  */
                 if (! in_array($model->handle, $relationships)) {
                     array_push($relationships, $model->handle);

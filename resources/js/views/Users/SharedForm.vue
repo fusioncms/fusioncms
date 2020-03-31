@@ -1,120 +1,108 @@
 <template>
-    <div class="row">
-        <div class="content-container">
-            <form @submit.prevent="$parent.submit" @input.once="form.onFirstChange">
-                <p-card>
-                    <div class="row">
-                        <div class="col form-sidebar">
-                            <div class="xl:mr-10">
-                                <h3>Personal</h3>
-                                <p class="text-sm">Information to identify the user both within the CMS and by means of login.</p>
-                            </div>
-                        </div>
+    <form-container>
+        <portal to="actions">
+            <div class="buttons">
+                <router-link :to="{ name: 'users' }" class="button">Go Back</router-link>
+                <button type="submit" @click.prevent="submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save</button>
+            </div>
+        </portal>
 
-                        <div class="col form-content">
-                            <p-input
-                                name="name"
-                                label="First Name"
-                                autocomplete="off"
-                                :has-error="form.errors.has('name')"
-                                :error-message="form.errors.get('name')"
-                                autofocus
-                                required
-                                v-model="form.name">
-                            </p-input>
+        <div class="card">
+            <div class="card__body">
+                <p-title
+                    name="name"
+                    autocomplete="off"
+                    autofocus
+                    required
+                    :has-error="form.errors.has('name')"
+                    :error-message="form.errors.get('name')"
+                    v-model="form.name">
+                </p-title>
 
-                            <p-input
-                                type="email"
-                                name="email"
-                                label="E-mail"
-                                autocomplete="off"
-                                :has-error="form.errors.has('email')"
-                                :error-message="form.errors.get('email')"
-                                required
-                                v-model="form.email">
-                            </p-input>
-                        </div>
-                    </div>
+                <p-input
+                    type="email"
+                    name="email"
+                    label="E-mail"
+                    autocomplete="off"
+                    :has-error="form.errors.has('email')"
+                    :error-message="form.errors.get('email')"
+                    required
+                    v-model="form.email">
+                </p-input>
 
-                    <hr>
+                <p-tabs>
+                    <p-tab name="Security">
+                        <p-input
+                            type="password"
+                            name="password"
+                            label="Password"
+                            autocomplete="new-password"
+                            :has-error="form.errors.has('password')"
+                            :error-message="form.errors.get('password')"
+                            required
+                            v-model="form.password">
+                        </p-input>
 
-                    <div class="row">
-                        <div class="col form-sidebar">
-                            <div class="xl:mr-10">
-                                <h3>Security</h3>
-                                <p class="text-sm">Secure the account by specifying the role and setting a strong password.</p>
-                            </div>
-                        </div>
-
-                        <div class="col form-content">
-                            <p-select
-                                name="role"
-                                label="Role"
-                                :options="roleOptions"
-                                autocomplete="off"
-                                value="user"
-                                :has-error="form.errors.has('role')"
-                                :error-message="form.errors.get('role')"
-                                required
-                                v-model="form.role">
-                            </p-select>
-                            
-                            <p-input
-                                type="password"
-                                name="password"
-                                label="Password"
-                                autocomplete="new-password"
-                                :has-error="form.errors.has('password')"
-                                :error-message="form.errors.get('password')"
-                                required
-                                v-model="form.password">
-                            </p-input>
-
-                            <p-input
-                                type="password"
-                                name="password_confirmation"
-                                label="Confirm Password"
-                                autocomplete="new-password"
-                                :has-error="form.errors.has('password_confirmation')"
-                                :error-message="form.errors.get('password_confirmation')"
-                                required
-                                v-model="form.password_confirmation">
-                            </p-input>
-                        </div>
-                    </div>
-                </p-card>
-            </form>
+                        <p-input
+                            type="password"
+                            name="password_confirmation"
+                            label="Confirm Password"
+                            autocomplete="new-password"
+                            :has-error="form.errors.has('password_confirmation')"
+                            :error-message="form.errors.get('password_confirmation')"
+                            required
+                            v-model="form.password_confirmation">
+                        </p-input>
+                    </p-tab>
+                </p-tabs>
+            </div>
         </div>
 
-        <div class="side-container">
-            <form @submit.prevent="$parent.submit">
-                <p-card class="mb-6">
-                    <p-select
+        <template v-slot:sidebar>
+            <div class="card">
+                <div class="card__body">
+                    <p-toggle
                         name="status"
                         label="Status"
-                        :options="[
-                            {
-                                'label': 'Enabled',
-                                'value': '1',
-                            },
-                            {
-                                'label': 'Disabled',
-                                'value': '0',
-                            },
-                        ]"
-                        v-model="form.status">
+                        v-model="form.status"
+                        :true-value="1"
+                        :false-value="0">
+                    </p-toggle>
+
+                    <p-select
+                        name="role"
+                        label="Role"
+                        :options="roleOptions"
+                        autocomplete="off"
+                        value="user"
+                        :has-error="form.errors.has('role')"
+                        :error-message="form.errors.get('role')"
+                        required
+                        v-model="form.role">
                     </p-select>
+                </div>
+            </div>
 
-                    <portal to="actions">
-                        <router-link :to="{ name: 'users' }" class="button mr-3">Go Back</router-link>
-                        <button type="submit" @click.prevent="$parent.submit" class="button button--primary" :class="{'button--disabled': !form.hasChanges}" :disabled="!form.hasChanges">Save User</button>
-                    </portal>
-                </p-card>
-            </form>
+            <p-definition-list v-if="user">
+                <p-definition name="Status">
+                    <fa-icon :icon="['fas', 'circle']" class="fa-fw text-xs" :class="{'text-success-500': user.status, 'text-danger-500': ! user.status}"></fa-icon> {{ user.status ? 'Enabled' : 'Disabled' }}
+                </p-definition>
 
-            <slot name="side-container"></slot>
-        </div>
-    </div>
+                <p-definition name="Verified">
+                    <fa-icon :icon="['fas', 'circle']" class="fa-fw text-xs" :class="{'text-success-500': user.verified, 'text-danger-500': ! user.verified}"></fa-icon> {{ user.verified ? 'Yes' : 'No' }}
+                </p-definition>
+
+                <p-definition name="Registered">
+                    {{ $moment(user.created_at).format('Y-MM-DD, hh:mm a') }}
+                </p-definition>
+
+                <p-definition name="Last Login">
+                    <span v-if="user.logged_in_at">{{ $moment(user.logged_in_at.date).format('L') }}</span>
+                    <span v-else>Never</span>
+                </p-definition>
+            </p-definition-list>
+        </template>
+    </form-container>
 </template>
 
 <script>
@@ -124,6 +112,16 @@
                 type: Object,
                 required: true,
             },
+
+            submit: {
+                required: true,
+            },
+
+            user: {
+                type: Object,
+                required: false,
+            },
+
             roleOptions: {
                 type: Array,
                 require: true
