@@ -50,7 +50,7 @@ class CollectionTest extends TestCase
             'slug'    => 'example-page',
             'excerpt' => 'This is an excerpt of the content.',
             'content' => 'This is the content. Lorem ipsum dolor sit amit.',
-            'status'  => true
+            'status'  => 1
         ];
 
         $this
