@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
 
         if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
     }
@@ -75,7 +76,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register and boot our custom Eloquent macros.
-     * 
+     *
      * @return void
      */
     protected function bootMacros()
@@ -93,7 +94,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Load Eloquent factories from a custom path.
-     * 
+     *
      * @param  string  $path
      * @return void
      */

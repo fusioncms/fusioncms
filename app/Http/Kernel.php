@@ -23,7 +23,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Barryvdh\Cors\HandleCors::class,
+        \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\CheckForSuspendedMode::class,
         \App\Http\Middleware\LocalDevelopment::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
