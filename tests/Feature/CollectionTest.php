@@ -48,9 +48,9 @@ class CollectionTest extends TestCase
         $attributes = [
             'name'    => 'Example Page',
             'slug'    => 'example-page',
-            'excerpt' => $this->faker->sentence(),
-            'content' => $this->faker->paragraph(),
-            'status'  => true
+            'excerpt' => 'This is an excerpt of the content.',
+            'content' => 'This is the content. Lorem ipsum dolor sit amit.',
+            'status'  => 1
         ];
 
         $this
@@ -85,7 +85,7 @@ class CollectionTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_entries()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/collections/posts', []);
@@ -243,12 +243,12 @@ class CollectionTest extends TestCase
 
     //
     // ------------------------------------------------
-    // 
+    //
 
     /**
      * Returns new entry w/ attributes
      * [Helper]
-     * 
+     *
      * @param  array  $overrides
      * @return array
      */
@@ -257,8 +257,8 @@ class CollectionTest extends TestCase
         $attributes = array_merge([
             'name'    => 'Example Page',
             'slug'    => 'example-page',
-            'excerpt' => $this->faker->sentence(),
-            'content' => $this->faker->paragraph(),
+            'excerpt' => 'This is the excerpt of the content.',
+            'content' => 'This is the content. Lorem ipsume dolor sit amit.',
             'status'  => true
         ], $overrides);
 

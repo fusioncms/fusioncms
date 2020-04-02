@@ -49,7 +49,7 @@ class ThemeTest extends TestCase
 		    'POST',
 		    '/api/themes',
 		    [
-		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, null, true)
+		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, true, true)
 		    ]
 		)->assertStatus(201);
 	}
@@ -107,7 +107,7 @@ class ThemeTest extends TestCase
 		    'POST',
 		    '/api/themes/verify',
 		    [
-		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, null, true)
+		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, true, true)
 		    ]
 		)
 		->assertStatus(422)
@@ -129,7 +129,7 @@ class ThemeTest extends TestCase
 		    'POST',
 		    '/api/themes/verify',
 		    [
-		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, null, true)
+		    	'file-upload' => new UploadedFile($themePath, $themeName, null, null, true, true)
 		    ]
 		)
 		->assertStatus(422)

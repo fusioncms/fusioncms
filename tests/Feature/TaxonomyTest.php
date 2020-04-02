@@ -48,7 +48,7 @@ class TaxonomyTest extends TestCase
             'slug'    => Str::slug($name),
             'sidebar' => '0',
         ];
-        
+
         $this
             ->be($this->admin, 'api')
             ->json('POST', '/api/taxonomies', $attributes)
@@ -66,7 +66,7 @@ class TaxonomyTest extends TestCase
     public function a_user_without_permissions_can_not_create_a_new_taxonomy()
     {
         $this->expectException(AuthenticationException::class);
-        
+
         $response = $this->json('POST', '/api/taxonomies', []);
     }
 
@@ -79,7 +79,7 @@ class TaxonomyTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_taxonomies()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/taxonomies', []);
@@ -100,6 +100,8 @@ class TaxonomyTest extends TestCase
         $attributes['name']   = 'New Name';
         $attributes['handle'] = 'new_name';
         $attributes['slug']   = 'new-name';
+
+        unset($attributes['created_at'], $attributes['updated_at']);
 
         $this
             ->be($this->admin, 'api')
@@ -123,7 +125,7 @@ class TaxonomyTest extends TestCase
             'slug'    => Str::slug($name),
             'sidebar' => '0',
         ];
-        
+
         $this
             ->be($this->admin, 'api')
             ->json('POST', '/api/taxonomies', $attributes)
