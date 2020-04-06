@@ -19,7 +19,7 @@ class UserController extends DataTableController
 {
     public function builder()
     {
-        if (request()->route() and request()->route()->hasParameter('role')) {
+        if (request()->route('role')) {
             return User::whereHas('roles', function ($query) {
                 $query->where('slug', request()->route('role'));
             });

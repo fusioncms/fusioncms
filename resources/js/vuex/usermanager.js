@@ -161,7 +161,8 @@ export default {
         fetchUsers: _.throttle(function({ state, commit }) {
         	commit('setLoading', true)
 
-        	let params = {
+            let endpoint = '/datatable/users'
+        	let params   = {
                 sort:    (state.direction === 'asc' ? '' : '-') + state.sort,
                 page:    state.currentPage,
                 perPage: state.perPage,
@@ -169,7 +170,7 @@ export default {
             }
 
             if (state.role) {
-                params['filter[role]'] = state.role
+                endpoint += `/${state.role}`
             }
 
             if (state.search !== '') {
@@ -177,12 +178,12 @@ export default {
             }
 
         	axios.all([
-        		axios.get('/api/users', { params: params }),
+        		axios.get(endpoint, { params: params }),
         		axios.get('/api/roles'),
         	]).then(axios.spread((users, roles) => {
-        		commit('setUsers', users.data.data)
+        		commit('setUsers', users.data.records.data)
         		commit('setRoles', roles.data.data)
-                commit('setTotalPages', users.data.meta.last_page)
+                commit('setTotalPages', users.data.records.data.last_page)
         		commit('setLoading', false)
         	}))
         }, 500),

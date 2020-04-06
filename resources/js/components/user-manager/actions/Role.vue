@@ -1,14 +1,14 @@
 <template>
-	<p-dropdown>
-		<fa-icon class="fa-fw mr-1" :icon="['fas', 'user-tag']"></fa-icon>
-		{{ options[role] }}
+	<p-dropdown id="role-filters">
+		<fa-icon class="icon" :icon="['fas', 'user-tag']"></fa-icon>
+		<span class="hidden md:inline">{{ options[role] || 'Everyone' }}</span>
 		
-		<template slot="options">
-			<p-dropdown-item class="w-48" @click.prevent="setRole(null)">Everyone</p-dropdown-item>
+		<template v-slot:menu>
+			<p-dropdown-link key="default" @click.prevent="setRole(null)">Everyone</p-dropdown-link>
 
-			<p-dropdown-item v-for="(role, key) in options" class="w-48" :key="key" @click.prevent="setRole(key)">
+			<p-dropdown-link v-for="(role, key) in options" :key="key" @click.prevent="setRole(key)">
 				{{ role }}
-			</p-dropdown-item>
+			</p-dropdown-link>
 		</template>
 	</p-dropdown>
 </template>

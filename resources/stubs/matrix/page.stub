@@ -14,14 +14,13 @@ namespace App\Models\Pages;
 use App\Models\Field;
 use App\Models\Matrix;
 use Illuminate\Support\Str;
-use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use IsSearchable, LogsActivity;
+    use LogsActivity;
 
 	/**
      * The table associated with the model.

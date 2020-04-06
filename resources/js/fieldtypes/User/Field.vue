@@ -31,22 +31,24 @@
 
 				<div class="content-container">
 					<div class="card">
-						<div class="flex items-center justify-between px-3 pt-2">
-							<ul>
-								<li class="mr-4">
-									<p-button @click="push" theme="success">
-										<fa-icon :icon="['fas', 'arrow-alt-circle-left']" class="mr-1"></fa-icon>
-									</p-button>
-								</li>
-							</ul>
-							<ul class="flex w-full">
-							    <li class="mr-2 w-full"><search-action></search-action></li>
-							</ul>
-							<ul class="flex">
-							    <li class="mr-2"><role-action></role-action></li>
-							    <li class="mr-2"><sort-action></sort-action></li>
-							    <li class="mr-2"><view-action></view-action></li>
-							</ul>
+						<div class="card__body">
+                    		<div class="toolbar">
+                    			<div class="toolbar__group">
+									<button class="button button--icon" @click.prevent="push">
+										<fa-icon class="icon" icon="arrow-alt-circle-left"></fa-icon>
+									</button>
+                    			</div>
+		                        
+		                        <div class="toolbar__group toolbar__group--grow">
+		                            <search-action></search-action>
+		                        </div>
+
+		                        <div class="toolbar__group">
+		                        	<role-action></role-action>
+		                        	<sort-action></sort-action>
+		                        	<view-action></view-action>
+		                        </div>
+		                    </div>
 						</div>
 
 						<div class="gallery-container selectables">

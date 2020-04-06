@@ -18,13 +18,9 @@ class CollectionController extends DataTableController
 {
     public function builder()
     {
-        $matrix = Matrix::find(request()->route('collection'));
-
-        if ($matrix) {
-            return $matrix->getBuilder()->query();
-        }
-
-        return Matrix::query();
+        return Matrix::findOrFail(request()->route('collection'))
+            ->getBuilder()
+            ->query();
     }
 
     public function getDisplayableColumns()

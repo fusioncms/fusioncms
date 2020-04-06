@@ -15,7 +15,6 @@ use App\Models\Menu;
 use App\Models\Field;
 use App\Concerns\HasOrder;
 use Illuminate\Support\Str;
-use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
@@ -23,7 +22,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use HasOrder, IsSearchable, LogsActivity;
+    use HasOrder, LogsActivity;
 
 	/**
      * The table associated with the model.
