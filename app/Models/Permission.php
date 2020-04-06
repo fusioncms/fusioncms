@@ -11,15 +11,12 @@
 
 namespace App\Models;
 
-use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Caffeinated\Shinobi\Contracts\Permission as PermissionContract;
 
 class Permission extends Model implements PermissionContract
 {
-    use IsSearchable;
-
     /**
      * The attributes that are fillable via mass assignment.
      *

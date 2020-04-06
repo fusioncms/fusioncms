@@ -11,7 +11,6 @@
 
 namespace App\Models;
 
-use App\Concerns\IsSearchable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\HasDynamicRelationships;
@@ -31,7 +30,6 @@ class User extends Authenticatable implements MustVerifyEmail
         HasApiTokens,
         Notifiable,
         HasDynamicRelationships,
-        IsSearchable,
         LogsActivity,
         CausesActivity;
 
