@@ -12,7 +12,7 @@
 namespace App\Http\Controllers\DataTable;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Role;
 use App\Http\Controllers\DataTableController;
 
 class UserController extends DataTableController

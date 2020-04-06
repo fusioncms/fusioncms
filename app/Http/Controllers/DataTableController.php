@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
@@ -128,10 +129,14 @@ abstract class DataTableController extends Controller
     protected function getAllowedFilters()
     {
         return AllowedFilter::callback('search', function (Builder $query, $value) {
-            foreach ($this->getFilterable() as $field) {
-                $query->orWhere($field, 'LIKE', "%$value%");
-            }
+            return $query->where(function(Builder $query) use ($value) {
+                foreach ($this->getFilterable() as $field) {
+                    $query->orWhere($field, 'LIKE', "%$value%");
+                }
+            });
         });
+
+
     }
 
     /**
