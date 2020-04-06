@@ -13,7 +13,6 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Concerns\HasFieldset;
-use App\Concerns\IsSearchable;
 use App\Concerns\CachesQueries;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
@@ -21,7 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Taxonomy extends Model
 {
-    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
+    use CachesQueries, HasFieldset, LogsActivity;
 
     protected $with = ['fieldsets'];
 

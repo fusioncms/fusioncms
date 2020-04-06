@@ -17,8 +17,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 
 class UserController extends Controller
 {
@@ -32,19 +30,7 @@ class UserController extends Controller
     {
         $this->authorize('users.show');
 
-        $users = QueryBuilder::for(User::class)
-            ->allowedFilters([
-                AllowedFilter::partial('role', 'roles.slug'),
-                AllowedFilter::scope('search', 'searchQuery'),
-            ])
-            ->allowedSorts(['id', 'name', 'email', 'created_at'])
-            ->allowedIncludes('roles')
-            ->paginate(
-                request()->query('perPage', 20),
-                ['*'],
-                'page',
-                request()->query('page', 1)
-            );
+        $users = User::paginate(25);
 
         return UserResource::collection($users);
     }

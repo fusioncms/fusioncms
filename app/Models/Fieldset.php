@@ -11,7 +11,6 @@
 
 namespace App\Models;
 
-use App\Concerns\IsSearchable;
 use App\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use App\Concerns\HasDynamicRelationships;
@@ -19,7 +18,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Fieldset extends Model
 {
-    use HasDynamicRelationships, IsSearchable, LogsActivity;
+    use HasDynamicRelationships, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.

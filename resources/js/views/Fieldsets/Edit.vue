@@ -24,6 +24,7 @@
         data() {
             return {
                 id: null,
+                resource: null,
                 sections: [],
                 originalSections: [],
                 loaded: false,

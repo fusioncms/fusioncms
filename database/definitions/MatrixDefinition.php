@@ -34,7 +34,7 @@ $factory->define(App\Models\Matrix::class, function (Faker $faker) {
         'type'             => $faker->randomElement(['page', 'collection']),
         'sidebar'          => $faker->boolean(50),
         'quicklink'        => $faker->boolean(50),
-        'icon'             => $faker->randomElement(['pencil', 'airplane', 'book', 'brain']),
+        'icon'             => $faker->randomElement(['pencil-alt', 'plane', 'book', 'brain']),
         'show_name_field'  => true,
         'name_label'       => '',
         'name_format'      => '',

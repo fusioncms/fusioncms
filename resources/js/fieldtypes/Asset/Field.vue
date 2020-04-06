@@ -33,28 +33,38 @@
 
 				<div class="content-container">
 					<div class="card">
-						<div class="flex items-center justify-between px-3 pt-2">
-							<ul>
-								<li class="mr-4">
-									<p-button @click="push" theme="success">
-										<fa-icon :icon="['fas', 'arrow-alt-circle-left']" class="mr-1"></fa-icon>
-									</p-button>
-								</li>
-							</ul>
-							<ul>
-                            	<li class="inline-flex mr-2">
-	                                <p-button class="rounded-r-none" theme="primary" @click="$refs.uploader.openDZ()"><fa-icon :icon="['fas', 'upload']"></fa-icon></p-button>
-	                                <p-button class="rounded-l-none" v-modal:new-folder><fa-icon :icon="['fas', 'folder-plus']"></fa-icon></p-button>
-	                            </li>
-	                        </ul>
-							<ul class="flex w-full">
-							    <li class="mr-2 w-full"><search-action></search-action></li>
-							</ul>
-							<ul class="flex">
-							    <li class="mr-2"><display-action></display-action></li>
-							    <li class="mr-2"><sort-action></sort-action></li>
-							    <li class="mr-2"><view-action></view-action></li>
-							</ul>
+						<div class="card__body">
+                    		<div class="toolbar">
+                    			<div class="toolbar__group">
+									<button class="button button--icon" @click.prevent="push">
+										<fa-icon class="icon" icon="arrow-alt-circle-left"></fa-icon>
+									</button>
+                    			</div>
+
+                    			<div class="toolbar__group">
+                    				<div class="buttons">
+										<div class="buttons__group">
+											<button class="button button--icon" @click.prevent="$refs.uploader.openDZ()">
+												<fa-icon class="icon" :icon="['fas', 'upload']"></fa-icon>
+											</button>
+
+											<button class="button button--icon" v-modal:new-folder>
+												<fa-icon class="icon" :icon="['fas', 'folder-plus']"></fa-icon>
+											</button>
+										</div>
+									</div>
+	                            </div>
+
+                    			<div class="toolbar__group toolbar__group--grow">
+		                            <search-action></search-action>
+		                        </div>
+
+		                        <div class="toolbar__group">
+		                        	<display-action></display-action>
+		                        	<sort-action></sort-action>
+		                        	<view-action></view-action>
+		                        </div>
+							</div>
 						</div>
 
 						<div class="flex items-center border-b border-gray-200 px-3 py-2">
