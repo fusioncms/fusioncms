@@ -2,6 +2,7 @@
 
 namespace Fusion\Providers;
 
+use Caffeinated\Themes\Facades\Theme;
 use Illuminate\Support\Facades\Route;
 use Caffeinated\Bonsai\Facades\Bonsai;
 use Illuminate\Support\ServiceProvider;
@@ -19,6 +20,7 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerBonsai();
         $this->registerMigrations();
+        $this->registerTheme();
         // $this->registerPublishing();
     }
 
@@ -46,7 +48,13 @@ class FusionServiceProvider extends ServiceProvider
         $this->app->register(BladeServiceProvider::class);
         $this->app->register(FieldtypeServiceProvider::class);
         $this->app->register(SettingsServiceProvider::class);
-        $this->app->register(ThemeServiceProvider::class);
+    }
+
+    private function registerTheme()
+    {
+        if (! $this->app->runningInConsole()) {
+            Theme::set(setting('system.theme'));
+        }
     }
 
     /**
