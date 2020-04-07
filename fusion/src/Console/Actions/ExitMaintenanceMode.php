@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Fusion\Jobs\Uninstaller;
+namespace Fusion\Console\Actions;
 
-use File;
+use Artisan;
 
-class DeleteEnvironmentConfig
+class ExitMaintenanceMode
 {
     /**
      * Execute the command.
@@ -14,6 +14,6 @@ class DeleteEnvironmentConfig
      */
     public function handle()
     {
-        File::delete(base_path('.env'));
+        return Artisan::call('up');
     }
 }

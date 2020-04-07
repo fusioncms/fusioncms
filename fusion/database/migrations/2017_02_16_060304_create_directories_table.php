@@ -14,12 +14,12 @@ class CreateDirectoriesTable extends Migration
      */
     public function up()
     {
-        $this->schema->create('directories', function (Blueprint $table) {
+        Schema::create('directories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('name');
             $table->string('slug');
-            $table->authors();
+            // $table->authors();
             $table->timestamps();
 
             $table->unique(['parent_id', 'slug']);
@@ -33,6 +33,6 @@ class CreateDirectoriesTable extends Migration
      */
     public function down()
     {
-        $this->schema->dropIfExists('directories');
+        Schema::dropIfExists('directories');
     }
 }

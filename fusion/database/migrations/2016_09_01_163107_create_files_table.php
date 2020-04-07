@@ -14,7 +14,7 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        $this->schema->create('files', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('directory_id')->nullable();
             $table->string('name');
@@ -39,6 +39,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        $this->schema->dropIfExists('files');
+        Schema::dropIfExists('files');
     }
 }

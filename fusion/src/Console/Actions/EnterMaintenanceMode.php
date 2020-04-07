@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Fusion\Jobs\Uninstaller;
+namespace Fusion\Console\Actions;
 
-use File;
+use Artisan;
 
-class DeleteComposerLock
+class EnterMaintenanceMode
 {
     /**
      * Execute the command.
@@ -14,6 +14,6 @@ class DeleteComposerLock
      */
     public function handle()
     {
-        File::delete(base_path('composer.lock'));
+        return Artisan::call('down');
     }
 }

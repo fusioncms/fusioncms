@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Fusion\Jobs\Uninstaller;
+namespace Fusion\Console\Uninstaller;
 
 class DeleteLogFiles
 {

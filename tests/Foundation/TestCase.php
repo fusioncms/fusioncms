@@ -47,7 +47,7 @@ abstract class TestCase extends BaseTestCase
 
         activity()->disableLogging();
 
-        Theme::set('hello');
+        Theme::setCurrent('hello');
 
         // ----------------------------
         // FusionCMS - MiniInstall!

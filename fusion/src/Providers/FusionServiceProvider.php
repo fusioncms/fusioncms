@@ -36,6 +36,10 @@ class FusionServiceProvider extends ServiceProvider
         }
 
         $this->registerConfig();
+
+        $this->commands([
+            \Fusion\Console\InstallCommand::class,
+        ]);
     }
 
     /**

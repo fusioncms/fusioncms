@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Fusion\Jobs\Installer;
+namespace Fusion\Console\Installer;
 
 use Shinobi;
 use Fusion\Models\User;
