@@ -1,0 +1,87 @@
+{
+    "name": "fusioncms/core",
+    "description": "Core of FusionCMS",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shea Lewis (Kai)",
+            "email": "shea.lewis89@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "Fusion\\": "src/"
+        },
+        "files": [
+            "helpers/app.php",
+            "helpers/datetime.php",
+            "helpers/fields.php",
+            "helpers/forms.php",
+            "helpers/integers.php",
+            "helpers/matrix.php",
+            "helpers/menus.php",
+            "helpers/misc.php",
+            "helpers/paths.php",
+            "helpers/relationships.php",
+            "helpers/seo.php",
+            "helpers/settings.php",
+            "helpers/strings.php",
+            "helpers/themes.php",
+            "helpers/upkeep.php",
+            "helpers/users.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.2.5",
+        "doctrine/dbal": "^2.9",
+        "illuminate/support": "^7.0",
+        "caffeinated/bonsai": "^5.0",
+        "caffeinated/flash": "^4.0",
+        "caffeinated/menus": "^4.0",
+        "caffeinated/modules": "^6.0",
+        "caffeinated/shinobi": "^5.0",
+        "caffeinated/themes": "^7.0",
+        "composer/semver": "^1.5",
+        "laravel/passport": "^8.4",
+        "laravel/scout": "^8.0",
+        "laravel/ui": "^2.0",
+        "league/glide": "^1.5",
+        "league/glide-laravel": "^1.0",
+        "maatwebsite/excel": "^3.1",
+        "spatie/laravel-activitylog": "^3.11",
+        "spatie/laravel-analytics": "^3.7",
+        "spatie/laravel-backup": "^6.7",
+        "spatie/laravel-query-builder": "^2.7",
+        "spatie/laravel-searchable": "^1.6",
+        "symfony/yaml": "^4.3"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^8.4",
+        "predis/predis": "^1.1",
+        "symfony/css-selector": "^4.3",
+        "symfony/dom-crawler": "^4.3",
+        "laravel/telescope": "^3.0"
+    },
+
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fusion\\Providers\\FusionServiceProvider"
+            ],
+            "dont-discover": [
+                "caffeinated/shinobi",
+                "laravel/telescope"
+            ]
+        }
+    }
+}

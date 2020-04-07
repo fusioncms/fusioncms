@@ -21,7 +21,7 @@
 
         {{-- FusionCMS Config --}}
         <script>window.environment = '{{ app()->environment() }}'</script>
-        <script>window.config = @json(config('fusioncms'))</script>
+        <script>window.config = @json(config('fusion'))</script>
 
         {{-- Scripts --}}
         <script src="{{ mix('js/gravity.js') }}"></script>

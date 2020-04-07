@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Unit;
 
@@ -89,7 +81,7 @@ class SettingTest extends TestCase
     public function settings_will_be_imported_to_the_database_upon_install()
     {
         $this->assertDatabaseHas('setting_sections', ['name' => 'System']);
-        
+
         $this->assertDatabaseHas('settings', ['name' => 'Theme', 'value' => 'hello']);
         $this->assertDatabaseHas('settings', ['name' => 'Website Title', 'value' => 'My FusionCMS Website']);
     }

@@ -27,7 +27,7 @@ class FieldsetTest extends TestCase
         $fieldset = FieldsetFactory::create();
         $matrix   = MatrixFactory::withFieldset($fieldset)->create();
         $table    = $matrix->getBuilder()->getTable();
-        
+
         $fieldset->fields->each(function($field) use ($table) {
             $this->assertDatabaseTableHasColumn($table, $field->handle);
         });
@@ -45,7 +45,7 @@ class FieldsetTest extends TestCase
         $table    = $matrix->getBuilder()->getTable();
 
         $matrix->detachFieldset();
-        
+
         $fieldset->fields->each(function($field) use ($table) {
             $this->assertDatabaseTableDoesNotHaveColumn($table, $field->handle);
         });
@@ -144,7 +144,7 @@ class FieldsetTest extends TestCase
 
         $section  = $fieldset->sections()->first();
         $field    = FieldFactory::withName('Example')->withSection($section)->create();
-        
+
         $fieldset->sections()->first()->fields()->save($field);
 
         $this->assertDatabaseTableHasColumn($postsTable, $field->handle);
@@ -162,7 +162,7 @@ class FieldsetTest extends TestCase
         $newsMatrix  = MatrixFactory::withName('News')->withFieldset($fieldset)->create();
         $postsTable  = $postsMatrix->getBuilder()->getTable();
         $newsTable   = $newsMatrix->getBuilder()->getTable();
-        
+
         $fieldset->sections()->first()->fields()->save($field);
         $fieldset->sections()->first()->fields()->find($field->id)->delete();
 
@@ -181,7 +181,7 @@ class FieldsetTest extends TestCase
 
         $section  = $fieldset->sections()->first();
         $field    = FieldFactory::withName('Example')->withSection($section)->create();
-        
+
         $section->fields()->save($field);
 
         $this->assertDatabaseTableHasColumn($postsTable, $field->handle);
@@ -256,7 +256,7 @@ class FieldsetTest extends TestCase
         $section  = SectionFactory::times(1)->withoutFields()->create();
         $field    = FieldFactory::withName('Foo')->withSection($section)->create();
         $fieldset = FieldsetFactory::withSections([$section])->create();
-        
+
         // Assign to matrix..
         $matrix   = MatrixFactory::asPage()->withFieldset($fieldset)->create();
         $table    = $matrix->getBuilder()->getTable();

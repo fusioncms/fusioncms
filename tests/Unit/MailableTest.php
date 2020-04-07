@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Unit;
 
@@ -33,7 +25,7 @@ class MailableTest extends TestCase
     {
         $this->expectException(QueryException::class);
         $this->expectExceptionMessage('UNIQUE constraint failed: mailables.handle');
-        
+
         DB::table('mailables')->insert([
             'name'      => ($name = $this->faker->word),
             'handle'    => Str::slug($name),
@@ -75,7 +67,7 @@ class MailableTest extends TestCase
         Mailable::registerNewMailables();
 
         $model = Mailable::where('handle', 'welcome_new_user')->firstOrFail();
-        
+
         $this->assertInstanceOf($model->namespace, $model->mailable);
     }
 

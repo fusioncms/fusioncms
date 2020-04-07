@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature\Settings;
 
@@ -41,7 +33,7 @@ class MailTest extends TestCase
     public function a_user_with_permissions_can_update_mail_settings()
     {
         $this->withoutExceptionHandling();
-        
+
         $this->actingAs($this->admin, 'api');
 
         $this->json('PATCH', 'api/settings/mail', [])
@@ -56,7 +48,7 @@ class MailTest extends TestCase
     public function a_user_without_permissions_can_not_update_mail_settings()
     {
         $this->expectException(AuthenticationException::class);
-        
+
         $this->json('PATCH', 'api/settings/mail', [])
             ->assertStatus(422);
     }

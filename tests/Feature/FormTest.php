@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -35,7 +27,7 @@ class FormTest extends TestCase
      * @group form
      */
     public function a_user_with_permissions_can_create_a_form()
-    {        
+    {
         $attributes = factory(Form::class)->make()->toArray();
 
         $this
@@ -101,7 +93,7 @@ class FormTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_forms()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/forms', []);

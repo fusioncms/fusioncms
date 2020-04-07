@@ -124,7 +124,7 @@ class DirectoryTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_directories()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/directories', []);
@@ -216,7 +216,7 @@ class DirectoryTest extends TestCase
 
         $response = $this->json('GET', '/api/directories?filter[parent_id]=1');
         $data     = collect($response->getData()->data);
-        
+
         $this->assertCount(2, $data);
         $this->assertCount(1, $data->where('name', 'Ipsum'));
         $this->assertCount(1, $data->where('name', 'Sit'));

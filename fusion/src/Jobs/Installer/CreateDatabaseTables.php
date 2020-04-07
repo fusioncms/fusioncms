@@ -1,0 +1,20 @@
+<?php
+
+
+namespace Fusion\Jobs\Installer;
+
+use Artisan;
+
+class CreateDatabaseTables
+{
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Artisan::call('migrate', ['--force' => true]);
+        Artisan::call('db:seed', ['--force' => true]);
+    }
+}

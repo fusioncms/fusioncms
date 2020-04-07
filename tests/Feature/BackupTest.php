@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -35,7 +27,7 @@ class BackupTest extends TestCase
 
         // Establish fake db connection..
         config(['backup.backup.source.databases' => ['sqlite']]);
-        
+
         // Establish backup `backup-temp`..
         config(['backup.backup.temporary_directory' => Storage::disk('temp')->path('backup-temp')]);
 
@@ -127,7 +119,7 @@ class BackupTest extends TestCase
 			if ($zipArchive->open($backupPath) === true) {
 				$contents  = $zipArchive->getFromName(ltrim(Storage::disk('temp')->path('env.json'), '/'));
 				$variables = json_decode($contents, true);
-				
+
 				foreach(config('backup.backup.source.env') as $key) {
 					if ($variables[$key] != env($key)) {
 						return false;

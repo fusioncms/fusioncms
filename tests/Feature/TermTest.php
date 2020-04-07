@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -83,7 +75,7 @@ class TermTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_terms()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this->actingAs($this->user, 'api');
 
         $this->json('POST', '/api/taxonomies/' . $this->taxonomy->slug, []);
@@ -153,12 +145,12 @@ class TermTest extends TestCase
 
     //
     // ------------------------------------------------
-    // 
+    //
 
     /**
      * Returns new term w/ attributes
      * [Helper]
-     * 
+     *
      * @param  array  $overrides
      * @return array
      */
@@ -176,7 +168,7 @@ class TermTest extends TestCase
             ->json('POST', '/api/taxonomies/' . $this->taxonomy->slug, $attributes)
             ->getData()
             ->data;
-        
+
         return [$term, $attributes];
     }
 }

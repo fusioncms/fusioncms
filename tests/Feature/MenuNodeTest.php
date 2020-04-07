@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -146,12 +138,12 @@ class MenuNodeTest extends TestCase
 
     //
     // ------------------------------------------------
-    // 
+    //
 
     /**
      * Returns new menu node w/ attributes
      * [Helper]
-     * 
+     *
      * @param  array  $overrides
      * @return array
      */
@@ -166,7 +158,7 @@ class MenuNodeTest extends TestCase
             ->json('POST', '/api/menus/' . $this->menu->id . '/nodes', $attributes)
             ->getData()
             ->data;
-        
+
         return [$node, $attributes];
     }
 }

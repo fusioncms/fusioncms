@@ -23,7 +23,7 @@ class MenuTest extends TestCase
     {
         $this->expectException(QueryException::class);
         $this->expectExceptionMessage('UNIQUE constraint failed: menus.handle');
-        
+
         DB::table('menus')->insert([
             'name'   => ($name = $this->faker->word),
             'handle' => Str::slug($name, '_'),

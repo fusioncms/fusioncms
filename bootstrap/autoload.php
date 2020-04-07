@@ -1,16 +1,6 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 define('LARAVEL_START', microtime(true));
-define('FUSION_VERSION', '6.0.0-beta.4');
 
 /*
 |--------------------------------------------------------------------------

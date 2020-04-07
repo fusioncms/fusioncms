@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature\Users;
 
@@ -70,7 +62,7 @@ class RegisterTest extends TestCase
     // public function register_route_is_disabled_if_the_setting_is_disabled()
     // {
     //     // TODO: Remove the registration route before Routes loaded
-        
+
     //     $this->expectException(RouteNotFoundException::class);
 
     //     $this->get(route('register'));
@@ -105,7 +97,7 @@ class RegisterTest extends TestCase
             ->assertRedirect('/');
 
         $user = User::where(['email' => $attributes['email']])->first();
-        
+
         // Assert #2 - user is authenticated..
         $this->assertAuthenticatedAs($user);
 
@@ -144,7 +136,7 @@ class RegisterTest extends TestCase
             ->assertRedirect('/');
 
         $user = User::where(['email' => $attributes['email']])->first();
-        
+
         // Assert #2 - user is authenticated..
         $this->assertAuthenticatedAs($user);
 

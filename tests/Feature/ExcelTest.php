@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -86,7 +78,7 @@ class ExcelTest extends TestCase
         list($import, $filepath, $log) = $this->generateFakeImport();
 
         Storage::assertExists($filepath);
-        
+
         $contents = Storage::get($filepath);
 
         $this->assertStringContainsString('"ID","Name","Email","Password","Status"', $contents);
@@ -387,7 +379,7 @@ class ExcelTest extends TestCase
 	protected function generateFakeImport(array $overrides = [])
     {
     	Storage::fake('public');
-    	
+
     	$this->actingAs($this->admin, 'api');
 
     	$import   = factory(Import::class)->states('users')->create($overrides);

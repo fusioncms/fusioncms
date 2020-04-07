@@ -142,7 +142,7 @@ class RelationshipTest extends TestCase
         ]);
 
 
-        // Assert inverse relationship has been established        
+        // Assert inverse relationship has been established
         // Note: uncomment to see model file
         // dd(\File::get(app_path('Models/Taxonomies/Colors.php')));
 

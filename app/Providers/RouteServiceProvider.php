@@ -1,20 +1,9 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Providers;
 
-use Storage;
-use Illuminate\Support\Facades\Route;
-use Spatie\Backup\BackupDestination\Backup;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -28,26 +17,22 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    public const HOME = '/';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
      */
     public function boot()
     {
-        Route::pattern('slug', '[a-z0-9-]+');
-        Route::pattern('handle', '[a-z0-9_]+');
+        //
 
         parent::boot();
-
-        // Note: route binding for backup removal
-        // TODO: point to correct disk if it changes from local storage
-        Route::bind('backup', function ($filename) {
-            return new Backup(Storage::disk('public'), "backups/{$filename}.zip");
-        });
-
-        Route::bind('fieldset', function($id) {
-            return \App\Models\Fieldset::findOrFail($id);
-        });
     }
 
     /**
@@ -57,69 +42,39 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        // Map "databtable" routes
-        Route::group([
-            'middleware' => 'api',
-            'namespace'  => $this->namespace . '\DataTable',
-            'prefix'     => 'datatable',
-        ], function ($router) {
-            require base_path('routes/datatable.php');
-        });
+        $this->mapApiRoutes();
 
-        // Map "web" route files
-        $this->mapWebRoutes(base_path('routes/web/web.php'));
-        $this->mapWebRoutes(base_path('routes/web/files.php'));
-        $this->mapWebRoutes(base_path('routes/web/users.php'));
+        $this->mapWebRoutes();
 
-        // // Map "api" route files
-        $this->mapAPIRoutes(base_path('routes/api/api.php'));
-        $this->mapAPIRoutes(base_path('routes/api/activity.php'));
-        $this->mapAPIRoutes(base_path('routes/api/backups.php'));
-        $this->mapAPIRoutes(base_path('routes/api/fieldsets.php'));
-        $this->mapAPIRoutes(base_path('routes/api/filemanager.php'));
-        $this->mapAPIRoutes(base_path('routes/api/forms.php'));
-        $this->mapAPIRoutes(base_path('routes/api/importer.php'));
-        $this->mapAPIRoutes(base_path('routes/api/insights.php'));
-        $this->mapAPIRoutes(base_path('routes/api/matrix.php'));
-        $this->mapAPIRoutes(base_path('routes/api/mailables.php'));
-        $this->mapAPIRoutes(base_path('routes/api/menus.php'));
-        $this->mapAPIRoutes(base_path('routes/api/settings.php'));
-        $this->mapAPIRoutes(base_path('routes/api/taxonomy.php'));
-        $this->mapAPIRoutes(base_path('routes/api/themes.php'));
-        $this->mapAPIRoutes(base_path('routes/api/users.php'));
-        $this->mapAPIRoutes(base_path('routes/api/logs.php'));
+        //
     }
 
     /**
-     * Map "web" routes.
+     * Define the "web" routes for the application.
      *
-     * @param  string  $path
+     * These routes all receive session state, CSRF protection, etc.
+     *
      * @return void
      */
-    private function mapWebRoutes($path)
+    protected function mapWebRoutes()
     {
-        Route::group([
-            'middleware' => 'web',
-            'namespace'  => $this->namespace . '\Web',
-        ], function ($router) use ($path) {
-            require $path;
-        });
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
-     * Map "api" routes.
+     * Define the "api" routes for the application.
      *
-     * @param  string  $path
+     * These routes are typically stateless.
+     *
      * @return void
      */
-    private function mapAPIRoutes($path)
+    protected function mapApiRoutes()
     {
-        Route::group([
-            'middleware' => ['api', 'auth:api'],
-            'namespace'  => $this->namespace . '\API',
-            'prefix'     => 'api',
-        ], function ($router) use ($path) {
-            require $path;
-        });
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }
