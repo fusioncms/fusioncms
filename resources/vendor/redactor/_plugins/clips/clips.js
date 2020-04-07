@@ -103,7 +103,7 @@
             var html = this.opts.clips[index][1];
 
             this.app.api('module.modal.close');
-            this.insertion.insertRaw(html);
+            this.insertion.insertHtml(html);
 		}
     });
 })(Redactor);

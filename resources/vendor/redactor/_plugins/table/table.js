@@ -341,7 +341,7 @@
 				var $origCell = $R.dom(origCell);
 
 				var $td = $origCell.clone();
-				$td.html('');
+				$td.html('<div data-redactor-tag="tbr"></div>');
 
 				if (type === 'right') $origCell.after($td);
 				else                  $origCell.before($td);
@@ -428,6 +428,7 @@
             {
                 var $cell = $R.dom(tag);
                 $cell.attr('contenteditable', true);
+                $cell.html('<div data-redactor-tag="tbr"></div>');
 
                 $row.append($cell);
             }
