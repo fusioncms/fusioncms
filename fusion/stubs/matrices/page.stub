@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Models\Collections;
+namespace Fusion\Models\Pages;
 
-use App\Models\Field;
-use App\Models\Matrix;
+use Fusion\Models\Field;
+use Fusion\Models\Matrix;
 use Illuminate\Support\Str;
-use App\Concerns\IsSearchable;
-use App\Database\Eloquent\Model;
+use Fusion\Concerns\IsSearchable;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -23,11 +23,11 @@ class {class} extends Model
     protected $table = 'mx_{handle}';
 
     /**
-     * The attributes that should be cast to native types.
+     * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $casts = {casts};
+    protected $appends = ['name', 'handle', 'slug', 'fields'];
 
     /**
      * Mass assignment protection.
@@ -37,11 +37,11 @@ class {class} extends Model
     protected $fillable = {fillable};
 
     /**
-     * Mass reference protection.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $references = {references};
+    protected $casts = {casts};
 
     /**
      * The attributes that should be mutated to dates.
@@ -51,14 +51,14 @@ class {class} extends Model
     protected $dates = {dates};
 
     /**
-     * Mass reference protection.
-     *
-     * @var array
+     * @var integer
      */
-    public function getReferences()
-    {
-        return $this->references;
-    }
+    protected $primaryKey = 'matrix_id';
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
 
     /**
      * Get the Matrix Type relationship.
@@ -75,17 +75,17 @@ class {class} extends Model
      */
     public function getFieldsAttribute()
     {
-        return $this->matrix->fieldset->fields ?? null;
+        return $this->matrix->fieldset->fields ??  null;
     }
 
-    public function parent()
+    /**
+     * Proxy the handle attribute from the owning matrix.
+     *
+     * @return string
+     */
+    public function getHandleAttribute()
     {
-        return $this->hasOne(Matrix::class, 'id', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Matrix::class, 'parent_id', 'id');
+        return $this->matrix->handle;
     }
 
     {relationships}
@@ -101,15 +101,12 @@ class {class} extends Model
     {
         $entry      = $activity->subject;
         $matrix     = $entry->matrix;
-        $action     = Str::ucfirst($eventName);
         $modelName  = Str::singular($matrix->name);
-        $properties = ['icon' => $matrix->icon];
 
-        if ($eventName !== 'deleted') {
-            $properties['link'] = "collections/{$matrix->slug}/{$entry->id}/edit";
-        }
-
-        $activity->description = "{$action} {$modelName} ({$entry->name})";
-        $activity->properties  = $properties;
+        $activity->description = "Updated {$modelName}";
+        $activity->properties  = [
+            'icon'  => $matrix->icon,
+            'link' => "pages/{$matrix->slug}"
+        ];
     }
 }

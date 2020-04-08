@@ -64,8 +64,9 @@ class Form extends Builder implements BuilderContract
             }
         }
 
-        $path     = __DIR__.'/../../Models/Forms/' . $className . '.php';
-        $stub     = File::get(resource_path('stubs/form.stub'));
+        $path = fusion_path('/src/Models/Forms/'.$className.'.php');
+        $stub = File::get(fusion_path('/stubs/matrices/form.stub'));
+
         $contents = strtr($stub, [
             '{class}'         => $className,
             '{handle}'        => $this->form->handle,

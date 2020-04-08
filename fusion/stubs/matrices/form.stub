@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Models\Forms;
+namespace Fusion\Models\Forms;
 
-use App\Models\Form;
-use App\Models\Field;
+use Fusion\Models\Form;
+use Fusion\Models\Field;
 use Illuminate\Support\Str;
-use App\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 

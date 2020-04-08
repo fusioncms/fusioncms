@@ -64,8 +64,9 @@ class Collection extends Builder implements BuilderContract
             }
         }
 
-        $path     = __DIR__.'/../../Models/Collections/' . $className . '.php';
-        $stub     = File::get(resource_path('stubs/matrix/collection.stub'));
+        $path = fusion_path('/src/Models/Collections/'.$className.'.php');
+        $stub = File::get(fusion_path('/stubs/matrices/collection.stub'));
+
         $contents = strtr($stub, [
             '{class}'         => $className,
             '{matrix_id}'     => $this->matrix->id,

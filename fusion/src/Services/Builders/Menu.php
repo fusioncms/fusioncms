@@ -80,8 +80,9 @@ class Menu extends Builder implements BuilderContract
             }
         }
 
-        $path     = __DIR__.'/../../Models/Menus/' . $className . '.php';
-        $stub     = File::get(resource_path('stubs/menu.stub'));
+        $path = fusion_path('/src/Models/Menus/'.$className.'.php');
+        $stub = File::get(fusion_path('/stubs/matrices/menu.stub'));
+
         $contents = strtr($stub, [
             '{class}'         => $className,
             '{handle}'        => $this->menu->handle,

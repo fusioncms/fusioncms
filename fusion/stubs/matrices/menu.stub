@@ -1,26 +1,28 @@
 <?php
 
 
-namespace App\Models\Taxonomies;
+namespace Fusion\Models\Menus;
 
-use App\Models\Field;
-use App\Models\Taxonomy;
+use Fusion\Models\Menu;
+use Fusion\Models\Field;
+use Fusion\Concerns\HasOrder;
 use Illuminate\Support\Str;
-use App\Concerns\IsSearchable;
-use App\Database\Eloquent\Model;
+use Fusion\Concerns\IsSearchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use IsSearchable, LogsActivity;
+    use HasOrder, IsSearchable, LogsActivity;
 
 	/**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'taxonomy_{handle}';
+    protected $table = 'menu_{handle}';
 
     /**
      * The attributes that should be cast to native types.
@@ -43,45 +45,37 @@ class {class} extends Model
      */
     protected $dates = {dates};
 
+
+    protected $with = ['children'];
+
     /**
-     * Get the Taxonomy relationship.
+     * Get the Menu relationship.
      *
      * @return mixed
      */
-    public function taxonomy()
+    public function menu()
     {
-        return $this->belongsTo(Taxonomy::class);
+        return $this->belongsTo(Menu::class);
     }
 
     /**
-     * Get all of the fields for the taxonomy.
+     * Get all of the fields for the menu.
+     *
+     * @return mixed
      */
     public function getFieldsAttribute()
     {
-        return $this->taxonomy->fieldset->fields ?? null;
-    }
-
-    /**
-     * Get the name of the pivot table associated with this taxonomy.
-     */
-    public function getPivotTableAttribute()
-    {
-        return $this->table.'_pivot';
-    }
-
-    public function parent()
-    {
-        return $this->hasOne(Taxonomy::class, 'id', 'parent_id');
+        return $this->menu->fieldset->fields;
     }
 
     public function children()
     {
-        return $this->hasMany(Taxonomy::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     {relationships}
 
-        /**
+    /**
      * Tap into activity before persisting to database.
      *
      * @param  \Spatie\Activitylog\Models\Activity $activity
@@ -90,17 +84,17 @@ class {class} extends Model
      */
     public function tapActivity(Activity $activity, string $eventName)
     {
-        $term       = $activity->subject;
-        $taxonomy   = $term->taxonomy;
+        $node       = $activity->subject;
+        $menu       = $node->menu;
         $action     = ucfirst($eventName);
-        $modelName  = strtolower(Str::singular($taxonomy->name));
-        $properties = ['icon' => $taxonomy->icon];
+        $modelName  = strtolower(Str::singular($menu->name));
+        $properties = ['icon' => 'anchor'];
 
         if ($eventName !== 'deleted') {
-            $properties['link'] = "taxonomies/{$taxonomy->slug}/{$term->id}/edit";
+            $properties['link'] = "menus/{$menu->id}/nodes/{$node->id}/edit";
         }
 
-        $activity->description = "{$action} {$modelName} term ({$term->name})";
+        $activity->description = "{$action} {$modelName} menu node ({$node->name})";
         $activity->properties  = $properties;
     }
 }
