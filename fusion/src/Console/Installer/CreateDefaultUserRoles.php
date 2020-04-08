@@ -2,8 +2,8 @@
 
 namespace Fusion\Console\Installer;
 
-use Shinobi;
 use Caffeinated\Shinobi\Models\Role;
+use Caffeinated\Shinobi\Facades\Shinobi;
 
 class CreateDefaultUserRoles
 {

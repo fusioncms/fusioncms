@@ -14,8 +14,8 @@ return [
         | permissions to roles and users, and assigning roles to users.
         */
 
-        'role'       => App\Models\Role::class,
-        'permission' => App\Models\Permission::class,
+        'role'       => Fusion\Models\Role::class,
+        'permission' => Fusion\Models\Permission::class,
 
     ],
 

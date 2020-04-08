@@ -2,9 +2,9 @@
 
 namespace Fusion\Console\Installer;
 
-use Shinobi;
 use Fusion\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Caffeinated\Shinobi\Facades\Shinobi;
 
 class CreateDefaultUser
 {

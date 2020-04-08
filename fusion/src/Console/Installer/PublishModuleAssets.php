@@ -2,8 +2,8 @@
 
 namespace Fusion\Console\Installer;
 
-use Module;
 use Artisan;
+use Caffeinated\Modules\Facades\Module;
 
 class PublishModuleAssets
 {

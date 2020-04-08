@@ -5,7 +5,6 @@ namespace Fusion\Console\Installer;
 use File;
 use Config;
 use Artisan;
-use Fusion\Services\Haiku;
 use Illuminate\Support\Str;
 
 class CreateEnvironmentConfig
@@ -16,18 +15,12 @@ class CreateEnvironmentConfig
     protected $container;
 
     /**
-     * @var \Fusion\Services\Haiku
-     */
-    protected $haiku;
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
     public function __construct(array $container)
     {
-        $this->haiku     = new Haiku;
         $this->container = $container;
     }
 
@@ -61,7 +54,6 @@ class CreateEnvironmentConfig
 
         $contents = $this->findAndReplace($env, [
             '##APP_KEY##'      => Str::random(32),
-            '##APP_CODENAME##' => $this->haiku->make(),
             '##APP_URL##'      => $this->container['app_url'],
             '##DB_DRIVER##'    => 'mysql',
             '##DB_HOST##'      => $this->container['db_host'],

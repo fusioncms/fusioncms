@@ -52,6 +52,8 @@ class FusionServiceProvider extends ServiceProvider
         $this->app->register(BladeServiceProvider::class);
         $this->app->register(FieldtypeServiceProvider::class);
         $this->app->register(SettingsServiceProvider::class);
+
+        $this->app->register(\Caffeinated\Shinobi\ShinobiServiceProvider::class);
     }
 
     private function registerTheme()
