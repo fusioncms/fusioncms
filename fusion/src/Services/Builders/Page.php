@@ -63,7 +63,7 @@ class Page extends Builder implements BuilderContract
             }
         }
 
-        $path     = app_path('Models/Pages/' . $className . '.php');
+        $path     = __DIR__.'/../../Models/Pages/' . $className . '.php';
         $stub     = File::get(resource_path('stubs/matrix/page.stub'));
         $contents = strtr($stub, [
             '{class}'         => $className,

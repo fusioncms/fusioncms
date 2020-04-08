@@ -2,7 +2,7 @@
 
 
 
-use App\Models\Import;
+use Fusion\Models\Import;
 use Faker\Generator as Faker;
 
 $factory->define(Import::class, function (Faker $faker) {

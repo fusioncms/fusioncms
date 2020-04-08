@@ -3,7 +3,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Form;
+use Fusion\Models\Form;
 use Facades\FormFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
@@ -229,7 +229,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Submitted response to {$form->name} (anonymous@example.com)",
             'subject_id'  => $response->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->user->id,
         ]);
     }
@@ -433,7 +433,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Created form ({$form->name})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }
@@ -458,7 +458,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Updated form ({$attributes['name']})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }
@@ -479,7 +479,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Deleted form ({$form->name})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }

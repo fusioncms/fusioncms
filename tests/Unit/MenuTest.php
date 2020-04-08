@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Menu;
+use Fusion\Models\Menu;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;

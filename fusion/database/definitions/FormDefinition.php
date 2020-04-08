@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Form;
+use Fusion\Models\Form;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 

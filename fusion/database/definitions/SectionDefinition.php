@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Section;
+use Fusion\Models\Section;
 use Faker\Generator as Faker;
 
 $factory->define(Section::class, function (Faker $faker) {
@@ -10,6 +10,6 @@ $factory->define(Section::class, function (Faker $faker) {
         'description'      => $faker->sentence,
         'placement'        => $faker->randomElement(['body', 'sidebar']),
         'order'            => 99,
-        'fieldset_id'      => factory(App\Models\Fieldset::class),
+        'fieldset_id'      => factory(Fusion\Models\Fieldset::class),
     ];
 });

@@ -7,7 +7,7 @@ trait SignsIn
 {
     protected function actingAsUser()
     {
-        $user = factory(\App\Models\User::class)->create([
+        $user = factory(\Fusion\Models\User::class)->create([
             'email_verified_at' => now(),
         ]);
 

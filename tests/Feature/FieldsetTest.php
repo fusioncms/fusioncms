@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Fieldset;
+use Fusion\Models\Fieldset;
 use Facades\FieldFactory;
 use Facades\MatrixFactory;
 use Facades\SectionFactory;
@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Facades\FieldsetFactory;
 use Facades\TaxonomyFactory;
 use Tests\Foundation\TestCase;
-use App\Services\Builders\Page;
+use Fusion\Services\Builders\Page;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FieldsetTest extends TestCase
@@ -268,7 +268,7 @@ class FieldsetTest extends TestCase
 
         $section->fields = [
             $field,
-            factory(\App\Models\Field::class)->make([
+            factory(\Fusion\Models\Field::class)->make([
                 'section_id' => $section->id,
                 'name'       => 'Foo',
                 'handle'     => 'foo',

@@ -4,14 +4,14 @@
 namespace Tests\Feature;
 
 use Throwable;
-use App\Models\Import;
-use App\Models\ImportLog;
+use Fusion\Models\Import;
+use Fusion\Models\ImportLog;
 use Maatwebsite\Excel\Excel;
 use Tests\Foundation\TestCase;
-use App\Services\Imports\UserImport;
+use Fusion\Services\Imports\UserImport;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-use App\Services\Exports\GoogleExport;
+use Fusion\Services\Exports\GoogleExport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,7 +53,7 @@ class ExcelTest extends TestCase
 			->post('/api/imports/queue/' . $import->id)
 			->assertStatus(201);
 
-        Queue::assertPushed(\App\Jobs\Importer\BeforeImport::class);
+        Queue::assertPushed(\Fusion\Jobs\Importer\BeforeImport::class);
     }
 
     /**
@@ -391,7 +391,7 @@ class ExcelTest extends TestCase
         ]);
 
         // Store file locally..
-        (new \App\Services\Exports\GoogleExport($import->source))->store($filepath);
+        (new \Fusion\Services\Exports\GoogleExport($import->source))->store($filepath);
 
         return [$import, $filepath, $log];
     }

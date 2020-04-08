@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\Role::class, function (Faker $faker) {
+$factory->define(Fusion\Models\Role::class, function (Faker $faker) {
     $name = $faker->word;
 
     return [

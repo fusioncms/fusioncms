@@ -25,7 +25,7 @@ class TermTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->taxonomy     = \Facades\TaxonomyFactory::withName('Tags')->withFieldset($this->fieldset)->create();
-        $this->model        = (new \App\Services\Builders\Taxonomy($this->taxonomy->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Taxonomy($this->taxonomy->handle))->make();
     }
 
     /**

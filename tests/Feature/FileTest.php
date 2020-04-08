@@ -3,8 +3,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\File;
-use App\Models\Directory;
+use Fusion\Models\File;
+use Fusion\Models\Directory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Directory;
+use Fusion\Models\Directory;
 use Facades\DirectoryFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;

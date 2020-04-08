@@ -3,9 +3,9 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Illuminate\Support\Arr;
-use App\Mail\WelcomeNewUser;
+use Fusion\Mail\WelcomeNewUser;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Mail;

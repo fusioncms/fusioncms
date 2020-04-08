@@ -3,9 +3,9 @@
 
 namespace Themes\Hello\Mail;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Illuminate\Bus\Queueable;
-use App\Mail\DatabaseMailable;
+use Fusion\Mail\DatabaseMailable;
 use Illuminate\Queue\SerializesModels;
 
 class HelloNewUser extends DatabaseMailable

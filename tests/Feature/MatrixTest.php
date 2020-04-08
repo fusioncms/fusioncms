@@ -3,8 +3,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
+use Fusion\Models\Matrix;
+use Fusion\Models\Fieldset;
 use Facades\MatrixFactory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;

@@ -90,7 +90,7 @@ class MailTest extends TestCase
         $this->actingAs($this->admin, 'api');
         $this->json('GET', 'api/mail/test', []);
 
-        Mail::assertSent(\App\Mail\WelcomeNewUser::class, function($mail) {
+        Mail::assertSent(\Fusion\Mail\WelcomeNewUser::class, function($mail) {
             return $mail->user->id === $this->admin->id;
         });
     }

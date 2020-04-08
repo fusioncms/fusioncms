@@ -1258,7 +1258,7 @@
             "dist": {
                 "type": "path",
                 "url": "./fusion",
-                "reference": "0aa9c6ec18696696b2dca10d689013ffa4bd5a06"
+                "reference": "954aa29c4ed9d127c33a9d21abd2f67b062afd78"
             },
             "require": {
                 "caffeinated/bonsai": "^5.0",
@@ -1306,6 +1306,9 @@
                 }
             },
             "autoload": {
+                "classmap": [
+                    "database/"
+                ],
                 "psr-4": {
                     "Fusion\\": "src/"
                 },
@@ -8602,5 +8605,6 @@
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Default definition
  */
-$factory->define(App\Models\File::class, function (Faker $faker) {
+$factory->define(Fusion\Models\File::class, function (Faker $faker) {
     return [
         'directory_id' => 0,
         'uuid'         => ($uuid = unique_id()),
@@ -29,7 +29,7 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
 /**
  * Image definition
  */
-$factory->state(App\Models\File::class, 'image', function ($faker) {
+$factory->state(Fusion\Models\File::class, 'image', function ($faker) {
     return [
         // See above..
     ];
@@ -38,7 +38,7 @@ $factory->state(App\Models\File::class, 'image', function ($faker) {
 /**
  * Audio definition
  */
-$factory->state(App\Models\File::class, 'audio', function ($faker) {
+$factory->state(Fusion\Models\File::class, 'audio', function ($faker) {
     return [
         'uuid'         => ($uuid = unique_id()),
         'name'         => ($name = $this->faker->word),
@@ -56,7 +56,7 @@ $factory->state(App\Models\File::class, 'audio', function ($faker) {
 /**
  * Video definition
  */
-$factory->state(App\Models\File::class, 'video', function ($faker) {
+$factory->state(Fusion\Models\File::class, 'video', function ($faker) {
     return [
         'uuid'         => ($uuid = unique_id()),
         'name'         => ($name = $this->faker->word),
@@ -74,7 +74,7 @@ $factory->state(App\Models\File::class, 'video', function ($faker) {
 /**
  * Document definition
  */
-$factory->state(App\Models\File::class, 'document', function ($faker) {
+$factory->state(Fusion\Models\File::class, 'document', function ($faker) {
     return [
         'uuid'         => ($uuid = unique_id()),
         'name'         => ($name = $this->faker->word),
@@ -92,7 +92,7 @@ $factory->state(App\Models\File::class, 'document', function ($faker) {
 /**
  * Post create image - upload image
  */
-$factory->afterCreatingState(App\Models\File::class, 'image', function ($file, $faker) {
+$factory->afterCreatingState(Fusion\Models\File::class, 'image', function ($file, $faker) {
     $name = "{$file->slug}.{$file->extension}";
     $file = UploadedFile::fake()->image($name);
 
@@ -103,7 +103,7 @@ $factory->afterCreatingState(App\Models\File::class, 'image', function ($file, $
 /**
  * Post create document - upload file
  */
-$factory->afterCreatingState(App\Models\File::class, 'document', function ($file, $faker) {
+$factory->afterCreatingState(Fusion\Models\File::class, 'document', function ($file, $faker) {
     $name = "{$file->slug}.{$file->extension}";
     $file = UploadedFile::fake()->createWithContent($name, $faker->paragraphs(3, true));
 

@@ -3,8 +3,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Taxonomy;
-use App\Models\Fieldset;
+use Fusion\Models\Taxonomy;
+use Fusion\Models\Fieldset;
 use Facades\TaxonomyFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;

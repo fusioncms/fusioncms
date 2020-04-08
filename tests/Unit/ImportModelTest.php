@@ -3,7 +3,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Import;
+use Fusion\Models\Import;
 use Facades\ImportFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

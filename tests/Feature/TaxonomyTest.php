@@ -3,7 +3,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Taxonomy;
+use Fusion\Models\Taxonomy;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

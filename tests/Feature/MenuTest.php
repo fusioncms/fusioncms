@@ -11,7 +11,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Menu;
+use Fusion\Models\Menu;
 use Facades\MenuFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Auth;

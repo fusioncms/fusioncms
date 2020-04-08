@@ -128,7 +128,7 @@ class Mailable extends Model
      */
     public static function registerNewMailables()
     {
-        $fusionMailFiles = File::files(app_path('Mail'));
+        $fusionMailFiles = File::files(__DIR__.'/../Mail');
         $themeMailFiles  = File::files(Theme::path('src/Mail'));
 
         // Resolve fusion mailables..

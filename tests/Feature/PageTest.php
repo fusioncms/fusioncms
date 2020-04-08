@@ -30,7 +30,7 @@ class PageTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->matrix       = \Facades\MatrixFactory::withName('Page')->asPage()->withFieldset($this->fieldset)->withRoute('{slug}')->withTemplate('index')->create();
-        $this->model        = (new \App\Services\Builders\Page($this->matrix->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Page($this->matrix->handle))->make();
     }
 
     /**

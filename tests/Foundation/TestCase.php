@@ -4,14 +4,14 @@
 namespace Tests\Foundation;
 
 use File;
-use Theme;
-use Module;
+use Caffeinated\Themes\Facades\Theme;
+use Caffeinated\Modules\Facades\Module;
 use Artisan;
-use Shinobi;
+use Caffeinated\Shinobi\Facades\Shinobi;
 use Exception;
-use Faker\Factory;
-use App\Models\User;
-use App\Models\Asset;
+use Illuminate\Database\Eloquent\Factory;
+use Fusion\Models\User;
+use Fusion\Models\Asset;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -45,6 +45,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->registerEloquentFactoriesFrom(__DIR__.'/../../fusion/database/definitions');
+
         activity()->disableLogging();
 
         Theme::setCurrent('hello');
@@ -60,38 +62,38 @@ abstract class TestCase extends BaseTestCase
         ];
 
         // 1) Migrate & seed..
-        dispatch_now(new \App\Jobs\Installer\CreateDatabaseTables);
+        dispatch_now(new \Fusion\Console\Installer\CreateDatabaseTables);
 
         // 2) Publish module assets..
-        dispatch_now(new \App\Jobs\Installer\PublishModuleAssets);
+        dispatch_now(new \Fusion\Console\Installer\PublishModuleAssets);
 
         // 3) Create default permissions..
-        dispatch_now(new \App\Jobs\Installer\CreatePermissions);
+        dispatch_now(new \Fusion\Console\Installer\CreatePermissions);
 
         // 4) Create default roles..
-        dispatch_now(new \App\Jobs\Installer\CreateDefaultUserRoles($container));
+        dispatch_now(new \Fusion\Console\Installer\CreateDefaultUserRoles($container));
 
         // 5) Create default users
-        $this->admin = factory('App\Models\User')->create([
+        $this->admin = factory('Fusion\Models\User')->create([
             'name'       => 'Jane Doe',
             'email'      => 'admin@example.com',
             'password'   => bcrypt('secret'),
         ]);
 
-        $this->user = factory('App\Models\User')->create([
+        $this->user = factory('Fusion\Models\User')->create([
             'name'              => 'Ducky Consumer',
             'email'             => 'guest@example.com',
             'password'          => bcrypt('secret'),
             'email_verified_at' => null
         ]);
 
-        $this->guest = app()->make(\App\Models\User::class);
+        $this->guest = app()->make(\Fusion\Models\User::class);
 
         Shinobi::assign('admin')->to($this->admin);
         // Shinobi::assign('user')->to($this->user);
 
         // 6) Import settings..
-        Artisan::call('fusion:settings');
+        // Artisan::call('fusion:settings');
 
         // 7) Empty cache..
         Artisan::call('cache:clear');
@@ -155,5 +157,11 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         return Asset::first();
+    }
+
+    protected function registerEloquentFactoriesFrom($path) {
+        // dd(get_class_methods(Factory::class), $path);
+        app()->make(Factory::class)->load($path);
+
     }
 }

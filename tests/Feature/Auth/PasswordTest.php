@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;

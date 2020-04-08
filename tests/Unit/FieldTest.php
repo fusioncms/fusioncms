@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Field;
+use Fusion\Models\Field;
 use Facades\FieldFactory;
 use Facades\SectionFactory;
 use Tests\Foundation\TestCase;

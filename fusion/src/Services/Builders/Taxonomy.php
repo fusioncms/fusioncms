@@ -68,9 +68,8 @@ class Taxonomy extends Builder implements BuilderContract
             }
         }
 
-        $path     = app_path('Models/Taxonomies/' . $className . '.php');
+        $path     = __DIR__.'/../../Models/Taxonomies/' . $className . '.php';
         $stub     = File::get(resource_path('stubs/taxonomy.stub'));
-
         $contents = strtr($stub, [
             '{class}'         => $className,
             '{handle}'        => $this->taxonomy->handle,

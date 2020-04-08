@@ -3,7 +3,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\Field::class, function (Faker $faker) {
+$factory->define(Fusion\Models\Field::class, function (Faker $faker) {
     $reservedWords = ['id', 'name', 'handle', 'help', 'required', 'type', 'settings', 'order', 'section_id'];
     $name = $faker->unique()->word();
 

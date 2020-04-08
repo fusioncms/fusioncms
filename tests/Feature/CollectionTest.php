@@ -25,7 +25,7 @@ class CollectionTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->matrix       = \Facades\MatrixFactory::withName('Posts')->asCollection()->withFieldset($this->fieldset)->withRoute('posts/{slug}')->withTemplate('index')->create();
-        $this->model        = (new \App\Services\Builders\Collection($this->matrix->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Collection($this->matrix->handle))->make();
     }
 
     /**

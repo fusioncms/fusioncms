@@ -5,7 +5,7 @@ namespace Tests\Feature\Users;
 
 use URL;
 use Auth;
-use App\Mail\WelcomeNewUser;
+use Fusion\Mail\WelcomeNewUser;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;

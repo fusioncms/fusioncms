@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\Taxonomy::class, function (Faker $faker) {
+$factory->define(Fusion\Models\Taxonomy::class, function (Faker $faker) {
     $name = $faker->words(2, true);
 
     return [
@@ -31,7 +31,7 @@ $factory->define(App\Models\Taxonomy::class, function (Faker $faker) {
 });
 
 
-$factory->afterCreatingState(App\Models\Taxonomy::class, 'terms', function ($taxonomy, $faker) {
+$factory->afterCreatingState(Fusion\Models\Taxonomy::class, 'terms', function ($taxonomy, $faker) {
     $terms = [];
 
     for ($i = 0; $i < 5; ++$i) {

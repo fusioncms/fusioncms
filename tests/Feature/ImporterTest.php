@@ -3,10 +3,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\Import;
+use Fusion\Models\Import;
 use Facades\ImportFactory;
 use Tests\Foundation\TestCase;
-use App\Services\Imports\PreviewImport;
+use Fusion\Services\Imports\PreviewImport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;

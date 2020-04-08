@@ -3,8 +3,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Setting;
-use App\Models\SettingSection;
+use Fusion\Models\Setting;
+use Fusion\Models\SettingSection;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;

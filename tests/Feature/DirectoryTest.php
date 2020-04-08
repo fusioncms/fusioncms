@@ -267,9 +267,9 @@ class DirectoryTest extends TestCase
     public function a_directory_cannot_be_moved_to_another_directory_with_a_conflicting_slug()
     {
         // Create two directories (A1/A2) w/ same slug in diff folders
-        $directoryA1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a']);
-        $directoryA2 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
-        $directoryB1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
+        $directoryA1 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-a']);
+        $directoryA2 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $directoryB1 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
 
         // Attempt to combine directories in same location
         $this

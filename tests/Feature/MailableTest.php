@@ -3,7 +3,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Mailable;
+use Fusion\Models\Mailable;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Mail;

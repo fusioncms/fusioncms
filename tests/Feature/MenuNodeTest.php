@@ -26,7 +26,7 @@ class MenuNodeTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->menu         = \Facades\MenuFactory::withName('Header')->withFieldset($this->fieldset)->create();
-        $this->model        = (new \App\Services\Builders\Menu($this->menu->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Menu($this->menu->handle))->make();
     }
 
     /**

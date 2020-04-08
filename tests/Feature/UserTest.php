@@ -3,7 +3,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;

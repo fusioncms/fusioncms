@@ -3,7 +3,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
+use Fusion\Models\Role;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -3,7 +3,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Mailable;
+use Fusion\Models\Mailable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
@@ -29,13 +29,13 @@ class MailableTest extends TestCase
         DB::table('mailables')->insert([
             'name'      => ($name = $this->faker->word),
             'handle'    => Str::slug($name),
-            'namespace' => 'App\Mail\FakeMailable'
+            'namespace' => 'Fusion\Mail\FakeMailable'
         ]);
 
         DB::table('mailables')->insert([
             'name'      => $name,
             'handle'    => Str::slug($name),
-            'namespace' => 'App\Mail\FakeMailable'
+            'namespace' => 'Fusion\Mail\FakeMailable'
         ]);
     }
 
@@ -53,7 +53,7 @@ class MailableTest extends TestCase
         $this->assertDatabaseHas('mailables', [
             'name'      => 'Welcome New User',
             'handle'    => 'welcome_new_user',
-            'namespace' => 'App\Mail\WelcomeNewUser'
+            'namespace' => 'Fusion\Mail\WelcomeNewUser'
         ]);
     }
 
@@ -82,7 +82,7 @@ class MailableTest extends TestCase
 
         $model        = Mailable::where('handle', 'welcome_new_user')->firstOrFail();
         $placeholders = $model->placeholders;
-        $attributes = app()->make(\App\Models\User::class)->getFillable();
+        $attributes = app()->make(\Fusion\Models\User::class)->getFillable();
 
         $this->assertTrue($placeholders->get('user') == $attributes);
     }

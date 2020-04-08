@@ -3,8 +3,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
+use Fusion\Models\Matrix;
+use Fusion\Models\Fieldset;
 use Facades\MatrixFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;

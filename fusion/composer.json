@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "classmap": [
-            "database"
+            "database/"
         ],
         "psr-4": {
             "Fusion\\": "src/"
