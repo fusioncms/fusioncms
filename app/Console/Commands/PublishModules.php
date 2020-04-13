@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Extension;
+use Illuminate\Support\Str;
+use App\Concerns\HasExtension;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class PublishModules extends Command
 {
@@ -11,7 +15,7 @@ class PublishModules extends Command
      *
      * @var string
      */
-    protected $signature = 'module:link';
+    protected $signature = 'module:link {--module=}';
 
     /**
      * The console command description.
@@ -27,29 +31,78 @@ class PublishModules extends Command
      */
     public function handle()
     {
-        foreach ($this->links() as $link => $target) {
-            if (file_exists($link)) {
-                $this->error("The [$link] link already exists.");
-            } else {
-                $this->laravel->make('files')->link($target, $link);
+        $this->modules()->each(function($item) {
 
-                $this->info("The [$link] link has been connected to [$target].");
+            // publish assets..
+            $this->symlink(
+                public_path("modules/{$item['slug']}"),
+                base_path("modules/{$item['basename']}/public")
+            );
+
+            // publish settings..
+            $this->symlink(
+                base_path("settings/modules/{$item['slug']}.php"),
+                base_path("modules/{$item['basename']}/resources/{$item['slug']}.php")
+            );
+
+            // generate extensions..
+            $this->extension($item);
+        });
+    }
+
+    /**
+     * Generate Extension for Models using `HasExtension`.
+     * 
+     * @param  array  $module
+     * @return void
+     */
+    protected function extension(array $module)
+    {
+        $files = File::files(base_path("modules/{$module['basename']}/src/Models"));
+        
+        foreach ($files as $file) {
+            $name   = basename($file->getBaseName(), '.php');
+            $model  = resolve("Modules\\{$module['basename']}\\Models\\{$name}");
+            $traits = class_uses($model);
+
+            if (in_array(HasExtension::class, $traits)) {
+                Extension::firstOrCreate([
+                    'name'   => Str::studly($model->getTable()),
+                    'handle' => $model->getTable(),
+                ]);
             }
         }
     }
 
     /**
-     * Get the list of symbolic links and their source.
+     * Get modules for publishing.
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    protected function modules()
+    {
+        $modules = $this->laravel['modules']->all();
+
+        if ($this->option('module')) {
+            $modules = $modules->where('slug', $this->option('module'));
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Create symlink.
      *
      * @return array
      */
-    protected function links()
+    protected function symlink($link, $target)
     {
-        return $this->laravel['modules']->all()->mapWithKeys(function($item) {
-            $link   = public_path("modules/{$item['slug']}");
-            $source = base_path("modules/{$item['basename']}/public");
+        if (file_exists($link)) {
+            $this->error("The [$link] link already exists.");
+        } else {
+            $this->laravel->make('files')->link($target, $link);
 
-            return [ $link => $source ];
-        });
+            $this->info("The [$link] link has been connected to [$target].");
+        }
     }
 }

@@ -79,5 +79,6 @@ class EventServiceProvider extends ServiceProvider
         \App\Models\Fieldset::observe(\App\Observers\FieldsetObserver::class);
         \App\Models\Taxonomy::observe(\App\Observers\TaxonomyObserver::class);
         \App\Models\Menu::observe(\App\Observers\MenuObserver::class);
+        \App\Models\Extension::observe(\App\Observers\ExtensionObserver::class);
     }
 }
