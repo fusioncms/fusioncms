@@ -207,6 +207,7 @@ class Install extends Command
 
             'Creating database...'              => new \Fusion\Jobs\Installer\CreateDatabase($this->container),
             'Creating environment config...'    => new \Fusion\Jobs\Installer\CreateEnvironmentConfig($this->container),
+            'Generating encryption key...'      => new \Fusion\Jobs\Installer\GenerateEncryptionKey,
             'Creating database tables...'       => new \Fusion\Jobs\Installer\CreateDatabaseTables,
             'Publishing module assets...'       => new \Fusion\Jobs\Installer\PublishModuleAssets,
             'Creating storage link...'          => new \Fusion\Jobs\Installer\CreateStorageLink,

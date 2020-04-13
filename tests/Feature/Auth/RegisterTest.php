@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Users;
 
 use Fusion\Models\User;

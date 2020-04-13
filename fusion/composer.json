@@ -78,6 +78,9 @@
             "providers": [
                 "Fusion\\Providers\\FusionServiceProvider"
             ],
+            "aliases": {
+                "Setting": "Fusion\\Facades\\Setting"
+            },
             "dont-discover": [
                 "caffeinated/shinobi",
                 "laravel/telescope"

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fusion\Jobs;
+namespace Fusion\Console\Actions;
 
 use Fusion\Models\Setting;
 use Fusion\Models\SettingSection;
@@ -9,7 +9,7 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
 
-class SyncSystemSettings
+class SyncSettings
 {
     /**
      * Store existing section ids
@@ -142,7 +142,7 @@ class SyncSystemSettings
      */
     protected function fetchAllSettingsFiles()
     {
-        $settingPath = realpath(base_path('settings'));
+        $settingPath = fusion_path('/settings');
         $allFiles    = Finder::create()->files()->name('*.php')->in($settingPath);
         $files       = [];
 

@@ -76,6 +76,6 @@ class CreateEnvironmentConfig
      */
     protected function findAndReplace($file, $data)
     {
-        return strtr(File::get(resource_path('stubs/' . $file)), $data);
+        return strtr(File::get(fusion_path('/stubs/' . $file)), $data);
     }
 }

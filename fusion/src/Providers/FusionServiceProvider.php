@@ -21,7 +21,12 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerBonsai();
         $this->registerMigrations();
         $this->registerTheme();
+        $this->registerSettings();
         // $this->registerPublishing();
+
+        $this->app->bind('fusion', function ($app) {
+            return $app->make(\Fusion\Fusion::class);
+        });
     }
 
     /**
@@ -39,6 +44,8 @@ class FusionServiceProvider extends ServiceProvider
 
         $this->commands([
             \Fusion\Console\InstallCommand::class,
+            \Fusion\Console\UninstallCommand::class,
+            \Fusion\Console\SyncCommand::class,
         ]);
     }
 
@@ -50,17 +57,21 @@ class FusionServiceProvider extends ServiceProvider
     private function registerProviders()
     {
         $this->app->register(BladeServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
         $this->app->register(FieldtypeServiceProvider::class);
         $this->app->register(SettingsServiceProvider::class);
 
         $this->app->register(\Caffeinated\Shinobi\ShinobiServiceProvider::class);
     }
 
+    /**
+     * Register the currently active theme.
+     *
+     * @return void
+     */
     private function registerTheme()
     {
-        if (! $this->app->runningInConsole()) {
-            Theme::set(setting('system.theme'));
-        }
+        Theme::set(setting('system.theme'));
     }
 
     /**
@@ -133,6 +144,17 @@ class FusionServiceProvider extends ServiceProvider
         Route::group($this->routeDatatableConfiguration(), function () use ($path) {
             $this->loadRoutesFrom(realpath($path.'routes/datatable.php'));
         });
+    }
+
+    private function registerSettings()
+    {
+		foreach (scandir(fusion_path('/settings')) as $filename) {
+            $path = fusion_path('/settings/'.$filename);
+
+            if (is_file($path)) {
+                require_once($path);
+            }
+        }
     }
 
     /**

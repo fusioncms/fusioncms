@@ -1,5 +1,7 @@
 <?php
 
+use Fusion\Facades\Setting;
+
 /**
  * Get/set FusionCMS system settings.
  *
@@ -10,13 +12,18 @@
 function setting($key = null, $default = null)
 {
 	if (! app_installed()) {
-		$settingPath = __DIR__.'/../settings';
-		$files       = Symfony\Component\Finder\Finder::create()->files()->name('*.php')->in($settingPath);
-		$settings    = [];
+		if (is_array($key)) {
+			return array_values($key)[0];
+		}
+
+		$settingPath = fusion_path('/settings');
+
+		$files    = glob($settingPath . '/*.php');
+		$settings = [];
 
 		foreach ($files as $file) {
 			$section            = basename($file, '.php');
-			$attributes         = require $file->getRealPath();
+			$attributes         = require $file;
 			$settings[$section] = [];
 
 			foreach ($attributes['settings'] as $group => $values) {

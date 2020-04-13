@@ -101,6 +101,7 @@ class InstallCommand extends Command
 
             'Creating database...'              => new \Fusion\Console\Installer\CreateDatabase($this->container),
             'Creating environment config...'    => new \Fusion\Console\Installer\CreateEnvironmentConfig($this->container),
+            'Generating encryption key...'      => new \Fusion\Console\Installer\GenerateEncryptionKey,
             'Creating database tables...'       => new \Fusion\Console\Installer\CreateDatabaseTables,
             'Publishing module assets...'       => new \Fusion\Console\Installer\PublishModuleAssets,
             'Creating storage link...'          => new \Fusion\Console\Installer\CreateStorageLink,

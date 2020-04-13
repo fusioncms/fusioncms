@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Observers;
 
 use Fusion\Models\Fieldset;

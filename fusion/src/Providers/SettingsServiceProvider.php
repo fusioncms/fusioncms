@@ -4,6 +4,7 @@
 namespace Fusion\Providers;
 
 use Fusion\Models\Fieldset;
+use Fusion\Facades\Setting;
 use Fusion\Models\SettingSection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -18,7 +19,7 @@ class SettingsServiceProvider extends ServiceProvider
     public function boot()
     {
         if (app_installed()) {
-            \Setting::registerOverrides();
+            Setting::registerOverrides();
         }
     }
 
@@ -38,5 +39,12 @@ class SettingsServiceProvider extends ServiceProvider
         $this->app->bind('setting', function() {
             return new \Fusion\Services\Settings;
         });
+    }
+
+    public function provides()
+    {
+        return [
+            'setting'
+        ];
     }
 }

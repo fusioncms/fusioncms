@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Users;
 
 use URL;
@@ -59,6 +58,8 @@ class EmailVerificationTest extends TestCase
     public function an_unverified_user_will_not_see_verification_notice_if_user_email_verification_setting_disabled()
     {
         setting(['users.user_email_verification' => 'disabled']);
+
+        // dd(setting('users.user_email_verification'));
 
         $this
             ->actingAs($this->user)

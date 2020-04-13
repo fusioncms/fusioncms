@@ -11,16 +11,6 @@ function app_installed()
 }
 
 /**
- * Return the app codename prefixed with the secret key.
- *
- * @return string
- */
-function app_codename()
-{
-    return env('APP_CODENAME', 'undefined') . '-' . env('APP_KEY');
-}
-
-/**
  * Returns the memory usage in a human readable format.
  *
  * @return string
