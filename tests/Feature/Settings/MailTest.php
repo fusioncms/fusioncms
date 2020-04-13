@@ -32,8 +32,6 @@ class MailTest extends TestCase
      */
     public function a_user_with_permissions_can_update_mail_settings()
     {
-        $this->withoutExceptionHandling();
-
         $this->actingAs($this->admin, 'api');
 
         $this->json('PATCH', 'api/settings/mail', [])

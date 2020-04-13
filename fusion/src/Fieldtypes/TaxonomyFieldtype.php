@@ -68,7 +68,7 @@ class TaxonomyFieldtype extends Fieldtype
     {
         $model     = Taxonomy::find($field->settings['taxonomy']);
         $namespace = $this->namespace . '\\' . Str::studly($model->handle);
-        $stub      = File::get(resource_path("stubs/relationships/{$this->relationship}.stub"));
+        $stub      = File::get(fusion_path("/stubs/relationships/{$this->relationship}.stub"));
 
         return strtr($stub, [
             '{handle}'            => $field->handle,

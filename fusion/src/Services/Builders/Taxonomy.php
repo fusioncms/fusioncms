@@ -124,7 +124,7 @@ class Taxonomy extends Builder implements BuilderContract
                     array_push($relationships, $model->handle);
 
                     $namespace = (new \ReflectionClass($model->getBuilder()))->getName();
-                    $stub      = File::get(resource_path('stubs/relationships/morphedByMany.stub'));
+                    $stub      = File::get(fusion_path('/stubs/relationships/morphedByMany.stub'));
 
                     $contents = strtr($stub, [
                         '{handle}'            => $model->handle,

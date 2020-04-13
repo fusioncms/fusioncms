@@ -13,6 +13,33 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        'Fusion\Events\ServingFusion' => [
+            'Fusion\Listeners\BootstrapAdminMenu',
+        ],
+
+        'Illuminate\Auth\Events\Verified' => [
+            'Fusion\Listeners\LogVerifiedUser',
+        ],
+
+        'Illuminate\Auth\Events\Registered' => [
+            'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
+        ],
+
+        'Illuminate\Auth\Events\Login' => [
+            'Fusion\Listeners\LogActivityWhenUserLogsIn',
+        ],
+
+        'Fusion\Events\FieldsetAttached' => [
+            'Fusion\Listeners\WhenFieldsetIsAttached',
+        ],
+
+        'Fusion\Events\FieldsetDetached' => [
+            'Fusion\Listeners\WhenFieldsetIsDetached',
+        ],
+
+        'Fusion\Events\FieldsetReplaced' => [
+            'Fusion\Listeners\WhenFieldsetIsReplaced',
+        ],
     ];
 
     /**

@@ -51,7 +51,7 @@ class UserFieldtype extends Fieldtype
      */
     public function generateRelationship($field)
     {
-        $stub = File::get(resource_path("stubs/relationships/{$this->relationship}.stub"));
+        $stub = File::get(fusion_path("/stubs/relationships/{$this->relationship}.stub"));
 
         return strtr($stub, [
             '{handle}'            => $field->handle,

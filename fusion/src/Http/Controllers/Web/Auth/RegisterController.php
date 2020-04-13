@@ -3,13 +3,13 @@
 
 namespace Fusion\Http\Controllers\Web\Auth;
 
-use Shinobi;
 use Fusion\Models\User;
 use Illuminate\Http\Request;
-use Fusion\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Events\Registered;
+use Fusion\Http\Controllers\Controller;
+use Caffeinated\Shinobi\Facades\Shinobi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

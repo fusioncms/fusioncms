@@ -49,12 +49,12 @@ class RestoreFromBackup
                 ->empty();
 
         $jobs = [
-            'Enter maintenance mode...'       => new \Fusion\Jobs\EnterMaintenanceMode,
+            'Enter maintenance mode...'       => new \Fusion\Console\Actions\EnterMaintenanceMode,
             'Unzip backup for processing....' => new \Fusion\Jobs\Backups\UnzipBackup($restoreDirectory, $backupPath),
             'Restore database from backup...' => new \Fusion\Jobs\Backups\RestoreDatabase($restoreDirectory),
             'Restore files from backup...'    => new \Fusion\Jobs\Backups\RestoreFiles($restoreDirectory),
             'Restore .env variables...'       => new \Fusion\Jobs\Backups\RestoreEnvVariables(),
-            'Exit maintenance mode...'        => new \Fusion\Jobs\ExitMaintenanceMode,
+            'Exit maintenance mode...'        => new \Fusion\Console\Actions\ExitMaintenanceMode,
         ];
 
         foreach ($jobs as $message => $instance) {

@@ -93,7 +93,7 @@ abstract class TestCase extends BaseTestCase
         // Shinobi::assign('user')->to($this->user);
 
         // 6) Import settings..
-        // Artisan::call('fusion:settings');
+        Artisan::call('fusion:sync');
 
         // 7) Empty cache..
         Artisan::call('cache:clear');

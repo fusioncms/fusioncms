@@ -59,8 +59,6 @@ class EmailVerificationTest extends TestCase
     {
         setting(['users.user_email_verification' => 'disabled']);
 
-        // dd(setting('users.user_email_verification'));
-
         $this
             ->actingAs($this->user)
             ->get(route('verification.notice'))
