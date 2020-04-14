@@ -1,0 +1,111 @@
+<?php
+
+
+namespace Fusion\Models\Pages;
+
+use Fusion\Models\Field;
+use Fusion\Models\Matrix;
+use Illuminate\Support\Str;
+use Fusion\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+
+class {class} extends Model
+{
+    use LogsActivity;
+
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'mx_{handle}';
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['name', 'handle', 'slug', 'fields'];
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+    /**
+     * @var integer
+     */
+    protected $primaryKey = 'matrix_id';
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * Get the Matrix Type relationship.
+     *
+     * @return mixed
+     */
+    public function matrix()
+    {
+        return $this->belongsTo(Matrix::class);
+    }
+
+    /**
+     * Get all of the fields for the matrix.
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->matrix->fieldset->fields ??  null;
+    }
+
+    /**
+     * Proxy the handle attribute from the owning matrix.
+     *
+     * @return string
+     */
+    public function getHandleAttribute()
+    {
+        return $this->matrix->handle;
+    }
+
+    {relationships}
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $entry      = $activity->subject;
+        $matrix     = $entry->matrix;
+        $modelName  = Str::singular($matrix->name);
+
+        $activity->description = "Updated {$modelName}";
+        $activity->properties  = [
+            'icon'  => $matrix->icon,
+            'link' => "pages/{$matrix->slug}"
+        ];
+    }
+}

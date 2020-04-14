@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Extension;
-use App\Models\Fieldset;
+use Fusion\Models\Fieldset;
+use Fusion\Models\Extension;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

@@ -1,20 +1,12 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
-use App\Models\Import;
+use Fusion\Models\Import;
 use Facades\ImportFactory;
 use Tests\Foundation\TestCase;
-use App\Services\Imports\PreviewImport;
+use Fusion\Services\Imports\PreviewImport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -145,7 +137,7 @@ class ImporterTest extends TestCase
         $this->actingAs($this->admin, 'api');
 
         $import = factory(Import::class)->create();
-        
+
         $response = $this->json(
             'DELETE',
             '/api/imports/' . $import->id

@@ -1,18 +1,11 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,44 +15,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        /*
-         *
-         */
-        'App\Events\ServingFusion' => [
-            'App\Listeners\BootstrapAdminMenu',
-        ],
-
-        /*
-         * Email verified.
-         */
-        'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\LogVerifiedUser',
-        ],
-
-        /*
-         * User registered.
-         */
-        'Illuminate\Auth\Events\Registered' => [
-            'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
-        ],
-
-        /*
-         * User logged in.
-         */
-        'Illuminate\Auth\Events\Login' => [
-            'App\Listeners\LogActivityWhenUserLogsIn',
-        ],
-
-        'App\Events\FieldsetAttached' => [
-            'App\Listeners\WhenFieldsetIsAttached',
-        ],
-
-        'App\Events\FieldsetDetached' => [
-            'App\Listeners\WhenFieldsetIsDetached',
-        ],
-
-        'App\Events\FieldsetReplaced' => [
-            'App\Listeners\WhenFieldsetIsReplaced',
+        Registered::class => [
+            SendEmailVerificationNotification::class,
         ],
     ];
 
@@ -72,13 +29,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        \App\Models\Form::observe(\App\Observers\FormObserver::class);
-        \App\Models\Field::observe(\App\Observers\FieldObserver::class);
-        \App\Models\Matrix::observe(\App\Observers\MatrixObserver::class);
-        \App\Models\Section::observe(\App\Observers\SectionObserver::class);
-        \App\Models\Fieldset::observe(\App\Observers\FieldsetObserver::class);
-        \App\Models\Taxonomy::observe(\App\Observers\TaxonomyObserver::class);
-        \App\Models\Menu::observe(\App\Observers\MenuObserver::class);
-        \App\Models\Extension::observe(\App\Observers\ExtensionObserver::class);
+        //
     }
 }

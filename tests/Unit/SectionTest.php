@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Section;
+use Fusion\Models\Section;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;

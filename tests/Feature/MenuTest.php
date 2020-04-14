@@ -11,7 +11,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Menu;
+use Fusion\Models\Menu;
 use Facades\MenuFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +93,7 @@ class MenuTest extends TestCase
     public function a_user_without_permissions_cannot_create_a_new_menu()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->actingAs($this->user, 'api')
             ->json('POST', '/api/menus', []);

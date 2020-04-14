@@ -1,0 +1,105 @@
+<?php
+
+
+namespace Fusion\Models\Taxonomies;
+
+use Fusion\Models\Field;
+use Fusion\Models\Taxonomy;
+use Illuminate\Support\Str;
+use Fusion\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+
+class {class} extends Model
+{
+    use LogsActivity;
+
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'taxonomy_{handle}';
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+    /**
+     * Get the Taxonomy relationship.
+     *
+     * @return mixed
+     */
+    public function taxonomy()
+    {
+        return $this->belongsTo(Taxonomy::class);
+    }
+
+    /**
+     * Get all of the fields for the taxonomy.
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->taxonomy->fieldset->fields ?? null;
+    }
+
+    /**
+     * Get the name of the pivot table associated with this taxonomy.
+     */
+    public function getPivotTableAttribute()
+    {
+        return $this->table.'_pivot';
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Taxonomy::class, 'id', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Taxonomy::class, 'parent_id', 'id');
+    }
+
+    {relationships}
+
+        /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $term       = $activity->subject;
+        $taxonomy   = $term->taxonomy;
+        $action     = ucfirst($eventName);
+        $modelName  = strtolower(Str::singular($taxonomy->name));
+        $properties = ['icon' => $taxonomy->icon];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "taxonomies/{$taxonomy->slug}/{$term->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} term ({$term->name})";
+        $activity->properties  = $properties;
+    }
+}

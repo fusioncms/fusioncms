@@ -1,0 +1,59 @@
+<?php
+
+namespace Fusion\Models\Extensions;
+
+use Fusion\Models\Extension;
+use Fusion\Database\Eloquent\Model;
+
+class {class} extends Model
+{
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ext_{handle}';
+
+    public $timestamps = false;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     *
+     * @return BelongsTo|Extension
+     */
+    public function extension()
+    {
+        return $this->belongsTo(Extension::class);
+    }
+
+    /**
+     * Get extending fields.
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->extension->fieldset->fields ?? null;
+    }
+
+    /**
+     * Get extending fieldset.
+     */
+    public function getFieldsetAttribute()
+    {
+        return $this->extension->fieldset ?? null;
+    }
+
+    {relationships}
+}

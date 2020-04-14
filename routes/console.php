@@ -1,15 +1,7 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +16,4 @@ use Illuminate\Foundation\Inspiring;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
-});
+})->describe('Display an inspiring quote');

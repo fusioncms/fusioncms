@@ -1,17 +1,9 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -44,7 +36,7 @@ class UserTest extends TestCase
 			'role'                  => $this->faker->randomElement(['user', 'guest']),
 			'status'                => $this->faker->boolean
 		];
-		
+
 		$this
 			->be($this->admin, 'api')
 			->json('POST', '/api/users', $attributes)
@@ -89,7 +81,7 @@ class UserTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_users()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this->actingAs($this->user, 'api');
 
         $this->json('POST', '/api/users', []);

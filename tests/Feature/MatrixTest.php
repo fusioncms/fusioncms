@@ -1,18 +1,10 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
-use App\Models\Matrix;
-use App\Models\Fieldset;
+use Fusion\Models\Matrix;
+use Fusion\Models\Fieldset;
 use Facades\MatrixFactory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
@@ -153,7 +145,7 @@ class MatrixTest extends TestCase
         $this->actingAs($this->admin, 'api');
 
         $matrix = MatrixFactory::asCollection()->create();
-        
+
         $data                     = $matrix->toArray();
         $data['show_name_field'] = false;
         $data['name_format']     = "{id} {created_at->format('Y')}";
@@ -165,10 +157,10 @@ class MatrixTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        
+
         $id    = $response->getData()->data->entry->id;
         $entry = matrix_entries($matrix->handle)->find($id);
-        
+
         $name = $entry->id.' '.$entry->created_at->format('Y');
         $slug = Str::slug($name);
 

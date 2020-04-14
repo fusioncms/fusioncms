@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Unit;
 
@@ -65,7 +57,7 @@ class FieldsetModelTest extends TestCase
      */
     public function a_fieldset_can_return_fields_that_generate_database_columns()
     {
-        $this->assertInstanceOf('App\Models\Field', $this->fieldset->database()->first());
+        $this->assertInstanceOf('Fusion\Models\Field', $this->fieldset->database()->first());
         $this->assertCount(1, $this->fieldset->database());
     }
 
@@ -76,7 +68,7 @@ class FieldsetModelTest extends TestCase
      */
     public function a_fieldset_can_return_fields_that_generate_relationships()
     {
-        $this->assertInstanceOf('App\Models\Field', $this->fieldset->relationships()->first());
+        $this->assertInstanceOf('Fusion\Models\Field', $this->fieldset->relationships()->first());
         $this->assertCount(1, $this->fieldset->relationships());
     }
 

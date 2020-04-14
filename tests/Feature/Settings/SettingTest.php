@@ -1,17 +1,10 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
-namespace Tests\Feature\Settings;
+namespace Tests\FeatureSettings;
 
 use Exception;
+use Fusion\Facades\Setting;
 use InvalidArgumentException;
 use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -121,7 +114,7 @@ class SettingTest extends TestCase
      */
     public function settings_facade_request_for_all_settings_will_load_all_settings()
     {
-        $settings = \Setting::all();
+        $settings = Setting::all();
 
         $this->assertArrayHasKey('api', $settings);
         $this->assertArrayHasKey('backups', $settings);
@@ -137,7 +130,7 @@ class SettingTest extends TestCase
      */
     public function settings_facade_can_load_many_settings_via_get_method()
     {
-        $settings = \Setting::get(['api','mail']);
+        $settings = Setting::get(['api','mail']);
 
         $this->assertArrayHasKey('api', $settings);
         $this->assertArrayHasKey('mail', $settings);
@@ -150,7 +143,7 @@ class SettingTest extends TestCase
      */
     public function settings_facade_can_load_many_settings_via_getMany_method()
     {
-        $settings = \Setting::getMany(['api','mail']);
+        $settings = Setting::getMany(['api','mail']);
 
         $this->assertArrayHasKey('api', $settings);
         $this->assertArrayHasKey('mail', $settings);
@@ -163,16 +156,16 @@ class SettingTest extends TestCase
      */
     public function settings_facade_can_update_one_or_more_settings_at_runtime()
     {
-        $this->assertTrue(\Setting::get('system.website_title') === 'My FusionCMS Website');
-        $this->assertTrue(\Setting::get('system.website_slogan') === 'Another awesome website powered by FusionCMS!');
+        $this->assertTrue(Setting::get('system.website_title') === 'My FusionCMS Website');
+        $this->assertTrue(Setting::get('system.website_slogan') === 'Another awesome website powered by FusionCMS!');
 
-        \Setting::set([
+        Setting::set([
             'system.website_title'  => 'My New Website',
             'system.website_slogan' => 'An awesome website!'
         ]);
 
-        $this->assertTrue(\Setting::get('system.website_title') === 'My New Website');
-        $this->assertTrue(\Setting::get('system.website_slogan') === 'An awesome website!');
+        $this->assertTrue(Setting::get('system.website_title') === 'My New Website');
+        $this->assertTrue(Setting::get('system.website_slogan') === 'An awesome website!');
     }
 
     /**
@@ -182,12 +175,12 @@ class SettingTest extends TestCase
      */
     public function settings_facade_can_handle_requests_for_setting_existence()
     {
-        $this->assertTrue(\Setting::has('system.website_title'));
-        $this->assertTrue(\Setting::has('system'));
+        $this->assertTrue(Setting::has('system.website_title'));
+        $this->assertTrue(Setting::has('system'));
 
-        $this->assertFalse(\Setting::has('system.foo'));
-        $this->assertFalse(\Setting::has('bar'));
-        $this->assertFalse(\Setting::has('bar.baz'));
+        $this->assertFalse(Setting::has('system.foo'));
+        $this->assertFalse(Setting::has('bar'));
+        $this->assertFalse(Setting::has('bar.baz'));
     }
 
     // ---------------

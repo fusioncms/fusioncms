@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Fieldset;
-use App\Models\Extension;
 use Illuminate\Support\Str;
+use Fusion\Models\Fieldset;
+use Fusion\Models\Extension;
 use Tests\Foundation\TestCase;
 use Tests\Mocks\ExtensionBase;
 use Illuminate\Auth\AuthenticationException;
@@ -93,7 +93,7 @@ class ExtensionTest extends TestCase
 
     /**
      * [mock helper]
-     * 
+     *
      * @param  array  $data
      * @return void
      */

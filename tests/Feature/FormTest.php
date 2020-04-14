@@ -1,17 +1,9 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
-use App\Models\Form;
+use Fusion\Models\Form;
 use Facades\FormFactory;
 use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
@@ -35,7 +27,7 @@ class FormTest extends TestCase
      * @group form
      */
     public function a_user_with_permissions_can_create_a_form()
-    {        
+    {
         $attributes = factory(Form::class)->make()->toArray();
 
         $this
@@ -101,7 +93,7 @@ class FormTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_forms()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/forms', []);
@@ -237,7 +229,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Submitted response to {$form->name} (anonymous@example.com)",
             'subject_id'  => $response->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->user->id,
         ]);
     }
@@ -441,7 +433,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Created form ({$form->name})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }
@@ -466,7 +458,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Updated form ({$attributes['name']})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }
@@ -487,7 +479,7 @@ class FormTest extends TestCase
         $this->assertDatabaseHas('activity_log', [
             'description' => "Deleted form ({$form->name})",
             'subject_id'  => $form->id,
-            'causer_type' => 'App\Models\User',
+            'causer_type' => 'Fusion\Models\User',
             'causer_id'   => $this->admin->id,
         ]);
     }

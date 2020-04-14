@@ -1,18 +1,10 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
-use App\Models\File;
-use App\Models\Directory;
+use Fusion\Models\File;
+use Fusion\Models\Directory;
 use Illuminate\Support\Str;
 use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;
@@ -83,7 +75,7 @@ class FileTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_files()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/files', []);
@@ -176,7 +168,7 @@ class FileTest extends TestCase
             ->json('GET', '/api/files/' . $file->uuid)
             ->assertStatus(200)
             ->getData()->data;
-        
+
         $this->assertEquals($payload->name, $file->name);
     }
 
@@ -384,7 +376,7 @@ class FileTest extends TestCase
         // forward sort
         $response = $this->json('GET', '/api/files?sort=updated_at');
         $data     = collect($response->getData()->data)->pluck('name')->all();
-        
+
         $this->assertSame(['lorem', 'dolor', 'ipsum', 'amet', 'do', 'sit'], $data);
 
         // reverse sort
@@ -412,13 +404,13 @@ class FileTest extends TestCase
         // filter by image
         $response = $this->json('GET', '/api/files?filter[display]=images');
         $data     = collect($response->getData()->data)->pluck('name')->all();
-        
+
         $this->assertSame([ 'ipsum', 'lorem' ], $data);
 
         // filter by video
         $response = $this->json('GET', '/api/files?filter[display]=videos');
         $data     = collect($response->getData()->data)->pluck('name')->all();
-        
+
         $this->assertSame([ 'sit' ], $data);
     }
 }

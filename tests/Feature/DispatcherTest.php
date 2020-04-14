@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -40,6 +32,8 @@ class DispatcherTest extends TestCase
     /** @test */
     public function as_an_unauthorized_guest_the_dispatcher_should_resolve_requests_when_explicitly_authorized()
     {
+        // $this->actingAs($this->admin, 'api');
+
         $response = fusion()->authorize()->get('users/1');
 
         $this->assertNotNull($response);

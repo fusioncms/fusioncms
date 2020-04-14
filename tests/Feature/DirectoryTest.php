@@ -124,7 +124,7 @@ class DirectoryTest extends TestCase
     public function a_user_without_permissions_cannot_create_new_directories()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('POST', '/api/directories', []);
@@ -216,7 +216,7 @@ class DirectoryTest extends TestCase
 
         $response = $this->json('GET', '/api/directories?filter[parent_id]=1');
         $data     = collect($response->getData()->data);
-        
+
         $this->assertCount(2, $data);
         $this->assertCount(1, $data->where('name', 'Ipsum'));
         $this->assertCount(1, $data->where('name', 'Sit'));
@@ -267,9 +267,9 @@ class DirectoryTest extends TestCase
     public function a_directory_cannot_be_moved_to_another_directory_with_a_conflicting_slug()
     {
         // Create two directories (A1/A2) w/ same slug in diff folders
-        $directoryA1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a']);
-        $directoryA2 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
-        $directoryB1 = factory(\App\Models\Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
+        $directoryA1 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-a']);
+        $directoryA2 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-a', 'parent_id' => $directoryA1->id]);
+        $directoryB1 = factory(\Fusion\Models\Directory::class)->create(['slug' => 'folder-b', 'parent_id' => $directoryA1->id]);
 
         // Attempt to combine directories in same location
         $this

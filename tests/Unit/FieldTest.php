@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Field;
+use Fusion\Models\Field;
 use Facades\FieldFactory;
 use Facades\SectionFactory;
 use Tests\Foundation\TestCase;
@@ -26,7 +26,7 @@ class FieldTest extends TestCase
 
         $section = SectionFactory::times(1)->withoutFields()->create();
         $field   = FieldFactory::withSection($section)->create();
-        
+
         $attributes       = collect(DB::table('fields')->first())->toArray();
         $attributes['id'] = null;
 

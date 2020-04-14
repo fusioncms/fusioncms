@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -38,7 +30,7 @@ class PageTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->matrix       = \Facades\MatrixFactory::withName('Page')->asPage()->withFieldset($this->fieldset)->withRoute('{slug}')->withTemplate('index')->create();
-        $this->model        = (new \App\Services\Builders\Page($this->matrix->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Page($this->matrix->handle))->make();
     }
 
     /**
@@ -90,7 +82,7 @@ class PageTest extends TestCase
     public function a_user_without_permissions_cannot_update_a_page()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
             ->be($this->user, 'api')
             ->json('PATCH', '/api/pages/' . $this->matrix->id, []);
@@ -218,12 +210,12 @@ class PageTest extends TestCase
 
     //
     // ------------------------------------------------
-    // 
+    //
 
     /**
      * Returns new entry w/ attributes
      * [Helper]
-     * 
+     *
      * @param  array  $overrides
      * @return array
      */

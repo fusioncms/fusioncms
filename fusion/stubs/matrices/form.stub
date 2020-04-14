@@ -1,0 +1,112 @@
+<?php
+
+
+namespace Fusion\Models\Forms;
+
+use Fusion\Models\Form;
+use Fusion\Models\Field;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+
+class {class} extends Model
+{
+    use LogsActivity;
+
+	/**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'form_{handle}';
+
+    /**
+     * The attributes that should be appended to the model.
+     *
+     * @var array
+     */
+    protected $appends = ['identifiable_email_address', 'identifiable_ip_address'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = {casts};
+
+    /**
+     * Mass assignment protection.
+     *
+     * @var array
+     */
+    protected $fillable = {fillable};
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = {dates};
+
+    /**
+     * Get the Form relationship.
+     *
+     * @return mixed
+     */
+    public function form()
+    {
+        return $this->belongsTo(Form::class);
+    }
+
+    /**
+     * Get all of the fields for the form.
+     */
+    public function getFieldsAttribute()
+    {
+        return $this->form->fieldset->fields;
+    }
+
+    public function getIdentifiableEmailAddressAttribute($email)
+    {
+        if ($this->form->collect_email_addresses and ! empty($email)) {
+            return $email;
+        }
+
+        return 'anonymous@example.com';
+    }
+
+    public function getIdentifiableIpAddressAttribute($ipAddress)
+    {
+        if ($this->form->collect_ip_addresses and ! empty($ipAddress)) {
+            return $ipAddress;
+        }
+
+        return false;
+    }
+
+    {relationships}
+
+    /**
+     * Tap into activity before persisting to database.
+     *
+     * @param  \Spatie\Activitylog\Models\Activity $activity
+     * @param  string   $eventName
+     * @return void
+     */
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $response   = $activity->subject;
+        $form       = $response->form;
+        $action     = ucfirst($eventName);
+        $modelName  = strtolower(Str::singular($form->name));
+        $properties = ['icon' => $form->icon];
+
+        if ($eventName !== 'deleted') {
+            $properties['link'] = "forms/{$form->slug}/responses/{$response->id}/edit";
+        }
+
+        $activity->description = "{$action} {$modelName} form response ({$response->name})";
+        $activity->properties  = $properties;
+    }
+}

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use Fusion\Models\User;
 use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
@@ -127,7 +127,7 @@ class PasswordTest extends TestCase
 	{
 		$this->attributes['password'] = ($password = 'short');
 		$this->attributes['password_confirmation'] = $password;
-	
+
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
@@ -148,7 +148,7 @@ class PasswordTest extends TestCase
 	{
 		$this->attributes['password'] = ($password = 'ABC123@$#');
 		$this->attributes['password_confirmation'] = $password;
-	
+
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
@@ -169,7 +169,7 @@ class PasswordTest extends TestCase
 	{
 		$this->attributes['password'] = ($password = 'abc123@$#');
 		$this->attributes['password_confirmation'] = $password;
-	
+
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
@@ -190,7 +190,7 @@ class PasswordTest extends TestCase
 	{
 		$this->attributes['password'] = ($password = 'ABCabc@$#');
 		$this->attributes['password_confirmation'] = $password;
-	
+
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
@@ -211,7 +211,7 @@ class PasswordTest extends TestCase
 	{
 		$this->attributes['password'] = ($password = 'ABCabc123');
 		$this->attributes['password_confirmation'] = $password;
-	
+
 		$this
 			->be($this->admin, 'api')
 			->json('PATCH', '/api/users/' . $this->user->id, $this->attributes)
@@ -231,7 +231,7 @@ class PasswordTest extends TestCase
 	public function a_user_with_permissions_can_update_a_users_password()
 	{
 		$oldPassword = $this->user->password;
-		
+
 		$this
 			->be($this->admin, 'api')
 			->json('POST', "/api/users/{$this->user->id}/password", [
@@ -256,7 +256,7 @@ class PasswordTest extends TestCase
 	public function a_user_with_permissions_can_update_a_user_password()
 	{
 		$oldPassword = $this->user->password;
-		
+
 		$this
 			->be($this->admin, 'api')
 			->json('POST', "/api/users/{$this->user->id}/password", [
@@ -295,9 +295,9 @@ class PasswordTest extends TestCase
     public function a_user_without_permissions_cannot_update_a_user_password()
     {
         $this->expectException(AuthorizationException::class);
-        
+
         $this
         	->be($this->user, 'api')
 			->json('POST', "/api/users/{$this->admin->id}/password", []);
-    }       
+    }
 }

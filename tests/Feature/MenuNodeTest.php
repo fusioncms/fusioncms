@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -34,7 +26,7 @@ class MenuNodeTest extends TestCase
         $this->fieldContent = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
         $this->fieldset     = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
         $this->menu         = \Facades\MenuFactory::withName('Header')->withFieldset($this->fieldset)->create();
-        $this->model        = (new \App\Services\Builders\Menu($this->menu->handle))->make();
+        $this->model        = (new \Fusion\Services\Builders\Menu($this->menu->handle))->make();
     }
 
     /**
@@ -146,12 +138,12 @@ class MenuNodeTest extends TestCase
 
     //
     // ------------------------------------------------
-    // 
+    //
 
     /**
      * Returns new menu node w/ attributes
      * [Helper]
-     * 
+     *
      * @param  array  $overrides
      * @return array
      */
@@ -166,7 +158,7 @@ class MenuNodeTest extends TestCase
             ->json('POST', '/api/menus/' . $this->menu->id . '/nodes', $attributes)
             ->getData()
             ->data;
-        
+
         return [$node, $attributes];
     }
 }

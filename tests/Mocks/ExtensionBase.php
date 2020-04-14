@@ -2,8 +2,8 @@
 
 namespace Tests\Mocks;
 
-use App\Concerns\HasExtension;
-use App\Database\Eloquent\Model;
+use Fusion\Concerns\HasExtension;
+use Fusion\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
 class ExtensionBase extends Model

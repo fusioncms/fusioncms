@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Feature;
 
@@ -35,7 +27,7 @@ class BackupTest extends TestCase
 
         // Establish fake db connection..
         config(['backup.backup.source.databases' => ['sqlite']]);
-        
+
         // Establish backup `backup-temp`..
         config(['backup.backup.temporary_directory' => Storage::disk('temp')->path('backup-temp')]);
 
@@ -65,7 +57,7 @@ class BackupTest extends TestCase
         	->json('POST', '/api/backups')
         	->assertStatus(200);
 
-        Bus::assertDispatched(\App\Jobs\Backups\BackupRun::class);
+        Bus::assertDispatched(\Fusion\Jobs\Backups\BackupRun::class);
 	}
 
 	/**
@@ -82,7 +74,7 @@ class BackupTest extends TestCase
         $response = $this->json('POST', '/api/backups')
         	->assertStatus(422);
 
-        Bus::assertNotDispatched(\App\Jobs\Backups\BackupRun::class);
+        Bus::assertNotDispatched(\Fusion\Jobs\Backups\BackupRun::class);
 	}
 
 	/**
@@ -95,7 +87,7 @@ class BackupTest extends TestCase
 		Event::fake();
 
 		// Create new backup..
-		(new \App\Jobs\Backups\BackupRun)->handle();
+		(new \Fusion\Jobs\Backups\BackupRun)->handle();
 
 		// ...assert cleanup was successful.
 		Event::assertDispatched(\Spatie\Backup\Events\CleanupWasSuccessful::class);
@@ -116,7 +108,7 @@ class BackupTest extends TestCase
 		Event::fake();
 
 		// Create new backup..
-		(new \App\Jobs\Backups\BackupRun)->handle();
+		(new \Fusion\Jobs\Backups\BackupRun)->handle();
 
 		// ...assert backup was successful.
 		Event::assertDispatched(\Spatie\Backup\Events\BackupWasSuccessful::class, function($ev) {
@@ -127,7 +119,7 @@ class BackupTest extends TestCase
 			if ($zipArchive->open($backupPath) === true) {
 				$contents  = $zipArchive->getFromName(ltrim(Storage::disk('temp')->path('env.json'), '/'));
 				$variables = json_decode($contents, true);
-				
+
 				foreach(config('backup.backup.source.env') as $key) {
 					if ($variables[$key] != env($key)) {
 						return false;
@@ -150,7 +142,7 @@ class BackupTest extends TestCase
 		Event::fake();
 
 		// Create new backup..
-		(new \App\Jobs\Backups\BackupRun)->handle();
+		(new \Fusion\Jobs\Backups\BackupRun)->handle();
 
 		// Alter one of the test files..
 		// Delete another test file..
@@ -162,12 +154,12 @@ class BackupTest extends TestCase
 			$backup = $ev->backupDestination->newestBackup();
 
 			// Restore backup..
-			(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
+			(new \Fusion\Jobs\Backups\RestoreFromBackup($backup))->handle();
 
 			// Assert events were dispatched..
-			Event::assertDispatched(\App\Events\Backups\RestoreManifestWasCreated::class);
-			Event::assertDispatched(\App\Events\Backups\BackupExtractionSuccessful::class);
-			Event::assertDispatched(\App\Events\Backups\FileRestoreSuccessful::class, function($ev) {
+			Event::assertDispatched(\Fusion\Events\Backups\RestoreManifestWasCreated::class);
+			Event::assertDispatched(\Fusion\Events\Backups\BackupExtractionSuccessful::class);
+			Event::assertDispatched(\Fusion\Events\Backups\FileRestoreSuccessful::class, function($ev) {
 				foreach ($ev->filesToCopy as $file) {
 					if (Storage::disk('public')->exists('files/' . basename($file['target']))) {
 						$this->assertEquals(
@@ -197,7 +189,7 @@ class BackupTest extends TestCase
 
 
 		// Create new backup..
-		(new \App\Jobs\Backups\BackupRun)->handle();
+		(new \Fusion\Jobs\Backups\BackupRun)->handle();
 
 		// Make edit to the .env.testing file..
 		// So we can restore the variables upon restoration..
@@ -212,7 +204,7 @@ class BackupTest extends TestCase
 			$backup = $ev->backupDestination->newestBackup();
 
 			// Restore backup..
-			(new \App\Jobs\Backups\RestoreFromBackup($backup))->handle();
+			(new \Fusion\Jobs\Backups\RestoreFromBackup($backup))->handle();
 
 			$envContents = File::get(app()->environmentFilePath());
 			$matches     = [];
@@ -237,17 +229,17 @@ class BackupTest extends TestCase
 
 		//TODO: need `$backup` to restore from
 
-		// \App\Models\User::find(2)->delete();
+		// \Fusion\Models\User::find(2)->delete();
 		// $this->assertDatabaseMissing('users', ['email' => 'guest@example.com']);
 
 		// // Restore from backup...
 		// (new RestoreFromBackup($backup))->handle();
 
 		// // ...assert cleanup was successful.
-		// Event::assertDispatched(\App\Events\Backups\RestoreManifestWasCreated::class);
-		// Event::assertDispatched(\App\Events\Backups\BackupExtractionSuccessful::class);
-		// Event::assertDispatched(\App\Events\Backups\DatabaseRestoreSuccessful::class);
-		// Event::assertDispatched(\App\Events\Backups\FileRestoreSuccessful::class);
+		// Event::assertDispatched(\Fusion\Events\Backups\RestoreManifestWasCreated::class);
+		// Event::assertDispatched(\Fusion\Events\Backups\BackupExtractionSuccessful::class);
+		// Event::assertDispatched(\Fusion\Events\Backups\DatabaseRestoreSuccessful::class);
+		// Event::assertDispatched(\Fusion\Events\Backups\FileRestoreSuccessful::class);
 
 		// $this->assertDatabaseHas('users', ['email' => 'guest@example.com']);
 	}

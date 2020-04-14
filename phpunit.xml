@@ -24,11 +24,9 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">./fusion</directory>
             <directory suffix=".php">./modules</directory>
 
             <exclude>
-                <directory suffix=".blade.php">./fusion</directory>
                 <directory suffix=".blade.php">./modules</directory>
                 <directory suffix=".php">./modules/*/Tests</directory>
             </exclude>
@@ -39,6 +37,7 @@
     </logging> -->
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="loremipsumdolorsitametconsectetu"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>

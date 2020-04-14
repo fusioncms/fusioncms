@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the FusionCMS application.
- *
- * (c) efelle creative <appdev@efelle.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -171,24 +162,14 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        /*
-         * Caffeinated Service Providers...
-         */
-        Caffeinated\Bonsai\BonsaiServiceProvider::class,
-        Caffeinated\Flash\FlashServiceProvider::class,
-        Caffeinated\Shinobi\ShinobiServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        App\Providers\BladeServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\FieldtypeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ThemeServiceProvider::class,
-        App\Providers\SettingsServiceProvider::class,
 
         /*
          * Third-Party Vendor Service Providers...
@@ -240,11 +221,6 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
-
-        'Bonsai'       => Caffeinated\Bonsai\Facades\Bonsai::class,
-        'Flash'        => Caffeinated\Flash\Facades\Flash::class,
-        'Shinobi'      => Caffeinated\Shinobi\Facades\Shinobi::class,
-        'Setting'     => App\Support\Facades\Setting::class
     ],
 
 ];
