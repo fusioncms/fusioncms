@@ -4,14 +4,14 @@ namespace App\Concerns;
 
 use App\Models\Extension;
 use Illuminate\Support\Str;
-use App\Services\Relations\ExtensionRelation;
+use App\Services\Relations\HasOneExtension;
 
 trait HasExtension
 {
     public static function bootHasExtension()
     {
         // Update extension fields with request..
-        static::updating(function ($model) {
+        static::updated(function ($model) {
             $model->extension->update(
                 collect($model->fields)->mapWithKeys(function($field) {
                     return [$field->handle => request()->get($field->handle, $field->default)];
@@ -23,11 +23,11 @@ trait HasExtension
     /**
      * Get extending relationship.
      * 
-     * @return \App\Services\Relations\ExtensionRelation
+     * @return \App\Services\Relations\HasOneExtension
      */
     public function extension()
     {
-        return new ExtensionRelation($this);
+        return new HasOneExtension($this);
     }
 
     /**

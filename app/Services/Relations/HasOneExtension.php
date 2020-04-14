@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ExtensionRelation extends HasOne
+class HasOneExtension extends HasOne
 {
 	/**
 	 * Constructor.

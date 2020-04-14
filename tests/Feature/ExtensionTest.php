@@ -82,14 +82,25 @@ class ExtensionTest extends TestCase
      */
     public function updating_extended_model_will_also_update_extending_fields()
     {
-        request()->merge([
-            'name'    => ($newName    = 'New Name'),
-            'content' => ($newContent = 'New Content')
+        $this->newUpdateRequest([
+            'name'    => 'New Name',
+            'content' => 'New Content'
         ]);
 
-        $this->model->update(request()->all());
+        $this->assertDatabaseHas($this->model->extension->getTable(), ['content' => 'New Content']);
+        $this->assertDatabaseHas($this->model->getTable(), ['name' => 'New Name']);
+    }
 
-        $this->assertDatabaseHas($this->model->extension->getTable(), ['content' => $newContent]);
-        $this->assertDatabaseHas($this->model->getTable(), ['name' => $newName]);
+    /**
+     * [mock helper]
+     * 
+     * @param  array  $data
+     * @return void
+     */
+    private function newUpdateRequest($data = [])
+    {
+        request()->merge($data);
+
+        $this->model->update(request()->all());
     }
 }
