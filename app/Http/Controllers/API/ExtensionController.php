@@ -39,21 +39,6 @@ class ExtensionController extends Controller
     }
 
     /**
-     * Display the specified resource by slug value.
-     *
-     * @param  string  $slug
-     * @return \App\Http\Resources\ExtensionResource
-     */
-    public function slug($slug)
-    {
-        $this->authorize('matrices.show');
-
-        $extension = Extension::where('slug', $slug)->firstOrFail();
-
-        return new ExtensionResource($extension);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\ExtensionRequest  $request
