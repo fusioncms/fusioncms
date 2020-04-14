@@ -11,9 +11,11 @@
             <Redactor
                 :id="'redactor-' + name"
                 :placeholder="placeholder"
-                :value="value"
                 :config="config"
-                :rows="rows"/>
+                :rows="rows"
+                :value="value"
+                @input="$emit('input', $event)">
+            </Redactor>
         </div>
 
         <div class="form__control--meta" v-if="help || errorMessage">
@@ -55,7 +57,7 @@
 
             config: {
                 type: Object,
-                default: function() {
+                default() {
                     return {
                         toolbarFixed: false,
                         maxHeight: '500px',

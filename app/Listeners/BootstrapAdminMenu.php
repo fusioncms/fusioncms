@@ -133,6 +133,11 @@ class BootstrapAdminMenu
                 'icon' => 'hashtag',
             ]);
 
+            $menu->configure->add('Extensions')->data([
+                'to'   => '/extensions',
+                'icon' => 'seedling',
+            ]);
+
             $menu->configure->add('Taxonomy')->data([
                 'to'   => '/taxonomies',
                 'icon' => 'sitemap',

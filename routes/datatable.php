@@ -34,3 +34,4 @@ Route::get('/taxonomies/{taxonomy}', 'TermController@index');
 Route::get('/matrices', 'MatrixController@index');
 Route::get('/matrices/{matrix}/fields', 'MatrixFieldController@index');
 Route::get('/collections/{collection}', 'CollectionController@index');
+Route::get('/extensions', 'ExtensionController@index');
