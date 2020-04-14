@@ -19,7 +19,7 @@
         </testsuite>
 
         <testsuite name="Add-on Modules">
-            <directory suffix="Test.php">./modules</directory>
+            <directory suffix="Test.php">./modules/*/tests</directory>
         </testsuite>
     </testsuites>
     <filter>

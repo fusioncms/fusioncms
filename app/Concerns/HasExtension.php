@@ -11,11 +11,11 @@ trait HasExtension
     public static function bootHasExtension()
     {
         // Update extension fields with request..
-        static::updated(function ($model) {
+        static::updating(function ($model) {
             $model->extension->update(
                 collect($model->fields)->mapWithKeys(function($field) {
                     return [$field->handle => request()->get($field->handle, $field->default)];
-                })
+                })->all()
             );
         });
     }
