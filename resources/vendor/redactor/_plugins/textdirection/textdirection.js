@@ -14,6 +14,7 @@
             this.lang = app.lang;
             this.block = app.block;
             this.toolbar = app.toolbar;
+            this.selection = app.selection;
         },
         // public
         start: function()
@@ -29,7 +30,14 @@
         },
         set: function(type)
 		{
-            this.block.add({ attr: { dir: type }});
+    		var block = this.selection.getBlock();
+    		if (block && block.tagName === 'LI') {
+        		var list = $R.dom(block).parents('ul, ol', '.redactor-in').last();
+        		this.block.add({ attr: { dir: type }}, false, list);
+    		}
+            else {
+                this.block.add({ attr: { dir: type }});
+            }
 		}
     });
 })(Redactor);

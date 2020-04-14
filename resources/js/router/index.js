@@ -166,6 +166,24 @@ const router = new Router({
             }
         },
         {
+            path: '/extensions',
+            component: () => import('../views/Extensions/Index'),
+            name: 'extensions',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
+            path: '/extensions/:extension/edit',
+            component: () => import('../views/Extensions/Edit'),
+            name: 'extensions.edit',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+        {
             path: '/pages/:page',
             component: () => import('../views/Pages/Edit'),
             name: 'pages.edit',

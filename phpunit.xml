@@ -19,20 +19,14 @@
         </testsuite>
 
         <testsuite name="Add-on Modules">
-            <directory suffix="Test.php">./modules</directory>
-        </testsuite>
-
-        <testsuite name="Fusion">
-            <directory suffix="Test.php">./fusion/tests</directory>
+            <directory suffix="Test.php">./modules/*/tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">./fusion</directory>
             <directory suffix=".php">./modules</directory>
 
             <exclude>
-                <directory suffix=".blade.php">./fusion</directory>
                 <directory suffix=".blade.php">./modules</directory>
                 <directory suffix=".php">./modules/*/Tests</directory>
             </exclude>

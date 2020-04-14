@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Models;
 
 use Fusion\Database\Eloquent\Model;

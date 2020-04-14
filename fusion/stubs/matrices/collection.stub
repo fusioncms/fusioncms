@@ -6,14 +6,13 @@ namespace Fusion\Models\Collections;
 use Fusion\Models\Field;
 use Fusion\Models\Matrix;
 use Illuminate\Support\Str;
-use Fusion\Concerns\IsSearchable;
-use Illuminate\Database\Eloquent\Model;
+use Fusion\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use IsSearchable, LogsActivity;
+    use LogsActivity;
 
 	/**
      * The table associated with the model.

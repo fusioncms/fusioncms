@@ -1,13 +1,13 @@
 <template>
-	<p-dropdown>
-		<fa-icon class="fa-fw mr-1" :icon="['fas', sortIcon(sort)]"></fa-icon>
-		{{ options[sort]  }}
+	<p-dropdown id="sort-filters">
+		<fa-icon class="icon" :icon="['fas', sortIcon(sort)]"></fa-icon>
+		<span class="hidden md:inline">{{ options[sort] }}</span>
 		
-		<template slot="options">
-			<p-dropdown-item v-for="(value, key) in options" class="w-48" :key="key" @click.prevent="sortBy(key)">
-				<fa-icon class="fa-fw mr-1" :icon="['fas', sortIcon(key)]"></fa-icon>
+		<template v-slot:menu>
+			<p-dropdown-link v-for="(value, key) in options" :key="key" @click.prevent="sortBy(key)">
+				<fa-icon class="icon" :icon="['fas', sortIcon(key)]"></fa-icon>
 				{{ value }}
-			</p-dropdown-item>
+			</p-dropdown-link>
 		</template>
 	</p-dropdown>
 </template>
@@ -21,7 +21,6 @@
 		data() {
 			return {
 				options: {
-					id: 'ID',
 					name: 'Name',
 					email: 'Email',
 					created_at: 'Creation Date'

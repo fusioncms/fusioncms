@@ -24,7 +24,7 @@
 .redactor-focus,
 .redactor-focus:focus {
     &.redactor-styles-on {
-        // border-color: #82b7ec !important;
+        border-color: #82b7ec !important;
     }
 }
 .redactor-over:hover {
@@ -62,10 +62,17 @@
     h5,
     h6,
     p,
-	blockquote {
+	blockquote,
+	div[data-redactor-tag=br],
+	div[data-redactor-tag=tbr] {
         &:empty {
     		min-height: $base-line-ems;
 		}
+	}
+	div[data-redactor-tag=br],
+	div[data-redactor-tag=tbr] {
+        margin-top: 0;
+        margin-bottom: 0;
 	}
 	strong, b, em, i, span, sup, sub, u, ins {
     	&:empty {
@@ -105,6 +112,9 @@
             background: rgba(0, 0, 0, .1);
         }
     }
+}
+.redactor-script-tag {
+    display: none !important;
 }
 
 // Components

@@ -4,14 +4,14 @@
 namespace Fusion\Http\Controllers\DataTable;
 
 use Fusion\Models\User;
-use Illuminate\Http\Request;
+use Fusion\Models\Role;
 use Fusion\Http\Controllers\DataTableController;
 
 class UserController extends DataTableController
 {
     public function builder()
     {
-        if (request()->route() and request()->route()->hasParameter('role')) {
+        if (request()->route('role')) {
             return User::whereHas('roles', function ($query) {
                 $query->where('slug', request()->route('role'));
             });

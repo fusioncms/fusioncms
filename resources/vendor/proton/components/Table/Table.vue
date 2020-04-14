@@ -143,16 +143,12 @@
 
         computed: {
             columns() {
-                let columns = []
-
-                _.forEach(this.displayable, (option) => {
+                return _.map(this.displayable, (option) => {
                     columns.push({
                         'label': this.column_names[option],
                         'value': option,
                     })
                 })
-
-                return columns
             },
 
             hasActions() {
@@ -210,7 +206,7 @@
                 this.pagination.currentPage = 1
 
                 this.getRecords()
-            }, 150)
+            }, 300)
         },
 
         methods: {
@@ -234,12 +230,17 @@
             },
 
             getQueryParameters() {
-                return queryString.stringify({
-                    page: this.pagination.currentPage,
-                    orderBy: this.sort.key,
-                    orderDirection: this.sort.order,
-                    search: this.search
-                })
+                let params = {
+                    sort:    (this.sort.order === 'desc' ? '-' : '') + this.sort.key,
+                    page:    this.pagination.currentPage,
+                    perPage: this.pagination.perPage,
+                }
+
+                if (this.search !== '') {
+                    params['filter[search]'] = this.search
+                }
+
+                return queryString.stringify(params)
             },
 
             sortRecordsBy(column, order = false) {

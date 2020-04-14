@@ -1,9 +1,7 @@
 <?php
 
-
 namespace Fusion\Models;
 
-use Fusion\Concerns\IsSearchable;
 use Fusion\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Fusion\Concerns\HasDynamicRelationships;
@@ -11,7 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Fieldset extends Model
 {
-    use HasDynamicRelationships, IsSearchable, LogsActivity;
+    use HasDynamicRelationships, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.

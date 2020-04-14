@@ -7,15 +7,14 @@ use Fusion\Models\Menu;
 use Fusion\Models\Field;
 use Fusion\Concerns\HasOrder;
 use Illuminate\Support\Str;
-use Fusion\Concerns\IsSearchable;
-use Illuminate\Database\Eloquent\Model;
+use Fusion\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class {class} extends Model
 {
-    use HasOrder, IsSearchable, LogsActivity;
+    use HasOrder, LogsActivity;
 
 	/**
      * The table associated with the model.

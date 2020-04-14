@@ -9,7 +9,6 @@ use ReflectionClass;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Fusion\Concerns\IsSearchable;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Mailable extends Model
 {
-    use IsSearchable, LogsActivity;
+    use LogsActivity;
 
 	/**
      * The attributes that are fillable via mass assignment.

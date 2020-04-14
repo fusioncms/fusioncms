@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Fusion\Models;
 
 use Illuminate\Support\Str;
 use Fusion\Concerns\HasFieldset;
-use Fusion\Concerns\IsSearchable;
 use Fusion\Concerns\CachesQueries;
 use Fusion\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
@@ -13,7 +11,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Matrix extends Model
 {
-    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
+    use CachesQueries, HasFieldset, LogsActivity;
 
     protected $with = ['fieldsets'];
 

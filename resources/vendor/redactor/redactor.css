@@ -23,11 +23,11 @@
 
 .redactor-fadeIn {
   opacity: 0;
-  animation: fadeIn .5s ease-in-out; }
+  animation: fadeIn .2s ease-in-out; }
 
 .redactor-fadeOut {
   opacity: 1;
-  animation: fadeOut .5s ease-in-out; }
+  animation: fadeOut .2s ease-in-out; }
 
 @font-face {
   font-family: 'Redactor';
@@ -228,8 +228,15 @@
 .redactor-in h5:empty,
 .redactor-in h6:empty,
 .redactor-in p:empty,
-.redactor-in blockquote:empty {
+.redactor-in blockquote:empty,
+.redactor-in div[data-redactor-tag=br]:empty,
+.redactor-in div[data-redactor-tag=tbr]:empty {
   min-height: 1.5em; }
+
+.redactor-in div[data-redactor-tag=br],
+.redactor-in div[data-redactor-tag=tbr] {
+  margin-top: 0;
+  margin-bottom: 0; }
 
 .redactor-in strong:empty, .redactor-in b:empty, .redactor-in em:empty, .redactor-in i:empty, .redactor-in span:empty, .redactor-in sup:empty, .redactor-in sub:empty, .redactor-in u:empty, .redactor-in ins:empty {
   display: inline-block;
@@ -261,6 +268,9 @@
     height: 3px;
     border: none;
     background: rgba(0, 0, 0, 0.1); }
+
+.redactor-script-tag {
+  display: none !important; }
 
 .redactor-component {
   position: relative; }
@@ -361,7 +371,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(16, 16, 18, 0.18); }
+  background-color: rgba(16, 16, 18, 0.3); }
   #redactor-overlay > .redactor-close {
     position: fixed;
     top: 1rem;
@@ -394,7 +404,8 @@
   position: absolute;
   content: attr(placeholder);
   color: rgba(0, 0, 0, 0.4);
-  font-weight: normal; }
+  font-weight: normal;
+  cursor: text; }
 
 .redactor-in figcaption[placeholder]:empty:before {
   content: attr(placeholder);
@@ -638,6 +649,7 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   width: 264px;
+  min-height: 40px;
   max-height: 250px;
   margin: 0;
   margin-top: -1px;
@@ -731,7 +743,7 @@
   font-weight: bold;
   line-height: 24px; }
 
-#redactor-modal {
+.redactor-modal-box {
   position: fixed;
   top: 0;
   left: 0;
@@ -1063,6 +1075,16 @@
       margin: 0 1.5em 0 0; }
     .redactor-styles[dir="rtl"] figcaption {
       text-align: right; }
+  .redactor-styles ul[dir="rtl"],
+  .redactor-styles ul[dir="rtl"] ul,
+  .redactor-styles ul[dir="rtl"] ol,
+  .redactor-styles ol[dir="rtl"],
+  .redactor-styles ol[dir="rtl"] ul,
+  .redactor-styles ol[dir="rtl"] ol {
+    margin: 0 1.5em 0 0; }
+  .redactor-styles ul[dir="rtl"] li,
+  .redactor-styles ol[dir="rtl"] li {
+    text-align: right; }
   .redactor-styles a,
   .redactor-styles a:hover {
     color: #3397ff; }
@@ -1265,7 +1287,7 @@
     position: absolute;
     font-size: 10px;
     font-weight: normal;
-    opacity: .3;
+    opacity: .5;
     left: -26px;
     top: 50%;
     margin-top: -7px;

@@ -51,12 +51,13 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        \Fusion\Models\Menu::observe(\Fusion\Observers\MenuObserver::class);
         \Fusion\Models\Form::observe(\Fusion\Observers\FormObserver::class);
         \Fusion\Models\Field::observe(\Fusion\Observers\FieldObserver::class);
         \Fusion\Models\Matrix::observe(\Fusion\Observers\MatrixObserver::class);
         \Fusion\Models\Section::observe(\Fusion\Observers\SectionObserver::class);
         \Fusion\Models\Fieldset::observe(\Fusion\Observers\FieldsetObserver::class);
         \Fusion\Models\Taxonomy::observe(\Fusion\Observers\TaxonomyObserver::class);
-        \Fusion\Models\Menu::observe(\Fusion\Observers\MenuObserver::class);
+        \Fusion\Models\Extension::observe(\Fusion\Observers\ExtensionObserver::class);
     }
 }

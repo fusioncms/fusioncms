@@ -39,6 +39,17 @@
     		text-align: right;
 		}
 	}
+	ul[dir="rtl"],
+	ol[dir="rtl"] {
+    	&,
+    	& ul,
+    	& ol {
+        	margin: 0 $base-line-ems 0 0;
+    	}
+		li {
+			text-align: right;
+		}
+	}
     a,
     a:hover {
         color: $color-link;

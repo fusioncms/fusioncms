@@ -1,9 +1,7 @@
 <?php
 
-
 namespace Fusion\Models;
 
-use Fusion\Concerns\IsSearchable;
 use Fusion\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -13,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model implements RoleContract
 {
-    use HasPermissions, IsSearchable, LogsActivity;
+    use HasPermissions, LogsActivity;
 
     /**
      * The attributes that are fillable via mass assignment.

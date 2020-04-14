@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Models;
 
 use Fusion\Models\Import;

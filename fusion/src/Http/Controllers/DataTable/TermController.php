@@ -10,13 +10,9 @@ class TermController extends DataTableController
 {
     public function builder()
     {
-        $taxonomy = Taxonomy::find(request()->route('taxonomy'));
-
-        if ($taxonomy) {
-            return $taxonomy->getBuilder()->query();
-        }
-
-        return Taxonomy::query();
+        return Taxonomy::findOrFail(request()->route('taxonomy'))
+            ->getBuilder()
+            ->query();
     }
 
     public function getDisplayableColumns()
@@ -46,8 +42,8 @@ class TermController extends DataTableController
     public function getCustomColumnNames()
     {
         return [
-            'name'   => 'Name',
-            'slug'   => 'Slug',
+            'name' => 'Name',
+            'slug' => 'Slug',
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace Fusion\Models;
 
 use Fusion\Concerns\HasFieldset;
-use Fusion\Concerns\IsSearchable;
 use Fusion\Concerns\CachesQueries;
 use Fusion\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
@@ -11,7 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Menu extends Model
 {
-    use CachesQueries, HasFieldset, IsSearchable, LogsActivity;
+    use CachesQueries, HasFieldset, LogsActivity;
 
     protected $with = ['fieldsets'];
 

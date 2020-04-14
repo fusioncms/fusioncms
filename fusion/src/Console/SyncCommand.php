@@ -14,7 +14,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'fusion:sync';
+    protected $signature = 'fusion:sync {--module=}';
 
     /**
      * The console command description.
@@ -32,6 +32,23 @@ class SyncCommand extends Command
     {
         try {
             dispatch(new \Fusion\Console\Actions\SyncSettings);
+
+            $this->modules()->each(function($item) {
+                // publish assets..
+                $this->symlink(
+                    public_path("modules/{$item['slug']}"),
+                    base_path("modules/{$item['basename']}/public")
+                );
+
+                // publish settings..
+                $this->symlink(
+                    fusion_path("/settings/modules/{$item['slug']}.php"),
+                    base_path("modules/{$item['basename']}/resources/{$item['slug']}.php")
+                );
+
+                // generate extensions..
+                $this->extension($item);
+            });
         } catch (Exception $exception) {
             Log::error($exception->getMessage(), (array) $exception->getTrace()[0]);
 
@@ -43,5 +60,61 @@ class SyncCommand extends Command
         }
 
         return $this->info("\nFusionCMS is now in sync.");
+    }
+
+    /**
+     * Generate Extension for Models using `HasExtension`.
+     *
+     * @param  array  $module
+     * @return void
+     */
+    protected function extension(array $module)
+    {
+        $files = File::files(base_path("modules/{$module['basename']}/src/Models"));
+
+        foreach ($files as $file) {
+            $name   = basename($file->getBaseName(), '.php');
+            $model  = resolve("Modules\\{$module['basename']}\\Models\\{$name}");
+            $traits = class_uses($model);
+
+            if (in_array(HasExtension::class, $traits)) {
+                Extension::firstOrCreate([
+                    'name'   => Str::studly($model->getTable()),
+                    'handle' => $model->getTable(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Get modules for publishing.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function modules()
+    {
+        $modules = $this->laravel['modules']->all();
+
+        if ($this->option('module')) {
+            $modules = $modules->where('slug', $this->option('module'));
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Create symlink.
+     *
+     * @return array
+     */
+    protected function symlink($link, $target)
+    {
+        if (file_exists($link)) {
+            $this->error("The [$link] link already exists.");
+        } else {
+            $this->laravel->make('files')->link($target, $link);
+
+            $this->info("The [$link] link has been connected to [$target].");
+        }
     }
 }

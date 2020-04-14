@@ -1,7 +1,7 @@
 // Z-INDEX
 // ---------------------------------------------------------------------------
-$z-index-toolbar: 0 !default;
-$z-index-toolbar-wrraper-air: 0 !default;
+$z-index-toolbar: 100 !default;
+$z-index-toolbar-wrraper-air: 100 !default;
 $z-index-overlay: 1051 !default;
 $z-index-contextbar: 1051 !default;
 $z-index-dropdown: 1051 !default;
@@ -85,4 +85,4 @@ $table-background-striped: $color-aluminum !default;
 
 // OVERLAY
 // ---------------------------------------------------------------------------
-$overlay-background-color: rgba($color-black, .18) !default;
+$overlay-background-color: rgba($color-black, .3) !default;
