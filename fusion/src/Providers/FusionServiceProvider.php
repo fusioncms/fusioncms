@@ -21,12 +21,6 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerBonsai();
         $this->registerMigrations();
         $this->registerTheme();
-        $this->registerSettings();
-        // $this->registerPublishing();
-
-        $this->app->bind('fusion', function ($app) {
-            return $app->make(\Fusion\Fusion::class);
-        });
     }
 
     /**
@@ -43,8 +37,9 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerConfig();
 
         $this->commands([
-            \Fusion\Console\InstallCommand::class,
             \Fusion\Console\UninstallCommand::class,
+            \Fusion\Console\InstallCommand::class,
+            \Fusion\Console\FlushCommand::class,
             \Fusion\Console\SyncCommand::class,
         ]);
     }
@@ -144,17 +139,6 @@ class FusionServiceProvider extends ServiceProvider
         Route::group($this->routeDatatableConfiguration(), function () use ($path) {
             $this->loadRoutesFrom(realpath($path.'routes/datatable.php'));
         });
-    }
-
-    private function registerSettings()
-    {
-		foreach (scandir(fusion_path('/settings')) as $filename) {
-            $path = fusion_path('/settings/'.$filename);
-
-            if (is_file($path)) {
-                require_once($path);
-            }
-        }
     }
 
     /**

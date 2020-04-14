@@ -41,8 +41,6 @@ class UninstallCommand extends Command
         }
 
         if (! $this->option('force')) {
-            // $this->displayHeader('introduction.stub');
-
             $this->error('Warning! Uninstalling FusionCMS will delete all stored data.');
             $this->error('This is unreversable unless you have manually backed up your installation.');
 

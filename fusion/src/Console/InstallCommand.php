@@ -144,7 +144,7 @@ class InstallCommand extends Command
             }
         }
 
-        // Artisan::call('fusion:settings');
+        Artisan::call('fusion:sync');
         Artisan::call('config:clear');
         Artisan::call('module:optimize');
 

@@ -1,11 +1,10 @@
 <?php
 
-
-namespace Fusion\Console\Commands;
+namespace Fusion\Console;
 
 use Illuminate\Console\Command;
 
-class Flush extends Command
+class FlushCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -19,7 +18,7 @@ class Flush extends Command
      *
      * @var string
      */
-    protected $description = 'FusionCMS Flush (cache/view clear and optimize)';
+    protected $description = 'Flush the various FusionCMS cache';
 
     /**
      * Execute the console command.
@@ -30,6 +29,7 @@ class Flush extends Command
     {
         $this->call('cache:clear');
         $this->call('view:clear');
+        $this->call('route:clear');
         $this->call('module:optimize');
     }
 }

@@ -7,8 +7,8 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Validation\ValidationException;
 
 class Dispatcher
 {
@@ -75,7 +75,7 @@ class Dispatcher
      */
     public function withoutAuthentication()
     {
-        $this->middleware[] = \Fusion\Http\Middleware\Authenticate::class;
+        $this->middleware[] = \App\Http\Middleware\Authenticate::class;
 
         return $this;
     }

@@ -29,9 +29,11 @@ class DispatcherTest extends TestCase
         $this->assertNull($response);
     }
 
-
+    /** @test */
     public function as_an_unauthorized_guest_the_dispatcher_should_resolve_requests_when_explicitly_authorized()
     {
+        // $this->actingAs($this->admin, 'api');
+
         $response = fusion()->authorize()->get('users/1');
 
         $this->assertNotNull($response);
