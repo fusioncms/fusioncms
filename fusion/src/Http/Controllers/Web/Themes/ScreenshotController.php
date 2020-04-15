@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\Web\Themes;
 
 use Theme;

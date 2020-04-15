@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\DataTable;
 
 use Fusion\Models\Matrix;

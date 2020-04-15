@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Console\Actions;
 
 use Fusion\Models\Setting;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Concerns;
 
 use Fusion\Observers\CacheObserver;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Models\Taxonomies;
 
 use Fusion\Models\Field;

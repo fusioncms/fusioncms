@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Providers;
 
 use Fusion\Foundation\Seo\SEO;

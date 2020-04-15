@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Str;
 use Fusion\Services\Parsers\ParsedownExtra;
 

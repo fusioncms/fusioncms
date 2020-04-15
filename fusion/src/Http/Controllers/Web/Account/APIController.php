@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\Web\Account;
 
 use Illuminate\Http\Request;

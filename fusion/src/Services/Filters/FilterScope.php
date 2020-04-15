@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Filters;
 
 use Illuminate\Database\Eloquent\Builder;

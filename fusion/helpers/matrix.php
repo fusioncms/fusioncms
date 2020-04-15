@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * retrieve an instance of the matrix model builder.
  *

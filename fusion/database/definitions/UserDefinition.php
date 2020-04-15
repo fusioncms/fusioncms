@@ -1,6 +1,5 @@
 <?php
 
-
 use Fusion\Models\User;
 use Fusion\Models\Role;
 use Illuminate\Support\Str;

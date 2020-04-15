@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;

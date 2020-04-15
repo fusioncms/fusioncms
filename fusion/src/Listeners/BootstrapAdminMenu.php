@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Listeners;
 
 use Menu;

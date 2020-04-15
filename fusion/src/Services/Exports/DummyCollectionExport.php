@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Exports;
 
 use Illuminate\Support\Str;

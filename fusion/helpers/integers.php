@@ -1,6 +1,5 @@
 <?php
 
-
 function human_filesize($bytes, $decimals = 2)
 {
     $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];

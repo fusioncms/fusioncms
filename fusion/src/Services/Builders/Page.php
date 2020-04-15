@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Builders;
 
 use Fusion\Models\Matrix;

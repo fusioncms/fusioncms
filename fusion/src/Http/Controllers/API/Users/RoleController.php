@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\API\Users;
 
 use Fusion\Models\Role;

@@ -1,6 +1,5 @@
 <?php
 
-
 use Fusion\Models\Menu as MenuModel;
 
 if (! function_exists('menu')) {

@@ -1255,11 +1255,11 @@
         },
         {
             "name": "fusioncms/core",
-            "version": "dev-master",
+            "version": "dev-whitespace",
             "dist": {
                 "type": "path",
                 "url": "./fusion",
-                "reference": "231b445da2b9e14000db368a3ec74a39e172e046"
+                "reference": "b510f0607c0dfc53f876e7fd56a2b23f4a74344a"
             },
             "require": {
                 "caffeinated/bonsai": "^5.0",
@@ -1331,7 +1331,6 @@
                     "helpers/settings.php",
                     "helpers/strings.php",
                     "helpers/themes.php",
-                    "helpers/upkeep.php",
                     "helpers/users.php"
                 ]
             },

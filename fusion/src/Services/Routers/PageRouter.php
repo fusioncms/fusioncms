@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Routers;
 
 use Fusion\Models\Matrix;

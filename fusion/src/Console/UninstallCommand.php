@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Console;
 
 use File;

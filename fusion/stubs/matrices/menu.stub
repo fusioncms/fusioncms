@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Models\Menus;
 
 use Fusion\Models\Menu;

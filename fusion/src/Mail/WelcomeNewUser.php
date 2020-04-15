@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Mail;
 
 use Fusion\Models\User;
