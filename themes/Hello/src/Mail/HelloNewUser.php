@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Themes\Hello\Mail;
 
 use Fusion\Models\User;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Themes\Hello\Providers;
 
 use Illuminate\Support\Facades\Route;

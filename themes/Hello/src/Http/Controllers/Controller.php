@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Themes\Hello\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
