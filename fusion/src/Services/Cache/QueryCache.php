@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Cache;
 
 use Illuminate\Support\Facades\Cache;

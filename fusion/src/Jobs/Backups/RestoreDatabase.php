@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Jobs\Backups;
 
 use DB;

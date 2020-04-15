@@ -1,6 +1,5 @@
 <?php
 
-
 use Fusion\Models\Form;
 use Fusion\Http\Honeypot;
 

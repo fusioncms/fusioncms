@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * [HELPER] Convert fieldable to relationship name (if applicable).
  *

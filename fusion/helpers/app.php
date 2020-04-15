@@ -1,6 +1,5 @@
 <?php
 
-
 function app_installed()
 {
     try {

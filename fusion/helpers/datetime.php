@@ -1,6 +1,5 @@
 <?php
 
-
 function carbon_date($carbon)
 {
     if ((is_string($carbon)) or (is_int($carbon))) {

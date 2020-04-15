@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Exports;
 
 use Google_Client;

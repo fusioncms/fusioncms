@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\HtmlString;
 
 if (! function_exists('fieldtypes')) {

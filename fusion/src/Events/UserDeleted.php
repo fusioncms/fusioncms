@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Events;
 
 use Illuminate\Queue\SerializesModels;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Rules;
 
 use GuzzleHttp\Client;

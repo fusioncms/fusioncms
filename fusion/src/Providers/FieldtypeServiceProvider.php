@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Providers;
 
 use Illuminate\Support\ServiceProvider;

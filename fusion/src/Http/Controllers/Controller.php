@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Modules\Assets\Http\Controllers\API\v1;
 
 use Illuminate\Http\Request;

@@ -30,7 +30,6 @@
             "helpers/settings.php",
             "helpers/strings.php",
             "helpers/themes.php",
-            "helpers/upkeep.php",
             "helpers/users.php"
         ]
     },

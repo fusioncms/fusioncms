@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Events\Backups;
 
 class BackupExtractionSuccessful

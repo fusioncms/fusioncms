@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\Web;
 
 use Fusion\Http\Controllers\Controller;

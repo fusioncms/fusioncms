@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Cache;
 
 use Illuminate\Database\Query\Builder;

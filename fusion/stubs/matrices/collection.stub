@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Models\Collections;
 
 use Fusion\Models\Field;

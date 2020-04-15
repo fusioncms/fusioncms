@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers;
 
 use Exception;
@@ -15,17 +14,17 @@ abstract class DataTableController extends Controller
 {
     /**
      * Default pagination items/page.
-     * 
+     *
      * @var string
      */
     protected const PER_PAGE = 50;
 
     /**
      * Default pagination page number.
-     * 
+     *
      * @var string
      */
-    protected const PAGE_NUM = 1; 
+    protected const PAGE_NUM = 1;
 
     /**
      * Return an instance of the query builder for the resource.
@@ -187,7 +186,7 @@ abstract class DataTableController extends Controller
 
                 // Allowed sortable columns    (e.g. sort=name)
                 ->allowedSorts($this->getSortable())
-                
+
                 // Default sortable column
                 ->defaultSort($this->getDefaultSort())
 

@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Retrieve the user model.
  *
