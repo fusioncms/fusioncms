@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenFinalClasses;

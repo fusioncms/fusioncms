@@ -60,25 +60,26 @@
         },
         {
             "name": "brick/math",
-            "version": "0.8.14",
+            "version": "0.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "6f7a46b5c3d487b277f38fbd17df57d348cace8a"
+                "reference": "9b08d412b9da9455b210459ff71414de7e6241cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/6f7a46b5c3d487b277f38fbd17df57d348cace8a",
-                "reference": "6f7a46b5c3d487b277f38fbd17df57d348cace8a",
+                "url": "https://api.github.com/repos/brick/math/zipball/9b08d412b9da9455b210459ff71414de7e6241cd",
+                "reference": "9b08d412b9da9455b210459ff71414de7e6241cd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "ext-json": "*",
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "2.*",
-                "phpunit/phpunit": "7.*",
-                "vimeo/psalm": "3.*"
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^7.5.15|^8.5",
+                "vimeo/psalm": "^3.5"
             },
             "type": "library",
             "autoload": {
@@ -101,7 +102,7 @@
                 "brick",
                 "math"
             ],
-            "time": "2020-02-17T13:57:43+00:00"
+            "time": "2020-04-15T15:59:35+00:00"
         },
         {
             "name": "caffeinated/bonsai",
@@ -1254,7 +1255,7 @@
         },
         {
             "name": "fusioncms/core",
-            "version": "dev-patches",
+            "version": "dev-whitespace",
             "dist": {
                 "type": "path",
                 "url": "./fusion",
@@ -1889,12 +1890,6 @@
                 "autoloading",
                 "laminas",
                 "zf"
-            ],
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
             ],
             "time": "2020-04-03T16:01:00+00:00"
         },
@@ -6570,20 +6565,6 @@
                 "instantiate",
                 "serialize"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-03-27T16:56:45+00:00"
         },
         {
@@ -6643,20 +6624,6 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-03-30T11:41:10+00:00"
         },
         {
