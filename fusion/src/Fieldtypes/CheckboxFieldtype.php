@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Fieldtypes;
 
 class CheckboxFieldtype extends Fieldtype

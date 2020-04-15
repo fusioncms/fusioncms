@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Fieldtypes;
 
 class LinkFieldtype extends Fieldtype

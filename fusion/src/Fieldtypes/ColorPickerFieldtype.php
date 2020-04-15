@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Fieldtypes;
 
 class ColorPickerFieldtype extends Fieldtype

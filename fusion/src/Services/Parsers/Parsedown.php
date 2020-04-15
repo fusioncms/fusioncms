@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Parsers;
 
 class Parsedown

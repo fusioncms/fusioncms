@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Contracts;
 
 interface Builder

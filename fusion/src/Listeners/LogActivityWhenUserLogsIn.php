@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Listeners;
 
 use Illuminate\Auth\Events\Login;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Database\Eloquent;
 
 use Fusion\Concerns\HasDynamicRelationships;

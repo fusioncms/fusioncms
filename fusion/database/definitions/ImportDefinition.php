@@ -1,7 +1,5 @@
 <?php
 
-
-
 use Fusion\Models\Import;
 use Faker\Generator as Faker;
 

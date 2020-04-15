@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\Web\Auth;
 
 use Fusion\Models\User;

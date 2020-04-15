@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Concerns;
 
 trait HasImportStrategies

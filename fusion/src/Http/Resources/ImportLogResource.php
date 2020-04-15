@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Resources;
 
 use SplFileObject;

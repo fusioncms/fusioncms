@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Providers;
 
 use Blade;

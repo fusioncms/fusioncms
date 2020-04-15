@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Controllers\Api;
 
 use Fusion\Models\Asset;

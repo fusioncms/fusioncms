@@ -2,8 +2,12 @@
 
 namespace Fusion\Console;
 
+use File;
 use Artisan;
+use Illuminate\Support\Str;
+use Fusion\Models\Extension;
 use Illuminate\Console\Command;
+use Fusion\Concerns\HasExtension;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Helper\ProgressBar;
 

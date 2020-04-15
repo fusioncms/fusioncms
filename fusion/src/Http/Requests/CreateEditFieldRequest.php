@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Http\Requests;
 
 use Fusion\Models\Field;

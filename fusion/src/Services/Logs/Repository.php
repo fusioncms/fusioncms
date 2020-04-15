@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Logs;
 
 use File;

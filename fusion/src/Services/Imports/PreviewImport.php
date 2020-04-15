@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fusion\Services\Imports;
 
 use Maatwebsite\Excel\Concerns\WithLimit;
