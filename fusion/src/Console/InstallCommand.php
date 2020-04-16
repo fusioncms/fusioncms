@@ -104,6 +104,7 @@ class InstallCommand extends Command
             'Generating encryption key...'      => new \Fusion\Console\Installer\GenerateEncryptionKey,
             'Creating database tables...'       => new \Fusion\Console\Installer\CreateDatabaseTables,
             'Publishing module assets...'       => new \Fusion\Console\Installer\PublishModuleAssets,
+            'Publishing Fusion resources...'    => new \Fusion\Console\Installer\PublishFusionResources,
             'Creating storage link...'          => new \Fusion\Console\Installer\CreateStorageLink,
             'Creating user permissions...'      => new \Fusion\Console\Installer\CreatePermissions,
             'Creating default user roles...'    => new \Fusion\Console\Installer\CreateDefaultUserRoles($this->container),

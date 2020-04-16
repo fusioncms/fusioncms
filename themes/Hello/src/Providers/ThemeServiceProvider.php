@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Themes\Hello\Providers;
 
 use Caffeinated\Themes\Support\ServiceProvider;

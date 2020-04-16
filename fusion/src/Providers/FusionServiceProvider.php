@@ -21,6 +21,8 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerBonsai();
         $this->registerMigrations();
         $this->registerTheme();
+        $this->registerPublishing();
+        $this->registerViews();
     }
 
     /**
@@ -39,6 +41,7 @@ class FusionServiceProvider extends ServiceProvider
         $this->commands([
             \Fusion\Console\UninstallCommand::class,
             \Fusion\Console\InstallCommand::class,
+            \Fusion\Console\PublishCommand::class,
             \Fusion\Console\FlushCommand::class,
             \Fusion\Console\SyncCommand::class,
         ]);
@@ -57,6 +60,34 @@ class FusionServiceProvider extends ServiceProvider
         $this->app->register(SettingsServiceProvider::class);
 
         $this->app->register(\Caffeinated\Shinobi\ShinobiServiceProvider::class);
+    }
+
+    /**
+     * Register FusionCMS' views with Laravel.
+     *
+     * @return void
+     */
+    private function registerViews()
+    {
+        $this->app->make('view.finder')->addLocation(__DIR__.'/../../resources/views');
+    }
+
+    /**
+     * Register FusionCMS' publishable resources.
+     *
+     * @return void
+     */
+    private function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                fusion_path('/public') => public_path('vendor/fusion'),
+            ], 'fusion-assets');
+
+            $this->publishes([
+                fusion_path('/config/fusion.php') => config_path('fusion.php'),
+            ], 'fusion-config');
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 
-
 use Laravel\Telescope\Watchers;
 use Laravel\Telescope\Http\Middleware\Authorize;
 
