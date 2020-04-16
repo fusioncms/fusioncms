@@ -44,7 +44,7 @@
 
                 <div v-else>
                     <p-img
-                        :src="'/img/' + file.type + '-small.svg'"
+                        :src="'/vendor/fusion/img/' + file.type + '-small.svg'"
                         background-color="#ffffff"
                         :width="200"
                         :height="200"
