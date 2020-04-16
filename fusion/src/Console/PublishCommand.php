@@ -28,12 +28,12 @@ class PublishCommand extends Command
     public function handle()
     {
         $this->call('vendor:publish', [
-            '--tag'   => 'fusioncms-config',
+            '--tag'   => 'fusion-config',
             '--force' => $this->option('force'),
         ]);
 
         $this->call('vendor:publish', [
-            '--tag'   => 'fusioncms-assets',
+            '--tag'   => 'fusion-assets',
             '--force' => true,
         ]);
     }

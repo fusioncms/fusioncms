@@ -1,0 +1,117 @@
+.dropdown {
+    @apply
+        inline-block
+        relative
+        align-top
+    ;
+
+    &--open {
+        .dropdown__menu {
+            @apply
+                block
+            ;
+        }
+    }
+
+    &--right {
+        .dropdown__menu {
+            @apply
+                left-auto
+                right-0
+            ;
+        }
+    }
+
+    &--up {
+        .dropdown__menu {
+            @apply
+                top-auto
+            ;
+
+            margin-top: initial;
+            margin-bottom: 4px;
+            bottom: 100%;
+        }
+    }
+
+    &__menu {
+        @apply
+            border-gray-300
+            shadow-lg
+            absolute
+            bg-white
+            right-0
+            rounded
+            border
+            hidden
+            left-0
+            z-20
+            w-56
+        ;
+
+        top: 100%;
+        margin-top: 4px;
+        hyphens: auto;
+        word-break: break-word;
+    }
+
+    &__item,
+    &__link {
+        @apply
+            text-left
+            text-sm
+            w-full
+            py-2
+            px-4
+        ;
+
+        > .icon {
+            @apply
+                text-center
+                mr-3
+                w-5
+            ;
+        }
+    }
+
+    &__image {
+        @apply
+            mr-4
+        ;
+    }
+
+    &__arrow {
+        @apply
+            text-center
+            ml-3
+        ;
+
+        width: 1.25em !important;
+    }
+
+    &__link {
+        @apply
+            text-gray-700
+            items-center
+            flex
+        ;
+
+        &:hover {
+            @apply
+                text-gray-800
+                bg-gray-200
+            ;
+        }
+    }
+
+    &__divider {
+        @apply
+            bg-gray-300
+            border-none
+            block
+            my-1
+        ;
+
+        height: 1px;
+    }
+}

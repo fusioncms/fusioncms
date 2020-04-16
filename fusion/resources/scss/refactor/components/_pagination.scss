@@ -1,0 +1,13 @@
+.pagination {
+    &--item {
+        @apply .inline-flex;
+    }
+
+    .active {
+        @apply .bg-black .text-white;
+    }
+
+    button {
+        @apply .button--small;
+    }
+}

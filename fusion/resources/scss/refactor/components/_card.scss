@@ -1,0 +1,23 @@
+.card {
+    @apply rounded shadow bg-white relative border border-gray-100;
+
+    &:not(:last-child) {
+        @apply
+            mb-6
+        ;
+    }
+
+    &__body {
+        @apply
+            p-6
+        ;
+    }
+
+    &--dark {
+        @apply rounded shadow bg-gray-900 text-gray-100;
+
+        > p {
+            @apply text-gray-100;
+        }
+    }
+}

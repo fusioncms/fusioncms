@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Image Small</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Image-Small" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Image" transform="translate(62.000000, 50.000000)">
+            <g>
+                <path d="M54.4375,0 L2.6125,0 C1.16964286,0 0,1.16964286 0,3.43928571 L0,98.2142857 C0,98.8303571 1.16964286,100 2.6125,100 L74.1732143,100 C75.6160714,100 76.7857143,98.8303571 76.7857143,98.2142857 L76.7857143,23.175 C76.7857143,21.9321429 76.6196429,21.5321429 76.3267857,21.2375 L55.5482143,0.458928571 C55.2535714,0.166071429 54.8535714,0 54.4375,0" id="Fill-20" fill="#E9E9E0" fill-rule="nonzero"></path>
+                <polyline id="Fill-21" fill="#D9D7CA" fill-rule="nonzero" points="55.3571429 0.269642857 55.3571429 21.4285714 76.5160714 21.4285714 55.3571429 0.269642857"></polyline>
+                <path d="M30.3571429,25.7696429 C30.3571429,30.275 26.7035714,33.9285714 22.1982143,33.9285714 C17.6928571,33.9285714 14.0392857,30.275 14.0392857,25.7696429 C14.0392857,21.2642857 17.6928571,17.6107143 22.1982143,17.6107143 C26.7035714,17.6107143 30.3571429,21.2642857 30.3571429,25.7696429" id="Fill-32" fill="#F3D55B" fill-rule="nonzero"></path>
+                <polyline id="Fill-33" fill="#26B99A" fill-rule="nonzero" points="0 69.6428571 76.7857143 69.6428571 76.7857143 50 58.9285714 33.0357143 40.1785714 53.5714286 30.3875 43.7803571 0 69.6428571"></polyline>
+                <g id="Fill-290-2" transform="translate(0.000000, 69.642857)" fill="#13A085" fill-rule="nonzero">
+                    <path d="M2.6125,30.3571429 C1.16964286,30.3571429 0,29.1875 0,27.7446429 L0,0 L76.7857143,0 L76.7857143,27.7446429 C76.7857143,29.1875 75.6160714,30.3571429 74.1732143,30.3571429 L2.6125,30.3571429 Z" id="Fill-290"></path>
+                </g>
+                <text font-family="Montserrat-Bold, Montserrat" font-size="12.5" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="17.8571429" y="88.7857143">Image</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

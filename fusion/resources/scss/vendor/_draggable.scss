@@ -1,0 +1,17 @@
+.draggable-source--is-dragging {
+    opacity: .4;
+}
+
+.sortable-ghost {
+    @apply bg-white;
+}
+
+.sortable-list-item, .sortable-list {
+    :focus, &:focus {
+        @apply outline-none;
+    }
+}
+
+.sortable-list-handle {
+    cursor: row-resize;
+}

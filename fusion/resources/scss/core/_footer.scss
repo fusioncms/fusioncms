@@ -1,0 +1,23 @@
+.page-footer {
+    @apply
+        border-gray-400
+        justify-between
+        border-dashed
+        leading-loose
+        text-gray-600
+        items-center
+        bg-white
+        border-t
+        flex-col
+        text-xs
+        flex
+        p-6
+    ;
+
+    @screen md {
+        @apply
+            flex-row
+            leading-none
+        ;
+    }
+}

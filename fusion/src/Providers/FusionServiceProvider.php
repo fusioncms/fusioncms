@@ -22,6 +22,7 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerMigrations();
         $this->registerTheme();
         $this->registerPublishing();
+        $this->registerViews();
     }
 
     /**
@@ -62,6 +63,16 @@ class FusionServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register FusionCMS' views with Laravel.
+     *
+     * @return void
+     */
+    private function registerViews()
+    {
+        $this->app->make('view.finder')->addLocation(__DIR__.'/../../resources/views');
+    }
+
+    /**
      * Register FusionCMS' publishable resources.
      *
      * @return void
@@ -70,12 +81,12 @@ class FusionServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../public' => public_path('vendor/fusioncms'),
-            ], 'fusioncms-assets');
+                fusion_path('/public') => public_path('vendor/fusion'),
+            ], 'fusion-assets');
 
             $this->publishes([
-                __DIR__.'/../config/fusion.php' => config_path('fusion.php'),
-            ], 'fusioncms-config');
+                fusion_path('/config/fusion.php') => config_path('fusion.php'),
+            ], 'fusion-config');
         }
     }
 

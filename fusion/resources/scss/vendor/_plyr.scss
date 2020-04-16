@@ -1,0 +1,15 @@
+$plyr-color-main: #FF5722 !default;
+
+@import "~plyr/src/sass/plyr";
+
+.plyr {
+    @apply rounded;
+}
+
+.plyr .plyr__video-wrapper {
+    height: 720px;
+}
+
+.plyr video {
+    @apply w-full h-full;
+}

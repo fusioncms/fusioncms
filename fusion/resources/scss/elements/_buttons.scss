@@ -1,0 +1,268 @@
+.button {
+    @apply
+        appearance-none
+        border-gray-300
+        cursor-pointer
+        leading-normal
+        justify-start
+        text-gray-700
+        no-underline
+        items-center
+        inline-flex
+        bg-white
+        rounded
+        text-sm
+        border
+        px-3
+        py-2
+    ;
+
+    &:hover:not([disabled]) {
+        @apply
+            border-gray-400
+        ;
+    }
+
+    &:focus {
+        @apply
+            outline-none
+            shadow-focus
+        ;
+    }
+
+    &[disabled] {
+        @apply
+            cursor-not-allowed
+            opacity-50
+        ;
+    }
+
+    > .icon {
+        @apply
+            mr-3
+        ;
+    }
+
+    &--borderless {
+        @apply
+            border-0
+            p-0
+        ;
+    }
+
+    &--rounded {
+        @apply
+            rounded-full
+        ;
+    }
+
+    &--icon {
+        @apply
+            justify-center
+            items-center
+            flex
+        ;
+
+        width: 39px;
+        height: 39px;
+
+        > .icon {
+            @apply
+                m-0
+            ;
+        }
+    }
+
+    &--small {
+        @apply
+            text-xs
+        ;
+    }
+
+    &--large {
+        @apply
+            text-base
+        ;
+    }
+
+    &--brand, &--primary, &--secondary, &--info, &--success, &--warning, &--danger,
+    &--brand:hover:not([disabled]), &--primary:hover:not([disabled]), &--secondary:hover:not([disabled]), &--info:hover:not([disabled]), &--success:hover:not([disabled]), &--warning:hover:not([disabled]), &--danger:hover:not([disabled]) {
+        @apply
+            text-white
+        ;
+    }
+
+    &--brand {
+        @apply
+            bg-brand-500
+            border-brand-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-brand-600
+            ;
+        }
+
+        &:focus {
+            @apply
+                shadow-focus
+            ;
+        }
+    }
+
+    &--primary {
+        @apply
+            bg-gray-900
+            border-gray-900
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-gray-800
+            ;
+        }
+    }
+
+    &--success {
+        @apply
+            bg-success-500
+            border-success-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-success-600
+            ;
+        }
+
+        &:focus {
+            @apply
+                shadow-focus-success
+            ;
+        }
+    }
+
+    &--info {
+        @apply
+            bg-info-500
+            border-info-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-info-600
+            ;
+        }
+    }
+
+    &--warning {
+        @apply
+            bg-warning-500
+            border-warning-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-warning-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            bg-danger-500
+            border-danger-500
+        ;
+
+        &:hover:not([disabled]) {
+            @apply
+                bg-danger-600
+            ;
+        }
+
+        &:focus {
+            @apply
+                shadow-focus-danger
+            ;
+        }
+    }
+}
+
+.buttons {
+    @apply
+        flex
+        flex-wrap
+        items-center
+        justify-start
+    ;
+
+    &__group {
+        @apply
+            flex
+            flex-wrap
+            items-center
+            justify-start
+        ;
+
+        &:not(:last-child) {
+            @apply
+                mr-3
+            ;
+        }
+
+        > .button {
+            @apply
+                m-0
+            ;
+
+            &:not(:first-child) {
+                margin-left: -1px;
+            }
+        }
+
+        > .button:focus {
+            z-index: 1;
+        }
+
+        > .button:first-child,
+        > .dropdown.button:first-child {
+            @apply
+                rounded-r-none
+            ;
+        }
+
+        > .button:last-child,
+        > .dropdown.button:last-child {
+            @apply
+                rounded-l-none
+            ;
+        }
+
+        > .button:not(:first-child):not(:last-child),
+        > .dropdown.button:not(:first-child):not(:last-child) {
+            @apply
+                rounded-r-none
+                rounded-l-none
+            ;
+        }
+    }
+
+    > .button {
+        @apply
+            mb-2
+        ;
+    }
+
+    > .button:not(:last-child):not(.buttons--grouped) {
+        @apply
+            mr-2
+        ;
+    }
+
+    &:last-child {
+        @apply
+            -mb-2
+        ;
+    }
+}

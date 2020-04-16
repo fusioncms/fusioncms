@@ -1,0 +1,79 @@
+::selection {
+    @apply bg-brand-200 text-brand-900 opacity-100 p-2;
+    text-shadow: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @apply .mb-3 .text-black .font-bold .font-serif;
+
+    &:not(:first-child) {
+        @apply .mt-2;
+    }
+}
+
+p {
+    @apply .mb-6 .text-gray-800;
+
+    &:last-child {
+        @apply .mb-0;
+    }
+}
+
+a {
+    @apply
+        text-info-500
+        no-underline
+        outline-none
+    ;
+
+    &:focus {
+        @apply
+            shadow-focus
+        ;
+
+        z-index: 1;
+    }
+
+    &:hover {
+        @apply
+            text-info-800
+        ;
+    }
+}
+
+hr {
+    @apply border-none border-b border-dashed my-6 block;
+}
+
+code {
+    @apply
+        text-gray-600
+        text-xs
+    ;
+}
+
+.link {
+    &--success {
+        @apply
+            text-success-500
+        ;
+
+        &:hover {
+            @apply
+                text-success-600
+            ;
+        }
+    }
+
+    &--danger {
+        @apply
+            text-danger-500
+        ;
+
+        &:hover {
+            @apply
+                text-danger-600
+            ;
+        }
+    }
+}

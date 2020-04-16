@@ -1,0 +1,14 @@
+.badge {
+    @apply
+        text-gray-800
+        items-center
+        rounded-full
+        bg-gray-200
+        font-medium
+        inline-flex
+        leading-5
+        text-sm
+        py-0.5
+        px-3
+    ;
+}

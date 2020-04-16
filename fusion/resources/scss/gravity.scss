@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700');
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+
+@import "components/all";
+@import "elements/all";
+@import "forms/all";
+@import "core/all";
+@import "vendor/all";
+
+/**
+OLD STYLES
+---------------
+**/
+
+// Elements
+@import "refactor/elements/form";
+
+// Components
+@import "refactor/components/banner";
+@import "refactor/components/charts";
+@import "refactor/components/jumbotron";
+@import "refactor/components/list";
+@import "refactor/components/loader";
+@import "refactor/components/modal";
+@import "refactor/components/pagination";
+@import "refactor/components/radio";
+@import "refactor/components/section_builder";
+@import "refactor/components/select";
+@import "refactor/components/spinner";
+@import "refactor/components/toast";
+@import "refactor/components/tooltip";
+@import "refactor/components/treeview";
+@import "refactor/components/upload";
+@import "refactor/components/logs";
+@import "refactor/components/file-manager";
+
+// Fieldtypes
+@import "refactor/components/fieldtypes/color-picker";
+@import "refactor/components/fieldtypes/datetime";
+@import "refactor/components/fieldtypes/markdown";
+@import "refactor/components/fieldtypes/taxonomy";
+@import "refactor/components/fieldtypes/block-editor";
+
+// Utilities
+@tailwind utilities;
+
+// Layout
+@import "refactor/layout/containers";
+@import "refactor/layout/gallery";
+@import "refactor/layout/inbox";
+@import "refactor/layout/mailables";

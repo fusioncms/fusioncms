@@ -1,0 +1,64 @@
+.tabs {
+    @apply
+        bg-white
+    ;
+}
+
+.tab {
+    @apply
+        flex-none
+    ;
+
+    &__list {
+        @apply
+            flex
+            border-t
+            border-b
+            border-gray-200
+            p-0
+            m-0
+            overflow-x-auto
+        ;
+    }
+
+    &__link {
+        @apply
+            block
+            px-6
+            py-2
+            text-gray-600
+            font-normal
+            border-t-4
+            border-transparent
+        ;
+    }
+
+    &__link:hover, &--hovering {
+        @apply
+            bg-gray-100
+            text-gray-800
+        ;
+    }
+
+    &__link:focus {
+        @apply
+            outline-none
+        ;
+    }
+
+    &__panel {
+        @apply
+            py-6
+        ;
+    }
+
+    &--active {
+        a {
+            @apply
+                text-black
+                border-t-4
+                border-primary-400
+            ;
+        }
+    }
+}

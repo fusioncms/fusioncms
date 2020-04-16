@@ -1,0 +1,68 @@
+.card {
+    @apply
+        border-gray-300
+        bg-white
+        relative
+        rounded
+        border
+        p-px
+    ;
+
+    &:not(:last-child) {
+        @apply
+            mb-6
+        ;
+    }
+
+    &__body {
+        @apply
+            p-6
+        ;
+
+        .tab__list {
+            @apply
+                -mx-6
+                px-6
+            ;
+        }
+    }
+
+    &__header {
+        @apply
+            px-6
+            pt-6
+        ;
+    }
+
+    &__title {
+        @apply
+            text-gray-900
+            leading-none
+            font-serif
+            font-bold
+            m-0
+        ;
+    }
+
+    &__subtitle {
+        @apply
+            text-gray-500
+            leading-5
+            text-sm
+            mt-1
+        ;
+    }
+
+    &--dark {
+        @apply
+            text-gray-400
+            bg-gray-900
+        ;
+
+        .card__body, p {
+            @apply
+                text-gray-400
+            ;
+        }
+    }
+}
