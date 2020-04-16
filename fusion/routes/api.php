@@ -89,7 +89,4 @@ Route::apiResource('files', 'FileController');
 Route::apiResource('directories', 'DirectoryController');
 Route::apiResource('/fieldsets', 'FieldsetController');
 Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController');
-Route::apiResource('assets', 'AssetController');
-Route::apiResource('category-groups', 'CategoryGroupController');
-Route::apiResource('categories', 'CategoryController');
 Route::apiResource('/extensions', 'ExtensionController');

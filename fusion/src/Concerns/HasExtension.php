@@ -43,13 +43,7 @@ trait HasExtension
      */
     public function getAttribute($key)
     {
-        $attribute = parent::getAttribute($key);
-
-        if ($attribute === null && @$this->extension->{$key}) {
-            $attribute = $this->extension->{$key};
-        }
-
-        return $attribute;
+        return @ $this->extension->{$key} ?? parent::getAttribute($key);
     }
 
     /**
