@@ -1,6 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
+/public/vendor/fusion
+/config/fusion.php
 /storage/*.key
 /storage/*.json
 /vendor

@@ -66,6 +66,7 @@ class UninstallCommand extends Command
     {
         $jobs = [
             'Entering maintenance mode...'   => new \Fusion\Console\Actions\EnterMaintenanceMode,
+            'Deleting Fusion resources...'   => new \Fusion\Console\Uninstaller\DeleteFusionResources,
             'Deleting module assets...'      => new \Fusion\Console\Uninstaller\DeleteModuleAssets,
             'Deleting asset files...'        => new \Fusion\Console\Uninstaller\DeleteUserFiles,
             'Deleting model files...'        => new \Fusion\Console\Uninstaller\DeleteModelFiles,
