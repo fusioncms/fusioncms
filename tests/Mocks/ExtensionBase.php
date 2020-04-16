@@ -4,7 +4,6 @@ namespace Tests\Mocks;
 
 use Fusion\Concerns\HasExtension;
 use Fusion\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Schema;
 
 class ExtensionBase extends Model
 {
@@ -30,31 +29,4 @@ class ExtensionBase extends Model
      * @var array
      */
     protected $casts = [ 'status' => 'boolean' ];
-
-    /**
-     * Create mock database table.
-     *
-     * @return void
-     */
-    public static function setUp()
-    {
-        Schema::create('mock_extension', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('handle')->unique();
-            $table->text('description');
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Destroy mock database table.
-     *
-     * @return void
-     */
-    public static function tearDown()
-    {
-        Schema::dropIfExists('mock_extension');
-    }
 }

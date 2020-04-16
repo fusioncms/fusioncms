@@ -7,6 +7,7 @@ use Fusion\Models\Fieldset;
 use Fusion\Models\Extension;
 use Tests\Foundation\TestCase;
 use Tests\Mocks\ExtensionBase;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,17 +18,26 @@ class ExtensionTest extends TestCase
 {
 	use RefreshDatabase, WithFaker;
 
+    /**
+     * Temp Module.
+     * 
+     * @var \Tests\Mocks\ExtensionBase
+     */
+    protected $model;
+
     public function setUp(): void
     {
         parent::setUp();
-        ExtensionBase::setUp();
 
         $this->handleValidationExceptions();
+        $this->setupModule();
 
         // --
-        $this->section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
-        $this->field     = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($this->section)->create();
-        $this->fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$this->section]))->create();
+        $section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $field     = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($section)->create();
+        $fieldTwo  = \Facades\FieldFactory::withName('Profiles')->withType('user')->withSection($section)->create();
+        $fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$section]))->create();
+        
         $this->model     = (new ExtensionBase)->create([
             'name'        => ($name = $this->faker->word),
             'handle'      => str_handle($name),
@@ -35,19 +45,13 @@ class ExtensionTest extends TestCase
             'status'      => true,
         ]);
 
-        // Assure extension record exists
-        //   => `php artisan module:link`
-        $this->extension = Extension::create([
-            'name'   => Str::studly($this->model->getTable()),
-            'handle' => $this->model->getTable()
-        ]);
-
-        $this->extension->attachFieldset($this->fieldset);
+        Extension::where('handle', 'mock_extension')->first()->attachFieldset($fieldset);
     }
 
     public function tearDown(): void
     {
-        ExtensionBase::tearDown();
+        $this->tearDownModule();
+
         parent::tearDown();
     }
 
@@ -58,12 +62,19 @@ class ExtensionTest extends TestCase
      */
     public function an_extended_model_can_have_a_fieldset_attached()
     {
+        // $section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        // $fieldOne  = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($section)->create();
+        // $fieldTwo  = \Facades\FieldFactory::withName('Profiles')->withType('user')->withSection($section)->create();
+        // $fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$section]))->create();
+
+        // Extension::first()->attachFieldset($fieldset);
+
         $this->assertInstanceOf(Fieldset::class, $this->model->fieldset);
-    	$this->assertCount(1, $this->model->fields);
+    	$this->assertCount(2, $this->model->fields);
     }
 
     /**
-     * @test
+     * 
      * @group feature
      * @group extension
      */
@@ -76,7 +87,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * @test
+     * 
      * @group feature
      * @group extension
      */
@@ -92,7 +103,8 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * [mock helper]
+     * [HELPER] Mock update request.
+     * 
      *
      * @param  array  $data
      * @return void
@@ -102,5 +114,35 @@ class ExtensionTest extends TestCase
         request()->merge($data);
 
         $this->model->update(request()->all());
+    }
+
+    private function setUpModule()
+    {
+        Schema::create('mock_extension', function ($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('handle')->unique();
+            $table->text('description');
+            $table->boolean('status')->default(true);
+            $table->timestamps();
+        });
+
+        // Build `extension` link..
+        Extension::create([
+            'name'   => 'MockExtension',
+            'handle' => 'mock_extension'
+        ]);
+
+        // $this->module = (new ExtensionBase)->create([
+        //     'name'        => ($name = $this->faker->word),
+        //     'handle'      => str_handle($name),
+        //     'description' => $this->faker->sentence,
+        //     'status'      => true,
+        // ]);
+    }
+
+    private function tearDownModule()
+    {
+        Schema::dropIfExists('mock_extension');
     }
 }
