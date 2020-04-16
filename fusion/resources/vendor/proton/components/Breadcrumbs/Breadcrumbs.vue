@@ -18,9 +18,5 @@
 <script>
     export default {
         name: 'p-breadcrumbs',
-
-        mounted() {
-            console.log(this.$children)
-        }
     }
 </script>
