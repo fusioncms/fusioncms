@@ -94,7 +94,7 @@ class ForgetPasswordTest extends TestCase
                 'email' => $this->user->email,
             ])
             ->assertRedirect('/password/reset')
-            ->assertSessionHas('status', 'We have e-mailed your password reset link!');
+            ->assertSessionHas('status', 'We have emailed your password reset link!');
 
         // Assert => User assigned password reset token..
         $this->assertDatabaseHas('password_resets', [
