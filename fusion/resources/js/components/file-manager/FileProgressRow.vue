@@ -2,7 +2,7 @@
   <div class="file-progress flex items-center text-sm">
     <div class="file-progress__icon pr-1">
       <p-img
-          :src="'/img/' + type + '-large.svg'"
+          :src="'/vendor/fusion/img/' + type + '-large.svg'"
           background-color="#ffffff"
           :width="25"
           :height="25"
@@ -32,7 +32,7 @@
       </p-tooltip>
       <fa-icon :icon="['fas', 'spinner']" v-else pulse>
         <span class="sr-only">Uploading...</span>
-      </fa-icon> 
+      </fa-icon>
     </div>
   </div>
 </template>

@@ -12,14 +12,8 @@ mix.setPublicPath('public')
     .webpackConfig({
         devtool: sourceMap,
         output: {
+            publicPath: '/vendor/fusion/',
             chunkFilename: "js/chunks/[name].js?id=[chunkhash]",
-            path: path.resolve(__dirname, 'vendor/fusion'),
-        },
-        resolve: {
-            symlinks: false,
-            alias: {
-                '@': path.resolve(__dirname, 'resources/js/'),
-            },
         },
     })
     .options({
@@ -27,11 +21,6 @@ mix.setPublicPath('public')
         postCss: [
             tailwindcss('./resources/tailwind.js')
         ],
-        terser: {
-            terserOptions: {
-                compress: {
-                    drop_console: true,
-                },
-            },
-        },
     })
+    .copy('resources/img', 'public/img')
+    .copy('public', '../public/vendor/fusion')

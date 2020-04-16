@@ -8,7 +8,7 @@
 			@dblclick="$emit('dblclick')">
 
 			<p-img
-				src="/img/folder.svg"
+				src="/vendor/fusion/img/folder.svg"
 				background-color="white"
 				class="gallery-image"
 				:class="{ 'draggable--dropzone': isDropzone }"

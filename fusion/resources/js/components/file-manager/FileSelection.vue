@@ -17,7 +17,7 @@
 							</div>
 							<div class="w-3/12">
 								<p-img v-if="file.type == 'image'" :src="file.url + '?w=50&h=50&fit=crop'" background-color="white" :width="50" :height="50"></p-img>
-								<p-img v-else :src="'/img/' + file.type + '-large.svg'" background-color="white" :width="50" :height="50"></p-img>
+								<p-img v-else :src="'/vendor/fusion/img/' + file.type + '-large.svg'" background-color="white" :width="50" :height="50"></p-img>
 							</div>
 							<div class="w-6/12">
 								<div>{{ file.name }}</div>
