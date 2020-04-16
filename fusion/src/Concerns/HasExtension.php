@@ -10,14 +10,46 @@ trait HasExtension
 {
     public static function bootHasExtension()
     {
-        // Update extension fields with request..
-        static::updated(function ($model) {
-            $model->extension->update(
-                collect($model->fields)->mapWithKeys(function($field) {
-                    return [$field->handle => request()->get($field->handle, $field->default)];
-                })->all()
-            );
+        static::updating(function ($model) {
+            /**
+             * Persist extending field data..
+             *
+             * Note:
+             * ----
+             * - Relationships are persisted separately.
+             * - Everything else is grouped and updated in mass.
+             */
+            $attributes = collect($model->fields)->mapWithKeys(function ($field) use ($model) {
+                $fieldtype = fieldtypes()->get($field->type);
+
+                if ($fieldtype->hasRelationship()) {
+                    $fieldtype->persistRelationship($model->extension, $field);
+                    return [];
+                }
+
+                return [ $field->handle => request()->get($field->handle) ];
+            })->toArray();
+
+            $model->extension->update($attributes);
         });
+    }
+
+    /**
+     * Get an attribute from the model.
+     * [override]
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function getAttribute($key)
+    {
+        $attribute = parent::getAttribute($key);
+
+        if ($attribute === null && @$this->extension->{$key}) {
+            $attribute = $this->extension->{$key};
+        }
+
+        return $attribute;
     }
 
     /**
