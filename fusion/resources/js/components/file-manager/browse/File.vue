@@ -8,7 +8,7 @@
             :draggable="isDraggable">
 
 			<p-img
-				src="/img/image-large.svg"
+				src="/vendor/fusion/img/image-large.svg"
 				background-color="white"
 				class="gallery-image"
 				:lazySrc="fileSrc"
@@ -85,7 +85,7 @@
 					case 'image':
 						return `${this.file.url}?w=100&h=100&fit=crop&t=${this.$moment.utc(this.file.updated_at)}`
 					default:
-						return `/img/${this.file.type}-large.svg`
+						return `/vendor/fusion/img/${this.file.type}-large.svg`
 				}
 			}
         }

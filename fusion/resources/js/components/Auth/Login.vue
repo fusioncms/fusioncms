@@ -1,7 +1,7 @@
 <template>
     <div id="login-form" class="w-full max-w-xs">
         <div class="text-center relative mb-10">
-            <img src="/img/illustrations/login.svg" alt="Illustration">
+            <img src="/vendor/fusion/img/illustrations/login.svg" alt="Illustration">
         </div>
 
         <div class="card">

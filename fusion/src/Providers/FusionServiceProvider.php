@@ -40,6 +40,7 @@ class FusionServiceProvider extends ServiceProvider
         }
 
         $this->registerConfig();
+        $this->registerTelescope();
 
         $this->commands([
             \Fusion\Console\UninstallCommand::class,
@@ -48,6 +49,19 @@ class FusionServiceProvider extends ServiceProvider
             \Fusion\Console\FlushCommand::class,
             \Fusion\Console\SyncCommand::class,
         ]);
+    }
+
+    /**
+     * Register Laravel Telescope when in the local environment.
+     *
+     * @return void
+     */
+    private function registerTelescope()
+    {
+        if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
