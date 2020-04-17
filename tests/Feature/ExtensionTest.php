@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Fusion\Models\Fieldset;
 use Fusion\Models\Extension;
 use Tests\Foundation\TestCase;
-use Tests\Mocks\ExtensionBase;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,41 +18,30 @@ class ExtensionTest extends TestCase
 {
 	use RefreshDatabase, WithFaker;
 
-    /**
-     * Temp Module.
-     * 
-     * @var \Tests\Mocks\ExtensionBase
-     */
-    protected $model;
-
     public function setUp(): void
     {
         parent::setUp();
-
         $this->handleValidationExceptions();
-        $this->setupModule();
 
         // --
-        $section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
-        $field     = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($section)->create();
-        $fieldTwo  = \Facades\FieldFactory::withName('Profiles')->withType('user')->withSection($section)->create();
-        $fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$section]))->create();
-        
-        $this->model     = (new ExtensionBase)->create([
-            'name'        => ($name = $this->faker->word),
-            'handle'      => str_handle($name),
-            'description' => $this->faker->sentence,
-            'status'      => true,
-        ]);
+        $this->extender = Extension::where('handle', 'mock_extension_acme')->first();
+        $this->fieldset = $this->generateFieldset();
 
-        Extension::where('handle', 'mock_extension')->first()->attachFieldset($fieldset);
+        $this->extender->attachFieldset($this->fieldset);
     }
 
-    public function tearDown(): void
+    /**
+     * @test
+     * @group feature
+     * @group extension
+     */
+    public function model_with_has_extension_trait_will_be_linked_to_extensions_table()
     {
-        $this->tearDownModule();
-
-        parent::tearDown();
+        $this->assertDatabaseHasTable('ext_mock_extension_acme');
+        $this->assertDatabaseHas('extensions', [
+            'name'   => 'MockExtensionAcme',
+            'handle' => 'mock_extension_acme'
+        ]);
     }
 
     /**
@@ -62,87 +51,153 @@ class ExtensionTest extends TestCase
      */
     public function an_extended_model_can_have_a_fieldset_attached()
     {
-        // $section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
-        // $fieldOne  = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($section)->create();
-        // $fieldTwo  = \Facades\FieldFactory::withName('Profiles')->withType('user')->withSection($section)->create();
-        // $fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$section]))->create();
+        $model = factory('Modules\MockExtension\Models\Acme')->create();
 
-        // Extension::first()->attachFieldset($fieldset);
-
-        $this->assertInstanceOf(Fieldset::class, $this->model->fieldset);
-    	$this->assertCount(2, $this->model->fields);
+        $this->assertInstanceOf(Fieldset::class, $model->fieldset);
+    	$this->assertCount(2, $model->fields);
     }
 
     /**
-     * 
+     * @test
      * @group feature
      * @group extension
      */
     public function an_extended_model_can_have_a_fieldset_detached()
     {
-        $this->extension->detachFieldset();
+        $model = factory('Modules\MockExtension\Models\Acme')->create();
+        $this->extender->detachFieldset();
 
-        $this->assertNull($this->model->fieldset);
-        $this->assertNull($this->model->fields);
+        $this->assertNull($model->fieldset);
+        $this->assertInstanceOf(Collection::class, $model->fields);
     }
 
     /**
-     * 
+     * @test
+     * @group feature
+     * @group extension
+     */
+    public function creating_extended_model_will_also_update_extending_fields()
+    {
+        $attributes = factory('Modules\MockExtension\Models\Acme')->make()->toArray();
+
+        // extending fields..
+        $attributes['content']  = $this->faker->sentence;
+        $attributes['profiles'] = collect([ $this->admin->id, $this->user->id ]);
+
+        $this
+            ->be($this->admin, 'api')
+            ->post('/api/mock-extension/acme', $attributes)
+            ->assertStatus(201);
+
+        $this->assertDataBaseHas('mock_extension_acme', [
+            'name'        => $attributes['name'],
+            'handle'      => $attributes['handle'],
+            'description' => $attributes['description'],
+        ]);
+
+        $this->assertDatabaseHasTable('ext_mock_extension_acme', [
+            'content' => $attributes['content']
+        ]);
+
+        $this->assertDatabaseHasTable('users_pivot', [
+            'pivot_type' => 'Fusion\Models\Extensions\MockExtensionAcme',
+            'user_id'    => $this->admin->id
+        ]);
+
+        $this->assertDatabaseHasTable('users_pivot', [
+            'pivot_type' => 'Fusion\Models\Extensions\MockExtensionAcme',
+            'user_id'    => $this->user->id
+        ]);
+    }
+
+    /**
+     * @test
      * @group feature
      * @group extension
      */
     public function updating_extended_model_will_also_update_extending_fields()
     {
-        $this->newUpdateRequest([
-            'name'    => 'New Name',
-            'content' => 'New Content'
+        $model      = factory('Modules\MockExtension\Models\Acme')->create();
+        $attributes = $model->toArray();
+
+        // updates..
+        $attributes['name']   = 'New Name';
+        $attributes['handle'] = 'new_handle';
+
+        // extending fields..
+        $attributes['content']  = 'New Content';
+        $attributes['profiles'] = collect([ $this->admin->toArray(), $this->user->toArray() ]);
+
+        $this
+            ->be($this->admin, 'api')
+            ->patch('/api/mock-extension/acme/' . $model->id, $attributes)
+            ->assertStatus(200);
+
+        $model = $model->fresh();
+
+        $this->assertDataBaseHas('mock_extension_acme', [
+            'name'        => $attributes['name'],
+            'handle'      => $attributes['handle'],
+            'description' => $attributes['description'],
         ]);
 
-        $this->assertDatabaseHas($this->model->extension->getTable(), ['content' => 'New Content']);
-        $this->assertDatabaseHas($this->model->getTable(), ['name' => 'New Name']);
+        $this->assertDatabaseHasTable('ext_mock_extension_acme', [
+            'content' => $attributes['content']
+        ]);
+
+        $this->assertDatabaseHasTable('users_pivot', [
+            'pivot_type' => 'Fusion\Models\Extensions\MockExtensionAcme',
+            'pivot_id'   => $model->id,
+            'user_id'    => $this->admin->id
+        ]);
+
+        $this->assertDatabaseHasTable('users_pivot', [
+            'pivot_type' => 'Fusion\Models\Extensions\MockExtensionAcme',
+            'pivot_id'   => $model->id,
+            'user_id'    => $this->user->id
+        ]);
     }
 
     /**
-     * [HELPER] Mock update request.
-     * 
-     *
-     * @param  array  $data
-     * @return void
+     * @test
+     * @group feature
+     * @group extension
      */
-    private function newUpdateRequest($data = [])
+    public function extending_fields_can_be_accessed_like_any_other_attribute()
     {
-        request()->merge($data);
+        $model      = factory('Modules\MockExtension\Models\Acme')->create();
+        $attributes = $model->toArray();
 
-        $this->model->update(request()->all());
+        // updates..
+        $attributes['name'] = 'New Name';
+
+        // extending fields..
+        $attributes['content']  = 'New Content';
+        $attributes['profiles'] = collect([[ 'id' => $this->admin->id], [ 'id' => $this->user->id ]]);
+
+        $this
+            ->be($this->admin, 'api')
+            ->patch('/api/mock-extension/acme/' . $model->id, $attributes)
+            ->assertStatus(200);
+        
+        $model = $model->fresh();
+
+        $this->assertEquals($model->content, $attributes['content']);
+        $this->assertEquals($model->profiles->pluck('id'), collect($attributes['profiles'])->pluck('id'));
     }
 
-    private function setUpModule()
+    /**
+     * Spin up new Fieldset.
+     * [HELPER]
+     * @return \Fusion\Models\Fieldset
+     */
+    private function generateFieldset()
     {
-        Schema::create('mock_extension', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('handle')->unique();
-            $table->text('description');
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
+        $section   = \Facades\SectionFactory::times(1)->withoutFields()->create();
+        $field     = \Facades\FieldFactory::withName('Content')->withType('textarea')->withSection($section)->create();
+        $fieldTwo  = \Facades\FieldFactory::withName('Profiles')->withType('user')->withSection($section)->create();
+        $fieldset  = \Facades\FieldsetFactory::withName('General')->withSections(collect([$section]))->create();
 
-        // Build `extension` link..
-        Extension::create([
-            'name'   => 'MockExtension',
-            'handle' => 'mock_extension'
-        ]);
-
-        // $this->module = (new ExtensionBase)->create([
-        //     'name'        => ($name = $this->faker->word),
-        //     'handle'      => str_handle($name),
-        //     'description' => $this->faker->sentence,
-        //     'status'      => true,
-        // ]);
-    }
-
-    private function tearDownModule()
-    {
-        Schema::dropIfExists('mock_extension');
+        return $fieldset;
     }
 }

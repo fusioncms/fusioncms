@@ -39,13 +39,11 @@ class HasOneExtension extends HasOne
      */
     public function addConstraints()
     {
-        if (static::$constraints && $this->getParentKey()) {
+        if (static::$constraints && $this->parent->exists) {
         	$this->query->firstOrCreate([
 				'extension_id' => $this->extender->id,
 				'related_id'   => $this->getParentKey(),
 			]);
-
-            $this->query->whereNotNull($this->foreignKey);
         }
     }
 }

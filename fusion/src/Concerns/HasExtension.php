@@ -10,7 +10,8 @@ trait HasExtension
 {
     public static function bootHasExtension()
     {
-        static::updating(function ($model) {
+        static::saved(function ($model) {
+            dd($model->extension);
             /**
              * Persist extending field data..
              *
@@ -19,18 +20,20 @@ trait HasExtension
              * - Relationships are persisted separately.
              * - Everything else is grouped and updated in mass.
              */
-            $attributes = collect($model->fields)->mapWithKeys(function ($field) use ($model) {
-                $fieldtype = fieldtypes()->get($field->type);
+            if ($model->extension) {
+                $attributes = $model->fields->mapWithKeys(function ($field) use ($model) {
+                    $fieldtype = fieldtypes()->get($field->type);
 
-                if ($fieldtype->hasRelationship()) {
-                    $fieldtype->persistRelationship($model->extension, $field);
-                    return [];
-                }
+                    if ($fieldtype->hasRelationship()) {
+                        $fieldtype->persistRelationship($model->extension, $field);
+                        return [];
+                    }
 
-                return [ $field->handle => request()->get($field->handle) ];
-            })->toArray();
+                    return [ $field->handle => request()->get($field->handle) ];
+                })->toArray();
 
-            $model->extension->update($attributes);
+                $model->extension->update($attributes);
+            }
         });
     }
 
@@ -43,7 +46,13 @@ trait HasExtension
      */
     public function getAttribute($key)
     {
-        return @ $this->extension->{$key} ?? parent::getAttribute($key);
+        $attribute = parent::getAttribute($key);
+        
+        if (is_null($attribute) && @$this->extension) {
+            $attribute = $this->extension->{$key};
+        }
+
+        return $attribute;
     }
 
     /**
@@ -63,7 +72,7 @@ trait HasExtension
      */
     public function getFieldsAttribute()
     {
-        return $this->extension->fields;
+        return $this->extension->fields ?? collect();
     }
 
     /**
