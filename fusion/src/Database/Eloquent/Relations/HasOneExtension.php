@@ -15,7 +15,7 @@ class HasOneExtension extends HasOne
 	 * 
 	 * @var \Fusion\Models\Extension
 	 */
-	protected $extender;
+	protected $extension;
 
 	/**
 	 * Constructor.
@@ -24,12 +24,12 @@ class HasOneExtension extends HasOne
 	 */
 	public function __construct(Model $parent)
 	{
-		$this->extender = Extension::firstOrCreate([
+		$this->extension = Extension::firstOrCreate([
 			'name'   => Str::studly($parent->getTable()),
 			'handle' => $parent->getTable(),
 		]);
 
-		parent::__construct($this->extender->getBuilder()->query(), $parent, 'related_id', 'id');
+		parent::__construct($this->extension->getBuilder()->query(), $parent, 'related_id', 'id');
 	}
 
     /**
@@ -41,7 +41,7 @@ class HasOneExtension extends HasOne
     {
         if (static::$constraints && $this->parent->exists) {
         	$this->query->firstOrCreate([
-				'extension_id' => $this->extender->id,
+				'extension_id' => $this->extension->id,
 				'related_id'   => $this->getParentKey(),
 			]);
         }
