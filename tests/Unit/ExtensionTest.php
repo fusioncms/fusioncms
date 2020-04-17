@@ -12,7 +12,7 @@ class ExtensionTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @test
+     * 
      * @group unit
      * @group extension
      */
@@ -27,7 +27,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * @test
+     * 
      * @group unit
      * @group extension
      */

@@ -1,19 +1,20 @@
 <?php
 
-namespace Fusion\Listeners;
+namespace Fusion\Jobs;
 
 use Menu;
 use Fusion\Models\Matrix;
 use Fusion\Models\Taxonomy;
 use Illuminate\Support\Str;
-use Fusion\Events\ServingFusion;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-class BootstrapAdminMenu
+class LoadNavigation
 {
+    use Dispatchable;
+
     /**
-     * Handle the event.
+     * Execute the job.
      *
-     * @param  Verified $verified
      * @return void
      */
     public function handle()

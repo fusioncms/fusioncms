@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'Fusion\Events\ServingFusion' => [
-            'Fusion\Listeners\BootstrapAdminMenu',
+            'Fusion\Listeners\FusionServed'
         ],
 
         'Illuminate\Auth\Events\Verified' => [
