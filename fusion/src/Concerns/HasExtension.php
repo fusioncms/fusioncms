@@ -11,7 +11,6 @@ trait HasExtension
     public static function bootHasExtension()
     {
         static::saved(function ($model) {
-            dd($model->extension);
             /**
              * Persist extending field data..
              *
