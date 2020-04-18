@@ -14,6 +14,6 @@ class CreateDatabaseTables
     public function handle()
     {
         Artisan::call('migrate', ['--force' => true]);
-        Artisan::call('db:seed', ['--force' => true]);
+        // Artisan::call('db:seed', ['--force' => true]);
     }
 }

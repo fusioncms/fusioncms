@@ -1,0 +1,24 @@
+{
+    "name": "Hello",
+    "slug": "hello",
+    "description": "Say hello to your new Content Management System.",
+    "author": "efelle creative",
+    "version": "1.0.0",
+
+    "settings": {
+        "greeting": {
+            "name": "Greeting",
+            "fieldtype": "input",
+            "default": "Welcome to FusionCMS",
+            "help": "Say hello to your visitors.",
+            "required": false
+        },
+
+        "message": {
+            "name": "Message",
+            "fieldtype": "input",
+            "default": "We think you'll enjoy your time here ✌️",
+            "required": false
+        }
+    }
+}

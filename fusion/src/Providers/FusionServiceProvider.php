@@ -49,6 +49,21 @@ class FusionServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the package's supplied service providers.
+     *
+     * @return void
+     */
+    private function registerProviders()
+    {
+        $this->app->register(BladeServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(SettingsServiceProvider::class);
+        $this->app->register(FieldtypeServiceProvider::class);
+
+        $this->app->register(\Caffeinated\Shinobi\ShinobiServiceProvider::class);
+    }
+
+    /**
      * Register Laravel Telescope when in the local environment.
      *
      * @return void
@@ -59,21 +74,6 @@ class FusionServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
-    }
-
-    /**
-     * Register the package's supplied service providers.
-     *
-     * @return void
-     */
-    private function registerProviders()
-    {
-        $this->app->register(BladeServiceProvider::class);
-        $this->app->register(EventServiceProvider::class);
-        $this->app->register(FieldtypeServiceProvider::class);
-        $this->app->register(SettingsServiceProvider::class);
-
-        $this->app->register(\Caffeinated\Shinobi\ShinobiServiceProvider::class);
     }
 
     /**
@@ -111,7 +111,7 @@ class FusionServiceProvider extends ServiceProvider
      */
     private function registerTheme()
     {
-        Theme::set(setting('system.theme'));
+        // Theme::set(setting('system.theme'));
     }
 
     /**
