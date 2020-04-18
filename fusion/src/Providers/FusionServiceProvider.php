@@ -111,7 +111,7 @@ class FusionServiceProvider extends ServiceProvider
      */
     private function registerTheme()
     {
-        // Theme::set(setting('system.theme'));
+        Theme::set(setting('system.theme'));
     }
 
     /**
