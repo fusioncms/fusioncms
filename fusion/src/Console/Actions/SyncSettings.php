@@ -74,15 +74,17 @@ class SyncSettings
 
         unset($this->sections[$section->id]);
 
-        foreach ($attributes['settings'] as $group => $settings) {
-            $order = 0;
+        if (isset($attributes['settings'])) {
+            foreach ($attributes['settings'] as $group => $settings) {
+                $order = 0;
 
-            foreach ($settings as $setting) {
-                $this->syncSetting(array_merge($setting, [
-                    'section_id' => $section->id,
-                    'group'      => $group,
-                    'order'      => ++$order
-                ]));
+                foreach ($settings as $setting) {
+                    $this->syncSetting(array_merge($setting, [
+                        'section_id' => $section->id,
+                        'group'      => $group,
+                        'order'      => ++$order
+                    ]));
+                }
             }
         }
     }

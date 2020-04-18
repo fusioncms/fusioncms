@@ -9,9 +9,13 @@ class TermController extends DataTableController
 {
     public function builder()
     {
-        return Taxonomy::findOrFail(request()->route('taxonomy'))
-            ->getBuilder()
-            ->query();
+        if (request()->route('taxonomy')) {
+            return Taxonomy::findOrFail(request()->route('taxonomy'))
+                ->getBuilder()
+                ->query();
+        } else {
+            return Taxonomy::query();
+        }
     }
 
     public function getDisplayableColumns()

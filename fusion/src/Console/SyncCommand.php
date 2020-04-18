@@ -115,6 +115,8 @@ class SyncCommand extends Command
     {
         if (file_exists($link)) {
             $this->error("The [$link] link already exists.");
+        } elseif (! file_exists($target)) {
+            $this->error("The [$target] link doesn't exists.");
         } else {
             $this->laravel->make('files')->link($target, $link);
 

@@ -2,6 +2,7 @@
 
 namespace Fusion\Providers;
 
+use Laravel\Passport\Passport;
 use Caffeinated\Themes\Facades\Theme;
 use Illuminate\Support\Facades\Route;
 use Caffeinated\Bonsai\Facades\Bonsai;
@@ -23,6 +24,8 @@ class FusionServiceProvider extends ServiceProvider
         $this->registerTheme();
         $this->registerPublishing();
         $this->registerViews();
+
+        Passport::routes();
     }
 
     /**
