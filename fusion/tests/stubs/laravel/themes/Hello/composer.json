@@ -1,0 +1,13 @@
+{
+    "name": "vendor/hello",
+    "description": "Hello theme.",
+    "type": "caffeinated-theme",
+    "autoload": {
+        "psr-4": {
+            "Themes\\Hello\\": "src/"
+        }
+    },
+    "require": {
+        "caffeinated/composer": "*"
+    }
+}

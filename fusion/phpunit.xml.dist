@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true"
+         verbose="true"
+         stopOnError="false"
+         backupGlobals="false"
+         stopOnFailure="false"
+         processIsolation="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         printerClass="NunoMaduro\Collision\Adapters\Phpunit\Printer"
+>
+    <testsuites>
+        <testsuite name="Fusion Tests">
+            <directory suffix="Test.php">./tests/src</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+
+    <php>
+        <env name="APP_KEY" value="base64:UCfgTCY1PYHCii+kT6F6V088hZCxNnSIa7uGJmS6zHs="/>
+    </php>
+</phpunit>

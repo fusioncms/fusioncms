@@ -3,13 +3,13 @@
 namespace Fusion\Models;
 
 use File;
-use Theme;
 use Exception;
 use ReflectionClass;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Caffeinated\Themes\Facades\Theme;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Fusion\Models\Mailable as MailableModel;
