@@ -1,13 +1,12 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use Fusion\Models\Matrix;
-use Fusion\Models\Fieldset;
 use Facades\MatrixFactory;
+use Fusion\Tests\TestCase;
+use Fusion\Models\Fieldset;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MatrixTest extends TestCase

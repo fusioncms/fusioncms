@@ -2,6 +2,8 @@
 
 namespace Fusion\Tests;
 
+use Illuminate\Support\Facades\Hash;
+use Spatie\Backup\BackupServiceProvider;
 use Fusion\Tests\Concerns\InstallsFusion;
 use Fusion\Providers\FusionServiceProvider;
 use Caffeinated\Flash\FlashServiceProvider;
@@ -40,6 +42,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
+        Hash::driver('bcrypt')->setRounds(4);
+
         $this->withFactories(fusion_path('/database/definitions'));
 
         $this->install();
@@ -67,6 +71,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app->loadEnvironmentFrom('.env.testing');
+
         $app['config']->set('database.default', 'sqlite');
 
         $app['config']->set('database.connections.sqlite', [
@@ -74,8 +80,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        $app['config']->set('themes.path', fusion_path('/tests/stubs/laravel/themes'));
     }
 
     /**
@@ -100,8 +104,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             FusionServiceProvider::class,
+
             FlashServiceProvider::class,
             MenusServiceProvider::class,
+            BackupServiceProvider::class,
             BonsaiServiceProvider::class,
             ThemesServiceProvider::class,
             ModulesServiceProvider::class,

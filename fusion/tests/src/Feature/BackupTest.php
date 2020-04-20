@@ -1,12 +1,11 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use File;
 use ZipArchive;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Event;
@@ -20,7 +19,7 @@ class BackupTest extends TestCase
 
 	public function setUp(): void
     {
-        parent::setUp();
+		parent::setUp();
 
         Storage::fake('public');
         Storage::fake('temp');
@@ -29,7 +28,13 @@ class BackupTest extends TestCase
         config(['backup.backup.source.databases' => ['sqlite']]);
 
         // Establish backup `backup-temp`..
-        config(['backup.backup.temporary_directory' => Storage::disk('temp')->path('backup-temp')]);
+		config(['backup.backup.temporary_directory' => Storage::disk('temp')->path('backup-temp')]);
+
+		// Establish backup destination disks
+		config(['backup.backup.destination.disks' => ['public']]);
+
+		// Establish backup source env variables
+		config(['backup.backup.source.env' => ['APP_KEY']]);
 
         // Establish included files to backup..
 		config(['backup.backup.source.files.include' => [
@@ -186,17 +191,17 @@ class BackupTest extends TestCase
 	{
 		Event::fake();
 
-
-
 		// Create new backup..
 		(new \Fusion\Jobs\Backups\BackupRun)->handle();
 
 		// Make edit to the .env.testing file..
 		// So we can restore the variables upon restoration..
 		$envContents = File::get(app()->environmentFilePath());
+
 		foreach(config('backup.backup.source.env') as $key) {
 			$envContents = preg_replace("/^({$key})=([^\r\n]*)$/m", "$1=" . Str::random(), $envContents);
 		}
+
 		File::put(app()->environmentFilePath(), $envContents);
 
 		// ...assert backup was successful.
@@ -211,7 +216,8 @@ class BackupTest extends TestCase
 
 			foreach(config('backup.backup.source.env') as $key) {
 				preg_match("/^({$key})=([^\r\n]*)$/m", $envContents, $matches);
-				if ($matches[2] != env($key)) {
+
+				if (!isset($matches[2]) or ($matches[2] != env($key))) {
 					return false;
 				}
 			}
