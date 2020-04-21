@@ -47,7 +47,7 @@ class SyncCommand extends Command
                 // publish settings..
                 $this->symlink(
                     fusion_path("/settings/modules/{$item['slug']}.php"),
-                    base_path("modules/{$item['basename']}/resources/{$item['slug']}.php")
+                    base_path("modules/{$item['basename']}/settings.php")
                 );
 
                 // generate extensions..

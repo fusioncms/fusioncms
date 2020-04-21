@@ -246,6 +246,14 @@ class FusionServiceProvider extends ServiceProvider
         Route::bind('fieldset', function($id) {
             return \Fusion\Models\Fieldset::findOrFail($id);
         });
+
+        Route::bind('module', function($slug) {
+            if (! \Caffeinated\Modules\Facades\Module::exists($slug)) {
+                throw new \Caffeinated\Modules\Exceptions\ModuleNotFoundException($slug);
+            }
+
+            return \Caffeinated\Modules\Facades\Module::where('slug', $slug);
+        });
     }
 
     /**
