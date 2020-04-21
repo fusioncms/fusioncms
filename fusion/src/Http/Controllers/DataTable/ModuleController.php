@@ -9,14 +9,11 @@ class ModuleController
 {
     public function index(Request $request)
     {
-        // TODO: filter, sort, paginate..
-        $modules = Module::all()->values();
-
         return response()->json([
             'displayable'  => array_values($this->getDisplayableColumns()),
-            'sortable'     => array_values($this->getSortable()),
+            'sortable'     => [],
             'column_names' => $this->getCustomColumnNames(),
-            'records'      => [ 'data' => $modules ],
+            'records'      => [ 'data' => Module::all()->values() ],
         ]);
     }
 
@@ -27,24 +24,6 @@ class ModuleController
             'slug',
             'version',
             'description'
-        ];
-    }
-
-    public function getFilterable()
-    {
-        return [
-            'name',
-            'slug',
-            'version',
-        ];
-    }
-
-    public function getSortable()
-    {
-        return [
-            'name',
-            'slug',
-            'version',
         ];
     }
 

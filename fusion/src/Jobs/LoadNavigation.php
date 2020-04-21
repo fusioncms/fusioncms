@@ -167,7 +167,7 @@ class LoadNavigation
                 ]);
             }
 
-            $menu->add('Add-ons', '#')->data([
+            $menu->add('Modules', '#')->data([
                 'to'   => '/modules',
                 'icon'  => 'project-diagram',
             ]);

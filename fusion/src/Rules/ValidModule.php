@@ -36,20 +36,20 @@ class ValidModule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $canUnzip   = $this->zipArchive->open($value);
-        $validTheme = $canUnzip === true;
+        $canUnzip = $this->zipArchive->open($value);
+        $isValid  = $canUnzip === true;
 
         if ($canUnzip) {
             foreach ($this->requiredFiles as $requiredFile) {
                 if ($this->zipArchive->locateName($requiredFile, ZipArchive::FL_NODIR) === false) {
-                    $validTheme = false;
+                    $isValid = false;
                 }
             }
 
             $this->zipArchive->close();
         }
 
-        return $validTheme;
+        return $isValid;
     }
 
     /**
@@ -59,6 +59,6 @@ class ValidModule implements Rule
      */
     public function message()
     {
-        return 'A theme requires the following files: ' . implode(', ', $this->requiredFiles) . '.';
+        return 'A module requires the following files: ' . implode(', ', $this->requiredFiles) . '.';
     }
 }

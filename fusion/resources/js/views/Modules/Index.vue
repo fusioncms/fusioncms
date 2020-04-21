@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="content-container">
-                <p-table :endpoint="endpoint" id="modules" sort-by="name" primary-key="handle" key="modules_table">
+                <p-table :endpoint="endpoint" id="modules" sort-by="name" no-search primary-key="handle" key="modules_table">
                     <template slot="name" slot-scope="table">
                         <div class="flex items-center">
                             <p-status :value="table.record.enabled" class="mr-2"></p-status>
@@ -34,7 +34,7 @@
                     <template slot="actions" slot-scope="table">
                         <p-actions :id="'module_' + table.record.id + '_actions'" :key="'module_' + table.record.id + '_actions'">
                             <p-dropdown-link @click.prevent v-modal:delete-module="table.record" classes="link--danger">
-                                Delete
+                                Uninstall
                             </p-dropdown-link>
                         </p-actions>
                     </template>
@@ -43,7 +43,7 @@
         </div>
 
         <portal to="modals">
-            <p-modal name="delete-module" title="Delete Module" key="uninstall_module">
+            <p-modal name="delete-module" title="Uninstall Module" key="uninstall_module">
                 <p>Are you sure you want to permenantly delete this module?</p>
 
                 <template slot="footer" slot-scope="module">
