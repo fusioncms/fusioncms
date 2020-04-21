@@ -90,3 +90,4 @@ Route::apiResource('directories', 'DirectoryController');
 Route::apiResource('/fieldsets', 'FieldsetController');
 Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController');
 Route::apiResource('/extensions', 'ExtensionController');
+Route::apiResource('/modules', 'ModuleController');

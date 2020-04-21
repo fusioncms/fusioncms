@@ -504,6 +504,16 @@ const router = new Router({
         },
 
         {
+            path: '/modules',
+            component: () => import('../views/Modules/Index'),
+            name: 'modules',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+        },
+
+        {
             path: '/styleguide',
             component: () => import('../views/Styleguide/Index'),
             name: 'styleguide',
