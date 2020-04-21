@@ -35,8 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Fusion\\Tests\\": "tests/src/",
-            "App\\": "vendor/orchestra/testbench-core/laravel/app"
+            "Fusion\\Tests\\": "tests/src/"
         }
     },
     "minimum-stability": "dev",

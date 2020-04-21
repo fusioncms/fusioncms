@@ -16,7 +16,6 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-
 class RegisterTest extends TestCase
 {
     use RefreshDatabase, WithFaker;

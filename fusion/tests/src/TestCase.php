@@ -75,6 +75,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $app->loadEnvironmentFrom('.env.testing');
 
+        $app['config']->set('auth.providers.users.model', \Fusion\Models\User::class);
+
         $app['config']->set('fusion.authenticate.middleware', \Orchestra\Testbench\Http\Middleware\Authenticate::class);
 
         $app['config']->set('database.default', 'sqlite');
