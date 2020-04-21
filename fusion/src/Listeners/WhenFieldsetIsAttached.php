@@ -3,23 +3,10 @@
 namespace Fusion\Listeners;
 
 use Fusion\Events\FieldsetAttached;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WhenFieldsetIsAttached
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *

@@ -23,12 +23,13 @@ class LogActivityWhenUserLogsIn implements ShouldQueue
     }
 
     /**
-     * The job failed to process.
+     * Handle a job failure.
      *
-     * @param  Exception  $exception
+     * @param  \Illuminate\Auth\Events\Login  $event
+     * @param  \Exception  $exception
      * @return void
      */
-    public function failed(Login $event, Exception $exception)
+    public function failed(Login $event, $exception)
     {
         //
     }

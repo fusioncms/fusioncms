@@ -74,7 +74,7 @@ class Dispatcher
      */
     public function withoutAuthentication()
     {
-        $this->middleware[] = \App\Http\Middleware\Authenticate::class;
+        $this->middleware[] = config('fusion.authenticate.middleware');
 
         return $this;
     }
@@ -196,8 +196,8 @@ class Dispatcher
      */
     protected function disableMiddleware()
     {
-        foreach ($this->middleware as $middleware) {
-            app()->instance($middleware, new class {
+        foreach ((array) $this->middleware as $abstract) {
+            app()->instance($abstract, new class {
                 public function handle($request, $next)
                 {
                     return $next($request);

@@ -37,7 +37,7 @@ trait InstallsFusion
      */
     protected function install()
     {
-        $this->installTheme();
+        Theme::set('hello');
 
         dispatch_now(new CreateDatabaseTables);
         dispatch_now(new PublishModuleAssets);
@@ -50,6 +50,8 @@ trait InstallsFusion
 
         Artisan::call('fusion:sync');
         Artisan::call('fusion:flush');
+
+        activity()->enableLogging();
     }
 
     /**
@@ -65,11 +67,6 @@ trait InstallsFusion
         File::delete(storage_path('app/modules.json'));
     }
 
-    protected function installTheme()
-    {
-        Theme::set('hello');
-    }
-
     /**
      * Create a new user account.
      *
@@ -77,16 +74,19 @@ trait InstallsFusion
      * @param  String  $email
      * @param  String  $password
      * @param  String|Null  $role
+     * @param  Array  $overrides
      *
      * @return Fusion\Models\User
      */
-    protected function createUser($name, $email, $password, $role = null)
+    protected function createUser($name, $email, $password, $role = null, $overrides = [])
     {
-        $user = factory(User::class)->create([
+        $attributes = [
             'name'     => $name,
             'email'    => $email,
             'password' => bcrypt($password),
-        ]);
+        ] + $overrides;
+
+        $user = factory(User::class)->create($attributes);
 
         if (! is_null($role)) {
             Shinobi::assign($role)->to($user);

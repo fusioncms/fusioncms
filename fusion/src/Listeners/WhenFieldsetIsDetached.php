@@ -4,8 +4,6 @@ namespace Fusion\Listeners;
 
 use Fusion\Events\FieldsetDetached;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WhenFieldsetIsDetached
 {

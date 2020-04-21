@@ -60,7 +60,7 @@ class SettingsController extends Controller
             }
         });
 
-        Artisan::call('optimize');
+        Artisan::call('route:clear');
 
         return new SettingSectionResource($section);
     }
