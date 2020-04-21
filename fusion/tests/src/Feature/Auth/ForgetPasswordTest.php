@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Fusion\Tests\Feature\Users;
 
 use DB;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\ResetPassword;

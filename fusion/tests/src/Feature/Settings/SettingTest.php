@@ -1,12 +1,11 @@
 <?php
 
-
-namespace Tests\FeatureSettings;
+namespace Fusion\Tests\FeatureSettings;
 
 use Exception;
+use Fusion\Tests\TestCase;
 use Fusion\Facades\Setting;
 use InvalidArgumentException;
-use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SettingTest extends TestCase

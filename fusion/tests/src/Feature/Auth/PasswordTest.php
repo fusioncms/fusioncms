@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Fusion\Tests\Feature\Auth;
 
 use Fusion\Models\User;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;

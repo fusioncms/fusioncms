@@ -1,12 +1,11 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use Fusion\Models\File;
-use Fusion\Models\Directory;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
+use Fusion\Models\Directory;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;

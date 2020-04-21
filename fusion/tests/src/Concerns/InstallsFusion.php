@@ -77,16 +77,19 @@ trait InstallsFusion
      * @param  String  $email
      * @param  String  $password
      * @param  String|Null  $role
+     * @param  Array  $overrides
      *
      * @return Fusion\Models\User
      */
-    protected function createUser($name, $email, $password, $role = null)
+    protected function createUser($name, $email, $password, $role = null, $overrides = [])
     {
-        $user = factory(User::class)->create([
+        $attributes = [
             'name'     => $name,
             'email'    => $email,
             'password' => bcrypt($password),
-        ]);
+        ] + $overrides;
+
+        $user = factory(User::class)->create($attributes);
 
         if (! is_null($role)) {
             Shinobi::assign($role)->to($user);

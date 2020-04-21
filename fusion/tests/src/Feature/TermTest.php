@@ -1,10 +1,9 @@
 <?php
 
+namespace Fusion\Tests\Feature;
 
-namespace Tests\Feature;
-
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;

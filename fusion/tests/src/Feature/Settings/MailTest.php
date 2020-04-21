@@ -1,11 +1,10 @@
 <?php
 
-
-namespace Tests\Feature\Settings;
+namespace Fusion\Tests\Feature\Settings;
 
 use Mail;
 use Storage;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

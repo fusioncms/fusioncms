@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Fusion\Tests\Feature\Users;
 
 use Fusion\Models\User;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Arr;
 use Fusion\Mail\WelcomeNewUser;
-use Tests\Foundation\TestCase;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;

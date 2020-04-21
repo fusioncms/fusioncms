@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Fusion\Tests\Feature\Users;
 
 use Auth;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
@@ -40,7 +40,7 @@ class LoginTest extends TestCase
         $this
             ->actingAs($this->user)
             ->get('/login')
-            ->assertRedirect('/');
+            ->assertRedirect('/home');
     }
 
     /**

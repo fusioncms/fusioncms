@@ -1,11 +1,10 @@
 <?php
 
+namespace Fusion\Tests\Feature;
 
-namespace Tests\Feature;
-
+use Fusion\Tests\TestCase;
 use Fusion\Models\Taxonomy;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;

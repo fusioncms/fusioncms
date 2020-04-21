@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Fusion\Tests\Feature\Users;
 
 use Hash;
 use Event;
 use Password;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

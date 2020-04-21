@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Str;
 use Fusion\Models\Fieldset;
 use Fusion\Models\Extension;
-use Tests\Foundation\TestCase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
@@ -43,7 +43,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -57,7 +57,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -70,7 +70,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -84,7 +84,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -123,7 +123,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -171,7 +171,7 @@ class ExtensionTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @group feature
      * @group extension
      */
@@ -191,7 +191,7 @@ class ExtensionTest extends TestCase
             ->be($this->admin, 'api')
             ->patch('/api/mock-module/acme/' . $model->id, $attributes)
             ->assertStatus(200);
-        
+
         $model = $model->fresh();
 
         $this->assertEquals($model->content, $attributes['content']);

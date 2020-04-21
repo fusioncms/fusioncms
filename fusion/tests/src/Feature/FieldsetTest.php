@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
-use Fusion\Models\Fieldset;
 use Facades\FieldFactory;
+use Fusion\Tests\TestCase;
 use Facades\MatrixFactory;
 use Facades\SectionFactory;
+use Fusion\Models\Fieldset;
 use Illuminate\Support\Str;
 use Facades\FieldsetFactory;
 use Facades\TaxonomyFactory;
-use Tests\Foundation\TestCase;
 use Fusion\Services\Builders\Page;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

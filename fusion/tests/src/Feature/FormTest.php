@@ -1,11 +1,10 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use Fusion\Models\Form;
 use Facades\FormFactory;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;

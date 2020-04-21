@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Fusion\Tests\Feature\Users;
 
 use URL;
 use Auth;
+use Fusion\Tests\TestCase;
 use Fusion\Mail\WelcomeNewUser;
-use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -18,6 +18,8 @@ class EmailVerificationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Mail::fake();
 
         $this->handleValidationExceptions();
     }
@@ -44,7 +46,7 @@ class EmailVerificationTest extends TestCase
     public function an_unverified_user_will_see_verification_notice()
     {
         $this
-            ->actingAs($this->user)
+            ->actingAs($this->unverifiedUser)
             ->get(route('verification.notice'))
             ->assertStatus(200)
             ->assertViewIs('auth.verify');
@@ -73,9 +75,6 @@ class EmailVerificationTest extends TestCase
      */
     public function a_verified_user_will_not_see_verification_notice()
     {
-        // Manually verify user..
-        $this->user->email_verified_at = now();
-
         $this
             ->actingAs($this->user)
             ->get(route('verification.notice'))
@@ -117,7 +116,7 @@ class EmailVerificationTest extends TestCase
             ->get($verifyRoute)
             ->assertStatus(403);
 
-        $this->assertFalse($this->user->fresh()->hasVerifiedEmail());
+        $this->assertFalse($this->unverifiedUser->fresh()->hasVerifiedEmail());
     }
 
     /**
@@ -149,24 +148,23 @@ class EmailVerificationTest extends TestCase
      */
     public function a_user_can_verify_themselves()
     {
-        Mail::fake();
-        // $this->withExceptionHandling();
+        $this->withExceptionHandling();
 
         // Manually create email verify route for user..
         // Creating for default user..
-        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]);
+        $verifyRoute = URL::signedRoute('verification.verify', ['id' => $this->unverifiedUser->id, 'hash' => sha1($this->unverifiedUser->email)]);
 
         $this
-            ->actingAs($this->user)
+            ->actingAs($this->unverifiedUser)
             ->get($verifyRoute)
             ->assertRedirect('/');
 
         $this
-            ->assertNotNull($this->user->fresh()->email_verified_at);
+            ->assertNotNull($this->unverifiedUser->fresh()->email_verified_at);
 
         // Assert - email was sent to user..
         Mail::assertSent(WelcomeNewUser::class, function ($mail) {
-            return $mail->user->id === $this->user->id;
+            return $mail->user->id === $this->unverifiedUser->id;
         });
     }
 
@@ -212,11 +210,11 @@ class EmailVerificationTest extends TestCase
         Notification::fake();
 
         $response = $this
-            ->actingAs($this->user)
+            ->actingAs($this->unverifiedUser)
             ->from(route('verification.notice'))
             ->post(route('verification.resend'))
             ->assertRedirect(route('verification.notice'));
 
-        Notification::assertSentTo($this->user, VerifyEmail::class);
+        Notification::assertSentTo($this->unverifiedUser, VerifyEmail::class);
     }
 }
