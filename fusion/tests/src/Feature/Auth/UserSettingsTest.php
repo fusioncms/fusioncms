@@ -41,7 +41,7 @@ class UserSettingsTest extends TestCase
         setting(['users.user_email_verification' => 'enabled']);
 
         $this
-            ->be($this->user)
+            ->be($this->unverifiedUser)
             ->get('/account/settings')
             ->assertStatus(302)
             ->assertRedirect('/email/verify');

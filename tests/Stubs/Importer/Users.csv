@@ -1,5 +1,0 @@
-id,name,email,password,role,status
-1,Janet Doe,admin@example.com,,admin,1
-2,Ducky Consumer,janedoe@example.com,,user,1
-,Justin Timberlake,justin.timberlake@nsync.com,jamming,guest,1
-,Lance Bass,lance.bass@nsync.com,coolio,user,0

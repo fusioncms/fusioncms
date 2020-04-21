@@ -1,11 +1,10 @@
 <?php
 
+namespace Fusion\Tests\Feature;
 
-namespace Tests\Feature;
-
+use Fusion\Tests\TestCase;
 use Fusion\Models\Mailable;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;

@@ -68,7 +68,7 @@ class BrowseController extends Controller
             $zipArchive->close();
         }
 
-        Artisan::call('optimize');
+        // Artisan::call('optimize');
 
         return response()->json([], 201);
     }

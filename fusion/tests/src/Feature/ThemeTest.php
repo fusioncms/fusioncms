@@ -1,13 +1,12 @@
 <?php
 
+namespace Fusion\Tests\Feature;
 
-namespace Tests\Feature;
-
-use Theme;
 use ZipArchive;
+use Fusion\Tests\TestCase;
 use Illuminate\Support\Str;
-use Tests\Foundation\TestCase;
 use Illuminate\Http\UploadedFile;
+use Caffeinated\Themes\Facades\Theme;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Auth\AuthenticationException;

@@ -16,6 +16,7 @@
     <testsuites>
         <testsuite name="Fusion Tests">
             <directory suffix="Test.php">./tests/src</directory>
+            <exclude>./tests/src/Feature/Auth</exclude>
         </testsuite>
     </testsuites>
 

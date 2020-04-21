@@ -1,13 +1,12 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use Throwable;
 use Fusion\Models\Import;
+use Fusion\Tests\TestCase;
 use Fusion\Models\ImportLog;
 use Maatwebsite\Excel\Excel;
-use Tests\Foundation\TestCase;
 use Fusion\Services\Imports\UserImport;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;

@@ -1,11 +1,10 @@
 <?php
 
-
-namespace Tests\Feature;
+namespace Fusion\Tests\Feature;
 
 use Fusion\Models\Import;
 use Facades\ImportFactory;
-use Tests\Foundation\TestCase;
+use Fusion\Tests\TestCase;
 use Fusion\Services\Imports\PreviewImport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\AuthenticationException;
