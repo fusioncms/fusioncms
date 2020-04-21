@@ -3,10 +3,7 @@
 namespace Fusion\Listeners;
 
 use Fusion\Events\FieldsetReplaced;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WhenFieldsetIsReplaced
 {

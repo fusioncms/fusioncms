@@ -64,8 +64,6 @@ return [
     |
     */
 
-    'model' => Fusion\Models\User::class,
-
     'providers' => [
         'users' => [
             'driver' => 'eloquent',

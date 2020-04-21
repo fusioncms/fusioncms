@@ -2,6 +2,8 @@
 
 namespace Fusion\Tests;
 
+use Illuminate\Support\Facades\Hash;
+use Spatie\Backup\BackupServiceProvider;
 use Fusion\Tests\Concerns\InstallsFusion;
 use Fusion\Providers\FusionServiceProvider;
 use Caffeinated\Flash\FlashServiceProvider;
@@ -11,6 +13,7 @@ use Caffeinated\Themes\ThemesServiceProvider;
 use Caffeinated\Modules\ModulesServiceProvider;
 use Fusion\Tests\Concerns\MakesDatabaseAssertions;
 use Spatie\Activitylog\ActivitylogServiceProvider;
+use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -40,13 +43,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
+        Hash::driver('bcrypt')->setRounds(4);
+
         $this->withFactories(fusion_path('/database/definitions'));
 
         $this->install();
 
-        $this->admin = $this->createUser('Jane Doe', 'admin@example.com', 'secret', 'admin');
-        $this->user  = $this->createUser('Ducky Consumer', 'guest@example.com', 'secret');
-        $this->guest = $this->createGuest();
+        $this->admin          = $this->createUser('Jane Doe', 'admin@example.com', 'secret', 'admin');
+        $this->user           = $this->createUser('Ducky Consumer', 'guest@example.com', 'secret');
+        $this->unverifiedUser = $this->createUser('Unverified Consumer', 'unverified@example.com', 'secret', null, ['email_verified_at' => null]);
+        $this->guest          = $this->createGuest();
     }
 
     /**
@@ -67,6 +73,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app->loadEnvironmentFrom('.env.testing');
+
+        $app['config']->set('auth.providers.users.model', \Fusion\Models\User::class);
+
+        $app['config']->set('fusion.authenticate.middleware', \Orchestra\Testbench\Http\Middleware\Authenticate::class);
+
         $app['config']->set('database.default', 'sqlite');
 
         $app['config']->set('database.connections.sqlite', [
@@ -74,8 +86,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        $app['config']->set('themes.path', fusion_path('/tests/stubs/laravel/themes'));
     }
 
     /**
@@ -100,12 +110,18 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             FusionServiceProvider::class,
+
+            // Caffeinated
             FlashServiceProvider::class,
             MenusServiceProvider::class,
             BonsaiServiceProvider::class,
             ThemesServiceProvider::class,
             ModulesServiceProvider::class,
+
+            // Spatie
+            BackupServiceProvider::class,
             ActivitylogServiceProvider::class,
+            QueryBuilderServiceProvider::class,
         ];
     }
 
