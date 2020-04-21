@@ -33,20 +33,17 @@
 
                     <template slot="actions" slot-scope="table">
                         <p-actions :id="'module_' + table.record.id + '_actions'" :key="'module_' + table.record.id + '_actions'">
-                            <template v-if="table.record.enabled">
-                                <p-dropdown-link @click="disable(table.record.slug)">Disable</p-dropdown-link>
+                            <template v-if="table.record.installed">
+                                <p-dropdown-link v-if="table.record.enabled" @click="disable(table.record.slug)">Disable</p-dropdown-link>
+                                <p-dropdown-link v-else @click="enable(table.record.slug)">Enable</p-dropdown-link>
+ 
+                                <p-dropdown-link :to="{ name: 'setting.section', params: { section: table.record.slug } }">Settings</p-dropdown-link>
+                                
+                                <p-dropdown-link @click="seed(table.record.slug)">Seed</p-dropdown-link>
                                 
                                 <p-dropdown-link @click.prevent v-modal:update-module="table.record" classes="link--info">
                                     Update
                                 </p-dropdown-link>
-                            </template>
-                            <template v-else>
-                                <p-dropdown-link @click="enable(table.record.slug)">Enable</p-dropdown-link>
-                            </template>
- 
-                            
-                            <template v-if="table.record.installed">
-                                <p-dropdown-link :to="{ name: 'setting.section', params: { section: table.record.slug } }">Settings</p-dropdown-link>
 
                                 <p-dropdown-link @click.prevent v-modal:uninstall-module="table.record" classes="link--danger">
                                     Uninstall
@@ -143,12 +140,6 @@
                     .catch((error) => this.refresh(error.response.data.message, 'danger'))
             },
 
-            update(slug) {
-                axios.patch(`/api/modules/${slug}`)
-                    .then((response) => this.refresh('Module successfully updated.'))
-                    .catch((error)   => this.refresh(error.response.data.message, 'danger'))
-            },
-
             enable(slug) {
                 axios.post(`/api/modules/${slug}/enable`)
                     .then((response) => {
@@ -182,6 +173,18 @@
             uninstall(slug) {
                 axios.post(`/api/modules/${slug}/uninstall`)
                     .then((response) => this.refresh('Module successfully removed.'))
+                    .catch((error)   => this.refresh(error.response.data.message, 'danger'))
+            },
+
+            update(slug) {
+                axios.patch(`/api/modules/${slug}/update`)
+                    .then((response) => this.refresh('Module successfully updated.'))
+                    .catch((error)   => this.refresh(error.response.data.message, 'danger'))
+            },
+
+            seed(slug) {
+                axios.patch(`/api/modules/${slug}/seed`)
+                    .then((response) => this.refresh('Module successfully seeded.'))
                     .catch((error)   => this.refresh(error.response.data.message, 'danger'))
             },
 

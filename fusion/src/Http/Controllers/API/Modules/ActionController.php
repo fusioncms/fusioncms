@@ -10,7 +10,7 @@ use Caffeinated\Modules\Facades\Module;
 use Fusion\Http\Controllers\Controller;
 use Fusion\Http\Resources\ModuleResource;
 
-class InstallController extends Controller
+class ActionController extends Controller
 {
     /**
      * Request for new module installation.
@@ -36,20 +36,13 @@ class InstallController extends Controller
         Artisan::call('module:migrate', [
             'slug'    => $module->get('slug'),
             '--force' => true,
-        ]); 
-
-        // --
-        // Run seeders..
-        Artisan::call('module:seed', [
-            'slug'    => $module->get('slug'),
-            '--force' => true,
         ]);
 
         return new ModuleResource($module);
     }
 
     /**
-     * Update installation.
+     * Update module installation.
      *
      * @param  \Illuminate\Http\Request        $request
      * @param  \Illuminate\Support\Collection  $module
@@ -67,9 +60,17 @@ class InstallController extends Controller
             'slug'    => $module->get('slug'),
             '--force' => true,
         ]);
+    }
 
-        // --
-        // Run seeders..
+    /**
+     * Seed module installation.
+     *
+     * @param  \Illuminate\Http\Request        $request
+     * @param  \Illuminate\Support\Collection  $module
+     * @return \Fusion\Http\Resources\ModuleResource
+     */
+    public function seed(Request $request, Collection $module)
+    {
         Artisan::call('module:seed', [
             'slug'    => $module->get('slug'),
             '--force' => true,

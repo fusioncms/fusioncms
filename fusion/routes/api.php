@@ -92,11 +92,10 @@ Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController'
 Route::apiResource('/extensions', 'ExtensionController');
 
 Route::prefix('modules')->group(function() {
-	Route::get('',                    'Modules\ModuleController@index');
-	Route::get('{module}',            'Modules\ModuleController@show');
-	Route::post('{module}/install',   'Modules\InstallController@install');
-	Route::post('{module}/update',    'Modules\InstallController@update');
-	Route::post('{module}/uninstall', 'Modules\InstallController@uninstall');
+	Route::post('{module}/install',   'Modules\ActionController@install');
+	Route::post('{module}/update',    'Modules\ActionController@update');
+	Route::post('{module}/seed',      'Modules\ActionController@seed');
+	Route::post('{module}/uninstall', 'Modules\ActionController@uninstall');
 	Route::post('upload',             'Modules\UploadController@store');
 	Route::post('{module}/enable',    'Modules\StatusController@enable');
 	Route::post('{module}/disable',   'Modules\StatusController@disable');
