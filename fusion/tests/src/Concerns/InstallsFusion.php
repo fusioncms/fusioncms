@@ -37,7 +37,7 @@ trait InstallsFusion
      */
     protected function install()
     {
-        $this->installTheme();
+        Theme::set('hello');
 
         dispatch_now(new CreateDatabaseTables);
         dispatch_now(new PublishModuleAssets);
@@ -65,11 +65,6 @@ trait InstallsFusion
         File::deleteDirectory(storage_path('uploads'));
 
         File::delete(storage_path('app/modules.json'));
-    }
-
-    protected function installTheme()
-    {
-        Theme::set('hello');
     }
 
     /**
