@@ -167,6 +167,11 @@ class LoadNavigation
                 ]);
             }
 
+            $menu->add('Modules', '#')->data([
+                'to'   => '/modules',
+                'icon'  => 'project-diagram',
+            ]);
+
             $menu->add('Users', '#')->data([
                 'icon'  => 'users',
             ]);
