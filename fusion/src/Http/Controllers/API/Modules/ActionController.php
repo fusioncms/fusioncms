@@ -2,13 +2,14 @@
 
 namespace Fusion\Http\Controllers\API\Modules;
 
-use File;
+use Fusion\Models\Extension;
 use Illuminate\Http\Request;
+use Fusion\Concerns\HasExtension;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
 use Caffeinated\Modules\Facades\Module;
 use Fusion\Http\Controllers\Controller;
-use Fusion\Http\Resources\ModuleResource;
 
 class ActionController extends Controller
 {
@@ -17,7 +18,7 @@ class ActionController extends Controller
      *
      * @param  \Illuminate\Http\Request        $request
      * @param  \Illuminate\Support\Collection  $module
-     * @return \Fusion\Http\Resources\ModuleResource
+     * @return void
      */
     public function install(Request $request, Collection $module)
     {
@@ -28,17 +29,15 @@ class ActionController extends Controller
         Module::optimize();
 
         // --
-        // Sync module (e.g. assets, settings, extensions)
-        Artisan::call('fusion:sync --module=' . $module->get('slug'));
-
-        // --
         // Run migrations..
         Artisan::call('module:migrate', [
             'slug'    => $module->get('slug'),
             '--force' => true,
         ]);
 
-        return new ModuleResource($module);
+        // --
+        // Sync module (e.g. assets, settings, extensions)
+        Artisan::call('fusion:sync --module=' . $module->get('slug'));
     }
 
     /**
@@ -46,20 +45,20 @@ class ActionController extends Controller
      *
      * @param  \Illuminate\Http\Request        $request
      * @param  \Illuminate\Support\Collection  $module
-     * @return \Fusion\Http\Resources\ModuleResource
+     * @return void
      */
     public function update(Request $request, Collection $module)
     {
-        // --
-        // Sync module (e.g. assets, settings, extensions)
-        Artisan::call('fusion:sync --module=' . $module->get('slug'));
-
         // --
         // Run migrations..
         Artisan::call('module:migrate', [
             'slug'    => $module->get('slug'),
             '--force' => true,
         ]);
+
+        // --
+        // Sync module (e.g. assets, settings, extensions)
+        Artisan::call('fusion:sync --module=' . $module->get('slug'));
     }
 
     /**
@@ -67,7 +66,7 @@ class ActionController extends Controller
      *
      * @param  \Illuminate\Http\Request        $request
      * @param  \Illuminate\Support\Collection  $module
-     * @return \Fusion\Http\Resources\ModuleResource
+     * @return void
      */
     public function seed(Request $request, Collection $module)
     {
@@ -86,6 +85,23 @@ class ActionController extends Controller
      */
     public function uninstall(Request $request, Collection $module)
     {
+        Module::disable($module->get('slug'));
+        Module::set($module->get('slug') . '::installed', false);
+        
+        // --
+        // Clean up extension records..
+        $files = File::files(base_path("modules/{$module->get('basename')}/src/Models"));
+
+        foreach ($files as $file) {
+            $name   = basename($file->getBaseName(), '.php');
+            $model  = resolve("Modules\\{$module['basename']}\\Models\\{$name}");
+            $traits = class_uses($model);
+
+            if (in_array(HasExtension::class, $traits)) {
+                Extension::where('handle', $model->getTable())->first()->delete();
+            }
+        }
+
         // --
         // Rollback migrations..
         Artisan::call('module:migrate:rollback', [
@@ -101,8 +117,10 @@ class ActionController extends Controller
     
         // --
         // Unregister module..
-        Module::disable($module->get('slug'));
-        Module::set($module->get('slug') . '::installed', false);
         Module::optimize();
+
+        // --
+        // Re-sync settings..
+        dispatch(new \Fusion\Console\Actions\SyncSettings);
     }
 }

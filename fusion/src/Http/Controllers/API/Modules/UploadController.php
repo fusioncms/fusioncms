@@ -4,10 +4,10 @@ namespace Fusion\Http\Controllers\API\Modules;
 
 use Exception;
 use ZipArchive;
+use Fusion\Jobs\DumpAutoload;
 use Illuminate\Support\Facades\Log;
 use Caffeinated\Modules\Facades\Module;
 use Fusion\Http\Controllers\Controller;
-use Fusion\Http\Resources\ModuleResource;
 use Fusion\Http\Requests\ModuleUploadRequest;
 
 class UploadController extends Controller
@@ -16,7 +16,7 @@ class UploadController extends Controller
      * Request for new module installation.
      *
      * @param  \Fusion\Http\Requests\ModuleUploadRequest $request
-     * @return \Fusion\Http\Resources\ModuleResource
+     * @return void
      */
     public function store(ModuleUploadRequest $request)
     {
@@ -37,9 +37,12 @@ class UploadController extends Controller
                 $zipArchive->close();
 
                 Module::optimize();
-                Module::disable($settings->slug);
-                
-                return new ModuleResource(Module::where('slug', $settings->slug));
+                Module::set($settings->slug . '::enabled', false);
+
+                dispatch(function() use ($settings) {
+                    DumpAutoload::dispatchNow();
+                    Module::set($settings->slug . '::registered', true);
+                })->afterResponse();
             } else {
                 throw new Exception('Unable to locate and unzip module file.');
             }

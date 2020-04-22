@@ -17,7 +17,7 @@ class FusionServed
     {
     	LoadNavigation::dispatchNow();
 
-        Module::all()->each(function ($module) {
+        Module::enabled()->each(function ($module) {
             if (class_exists("Modules\\{$module['basename']}\\Jobs\\LoadNavigation")) {
                 resolve("Modules\\{$module['basename']}\\Jobs\\LoadNavigation")::dispatchNow();
             }

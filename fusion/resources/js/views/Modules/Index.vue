@@ -13,7 +13,15 @@
                 <p-table :endpoint="endpoint" id="modules" sort-by="name" no-search primary-key="handle" key="modules_table">
                     <template slot="name" slot-scope="table">
                         <div class="flex items-center">
-                            <p-status :value="table.record.enabled" class="mr-2"></p-status>
+                            <p-status
+                                v-if="table.record.registered && table.record.installed"
+                                :value="table.record.enabled"
+                                class="mr-2">
+                            </p-status>
+
+                            <span v-else class="mr-2" :class="[ table.record.registered ? 'text-gray-500' : 'text-warning-500' ]">
+                                <fa-icon icon="circle" class="icon fa-xs"></fa-icon>
+                            </span>
 
                             {{ table.record.name }}
                         </div>
@@ -32,16 +40,16 @@
                     </template>
 
                     <template slot="actions" slot-scope="table">
-                        <p-actions :id="'module_' + table.record.id + '_actions'" :key="'module_' + table.record.id + '_actions'">
+                        <p-actions v-if="table.record.registered" :id="'module_' + table.record.id + '_actions'" :key="'module_' + table.record.id + '_actions'">
                             <template v-if="table.record.installed">
                                 <p-dropdown-link v-if="table.record.enabled" @click="disable(table.record.slug)">Disable</p-dropdown-link>
                                 <p-dropdown-link v-else @click="enable(table.record.slug)">Enable</p-dropdown-link>
  
-                                <p-dropdown-link :to="{ name: 'setting.section', params: { section: table.record.slug } }">Settings</p-dropdown-link>
+                                <p-dropdown-link v-if="table.record.enabled" :to="{ name: 'setting.section', params: { section: table.record.slug } }">Settings</p-dropdown-link>
                                 
-                                <p-dropdown-link @click="seed(table.record.slug)">Seed</p-dropdown-link>
+                                <p-dropdown-link v-if="table.record.enabled" @click="seed(table.record.slug)">Seed</p-dropdown-link>
                                 
-                                <p-dropdown-link @click.prevent v-modal:update-module="table.record" classes="link--info">
+                                <p-dropdown-link v-if="table.record.enabled" @click.prevent v-modal:update-module="table.record">
                                     Update
                                 </p-dropdown-link>
 
@@ -49,12 +57,15 @@
                                     Uninstall
                                 </p-dropdown-link>
                             </template>
+
                             <template v-else>
                                 <p-dropdown-link @click.prevent v-modal:install-module="table.record" classes="link--success">
                                     Install
                                 </p-dropdown-link>
+                                <p-dropdown-link @click.prevent v-modal:uninstall-module="table.record" classes="link--danger">
+                                    Remove
+                                </p-dropdown-link>
                             </template>
-
                         </p-actions>
                     </template>
                 </p-table>
@@ -133,7 +144,7 @@
 
                 axios.post('/api/modules/upload', formData)
                     .then((response) => {
-                        this.$proton.$emit('modal-closed', 'upload-module')
+                        this.$proton.$emit('toggle-modal-upload-module')
                         this.$refs.upload.remove()
                         this.refresh('Module successfully uploaded.')
                     })
@@ -191,6 +202,7 @@
             refresh(msg = null, status = 'success') {
                 if (msg) toast(msg, status)
 
+                this.$store.dispatch('navigation/fetchAdminNavigation')
                 proton().$emit('refresh-datatable-modules')
             }
         }
