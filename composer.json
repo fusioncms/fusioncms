@@ -39,7 +39,7 @@
     },
     "require": {
         "php": "^7.2.5",
-        "fusioncms/core": "*",
+        "fusioncms/cms": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",
@@ -80,11 +80,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": {
-        "fusioncms": {
-            "type": "path",
-            "url": "./fusion"
-        }
-    }
+    "prefer-stable": true
 }
