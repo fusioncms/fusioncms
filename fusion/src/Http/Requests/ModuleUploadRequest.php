@@ -6,7 +6,7 @@ use Fusion\Rules\ValidModule;
 use Fusion\Rules\UniqueModuleName;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModuleRequest extends FormRequest
+class ModuleUploadRequest extends FormRequest
 {
     /**
      * @var array

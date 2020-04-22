@@ -90,4 +90,13 @@ Route::apiResource('directories', 'DirectoryController');
 Route::apiResource('/fieldsets', 'FieldsetController');
 Route::apiResource('/fieldsets/{fieldset}/sections', 'FieldsetSectionController');
 Route::apiResource('/extensions', 'ExtensionController');
-Route::apiResource('/modules', 'ModuleController');
+
+Route::prefix('modules')->group(function() {
+	Route::post('{module}/install',   'Modules\ActionController@install');
+	Route::post('{module}/update',    'Modules\ActionController@update');
+	Route::post('{module}/seed',      'Modules\ActionController@seed');
+	Route::post('{module}/uninstall', 'Modules\ActionController@uninstall');
+	Route::post('upload',             'Modules\UploadController@store');
+	Route::post('{module}/enable',    'Modules\StatusController@enable');
+	Route::post('{module}/disable',   'Modules\StatusController@disable');
+});
