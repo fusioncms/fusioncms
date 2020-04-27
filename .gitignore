@@ -5,6 +5,8 @@
 /config/fusion.php
 /storage/*.key
 /storage/*.json
+/modules
+/themes
 /vendor
 .DS_Store
 .env
