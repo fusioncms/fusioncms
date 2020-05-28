@@ -39,7 +39,7 @@
     },
     "require": {
         "php": "^7.2.5",
-        "fusioncms/cms": "dev-master",
+        "fusioncms/cms": "^6.0.0-beta.6",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",
