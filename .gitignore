@@ -1,10 +1,14 @@
 /node_modules
 /public/hot
 /public/storage
+/public/theme
 /public/vendor/fusion
 /config/fusion.php
 /storage/*.key
 /storage/*.json
+/modules
+/templates
+/themes
 /vendor
 .DS_Store
 .env

@@ -1,5 +1,0 @@
-# This directory is used by the theme system to create symlinks
-# to your actively set theme. There is nothing to manage here 🖖
-
-*
-!.gitignore
