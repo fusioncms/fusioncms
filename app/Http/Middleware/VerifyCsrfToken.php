@@ -12,11 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'github/*',
-        'stripe/*',
-        'bigcommerce/webhooks',
-        'api/*/assets/json/*',
-        'login',
-        'file/glide/*/*',
+        //
     ];
 }
