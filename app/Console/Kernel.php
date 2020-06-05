@@ -24,12 +24,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (app_installed() and setting('backups.scheduled_backups')) {
-            $schedule->job(new \Fusion\Jobs\Backups\BackupRun)
-                ->daily()
-                ->timezone(setting('system.time_zone'))
-                ->environments(['production']);
-        }
+        /**
+         * TODO: move this to the `fusioncms/cms` package
+         *       along with `config/backup.php`
+         */
+        
+        // if (app_installed() and setting('backups.scheduled_backups')) {
+        //     $schedule->job(new \Fusion\Jobs\Backups\BackupRun)
+        //         ->daily()
+        //         ->timezone(setting('system.time_zone'))
+        //         ->environments(['production']);
+        // }
     }
 
     /**
