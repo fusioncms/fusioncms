@@ -1045,12 +1045,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fusioncms/cms.git",
-                "reference": "c8348ee069162eb1eb15b58102ebdfea62b7ed92"
+                "reference": "5c6213a0aa25ccd345f77e0fafd58012b39c4f25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fusioncms/cms/zipball/c8348ee069162eb1eb15b58102ebdfea62b7ed92",
-                "reference": "c8348ee069162eb1eb15b58102ebdfea62b7ed92",
+                "url": "https://api.github.com/repos/fusioncms/cms/zipball/5c6213a0aa25ccd345f77e0fafd58012b39c4f25",
+                "reference": "5c6213a0aa25ccd345f77e0fafd58012b39c4f25",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 }
             ],
             "description": "Core of FusionCMS",
-            "time": "2020-06-29T21:45:27+00:00"
+            "time": "2020-06-29T22:45:41+00:00"
         },
         {
             "name": "google/apiclient",
