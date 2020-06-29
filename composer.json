@@ -58,8 +58,7 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/",
-            "Modules\\": "modules/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {

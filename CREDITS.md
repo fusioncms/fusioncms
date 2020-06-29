@@ -22,11 +22,7 @@ FusionCMS would not be possible without the following:
 Many packages are bundled with FusionCMS, but these we pulled in for very specific reasons.
 
 - barryvdh/laravel-cors ([GitHub](https://github.com/barryvdh/laravel-cors))
-- caffeinated/bonsai ([GitHub](https://github.com/caffeinated/bonsai))
-- caffeinated/flash ([GitHub](https://github.com/caffeinated/flash))
 - caffeinated/menus ([GitHub](https://github.com/caffeinated/menus))
-- caffeinated/modules ([GitHub](https://github.com/caffeinated/modules))
-- caffeinated/themes ([GitHub](https://github.com/caffeinated/themes))
 - laravel/passport ([GitHub](https://github.com/laravel/passport))
 - laravel/scout ([GitHub](https://github.com/laravel/scout))
 - league/glide-laravel ([GitHub](https://github.com/thephpleague/glide-laravel))
