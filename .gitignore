@@ -6,7 +6,7 @@
 /config/fusion.php
 /storage/*.key
 /storage/*.json
-/modules
+/addons
 /templates
 /themes
 /vendor
