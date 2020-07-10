@@ -39,7 +39,11 @@
     },
     "require": {
         "php": "^7.2.5",
+<<<<<<< HEAD
         "fusioncms/cms": "dev-nightly",
+=======
+        "fusioncms/cms": "^6.0.0-beta.8",
+>>>>>>> release
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",
