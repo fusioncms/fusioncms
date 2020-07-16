@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2318c8827b4bd20703418b11e8f41600",
+    "content-hash": "75ea252ad2f81a9d01620d423d77de33",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1041,16 +1041,16 @@
         },
         {
             "name": "fusioncms/cms",
-            "version": "v6.0.0-beta.9",
+            "version": "dev-nightly",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fusioncms/cms.git",
-                "reference": "63c76401f854f2f799258578e0388015d880f7c4"
+                "reference": "477ffe00724b1b97127572bc66f832dbe1ab5575"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fusioncms/cms/zipball/63c76401f854f2f799258578e0388015d880f7c4",
-                "reference": "63c76401f854f2f799258578e0388015d880f7c4",
+                "url": "https://api.github.com/repos/fusioncms/cms/zipball/477ffe00724b1b97127572bc66f832dbe1ab5575",
+                "reference": "477ffe00724b1b97127572bc66f832dbe1ab5575",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 }
             ],
             "description": "Core of FusionCMS",
-            "time": "2020-07-15T22:45:45+00:00"
+            "time": "2020-07-16T19:20:41+00:00"
         },
         {
             "name": "google/apiclient",
@@ -9210,7 +9210,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "fusioncms/cms": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
