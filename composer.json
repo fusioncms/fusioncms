@@ -28,6 +28,13 @@
             "name": "Robert Harvey",
             "email": "robert@efelle.com",
             "role": "Developer"
+        },
+
+        {
+            "name": "Amanda Eldreth",
+            "email": "amanda@efelle.com",
+            "homepage": "https://ika.ink",
+            "role": "Developer"
         }
     ],
     "support": {
@@ -39,7 +46,7 @@
     },
     "require": {
         "php": "^7.2.5",
-        "fusioncms/cms": "^6.0.0-beta.9",
+        "fusioncms/cms": "^6.0.0-beta.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",
