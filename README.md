@@ -17,7 +17,6 @@ You will find robust, user friendly, and updated [documentation](https://beta.ge
 - [Requirements](https://beta.getfusioncms.com/docs/requirements)
 - [Installing](https://beta.getfusioncms.com/docs/installing)
 - [Introduction To Themes](https://beta.getfusioncms.com/docs/themes)
-- [Introduction To Modules](https://beta.getfusioncms.com/docs/modules)
 
 ## Versioning
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/fusioncms/fusioncms/tags).

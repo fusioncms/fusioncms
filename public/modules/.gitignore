@@ -1,5 +1,0 @@
-# This directory is used by the module system to create symlinks
-# to your installed modules. There is nothing to manage here 🖖
-
-*
-!.gitignore

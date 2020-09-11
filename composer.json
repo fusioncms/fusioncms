@@ -28,6 +28,13 @@
             "name": "Robert Harvey",
             "email": "robert@efelle.com",
             "role": "Developer"
+        },
+
+        {
+            "name": "Amanda Eldreth",
+            "email": "amanda@efelle.com",
+            "homepage": "https://ika.ink",
+            "role": "Developer"
         }
     ],
     "support": {

@@ -1,12 +1,13 @@
 /node_modules
 /public/hot
+/public/addons
 /public/storage
 /public/theme
 /public/vendor/fusion
 /config/fusion.php
 /storage/*.key
 /storage/*.json
-/modules
+/addons
 /templates
 /themes
 /vendor
