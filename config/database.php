@@ -47,6 +47,7 @@ return [
             'database'  => env('DB_DATABASE', 'homestead'),
             'username'  => env('DB_USERNAME', 'homestead'),
             'password'  => env('DB_PASSWORD', 'secret'),
+            'port'      => env('DB_PORT', '3306'),
             'charset'   => env('DB_CHARSET', 'utf8'),
             'collation' => env('DB_COLLATION', 'utf8_general_ci'),
             'prefix'    => env('DB_PREFIX', ''),
