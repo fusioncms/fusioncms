@@ -43,26 +43,16 @@ return [
 
     'disks' => [
 
+        'local' => [
+            'driver' => 'local',
+            'root' => storage_path('app'),
+        ],
+
         'public' => [
             'driver'     => 'local',
             'root'       => storage_path('app/public'),
             'url'        => env('APP_URL') . '/storage',
             'visibility' => 'public',
-        ],
-
-        'temp' => [
-            'driver' => 'local',
-            'root'   => storage_path('temp'),
-        ],
-
-        'settings' => [
-            'driver' => 'local',
-            'root'   => storage_path('app/settings'),
-        ],
-
-        'themes' => [
-            'driver' => 'local',
-            'root'   => base_path('themes'),
         ],
 
         's3' => [
