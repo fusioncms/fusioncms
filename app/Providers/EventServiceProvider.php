@@ -15,7 +15,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        //
+        // TODO: disable this
+        // Registered::class => [
+        //     SendEmailVerificationNotification::class,
+        // ],
     ];
 
     /**
@@ -25,8 +28,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
-
         //
     }
 }
