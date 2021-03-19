@@ -46,10 +46,10 @@
     },
     "require": {
         "php": "^7.3|^8.0",
-        "fusioncms/cms": "dev-nightly",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "laravel/framework": "^8.12",
+        "fusioncms/cms": "dev-nightly",
+        "laravel/framework": "^8.20",
         "laravel/tinker": "^2.5",
         "predis/predis": "^1.1"
     },
