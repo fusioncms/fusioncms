@@ -1,0 +1,1135 @@
+{
+  "ignition.healthCheck": {
+    "name": "ignition.healthCheck",
+    "domain": null,
+    "action": "Facade\\Ignition\\Http\\Controllers\\HealthCheckController",
+    "uri": "_ignition/health-check",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "ignition.executeSolution": {
+    "name": "ignition.executeSolution",
+    "domain": null,
+    "action": "Facade\\Ignition\\Http\\Controllers\\ExecuteSolutionController",
+    "uri": "_ignition/execute-solution",
+    "method": [
+      "POST"
+    ]
+  },
+  "ignition.shareReport": {
+    "name": "ignition.shareReport",
+    "domain": null,
+    "action": "Facade\\Ignition\\Http\\Controllers\\ShareReportController",
+    "uri": "_ignition/share-report",
+    "method": [
+      "POST"
+    ]
+  },
+  "ignition.scripts": {
+    "name": "ignition.scripts",
+    "domain": null,
+    "action": "Facade\\Ignition\\Http\\Controllers\\ScriptController",
+    "uri": "_ignition/scripts/{script}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "ignition.styles": {
+    "name": "ignition.styles",
+    "domain": null,
+    "action": "Facade\\Ignition\\Http\\Controllers\\StyleController",
+    "uri": "_ignition/styles/{style}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "": {
+    "name": null,
+    "domain": null,
+    "action": "Themes\\Hello\\Http\\Controllers\\RSSController@index",
+    "uri": "feed.json",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "sitemap": {
+    "name": "sitemap",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\SitemapController@index",
+    "uri": "sitemap",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "sitemap.xml": {
+    "name": "sitemap.xml",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\SitemapController@xml",
+    "uri": "sitemap.xml",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "login": {
+    "name": "login",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\LoginController@showLoginForm",
+    "uri": "login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "logout": {
+    "name": "logout",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\LoginController@logout",
+    "uri": "logout",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "register": {
+    "name": "register",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\RegisterController@showRegistrationForm",
+    "uri": "register",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.request": {
+    "name": "password.request",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\ForgotPasswordController@showLinkRequestForm",
+    "uri": "password/reset",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.email": {
+    "name": "password.email",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\ForgotPasswordController@sendResetLinkEmail",
+    "uri": "password/email",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.reset": {
+    "name": "password.reset",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\ResetPasswordController@showResetForm",
+    "uri": "password/reset/{token}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.update": {
+    "name": "password.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\ResetPasswordController@reset",
+    "uri": "password/reset",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.confirm": {
+    "name": "password.confirm",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\ConfirmPasswordController@showConfirmForm",
+    "uri": "password/confirm",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.notice": {
+    "name": "verification.notice",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\VerificationController@show",
+    "uri": "email/verify",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.verify": {
+    "name": "verification.verify",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\VerificationController@verify",
+    "uri": "email/verify/{id}/{hash}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.resend": {
+    "name": "verification.resend",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\VerificationController@resend",
+    "uri": "email/resend",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.setForm": {
+    "name": "password.setForm",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\SetPasswordController@showSetForm",
+    "uri": "password/set",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.set": {
+    "name": "password.set",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\SetPasswordController@reset",
+    "uri": "password/set",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.expiredForm": {
+    "name": "password.expiredForm",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\SetPasswordController@showExpiredForm",
+    "uri": "password/expire",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.expired": {
+    "name": "password.expired",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\Auth\\SetPasswordController@update",
+    "uri": "password/expire",
+    "method": [
+      "POST"
+    ]
+  },
+  "admin": {
+    "name": "admin",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\AdminController@index",
+    "uri": "admin/{any?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "routes.handle": {
+    "name": "routes.handle",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\Web\\RouterController@handle",
+    "uri": "{fallbackPlaceholder}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "backups.index": {
+    "name": "backups.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Backups\\BackupController@index",
+    "uri": "api/backups",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "backups.store": {
+    "name": "backups.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Backups\\BackupController@store",
+    "uri": "api/backups",
+    "method": [
+      "POST"
+    ]
+  },
+  "backups.show": {
+    "name": "backups.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Backups\\BackupController@show",
+    "uri": "api/backups/{backup}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "backups.update": {
+    "name": "backups.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Backups\\BackupController@update",
+    "uri": "api/backups/{backup}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "backups.destroy": {
+    "name": "backups.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Backups\\BackupController@destroy",
+    "uri": "api/backups/{backup}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "fieldsets.index": {
+    "name": "fieldsets.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\FieldsetController@index",
+    "uri": "api/fieldsets",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "fieldsets.store": {
+    "name": "fieldsets.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\FieldsetController@store",
+    "uri": "api/fieldsets",
+    "method": [
+      "POST"
+    ]
+  },
+  "fieldsets.show": {
+    "name": "fieldsets.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\FieldsetController@show",
+    "uri": "api/fieldsets/{fieldset}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "fieldsets.update": {
+    "name": "fieldsets.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\FieldsetController@update",
+    "uri": "api/fieldsets/{fieldset}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "fieldsets.destroy": {
+    "name": "fieldsets.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\FieldsetController@destroy",
+    "uri": "api/fieldsets/{fieldset}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "blueprints.index": {
+    "name": "blueprints.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\BlueprintController@index",
+    "uri": "api/blueprints",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "blueprints.store": {
+    "name": "blueprints.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\BlueprintController@store",
+    "uri": "api/blueprints",
+    "method": [
+      "POST"
+    ]
+  },
+  "blueprints.show": {
+    "name": "blueprints.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\BlueprintController@show",
+    "uri": "api/blueprints/{blueprint}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "blueprints.update": {
+    "name": "blueprints.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\BlueprintController@update",
+    "uri": "api/blueprints/{blueprint}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "blueprints.destroy": {
+    "name": "blueprints.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\BlueprintController@destroy",
+    "uri": "api/blueprints/{blueprint}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "sections.index": {
+    "name": "sections.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\SectionController@index",
+    "uri": "api/blueprints/{blueprint}/sections",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "sections.store": {
+    "name": "sections.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\SectionController@store",
+    "uri": "api/blueprints/{blueprint}/sections",
+    "method": [
+      "POST"
+    ]
+  },
+  "sections.show": {
+    "name": "sections.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\SectionController@show",
+    "uri": "api/blueprints/{blueprint}/sections/{section}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "sections.update": {
+    "name": "sections.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\SectionController@update",
+    "uri": "api/blueprints/{blueprint}/sections/{section}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "sections.destroy": {
+    "name": "sections.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\SectionController@destroy",
+    "uri": "api/blueprints/{blueprint}/sections/{section}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "responses.index": {
+    "name": "responses.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\ResponseController@index",
+    "uri": "api/forms/{slug}/responses",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "responses.store": {
+    "name": "responses.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\ResponseController@store",
+    "uri": "api/forms/{slug}/responses",
+    "method": [
+      "POST"
+    ]
+  },
+  "responses.show": {
+    "name": "responses.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\ResponseController@show",
+    "uri": "api/forms/{slug}/responses/{response}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "responses.update": {
+    "name": "responses.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\ResponseController@update",
+    "uri": "api/forms/{slug}/responses/{response}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "responses.destroy": {
+    "name": "responses.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\ResponseController@destroy",
+    "uri": "api/forms/{slug}/responses/{response}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "forms.index": {
+    "name": "forms.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\FormController@index",
+    "uri": "api/forms",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "forms.store": {
+    "name": "forms.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\FormController@store",
+    "uri": "api/forms",
+    "method": [
+      "POST"
+    ]
+  },
+  "forms.show": {
+    "name": "forms.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\FormController@show",
+    "uri": "api/forms/{form}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "forms.update": {
+    "name": "forms.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\FormController@update",
+    "uri": "api/forms/{form}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "forms.destroy": {
+    "name": "forms.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Forms\\FormController@destroy",
+    "uri": "api/forms/{form}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "matrices.index": {
+    "name": "matrices.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\MatrixController@index",
+    "uri": "api/matrices",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matrices.store": {
+    "name": "matrices.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\MatrixController@store",
+    "uri": "api/matrices",
+    "method": [
+      "POST"
+    ]
+  },
+  "matrices.show": {
+    "name": "matrices.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\MatrixController@show",
+    "uri": "api/matrices/{matrix}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matrices.update": {
+    "name": "matrices.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\MatrixController@update",
+    "uri": "api/matrices/{matrix}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "matrices.destroy": {
+    "name": "matrices.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\MatrixController@destroy",
+    "uri": "api/matrices/{matrix}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "links.index": {
+    "name": "links.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\LinkController@index",
+    "uri": "api/navigation/{navigation}/links",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "links.store": {
+    "name": "links.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\LinkController@store",
+    "uri": "api/navigation/{navigation}/links",
+    "method": [
+      "POST"
+    ]
+  },
+  "links.show": {
+    "name": "links.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\LinkController@show",
+    "uri": "api/navigation/{navigation}/links/{link}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "links.update": {
+    "name": "links.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\LinkController@update",
+    "uri": "api/navigation/{navigation}/links/{link}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "links.destroy": {
+    "name": "links.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\LinkController@destroy",
+    "uri": "api/navigation/{navigation}/links/{link}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "navigation.index": {
+    "name": "navigation.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\NavigationController@index",
+    "uri": "api/navigation",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "navigation.store": {
+    "name": "navigation.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\NavigationController@store",
+    "uri": "api/navigation",
+    "method": [
+      "POST"
+    ]
+  },
+  "navigation.show": {
+    "name": "navigation.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\NavigationController@show",
+    "uri": "api/navigation/{navigation}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "navigation.update": {
+    "name": "navigation.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\NavigationController@update",
+    "uri": "api/navigation/{navigation}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "navigation.destroy": {
+    "name": "navigation.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\NavigationController@destroy",
+    "uri": "api/navigation/{navigation}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "terms.index": {
+    "name": "terms.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TermController@index",
+    "uri": "api/taxonomies/{taxonomy}/terms",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "terms.store": {
+    "name": "terms.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TermController@store",
+    "uri": "api/taxonomies/{taxonomy}/terms",
+    "method": [
+      "POST"
+    ]
+  },
+  "terms.show": {
+    "name": "terms.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TermController@show",
+    "uri": "api/taxonomies/{taxonomy}/terms/{term}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "terms.update": {
+    "name": "terms.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TermController@update",
+    "uri": "api/taxonomies/{taxonomy}/terms/{term}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "terms.destroy": {
+    "name": "terms.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TermController@destroy",
+    "uri": "api/taxonomies/{taxonomy}/terms/{term}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "taxonomies.index": {
+    "name": "taxonomies.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TaxonomyController@index",
+    "uri": "api/taxonomies",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "taxonomies.store": {
+    "name": "taxonomies.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TaxonomyController@store",
+    "uri": "api/taxonomies",
+    "method": [
+      "POST"
+    ]
+  },
+  "taxonomies.show": {
+    "name": "taxonomies.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TaxonomyController@show",
+    "uri": "api/taxonomies/{taxonomy}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "taxonomies.update": {
+    "name": "taxonomies.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TaxonomyController@update",
+    "uri": "api/taxonomies/{taxonomy}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "taxonomies.destroy": {
+    "name": "taxonomies.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\TaxonomyController@destroy",
+    "uri": "api/taxonomies/{taxonomy}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "scripts.index": {
+    "name": "scripts.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\ScriptController@index",
+    "uri": "api/scripts",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "scripts.store": {
+    "name": "scripts.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\ScriptController@store",
+    "uri": "api/scripts",
+    "method": [
+      "POST"
+    ]
+  },
+  "scripts.show": {
+    "name": "scripts.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\ScriptController@show",
+    "uri": "api/scripts/{script}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "scripts.update": {
+    "name": "scripts.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\ScriptController@update",
+    "uri": "api/scripts/{script}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "scripts.destroy": {
+    "name": "scripts.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\ScriptController@destroy",
+    "uri": "api/scripts/{script}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "themes.index": {
+    "name": "themes.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Themes\\BrowseController@index",
+    "uri": "api/themes",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "themes.store": {
+    "name": "themes.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Themes\\BrowseController@store",
+    "uri": "api/themes",
+    "method": [
+      "POST"
+    ]
+  },
+  "themes.show": {
+    "name": "themes.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Themes\\BrowseController@show",
+    "uri": "api/themes/{theme}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "themes.update": {
+    "name": "themes.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Themes\\BrowseController@update",
+    "uri": "api/themes/{theme}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "themes.destroy": {
+    "name": "themes.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Themes\\BrowseController@destroy",
+    "uri": "api/themes/{theme}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "users.index": {
+    "name": "users.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\UserController@index",
+    "uri": "api/users",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.store": {
+    "name": "users.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\UserController@store",
+    "uri": "api/users",
+    "method": [
+      "POST"
+    ]
+  },
+  "users.show": {
+    "name": "users.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\UserController@show",
+    "uri": "api/users/{user}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.update": {
+    "name": "users.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\UserController@update",
+    "uri": "api/users/{user}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "users.destroy": {
+    "name": "users.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\UserController@destroy",
+    "uri": "api/users/{user}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "roles.index": {
+    "name": "roles.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\RoleController@index",
+    "uri": "api/roles",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "roles.store": {
+    "name": "roles.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\RoleController@store",
+    "uri": "api/roles",
+    "method": [
+      "POST"
+    ]
+  },
+  "roles.show": {
+    "name": "roles.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\RoleController@show",
+    "uri": "api/roles/{role}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "roles.update": {
+    "name": "roles.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\RoleController@update",
+    "uri": "api/roles/{role}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "roles.destroy": {
+    "name": "roles.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\RoleController@destroy",
+    "uri": "api/roles/{role}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "tokens.index": {
+    "name": "tokens.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\TokenController@index",
+    "uri": "api/tokens",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "tokens.store": {
+    "name": "tokens.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\TokenController@store",
+    "uri": "api/tokens",
+    "method": [
+      "POST"
+    ]
+  },
+  "tokens.destroy": {
+    "name": "tokens.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\Users\\TokenController@destroy",
+    "uri": "api/tokens/{token}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "disks.index": {
+    "name": "disks.index",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\DiskController@index",
+    "uri": "api/disks",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "disks.store": {
+    "name": "disks.store",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\DiskController@store",
+    "uri": "api/disks",
+    "method": [
+      "POST"
+    ]
+  },
+  "disks.show": {
+    "name": "disks.show",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\DiskController@show",
+    "uri": "api/disks/{disk}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "disks.update": {
+    "name": "disks.update",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\DiskController@update",
+    "uri": "api/disks/{disk}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "disks.destroy": {
+    "name": "disks.destroy",
+    "domain": null,
+    "action": "Fusion\\Http\\Controllers\\API\\DiskController@destroy",
+    "uri": "api/disks/{disk}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "cypress.install": {
+    "name": "cypress.install",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@install",
+    "uri": "__cypress__/install",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.uninstall": {
+    "name": "cypress.uninstall",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@uninstall",
+    "uri": "__cypress__/uninstall",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.create-user": {
+    "name": "cypress.create-user",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@newUser",
+    "uri": "__cypress__/create-user",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.factory": {
+    "name": "cypress.factory",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@factory",
+    "uri": "__cypress__/factory",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.login": {
+    "name": "cypress.login",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@login",
+    "uri": "__cypress__/login",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.logout": {
+    "name": "cypress.logout",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@logout",
+    "uri": "__cypress__/logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.artisan": {
+    "name": "cypress.artisan",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@artisan",
+    "uri": "__cypress__/artisan",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.run-php": {
+    "name": "cypress.run-php",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@runPhp",
+    "uri": "__cypress__/run-php",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.csrf-token": {
+    "name": "cypress.csrf-token",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@csrfToken",
+    "uri": "__cypress__/csrf_token",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.routes": {
+    "name": "cypress.routes",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\CypressController@routes",
+    "uri": "__cypress__/routes",
+    "method": [
+      "POST"
+    ]
+  }
+}
