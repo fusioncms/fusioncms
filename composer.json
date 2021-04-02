@@ -77,7 +77,13 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan addon:discover --ansi",
+            "@php artisan fusion:sync --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Fusion\\Jobs\\Composer\\Scripts::prePackageUninstall",
+            "@php artisan addon:uninstall --ansi"
         ]
     },
     "config": {
