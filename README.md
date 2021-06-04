@@ -8,7 +8,7 @@
 <img alt="Downloads" src="https://img.shields.io/packagist/dt/fusioncms/cms?style=flat-square">
 </p>
 
-**FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework developed in Seattle, WA by [efelle creative](https://seattlewebdesign.com). Once closed-source and propietary, starting with version 6 we've made it open source and free to use by anyone.
+**FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework developed in Seattle, WA by [efelle creative](https://seattlewebdesign.com). Once closed-source and proprietary, starting with version 6 we've made it open source and free to use by anyone.
 
 Modular at heart, FusionCMS provides the necessary launching platform to build out any type of web or mobile application. It's intuitive and easy for content editors to use on a daily basis, while still maintaining the power and flexibility for developers and designers to dig into the heart of the platform to build and design whatever comes to mind.
 
