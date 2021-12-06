@@ -49,9 +49,12 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "fusioncms/cms": "dev-nightly",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/oauth-subscriber": "^0.5",
         "laravel/framework": "^8.20",
         "laravel/tinker": "^2.5",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "vemcogroup/laravel-sparkpost-driver": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
