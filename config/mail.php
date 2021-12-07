@@ -45,6 +45,10 @@ return [
             'auth_mode' => null,
         ],
 
+        'sparkpost' => [
+            'transport' => 'sparkpost',
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
