@@ -1,16 +1,21 @@
-<h1>FusionCMS</h1>
+<h1>FusionCMS v6 (Beta)</h1>
 
 <p align="center">
-<img src="https://app.chipperci.com/projects/33d89bb8-74e2-47c6-b61f-36bd669cc09a/status/master" alt="Build Status">
-<a href="https://discord.gg/bZKyvrc"><img alt="Discord" src="https://img.shields.io/discord/588839859884392487.svg?style=flat-square"></a>
 <a href="https://beta.getfusioncms.com/download"><img alt="Latest Version" src="https://img.shields.io/packagist/v/fusioncms/cms?include_prereleases&label=latest&style=flat-square"></a>
+<a href="https://discord.gg/bZKyvrc"><img alt="Discord" src="https://img.shields.io/discord/588839859884392487.svg?style=flat-square"></a>
 <img alt="License: MIT" src="https://img.shields.io/packagist/l/fusioncms/fusioncms?style=flat-square">
 <img alt="Downloads" src="https://img.shields.io/packagist/dt/fusioncms/cms?style=flat-square">
 </p>
 
-**FusionCMS** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework developed in Seattle, WA by [efelle creative](https://seattlewebdesign.com). Once closed-source and proprietary, starting with version 6 we've made it open source and free to use by anyone.
+**FusionCMS v6** is a modern, intuitive, and flexible content management system (CMS) built on the Laravel framework developed in Seattle, WA by [efelle creative](https://seattlewebdesign.com), est 2005 and one of the nation's most successful website design & development agencies.
 
 Modular at heart, FusionCMS provides the necessary launching platform to build out any type of web or mobile application. It's intuitive and easy for content editors to use on a daily basis, while still maintaining the power and flexibility for developers and designers to dig into the heart of the platform to build and design whatever comes to mind.
+
+**NOTE:** This repository is for the v6 Prototype/Beta system, which is the future of the platform, and is open source and free to use by anyone. Work was started pre-pandemic for an extension of the v5 platform to include features related to rapid site development utilizing semi-custom frameworks. The project is aspirational, but with COVID, we decided to focus our energy on maintaining and developing new fuctionality for the core FusionCMS v5 platform.
+
+FusionCMS v5.22.* is the current, Professional Grade platform with active development and monthly updates by our in-house, dedicated development team. The FusionCMS v5 platform is closed-source, and updates to that system are NOT being posted on this v6 repository.
+
+Development on v6 is speculative and occasional, as our development team is focused on the v5 commercial platform. We plan on resuming v6 development in Q3 2023.
 
 ![preview screenshot](fusioncms.png)
 
